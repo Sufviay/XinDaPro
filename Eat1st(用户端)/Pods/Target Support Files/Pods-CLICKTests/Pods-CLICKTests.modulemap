@@ -1,0 +1,6 @@
+framework module Pods_CLICKTests {
+  umbrella header "Pods-CLICKTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

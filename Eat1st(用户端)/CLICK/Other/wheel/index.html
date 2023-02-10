@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8;">
+        <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+        <link rel="stylesheet" href="index.css">
+        <script src="vue.js"></script>
+        <script src="lucky.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <div class="container">
+                <div class="content">
+                    <div class="title"><span>LUCKY WHEEL</span></div>
+                    <div class="describe">Please press Start button to spin</div>
+                    <div class="content-item">
+                        <div id="my-lucky" ref="LuckyWheel"></div>
+                    </div>
+                </div>
+                <!-- <div class="rotation">
+                    <div class="rotation-item">
+                        <div class="socll_main">
+                            <img src="img/cup.png" alt="" class="trophy">
+                            <div class="socllDiv" id="socllDiv">
+                                <div class="socllDiv_item">
+                                    <ul class="socllDiv_ul" @mouseover="MouseOver"  @mouseleave="MouseOut">
+                                        <li v-for="(item,index) in jackpotList" :key="index" class="socllDiv_li">
+                                            <span class="socllDiv_mian">
+                                                <span class="socllDiv_text" style="margin-left:3px">
+                                                <span class="socllDiv_text_font">{{item.nickName}}</span> <br/> 
+                                                won <span  class="socllDiv_text_font">￡{{item.goodsPrice}}</span>,Congratulations
+                                                </span>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="clause" @click="ruleStatus = true">
+                    <p>條款細則 Terms and Conditions</p>
+                </div>
+                <div class="footer">
+                    <img src="start.png" alt="" @click="start" :class="disabledBtn == true ? 'img-onlyRead': ''">
+                    <img src="stop.png" alt="" @click="stop">
+                </div>
+
+                <!-- 弹窗背景 -->
+                <div class="popup_bg" :class="is_show?'popup_show':''">
+                    <div class="popup_bor" :class="[is_show?'popIn':'',is_prepare?'popOut':'']">
+                        <!-- <img src="img/close.png" class="close_btn" @click="closeFun"/> -->
+                        <div class="popup_img">
+                            <img src="popup.png"/>
+                            <!-- 奖品1 -->
+                            <!-- <div class="prize_info">
+                                <div class="prize_type">FREE</div>
+                                <div id="prizeName" class="prize_name">DSADAAD DSADAAAAA DSADAaA DSAaDAAAAA aaaaaaaaaaaaaaaaaa</div>
+                                <div class="prize_date">13/09/2022-09/10/2022</div>
+                            </div> -->
+                            <!-- 奖品2 -->
+                            <div class="prize_info">
+                                <div class="prize_type2"><span>￡</span>{{awardList.prizePrice}}</div>
+                                <div class="prize_name2">Coupons at the store</div>
+                                <div class="prize_date">{{awardList.startDate}} - {{awardList.endDate}}</div>
+                            </div>
+                        </div>
+                        <div class="link_btn">terms and conditions apply</div>
+                        <img src="button.png" class="go_btn" @click="close"/>
+                    </div>
+                </div>
+
+                <div v-show="ruleStatus" class="deatilTip">
+                    <div class="rulemain">
+                        <div class="tip-content">
+                            <div style="text-align: center;font-size:0.24rem;margin-bottom:0.2rem;text-decoration: underline;">
+                                <div>Lucky Wheel</div>
+                                <div>Terms and Conditions</div>
+                            </div>
+                            <p><span class="text_num">1. </span>Players will win the prize corresponding to the prize stated on that segment on the Wheel</p>
+                            <p><span class="text_num">2. </span>All prizes for all winners are non-transferable and no cash alternative will be offered.</p>
+                            <p><span class="text_num">3. </span>The prizes are subjected to availability. Eat1st reserves the right to hold void, cancel, suspend, substitute, or amend the prizes whenever it desires without giving notice.</p>
+                            <p><span class="text_num">4. </span>The decision of Eat1st regarding any aspect of the Lucky Wheel will be final and binding. No correspondence will be entered into about it.</p>
+                            <p><span class="text_num">5. </span>Participants are deemed to have accepted and agreed to be bound by these terms and conditions upon entry and Eat1st reserves the right to amend these terms and conditions at any time. Any such revised terms and conditions shall have effect immediately.</p>
+                            <p><span class="text_num">6. </span>Eat1st reserves the right to refuse entry or refuse to award any of the prizes to anyone in breach of these terms and conditions.</p>
+                            <p><span class="text_num">7. </span>Eat1st accepts no responsibility for entries not successfully completed due to a technical fault, technical malfunction, computer hardware or software failure, satellite, network, or server of any kind whatsoever.</p>
+                            <p><span class="text_num">8. </span>Personal data supplied during the course of the Lucky Wheel will only be processed as set out in the privacy policy of the website.</p>
+                        </div>
+                    </div>
+                    <div class="toast-confirm">
+                        <div @click="ruleStatus = false">Confirm</div>
+                      </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            window.onload=function(){
+                // 禁用双指放大
+                document.documentElement.addEventListener('touchstart', function (event) {
+                    if (event.touches.length > 1) {
+                        event.preventDefault();
+                    }
+                }, {
+                    passive: false
+                });
+                // 禁用双击放大
+                var lastTouchEnd = 0;
+                document.documentElement.addEventListener('touchend', function (event) {
+                    var now = Date.now();
+                    if (now - lastTouchEnd <= 300) {
+                        event.preventDefault();
+                    }
+                    lastTouchEnd = now;
+                }, {
+                    passive: false
+                });
+            }
+
+            function rem() {
+                //  获取html的宽度
+                let htmlW = document.documentElement.clientWidth;
+                // 获取body的宽度
+                let bodyW = document.body.clientWidth;
+                // 兼容处理
+                let W = htmlW || bodyW;
+                if(W > 1024) {
+                    document.documentElement.style.fontSize = (1024 / 375 * 75) + 'px';
+                }else {
+                    // 设置html的font-size大小
+                    // 因为设计图尺寸是750，所以平分，这样*100之后，1rem就等于100px;
+                    document.documentElement.style.fontSize = (W / 375 * 75) + 'px';
+                }
+                
+            }
+                
+                // 定义屏幕宽度改变时触发
+                window.onresize = function () {
+                    rem()
+                }
+                
+                // 设置初始触发一次
+                rem()
+
+            var app = new Vue({
+                el: '#app',
+                data() {
+                    return {
+                        timer: null,
+                        jackpotRank: [
+                            {
+                                name:'1111'
+                            },
+                            {
+                                name:'2222'
+                            },
+                            {
+                                name:'3333'
+                            }
+                        ],
+                        area:null,
+                        liHeight:null,
+                        persontimer:null,
+                        myLucky:null,
+                        jackpotList:[
+                            {nickName:'asdfgf-hgdd sds-grweqw',goodsPrice:'20.00'},
+                            {nickName:'ATYSGUI--UD  OFUH',goodsPrice:'100.00'},
+                        ],
+                        is_show:false,//是否显示弹窗
+                        is_prepare:false,//弹窗关闭时的动画,
+                        colorList:[],
+                        colorList1:['#FFD6B1','#fff3ed','#ffffff'],
+                        colorList2:['#FFD6B1','#fff3ed'],
+                        prizesList:[],
+                        stopIndex:2,
+                        awardList:[],
+                        phoneType:'Android',
+                        ruleStatus:true,
+                        disabledBtn:false
+                    }
+                },
+                mounted () {
+                    let params =  this.getUrlParams()
+                    if(params.platform == 'Android') {
+                        this.phoneType = 'Android';
+                    }else {
+                        this.phoneType = 'IOS';
+                    }
+                    this.GetPrizeList()
+                    // setTimeout(() => {
+                    //     this.scrollDiv() 
+                    // },1000)
+
+                },
+                methods: {
+                    GetPrizeList() {
+                        if(this.phoneType == 'Android') {
+                            native_interface.GetPrizeList()
+                        }else {
+                            window.webkit.messageHandlers.initLucky.postMessage({})
+                        }
+                    },
+                    initLucky(list) {
+                        let that = this;
+                        this.prizesList = list;
+                        if(this.prizesList.length % 2 == 0) {
+                            this.colorList = this.colorList2;
+                        }else {
+                            this.colorList = this.colorList1;
+                        }
+
+                        let len = Math.ceil(this.prizesList.length / this.colorList.length)
+                        for(let i = 0 ;i < len; i++) {
+                            this.colorList = this.colorList.concat(this.colorList)
+                        }
+                        let prizesArry = [];
+                        this.prizesList.map((element,index) => {
+                            let obj = {
+                                background:this.colorList[index],
+                                fonts:[
+                                    {text:'￡'+ element.prizePrice,fontColor:'#6A1F01',fontSize:'0.26rem',top:'.12rem',fontWeight:'900'}
+                                ],
+                                imgs:[
+                                    {src:'gold.png',top:'.5rem',width:'.52rem',height:'.48rem'}
+                                ]
+                            }
+                            prizesArry.push(obj)
+                        })
+                        if(prizesArry.length > 0) {
+                            //找出大奖在数组中的角标并设置大奖的样式
+                            let prizesIndex = (this.prizesList || []).findIndex((item) => item.prizeId == -1);
+                            prizesArry[prizesIndex].background = '#E64121';
+                            prizesArry[prizesIndex].fonts[0].fontColor = '#FFF4BC';
+                            prizesArry[prizesIndex].fonts[0].fontSize = "0.26rem";
+                            prizesArry[prizesIndex].fonts[0].text = "￡"+this.prizesList[prizesIndex].prizePrice;
+                            prizesArry[prizesIndex].fonts[0].wordWrap = false;
+                            prizesArry[prizesIndex].fonts[0].top = ".08rem";
+                            prizesArry[prizesIndex].imgs[0].src = 'blessing_bag.png';
+                            prizesArry[prizesIndex].imgs[0].top = ".58rem";
+                            prizesArry[prizesIndex].imgs[0].width = ".68rem";
+                            prizesArry[prizesIndex].imgs[0].height = ".64rem";
+                            prizesArry[prizesIndex].fonts.push({text:this.prizesList[prizesIndex].prizeName,fontSize:"0.2rem",fontColor:"#FFF4C0",top:".36rem",fontWeight:'900'});
+
+                            this.myLucky = new LuckyCanvas.LuckyWheel('#my-lucky', {
+                                // width: '9.8rem',
+                                // height: '9.8rem',
+                                width: '3.76rem',
+                                height: '3.76rem',
+                                defaultConfig:{speed:8},
+                                blocks: [{ padding: '0px', background: '#000' }],
+                                prizes: prizesArry,
+                                buttons: [{
+                                        radius: '24%',
+                                        background: '#8a9bf3',
+                                        imgs:[{
+                                            src:'key.png',
+                                            width:'1.24rem',
+                                            height:"1.46rem",
+                                            top:'-0.83rem'
+                                        }]
+                                }],
+                                start: function () {
+                                    // 开始游戏
+                                    that.start()
+                                },
+                                end: function () {
+                                    that.endCallback()
+                                }
+                            })
+                        }
+                    },
+                    start() {
+                        if(this.phoneType == 'Android') {
+                            native_interface.GetPrizeResult()
+                        }else {
+                            window.webkit.messageHandlers.startCallback.postMessage({})
+                        }
+                        this.disabledBtn = true;
+                    },
+                    startCallback(prize) {
+                        let that = this;
+                        // 开始游戏
+                        that.myLucky.play()
+                        that.awardList = that.prizesList.filter((element,index) => {
+                            if(element.prizeId == prize) {
+                                that.stopIndex = index;
+                                return element;
+                            }
+                        })[0]
+                    },
+                    stop() {
+                        let that = this;
+                        //结束游戏
+                        setTimeout(() => {
+                            that.myLucky.stop(that.stopIndex)
+                        },1000)
+                    },
+                    endCallback() {
+                        let that = this;
+                        that.is_show = true;
+                        that.disabledBtn = false;
+                        // this.setFontSize();
+                    },
+                    setFontSize() {
+                        let that = this;
+                        let data = [];
+                        data = this.prizesList.filter(element => element.prizeId == that.stopIndex)
+                        var box = document.getElementById('prizeName');
+                        box.innerText =  data[0].prizePrice;
+                        var boxSize = box.innerText;  //获取 div box里面的所有字
+                        var cat = boxSize.length;   //转换为字数
+                        if(cat < 15){//一行显示
+                            document.getElementById("prizeName").style.fontSize=14+'px';
+                        }else if(cat >= 15 && cat < 25){
+                            document.getElementById("prizeName").style.fontSize=12+'px';
+                            document.getElementById("prizeName").style.lineHeight = 12+'px';
+                        }else if(cat >= 25 &&  cat < 35){
+                            document.getElementById("prizeName").style.fontSize=12+'px';
+                            document.getElementById("prizeName").style.lineHeight = 12+'px';
+                        }else{
+                            document.getElementById("prizeName").style.fontSize=12+'px';
+                            document.getElementById("prizeName").style.lineHeight = 12+'px';
+                        }
+                    },
+                    // 中奖人员滚动
+                    scrollDiv(){
+                        if(this.jackpotList.length > 1) {
+                            this.area = document.getElementsByClassName('socllDiv_ul')[0];
+                            this.liHeight = document.getElementsByClassName('socllDiv_li')[0] ? document.getElementsByClassName('socllDiv_li')[0].offsetHeight : 0;
+                            this.area.innerHTML += this.area.innerHTML;
+                            this.area.scrollTop = 0;
+                            this.startMove()
+                        }
+                    },
+                    startMove() {
+                        let that = this;
+                        that.persontimer = setInterval( () =>{
+                            that.scrollUp()
+                        }, 50);
+                    },
+                    scrollUp() {
+                        let that = this;
+                        if (that.area.scrollTop >= that.area.offsetHeight*this.jackpotList.length) {
+                            that.area.scrollTop = 0;
+                        }else {
+                            that.area.scrollTop++;
+                        }
+                    },
+                    close() {
+                        if(this.phoneType == 'Android') {
+                            native_interface.PrizeFinish();
+                        }else {
+                            window.webkit.messageHandlers.PrizeFinish.postMessage({})
+                        }
+                    },
+                    // 鼠标移入
+                    MouseOver(){
+                        clearInterval(this.persontimer)
+                        this.persontimer = null;
+                    },
+                    // 鼠标移出
+                    MouseOut(){
+                        this.startMove()
+                    },
+                    //关闭弹窗
+                    closeFun(){
+                        this.is_prepare = true;
+                        setTimeout(() => {
+                            this.is_show = false;
+                            this.is_prepare = false;
+                        }, 250);
+                    },
+                    getUrlParams() {
+                        let url = window.location.href;
+                        // 通过 ? 分割获取后面的参数字符串
+                        let urlStr = url.split('?')[1]
+                        if(urlStr && urlStr != undefined && urlStr != '') {
+                            // 创建空对象存储参数
+                            let obj = {};
+                            // 再通过 & 将每一个参数单独分割出来
+                            let paramsArr = urlStr.split('&')
+                            for(let i = 0,len = paramsArr.length;i < len;i++){
+                                // 再通过 = 将每一个参数分割为 key:value 的形式
+                                let arr = paramsArr[i].split('=')
+                                obj[arr[0]] = arr[1];
+                            }
+                            return obj
+                        }else {
+                            return '';
+                        }
+                    }
+
+                    // startMove() {
+                    //     var that = this;
+                    //     clearTimeout(this.timer)
+                    //     that.timer = null;
+                    //     that.area.scrollTop = that.area.scrollTop + 1;
+                    //     that.persontimer = setInterval( () =>{
+                    //         that.scrollUp()
+                    //     }, 20);
+                    // },
+
+                    // scrollUp() {
+                    //     var that = this;
+                    //     if (that.area.scrollTop % that.liHeight === 0) {
+                    //         clearInterval(that.persontimer);
+                    //         that.persontimer = null;
+                    //         that.timer = setTimeout( () => {
+                    //             that.startMove()
+                    //         }, 1000)
+                    //     } else {
+                    //         let old = JSON.parse(JSON.stringify(that.area.scrollTop));
+                    //         that.area.scrollTop = that.area.scrollTop + 1;
+                    //         if(old == that.area.scrollTop){
+                    //             that.area.scrollTop = 0;
+                    //         }
+                    //     }
+                    //     if (that.area.scrollTop >= that.area.scrollHeight) {
+                    //         that.area.scrollTop = 0;
+                    //     }
+                    // }
+                }
+            })
+        </script>
+    </body>
+</html>
