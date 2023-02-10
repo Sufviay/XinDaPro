@@ -1,0 +1,6 @@
+framework module Pods_PROJECT_B_PROJECT_BUITests {
+  umbrella header "Pods-PROJECT_B-PROJECT_BUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

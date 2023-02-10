@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="la_back" translatesAutoresizingMaskIntoConstraints="NO" id="ORo-iU-pVX">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="la_logo" translatesAutoresizingMaskIntoConstraints="NO" id="2yZ-hC-tpL">
+                                <rect key="frame" x="151.66666666666666" y="281" width="90" height="90"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="90" id="o9J-rG-YNF"/>
+                                    <constraint firstAttribute="width" constant="90" id="zaN-zs-7ma"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="suppally  拷贝 2" translatesAutoresizingMaskIntoConstraints="NO" id="x9O-w9-YcG">
+                                <rect key="frame" x="129.66666666666666" y="391" width="133.99999999999997" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="134" id="204-9k-8Vm"/>
+                                    <constraint firstAttribute="height" constant="20" id="XYV-rD-jdM"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="x9O-w9-YcG" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="CIc-Oi-Fkf"/>
+                            <constraint firstAttribute="bottom" secondItem="ORo-iU-pVX" secondAttribute="bottom" id="Jvx-Mx-jyv"/>
+                            <constraint firstItem="x9O-w9-YcG" firstAttribute="top" secondItem="2yZ-hC-tpL" secondAttribute="bottom" constant="20" id="NxU-rp-0d9"/>
+                            <constraint firstItem="2yZ-hC-tpL" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Qli-Dp-cz2"/>
+                            <constraint firstItem="2yZ-hC-tpL" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-100" id="R0q-YC-eI0"/>
+                            <constraint firstItem="ORo-iU-pVX" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="Y6n-N4-qKW"/>
+                            <constraint firstAttribute="trailing" secondItem="ORo-iU-pVX" secondAttribute="trailing" id="aXG-S0-yGz"/>
+                            <constraint firstItem="ORo-iU-pVX" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="ywM-u2-zaJ"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="264.8854961832061" y="228.87323943661974"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="la_back" width="375" height="812"/>
+        <image name="la_logo" width="93" height="93"/>
+        <image name="suppally  拷贝 2" width="134.33332824707031" height="19.666666030883789"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

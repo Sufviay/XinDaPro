@@ -1,0 +1,29 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'PROJECT_B' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  source 'https://github.com/CocoaPods/Specs.git'
+
+  pod 'SwiftyJSON', '~>5.0.0'
+  pod 'SnapKit', '~>5.0.0'
+  pod 'Moya/RxSwift'
+  pod 'RxCocoa'
+  pod 'MBProgressHUD', '~>1.1.0'
+  pod 'HandyJSON'
+  pod 'IQKeyboardManagerSwift', '~>6.3.0'
+
+  # Pods for PROJECT_B
+
+  target 'PROJECT_BTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'PROJECT_BUITests' do
+    # Pods for testing
+  end
+
+end

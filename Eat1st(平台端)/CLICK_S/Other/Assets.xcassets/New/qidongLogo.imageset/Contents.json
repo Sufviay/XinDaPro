@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "APP-logo-图标-Management-.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "APP-logo-图标-Management-@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "APP-logo-图标-Management-@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
