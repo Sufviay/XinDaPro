@@ -74,7 +74,7 @@ class MenuDiscountCell: BaseTableViewCell, SystemAlertProtocol {
         contentView.addSubview(discountImg)
         discountImg.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 70, height: 18))
-            $0.left.equalToSuperview().offset(15)
+            $0.left.equalToSuperview().offset(10)
             $0.centerY.equalToSuperview()
         }
         
@@ -98,7 +98,7 @@ class MenuDiscountCell: BaseTableViewCell, SystemAlertProtocol {
         contentView.addSubview(exchangeImg)
         exchangeImg.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
-            $0.right.equalToSuperview().offset(-15)
+            $0.right.equalToSuperview().offset(-10)
             $0.width.equalTo(105)
         }
         
@@ -182,13 +182,13 @@ class MenuDiscountCell: BaseTableViewCell, SystemAlertProtocol {
                     
                     self.discountImg.snp.remakeConstraints {
                         $0.size.equalTo(CGSize(width: 70, height: 18))
-                        $0.left.equalToSuperview().offset(15)
+                        $0.left.equalToSuperview().offset(10)
                         $0.centerY.equalToSuperview()
                     }
                     
                     self.firstImg.snp.remakeConstraints {
                         $0.size.equalTo(CGSize(width: 126, height: 18))
-                        $0.left.equalToSuperview().offset(95)
+                        $0.left.equalToSuperview().offset(90)
                         $0.centerY.equalToSuperview()
 
                     }
@@ -200,13 +200,13 @@ class MenuDiscountCell: BaseTableViewCell, SystemAlertProtocol {
                         
                         self.discountImg.snp.remakeConstraints {
                             $0.size.equalTo(CGSize(width: 70, height: 18))
-                            $0.left.equalToSuperview().offset(15)
+                            $0.left.equalToSuperview().offset(10)
                             $0.centerY.equalToSuperview()
                         }
                         
                         self.firstImg.snp.remakeConstraints {
                             $0.size.equalTo(CGSize(width: 126, height: 18))
-                            $0.left.equalToSuperview().offset(95)
+                            $0.left.equalToSuperview().offset(90)
                             $0.centerY.equalToSuperview()
 
                         }
@@ -217,13 +217,13 @@ class MenuDiscountCell: BaseTableViewCell, SystemAlertProtocol {
                         
                         self.discountImg.snp.remakeConstraints {
                             $0.size.equalTo(CGSize(width: 70, height: 18))
-                            $0.left.equalToSuperview().offset(15)
+                            $0.left.equalToSuperview().offset(10)
                             $0.centerY.equalToSuperview()
                         }
                         
                         self.firstImg.snp.remakeConstraints {
                             $0.size.equalTo(CGSize(width: 126, height: 18))
-                            $0.left.equalToSuperview().offset(95)
+                            $0.left.equalToSuperview().offset(90)
                             $0.centerY.equalToSuperview()
 
                         }
@@ -240,13 +240,13 @@ class MenuDiscountCell: BaseTableViewCell, SystemAlertProtocol {
                 
                 self.discountImg.snp.remakeConstraints {
                     $0.size.equalTo(CGSize(width: 70, height: 18))
-                    $0.left.equalToSuperview().offset(15)
+                    $0.left.equalToSuperview().offset(10)
                     $0.centerY.equalToSuperview()
                 }
                 
                 self.firstImg.snp.remakeConstraints {
                     $0.size.equalTo(CGSize(width: 126, height: 18))
-                    $0.left.equalToSuperview().offset(95)
+                    $0.left.equalToSuperview().offset(90)
                     $0.centerY.equalToSuperview()
                 }
             }
@@ -262,13 +262,13 @@ class MenuDiscountCell: BaseTableViewCell, SystemAlertProtocol {
                     self.firstImg.isHidden = true
                     self.discountImg.snp.remakeConstraints {
                         $0.size.equalTo(CGSize(width: 70, height: 18))
-                        $0.left.equalToSuperview().offset(15)
+                        $0.left.equalToSuperview().offset(10)
                         $0.centerY.equalToSuperview()
                     }
                     
                     self.firstImg.snp.remakeConstraints {
                         $0.size.equalTo(CGSize(width: 126, height: 18))
-                        $0.left.equalToSuperview().offset(95)
+                        $0.left.equalToSuperview().offset(90)
                         $0.centerY.equalToSuperview()
                     }
                     
@@ -279,13 +279,13 @@ class MenuDiscountCell: BaseTableViewCell, SystemAlertProtocol {
                         self.firstImg.isHidden = false
                         self.discountImg.snp.remakeConstraints {
                             $0.size.equalTo(CGSize(width: 70, height: 18))
-                            $0.left.equalToSuperview().offset(15)
+                            $0.left.equalToSuperview().offset(10)
                             $0.centerY.equalToSuperview()
                         }
                         
                         self.firstImg.snp.remakeConstraints {
                             $0.size.equalTo(CGSize(width: 126, height: 18))
-                            $0.left.equalToSuperview().offset(15)
+                            $0.left.equalToSuperview().offset(10)
                             $0.centerY.equalToSuperview()
                         }
                         
@@ -294,13 +294,13 @@ class MenuDiscountCell: BaseTableViewCell, SystemAlertProtocol {
                         self.firstImg.isHidden = true
                         self.discountImg.snp.remakeConstraints {
                             $0.size.equalTo(CGSize(width: 70, height: 18))
-                            $0.left.equalToSuperview().offset(15)
+                            $0.left.equalToSuperview().offset(10)
                             $0.centerY.equalToSuperview()
                         }
                         
                         self.firstImg.snp.remakeConstraints {
                             $0.size.equalTo(CGSize(width: 126, height: 18))
-                            $0.left.equalToSuperview().offset(95)
+                            $0.left.equalToSuperview().offset(90)
                             $0.centerY.equalToSuperview()
                         }
                     }
@@ -312,13 +312,13 @@ class MenuDiscountCell: BaseTableViewCell, SystemAlertProtocol {
                 self.firstImg.isHidden = true
                 self.discountImg.snp.remakeConstraints {
                     $0.size.equalTo(CGSize(width: 70, height: 18))
-                    $0.left.equalToSuperview().offset(15)
+                    $0.left.equalToSuperview().offset(10)
                     $0.centerY.equalToSuperview()
                 }
                 
                 self.firstImg.snp.remakeConstraints {
                     $0.size.equalTo(CGSize(width: 126, height: 18))
-                    $0.left.equalToSuperview().offset(95)
+                    $0.left.equalToSuperview().offset(90)
                     $0.centerY.equalToSuperview()
                 }
             }

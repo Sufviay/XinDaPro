@@ -265,8 +265,8 @@ class StoreTableCell: BaseTableViewCell {
         self.nameLab.text = model.name
         self.desLab.text = model.tags
         self.disLab.text = model.distance
-        self.psMoneuLab.text = model.deliveryInit
-        self.qsMoneuLab.text = model.minCharge
+        self.psMoneuLab.text = model.deliveryFeeStr
+        self.qsMoneuLab.text = model.minOrderStr
         self.timeLab.text = model.minTime
         self.starView.setPointValue = Int(ceil(model.star))
         self.firstScaleLab.text = model.firstDiscountScale

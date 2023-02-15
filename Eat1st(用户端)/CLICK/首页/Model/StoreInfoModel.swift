@@ -65,8 +65,6 @@ class StoreInfoModel: NSObject {
     var coverImg: String = ""
     ///评分
     var star: Double = 0
-    /// 配送费字符串
-    var deliveryInit: String = ""
     ///最高配送费
     var maxDelivery: Double = 0
     ///最低配送费
@@ -74,8 +72,6 @@ class StoreInfoModel: NSObject {
     ///最少配送时间
     var minTime: String = ""
     
-    ///起送金额
-    var minCharge: String = ""
     ///起送金额
     var minOrder: Double = 0
     
@@ -134,27 +130,26 @@ class StoreInfoModel: NSObject {
     ///店铺首单的优惠额度
     var firstDiscountScale: String = ""
     
-    
     ///是否开启积分兑换
     var isOpenJiFen: Bool = false
     
+    
+    
+    
     ///是否显示折扣栏
     var isHaveDiscountBar: Bool = false
+    
+    ///店铺基本信息栏的高度(包括店铺名称，店铺描述，店铺评分，评价，起送费，配送费)
+    var storeInfo_H: CGFloat = 0
+    ///店铺所有内容的高度
+    var storeContent_H: CGFloat = 0
+    
+    ///外卖的起送金额字符串，用于显示
+    var minOrderStr: String = ""
 
-    
-    
-//    ///店铺状态 0闭店 1只配送  2只自取  3都可以
-//    var status: String = ""
-//    ///店铺是否可配送
-//    var isDelivery: Bool = false
-//    ///店铺是否可自取
-//    var isTake: Bool = false
-//    ///支付方式   1：在线支付  2：现金支付、3：均可
-//    var payWay: String = ""
-//    
-//    ///店铺标签
-//    var storeTags: String = ""
-    
+    ///外卖配送费字符串 用户显示
+    var deliveryFeeStr: String = ""
+
     
     
 
@@ -175,23 +170,9 @@ class StoreInfoModel: NSObject {
         self.minDelivery = json["minDeliveryPrice"].doubleValue
         self.maxDelivery = json["maxDeliveryPrice"].doubleValue
         
-        if minDelivery == 0 && maxDelivery == 0 {
-            self.deliveryInit = "No delivery fee"
-        }
-        if minDelivery != 0 && maxDelivery == 0 {
-            self.deliveryInit = "Delivery £\(D_2_STR(minDelivery))"
-        }
-        if maxDelivery != 0 {
-            self.deliveryInit = "Delivery from £\(D_2_STR(minDelivery))"
-        }
-        
+
         self.minOrder = json["minOrderPrice"].doubleValue
         
-        if json["minOrderPrice"].doubleValue == 0 {
-            self.minCharge = "No min. order"
-        } else {
-            self.minCharge = "Minimum order £\(D_2_STR(minOrder))"
-        }
         
         self.logoImg = json["logoUrl"].stringValue
         self.evaluateNum = json["evaluateNum"].stringValue
@@ -237,6 +218,24 @@ class StoreInfoModel: NSObject {
         self.isOpenJiFen = json["pointsStatus"].stringValue == "2" ? true : false
         
         
+        if minOrder == 0 {
+            self.minOrderStr = "No min. order"
+        } else {
+            self.minOrderStr = "Minimum order £\(D_2_STR(minOrder))"
+        }
+
+        
+        if minDelivery == 0 && maxDelivery == 0 {
+            self.deliveryFeeStr = "No delivery fee"
+        }
+        if minDelivery != 0 && maxDelivery == 0 {
+            self.deliveryFeeStr = "Delivery £\(D_2_STR(minDelivery))"
+        }
+        if maxDelivery != 0 {
+            self.deliveryFeeStr = "Delivery from £\(D_2_STR(minDelivery))"
+        }
+        
+                
         
         if self.isDiscount {
             self.isHaveDiscountBar = true
@@ -269,26 +268,20 @@ class StoreInfoModel: NSObject {
             }
         }
         
-    
-//        self.status = json["status"].stringValue
-//        self.isDelivery = json["delivery"].boolValue
-//        self.isTake = json["selfTake"].boolValue
-//        self.payWay = json["paymentSupport"].stringValue
-
-//        self.storeTags = json["tags"].stringValue
         
+        ///计算基信息栏的高度
+        let name_h = name.getTextHeigh(BFONT(18), MENU_STORE_NAME_W)
+        let tag_h = tags.getTextHeigh(SFONT(13), MENU_STORE_TAGS_W)
+        self.storeInfo_H = name_h + tag_h + 20 + 75
 
         
+        if isHaveDiscountBar {
+            self.storeContent_H = storeInfo_H + 15 + 28 + 50
+        } else {
+            self.storeContent_H = storeInfo_H + 15 + 50
+        }
         
-//        if feeList.count == 0 {
-//            self.deliveryInit = "delivery fee £\(json["deliveryInit"])"
-//        } else {
-//            self.deliveryInit = "delivery fee £\(feeList.first!.fee)-£\(feeList.last!.fee)"
-//        }
         
-        
-
-//
         
     }
     

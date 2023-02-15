@@ -9,14 +9,6 @@ import UIKit
 
 class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSource {
     
-    ///选择菜品规格
-//    var selectSizeBlock: VoidBlock?
-//
-//    ///改变规格菜品的规格数量
-//    var changSizeCountBlock: VoidBlock?
-//    ///改变没有规格的菜品数量
-//    var changNoSizeCountBlock: VoidBlock?
-    
     
     var isSelect: Bool = false
     
@@ -94,6 +86,30 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
         return tableView
     }()
 
+    
+    lazy var mealTable: GestureTableView = {
+        let tableView = GestureTableView()
+        tableView.backgroundColor = .white
+        //去掉单元格的线
+        tableView.separatorStyle = .none
+        tableView.showsVerticalScrollIndicator =  false
+        tableView.estimatedRowHeight = 0
+        tableView.estimatedSectionFooterHeight = 0
+        tableView.estimatedSectionHeaderHeight = 0
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.contentInsetAdjustmentBehavior = .never
+        tableView.tag = 2
+        tableView.bounces = false
+        
+        tableView.register(MenuMealGoodsCell.self, forCellReuseIdentifier: "MenuMealGoodsCell")
+        
+        return tableView
+    }()
+    
+    
+    
+    
 
     override func setViews() {
     
@@ -111,6 +127,11 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
             $0.left.equalTo(l_table.snp.right)
             $0.right.bottom.top.equalToSuperview()
         }
+        
+        contentView.addSubview(mealTable)
+        mealTable.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
 
     
@@ -118,28 +139,34 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
     func numberOfSections(in tableView: UITableView) -> Int {
         if tableView.tag == 0 {
             return 1
-        } else {
+        }
+        else if tableView.tag == 1 {
             return c_Arr.count
+        } else {
+            return 1
         }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView.tag == 0 {
             return c_Arr.count
+        } else if tableView.tag == 1 {
+            return c_Arr[section].dishArr.count
+        } else {
+            return 2
         }
-        return c_Arr[section].dishArr.count
+        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if tableView.tag == 0 {
             let h = c_Arr[indexPath.row].flName_C.getTextHeigh(BFONT(13), 70) + 35
             return h > 50 ? h : 50
-        } else {
+        } else if tableView.tag == 1 {
             let model = c_Arr[indexPath.section].dishArr[indexPath.row]
-//            let n_h = model.name_C.getTextHeigh(BFONT(17), S_W - 235)
-//            let d_h = model.des.getTextHeigh(SFONT(11), S_W - 235)
-//            let h = (n_h + d_h + 90) > 130 ? (n_h + d_h + 90) : 130
             return model.dish_H
+        } else {
+            return SET_H(110, 335) + 10 + 30 + 80
         }
     }
     
@@ -180,113 +207,85 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
             let model = c_Arr[indexPath.section].dishArr[indexPath.row]
             
             if model.isSelect {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "MenuGoodsSizeCell") as! MenuGoodsSizeCell
+                cell.setCellData(model: model)
+            
+            
+                cell.optionBlock = { (_) in
+                    ///进入选择规格页面
+                    let nextVC = SelectSizeController()
+                    nextVC.dishesID = model.dishID
+                    PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
+                }
                 
-//                if isBig {
-//                    let cell = tableView.dequeueReusableCell(withIdentifier: "Big_MenuGoodsSizeCell") as! Big_MenuGoodsSizeCell
-//                    cell.setCellData(model: model)
-//
-//                    cell.jiaBlock = { (_) in
-//                        ///进入选择规格页面
-//                        let nextVC = SelectSizeController()
-//                        nextVC.dishesID = model.dishID
-//                        PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
-//
-//                    }
-//                    cell.jianBlock = { [unowned self] (_) in
-//                        ///弹出购物车
-//                        self.showCartBlock?("")
-//                    }
-//
-//                    return cell
-//
-//                } else {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "MenuGoodsSizeCell") as! MenuGoodsSizeCell
-                    cell.setCellData(model: model)
-                
-                
-                    cell.optionBlock = { (_) in
-                        ///进入选择规格页面
-                        let nextVC = SelectSizeController()
-                        nextVC.dishesID = model.dishID
-                        PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
-                    }
-                    
-                    cell.jiaBlock = { (par) in
-                        ///添加购物车
-                        let count = par as! Int
-                        var dic: [String: Any] = [:]
-                        //添加购物车
-                        dic = ["num": count, "id": model.dishID]
-                        self.addCartBlock?(dic)
-                            
+                cell.jiaBlock = { (par) in
+                    ///添加购物车
+                    let count = par as! Int
+                    var dic: [String: Any] = [:]
+                    //添加购物车
+                    dic = ["num": count, "id": model.dishID]
+                    self.addCartBlock?(dic)
+                        
 
-                    }
-                    cell.jianBlock = { [unowned self] (_) in
-                        ///弹出购物车
-                        self.showCartBlock?("")
-                    }
-        
-                    return cell
-//                }
+                }
+                cell.jianBlock = { [unowned self] (_) in
+                    ///弹出购物车
+                    self.showCartBlock?("")
+                }
+    
+                return cell
                 
             } else {
                 
-//                if isBig {
-//                    let cell = tableView.dequeueReusableCell(withIdentifier: "Big_MenuGoodsNoSizeCell") as! Big_MenuGoodsNoSizeCell
-//                    cell.setCellData(model: model)
-//
-//                    cell.clickCountBlock = { [unowned self] (par) in
-//
-//                        let count = par as! Int
-//                        var dic: [String: Any] = [:]
-//                        if model.sel_Num == 0 {
-//                            //添加购物车
-//                            dic = ["num": count, "id": model.dishID]
-//                            self.addCartBlock?(dic)
-//
-//                        } else {
-//                            //更新购物车
-//                            dic = ["num": count, "id": model.cart[0].cartID]
-//                            self.updateCartBlock?(dic)
-//                        }
-//                    }
-//
-//                    return cell
-//
-//                } else {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "MenuGoodsNoSizeCell") as! MenuGoodsNoSizeCell
-                    cell.setCellData(model: model)
+                let cell = tableView.dequeueReusableCell(withIdentifier: "MenuGoodsNoSizeCell") as! MenuGoodsNoSizeCell
+                cell.setCellData(model: model)
+                
+                cell.clickCountBlock = { [unowned self] (par) in
                     
-                    cell.clickCountBlock = { [unowned self] (par) in
+                    let count = par as! Int
+                    var dic: [String: Any] = [:]
+                    if model.sel_Num == 0 {
+                        //添加购物车
+                        dic = ["num": count, "id": model.dishID]
+                        self.addCartBlock?(dic)
                         
-                        let count = par as! Int
-                        var dic: [String: Any] = [:]
-                        if model.sel_Num == 0 {
-                            //添加购物车
-                            dic = ["num": count, "id": model.dishID]
-                            self.addCartBlock?(dic)
-                            
-                        } else {
-                            //更新购物车
-                            dic = ["num": count, "id": model.cart[0].cartID]
-                            self.updateCartBlock?(dic)
-                        }
+                    } else {
+                        //更新购物车
+                        dic = ["num": count, "id": model.cart[0].cartID]
+                        self.updateCartBlock?(dic)
                     }
-                    
-                    return cell
-//                }
+                }
+                
+                return cell
             }
         }
+        
+        if tableView.tag == 2 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "MenuMealGoodsCell") as! MenuMealGoodsCell
+            return cell
+        }
+        
         let cell = UITableViewCell()
         return cell
     }
     
 
     
-    func setCellData(modelArr: [ClassiftyModel]) {
+    func setCellData(modelArr: [ClassiftyModel], lunchOrDinner: String) {
         self.c_Arr = modelArr
         self.l_table.reloadData()
         self.r_table.reloadData()
+        
+        if lunchOrDinner == "lunch" {
+            self.l_table.isHidden = true
+            self.r_table.isHidden = true
+            self.mealTable.isHidden = false
+        } else {
+            self.l_table.isHidden = false
+            self.r_table.isHidden = false
+            self.mealTable.isHidden = true
+        }
+        
     }
     
     deinit {
@@ -361,7 +360,7 @@ extension MenuContentCell {
         
         //MARK: - 嵌套滑动
         
-        if scrollView.tag == 1 {
+        if scrollView.tag == 1 || scrollView.tag == 2 {
             let y = scrollView.contentOffset.y
 
             print("---------------\(y)")

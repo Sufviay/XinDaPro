@@ -19,36 +19,36 @@ class MenuSelectCell: BaseTableViewCell {
         return view
     }()
     
-    private let backView: UIView = {
-        let view = UIView()
-        view.backgroundColor = HCOLOR("#F1F1F1")
-        view.layer.cornerRadius = 15
-        return view
-    }()
+//    private let backView: UIView = {
+//        let view = UIView()
+//        view.backgroundColor = HCOLOR("#F1F1F1")
+//        view.layer.cornerRadius = 15
+//        return view
+//    }()
     
 
     private let de_But: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Delivery", FONTCOLOR, BFONT(14), MAINCOLOR)
-        but.layer.cornerRadius = 15
+        but.setCommentStyle(.zero, "Delivery", FONTCOLOR, BFONT(13), MAINCOLOR)
+        but.layer.cornerRadius = 12
         return but
     }()
     
     private let co_But: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Collection", HCOLOR("#999999"), BFONT(14), .clear)
-        but.layer.cornerRadius = 15
+        but.setCommentStyle(.zero, "Collection", HCOLOR("#999999"), BFONT(13), HCOLOR("#F1F1F1"))
+        but.layer.cornerRadius = 12
         return but
     }()
     
     
     private let closedLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#999999"), BFONT(14), .center)
+        lab.setCommentStyle(HCOLOR("#999999"), BFONT(13), .center)
         lab.text = "Closed"
         lab.backgroundColor = HCOLOR("#F1F1F1")
         lab.clipsToBounds = true
-        lab.layer.cornerRadius = 15
+        lab.layer.cornerRadius = 12
         lab.isHidden = true
         return lab
     }()
@@ -87,41 +87,44 @@ class MenuSelectCell: BaseTableViewCell {
         
         
 
-        contentView.addSubview(backView)
-        backView.snp.makeConstraints {
-            $0.width.equalTo(190)
-            $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview().offset(15)
-            $0.height.equalTo(30)
-        }
+//        contentView.addSubview(backView)
+//        backView.snp.makeConstraints {
+//            $0.width.equalTo(190)
+//            $0.centerY.equalToSuperview()
+//            $0.left.equalToSuperview().offset(15)
+//            $0.height.equalTo(30)
+//        }
         
 
-        backView.addSubview(de_But)
+        contentView.addSubview(de_But)
         de_But.snp.makeConstraints {
-            $0.left.top.bottom.equalToSuperview()
-            $0.width.equalTo(190 / 2)
+            $0.left.equalToSuperview().offset(10)
+            $0.top.equalToSuperview().offset(10)
+            $0.width.equalTo(90)
+            $0.height.equalTo(24)
         }
         
-        backView.addSubview(co_But)
+        contentView.addSubview(co_But)
         co_But.snp.makeConstraints {
-            $0.right.top.bottom.equalToSuperview()
-            $0.width.equalTo(190 / 2)
-            
+            $0.top.equalToSuperview().offset(10)
+            $0.left.equalToSuperview().offset(10 + 90 + 10)
+            $0.width.equalTo(90)
+            $0.height.equalTo(24)
         }
         
         contentView.addSubview(closedLab)
         closedLab.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 95, height: 30))
-            $0.left.equalToSuperview().offset(15)
-            $0.centerY.equalToSuperview()
+            $0.size.equalTo(CGSize(width: 75, height: 24))
+            $0.left.equalToSuperview().offset(10)
+            $0.top.equalToSuperview().offset(10)
         }
         
         
         self.addSubview(timeLab)
         timeLab.snp.makeConstraints {
             $0.centerY.equalTo(de_But)
-            $0.right.equalToSuperview().offset(-15)
-            $0.left.equalToSuperview().offset(15 + 190)
+            $0.right.equalToSuperview().offset(-10)
+            $0.left.equalToSuperview().offset(10 + 190)
         }
         
         de_But.addTarget(self, action: #selector(clickDeAction), for: .touchUpInside)
@@ -153,27 +156,29 @@ class MenuSelectCell: BaseTableViewCell {
         //可配送 可自取
         if model.deStatus == "1" && model.coStatus == "1" {
             
-            backView.isHidden = false
             closedLab.isHidden = true
+            co_But.isHidden = false
+            de_But.isHidden = false
+            
             
             de_But.setTitle("Delivery", for: .normal)
             co_But.setTitle("Collection", for: .normal)
             de_But.isEnabled = true
             co_But.isEnabled = true
-            
-            co_But.titleLabel?.font = BFONT(14)
-            de_But.titleLabel?.font = BFONT(14)
+//
+//            co_But.titleLabel?.font = BFONT(14)
+//            de_But.titleLabel?.font = BFONT(14)
             
             if type == "1" {
                 self.de_But.setTitleColor(FONTCOLOR, for: .normal)
                 self.de_But.backgroundColor = MAINCOLOR
                 self.co_But.setTitleColor(HCOLOR("999999"), for: .normal)
-                self.co_But.backgroundColor = .clear
+                self.co_But.backgroundColor = HCOLOR("#F1F1F1")
                 self.timeLab.text = "Delivers in \(model.deMin)-\(model.deMax) mins"
             }
             if type == "2" {
                 self.de_But.setTitleColor(HCOLOR("999999"), for: .normal)
-                self.de_But.backgroundColor = .clear
+                self.de_But.backgroundColor = HCOLOR("#F1F1F1")
                 self.co_But.setTitleColor(FONTCOLOR, for: .normal)
                 self.co_But.backgroundColor = MAINCOLOR
                 self.timeLab.text = "Collect in \(model.coMin)-\(model.coMax) mins"
@@ -184,41 +189,47 @@ class MenuSelectCell: BaseTableViewCell {
         //可配送 不可自取
         if model.deStatus == "1" && model.coStatus == "2" {
             
-            backView.isHidden = false
             closedLab.isHidden = true
+            co_But.isHidden = false
+            de_But.isHidden = false
+
+            
             
             de_But.setTitle("Delivery", for: .normal)
             co_But.setTitle("No collection", for: .normal)
             de_But.setTitleColor(FONTCOLOR, for: .normal)
             co_But.setTitleColor(HCOLOR("#999999"), for: .normal)
             de_But.backgroundColor = MAINCOLOR
-            co_But.backgroundColor = .clear
+            co_But.backgroundColor = HCOLOR("#F1F1F1")
             de_But.isEnabled = false
             co_But.isEnabled = false
             
-            co_But.titleLabel?.font = BFONT(12)
-            de_But.titleLabel?.font = BFONT(14)
-
+//            co_But.titleLabel?.font = BFONT(12)
+//            de_But.titleLabel?.font = BFONT(14)
+//
 
             self.timeLab.text = "Delivers in \(model.deMin)-\(model.deMax) mins"
 
         }
         //不可配送 可自取
         if model.deStatus == "2" && model.coStatus == "1" {
-            backView.isHidden = false
             closedLab.isHidden = true
+            co_But.isHidden = false
+            de_But.isHidden = false
+
+            
 
             de_But.setTitle("No delivery", for: .normal)
             co_But.setTitle("Collection", for: .normal)
             de_But.setTitleColor(HCOLOR("#999999"), for: .normal)
             co_But.setTitleColor(FONTCOLOR, for: .normal)
-            de_But.backgroundColor = .clear
+            de_But.backgroundColor = HCOLOR("#F1F1F1")
             co_But.backgroundColor = MAINCOLOR
             de_But.isEnabled = false
             co_But.isEnabled = false
             
-            co_But.titleLabel?.font = BFONT(14)
-            de_But.titleLabel?.font = BFONT(12)
+//            co_But.titleLabel?.font = BFONT(14)
+//            de_But.titleLabel?.font = BFONT(12)
 
 
             self.timeLab.text = "Collect in \(model.coMin)-\(model.coMax) mins"
@@ -226,22 +237,23 @@ class MenuSelectCell: BaseTableViewCell {
         }
         //不可配送 不可自取
         if model.deStatus == "2" && model.coStatus == "2" {
-            backView.isHidden = true
             closedLab.isHidden = false
+            co_But.isHidden = true
+            de_But.isHidden = true
 
             
             de_But.setTitle("Closed", for: .normal)
             co_But.setTitle("Closed", for: .normal)
             de_But.setTitleColor(FONTCOLOR, for: .normal)
             co_But.setTitleColor(FONTCOLOR, for: .normal)
-            de_But.backgroundColor = .clear
-            co_But.backgroundColor = .clear
+            de_But.backgroundColor = HCOLOR("#F1F1F1")
+            co_But.backgroundColor = HCOLOR("#F1F1F1")
             de_But.isEnabled = false
             co_But.isEnabled = false
-            co_But.isHidden = true
             
-            co_But.titleLabel?.font = BFONT(14)
-            de_But.titleLabel?.font = BFONT(14)
+            
+//            co_But.titleLabel?.font = BFONT(14)
+//            de_But.titleLabel?.font = BFONT(14)
 
 
             self.timeLab.text = ""
@@ -249,6 +261,5 @@ class MenuSelectCell: BaseTableViewCell {
                 
     }
     
-
     
 }

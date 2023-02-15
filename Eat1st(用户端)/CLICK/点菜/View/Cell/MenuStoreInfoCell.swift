@@ -7,6 +7,11 @@
 
 import UIKit
 
+
+let MENU_STORE_NAME_W: CGFloat = S_W - 155
+let MENU_STORE_TAGS_W: CGFloat = S_W - 145
+
+
 class MenuStoreInfoCell: BaseTableViewCell {
     
     
@@ -107,21 +112,21 @@ class MenuStoreInfoCell: BaseTableViewCell {
         
         contentView.addSubview(logoImg)
         logoImg.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 66, height: 66))
-            $0.right.equalToSuperview().offset(-15)
-            $0.top.equalToSuperview().offset(20)
+            $0.size.equalTo(CGSize(width: 65, height: 65))
+            $0.right.equalToSuperview().offset(-10)
+            $0.top.equalToSuperview().offset(15)
         }
         
         contentView.addSubview(nameLab)
         nameLab.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(15)
-            $0.top.equalToSuperview().offset(20)
+            $0.left.equalToSuperview().offset(10)
+            $0.top.equalToSuperview().offset(15)
             $0.right.equalTo(logoImg.snp.left).offset(-60)
         }
         
         contentView.addSubview(detailBut)
         detailBut.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(25)
+            $0.top.equalToSuperview().offset(17)
             $0.size.equalTo(CGSize(width: 20, height: 15))
             $0.left.equalTo(nameLab.snp.right).offset(10)
         }
@@ -130,14 +135,14 @@ class MenuStoreInfoCell: BaseTableViewCell {
         tagLab.snp.makeConstraints {
             $0.left.equalTo(nameLab)
             $0.top.equalTo(nameLab.snp.bottom).offset(5)
-            $0.right.equalTo(logoImg.snp.left).offset(-70)
+            $0.right.equalTo(logoImg.snp.left).offset(-50)
         }
         
         contentView.addSubview(starView)
         starView.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 90, height: 14))
-            $0.left.equalToSuperview().offset(15)
-            $0.top.equalTo(tagLab.snp.bottom).offset(8)
+            $0.size.equalTo(CGSize(width: 90, height: 15))
+            $0.left.equalToSuperview().offset(10)
+            $0.top.equalTo(tagLab.snp.bottom).offset(7)
         }
         
         contentView.addSubview(pointLab)
@@ -154,14 +159,14 @@ class MenuStoreInfoCell: BaseTableViewCell {
         
         contentView.addSubview(deQSLab)
         deQSLab.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(15)
-            $0.top.equalTo(starView.snp.bottom).offset(15)
+            $0.left.equalToSuperview().offset(10)
+            $0.top.equalTo(starView.snp.bottom).offset(10)
         }
         
         contentView.addSubview(coQSlab)
         coQSlab.snp.makeConstraints {
             $0.centerY.equalTo(deQSLab)
-            $0.left.equalTo(deQSLab.snp.right).offset(15)
+            $0.left.equalTo(deQSLab.snp.right).offset(12)
         }
         
         contentView.addSubview(psMoneyLab)
@@ -213,7 +218,7 @@ class MenuStoreInfoCell: BaseTableViewCell {
             alert.appearAction()
         }
     }
-    
+
     
     
     
@@ -225,7 +230,7 @@ class MenuStoreInfoCell: BaseTableViewCell {
         self.starView.setPointValue = Int(ceil(model.star))
         self.pointLab.text = String(format: "%.1f", model.star)
         self.plCountLab.text = "view \(model.evaluateNum) reviews"
-        self.deQSLab.text = model.minCharge
+        self.deQSLab.text = model.minOrderStr
         
         if model.maxDelivery == 0 {
             if model.minDelivery == 0 {
@@ -250,25 +255,23 @@ class MenuStoreInfoCell: BaseTableViewCell {
     override func reSetFrame() {
                 
         //获取UIlabel的行数
-        let h = nameLab.text!.getTextHeigh(BFONT(18), S_W - 156)
+        let h = nameLab.text!.getTextHeigh(BFONT(18), MENU_STORE_NAME_W)
         let lineNum = Int(ceil(h / nameLab.font.lineHeight))
 
         if lineNum > 1 {
             detailBut.snp.remakeConstraints {
-                $0.top.equalToSuperview().offset(23)
+                $0.top.equalToSuperview().offset(17)
                 $0.size.equalTo(CGSize(width: 20, height: 15))
-                $0.right.equalToSuperview().offset(-111)
+                $0.right.equalToSuperview().offset(-110)
             }
         } else {
             
             let w = nameLab.text!.getTextWidth(BFONT(18), nameLab.font.lineHeight)
             detailBut.snp.remakeConstraints {
                 $0.size.equalTo(CGSize(width: 20, height: 15))
-                $0.top.equalToSuperview().offset(23)
-                $0.left.equalToSuperview().offset(w + 25)
+                $0.top.equalToSuperview().offset(17)
+                $0.left.equalToSuperview().offset(w + 10)
             }
         }
     }
-    
-
 }

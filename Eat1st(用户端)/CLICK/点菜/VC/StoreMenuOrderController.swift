@@ -21,13 +21,11 @@ class StoreMenuOrderController: BaseViewController, UITableViewDataSource, UITab
     
     ///购买类型  1外卖 2自取 ""为关店状态
     var buyType: String = ""
+    ///午餐｜晚餐分类
+    var lunchOrDinner: String = "lunch"
     
     ///从店铺主页进来的 buyType是选择好的。从列表进来需要根据店铺的营业状态为buyType赋初始值
     var isStoreMain: Bool = false
-
-    
-    ///店铺信息栏的高度
-    private var storeInfo_H: CGFloat = 0
     
     ///店铺信息模型
     private let storeInfo = StoreInfoModel()
@@ -107,10 +105,9 @@ class StoreMenuOrderController: BaseViewController, UITableViewDataSource, UITab
         tableView.dataSource = self
         tableView.contentInsetAdjustmentBehavior = .never
         tableView.bounces = false
-
-        tableView.register(MenuStoreInfoCell.self, forCellReuseIdentifier: "MenuStoreInfoCell")
-        tableView.register(MenuDiscountCell.self, forCellReuseIdentifier: "MenuDiscountCell")
-        tableView.register(MenuSelectCell.self, forCellReuseIdentifier: "MenuSelectCell")
+        
+        tableView.register(MenuStoreContentCell.self, forCellReuseIdentifier: "MenuStoreContentCell")
+        tableView.register(MenuSelectLunchOrDinnerCell.self, forCellReuseIdentifier: "MenuSelectLunchOrDinnerCell")
         tableView.register(MenuContentCell.self, forCellReuseIdentifier: "MenuContentCell")
         tableView.isHidden = true
         
@@ -190,117 +187,65 @@ class StoreMenuOrderController: BaseViewController, UITableViewDataSource, UITab
 extension StoreMenuOrderController {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return 3
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == 1 {
-            
-            if storeInfo.isHaveDiscountBar {
-                return 1
-            } else {
-                return 0
-            }
-
-//            if storeInfo.isDiscount {
-//                return 1
-//            } else {
-//                if storeInfo.firstDiscountIsOpen {
-//
-//                    if storeInfo.isFirstDiscount == nil {
-//                        if storeInfo.isOpenJiFen {
-//                            return 1
-//                        } else {
-//                            return 0
-//                        }
-//                    } else {
-//                        if storeInfo.isFirstDiscount! {
-//                            return 1
-//                        } else {
-//                            if storeInfo.isOpenJiFen {
-//                                return 1
-//                            } else {
-//                                return 0
-//                            }
-//                        }
-//                    }
-//                } else {
-//
-//                    if storeInfo.isOpenJiFen {
-//                        return 1
-//                    } else {
-//                        return 0
-//                    }
-//                }
-//            }
+            return 1
         }
+        
         
         return 1
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return storeInfo_H
+            return storeInfo.storeContent_H
         }
         if indexPath.section == 1 {
-            return 25
+            return 50
         }
         if indexPath.section == 2 {
-            return 60
+            return S_H - statusBarH - 44 - bottomBarH - 50 - 15 - 10 + 1
         }
-        
-        if indexPath.section == 3 {
-            
-            if storeInfo.isHaveDiscountBar {
-                return S_H - statusBarH - 44 - 60 - 25 - bottomBarH - 50 - 15 - 10 + 1
-            } else {
-                return S_H - statusBarH - 44 - 60 - bottomBarH - 50 - 15 - 10 + 1
-            }
-        }
-        
-        return 100
+        return 10
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "MenuStoreInfoCell") as! MenuStoreInfoCell
-            cell.setCellData(model: storeInfo)
-            return cell
-        }
-        if indexPath.section == 1 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "MenuDiscountCell") as! MenuDiscountCell
-            cell.setCellData(model: storeInfo)
-            cell.clickBlock = { [unowned self] (_) in
-                
-                if PJCUtil.checkLoginStatus() {
-                    //MARK: - 积分兑换优惠券
-                    let nextVC = ExchangeJiFenController()
-                    nextVC.storeID = self.storeID
-                    nextVC.storeName = self.storeInfo.name
-                    self.navigationController?.pushViewController(nextVC, animated: true)
-                }
-            }
-            return cell
-        }
-        if indexPath.section == 2 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "MenuSelectCell") as! MenuSelectCell
-            cell.setData(model: storeInfo, selectWay: buyType)
             
-            cell.clickBlock = { [unowned self] (type) in
+            let cell = tableView.dequeueReusableCell(withIdentifier: "MenuStoreContentCell") as! MenuStoreContentCell
+            cell.setCellData(model: storeInfo, selectType: buyType)
+            
+            //点击切换购买方式
+            cell.clickBuyTypeBlock = { [unowned self] (type) in
                 self.buyType = type
-                self.mainTable.reloadSections([2], with: .none)
+                self.mainTable.reloadSections([0], with: .none)
                 if UserDefaults.standard.isLogin {
                     HUD_MB.loading("", onView: view)
                     self.loadCartData_Net()
                 }
             }
+            
+            return cell
+            
+        }
+        if indexPath.section == 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "MenuSelectLunchOrDinnerCell") as! MenuSelectLunchOrDinnerCell
+            cell.clickBlock = { [unowned self] (type) in
+                self.lunchOrDinner = type
+                ///刷新午餐晚餐的列表
+                self.mainTable.reloadSections([2], with: .none)
+            }
             return cell
         }
-        if indexPath.section == 3 {
+
+        if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MenuContentCell") as! MenuContentCell
-            cell.setCellData(modelArr: dataModelArr)
+            cell.setCellData(modelArr: dataModelArr, lunchOrDinner: lunchOrDinner)
             
             //弹出购物车
             cell.showCartBlock = { [unowned self] (_) in
@@ -356,9 +301,6 @@ extension StoreMenuOrderController {
         HTTPTOOl.Store_MainPageData(storeID: storeID, type: "").subscribe(onNext: { (json) in
             
             self.storeInfo.updateModel(json: json["data"])
-            
-            //计算店铺信息栏的高度
-            self.storeInfo_H = self.getInfoBarHeight()
             //赋值buyType
             self.setBuyTypeValue()
             //请求菜品信息
@@ -458,14 +400,7 @@ extension StoreMenuOrderController {
         }).disposed(by: self.bag)
     }
 
-    
-    ///计算店铺信息栏的高度
-    private func getInfoBarHeight() -> CGFloat {
-        let n_h = storeInfo.name.getTextHeigh(BFONT(18), S_W - 156)
-        let t_h = storeInfo.tags.getTextHeigh(SFONT(13), S_W - 166)
-        return n_h + t_h + 85 + 20
-    }
-    
+        
     ///为buyType赋值
     private func setBuyTypeValue() {
         //判断
@@ -549,9 +484,7 @@ extension StoreMenuOrderController {
     
     //点击了分类
     @objc private func classifyAction() {
-        
-        //let h = storeInfo.isDiscount ? storeInfo_H + 25 : storeInfo_H
-        let h = storeInfo_H//storeInfo.discountMsg == "" ? storeInfo_H : storeInfo_H + 25
+        let h = storeInfo.storeContent_H + 50
         self.mainTable.contentOffset = CGPoint(x: 0, y: h)
     }
     
@@ -590,10 +523,7 @@ extension StoreMenuOrderController {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let y = scrollView.contentOffset.y
-        
-        //let h = storeInfo.isDiscount ? storeInfo_H + 25 : storeInfo_H
-        
-        let h = storeInfo_H //storeInfo.discountMsg == "" ? storeInfo_H : storeInfo_H + 25
+        let h = storeInfo.storeContent_H + 50
         print("+++++++++++++++++++", y)
         if !canScroll {
             //上层table保持不动
@@ -612,30 +542,36 @@ extension StoreMenuOrderController {
             let cell = cellArr.last
             if cell != nil {
                 if cell!.isKind(of: MenuContentCell.self) {
-                    let frame_H = (cell as! MenuContentCell).r_table.frame.size.height
-                    let content_H = (cell as! MenuContentCell).r_table.contentSize.height
-                    if frame_H > content_H {
-                        canScroll = true
-                    } else {
-                        self.canScroll = false
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "topTable"), object: nil)
+                    
+                    if self.lunchOrDinner == "lunch" {
+                        
+                        let frame_H = (cell as! MenuContentCell).mealTable.frame.size.height
+                        let content_H = (cell as! MenuContentCell).mealTable.contentSize.height
+                        if frame_H > content_H {
+                            canScroll = true
+                        } else {
+                            self.canScroll = false
+                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "topTable"), object: nil)
+                        }
                     }
+                    
+                    
+                    if self.lunchOrDinner == "dinner" {
+                        
+                        let frame_H = (cell as! MenuContentCell).r_table.frame.size.height
+                        let content_H = (cell as! MenuContentCell).r_table.contentSize.height
+                        if frame_H > content_H {
+                            canScroll = true
+                        } else {
+                            self.canScroll = false
+                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "topTable"), object: nil)
+                        }
+
+                    }
+                    
                 }
             }
         }
     }
 }
-
-
-
-//    //MARK: - 网络请求
-//    ///绑定店铺
-//    private func bingStore_Net() {
-//
-//        if UserDefaults.standard.isLogin {
-//            HTTPTOOl.bindingStore(storeID: storeID).subscribe(onNext: {_ in
-//                NotificationCenter.default.post(name: NSNotification.Name("bindingRefresh"), object: nil)
-//            }, onError: {_ in }).disposed(by: self.bag)
-//        }
-//    }
 

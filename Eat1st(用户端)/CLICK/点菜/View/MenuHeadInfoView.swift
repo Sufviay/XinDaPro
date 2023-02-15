@@ -200,8 +200,7 @@ class MenuHeadInfoView: UIView {
         self.plCountLab.text = "view \(model.evaluateNum) reviews"
         self.logoImg.sd_setImage(with: URL(string: model.logoImg), completed: nil)
         
-        
-        self.qsLab.text = model.minCharge
+        self.qsLab.text = model.minOrderStr
 
         if model.maxDelivery == 0 {
             if model.minDelivery == 0 {
