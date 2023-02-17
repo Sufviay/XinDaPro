@@ -142,13 +142,16 @@ class StoreInfoModel: NSObject {
     ///店铺基本信息栏的高度(包括店铺名称，店铺描述，店铺评分，评价，起送费，配送费)
     var storeInfo_H: CGFloat = 0
     ///店铺所有内容的高度
-    var storeContent_H: CGFloat = 0
+    var storeContent_H: CGFloat = 100
     
     ///外卖的起送金额字符串，用于显示
     var minOrderStr: String = ""
 
     ///外卖配送费字符串 用户显示
     var deliveryFeeStr: String = ""
+    
+    ///当前店铺是卖午餐 还是晚餐 （2午餐 3晚餐）
+    var storeSellLunchOrDinner: String = ""
 
     
     

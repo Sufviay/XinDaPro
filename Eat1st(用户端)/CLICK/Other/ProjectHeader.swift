@@ -213,6 +213,7 @@ let LOIMG: (String) -> UIImage = { (name) in
 }
 
 let HOLDIMG: UIImage = LOIMG("zwt-1")
+let HOLDIMG_L: UIImage = LOIMG("zwt-2")
 
 //MARK: - 关于Block
 

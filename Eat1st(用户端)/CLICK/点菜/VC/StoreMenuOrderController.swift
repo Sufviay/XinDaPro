@@ -21,7 +21,8 @@ class StoreMenuOrderController: BaseViewController, UITableViewDataSource, UITab
     
     ///购买类型  1外卖 2自取 ""为关店状态
     var buyType: String = ""
-    ///午餐｜晚餐分类
+    
+    ///当前选择的是午餐｜晚餐分类
     var lunchOrDinner: String = "lunch"
     
     ///从店铺主页进来的 buyType是选择好的。从列表进来需要根据店铺的营业状态为buyType赋初始值
@@ -29,16 +30,26 @@ class StoreMenuOrderController: BaseViewController, UITableViewDataSource, UITab
     
     ///店铺信息模型
     private let storeInfo = StoreInfoModel()
+    
+    
+    ///店铺菜品模型
+    private var menuInfo = MenuModel()
+    
 
-    ///菜品数据模型
+    ///菜品数据模型用于构建页面数据的
     private var dataModelArr: [ClassiftyModel] = []
+    
+    ///套餐的菜品
+    private var mealDishArr: [DishModel] = []
+    ///单品的菜品 去除套餐剩下的就是单品
+    private var dishArr: [DishModel] = []
+    ///接口返回的分类
+    private var classifyArr: [ClassiftyModel] = []
+
+    
     ///购物车的数据模型
     private var cart_dataModelArr: [CartDishModel] = []
     
-    ///原始分类数据
-    private var classifyArr: [ClassiftyModel] = []
-    ///原始菜品数据
-    private var dishArr: [DishModel] = []
     
     ///处理数据的工具类
     private let manager = MenuOrderManager()
@@ -193,9 +204,14 @@ extension StoreMenuOrderController {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == 1 {
-            return 1
+            //当卖午餐时显示晚餐，当卖晚餐时不显示午餐
+            if storeInfo.storeSellLunchOrDinner == "2" {
+                return 1
+            }
+            if storeInfo.storeSellLunchOrDinner == "3" {
+                return 0
+            }
         }
-        
         
         return 1
     }
@@ -245,7 +261,7 @@ extension StoreMenuOrderController {
 
         if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MenuContentCell") as! MenuContentCell
-            cell.setCellData(modelArr: dataModelArr, lunchOrDinner: lunchOrDinner)
+            cell.setCellData(model: menuInfo, curSelectedlunchOrDinner: lunchOrDinner, storeLunchOrDinner: storeInfo.storeSellLunchOrDinner)
             
             //弹出购物车
             cell.showCartBlock = { [unowned self] (_) in
@@ -282,7 +298,7 @@ extension StoreMenuOrderController {
 
 extension StoreMenuOrderController {
     
-    //MARK: - 请求
+    //MARK: - 请求是否有首单优惠
     private func loadStoreDetailFirstDiscount_Net() {
         if UserDefaults.standard.isLogin {
             HTTPTOOl.getStoreDetailFirstDiscount(storeID: storeID).subscribe(onNext: {json in
@@ -305,7 +321,7 @@ extension StoreMenuOrderController {
             self.setBuyTypeValue()
             //请求菜品信息
             self.loadData_Net()
-            
+            //是否有首单优惠
             self.loadStoreDetailFirstDiscount_Net()
 
         }, onError: { (error) in
@@ -335,8 +351,17 @@ extension StoreMenuOrderController {
                 d_arr.append(model)
             }
             
-            self.classifyArr = c_arr
-            self.dishArr = d_arr
+//            self.classifyArr = c_arr //分类
+//            self.dishArr = d_arr //菜品
+            
+            ///通过分类和菜品处理可供页面使用的数据，（将菜品放到指定分类下并将套餐分出）
+            self.menuInfo = self.manager.dealWithMenuDishesBy(classify_Arr: c_arr, dishes_Arr: d_arr)
+            
+            
+            //当前时间店铺卖的是午餐（卖套餐）还是晚餐（卖单品） (2午餐 3晚餐)
+            self.storeInfo.storeSellLunchOrDinner = json["data"]["mealType"].stringValue
+            self.lunchOrDinner = self.storeInfo.storeSellLunchOrDinner == "2" ? "lunch" : "dinner"
+            
             
             ///如果登录就请求购物车的信息
             if UserDefaults.standard.isLogin {
@@ -484,7 +509,7 @@ extension StoreMenuOrderController {
     
     //点击了分类
     @objc private func classifyAction() {
-        let h = storeInfo.storeContent_H + 50
+        let h = storeInfo.storeSellLunchOrDinner == "2" ? storeInfo.storeContent_H + 50 : storeInfo.storeContent_H
         self.mainTable.contentOffset = CGPoint(x: 0, y: h)
     }
     
@@ -523,7 +548,7 @@ extension StoreMenuOrderController {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let y = scrollView.contentOffset.y
-        let h = storeInfo.storeContent_H + 50
+        let h = storeInfo.storeSellLunchOrDinner == "2" ? storeInfo.storeContent_H + 50 : storeInfo.storeContent_H
         print("+++++++++++++++++++", y)
         if !canScroll {
             //上层table保持不动

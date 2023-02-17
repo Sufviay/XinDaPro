@@ -9,6 +9,17 @@ import UIKit
 import SwiftyJSON
 
 
+
+class MenuModel: NSObject {
+    
+    ///根据购物车菜品处理之后的单品数据
+    var dinnerDataArr: [ClassiftyModel] = []
+    ///购物车处理之后的套餐商品
+    var lunchDataArr: [DishModel] = []
+    
+}
+
+
 class DishTagsModel: NSObject {
     
     var tagName: String = ""
@@ -20,8 +31,6 @@ class DishTagsModel: NSObject {
     }
     
 }
-
-
 
 
 
@@ -68,7 +77,8 @@ class DishModel: NSObject {
     var sel_Num: Int = 0
     ///商品高度
     var dish_H: CGFloat = 0
-    
+    ///菜品的分类 （1单品 2套餐）
+    var dishesType: String = ""
     
     
 ///以上点餐列表页面使用
@@ -82,6 +92,9 @@ class DishModel: NSObject {
 
     ///菜品规格信息 菜品详情用
     var specification: [SpecificationModel] = []
+    ///套餐菜品规格使用 菜品详情
+    var comboList: [ComboSpecificationModel] = []
+    
     ///购物车选择的规格菜品
     var cart: [CartDishModel] = []
     
@@ -115,6 +128,7 @@ class DishModel: NSObject {
         
         self.discountPrice = json["discountPrice"].doubleValue
         self.discountType = json["discountType"].stringValue
+        self.dishesType = json["dishesType"].stringValue
         
         if price - discountPrice > 0 {
             let ts = (price - discountPrice) / price * 100
@@ -137,35 +151,29 @@ class DishModel: NSObject {
         self.tagList = tarr1
         
     
-        let n_h = self.name_C.getTextHeigh(BFONT(17), S_W - 235)
-        let d_h: CGFloat = self.des.getTextHeigh(SFONT(11), S_W - 235) > 25 ? 25 : self.des.getTextHeigh(SFONT(11), S_W - 235)
         
-        if (S_W - 230) > 140 {
-            //非放大模式
-            self.dish_H = (n_h + d_h + 90) > 130 ? (n_h + d_h + 90) : 130
+        if dishesType == "2" {
+            //套餐
+            let n_h = self.name_C.getTextHeigh(BFONT(17), S_W - 180)
+            let d_h = self.des.getTextHeigh(SFONT(11), S_W - 180) > 25 ? 25 : self.des.getTextHeigh(SFONT(11), S_W - 180)
+            
+            self.dish_H = SET_H(110, 335) + d_h + n_h + 95
+            
+            
         } else {
-            self.dish_H = (n_h + d_h + 80 + 30) > 130 ? (n_h + d_h + 80 + 30) : 130
+            //单品
+            let n_h = self.name_C.getTextHeigh(BFONT(17), S_W - 235)
+            let d_h: CGFloat = self.des.getTextHeigh(SFONT(11), S_W - 235) > 25 ? 25 : self.des.getTextHeigh(SFONT(11), S_W - 235)
+            
+            if (S_W - 230) > 140 {
+                //非放大模式
+                self.dish_H = (n_h + d_h + 90) > 130 ? (n_h + d_h + 90) : 130
+            } else {
+                self.dish_H = (n_h + d_h + 80 + 30) > 130 ? (n_h + d_h + 80 + 30) : 130
+            }
         }
+    
         
-
-//        self.detailImg = json["detailImg"].stringValue
-//        var tArr1: [CartDishModel] = []
-//
-//        if json["cart"].arrayObject == nil {
-//            print("-----------aaaaaa--------------")
-//            let model = CartDishModel()
-//            model.updateModel(json: json["cart"])
-//            tArr1 = [model]
-//            self.cart = tArr1
-//        } else {
-//            for jsonData in json["cart"].arrayValue {
-//                let model = CartDishModel()
-//                model.updateModel(json: jsonData)
-//                tArr1.append(model)
-//            }
-//            self.cart = tArr1
-//        }
-//
         var tArr2: [SpecificationModel] = []
         for jsonData in json["specList"].arrayValue {
             let model = SpecificationModel()
@@ -173,6 +181,15 @@ class DishModel: NSObject {
             tArr2.append(model)
         }
         self.specification = tArr2
+        
+        var tArr3: [ComboSpecificationModel] = []
+        for jsonData in json["comboList"].arrayValue {
+            let model = ComboSpecificationModel()
+            model.updateModel(json: jsonData)
+            tArr3.append(model)
+        }
+        self.comboList = tArr3
+        
     }
 }
 
@@ -278,6 +295,53 @@ class SpecificationModel: NSObject {
     }
     
 }
+
+
+//MARK: - 套餐菜品模型
+class ComboDishModel: NSObject {
+    ///套餐规格菜品编码
+    var dishesComboRelId: String = ""
+    ///菜品名称
+    var dishesName: String = ""
+    ///菜品图片
+    var imageUrl: String = ""
+    
+    func updateModel(json: JSON) {
+        self.dishesComboRelId = json["dishesComboRelId"].stringValue
+        self.dishesName = json["dishesName"].stringValue
+        self.imageUrl = json["imageUrl"].stringValue
+    }
+    
+}
+
+
+//MARK: - 套餐规格模型
+class ComboSpecificationModel: NSObject {
+    
+    ///菜品列表
+    var comboDishesList: [ComboDishModel] = []
+    ///套餐规格编码
+    var comboSpecID: String = ""
+    ///套餐规格名称
+    var comboSpecName: String = ""
+    
+    
+    func updateModel(json: JSON) {
+        
+        self.comboSpecID = json["dishesComboId"].stringValue
+        self.comboSpecName = json["dishesComboName"].stringValue
+        
+        var t_Arr: [ComboDishModel] = []
+        for jsonData in json["comboDishesList"].arrayValue {
+            let model = ComboDishModel()
+            model.updateModel(json: jsonData)
+            t_Arr.append(model)
+        }
+        self.comboDishesList = t_Arr
+    }
+    
+}
+
 
 
 //MARK: - 购物车中的菜品模型

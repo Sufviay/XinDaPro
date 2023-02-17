@@ -24,7 +24,7 @@ class MenuCartView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UI
         }
     }
     
-    private var H: CGFloat = 0
+    private var H: CGFloat = 300
     
     private let backView: UIView = {
         let view = UIView()

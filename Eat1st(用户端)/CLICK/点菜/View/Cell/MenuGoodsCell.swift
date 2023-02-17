@@ -187,6 +187,7 @@ class MenuGoodsNoSizeCell: BaseTableViewCell, UICollectionViewDelegate, UICollec
             $0.left.equalToSuperview()
         }
         
+        
         unUseImg.addSubview(un_lab)
         un_lab.snp.makeConstraints {
             $0.left.equalToSuperview().offset(5)
@@ -287,42 +288,53 @@ class MenuGoodsNoSizeCell: BaseTableViewCell, UICollectionViewDelegate, UICollec
     }
 
     
-    func setCellData(model: DishModel)  {
+    func setCellData(model: DishModel, type: String)  {
         
         self.dataModel = model
         
-        if model.isOn == "1" {
-            self.selectView.isHidden = false
-            self.nameLab.textColor = FONTCOLOR
-            self.s_lab.textColor = HCOLOR("#FB5348")
-            self.moneyLab.textColor = HCOLOR("#FB5348")
-            self.unUseImg.isHidden = true
+        
+        if type == "2" {
+            //卖午餐 单品都不可买卖
             
-            self.newImg.isHidden = false
-            self.disBackImg.isHidden = false
-            self.disMoneyLab.isHidden = false
-            
-            
-        } else {
+            self.un_lab.text = "For Dinner only"
             self.selectView.isHidden = true
             self.nameLab.textColor = HCOLOR("#AAAAAA")
             self.s_lab.textColor = HCOLOR("#AAAAAA")
             self.moneyLab.textColor = HCOLOR("AAAAAA")
             self.unUseImg.isHidden = false
+
             
-            self.newImg.isHidden = true
-            self.disBackImg.isHidden = true
-            self.disMoneyLab.isHidden = true
+            
+        } else {
+            //晚餐 正常卖单品
+            self.un_lab.text = model.unAlbleMsg
+
+            //设置商品是否启用
+            if model.isOn == "1" {
+                self.selectView.isHidden = false
+                self.nameLab.textColor = FONTCOLOR
+                self.s_lab.textColor = HCOLOR("#FB5348")
+                self.moneyLab.textColor = HCOLOR("#FB5348")
+                self.unUseImg.isHidden = true
+                
+                
+                
+            } else {
+                self.selectView.isHidden = true
+                self.nameLab.textColor = HCOLOR("#AAAAAA")
+                self.s_lab.textColor = HCOLOR("#AAAAAA")
+                self.moneyLab.textColor = HCOLOR("AAAAAA")
+                self.unUseImg.isHidden = false
+                
+            }
         }
         
+        
+        
+        //设置商品买卖数量
         selectView.count = model.sel_Num
         
-        self.goodsImg.sd_setImage(with: URL(string: model.listImg), placeholderImage: HOLDIMG)
-        self.nameLab.text = model.name_E
-        self.desLab.text = model.des
-        self.un_lab.text = model.unAlbleMsg
-        self.newImg.isHidden = !model.isNew
-        
+        //设置商品优惠
         if model.discountType == "2" {
             //有优惠
             self.moneyLab.text = D_2_STR(model.discountPrice)
@@ -339,7 +351,13 @@ class MenuGoodsNoSizeCell: BaseTableViewCell, UICollectionViewDelegate, UICollec
             self.discountLab.text = ""
         }
         
+        //这是商品是否新品
+        self.newImg.isHidden = !model.isNew
         
+        self.goodsImg.sd_setImage(with: URL(string: model.listImg), placeholderImage: HOLDIMG)
+        self.nameLab.text = model.name_E
+        self.desLab.text = model.des
+
         self.tagArr = model.tagList.filter{ $0.tagImg != "" }
         
         self.collection.reloadData()
@@ -695,35 +713,40 @@ class MenuGoodsSizeCell: BaseTableViewCell, UICollectionViewDelegate, UICollecti
         return cell
     }
     
-    func setCellData(model: DishModel) {
+    func setCellData(model: DishModel, type: String) {
         self.dataModel = model
-        if model.isOn == "1" {
-            self.optionBut.isHidden = false
-            //self.selectView.isHidden = false
-            self.nameLab.textColor = FONTCOLOR
-            self.s_lab.textColor = HCOLOR("FB5348")
-            self.moneyLab.textColor = HCOLOR("FB5348")
-            self.unUseImg.isHidden = true
-            
-            self.newImg.isHidden = false
-            self.disBackImg.isHidden = false
-            self.disMoneyLab.isHidden = false
-            
-            
-        } else {
+        
+        if type == "2" {
+            self.un_lab.text = "For Dinner only"
             self.optionBut.isHidden = true
-            //self.selectView.isHidden = true
             self.nameLab.textColor = HCOLOR("#AAAAAA")
             self.s_lab.textColor = HCOLOR("#AAAAAA")
             self.moneyLab.textColor = HCOLOR("AAAAAA")
             self.unUseImg.isHidden = false
-            
-            self.newImg.isHidden = true
-            self.disBackImg.isHidden = true
-            self.disMoneyLab.isHidden = true
-            
+
+        } else {
+
+            self.un_lab.text = model.unAlbleMsg
+            //设置是否启用
+            if model.isOn == "1" {
+                self.optionBut.isHidden = false
+                self.nameLab.textColor = FONTCOLOR
+                self.s_lab.textColor = HCOLOR("FB5348")
+                self.moneyLab.textColor = HCOLOR("FB5348")
+                self.unUseImg.isHidden = true
+                        
+            } else {
+                self.optionBut.isHidden = true
+                self.nameLab.textColor = HCOLOR("#AAAAAA")
+                self.s_lab.textColor = HCOLOR("#AAAAAA")
+                self.moneyLab.textColor = HCOLOR("AAAAAA")
+                self.unUseImg.isHidden = false
+                
+            }
         }
+    
         
+        //设置优惠
         if model.discountType == "2" {
             //有优惠
             self.moneyLab.text = D_2_STR(model.discountPrice)
@@ -740,13 +763,13 @@ class MenuGoodsSizeCell: BaseTableViewCell, UICollectionViewDelegate, UICollecti
             self.discountLab.text = ""
         }
 
-        
-        //self.selectView.count = model.sel_Num
-        self.goodsImg.sd_setImage(with: URL(string: model.listImg), placeholderImage: HOLDIMG)
+        //设置收否新品
         self.newImg.isHidden = !model.isNew
+        
+        self.goodsImg.sd_setImage(with: URL(string: model.listImg), placeholderImage: HOLDIMG)
         self.nameLab.text = model.name_E
         self.desLab.text = model.des
-        self.un_lab.text = model.unAlbleMsg
+        
         
         self.tagArr = model.tagList.filter{ $0.tagImg != "" }
         self.collection.reloadData()

@@ -100,7 +100,6 @@ class NoButtonOrderCell: BaseTableViewCell, UICollectionViewDelegate, UICollecti
         coll.showsHorizontalScrollIndicator = false
         coll.register(ImgCollectionCell.self, forCellWithReuseIdentifier: "ImgCollectionCell")
         return coll
-        
     }()
     
 

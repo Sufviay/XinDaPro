@@ -22,8 +22,14 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
     var addCartBlock: VoidBlock?
     
     
-    ///菜品分类数据
-    private var c_Arr: [ClassiftyModel] = []
+    ///晚餐数据
+    private var dinner_Data: [ClassiftyModel] = []
+    ///午餐数据
+    private var lunch_Data: [DishModel] = []
+    
+    ///当前店铺卖的午餐还是晚餐 2午餐 3 晚餐
+    private var storeLunchOrDinner: String = ""
+    
     
     ///当前选中的分类下标
     private var curSel_Idx: Int = 0
@@ -141,7 +147,7 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
             return 1
         }
         else if tableView.tag == 1 {
-            return c_Arr.count
+            return dinner_Data.count
         } else {
             return 1
         }
@@ -149,31 +155,31 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView.tag == 0 {
-            return c_Arr.count
+            return dinner_Data.count
         } else if tableView.tag == 1 {
-            return c_Arr[section].dishArr.count
+            return dinner_Data[section].dishArr.count
         } else {
-            return 2
+            return lunch_Data.count
         }
         
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if tableView.tag == 0 {
-            let h = c_Arr[indexPath.row].flName_C.getTextHeigh(BFONT(13), 70) + 35
+            let h = dinner_Data[indexPath.row].flName_C.getTextHeigh(BFONT(13), 70) + 35
             return h > 50 ? h : 50
         } else if tableView.tag == 1 {
-            let model = c_Arr[indexPath.section].dishArr[indexPath.row]
+            let model = dinner_Data[indexPath.section].dishArr[indexPath.row]
             return model.dish_H
         } else {
-            return SET_H(110, 335) + 10 + 30 + 80
+            return lunch_Data[indexPath.row].dish_H
         }
     }
     
     ///头部Header
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if tableView.tag == 1 {
-            let h = c_Arr[section].flName_C.getTextHeigh(BFONT(15), S_W - 90 - 40)
+            let h = dinner_Data[section].flName_C.getTextHeigh(BFONT(15), S_W - 90 - 40)
             return h + 10
         }
         return 0
@@ -184,7 +190,7 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
 
         if tableView.tag == 1 {
             let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "ClassifySectionHeader") as! ClassifySectionHeader
-            header.titLab.text = c_Arr[section].flName_C
+            header.titLab.text = dinner_Data[section].flName_C
 
             return header
         }
@@ -197,18 +203,18 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
         if tableView.tag == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MenuTypeCell") as! MenuTypeCell
             let isSelect: Bool = indexPath.row == curSel_Idx ? true : false
-            cell.setCellData(isSelect: isSelect, name: c_Arr[indexPath.row].flName_E)
+            cell.setCellData(isSelect: isSelect, name: dinner_Data[indexPath.row].flName_E)
             
             return cell
         }
         
         if tableView.tag == 1 {
             
-            let model = c_Arr[indexPath.section].dishArr[indexPath.row]
+            let model = dinner_Data[indexPath.section].dishArr[indexPath.row]
             
             if model.isSelect {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "MenuGoodsSizeCell") as! MenuGoodsSizeCell
-                cell.setCellData(model: model)
+                cell.setCellData(model: model, type: storeLunchOrDinner)
             
             
                 cell.optionBlock = { (_) in
@@ -238,7 +244,7 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
             } else {
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "MenuGoodsNoSizeCell") as! MenuGoodsNoSizeCell
-                cell.setCellData(model: model)
+                cell.setCellData(model: model, type: storeLunchOrDinner)
                 
                 cell.clickCountBlock = { [unowned self] (par) in
                     
@@ -262,6 +268,15 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
         
         if tableView.tag == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MenuMealGoodsCell") as! MenuMealGoodsCell
+            cell.setCellData(model: lunch_Data[indexPath.row])
+            
+            
+            cell.optionBlock = { [unowned self] (_) in
+                ///进入选择套餐规格页面
+                let nextVC = MealSelectSizeController()
+                nextVC.dishesID = self.lunch_Data[indexPath.row].dishID
+                PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
+            }
             return cell
         }
         
@@ -271,12 +286,15 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
     
 
     
-    func setCellData(modelArr: [ClassiftyModel], lunchOrDinner: String) {
-        self.c_Arr = modelArr
+    func setCellData(model: MenuModel, curSelectedlunchOrDinner: String, storeLunchOrDinner: String) {
+        self.dinner_Data = model.dinnerDataArr
+        self.lunch_Data = model.lunchDataArr
+        self.storeLunchOrDinner = storeLunchOrDinner
         self.l_table.reloadData()
         self.r_table.reloadData()
+        self.mealTable.reloadData()
         
-        if lunchOrDinner == "lunch" {
+        if curSelectedlunchOrDinner == "lunch" {
             self.l_table.isHidden = true
             self.r_table.isHidden = true
             self.mealTable.isHidden = false
@@ -285,7 +303,6 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
             self.r_table.isHidden = false
             self.mealTable.isHidden = true
         }
-        
     }
     
     deinit {
@@ -309,7 +326,7 @@ extension MenuContentCell {
 
                 
                 //菜品Table滑动到相应的分类下 当分类下没有菜品时就无需跳转
-                if c_Arr[indexPath.row].dishArr.count != 0 {
+                if dinner_Data[indexPath.row].dishArr.count != 0 {
                     //点击分类 发送通知主页面店铺信息置顶
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "classify"), object: nil)
                     self.isSelect = true
@@ -320,7 +337,7 @@ extension MenuContentCell {
         
         if tableView.tag == 1 {
             //点击进入菜品详情页页面
-            let model = c_Arr[indexPath.section].dishArr[indexPath.row]
+            let model = dinner_Data[indexPath.section].dishArr[indexPath.row]
             if model.isOn == "1" {
                 print("aaaaa")
                 let nextVC = SelectSizeController()

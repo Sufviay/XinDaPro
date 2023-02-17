@@ -128,6 +128,33 @@ class MenuOrderManager: NSObject {
 //    }
     
     
+    ///挑选出套餐，并将菜品插入分类中
+    func dealWithMenuDishesBy(classify_Arr: [ClassiftyModel], dishes_Arr: [DishModel]) -> MenuModel {
+        
+        ///筛选套餐菜品
+        let lunch_D: [DishModel] = dishes_Arr.filter { $0.dishesType == "2" }
+        ///筛选单品
+        let dinner_D: [DishModel] = dishes_Arr.filter { $0.dishesType != "2" }
+        
+        
+        ///再将菜品插入分类中
+        for d_model in dinner_D {
+            
+            for c_model in classify_Arr {
+                if d_model.belongClassiftyID == c_model.flID {
+                    c_model.dishArr.append(d_model)
+                }
+            }
+        }
+        
+        let menuData = MenuModel()
+        menuData.dinnerDataArr = classify_Arr
+        menuData.lunchDataArr = lunch_D
+        return menuData
+    }
+    
+    
+    
     
     ///通过分类 菜品 和购物车的数据生成点餐页面的赋值数据
     func getMenuDishesData(c_arr: [ClassiftyModel], d_arr: [DishModel], cart_arr: [CartDishModel]) -> [ClassiftyModel] {

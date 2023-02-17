@@ -61,7 +61,7 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
     private let cartBut: UIButton = {
         let but = UIButton()
         but.setImage(LOIMG("cart"), for: .normal)
-        but.isHidden = true
+        //but.isHidden = true
         return but
     }()
     
@@ -147,7 +147,7 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
         b_view.addSubview(moneyLab)
         moneyLab.snp.makeConstraints {
             $0.centerY.equalTo(cartBut)
-            $0.left.equalToSuperview().offset(30)
+            $0.left.equalToSuperview().offset(60)
         }
         
         b_view.addSubview(s_lab)
