@@ -31,25 +31,29 @@ class StoreMenuOrderController: BaseViewController, UITableViewDataSource, UITab
     ///店铺信息模型
     private let storeInfo = StoreInfoModel()
     
-    
     ///店铺菜品模型
     private var menuInfo = MenuModel()
     
 
+    
+    
+    
     ///菜品数据模型用于构建页面数据的
-    private var dataModelArr: [ClassiftyModel] = []
+    //private var dataModelArr: [ClassiftyModel] = []
     
     ///套餐的菜品
-    private var mealDishArr: [DishModel] = []
+    //private var mealDishArr: [DishModel] = []
     ///单品的菜品 去除套餐剩下的就是单品
-    private var dishArr: [DishModel] = []
+    //private var dishArr: [DishModel] = []
     ///接口返回的分类
-    private var classifyArr: [ClassiftyModel] = []
+    //private var classifyArr: [ClassiftyModel] = []
 
+    
+    
+    
     
     ///购物车的数据模型
     private var cart_dataModelArr: [CartDishModel] = []
-    
     
     ///处理数据的工具类
     private let manager = MenuOrderManager()
@@ -368,11 +372,9 @@ extension StoreMenuOrderController {
                 ///请求购物车中的菜品信息
                 self.loadCartData_Net()
             } else {
-                self.dataModelArr = self.manager.getMenuDishesData(c_arr: c_arr, d_arr: d_arr, cart_arr: [])
+                //self.dataModelArr = self.manager.getMenuDishesData(c_arr: c_arr, d_arr: d_arr, cart_arr: [])
                 
                 self.b_view.setValue(dishMoney: "0.00", buyCount: 0, discountType: "2", discountMoney: "0", deliveryFee: "0.00", minOrder: D_2_STR(self.storeInfo.minOrder), type: "8")
-                
-                //self.b_view.setValue(isClose: true, money: "0.00", buyCount: 0)
                 self.b_view.isHidden = false
                 self.mainTable.isHidden = false
                 HUD_MB.dissmiss(onView: self.view)
@@ -384,6 +386,7 @@ extension StoreMenuOrderController {
         }).disposed(by: self.bag)
         
     }
+    
     
     //MARK: - 已添加购物车的菜品
     func loadCartData_Net() {
@@ -397,10 +400,12 @@ extension StoreMenuOrderController {
             }
             ///购物车数据赋值 去除禁用的商品(菜品禁用和规格禁用)  8.12修改 不需要去除禁用商品
             self.cart_dataModelArr = cart_arr
-            self.cartView.cartDataArr = self.cart_dataModelArr
-            
-            ///根据分类，菜品 ，购物车 处理页面数据
-            self.dataModelArr = self.manager.getMenuDishesData(c_arr: self.classifyArr, d_arr: self.dishArr, cart_arr: self.cart_dataModelArr)
+            ///赋值购物车弹窗
+            self.cartView.cartDataArr = cart_arr
+    
+            ///根据购物车 处理页面数据
+            self.manager.dealWithMenuDishesByCartData(cart_arr: cart_arr, menuModel: self.menuInfo)
+                        
             ///更新底部购物车栏
             //购物车价格
             let cart_money = D_2_STR(json["data"]["allPrice"].doubleValue) 
@@ -414,7 +419,7 @@ extension StoreMenuOrderController {
             let type = json["data"]["deliveryType"].stringValue
             
             self.b_view.setValue(dishMoney: cart_money, buyCount: cart_num, discountType: disType, discountMoney: disMoney, deliveryFee: D_2_STR(self.storeInfo.minDelivery), minOrder: D_2_STR(self.storeInfo.minOrder), type: type)
-            //self.b_view.setValue(isClose: isClose, money: cart_money, buyCount: cart_num)
+
             self.b_view.isHidden = false
             self.mainTable.isHidden = false
             HUD_MB.dissmiss(onView: self.view)
@@ -467,7 +472,6 @@ extension StoreMenuOrderController {
         }).disposed(by: self.bag)
     }
     
-
     
 //    //获取钱包
 //    @objc func loadWallet_Net() {

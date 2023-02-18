@@ -57,6 +57,7 @@
 		E33C188E299F769700D4D4E3 /* DishDetailBottmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33C188D299F769700D4D4E3 /* DishDetailBottmView.swift */; };
 		E33C1890299F7CD700D4D4E3 /* MenuComboDishCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33C188F299F7CD700D4D4E3 /* MenuComboDishCell.swift */; };
 		E33C1892299F81AF00D4D4E3 /* DishDetailInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33C1891299F81AF00D4D4E3 /* DishDetailInfoView.swift */; };
+		E33C189429A078B900D4D4E3 /* DishDetailHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33C189329A078B900D4D4E3 /* DishDetailHeaderCell.swift */; };
 		E33E8C57278D2ED000BD3CCF /* XYPhotoBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E8C56278D2ED000BD3CCF /* XYPhotoBrowser.swift */; };
 		E33F6EB726D49F9700A3E009 /* FirebaseLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33F6EB626D49F9700A3E009 /* FirebaseLoginManager.swift */; };
 		E33F6EBB26D61E1100A3E009 /* StoreReviewsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33F6EBA26D61E1100A3E009 /* StoreReviewsController.swift */; };
@@ -365,6 +366,7 @@
 		E33C188D299F769700D4D4E3 /* DishDetailBottmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishDetailBottmView.swift; sourceTree = "<group>"; };
 		E33C188F299F7CD700D4D4E3 /* MenuComboDishCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuComboDishCell.swift; sourceTree = "<group>"; };
 		E33C1891299F81AF00D4D4E3 /* DishDetailInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishDetailInfoView.swift; sourceTree = "<group>"; };
+		E33C189329A078B900D4D4E3 /* DishDetailHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishDetailHeaderCell.swift; sourceTree = "<group>"; };
 		E33E8C56278D2ED000BD3CCF /* XYPhotoBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYPhotoBrowser.swift; sourceTree = "<group>"; };
 		E33F6EB626D49F9700A3E009 /* FirebaseLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseLoginManager.swift; sourceTree = "<group>"; };
 		E33F6EBA26D61E1100A3E009 /* StoreReviewsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreReviewsController.swift; sourceTree = "<group>"; };
@@ -1263,6 +1265,7 @@
 				E30E72BC26B923DA001919AD /* MenuGoodsCell.swift */,
 				E3A30498299CDEBC0023DCC1 /* MenuMealGoodsCell.swift */,
 				E38BF4C2288FDCEF0048F2EA /* MenuGoodsCell_Big.swift */,
+				E33C189329A078B900D4D4E3 /* DishDetailHeaderCell.swift */,
 				E39BF3C326B7CDF6009E6330 /* BuyedGoodsCell.swift */,
 				E30E72C426BA8CEB001919AD /* StoreIntroduceHeaderCell.swift */,
 				E30E72C626BAAA1C001919AD /* StoreIntroduceAddressCell.swift */,
@@ -1792,6 +1795,7 @@
 				E30E72C926BAB228001919AD /* StoreIntroduceTimeCell.swift in Sources */,
 				E34929E326DA02D90014F40E /* OrderChoosePayWayCell.swift in Sources */,
 				E39BF3A226B11EE4009E6330 /* StoreListController.swift in Sources */,
+				E33C189429A078B900D4D4E3 /* DishDetailHeaderCell.swift in Sources */,
 				E305E86226DCCB9800AAB580 /* OrderListModel.swift in Sources */,
 				E30E72C126BA6778001919AD /* CountSelectView.swift in Sources */,
 				E363C15F28DC445C00C29C48 /* CouponContentCell.swift in Sources */,

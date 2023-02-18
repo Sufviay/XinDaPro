@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class MealSelectSizeController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class MealSelectSizeController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     private let bag = DisposeBag()
     
@@ -16,9 +16,21 @@ class MealSelectSizeController: BaseViewController, UICollectionViewDelegate, UI
     
     ///选择数量
     private var dishCount: Int = 1
-    private var dishModel = DishModel()
+    private var dishModel = DishModel() {
+        didSet {
+            self.selectIdxArr.removeAll()
+            for _ in dishModel.comboList {
+                //let idx = 1000
+                self.selectIdxArr.append(1000)
+            }
+            self.b_view.moneyLab.text = dishModel.discountType == "2" ? D_2_STR(dishModel.discountPrice) : D_2_STR(dishModel.price)
+        }
+    }
     
     private var info_H: CGFloat = 0
+    
+    //选中的菜品下标
+    private var selectIdxArr: [Int] = []
 
     
     private let backBut: UIButton = {
@@ -47,9 +59,7 @@ class MealSelectSizeController: BaseViewController, UICollectionViewDelegate, UI
         layout.minimumInteritemSpacing = 10
         layout.minimumLineSpacing = 15
         
-        let w = (S_W - 60) / 3
-        layout.itemSize = CGSize(width: w , height: w + 50)
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 10, right: 20)
         
         let coll = UICollectionView(frame: .zero, collectionViewLayout: layout)
         coll.bounces = false
@@ -57,14 +67,16 @@ class MealSelectSizeController: BaseViewController, UICollectionViewDelegate, UI
         coll.dataSource = self
         coll.backgroundColor = .clear
         coll.showsHorizontalScrollIndicator = false
+        coll.showsVerticalScrollIndicator = false
         coll.register(MenuComboDishCell.self, forCellWithReuseIdentifier: "MenuComboDishCell")
+        coll.register(DishDetailHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "DishDetailHeaderCell")
         return coll
     }()
     
     
 
     override func setViews() {
-        view.backgroundColor = HCOLOR("F7F7F7")
+        view.backgroundColor = .white
         self.naviBar.isHidden = true
             
         loadDishedDetail_Net()
@@ -104,7 +116,6 @@ class MealSelectSizeController: BaseViewController, UICollectionViewDelegate, UI
         }
         
         backBut.addTarget(self, action: #selector(clickBackAction), for: .touchUpInside)
-        
             
     }
     
@@ -124,12 +135,6 @@ class MealSelectSizeController: BaseViewController, UICollectionViewDelegate, UI
 //            self.addOrder_Net()
 //        }
     }
-
-    
-
-    
-    
-    
 
 }
 
@@ -153,12 +158,10 @@ extension MealSelectSizeController {
             let g_h = str.getTextHeigh(BFONT(13), S_W - 130)
             let d_h = self.dishModel.des.getTextHeigh(SFONT(13), S_W - 120)
             let n_h = self.dishModel.name_C.getTextHeigh(BFONT(17), S_W - 50)
-            self.info_H = (R_W(375) * (9/16)) + g_h + d_h + n_h + 77
+            self.info_H = (R_W(375) * (9/16)) + g_h + d_h + n_h + 50
             self.setUpUI()
             
-            
-            
-            
+                    
         }, onError: { (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
@@ -170,18 +173,66 @@ extension MealSelectSizeController {
 extension MealSelectSizeController {
     
     
-//    func numberOfSections(in collectionView: UICollectionView) -> Int {
-//        return 4
-//    }
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return dishModel.comboList.count
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return dishModel.comboList[section].comboDishesList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MenuComboDishCell", for: indexPath) as! MenuComboDishCell
+        
+        let isSelected = selectIdxArr[indexPath.section] == indexPath.item ? true : false
+        cell.setCellData(model: dishModel.comboList[indexPath.section].comboDishesList[indexPath.item], isSelet: isSelected)
         return cell
     }
     
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if selectIdxArr[indexPath.section] == indexPath.item {
+            selectIdxArr[indexPath.section] = 1000
+        } else {
+            selectIdxArr[indexPath.section] = indexPath.item
+        }
+        collectionView.reloadData()
+    }
+    
+    
+    //设置每一个Item的size
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let c_w = (S_W - 60) / 3
+        
+        return CGSize(width: c_w, height: dishModel.comboList[indexPath.section].comboDishesList[indexPath.item].cell_H)
+        
+    }
+    
+    
+    
+    //设置分区头
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+            //分区头
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "DishDetailHeaderCell", for: indexPath) as! DishDetailHeaderCell
+            header.titlab.text = dishModel.comboList[indexPath.section].comboSpecName
+            return header
+            
+        } else {
+            //分区尾
+            return UICollectionReusableView()
+        }
+    }
+    
 
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        
+        let c_name = dishModel.comboList[section].comboSpecName
+        let h = c_name.getTextHeigh(BFONT(24), S_W - 40)
+        return CGSize(width: S_W, height: h + 20)
+    }
 }
+
+

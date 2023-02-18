@@ -159,7 +159,6 @@ class DishModel: NSObject {
             
             self.dish_H = SET_H(110, 335) + d_h + n_h + 95
             
-            
         } else {
             //单品
             let n_h = self.name_C.getTextHeigh(BFONT(17), S_W - 235)
@@ -305,11 +304,22 @@ class ComboDishModel: NSObject {
     var dishesName: String = ""
     ///菜品图片
     var imageUrl: String = ""
+    ///所属规格ID
+    var belongID: String = ""
+    ///菜品的Cell高度
+    var cell_H: CGFloat = 0
     
     func updateModel(json: JSON) {
         self.dishesComboRelId = json["dishesComboRelId"].stringValue
         self.dishesName = json["dishesName"].stringValue
         self.imageUrl = json["imageUrl"].stringValue
+        self.belongID = json["comboId"].stringValue
+        
+        let c_w = (S_W - 60) / 3
+        let name_h = self.dishesName.getTextHeigh(BFONT(11), c_w - 20)
+        self.cell_H = c_w + name_h + 20
+        
+        
     }
     
 }
@@ -358,27 +368,29 @@ class CartDishModel: NSObject {
     var fee: Double = 0
     ///购物车选择的规格选项
     var cartOptionArr: [DishOptionModel] = []
-    ///拼接好的规格名
-    var selectOptionStr: String = ""
+    ///购物车选择的套餐选项
+    var cartComboArr: [ComboDishModel] = []
     ///购物车ID
     var cartID: String = ""
-
-    
     ///菜品图片
     var dishImg: String = ""
     ///菜品名
     var dishName: String = ""
-    
     ///启用 禁用状态 1启用 2禁用 3超库存
     var isOn: String = ""
-    
-    ///规格是否有禁用的。已选中规格菜品中含有禁用的规格则菜品将不可购买
-    var isOn_Opt: Bool = true
-    
     ///菜品标签
     var tagList: [DishTagsModel] = []
     
     var dish_H: CGFloat = 0
+    ///菜品类型 1规格。2套餐
+    var dishesType: String = ""
+    ///拼接好的规格名
+    var selectOptionStr: String = ""
+    ///拼接好的套餐名
+    var selectComboStr: String = ""
+    
+
+    
     
     ///菜的优惠价格
     var discountPrice: Double = 0
@@ -386,58 +398,77 @@ class CartDishModel: NSObject {
     var discountType: String = ""
     ///优惠百分比
     var discountSale: String = ""
-    ///菜品类型 1正常购买，2优惠券赠菜
-    var dishesType: String = ""
+
+
     
+    ///规格是否有禁用的。已选中规格菜品中含有禁用的规格则菜品将不可购买
+//    var isOn_Opt: Bool = true
     
+
     
     
     
     ///点餐页面的购物车
     func updateModel(json: JSON) {
+        self.dishID = json["dishesId"].stringValue
         self.cartDishID = json["dishesId"].stringValue
         self.cartCount = json["buyNum"].intValue
         self.fee = json["price"].doubleValue
         self.cartID = json["carId"].stringValue
         self.dishName = json["dishesName"].stringValue
         self.dishImg = json["imageUrl"].stringValue
-        
-        
+        self.dishesType = json["dishesType"].stringValue
         self.isOn = json["statusId"].stringValue
         
         
         
 
-        var tArr: [DishOptionModel] = []
-
-        var tStr: String = ""
-
+        var tArr1: [DishOptionModel] = []
+        var tStr1: String = ""
         for (idx, jsonData) in json["dishesSpecOptionList"].arrayValue.enumerated() {
             let model = DishOptionModel()
             model.updateModel(json: jsonData)
             
-            //判断是否有禁用的规格选项
-            if !model.isOn {
-                self.isOn_Opt = false
-            }
+//            //判断是否有禁用的规格选项
+//            if !model.isOn {
+//                self.isOn_Opt = false
+//            }
             
-            tArr.append(model)
+            tArr1.append(model)
             if idx == 0 {
-                tStr = model.name_E
+                tStr1 = model.name_E
             } else {
-                tStr = tStr + "/" + model.name_E
+                tStr1 = tStr1 + "/" + model.name_E
             }
         }
-        self.cartOptionArr = tArr
-        self.selectOptionStr = tStr
+        self.cartOptionArr = tArr1
+        self.selectOptionStr = tStr1
         
-        var tArr2: [DishTagsModel] = []
+        
+        var tArr2: [ComboDishModel] = []
+        var tStr2: String = ""
+        for (idx, jsonData) in json["dishesSpecComboList"].arrayValue.enumerated() {
+            let model = ComboDishModel()
+            model.updateModel(json: jsonData)
+            tArr2.append(model)
+            if idx == 0 {
+                tStr2 = model.dishesName
+            } else {
+                tStr2 = tStr2 + "/" + model.dishesName
+            }
+        }
+        
+        self.cartComboArr = tArr2
+        self.selectComboStr = tStr2
+        
+        
+        var tArr3: [DishTagsModel] = []
         for jsonData in json["tagList"].arrayValue {
             let model = DishTagsModel()
             model.updateModel(json: jsonData)
-            tArr2.append(model)
+            tArr3.append(model)
         }
-        self.tagList = tArr2
+        self.tagList = tArr3
         
         
         ///菜品显示的高度

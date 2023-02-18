@@ -154,6 +154,51 @@ class MenuOrderManager: NSObject {
     }
     
     
+    func dealWithMenuDishesByCartData(cart_arr: [CartDishModel], menuModel: MenuModel) {
+        
+        //清空操作
+        for d_model in menuModel.lunchDataArr {
+            d_model.sel_Num = 0
+            d_model.cart.removeAll()
+        }
+        
+        for c_model in menuModel.dinnerDataArr {
+            for d_model in c_model.dishArr {
+                d_model.sel_Num = 0
+                d_model.cart.removeAll()
+            }
+        }
+        
+        
+        //遍历购物车中的菜品
+        for cart_model in cart_arr {
+            if cart_model.dishesType == "2" {
+                //套餐
+                //将购物车插入到菜品中
+                for d_model in menuModel.lunchDataArr {
+                    if cart_model.dishID == d_model.dishID {
+                        d_model.cart.append(cart_model)
+                        d_model.sel_Num += cart_model.cartCount
+                    }
+                }
+                
+            } else {
+                //单品
+                for c_model in menuModel.dinnerDataArr {
+                    for d_model in c_model.dishArr {
+                        if cart_model.dishID == d_model.dishID {
+                            d_model.cart.append(cart_model)
+                            d_model.sel_Num += cart_model.cartCount
+                        }
+                    }
+                    
+                }
+            }
+        }
+        //return menuModel
+    }
+    
+    
     
     
     ///通过分类 菜品 和购物车的数据生成点餐页面的赋值数据
@@ -190,7 +235,6 @@ class MenuOrderManager: NSObject {
                 }
             }
         }
-                
         return c_arr
     }
     

@@ -10,6 +10,9 @@ import UIKit
 class DishDetailBottmView: UIView {
     
 
+    var clickAddBlock: VoidBlock?
+
+    
     private let cartBut: UIButton = {
         let but = UIButton()
         but.setImage(LOIMG("cart"), for: .normal)
@@ -17,7 +20,7 @@ class DishDetailBottmView: UIView {
     }()
 
     
-    private let moneyLab: UILabel = {
+    let moneyLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(.white, BFONT(18), .left)
         lab.text = "0.0"
@@ -83,7 +86,7 @@ class DishDetailBottmView: UIView {
     }
     
     @objc private func clickSureAction() {
-        
+        self.clickAddBlock?("")
     }
     
 }

@@ -22,6 +22,15 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 10
+        
+        view.layer.shadowColor = RCOLORA(0, 0, 0, 0.12).cgColor
+        // 阴影偏移，默认(0, -3)
+        view.layer.shadowOffset = CGSize(width: 0, height: 1)
+        // 阴影透明度，默认0
+        view.layer.shadowOpacity = 1
+        // 阴影半径，默认3
+        view.layer.shadowRadius = 3
+
         return view
     }()
     
@@ -149,7 +158,7 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
         backView.snp.makeConstraints {
             $0.left.equalToSuperview().offset(10)
             $0.right.equalToSuperview().offset(-10)
-            $0.top.equalTo(headImg.snp.bottom).offset(-40)
+            $0.top.equalTo(headImg.snp.bottom).offset(-50)
             $0.bottom.equalToSuperview().offset(-10)
         }
         
@@ -220,7 +229,7 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
         backView.addSubview(desLab)
         desLab.snp.makeConstraints {
             $0.left.equalToSuperview().offset(10)
-            $0.top.equalTo(moneyLab.snp.bottom).offset(10)
+            $0.top.equalTo(moneyLab.snp.bottom).offset(5)
             $0.right.equalToSuperview().offset(-90)
         }
         
@@ -228,7 +237,7 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
         gmyLab.snp.makeConstraints {
             $0.left.equalToSuperview().offset(40)
             $0.right.equalToSuperview().offset(-70)
-            $0.top.equalTo(desLab.snp.bottom).offset(20)
+            $0.top.equalTo(desLab.snp.bottom).offset(10)
         }
         
         backView.addSubview(s_img)

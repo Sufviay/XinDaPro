@@ -398,6 +398,13 @@ class MenuGoodsSizeCell: BaseTableViewCell, UICollectionViewDelegate, UICollecti
     
     private var dataModel = DishModel()
     
+    
+    private let line: UIView = {
+        let view = UIView()
+        view.backgroundColor = HCOLOR("#E4E4E4").withAlphaComponent(0.5)
+        return view
+    }()
+    
     private let goodsImg: UIImageView = {
         let img = UIImageView()
         img.clipsToBounds = true
@@ -550,6 +557,17 @@ class MenuGoodsSizeCell: BaseTableViewCell, UICollectionViewDelegate, UICollecti
     
     override func setViews() {
         contentView.backgroundColor = .white
+        
+        
+        contentView.addSubview(line)
+        line.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(10)
+            $0.right.equalToSuperview().offset(-10)
+            $0.height.equalTo(0.5)
+            $0.bottom.equalToSuperview()
+        }
+
+        
         contentView.addSubview(goodsImg)
         goodsImg.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 110, height: 110))
