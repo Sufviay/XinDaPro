@@ -247,7 +247,7 @@ class DishOptionModel: NSObject {
         self.optionID = json["optionId"].stringValue
         self.belongID = json["specId"].stringValue
         
-        self.isOn = json["statusId"].stringValue == "1" ? true : false
+//        self.isOn = json["statusId"].stringValue == "1" ? true : false
         
     }
     
@@ -278,7 +278,7 @@ class SpecificationModel: NSObject {
         self.name_E = json["specName"].stringValue
         self.name_C = json["specName"].stringValue
         self.isRequired = json["required"].stringValue == "2" ? true : false
-        self.isOn = json["statusId"].stringValue == "1" ? true : false
+        //self.isOn = json["statusId"].stringValue == "1" ? true : false
         self.isMultiple = json["multiple"].stringValue == "2" ? true : false
         
         self.specificationID = json["specId"].stringValue
@@ -381,8 +381,13 @@ class CartDishModel: NSObject {
     ///菜品标签
     var tagList: [DishTagsModel] = []
     
-    var dish_H: CGFloat = 0
-    ///菜品类型 1规格。2套餐
+    ///购物车页面的菜品高度
+    var cart_dish_H: CGFloat = 0
+    ///确认订单页面的菜品高度
+    var confirm_cart_dish_H: CGFloat = 0
+    
+    
+    ///菜品类型 1单品。2套餐
     var dishesType: String = ""
     ///拼接好的规格名
     var selectOptionStr: String = ""
@@ -454,7 +459,7 @@ class CartDishModel: NSObject {
             if idx == 0 {
                 tStr2 = model.dishesName
             } else {
-                tStr2 = tStr2 + "/" + model.dishesName
+                tStr2 = tStr2 + "\n" + model.dishesName
             }
         }
         
@@ -472,11 +477,21 @@ class CartDishModel: NSObject {
         
         
         ///菜品显示的高度
-        let n_h = self.dishName.getTextHeigh(BFONT(17), S_W - 160)
-        let d_h = self.selectOptionStr.getTextHeigh(SFONT(11), S_W - 160)
-        let h = (n_h + d_h + 90) > 130 ? (n_h + d_h + 90) : 130
-        self.dish_H = h
-                
+        
+        if dishesType == "2" {
+            //套餐
+            let n_h = self.dishName.getTextHeigh(BFONT(17), S_W - 170)
+            let d_h = self.selectComboStr.getTextHeigh(SFONT(11), S_W - 170)
+            self.cart_dish_H = SET_H(110, 335) + d_h + n_h + 75
+            
+        } else {
+            //单品
+            let n_h = self.dishName.getTextHeigh(BFONT(17), S_W - 160)
+            let d_h = self.selectOptionStr.getTextHeigh(SFONT(11), S_W - 160)
+            let h = (n_h + d_h + 90) > 130 ? (n_h + d_h + 90) : 130
+            self.cart_dish_H = h
+        }
+        
     }
     
     
@@ -504,22 +519,45 @@ class CartDishModel: NSObject {
         }
         
         
-        var tArr1: [DishOptionModel] = []
+        
+        
         var tStr: String = ""
         
-        for (idx, jsonData) in json["optionNameList"].arrayValue.enumerated() {
-            let model = DishOptionModel()
-            model.updateModel(json: jsonData)
-            tArr1.append(model)
-            
-            if idx == 0 {
-                tStr = model.name_E
-            } else {
-                tStr = tStr + "/" + model.name_E
+        if dishesType == "2" {
+            //套餐
+            for (idx, jsonData) in json["comboNameList"].arrayValue.enumerated() {
+                
+                if idx == 0 {
+                    tStr = jsonData["comboDishesName"].stringValue
+                } else {
+                    tStr = tStr + "\n" + jsonData["comboDishesName"].stringValue
+                }
             }
+            self.selectComboStr = tStr
             
+            //计算高度
+            let n_h = dishName.getTextHeigh(BFONT(14), S_W - 155)
+            let t_h = selectComboStr.getTextHeigh(SFONT(11), S_W - 195)
+            self.confirm_cart_dish_H = n_h + t_h + 40 < 80 ? 80 : n_h + t_h + 40
+            
+        } else {
+            //单品
+            for (idx, jsonData) in json["optionNameList"].arrayValue.enumerated() {
+                
+                if idx == 0 {
+                    tStr = jsonData["optionName"].stringValue
+                } else {
+                    tStr = tStr + "/" + jsonData["optionName"].stringValue
+                }
+            }
+            self.selectOptionStr = tStr
+
+            //计算高度
+            let n_h = dishName.getTextHeigh(BFONT(14), S_W - 155)
+            let t_h = selectOptionStr.getTextHeigh(SFONT(11), S_W - 195)
+            self.confirm_cart_dish_H = n_h + t_h + 40 < 80 ? 80 : n_h + t_h + 40
         }
-        self.cartOptionArr = tArr1
+        
         self.selectOptionStr = tStr
     
         var tArr2: [DishTagsModel] = []
@@ -529,7 +567,12 @@ class CartDishModel: NSObject {
             tArr2.append(model)
         }
         self.tagList = tArr2
+        
+        
+
+        
     }
+    
     
 }
 

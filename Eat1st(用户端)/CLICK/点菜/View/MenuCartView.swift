@@ -62,6 +62,7 @@ class MenuCartView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UI
         tableView.dataSource = self
         tableView.contentInsetAdjustmentBehavior = .never
         tableView.register(MenuCartGoodsCell.self, forCellReuseIdentifier: "MenuCartGoodsCell")
+        tableView.register(CartComboGoodsCell.self, forCellReuseIdentifier: "CartComboGoodsCell")
         return tableView
     }()
 
@@ -131,12 +132,12 @@ class MenuCartView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UI
     private func getDishesHigh() -> CGFloat {
         var d_h: CGFloat = 0
         for model in cartDataArr {
-            d_h += model.dish_H
+            d_h += model.cart_dish_H
         }
         
         let a_h = d_h + 45 + 80 + bottomBarH
         
-        return a_h > (bottomBarH + 530) ? (bottomBarH + 530) : a_h
+        return a_h > (bottomBarH + 550) ? (bottomBarH + 550) : a_h
         
     }
     
@@ -201,28 +202,45 @@ extension MenuCartView {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let model = cartDataArr[indexPath.row]
-//        let n_h = model.dishName.getTextHeigh(BFONT(17), S_W - 160)
-//        let d_h = model.selectOptionStr.getTextHeigh(SFONT(11), S_W - 160)
-//        let h = (n_h + d_h + 90) > 130 ? (n_h + d_h + 90) : 130
-        return model.dish_H
+        return model.cart_dish_H
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MenuCartGoodsCell") as! MenuCartGoodsCell
-        cell.setCellData(model: cartDataArr[indexPath.row])
         
-        cell.clickCountBlock = { [unowned self] (par) in
-            let count = par as! Int
-            self.updateCart_Net(cartID: self.cartDataArr[indexPath.row].cartID, buyNum: count, idx: indexPath.row)
+        let model = cartDataArr[indexPath.row]
+        if model.dishesType == "2" {
+            //套餐
+            let cell = tableView.dequeueReusableCell(withIdentifier: "CartComboGoodsCell") as! CartComboGoodsCell
+            cell.setCellData(model: model)
+            
+            cell.clickCountBlock = { [unowned self] (par) in
+                let count = par as! Int
+                self.updateCart_Net(cartID: self.cartDataArr[indexPath.row].cartID, buyNum: count, idx: indexPath.row)
+            }
+            
+            cell.clickDeleteBlock = { [unowned self] (_) in
+                self.deleteCartGoods_Net(id: self.cartDataArr[indexPath.row].cartID, idx: indexPath.row)
+            }
+            
+            return cell
+        } else {
+            //单品
+            let cell = tableView.dequeueReusableCell(withIdentifier: "MenuCartGoodsCell") as! MenuCartGoodsCell
+            cell.setCellData(model: model)
+            
+            cell.clickCountBlock = { [unowned self] (par) in
+                let count = par as! Int
+                self.updateCart_Net(cartID: self.cartDataArr[indexPath.row].cartID, buyNum: count, idx: indexPath.row)
+            }
+            
+            cell.clickDeleteBlock = { [unowned self] (_) in
+                self.deleteCartGoods_Net(id: self.cartDataArr[indexPath.row].cartID, idx: indexPath.row)
+            }
+            
+            return cell
         }
-        
-        cell.clickDeleteBlock = { [unowned self] (_) in
-            self.deleteCartGoods_Net(id: self.cartDataArr[indexPath.row].cartID, idx: indexPath.row)
-        }
-        
-        return cell
-
+    
     }
     
 }

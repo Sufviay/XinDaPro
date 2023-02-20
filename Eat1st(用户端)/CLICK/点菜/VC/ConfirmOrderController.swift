@@ -202,8 +202,8 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
         
         setUpUI()
         
-        let lat = UserDefaults.standard.local_lat ?? ""
-        let lng = UserDefaults.standard.local_lng ?? ""
+//        let lat = UserDefaults.standard.local_lat ?? ""
+//        let lng = UserDefaults.standard.local_lng ?? ""
         
         //加载页面首次请求
         initData_Net()
@@ -362,7 +362,7 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
         }, onError: { (error) in
             
             if error as! NetworkError  == .errorCode10  {
-                //清除选中的优惠券
+                /////优惠券无法使用 清除选中的优惠券
                 self.selectCoupon = CouponModel()
                 self.submitModel.couponId = ""
                 HUD_MB.showWarnig(ErrorTool.errorMessage(error), onView: self.view)
@@ -615,9 +615,9 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
                 self.mainTable.reloadData()
             }, onError: { (error) in
                 HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
-                DispatchQueue.main.after(time: .now() + 1) {
-                    self.navigationController?.popViewController(animated: true)
-                }
+//                DispatchQueue.main.after(time: .now() + 1) {
+//                    self.navigationController?.popViewController(animated: true)
+//                }
             }).disposed(by: self.bag)
         }, onError: { (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
@@ -669,10 +669,11 @@ extension ConfirmOrderController {
             return 55
         }
         if indexPath.section == 2 {
-            let model = cartModel.dishArr[indexPath.row]
-            let h1 = model.dishName.getTextHeigh(BFONT(14), S_W - 155)
-            let h2 = model.selectOptionStr.getTextHeigh(SFONT(11), S_W - 195)
-            return h1 + h2 + 40 < 80 ? 80 : h1 + h2 + 40
+//            let model = cartModel.dishArr[indexPath.row]
+//            let h1 = model.dishName.getTextHeigh(BFONT(14), S_W - 155)
+//            let h2 = model.selectOptionStr.getTextHeigh(SFONT(11), S_W - 195)
+//            return h1 + h2 + 40 < 80 ? 80 : h1 + h2 + 40
+            return cartModel.dishArr[indexPath.row].confirm_cart_dish_H
         }
         if indexPath.section == 3 {
             

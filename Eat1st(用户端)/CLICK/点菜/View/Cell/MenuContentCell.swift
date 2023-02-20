@@ -217,10 +217,11 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
                 cell.setCellData(model: model, type: storeLunchOrDinner)
             
             
-                cell.optionBlock = { (_) in
+                cell.optionBlock = {[unowned self] (_) in
                     ///进入选择规格页面
                     let nextVC = SelectSizeController()
                     nextVC.dishesID = model.dishID
+                    nextVC.storeSellLunchOrDinner = self.storeLunchOrDinner
                     PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
                 }
                 
@@ -342,6 +343,7 @@ extension MenuContentCell {
                 print("aaaaa")
                 let nextVC = SelectSizeController()
                 nextVC.dishesID = model.dishID
+                nextVC.storeSellLunchOrDinner = storeLunchOrDinner
                 
                 //如果不是规格规格商品 且已添加到购物车中 需将数量带到下一页面
                 if !model.isSelect && model.cart.count != 0 {
@@ -351,6 +353,13 @@ extension MenuContentCell {
                                 
                 PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
             }
+        }
+        
+        if tableView.tag == 2 {
+            //点击进入套餐详情页
+            let nextVC = MealSelectSizeController()
+            nextVC.dishesID = self.lunch_Data[indexPath.row].dishID
+            PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
         }
     }
     

@@ -34,22 +34,6 @@ class StoreMenuOrderController: BaseViewController, UITableViewDataSource, UITab
     ///店铺菜品模型
     private var menuInfo = MenuModel()
     
-
-    
-    
-    
-    ///菜品数据模型用于构建页面数据的
-    //private var dataModelArr: [ClassiftyModel] = []
-    
-    ///套餐的菜品
-    //private var mealDishArr: [DishModel] = []
-    ///单品的菜品 去除套餐剩下的就是单品
-    //private var dishArr: [DishModel] = []
-    ///接口返回的分类
-    //private var classifyArr: [ClassiftyModel] = []
-
-    
-    
     
     
     ///购物车的数据模型
@@ -81,12 +65,25 @@ class StoreMenuOrderController: BaseViewController, UITableViewDataSource, UITab
         view.isHidden = true
         view.clickCheckBlock = { [unowned self] (_) in
             
-            self.cartView.disAppearAction()
-            let nextVC = ConfirmOrderController()
-            nextVC.storeID = self.storeID
-            nextVC.type = self.buyType
-            nextVC.storeModel = self.storeInfo
-            self.navigationController?.pushViewController(nextVC, animated: true)
+            //判断购物车中是否有实效的商品
+            var isHaveFailure: Bool = false
+            for model in self.cart_dataModelArr {
+                if model.isOn != "1" {
+                    isHaveFailure = true
+                    break
+                }
+            }
+            
+            if isHaveFailure {
+                HUD_MB.showWarnig("Please delete unavailable items!", onView: self.view)
+            } else {
+                self.cartView.disAppearAction()
+                let nextVC = ConfirmOrderController()
+                nextVC.storeID = self.storeID
+                nextVC.type = self.buyType
+                nextVC.storeModel = self.storeInfo
+                self.navigationController?.pushViewController(nextVC, animated: true)
+            }
         }
         
         
@@ -355,9 +352,6 @@ extension StoreMenuOrderController {
                 d_arr.append(model)
             }
             
-//            self.classifyArr = c_arr //分类
-//            self.dishArr = d_arr //菜品
-            
             ///通过分类和菜品处理可供页面使用的数据，（将菜品放到指定分类下并将套餐分出）
             self.menuInfo = self.manager.dealWithMenuDishesBy(classify_Arr: c_arr, dishes_Arr: d_arr)
             
@@ -398,13 +392,13 @@ extension StoreMenuOrderController {
                 model.updateModel(json: cart_json)
                 cart_arr.append(model)
             }
-            ///购物车数据赋值 去除禁用的商品(菜品禁用和规格禁用)  8.12修改 不需要去除禁用商品
-            self.cart_dataModelArr = cart_arr
+            ///购物车数据排序 失效的在上边，可用的在下
+            self.cart_dataModelArr = cart_arr.filter { $0.isOn != "1" } + cart_arr.filter { $0.isOn == "1" }
             ///赋值购物车弹窗
-            self.cartView.cartDataArr = cart_arr
+            self.cartView.cartDataArr = self.cart_dataModelArr
     
             ///根据购物车 处理页面数据
-            self.manager.dealWithMenuDishesByCartData(cart_arr: cart_arr, menuModel: self.menuInfo)
+            self.manager.dealWithMenuDishesByCartData(cart_arr: self.cart_dataModelArr, menuModel: self.menuInfo)
                         
             ///更新底部购物车栏
             //购物车价格

@@ -85,10 +85,11 @@ class MenuComboDishCell: UICollectionViewCell {
         if isSelet {
             self.selectImg.image = LOIMG("sel")
             self.backView.backgroundColor = HCOLOR("#F4F4F4")
+            self.nameLab.textColor = FONTCOLOR
         } else {
             self.selectImg.image = LOIMG("unsel")
             self.backView.backgroundColor = .white
+            self.nameLab.textColor = HCOLOR("999999")
         }
     }
-    
 }

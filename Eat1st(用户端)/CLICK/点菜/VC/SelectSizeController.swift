@@ -20,6 +20,10 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
     private let bag = DisposeBag()
     //var delegate: SelectSizeDelegate?
     
+    
+    ///当前店铺是卖午餐 还是晚餐 （2午餐 3晚餐）
+    var storeSellLunchOrDinner: String = ""
+    
     ///菜品ID
     var dishesID: String = ""
 //    ///店铺ID
@@ -39,7 +43,7 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
                 ///选中下标的占位数字
                 self.selecIdxArr.append([])
             }
-            self.moneyLab.text =  dishModel.discountType == "2" ? D_2_STR(dishModel.discountPrice) : D_2_STR(dishModel.price)
+            self.b_view.moneyLab.text =  dishModel.discountType == "2" ? D_2_STR(dishModel.discountPrice) : D_2_STR(dishModel.price)
         }
     }
     
@@ -51,41 +55,54 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
     ///选中的规格选项下标
     private var selecIdxArr: [[Int]] = []
     
-    private let b_view: UIView = {
-        let view = UIView()
-        view.backgroundColor = MAINCOLOR
-        view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: bottomBarH + 50), byRoundingCorners: [.topLeft, .topRight], radii: 10)
+    
+    
+    private lazy var b_view: DishDetailBottmView = {
+        let view = DishDetailBottmView()
+        view.type = self.storeSellLunchOrDinner
+        view.clickAddBlock = { [unowned self] (_) in
+            self.clickAddOrderAction()
+        }
         return view
     }()
+
     
-    private let cartBut: UIButton = {
-        let but = UIButton()
-        but.setImage(LOIMG("cart"), for: .normal)
-        //but.isHidden = true
-        return but
-    }()
     
-    private let moneyLab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(.white, BFONT(18), .left)
-        lab.text = "0.0"
-        return lab
-    }()
-    
-    private let s_lab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(.white, SFONT(11), .right)
-        lab.text = "£"
-        return lab
-    }()
-    
-    private let sureBut: UIButton = {
-        let but = UIButton()
-        but.layer.cornerRadius = 15
-        but.backgroundColor = .white
-        but.setCommentStyle(.zero, "add to order", MAINCOLOR, SFONT(14), .white)
-        return but
-    }()
+//    private let b_view: UIView = {
+//        let view = UIView()
+//        view.backgroundColor = MAINCOLOR
+//        view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: bottomBarH + 50), byRoundingCorners: [.topLeft, .topRight], radii: 10)
+//        return view
+//    }()
+//
+//    private let cartBut: UIButton = {
+//        let but = UIButton()
+//        but.setImage(LOIMG("cart"), for: .normal)
+//        //but.isHidden = true
+//        return but
+//    }()
+//
+//    private let moneyLab: UILabel = {
+//        let lab = UILabel()
+//        lab.setCommentStyle(.white, BFONT(18), .left)
+//        lab.text = "0.0"
+//        return lab
+//    }()
+//
+//    private let s_lab: UILabel = {
+//        let lab = UILabel()
+//        lab.setCommentStyle(.white, SFONT(11), .right)
+//        lab.text = "£"
+//        return lab
+//    }()
+//
+//    private let sureBut: UIButton = {
+//        let but = UIButton()
+//        but.layer.cornerRadius = 15
+//        but.backgroundColor = .white
+//        but.setCommentStyle(.zero, "add to order", MAINCOLOR, SFONT(14), .white)
+//        return but
+//    }()
     
     private let backBut: UIButton = {
         let but = UIButton()
@@ -137,32 +154,32 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
             $0.height.equalTo(bottomBarH + 50)
         }
         
-        b_view.addSubview(cartBut)
-        cartBut.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 40, height: 40))
-            $0.left.equalToSuperview().offset(15)
-            $0.top.equalToSuperview().offset(5)
-        }
-        
-        b_view.addSubview(moneyLab)
-        moneyLab.snp.makeConstraints {
-            $0.centerY.equalTo(cartBut)
-            $0.left.equalToSuperview().offset(60)
-        }
-        
-        b_view.addSubview(s_lab)
-        s_lab.snp.makeConstraints {
-            $0.bottom.equalTo(moneyLab).offset(-2)
-            $0.right.equalTo(moneyLab.snp.left).offset(-1)
-        }
-        
-        b_view.addSubview(sureBut)
-        sureBut.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 110, height: 30))
-            $0.centerY.equalTo(cartBut)
-            $0.right.equalToSuperview().offset(-10)
-        }
-        
+//        b_view.addSubview(cartBut)
+//        cartBut.snp.makeConstraints {
+//            $0.size.equalTo(CGSize(width: 40, height: 40))
+//            $0.left.equalToSuperview().offset(15)
+//            $0.top.equalToSuperview().offset(5)
+//        }
+//
+//        b_view.addSubview(moneyLab)
+//        moneyLab.snp.makeConstraints {
+//            $0.centerY.equalTo(cartBut)
+//            $0.left.equalToSuperview().offset(60)
+//        }
+//
+//        b_view.addSubview(s_lab)
+//        s_lab.snp.makeConstraints {
+//            $0.bottom.equalTo(moneyLab).offset(-2)
+//            $0.right.equalTo(moneyLab.snp.left).offset(-1)
+//        }
+//
+//        b_view.addSubview(sureBut)
+//        sureBut.snp.makeConstraints {
+//            $0.size.equalTo(CGSize(width: 110, height: 30))
+//            $0.centerY.equalTo(cartBut)
+//            $0.right.equalToSuperview().offset(-10)
+//        }
+//
         view.addSubview(mainTable)
         mainTable.snp.makeConstraints {
             $0.left.right.top.equalToSuperview()
@@ -177,7 +194,7 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
         }
         
         backBut.addTarget(self, action: #selector(clickBackAction), for: .touchUpInside)
-        sureBut.addTarget(self, action: #selector(clickAddOrderAction), for: .touchUpInside)
+        //sureBut.addTarget(self, action: #selector(clickAddOrderAction), for: .touchUpInside)
     }
     
     
@@ -186,7 +203,7 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
     }
     
     
-    @objc private func clickAddOrderAction() {
+    private func clickAddOrderAction() {
         
         if PJCUtil.checkLoginStatus() {
             if !manager.dishSizeIsSelected(dishModel: dishModel, selectIdxArr: selecIdxArr) {
@@ -294,7 +311,7 @@ extension SelectSizeController {
             cell.setCellData(model: dishModel, selectCount: dishCount)
             cell.countBlock = { [unowned self] (count) in
                 self.dishCount = count as! Int
-                self.moneyLab.text = manager.selectedSizeDishMoney(dishModel: self.dishModel, selectIdxArr: selecIdxArr, count: self.dishCount)
+                self.b_view.moneyLab.text = manager.selectedSizeDishMoney(dishModel: self.dishModel, selectIdxArr: selecIdxArr, count: self.dishCount)
                 self.mainTable.reloadData()
             }
             return cell
@@ -305,7 +322,7 @@ extension SelectSizeController {
             
             cell.selectBlock = { [unowned self] (idxArr) in
                 self.selecIdxArr[indexPath.row - 1] = idxArr as! [Int]
-                self.moneyLab.text = manager.selectedSizeDishMoney(dishModel: self.dishModel, selectIdxArr: selecIdxArr, count: self.dishCount)
+                self.b_view.moneyLab.text = manager.selectedSizeDishMoney(dishModel: self.dishModel, selectIdxArr: selecIdxArr, count: self.dishCount)
             }
             
             return cell

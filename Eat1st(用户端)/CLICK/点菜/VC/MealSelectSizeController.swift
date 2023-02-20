@@ -12,6 +12,8 @@ class MealSelectSizeController: BaseViewController, UICollectionViewDelegate, UI
 
     private let bag = DisposeBag()
     
+    private let manager = MenuOrderManager()
+    
     var dishesID: String = ""
     
     ///选择数量
@@ -44,11 +46,19 @@ class MealSelectSizeController: BaseViewController, UICollectionViewDelegate, UI
     
     private lazy var b_view: DishDetailBottmView = {
         let view = DishDetailBottmView()
+        view.clickAddBlock = { [unowned self] (_) in
+            self.clickAddOrderAction()
+        }
         return view
     }()
 
     private lazy var t_view: DishDetailInfoView = {
         let view = DishDetailInfoView()
+        
+        view.countBlock = { [unowned self] (count) in
+            self.dishCount = count as! Int
+            self.b_view.moneyLab.text = self.manager.selectedComboDishMoney(dishModel: self.dishModel, count: count as! Int)
+        }
         return view
     }()
     
@@ -125,15 +135,26 @@ class MealSelectSizeController: BaseViewController, UICollectionViewDelegate, UI
         self.navigationController?.popViewController(animated: true)
     }
     
-    @objc private func clickAddOrderAction() {
+    private func clickAddOrderAction() {
         
-//        if PJCUtil.checkLoginStatus() {
-//            if !manager.dishSizeIsSelected(dishModel: dishModel, selectIdxArr: selecIdxArr) {
-//                HUD_MB.showWarnig("Required option not completed", onView: self.view)
-//                return
-//            }
-//            self.addOrder_Net()
-//        }
+        //判断菜品是否选择齐全
+        if PJCUtil.checkLoginStatus() {
+            
+            var canOrder: Bool = true
+            
+            for int in selectIdxArr {
+                if int == 1000 {
+                    HUD_MB.showWarnig("Required option not completed", onView: self.view)
+                    canOrder = false
+                    break
+                }
+            }
+            
+            if canOrder {
+                self.addOrder_Net()
+            }
+            
+        }
     }
 
 }
@@ -166,6 +187,26 @@ extension MealSelectSizeController {
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
+    
+    
+    //MARK: - 网络请求
+    ///提交
+    private func addOrder_Net() {
+        HUD_MB.loading("", onView: view)
+        let selectOption = manager.getComboDicBySelected(selectIdxArr: selectIdxArr, dishModel: dishModel)
+        //添加购物车
+        HTTPTOOl.addShoppingCart(dishesID: dishModel.dishID, buyNum: String(dishCount), type: "2", optionList: selectOption).subscribe(onNext: { (json) in
+            HUD_MB.showSuccess("Success!", onView: self.view)
+            //发送通知刷新点餐页面
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "cartRefresh"), object: nil)
+            self.navigationController?.popViewController(animated: true)
+            
+        }, onError: { (error) in
+            HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
+        }).disposed(by: self.bag)
+        
+    }
+
 }
 
 

@@ -11,6 +11,23 @@ class DishDetailBottmView: UIView {
     
 
     var clickAddBlock: VoidBlock?
+    
+    //"2" 当前店铺卖的是午餐
+    var type: String = "" {
+        didSet {
+            if type == "2" {
+                self.backgroundColor = HCOLOR("#CCCCCC")
+                self.sureBut.setTitleColor(HCOLOR("#CCCCCC"), for: .normal)
+                self.sureBut.isEnabled = false
+                self.sureBut.setTitle("For Dinner only", for: .normal)
+            } else {
+                self.backgroundColor = MAINCOLOR
+                self.sureBut.setTitleColor(MAINCOLOR, for: .normal)
+                self.sureBut.isEnabled = true
+                self.sureBut.setTitle("add to order", for: .normal)
+            }
+        }
+    }
 
     
     private let cartBut: UIButton = {

@@ -34,7 +34,6 @@
 		E31790D528C5CE74007BA6B9 /* DateTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31790D428C5CE74007BA6B9 /* DateTool.swift */; };
 		E321ABDF2760E45C000CF43E /* StoreMainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E321ABDE2760E45C000CF43E /* StoreMainController.swift */; };
 		E321ABE327633048000CF43E /* LogInOverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E321ABE227633048000CF43E /* LogInOverController.swift */; };
-		E321ABE527672148000CF43E /* StroeOrderFoodController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E321ABE427672148000CF43E /* StroeOrderFoodController.swift */; };
 		E321ABE7276728AF000CF43E /* MenuSelectWayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E321ABE6276728AF000CF43E /* MenuSelectWayView.swift */; };
 		E321ABE9276728E4000CF43E /* MenuHeadInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E321ABE8276728E4000CF43E /* MenuHeadInfoView.swift */; };
 		E32539B3276C3FE000EC0C84 /* AddressAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32539B2276C3FE000EC0C84 /* AddressAlertView.swift */; };
@@ -58,6 +57,7 @@
 		E33C1890299F7CD700D4D4E3 /* MenuComboDishCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33C188F299F7CD700D4D4E3 /* MenuComboDishCell.swift */; };
 		E33C1892299F81AF00D4D4E3 /* DishDetailInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33C1891299F81AF00D4D4E3 /* DishDetailInfoView.swift */; };
 		E33C189429A078B900D4D4E3 /* DishDetailHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33C189329A078B900D4D4E3 /* DishDetailHeaderCell.swift */; };
+		E33C189629A3260600D4D4E3 /* CartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33C189529A3260600D4D4E3 /* CartCell.swift */; };
 		E33E8C57278D2ED000BD3CCF /* XYPhotoBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E8C56278D2ED000BD3CCF /* XYPhotoBrowser.swift */; };
 		E33F6EB726D49F9700A3E009 /* FirebaseLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33F6EB626D49F9700A3E009 /* FirebaseLoginManager.swift */; };
 		E33F6EBB26D61E1100A3E009 /* StoreReviewsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33F6EBA26D61E1100A3E009 /* StoreReviewsController.swift */; };
@@ -343,7 +343,6 @@
 		E31790D428C5CE74007BA6B9 /* DateTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTool.swift; sourceTree = "<group>"; };
 		E321ABDE2760E45C000CF43E /* StoreMainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreMainController.swift; sourceTree = "<group>"; };
 		E321ABE227633048000CF43E /* LogInOverController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInOverController.swift; sourceTree = "<group>"; };
-		E321ABE427672148000CF43E /* StroeOrderFoodController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StroeOrderFoodController.swift; sourceTree = "<group>"; };
 		E321ABE6276728AF000CF43E /* MenuSelectWayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuSelectWayView.swift; sourceTree = "<group>"; };
 		E321ABE8276728E4000CF43E /* MenuHeadInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHeadInfoView.swift; sourceTree = "<group>"; };
 		E32539B2276C3FE000EC0C84 /* AddressAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressAlertView.swift; sourceTree = "<group>"; };
@@ -367,6 +366,7 @@
 		E33C188F299F7CD700D4D4E3 /* MenuComboDishCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuComboDishCell.swift; sourceTree = "<group>"; };
 		E33C1891299F81AF00D4D4E3 /* DishDetailInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishDetailInfoView.swift; sourceTree = "<group>"; };
 		E33C189329A078B900D4D4E3 /* DishDetailHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishDetailHeaderCell.swift; sourceTree = "<group>"; };
+		E33C189529A3260600D4D4E3 /* CartCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartCell.swift; sourceTree = "<group>"; };
 		E33E8C56278D2ED000BD3CCF /* XYPhotoBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYPhotoBrowser.swift; sourceTree = "<group>"; };
 		E33F6EB626D49F9700A3E009 /* FirebaseLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseLoginManager.swift; sourceTree = "<group>"; };
 		E33F6EBA26D61E1100A3E009 /* StoreReviewsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreReviewsController.swift; sourceTree = "<group>"; };
@@ -1222,7 +1222,6 @@
 			isa = PBXGroup;
 			children = (
 				E3F82A2E287520D4005E5FAB /* StoreMenuOrderController.swift */,
-				E321ABE427672148000CF43E /* StroeOrderFoodController.swift */,
 				E30E72C226BA716B001919AD /* StoreIntroduceController.swift */,
 				E3C7F8B126BE3121006BF56E /* ConfirmOrderController.swift */,
 				E36E9A9C26C7A43400483736 /* SelectSizeController.swift */,
@@ -1265,6 +1264,7 @@
 				E30E72BC26B923DA001919AD /* MenuGoodsCell.swift */,
 				E3A30498299CDEBC0023DCC1 /* MenuMealGoodsCell.swift */,
 				E38BF4C2288FDCEF0048F2EA /* MenuGoodsCell_Big.swift */,
+				E33C189529A3260600D4D4E3 /* CartCell.swift */,
 				E33C189329A078B900D4D4E3 /* DishDetailHeaderCell.swift */,
 				E39BF3C326B7CDF6009E6330 /* BuyedGoodsCell.swift */,
 				E30E72C426BA8CEB001919AD /* StoreIntroduceHeaderCell.swift */,
@@ -1789,7 +1789,7 @@
 				E33F6EBD26D649B800A3E009 /* ReviewsModel.swift in Sources */,
 				E30E72BB26B923C1001919AD /* MenuTypeCell.swift in Sources */,
 				E31790D328C5CE21007BA6B9 /* TimeDayAlert.swift in Sources */,
-				E321ABE527672148000CF43E /* StroeOrderFoodController.swift in Sources */,
+				E33C189629A3260600D4D4E3 /* CartCell.swift in Sources */,
 				E3949AC026AE4EAE00160C75 /* LTAdvancedManager.swift in Sources */,
 				E39BF38F26AFA8B0009E6330 /* FirstActivityTableCell.swift in Sources */,
 				E30E72C926BAB228001919AD /* StoreIntroduceTimeCell.swift in Sources */,

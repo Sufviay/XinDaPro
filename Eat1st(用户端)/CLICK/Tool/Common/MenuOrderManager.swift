@@ -59,6 +59,7 @@ class MenuOrderManager: NSObject {
     
     
     
+
     
     ///判断菜品规格是否选择齐全
     func dishSizeIsSelected(dishModel: DishModel, selectIdxArr: [[Int]]) -> Bool {
@@ -108,6 +109,33 @@ class MenuOrderManager: NSObject {
         }
         return tArr
     }
+    
+    
+    ///计算套餐菜品选择后的价格
+    func selectedComboDishMoney(dishModel: DishModel, count: Int) -> String {
+        
+        var orPrice: Double = dishModel.discountType == "2" ? Double(dishModel.discountPrice) : Double(dishModel.price)
+        
+        let price = orPrice * Double(count)
+        
+        return String(format: "%.2f", price)
+
+    }
+    
+    
+    ///生成已选择菜品的参数组合，添加购物车时用
+    func getComboDicBySelected(selectIdxArr: [Int], dishModel: DishModel) -> [[String: String]] {
+        
+        var returnArr: [[String: String]] = []
+        for (idx, count) in selectIdxArr.enumerated() {
+            let dic = ["optionId": dishModel.comboList[idx].comboDishesList[count].dishesComboRelId,
+                       "specId": dishModel.comboList[idx].comboSpecID]
+            returnArr.append(dic)
+        }
+        return returnArr
+        
+    }
+    
 
     
     
@@ -148,10 +176,11 @@ class MenuOrderManager: NSObject {
         }
         
         let menuData = MenuModel()
-        menuData.dinnerDataArr = classify_Arr
+        menuData.dinnerDataArr = classify_Arr.filter{ $0.dishArr.count != 0 }
         menuData.lunchDataArr = lunch_D
         return menuData
     }
+
     
     
     func dealWithMenuDishesByCartData(cart_arr: [CartDishModel], menuModel: MenuModel) {

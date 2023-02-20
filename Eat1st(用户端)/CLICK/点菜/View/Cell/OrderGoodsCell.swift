@@ -542,47 +542,39 @@ class OrderConfirmGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UIColl
         
         self.goodsImg.setImage(imageStr: model.dishImg)
         self.nameLab.text = model.dishName
-        self.desLab.text = model.selectOptionStr
         self.selectView.count = model.cartCount
         self.selectView.canClick = isCanEdite
         
+        //正常购买的菜
+        self.freeLab.isHidden = true
+        self.countLab.isHidden = true
+        self.slab.isHidden = false
+        self.moneyLab.isHidden = false
+        self.selectView.isHidden = false
+        
         
         if model.dishesType == "2" {
-            //优惠券增菜
-            self.freeLab.isHidden = false
-            self.countLab.isHidden = false
-            self.slab.isHidden = true
-            self.moneyLab.isHidden = true
-            self.disBackImg.isHidden = true
-            self.disMoneyLab.isHidden = true
-            self.selectView.isHidden = true
-            self.moneyLab.text = ""
+            self.desLab.text = model.selectComboStr
+        } else {
+            self.desLab.text = model.selectOptionStr
+        }
+        
+        if model.discountType == "1" {
+            //无优惠
+            self.moneyLab.text = D_2_STR(model.fee)
             self.disMoneyLab.text = ""
             self.discountScaleLab.text = ""
+            self.disBackImg.isHidden = true
+            self.disMoneyLab.isHidden = true
         } else {
-            //正常购买的菜
-            self.freeLab.isHidden = true
-            self.countLab.isHidden = true
-            self.slab.isHidden = false
-            self.moneyLab.isHidden = false
-            self.selectView.isHidden = false
-            
-            if model.discountType == "1" {
-                //无优惠
-                self.moneyLab.text = D_2_STR(model.fee)
-                self.disMoneyLab.text = ""
-                self.discountScaleLab.text = ""
-                self.disBackImg.isHidden = true
-                self.disMoneyLab.isHidden = true
-            } else {
-                //有优惠
-                self.moneyLab.text = D_2_STR(model.discountPrice)
-                self.disMoneyLab.text = "£" + D_2_STR(model.fee)
-                self.discountScaleLab.text = "\(model.discountSale)%OFF"
-                self.disBackImg.isHidden = false
-                self.disMoneyLab.isHidden = false
-            }
+            //有优惠
+            self.moneyLab.text = D_2_STR(model.discountPrice)
+            self.disMoneyLab.text = "£" + D_2_STR(model.fee)
+            self.discountScaleLab.text = "\(model.discountSale)%OFF"
+            self.disBackImg.isHidden = false
+            self.disMoneyLab.isHidden = false
         }
+        
         
         self.tagArr = model.tagList.filter{ $0.tagImg != "" }
         self.collection.reloadData()

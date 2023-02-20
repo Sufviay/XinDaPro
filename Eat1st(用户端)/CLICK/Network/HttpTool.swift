@@ -103,6 +103,7 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
                             }
                             
                         } else if json["code"].stringValue == "10" {
+                            ///优惠券无法使用
                             ERROR_Message = json["msg"].stringValue
                             observer.onError(NetworkError.errorCode10)
                         }
