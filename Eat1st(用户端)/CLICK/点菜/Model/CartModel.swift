@@ -94,8 +94,11 @@ class ConfirmOrderCartModel: NSObject {
 
     
     
-    
+    ///下单的菜品
     var dishArr: [CartDishModel] = []
+    ///优惠券菜品
+    var couponDish = CartDishModel()
+    
     
     
     func updateModel(json: JSON) {
@@ -144,6 +147,9 @@ class ConfirmOrderCartModel: NSObject {
         }
         self.dishArr = tArr
         
+        self.couponDish.updateModel(json: json["orderCoupon"])
+        
+        
         if discountMsg == "" {
             self.discountMsg_H = 0
         } else {
@@ -158,50 +164,3 @@ class ConfirmOrderCartModel: NSObject {
 }
 
 
-
-//class CartModel: NSObject {
-//
-//    ///购物车优惠券优惠的金额
-//    var couponFee: Float = 0
-//    
-//    ///购物车商品配送费，如果是自取，为0
-//    var deliverFee: Float = 0
-//    
-//    ///是否达到最小金额
-//    var isReachMinChange: Bool = true
-//    
-//    ///是否可以现金付款或是否可以在线付款 1卡 2现金 3都行
-//    var paymentSupport: String = ""
-//    
-//    ///购物车商品的总金额（未计算优惠和配送费的）
-//    var subFee: Float = 0
-//    
-//    ///购物车实际支付金额
-//    var total: Float = 0
-//    
-//    ///购物车菜品Model
-//    var dishArr: [DishModel] = []
-//    
-//    var storeID: String = ""
-//    
-//    
-//    func updateModel(json: JSON) {
-//        self.couponFee = json["couponFee"].floatValue
-//        self.deliverFee = json["deliverFee"].floatValue
-//        self.isReachMinChange = json["reachMinChange"].boolValue
-//        self.paymentSupport = json["paymentSupport"].stringValue
-//        self.subFee = json["subFee"].floatValue
-//        self.total = json["total"].floatValue
-//        self.storeID = json["storeId"].stringValue
-//        
-//        var tArr: [DishModel] = []
-//        for jsonData in json["dish"].arrayValue {
-//            let model = DishModel()
-//            model.updateModel(json: jsonData)
-//            tArr.append(model)
-//        }
-//        self.dishArr = tArr
-//        
-//    }
-//    
-//}

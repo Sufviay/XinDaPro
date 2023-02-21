@@ -165,7 +165,7 @@ class StoreInfoModel: NSObject {
         let dis = json["relativeDistance"].doubleValue
         let time = json["deliveryMinTime"].intValue
         
-        self.distance = "\(D_1_STR(dis))miles"
+        self.distance = "\(D_2_STR(dis))miles"
         self.minTime = "\(time)mins"
         
         self.storeID = json["storeId"].stringValue

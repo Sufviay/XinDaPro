@@ -54,7 +54,7 @@ class MenuOrderManager: NSObject {
         
         let allPrice = orPrice * Double(count)
         
-        return String(format: "%.2f", allPrice)
+        return D_2_STR(allPrice)
     }
     
     
@@ -114,11 +114,11 @@ class MenuOrderManager: NSObject {
     ///计算套餐菜品选择后的价格
     func selectedComboDishMoney(dishModel: DishModel, count: Int) -> String {
         
-        var orPrice: Double = dishModel.discountType == "2" ? Double(dishModel.discountPrice) : Double(dishModel.price)
+        let orPrice: Double = dishModel.discountType == "2" ? Double(dishModel.discountPrice) : Double(dishModel.price)
         
         let price = orPrice * Double(count)
         
-        return String(format: "%.2f", price)
+        return D_2_STR(price)
 
     }
     
