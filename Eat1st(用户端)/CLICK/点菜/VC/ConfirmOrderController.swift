@@ -102,7 +102,7 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
         tableView.delegate = self
         tableView.dataSource = self
         tableView.contentInsetAdjustmentBehavior = .never
-        tableView.bounces = false
+        //tableView.bounces = false
 
         tableView.register(OrderSelectTagCell.self, forCellReuseIdentifier: "OrderSelectTagCell")
         tableView.register(OrderStoreInfoCell.self, forCellReuseIdentifier: "OrderStoreInfoCell")
@@ -120,6 +120,9 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
         tableView.register(OrderTagDeliveryCell.self, forCellReuseIdentifier: "OrderTagDeliveryCell")
         tableView.register(OrderInputCell.self, forCellReuseIdentifier: "OrderInputCell")
         tableView.register(OrderInputZQCell.self, forCellReuseIdentifier: "OrderInputZQCell")
+        
+        tableView.register(OrderCouponDishCell.self, forCellReuseIdentifier: "OrderCouponDishCell")
+        
         return tableView
     }()
     
@@ -143,7 +146,7 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
         
         alert.clickTimeBlock = { [unowned self] (time) in
             self.submitModel.hopeTime = time as! String
-            self.mainTable.reloadSections([4], with: .none)
+            self.mainTable.reloadSections([5], with: .none)
         }
         return alert
     }()
@@ -382,7 +385,7 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
                 //HUD_MB.dissmiss(onView: self.view)
                 self.minTime = json["data"]["startTime"].stringValue
                 self.maxTime = json["data"]["endTime"].stringValue
-                self.mainTable.reloadSections([4], with: .none)
+                self.mainTable.reloadSections([5], with: .none)
             }, onError: { (error) in
                 HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
             }).disposed(by: self.bag)
@@ -646,18 +649,24 @@ extension ConfirmOrderController {
                 return cartModel.dishArr.count
             }
         }
+        
         if section == 3 {
             return 1
         }
-        //拿掉优惠券
-        if section == 5 {
+        
+        //是否有优惠菜品
+        if section == 4 {
+            if cartModel.couponDish.dishName == "" {
+                return 0
+            } else {
+                return 1
+            }
+        }
+
+        if section == 6 {
             return 1
         }
-        
-        if section == 8 {
-            return 0
-        }
-        
+                
         return 1
     }
     
@@ -669,10 +678,6 @@ extension ConfirmOrderController {
             return 55
         }
         if indexPath.section == 2 {
-//            let model = cartModel.dishArr[indexPath.row]
-//            let h1 = model.dishName.getTextHeigh(BFONT(14), S_W - 155)
-//            let h2 = model.selectOptionStr.getTextHeigh(SFONT(11), S_W - 195)
-//            return h1 + h2 + 40 < 80 ? 80 : h1 + h2 + 40
             return cartModel.dishArr[indexPath.row].confirm_cart_dish_H
         }
         if indexPath.section == 3 {
@@ -683,7 +688,12 @@ extension ConfirmOrderController {
                 return 60
             }
         }
+        
         if indexPath.section == 4 {
+            return 140
+        }
+
+        if indexPath.section == 5 {
             
             let h = cartModel.reserveMsg.getTextHeigh(SFONT(10), S_W - 60) > 11 ? cartModel.reserveMsg.getTextHeigh(SFONT(10), S_W - 60) : 11
             
@@ -695,18 +705,17 @@ extension ConfirmOrderController {
                 return 190 + h
             }
         }
-        if indexPath.section == 5 {
+        if indexPath.section == 6 {
             return 100
         }
-        if indexPath.section == 6 {
+        
+        if indexPath.section == 7 {
             return 155
         }
-        if indexPath.section == 7 {
+        
+        if indexPath.section == 8 {
             return cartModel.confirmMoney_H
             
-        }
-        if indexPath.section == 8 {
-            return 160
         }
         
         return 85
@@ -774,7 +783,15 @@ extension ConfirmOrderController {
                 return cell
             }
         }
+        
         if indexPath.section == 4 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "OrderCouponDishCell") as! OrderCouponDishCell
+            cell.setCellData(model: cartModel.couponDish)
+            return cell
+        }
+        
+        
+        if indexPath.section == 5 {
             
             if type == "1" {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OrderInputCell") as! OrderInputCell
@@ -789,9 +806,6 @@ extension ConfirmOrderController {
                     let nextVC = ChooseAddressController()
                     nextVC.storeID = self.storeID
                     nextVC.delegate = self
-//                    nextVC.store_lat = Double(self.cartModel.lat) ?? 0
-//                    nextVC.store_lng = Double(self.cartModel.lng) ?? 0
-//                    nextVC.storePSDis = self.cartModel.maxPSDis
                     self.navigationController?.pushViewController(nextVC, animated: true)
                 }
                 
@@ -831,7 +845,7 @@ extension ConfirmOrderController {
             }
             
         }
-        if indexPath.section == 5 {
+        if indexPath.section == 6 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderCouponsCell") as! OrderCouponsCell
             cell.setCellData(coupon: self.selectCoupon, isCanEdite: self.isCanEidte)
             
@@ -847,7 +861,7 @@ extension ConfirmOrderController {
             
             return cell
         }
-        if indexPath.section == 6 {
+        if indexPath.section == 7 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderRemarkCell") as! OrderRemarkCell
             cell.setCellData(cStr: submitModel.remark, isCanEdite: self.isCanEidte)
             cell.editedBlock = { [unowned self] (str) in
@@ -855,19 +869,14 @@ extension ConfirmOrderController {
             }
             return cell
         }
-        if indexPath.section == 7 {
+        if indexPath.section == 8 {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "ConfirmMoneyCell") as! ConfirmMoneyCell
             cell.setCellData(model: cartModel)
             return cell
         }
         
-        if indexPath.section == 8 {
-            let cell = UITableViewCell()
-            return cell
-        }
-        
-        
+                
         if indexPath.section == 9 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderPayButCell") as! OrderPayButCell
             cell.setCellData(titStr: "Confirm An Order")

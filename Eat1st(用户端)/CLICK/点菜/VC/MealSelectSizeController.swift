@@ -78,29 +78,52 @@ class MealSelectSizeController: BaseViewController, UICollectionViewDelegate, UI
         coll.backgroundColor = .clear
         coll.showsHorizontalScrollIndicator = false
         coll.showsVerticalScrollIndicator = false
+        coll.contentInsetAdjustmentBehavior = .never
         coll.register(MenuComboDishCell.self, forCellWithReuseIdentifier: "MenuComboDishCell")
         coll.register(DishDetailHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "DishDetailHeaderCell")
+        
         return coll
     }()
     
     
 
+    override func setNavi() {
+        
+    }
+    
     override func setViews() {
         view.backgroundColor = .white
         self.naviBar.isHidden = true
-            
         loadDishedDetail_Net()
         
     }
     
     private func setUpUI() {
         
-        t_view.setCellData(model: self.dishModel, selectCount: self.dishCount)
         
-        view.addSubview(t_view)
+        
+        view.addSubview(b_view)
+        b_view.snp.makeConstraints {
+            $0.left.right.bottom.equalToSuperview()
+            $0.height.equalTo(bottomBarH + 50)
+        }
+
+        
+        view.addSubview(collection)
+        collection.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(0)
+            $0.left.right.equalToSuperview()
+            $0.bottom.equalTo(b_view.snp.top)
+        }
+        
+        
+        t_view.setCellData(model: self.dishModel, selectCount: self.dishCount)
+        collection.addSubview(t_view)
         t_view.snp.makeConstraints {
-            $0.left.right.top.equalToSuperview()
+            $0.left.equalToSuperview()
+            $0.width.equalTo(S_W)
             $0.height.equalTo(info_H)
+            $0.top.equalToSuperview().offset(-info_H)
         }
         
         view.addSubview(backBut)
@@ -108,21 +131,6 @@ class MealSelectSizeController: BaseViewController, UICollectionViewDelegate, UI
             $0.size.equalTo(CGSize(width: 35, height: 35))
             $0.left.equalToSuperview().offset(10)
             $0.top.equalToSuperview().offset(statusBarH + 2)
-        }
-        
-
-        
-        view.addSubview(b_view)
-        b_view.snp.makeConstraints {
-            $0.left.right.bottom.equalToSuperview()
-            $0.height.equalTo(bottomBarH + 50)
-        }
-        
-        view.addSubview(collection)
-        collection.snp.makeConstraints {
-            $0.top.equalTo(t_view.snp.bottom).offset(0)
-            $0.left.right.equalToSuperview()
-            $0.bottom.equalTo(b_view.snp.top)
         }
         
         backBut.addTarget(self, action: #selector(clickBackAction), for: .touchUpInside)
@@ -180,6 +188,8 @@ extension MealSelectSizeController {
             let d_h = self.dishModel.des.getTextHeigh(SFONT(13), S_W - 120)
             let n_h = self.dishModel.name_C.getTextHeigh(BFONT(17), S_W - 50)
             self.info_H = (R_W(375) * (9/16)) + g_h + d_h + n_h + 50
+            
+            self.collection.contentInset = UIEdgeInsets(top: self.info_H, left: 0, bottom: 0, right: 0)
             self.setUpUI()
             
                     

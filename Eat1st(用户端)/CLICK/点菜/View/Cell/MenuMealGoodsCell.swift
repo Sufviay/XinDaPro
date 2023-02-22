@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MenuMealGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, SDPhotoBrowserDelegate, CommonToolProtocol {
+class MenuMealGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, SDPhotoBrowserDelegate, CommonToolProtocol, UICollectionViewDelegateFlowLayout {
 
     private var tagArr: [DishTagsModel] = []
     private var dataModel = DishModel()
@@ -141,7 +141,6 @@ class MenuMealGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollecti
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 2
         layout.minimumLineSpacing = 2
-        layout.itemSize = CGSize(width: 8, height: 14)
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
         let coll = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -319,9 +318,53 @@ class MenuMealGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DishTagCell", for: indexPath) as! DishTagCell
-        cell.sImg.sd_setImage(with: URL(string: tagArr[indexPath.item].tagImg))
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DishTagCell", for: indexPath) as! DishTagCell        
+        //赋值图片
+        let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
+        if img == nil {
+            //下载图片
+            cell.sImg.image = nil
+            self.downLoadImgage(url: tagArr[indexPath.row].tagImg)
+        } else {
+            cell.sImg.image = img!
+        }
+        
         return cell
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        //从缓存中查找图片
+        let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
+
+        if img == nil {
+            return CGSize(width: 14, height: 14)
+        }
+        //根据图片计算宽度
+        let img_W = (img!.size.width * 14) / img!.size.height
+        return  CGSize(width: img_W, height: 14)
+    }
+    
+    
+    
+    //下载图片
+    private func downLoadImgage(url: String) {
+        SDWebImageDownloader.shared.downloadImage(with: URL(string: url)) { image, data, error, finished in
+            
+            SDImageCache.shared.store(image, forKey: url, toDisk: true)
+            
+            //判断图片
+            if image != nil {
+                
+                //主线程刷新UI
+                DispatchQueue.main.async {
+                    self.collection.reloadData()
+                }
+                
+            }
+            
+        }
     }
     
     

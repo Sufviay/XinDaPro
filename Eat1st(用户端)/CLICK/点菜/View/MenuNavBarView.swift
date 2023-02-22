@@ -21,7 +21,7 @@ class MenuNavBarView: UIView {
     private let titlab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#080808"), BFONT(18), .left)
-        lab.text = "Home"
+        lab.text = "Menu"
         return lab
     }()
     

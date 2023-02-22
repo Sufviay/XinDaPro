@@ -59,50 +59,13 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
     
     private lazy var b_view: DishDetailBottmView = {
         let view = DishDetailBottmView()
-        view.type = self.storeSellLunchOrDinner
+        view.setButTitleType(lunchOrDinner: self.storeSellLunchOrDinner, cartID: self.cartID)
         view.clickAddBlock = { [unowned self] (_) in
             self.clickAddOrderAction()
         }
         return view
     }()
 
-    
-    
-//    private let b_view: UIView = {
-//        let view = UIView()
-//        view.backgroundColor = MAINCOLOR
-//        view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: bottomBarH + 50), byRoundingCorners: [.topLeft, .topRight], radii: 10)
-//        return view
-//    }()
-//
-//    private let cartBut: UIButton = {
-//        let but = UIButton()
-//        but.setImage(LOIMG("cart"), for: .normal)
-//        //but.isHidden = true
-//        return but
-//    }()
-//
-//    private let moneyLab: UILabel = {
-//        let lab = UILabel()
-//        lab.setCommentStyle(.white, BFONT(18), .left)
-//        lab.text = "0.0"
-//        return lab
-//    }()
-//
-//    private let s_lab: UILabel = {
-//        let lab = UILabel()
-//        lab.setCommentStyle(.white, SFONT(11), .right)
-//        lab.text = "£"
-//        return lab
-//    }()
-//
-//    private let sureBut: UIButton = {
-//        let but = UIButton()
-//        but.layer.cornerRadius = 15
-//        but.backgroundColor = .white
-//        but.setCommentStyle(.zero, "add to order", MAINCOLOR, SFONT(14), .white)
-//        return but
-//    }()
     
     private let backBut: UIButton = {
         let but = UIButton()

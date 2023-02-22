@@ -224,7 +224,7 @@ class StoreInfoModel: NSObject {
         if minOrder == 0 {
             self.minOrderStr = "No min. order"
         } else {
-            self.minOrderStr = "Minimum order £\(D_2_STR(minOrder))"
+            self.minOrderStr = "Minimum order £\(D_2_STR(minOrder)) for delivery"
         }
 
         

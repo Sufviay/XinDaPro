@@ -191,9 +191,18 @@ class SizeNameCell: BaseTableViewCell {
         }
         
         self.nameLab.text = model.name_E
-        self.tagLab.text = model.isRequired ? "(Required)" : "(Optional)"
+        
+        
+        if model.isRequired && model.isMultiple {
+            self.tagLab.text = "(Required)(Multiple)"
+        } else if model.isRequired && !model.isMultiple {
+            self.tagLab.text = "(Required)"
+        } else if !model.isRequired && model.isMultiple {
+            self.tagLab.text = "(Multiple)"
+        } else {
+            self.tagLab.text = ""
+        }
     }
-    
 }
 
 

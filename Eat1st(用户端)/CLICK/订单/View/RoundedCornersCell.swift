@@ -27,7 +27,8 @@ class OrderRoundedCornersCell: BaseTableViewCell {
         backView.snp.makeConstraints {
             $0.left.equalToSuperview().offset(10)
             $0.right.equalToSuperview().offset(-10)
-            $0.top.bottom.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.height.equalTo(20)
         }
     }
 }

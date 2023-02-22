@@ -12,24 +12,6 @@ class DishDetailBottmView: UIView {
 
     var clickAddBlock: VoidBlock?
     
-    //"2" 当前店铺卖的是午餐
-    var type: String = "" {
-        didSet {
-            if type == "2" {
-                self.backgroundColor = HCOLOR("#CCCCCC")
-                self.sureBut.setTitleColor(HCOLOR("#CCCCCC"), for: .normal)
-                self.sureBut.isEnabled = false
-                self.sureBut.setTitle("For Dinner only", for: .normal)
-            } else {
-                self.backgroundColor = MAINCOLOR
-                self.sureBut.setTitleColor(MAINCOLOR, for: .normal)
-                self.sureBut.isEnabled = true
-                self.sureBut.setTitle("add to order", for: .normal)
-            }
-        }
-    }
-
-    
     private let cartBut: UIButton = {
         let but = UIButton()
         but.setImage(LOIMG("cart"), for: .normal)
@@ -55,7 +37,7 @@ class DishDetailBottmView: UIView {
         let but = UIButton()
         but.layer.cornerRadius = 15
         but.backgroundColor = .white
-        but.setCommentStyle(.zero, "add to order", MAINCOLOR, SFONT(14), .white)
+        but.setCommentStyle(.zero, "Add to order", MAINCOLOR, SFONT(13), .white)
         return but
     }()
     
@@ -88,7 +70,7 @@ class DishDetailBottmView: UIView {
         
         self.addSubview(sureBut)
         sureBut.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 110, height: 30))
+            $0.size.equalTo(CGSize(width: 120, height: 30))
             $0.centerY.equalTo(cartBut)
             $0.right.equalToSuperview().offset(-10)
         }
@@ -104,6 +86,30 @@ class DishDetailBottmView: UIView {
     
     @objc private func clickSureAction() {
         self.clickAddBlock?("")
+    }
+    
+    
+    
+    func setButTitleType(lunchOrDinner: String, cartID: String) {
+        
+        if lunchOrDinner == "2" {
+            self.backgroundColor = HCOLOR("#CCCCCC")
+            self.sureBut.setTitleColor(HCOLOR("#CCCCCC"), for: .normal)
+            self.sureBut.isEnabled = false
+            self.sureBut.setTitle("For Dinner only", for: .normal)
+        } else {
+            self.backgroundColor = MAINCOLOR
+            self.sureBut.setTitleColor(MAINCOLOR, for: .normal)
+            self.sureBut.isEnabled = true
+            
+            if cartID == "" {
+                self.sureBut.setTitle("Add to order", for: .normal)
+            } else {
+                self.sureBut.setTitle("Update to order", for: .normal)
+            }
+            
+            
+        }
     }
     
 }

@@ -26,8 +26,8 @@ class OrderCouponDishCell: BaseTableViewCell {
         return lab
     }()
     
-    private let goodsImg: CustomImgeView = {
-        let img = CustomImgeView()
+    private let goodsImg: UIImageView = {
+        let img = UIImageView()
         img.clipsToBounds = true
         img.layer.cornerRadius = 10
         return img
@@ -82,7 +82,7 @@ class OrderCouponDishCell: BaseTableViewCell {
         backView.addSubview(goodsImg)
         goodsImg.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 55, height: 55))
-            $0.top.equalTo(titlab.snp.bottom).offset(20)
+            $0.top.equalToSuperview().offset(55)
             $0.left.equalToSuperview().offset(10)
         }
         
@@ -104,8 +104,14 @@ class OrderCouponDishCell: BaseTableViewCell {
             $0.top.equalTo(goodsImg)
             $0.left.equalTo(goodsImg.snp.right).offset(10)
             $0.right.equalToSuperview().offset(-75)
-            $0.bottom.equalToSuperview().offset(-10)
+            //$0.bottom.equalToSuperview().offset(-10)
         }
+    }
+    
+    
+    func setCellData(model: CartDishModel) {
+        self.nameLab.text = model.dishName
+        self.goodsImg.sd_setImage(with: URL(string: model.dishImg), placeholderImage: HOLDIMG)
     }
     
     

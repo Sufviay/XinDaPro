@@ -78,15 +78,15 @@ class MenuStoreInfoCell: BaseTableViewCell {
     
     private let deQSLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(13), .left)
+        lab.setCommentStyle(HCOLOR("#666666"), SFONT(12), .left)
         lab.text = "no min. order"
         return lab
     }()
     
     private let coQSlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(13), .left)
-        lab.text = "No Minimum for Collection"
+        lab.setCommentStyle(HCOLOR("#666666"), SFONT(12), .left)
+        lab.text = ",No minimum for collection"
         return lab
     }()
     
@@ -166,7 +166,7 @@ class MenuStoreInfoCell: BaseTableViewCell {
         contentView.addSubview(coQSlab)
         coQSlab.snp.makeConstraints {
             $0.centerY.equalTo(deQSLab)
-            $0.left.equalTo(deQSLab.snp.right).offset(12)
+            $0.left.equalTo(deQSLab.snp.right).offset(1)
         }
         
         contentView.addSubview(psMoneyLab)
