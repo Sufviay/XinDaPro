@@ -37,7 +37,8 @@ class PlaintDishModel: NSObject {
     
     
     var dish_H: CGFloat = 0
-    
+    ///2 套餐
+    var dishesType: String = ""
     
     
     
@@ -49,19 +50,38 @@ class PlaintDishModel: NSObject {
         self.detailImg = json["imageUrl"].stringValue
         self.price = json["price"].doubleValue
         self.dishID = json["orderDishesId"].stringValue
+        self.dishesType = json["dishesType"].stringValue
         
         var t1: String = ""
         var t2: String = ""
-        for (idx, jsonData) in json["optionList"].arrayValue.enumerated() {
+        
+        if dishesType == "2" {
             
-            if idx == 0 {
-                t1 = jsonData["optionName"].stringValue
-                t2 = jsonData["optionName"].stringValue
-            } else {
-                t1 = t1 + "/" + jsonData["optionName"].stringValue
-                t2 = t2 + "/" + jsonData["optionName"].stringValue
+            for (idx, jsonData) in json["comboList"].arrayValue.enumerated() {
+                
+                if idx == 0 {
+                    t1 = jsonData["dishesName"].stringValue
+                    t2 = jsonData["dishesName"].stringValue
+                } else {
+                    t1 = t1 + "\n" + jsonData["dishesName"].stringValue
+                    t2 = t2 + "\n" + jsonData["dishesName"].stringValue
+                }
+            }
+            
+        } else {
+            for (idx, jsonData) in json["optionList"].arrayValue.enumerated() {
+                
+                if idx == 0 {
+                    t1 = jsonData["optionName"].stringValue
+                    t2 = jsonData["optionName"].stringValue
+                } else {
+                    t1 = t1 + "/" + jsonData["optionName"].stringValue
+                    t2 = t2 + "/" + jsonData["optionName"].stringValue
+                }
             }
         }
+        
+
         
         self.des_C = t2
         self.des_E = t1

@@ -84,6 +84,7 @@ class OderListConfirmController: BaseViewController, UITableViewDelegate, UITabl
         tableView.register(OrderChoosePayWayCell.self, forCellReuseIdentifier: "OrderChoosePayWayCell")
         tableView.register(OrderListInputCell.self, forCellReuseIdentifier: "OrderListInputCell")
         tableView.register(OrderInputZQCell.self, forCellReuseIdentifier: "OrderInputZQCell")
+        tableView.register(OrderCouponDishCell.self, forCellReuseIdentifier: "OrderCouponDishCell")
         return tableView
     }()
     
@@ -167,7 +168,7 @@ class OderListConfirmController: BaseViewController, UITableViewDelegate, UITabl
 
 
             self.dataModel.updateModel(json: json["data"])
-            self.sectionNum = 10
+            self.sectionNum = 9
             self.mainTable.reloadData()
             self.getYSDTime_Net()
         }, onError: { (error) in
@@ -186,29 +187,7 @@ class OderListConfirmController: BaseViewController, UITableViewDelegate, UITabl
         }).disposed(by: self.bag)
     }
 
-    
-    
-    //MARK: - 获取钱包抵扣及支付价格
-//    private func getPayMoney_Net() {
-//        HTTPTOOl.getWalletAndOrder(orderID: orderID).subscribe(onNext: { (json) in
-//            //获取支付金额信息
-//            //弹出支付弹窗
-//            HUD_MB.dissmiss(onView: self.view)
-//            self.payAlert.paymentSupport = json["data"]["payType"].stringValue
-//            self.payAlert.deductionAmount = D_2_STR(json["data"]["deductionAmount"].doubleValue)
-//            self.payAlert.payPrice = D_2_STR(json["data"]["payAmount"].doubleValue)
-//            self.payAlert.subtotal = D_2_STR(json["data"]["dishesPrice"].doubleValue)
-//            self.payAlert.total = D_2_STR(json["data"]["totalPrice"].doubleValue)
-//            self.payAlert.deliveryPrice = D_2_STR(json["data"]["deliveryPrice"].doubleValue)
-//            self.payAlert.servicePrice = D_2_STR(self.dataModel.serviceFee)
-//            self.payAlert.alertReloadData()
-//
-//            self.payAlert.appearAction()
-//
-//        }, onError: { (error) in
-//            HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
-//        }).disposed(by: self.bag)
-//    }
+
     
     
     private func showPayAlert() {
@@ -289,7 +268,7 @@ class OderListConfirmController: BaseViewController, UITableViewDelegate, UITabl
     private func jumpDetailVC(isCanWheel: Bool) {
         if self.isDetailVC {
     
-            var vcs: [UIViewController] = self.navigationController!.viewControllers
+            let vcs: [UIViewController] = self.navigationController!.viewControllers
             let detailVC: OrderDetailController = vcs[vcs.count - 2] as! OrderDetailController
             detailVC.isPayAfter = isCanWheel
             self.navigationController?.popViewController(animated: true)
@@ -314,30 +293,7 @@ class OderListConfirmController: BaseViewController, UITableViewDelegate, UITabl
         }).disposed(by: self.bag)
     }
 
-    
-    
-//    //获取钱包
-//    @objc func getWalletMoney_Net() {
-//
-//
-//        HTTPTOOl.getWalletAmount().subscribe(onNext: { (json) in
-//
-//            let moneyStr = "£" + json["data"]["amount"].stringValue
-//            self.walletView.setData(money: moneyStr)
-//            let w = moneyStr.getTextWidth(SFONT(11), 23) > 15 ? moneyStr.getTextWidth(SFONT(11), 23) : 15
-//
-//
-//            self.walletView.snp.makeConstraints {
-//                $0.bottom.equalToSuperview().offset(-bottomBarH - 80)
-//                $0.right.equalToSuperview().offset(-20)
-//                $0.size.equalTo(CGSize(width: w + 50, height: 32))
-//            }
-//            self.walletView.isHidden = false
-//
-//        }, onError: { (error) in
-//            HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
-//        }).disposed(by: self.bag)
-//    }
+
 }
 
 
@@ -361,21 +317,19 @@ extension OderListConfirmController {
                 return dataModel.dishArr.count
             }
         }
+        
         if section == 3 {
-//            if dataModel.dishArr.count <= 2 {
-//                return 0
-//            }
             return 1
         }
-        //拿掉优惠券
-        if section == 5 {
-            return 0
+        
+        if section == 4 {
+            if dataModel.couponDish.dishName == "" {
+                return 0
+            } else {
+                return 1
+            }
         }
         
-        if section == 8 {
-            return 0
-        }
-
         return 1
     }
 
@@ -400,7 +354,12 @@ extension OderListConfirmController {
                 return 60
             }
         }
+        
         if indexPath.section == 4 {
+            return 140
+        }
+        
+        if indexPath.section == 5 {
             
             let h = dataModel.reserveMsg.getTextHeigh(SFONT(10), S_W - 60) > 11 ? dataModel.reserveMsg.getTextHeigh(SFONT(10), S_W - 60) : 11
 
@@ -413,25 +372,13 @@ extension OderListConfirmController {
             }
         }
         
-        
-        if indexPath.section == 5 {
-            return 95
-        }
         if indexPath.section == 6 {
             return 155
         }
         if indexPath.section == 7 {
 
-//            if dataModel.discountMsg == "" {
-//                return 190
-//            }
-//            let h = dataModel.discountMsg.getTextHeigh(SFONT(10), S_W - 60)
-//            return 175 + 20 + 10 + h
             return dataModel.confirmMoney_H
             
-        }
-        if indexPath.section == 8 {
-            return 160
         }
 
         return 85
@@ -471,7 +418,15 @@ extension OderListConfirmController {
                 return cell
             }
         }
+        
         if indexPath.section == 4 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "OrderCouponDishCell") as! OrderCouponDishCell
+            cell.setCellData(model: dataModel.couponDish)
+            return cell
+        }
+        
+        
+        if indexPath.section == 5 {
 
             if dataModel.type == "1" {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OrderListInputCell") as! OrderListInputCell
@@ -486,10 +441,6 @@ extension OderListConfirmController {
                 return cell
             }
         }
-        if indexPath.section == 5 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "OrderCouponsCell") as! OrderCouponsCell
-            return cell
-        }
         if indexPath.section == 6 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderRemarkCell") as! OrderRemarkCell
             cell.setCellData(cStr: dataModel.remark, isCanEdite: false)
@@ -503,17 +454,6 @@ extension OderListConfirmController {
         }
 
         if indexPath.section == 8 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "OrderChoosePayWayCell") as! OrderChoosePayWayCell
-            cell.setCellData(status: self.dataModel.storePayType, type: payWay)
-            cell.clickTypeBlock = { [unowned self] (type) in
-                self.payWay = type as! String
-                self.mainTable.reloadSections([8], with: .none)
-            }
-            return cell
-
-        }
-
-        if indexPath.section == 9 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderPayButCell") as! OrderPayButCell
             
             cell.setCellData(titStr: "Confirm An Order")

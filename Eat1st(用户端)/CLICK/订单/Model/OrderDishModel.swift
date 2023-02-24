@@ -37,9 +37,11 @@ class OrderDishModel: NSObject {
     var discountType: String = ""
     ///优惠百分比
     var discountSale: String = ""
-    ///菜品类型（1正常购买，2优惠券赠菜
+    ///菜品类型（1单品， 2套餐）
     var dishesType: String = ""
     
+    ///cell的高度
+    var dish_H: CGFloat = 0
     
     
     
@@ -64,22 +66,42 @@ class OrderDishModel: NSObject {
         }
         
         
-        
         var t1: String = ""
         var t2: String = ""
-        for (idx, jsonData) in json["optionList"].arrayValue.enumerated() {
+
+        if dishesType == "2" {
+            //套餐
+            for (idx, jsonData) in json["comboList"].arrayValue.enumerated() {
+                if idx == 0 {
+                    t1 = jsonData["dishesName"].stringValue
+                    t2 = jsonData["dishesName"].stringValue
+                } else {
+                    t1 = t1 + "\n" + jsonData["dishesName"].stringValue
+                    t2 = t2 + "\n" + jsonData["dishesName"].stringValue
+                }
+            }
             
-            if idx == 0 {
-                t1 = jsonData["optionName"].stringValue
-                t2 = jsonData["optionName"].stringValue
-            } else {
-                t1 = t1 + "/" + jsonData["optionName"].stringValue
-                t2 = t2 + "/" + jsonData["optionName"].stringValue
+        } else  {
+            //单品
+            for (idx, jsonData) in json["optionList"].arrayValue.enumerated() {
+                
+                if idx == 0 {
+                    t1 = jsonData["optionName"].stringValue
+                    t2 = jsonData["optionName"].stringValue
+                } else {
+                    t1 = t1 + "/" + jsonData["optionName"].stringValue
+                    t2 = t2 + "/" + jsonData["optionName"].stringValue
+                }
             }
         }
         
         self.des_C = t2
         self.des_E = t1
+        
+        let h1 = self.name_C.getTextHeigh(BFONT(14), S_W - 155)
+        let h2 = self.des_C.getTextHeigh(SFONT(11), S_W - 145)
+        self.dish_H = h1 + h2 + 35 < 75 ? 75 : h1 + h2 + 35
+
         
         var tArr2: [DishTagsModel] = []
         for jsonData in json["tagList"].arrayValue {

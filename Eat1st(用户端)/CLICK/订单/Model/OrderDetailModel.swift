@@ -139,6 +139,10 @@ class OrderDetailModel: NSObject {
     ///菜品数组
     var dishArr: [OrderDishModel] = []
     
+    ///优惠券菜品
+    var couponDish = CartDishModel()
+
+    
     ///配送员ID
     var deliveryMan: String = ""
 
@@ -318,6 +322,8 @@ class OrderDetailModel: NSObject {
             tArr.append(model)
         }
         self.dishArr = tArr
+        
+        self.couponDish.updateModel(json: json["couponResult"]["dishesResult"])
         
         if discountMsg == "" {
             self.discountMsg_H = 0

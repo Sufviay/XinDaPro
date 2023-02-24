@@ -19,6 +19,7 @@ class OrderGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionV
         let img = UIImageView()
         img.clipsToBounds = true
         img.layer.cornerRadius = 10
+        img.contentMode = .scaleAspectFill
         return img
     }()
 
@@ -234,48 +235,31 @@ class OrderGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionV
         self.countLab.text = "x\(model.count)"
         self.tagArr = model.tagList.filter{ $0.tagImg != "" }
         
-        
-        if model.dishesType == "2" {
-            //赠送的菜
-            self.freeLab.isHidden = false
-            self.freeCountLab.isHidden = false
-            self.slab.isHidden = true
-            self.moneyLab.isHidden = true
-            self.disMoneyLab.isHidden = true
-            self.countLab.isHidden = true
-            self.disBackImg.isHidden = true
-            self.moneyLab.text = ""
-            self.disMoneyLab.text = ""
-            self.discountScaleLab.text = ""
+        //正常的菜
+        self.freeLab.isHidden = true
+        self.freeCountLab.isHidden = true
+        self.slab.isHidden = false
+        self.moneyLab.isHidden = false
+        self.countLab.isHidden = false
+
+        if model.discountType == "2" {
+            //有优惠
+            self.moneyLab.text = D_2_STR(model.discountPrice)
+            self.disMoneyLab.text = "£\(model.subFee)"
+            self.discountScaleLab.text = "\(model.discountSale)%OFF"
+            self.disMoneyLab.isHidden = false
+            self.disBackImg.isHidden = false
             
         } else {
-            //正常的菜
-            self.freeLab.isHidden = true
-            self.freeCountLab.isHidden = true
-            self.slab.isHidden = false
-            self.moneyLab.isHidden = false
-            self.countLab.isHidden = false
-
-            if model.discountType == "2" {
-                //有优惠
-                self.moneyLab.text = D_2_STR(model.discountPrice)
-                self.disMoneyLab.text = "£\(model.subFee)"
-                self.discountScaleLab.text = "\(model.discountSale)%OFF"
-                self.disMoneyLab.isHidden = false
-                self.disBackImg.isHidden = false
-                
-            } else {
-                //无优惠
-                self.moneyLab.text = D_2_STR(model.subFee)
-                self.disMoneyLab.text = ""
-                self.discountScaleLab.text = ""
-                self.disMoneyLab.isHidden = true
-                self.disBackImg.isHidden = true
-
-            }
+            //无优惠
+            self.moneyLab.text = D_2_STR(model.subFee)
+            self.disMoneyLab.text = ""
+            self.discountScaleLab.text = ""
+            self.disMoneyLab.isHidden = true
+            self.disBackImg.isHidden = true
 
         }
-        
+
     
         self.collection.reloadData()
 
@@ -356,7 +340,7 @@ class OrderConfirmGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UIColl
         let img = UIImageView()
         img.clipsToBounds = true
         img.layer.cornerRadius = 10
-        img.contentMode = .scaleAspectFit
+        img.contentMode = .scaleAspectFill
         return img
     }()
 

@@ -662,10 +662,6 @@ extension ConfirmOrderController {
                 return 1
             }
         }
-
-        if section == 6 {
-            return 1
-        }
                 
         return 1
     }

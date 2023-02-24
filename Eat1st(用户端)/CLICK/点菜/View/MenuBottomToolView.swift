@@ -15,16 +15,7 @@ class MenuBottomToolView: UIView {
     
     private var isCanCheck: Bool = false
 
-    
-    ///购物车价格
-//     var money: Float = 0
-//    {
-//        didSet {
-//            self.moneyLab.text = String(money)
-//        }
-//    }
-
-    
+        
     
     private let confirmBut: UIButton = {
         let but = UIButton()
@@ -239,7 +230,7 @@ class MenuBottomToolView: UIView {
         /// discountType 1有折扣，2无折扣
         if discountType == "1" {
         
-            if dishMoney == "0.00" {
+            if dishMoney == "0" {
                 self.d_moneyLab.isHidden = true
             } else {
                 self.d_moneyLab.isHidden = false
