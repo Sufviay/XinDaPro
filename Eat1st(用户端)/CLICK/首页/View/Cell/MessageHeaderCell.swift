@@ -97,7 +97,7 @@ class MessageBottomCell: BaseTableViewCell {
     private let goLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(MAINCOLOR, BFONT(13), .left)
-        lab.text = "To travel to"
+        lab.text = "To view"
         return lab
     }()
 

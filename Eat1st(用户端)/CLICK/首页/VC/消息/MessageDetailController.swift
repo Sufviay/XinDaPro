@@ -157,6 +157,16 @@ extension MessageDetailController {
                 nextVC.storeID = dataModel.sikpContent
                 self.navigationController?.setViewControllers([FirstController(), nextVC], animated: true)
             }
+            
+            if dataModel.sikpType == "3" {
+                //跳转链接
+                let webVC = ServiceController()
+                webVC.titStr = ""
+                webVC.webUrl = dataModel.sikpContent
+                self.present(webVC, animated: true, completion: nil)
+
+                
+            }
         }
     }
     

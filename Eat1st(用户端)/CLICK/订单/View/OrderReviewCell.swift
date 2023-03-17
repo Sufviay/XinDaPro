@@ -244,7 +244,7 @@ class OrderReviewCell: BaseTableViewCell {
         self.starView1.setPointValue = Int(ceil(model.dishStar))
         self.starlab1.text = String(model.dishStar)
         self.starView2.setPointValue = Int(ceil(model.serviceStar))
-        self.starlab1.text = String(model.serviceStar)
+        self.starlab2.text = String(model.serviceStar)
         self.starView3.setPointValue = Int(ceil(model.deliveryStar))
         self.starlab3.text = String(model.deliveryStar)
         self.repLab.text = model.pjReplyContent

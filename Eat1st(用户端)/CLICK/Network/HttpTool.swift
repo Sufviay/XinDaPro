@@ -55,26 +55,36 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
                         if api.path != "api/user/help/getHelpDetail" && api.path != "api/user/message/getMessageList" {
                             //获取数据字典
                             guard let dic = json.dictionaryObject else {
+
+                                print("+++++++++++++++++出错了")
+
                                 return
                             }
                             //字典转json字符串
                             let jsonStr = PJCUtil.convertDictionaryToString(dict: dic)
                             //统一处理转义符号
-                            
+                        
                             let deJsonStr = String(htmlEncodedString: jsonStr)
-                            
+                        
+
                             if deJsonStr == nil {
+                                print("+++++++++++++++++出错了")
                                 return
                             }
-                            
 //                            jsonStr = PJCUtil.dealHtmlZhuanYiString(contentStr: jsonStr)
 
                             //根据处理转义符号后的jsonString生成JSON
+                            
+                            
+                            
                             guard let data = deJsonStr!.data(using: .utf8) else {
+                                print("+++++++++++++++++出错了")
                                 return
                             }
 
                             json = JSON(data)
+
+                            print(json)
                         }
                         
                         if json["code"].stringValue == "1"  {
