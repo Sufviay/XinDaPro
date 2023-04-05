@@ -224,20 +224,34 @@ class HttpTool {
     
     
     //MARK: - 获取阶梯配送费
-    func getDeliveryFeeList() -> Observable<JSON> {
-        let response = rxApiManager(api: .getDeliveryFeeList)
+    func getDeliveryFeeListAndType() -> Observable<JSON> {
+        let response = rxApiManager(api: .getDeliveryFeeListAndType)
         return Observable<JSON>.create(response)
     }
     
-    //MARK: - 修改阶梯配送费
-    func addDelivaryFeeList(list: [[String: Any]]) -> Observable<JSON> {
-        let response = rxApiManager(api: .addDeliveryFeeList(list: list))
+    //MARK: - 添加阶梯配送费
+    func addDelivaryFee(amount: String, distance: String, postcode: String, type: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .addDeliveryFee(amount: amount, distance: distance, postCode: postcode, type: type))
         return Observable<JSON>.create(response)
     }
+    
+    //MARK: - 编辑阶梯配送费
+    func editeDelivaryFee(amount: String, distance: String, postcode: String, id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .editeDeliveryFee(amount: amount, distance: distance, postCode: postcode, id: id))
+        return Observable<JSON>.create(response)
+    }
+    
+    
     
     //MARK: - 删除配送费
     func deleteDeliveryFee(id: String) -> Observable<JSON> {
         let response = rxApiManager(api: .deleteDeliveryFee(id: id))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 设置配送方式
+    func setDeliveryType(type: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .setDeliveryType(type: type))
         return Observable<JSON>.create(response)
     }
     

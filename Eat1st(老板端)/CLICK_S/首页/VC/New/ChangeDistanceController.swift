@@ -14,7 +14,30 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
     
     private let bag = DisposeBag()
     
-    private var dataArr: [DeliveryFeeModel] = []
+    
+    ///配送费方式
+    private var feeType: String = "1" {
+        didSet {
+            //距离
+            if feeType == "1" {
+                postcodeBut.backgroundColor = .clear
+                postcodeBut.setTitleColor(HCOLOR("ADADAD"), for: .normal)
+                radiusBut.backgroundColor = HCOLOR("465DFD")
+                radiusBut.setTitleColor(.white, for: .normal)
+            }
+            //邮编
+            if feeType == "2" {
+                radiusBut.backgroundColor = .clear
+                radiusBut.setTitleColor(HCOLOR("ADADAD"), for: .normal)
+                postcodeBut.backgroundColor = HCOLOR("465DFD")
+                postcodeBut.setTitleColor(.white, for: .normal)
+            }
+        }
+    }
+    
+    
+    private var radiusDataArr: [DeliveryFeeModel] = []
+    private var postCodeDataArr: [DeliveryFeeModel] = []
 
     private let backView: UIView = {
         let view = UIView()
@@ -24,12 +47,34 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
     }()
     
 
-    private let titLab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(10), .left)
-        lab.numberOfLines = 0
-        lab.text = "1. The delivery distance shall be at most one decimal point and must be greater than 0. The delivery fee can be 0.\n2. Delivery distance and delivery fee must be increasing.\n3. The farthest distance is the maximum distribution distance of the store."
-        return lab
+//    private let titLab: UILabel = {
+//        let lab = UILabel()
+//        lab.setCommentStyle(HCOLOR("#666666"), SFONT(10), .left)
+//        lab.numberOfLines = 0
+//        lab.text = "1. The delivery distance shall be at most one decimal point and must be greater than 0. The delivery fee can be 0.\n2. Delivery distance and delivery fee must be increasing.\n3. The farthest distance is the maximum distribution distance of the store."
+//        return lab
+//    }()
+    
+    
+    private let selectBackView: UIView = {
+        let view = UIView()
+        view.backgroundColor = HCOLOR("EEEEEE")
+        view.layer.cornerRadius = 5
+        return view
+    }()
+    
+    private let radiusBut: UIButton = {
+        let but = UIButton()
+        but.setCommentStyle(.zero, "Radius", HCOLOR("#ADADAD"), BFONT(11), .clear)
+        but.layer.cornerRadius = 5
+        return but
+    }()
+    
+    private let postcodeBut: UIButton = {
+        let but = UIButton()
+        but.setCommentStyle(.zero, "Postcode", HCOLOR("#ADADAD"), BFONT(11), .clear)
+        but.layer.cornerRadius = 5
+        return but
     }()
     
     private let line: UIView = {
@@ -64,9 +109,8 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
     private lazy var editeView: DistanceEditeView = {
         let view = DistanceEditeView()
         
-        view.clickSaveBlock = { [unowned self] (val) in
-            let par = val as! [[String: Any]]
-            self.addData_Net(par: par)
+        view.clickSaveBlock = { [unowned self] _ in
+            self.getData_Net()
         }
         
         return view
@@ -94,19 +138,34 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
             $0.top.equalToSuperview().offset(statusBarH + 80)
         }
         
-        backView.addSubview(titLab)
-        titLab.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(20)
-            $0.right.equalToSuperview().offset(-20)
+
+        backView.addSubview(selectBackView)
+        selectBackView.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 140, height: 30))
+            $0.centerX.equalToSuperview()
             $0.top.equalToSuperview().offset(20)
         }
+        
+        selectBackView.addSubview(radiusBut)
+        radiusBut.snp.makeConstraints {
+            $0.left.top.bottom.equalToSuperview()
+            $0.width.equalTo(70)
+        }
+        
+        
+        selectBackView.addSubview(postcodeBut)
+        postcodeBut.snp.makeConstraints {
+            $0.right.top.bottom.equalToSuperview()
+            $0.width.equalTo(70)
+        }
+        
         
         backView.addSubview(line)
         line.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
             $0.right.equalToSuperview().offset(-20)
             $0.height.equalTo(0.5)
-            $0.top.equalTo(titLab.snp.bottom).offset(20)
+            $0.top.equalTo(selectBackView.snp.bottom).offset(20)
         }
         
         backView.addSubview(table)
@@ -117,14 +176,39 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
         }
         
         
-        self.leftBut.addTarget(self, action: #selector(clickLeftButAction), for: .touchUpInside)
-
+        leftBut.addTarget(self, action: #selector(clickLeftButAction), for: .touchUpInside)
+        radiusBut.addTarget(self, action: #selector(clickRaAction), for: .touchUpInside)
+        postcodeBut.addTarget(self, action: #selector(clickPosAction), for: .touchUpInside)
     }
     
     
     @objc private func clickLeftButAction() {
         self.navigationController?.popViewController(animated: true)
     }
+    
+    
+    @objc private func clickRaAction() {
+        if feeType != "1" {
+            feeType = "1"
+            self.table.reloadData()
+            if radiusDataArr.count != 0 {
+                setDeliveryType_Net()
+            }
+            
+        }
+        
+    }
+    
+    @objc private func clickPosAction() {
+        if feeType != "2" {
+            feeType = "2"
+            self.table.reloadData()
+            if postCodeDataArr.count != 0 {
+                setDeliveryType_Net()
+            }
+        }
+    }
+    
 
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -140,7 +224,12 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return dataArr.count
+            if feeType == "1" {
+                return radiusDataArr.count
+            }
+            if feeType == "2" {
+                return postCodeDataArr.count
+            }
         }
         return 1
     }
@@ -148,22 +237,24 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DistanceChargeCell") as! DistanceChargeCell
-            cell.setCellData(model: dataArr[indexPath.row])
+                
+            let model = feeType == "1" ? radiusDataArr[indexPath.row] : postCodeDataArr[indexPath.row]
+            cell.setCellData(model: model, type: feeType)
             cell.clickDeleteBlock = { [unowned self] (_) in
                 
                 //二次确认
                 self.showSystemChooseAlert("Alert", "Delete it?", "YES", "NO") {
-                    self.deleteData_Net(id: self.dataArr[indexPath.row].id)
+                    self.deleteData_Net(id: (self.feeType == "1" ? self.radiusDataArr[indexPath.row].id : self.postCodeDataArr[indexPath.row].id))
                 }
 
             }
             
             cell.editeBlock = { [unowned self] (_) in
                 //编辑
-                let model = dataArr[indexPath.row]
-                editeView.curFeeList = self.dataArr
-                editeView.setValueWith(miles: String(model.distance), pound: String(model.amount))
-                editeView.editeIdx = indexPath.row
+                
+                let model = feeType == "1" ? radiusDataArr[indexPath.row] : postCodeDataArr[indexPath.row]
+                editeView.feeType = feeType
+                editeView.setEditeValueWith(milesOrPostcode: (feeType == "1" ? String(model.distance) : model.postCode), pound: String(model.amount), id: model.id)
                 editeView.isEdite = true
                 editeView.appearAction()
             }
@@ -178,9 +269,8 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 1 {
-            editeView.curFeeList = self.dataArr
-            editeView.setValueWith(miles: "", pound: "")
             editeView.isEdite = false
+            editeView.feeType = feeType
             editeView.appearAction()
         }
     }
@@ -192,32 +282,26 @@ extension ChangeDistanceController {
     //MARK: - 网络请求
     private func getData_Net() {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.getDeliveryFeeList().subscribe(onNext: { (json) in
+        HTTPTOOl.getDeliveryFeeListAndType().subscribe(onNext: { (json) in
             HUD_MB.dissmiss(onView: self.view)
-            var tArr: [DeliveryFeeModel] = []
-            for jsonData in json["data"].arrayValue {
+            self.feeType = json["data"]["feeType"].stringValue
+            var tarr: [DeliveryFeeModel] = []
+            
+            for jsonData in json["data"]["deliveryFeeList"].arrayValue {
                 let model = DeliveryFeeModel()
                 model.updateModel(json: jsonData)
-                tArr.append(model)
+                tarr.append(model)
             }
-            self.dataArr = tArr
+                
+            self.radiusDataArr = tarr.filter { $0.type == "1" }
+            self.postCodeDataArr = tarr.filter { $0.type == "2" }
             self.table.reloadData()
             
         }, onError: { (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
-    
-    //添加一条
-    private func addData_Net(par: [[String: Any]]) {
-        HUD_MB.loading("", onView: view)
-        HTTPTOOl.addDelivaryFeeList(list: par).subscribe(onNext: { (json) in
-            self.getData_Net()
-            
-        }, onError: { (error) in
-            HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
-        }).disposed(by: self.bag)
-    }
+
     
     //删除一条
     func deleteData_Net(id: String) {
@@ -229,6 +313,16 @@ extension ChangeDistanceController {
         }).disposed(by: self.bag)
     }
     
+    
+    //设置配送方式
+    func setDeliveryType_Net() {
+        HUD_MB.loading("", onView: view)
+        HTTPTOOl.setDeliveryType(type: feeType).subscribe(onNext: { json in
+            HUD_MB.dissmiss(onView: self.view)
+        }, onError: {error in
+            HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
+        }).disposed(by: self.bag)
+    }
     
     
 }

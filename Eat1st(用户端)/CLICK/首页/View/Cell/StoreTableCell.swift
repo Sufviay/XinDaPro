@@ -326,8 +326,6 @@ class StoreTableCell: BaseTableViewCell {
         
 
         
-
-        
         if model.leftImgUrl == "" {
             self.zhanWeiImg.isHidden = true
         } else {

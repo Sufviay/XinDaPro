@@ -546,7 +546,6 @@ extension FirstController {
         if UserDefaults.standard.isLogin {
             
             HTTPTOOl.getStoreListFirstDiscount().subscribe(onNext: { (json) in
-                
                 //获取存在首单优惠的店铺ID
                 var storeIDArr: [String] = []
                 for jsondata in json["data"].arrayValue {
@@ -563,13 +562,12 @@ extension FirstController {
                         model.isFirstDiscount = false
                     }
                 }
-                
                 self.table.reloadSections([3], with: .none)
-            
             }).disposed(by: self.bag)
         }
     }
     
+
     
     
     private func loadData_Net() {

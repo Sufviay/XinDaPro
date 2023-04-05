@@ -180,8 +180,23 @@ class DistanceChargeCell: BaseTableViewCell {
         
     }
     
-    func setCellData(model: DeliveryFeeModel) {
-        self.mNumLab.text = String(model.distance)
+    func setCellData(model: DeliveryFeeModel, type: String) {
+        
+        if type == "1" {
+            self.tlab1.text = "Distribution distance"
+            self.tlab2.isHidden = false
+            self.mNumLab.text = String(model.distance)
+            self.mlab.text = "MILES"
+            
+        }
+        if type == "2" {
+            self.tlab1.text = "Delivery area Postcode"
+            self.tlab2.isHidden = true
+            self.mNumLab.text = model.postCode
+            self.mlab.text = ""
+        }
+        
+        
         self.pNumLab.text = String(model.amount)
     }
     

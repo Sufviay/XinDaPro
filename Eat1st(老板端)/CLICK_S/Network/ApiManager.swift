@@ -55,10 +55,15 @@ enum ApiManager {
     case setStoreOpenStatus(coStatus: String, deStatus: String)
     //设置菜品上下架
     case setDishesOnOffStatus(dishes: [[String: String]])
-    ///获取店铺阶梯配送费
-    case getDeliveryFeeList
+    ///获取店铺阶梯配送费列表和配送方式
+    case getDeliveryFeeListAndType
     ///添加店铺阶梯配送费
-    case addDeliveryFeeList(list: [[String: Any]])
+    case addDeliveryFee(amount: String, distance: String, postCode: String, type: String)
+    ///编辑店铺的配送费
+    case editeDeliveryFee(amount: String, distance: String, postCode: String, id: String)
+    ///设置配送方式
+    case setDeliveryType(type: String)
+    
     ///删除配送费
     case deleteDeliveryFee(id: String)
     ///获取菜品分类列表
@@ -300,12 +305,16 @@ extension ApiManager: TargetType {
             return "api/boss/store/updateAllOpenStatus"
         case .setDishesOnOffStatus(dishes: _):
             return "api/boss/dishes/doStatus"
-        case .getDeliveryFeeList:
-            return "api/boss/store/getDeliveryFee"
-        case .addDeliveryFeeList(list: _):
-            return "api/boss/store/doSaveDeliveryFee"
+        case .getDeliveryFeeListAndType:
+            return "api/boss/store/delivery/fee/getDeliveryTypeAndFeeList"
+        case .addDeliveryFee(amount: _, distance: _, postCode: _, type: _):
+            return "api/boss/store/delivery/fee/doSaveDeliveryFee"
+        case .editeDeliveryFee(amount: _, distance: _, postCode: _, id: _):
+            return "api/boss/store/delivery/fee/doUpdateDeliveryFee"
         case .deleteDeliveryFee(id: _):
-            return "api/boss/store/doDeleteDeliveryFee"
+            return "api/boss/store/delivery/fee/doDelDeliveryFee"
+        case .setDeliveryType(type: _):
+            return "api/boss/store/delivery/fee/doDeliveryType"
         case .setSpecOnOffStatus(id: _):
             return "api/boss/dishes/spec/doSpecStatus"
         case .setOptionItemOnoffStatus(id: _):
@@ -555,12 +564,17 @@ extension ApiManager: TargetType {
             dic = ["dishesId": id]
         case .setDishesOnOffStatus(let dishes):
             dic = ["dishesList" : dishes]
-        case .getDeliveryFeeList:
+        case .getDeliveryFeeListAndType:
             dic = [:]
-        case .addDeliveryFeeList(let list):
-            dic = ["list": list]
+        case .addDeliveryFee(let amount, let distance, let postCode, let type):
+            dic = ["amount": amount, "distance": distance, "postCode": postCode, "feeType": type]
+        case .editeDeliveryFee(let amount, let distance, let postCode, let id):
+            dic = ["amount": amount, "distance": distance, "postCode": postCode, "feeId": id]
         case .deleteDeliveryFee(let id):
             dic = ["feeId": id]
+        case .setDeliveryType(let type):
+            dic = ["feeType": type]
+            
         case .setSpecOnOffStatus(let id):
             dic = ["specId": id]
         case .setOptionItemOnoffStatus(let id):

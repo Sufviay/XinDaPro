@@ -213,18 +213,18 @@ extension FirstSideToolView {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-//        if section == 0 || section == titStrArr.count {
-//            return 1
-//        } else if section == 1 {
-//            if UserDefaults.standard.userAuth == "2" {
-//                return 1
-//            } else {
-//                return 0
-//            }
-//        } else {
-//            return 0
-//        }
-        return 1
+        if section == 0 || section == titStrArr.count {
+            return 1
+        } else if section == 1 {
+            if UserDefaults.standard.userAuth == "2" {
+                return 1
+            } else {
+                return 0
+            }
+        } else {
+            return 0
+        }
+        //return 1
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

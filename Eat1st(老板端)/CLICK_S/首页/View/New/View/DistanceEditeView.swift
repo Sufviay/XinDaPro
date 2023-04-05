@@ -6,19 +6,41 @@
 //
 
 import UIKit
+import RxSwift
+
+
 
 class DistanceEditeView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
     
-    var curFeeList: [DeliveryFeeModel] = []
+    //var curFeeList: [DeliveryFeeModel] = []
+    
+    private let bag = DisposeBag()
 
     private var H: CGFloat = bottomBarH + 330
     
     var isEdite: Bool = false
     
-    var clickSaveBlock: VoidBlock? 
-
-    var editeIdx: Int = 0
+    private var feeID: String = ""
     
+    var feeType: String = "" {
+        didSet {
+            if feeType == "1" {
+                self.mlab.text = "MILES"
+                self.tlab1.text = "Distribution distance"
+                self.tlab2.isHidden = false
+            }
+            if feeType == "2" {
+                self.mlab.text = ""
+                self.tlab1.text = "Delivery area Postcode"
+                self.tlab2.isHidden = true
+            }
+        }
+    }
+    
+    var clickSaveBlock: VoidBlock?
+
+
+
     private let backView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -109,6 +131,7 @@ class DistanceEditeView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegat
         tf.font = BFONT(14)
         tf.textColor = HCOLOR("333333")
         tf.delegate = self
+        tf.tag = 100
         return tf
     }()
     
@@ -118,6 +141,7 @@ class DistanceEditeView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegat
         tf.font = BFONT(14)
         tf.textColor = HCOLOR("333333")
         tf.delegate = self
+        tf.tag = 200
         return tf
     }()
 
@@ -253,65 +277,102 @@ class DistanceEditeView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegat
         
     
         if self.mInPutTF.text != "" && self.pInPutTF.text != "" {
-
-            var tArr = curFeeList
             
-            let model = DeliveryFeeModel()
-            model.distance = Float(mInPutTF.text!) ?? 0
-            model.amount = Float(pInPutTF.text!) ?? 0
+            //邮编
+            let postCode = feeType == "1" ? "" : mInPutTF.text!
+            //范围
+            let radius = feeType == "1" ? mInPutTF.text! : ""
             
-            
+            HUD_MB.loading("", onView: backView)
             if isEdite {
-                //如果是编辑就先移除要编辑的Model
-                tArr.remove(at: editeIdx)
-            }
-            
-            //判断设置的距离是否可用。（不存在即可用）
-            var disIsSort: Bool = true
-            for tmodel in tArr {
-                if model.distance == tmodel.distance {
-                    disIsSort = false
-                    break
-                }
-            }
-
-            if disIsSort {
-                //可用后判断费用是否可用（需递增的顺序）
-                tArr.append(model)
-                tArr.sort { $0.distance < $1.distance }
-
-                var isFeeSort: Bool = true
-                for (idx, model) in tArr.enumerated() {
-                    if idx != tArr.count - 1 {
-                        if model.amount >= tArr[idx + 1].amount {
-                            isFeeSort = false
-                            break
-                        }
-                    }
-                }
-
-                if isFeeSort {
-
-                    var parDicArr: [[String: Any]] = []
-
-                    for model in tArr {
-                        let dic = ["amount": model.amount, "distance": model.distance]
-                        parDicArr.append(dic)
-                    }
-
-                    self.clickSaveBlock?(parDicArr)
+                //编辑
+                HTTPTOOl.editeDelivaryFee(amount: pInPutTF.text!, distance: radius, postcode: postCode, id: feeID).subscribe(onNext: { json in
+                    //编辑成功
+                    HUD_MB.dissmiss(onView: self.backView)
+                    self.clickSaveBlock?("")
                     self.disAppearAction()
-
-                } else {
-                    //填写的费用不可用
-                    HUD_MB.showWarnig("The delivery fee must be incremental", onView: PJCUtil.getWindowView())
-                }
-
-
+                }, onError: { error in
+                    HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.backView)
+                }).disposed(by: self.bag)
+                
+                
             } else {
-                //填写的距离不可用
-                HUD_MB.showWarnig("The delivery distance must be increasing", onView: PJCUtil.getWindowView())
+                //保存
+                HTTPTOOl.addDelivaryFee(amount: pInPutTF.text!, distance: radius, postcode: postCode, type: feeType).subscribe(onNext: { json in
+                    //保存成功
+                    //设置配送方式
+                    HTTPTOOl.setDeliveryType(type: self.feeType).subscribe(onNext: { _ in
+                        HUD_MB.dissmiss(onView: self.backView)
+                        self.clickSaveBlock?("")
+                        self.disAppearAction()
+                    }, onError: {error in
+                        HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.backView)
+                    }).disposed(by: self.bag)
+                    
+                }, onError: {error in
+                    HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.backView)
+                }).disposed(by: self.bag)
+                
             }
+
+//            var tArr = curFeeList
+//
+//            let model = DeliveryFeeModel()
+//            model.distance = Float(mInPutTF.text!) ?? 0
+//            model.amount = Float(pInPutTF.text!) ?? 0
+//
+//
+//            if isEdite {
+//                //如果是编辑就先移除要编辑的Model
+//                tArr.remove(at: editeIdx)
+//            }
+//
+//            //判断设置的距离是否可用。（不存在即可用）
+//            var disIsSort: Bool = true
+//            for tmodel in tArr {
+//                if model.distance == tmodel.distance {
+//                    disIsSort = false
+//                    break
+//                }
+//            }
+//
+//            if disIsSort {
+//                //可用后判断费用是否可用（需递增的顺序）
+//                tArr.append(model)
+//                tArr.sort { $0.distance < $1.distance }
+//
+//                var isFeeSort: Bool = true
+//                for (idx, model) in tArr.enumerated() {
+//                    if idx != tArr.count - 1 {
+//                        if model.amount >= tArr[idx + 1].amount {
+//                            isFeeSort = false
+//                            break
+//                        }
+//                    }
+//                }
+//
+//                if isFeeSort {
+//
+//                    var parDicArr: [[String: Any]] = []
+//
+//                    for model in tArr {
+//                        let dic = ["amount": model.amount, "distance": model.distance]
+//                        parDicArr.append(dic)
+//                    }
+//
+//                    self.clickSaveBlock?(parDicArr)
+//                    self.disAppearAction()
+//
+//                } else {
+//                    //填写的费用不可用
+//                    HUD_MB.showWarnig("The delivery fee must be incremental", onView: PJCUtil.getWindowView())
+//                }
+
+//
+//            } else {
+//                //填写的距离不可用
+//                HUD_MB.showWarnig("The delivery distance must be increasing", onView: PJCUtil.getWindowView())
+//            }
 
         }
         
@@ -359,9 +420,10 @@ class DistanceEditeView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegat
         }
     }
     
-    func setValueWith(miles: String, pound: String) {
-        self.mInPutTF.text = miles
+    func setEditeValueWith(milesOrPostcode: String, pound: String, id: String) {
+        self.mInPutTF.text = milesOrPostcode
         self.pInPutTF.text = pound
+        self.feeID = id
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
@@ -373,6 +435,11 @@ class DistanceEditeView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegat
     
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        if textField.tag == 100 && feeType == "2" {
+            return true
+        }
+        
         let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
     // 只允许输入数字和两位小数
         let expression =  "^[0-9]*((\\.|,)[0-9]{0,2})?$"
