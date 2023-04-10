@@ -62,7 +62,6 @@ class MenuCartView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UI
         tableView.dataSource = self
         tableView.contentInsetAdjustmentBehavior = .never
         tableView.register(MenuCartGoodsCell.self, forCellReuseIdentifier: "MenuCartGoodsCell")
-        tableView.register(CartComboGoodsCell.self, forCellReuseIdentifier: "CartComboGoodsCell")
         return tableView
     }()
 
@@ -209,37 +208,19 @@ extension MenuCartView {
         
         
         let model = cartDataArr[indexPath.row]
-        if model.dishesType == "2" {
-            //套餐
-            let cell = tableView.dequeueReusableCell(withIdentifier: "CartComboGoodsCell") as! CartComboGoodsCell
-            cell.setCellData(model: model)
-            
-            cell.clickCountBlock = { [unowned self] (par) in
-                let count = par as! Int
-                self.updateCart_Net(cartID: self.cartDataArr[indexPath.row].cartID, buyNum: count, idx: indexPath.row)
-            }
-            
-            cell.clickDeleteBlock = { [unowned self] (_) in
-                self.deleteCartGoods_Net(id: self.cartDataArr[indexPath.row].cartID, idx: indexPath.row)
-            }
-            
-            return cell
-        } else {
-            //单品
-            let cell = tableView.dequeueReusableCell(withIdentifier: "MenuCartGoodsCell") as! MenuCartGoodsCell
-            cell.setCellData(model: model)
-            
-            cell.clickCountBlock = { [unowned self] (par) in
-                let count = par as! Int
-                self.updateCart_Net(cartID: self.cartDataArr[indexPath.row].cartID, buyNum: count, idx: indexPath.row)
-            }
-            
-            cell.clickDeleteBlock = { [unowned self] (_) in
-                self.deleteCartGoods_Net(id: self.cartDataArr[indexPath.row].cartID, idx: indexPath.row)
-            }
-            
-            return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MenuCartGoodsCell") as! MenuCartGoodsCell
+        cell.setCellData(model: model)
+        
+        cell.clickCountBlock = { [unowned self] (par) in
+            let count = par as! Int
+            self.updateCart_Net(cartID: self.cartDataArr[indexPath.row].cartID, buyNum: count, idx: indexPath.row)
         }
+        
+        cell.clickDeleteBlock = { [unowned self] (_) in
+            self.deleteCartGoods_Net(id: self.cartDataArr[indexPath.row].cartID, idx: indexPath.row)
+        }
+        
+        return cell
     
     }
     

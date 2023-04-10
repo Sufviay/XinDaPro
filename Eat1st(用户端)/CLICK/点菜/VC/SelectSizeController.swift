@@ -22,7 +22,10 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
     
     
     ///当前店铺是卖午餐 还是晚餐 （2午餐 3晚餐）
-    var storeSellLunchOrDinner: String = ""
+    //var storeSellLunchOrDinner: String = ""
+    
+    ///菜品是否可以购买
+    var canBuy: Bool = false
     
     ///菜品ID
     var dishesID: String = ""
@@ -59,7 +62,7 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
     
     private lazy var b_view: DishDetailBottmView = {
         let view = DishDetailBottmView()
-        view.setButTitleType(lunchOrDinner: self.storeSellLunchOrDinner, cartID: self.cartID)
+        view.setButTitleType(canBuy: canBuy, cartID: self.cartID)
         view.clickAddBlock = { [unowned self] (_) in
             self.clickAddOrderAction()
         }
@@ -271,7 +274,7 @@ extension SelectSizeController {
         
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "SizeHeaderCell") as! SizeHeaderCell
-            cell.setCellData(model: dishModel, selectCount: dishCount)
+            cell.setCellData(model: dishModel, selectCount: dishCount, canBuy: canBuy)
             cell.countBlock = { [unowned self] (count) in
                 self.dishCount = count as! Int
                 self.b_view.moneyLab.text = manager.selectedSizeDishMoney(dishModel: self.dishModel, selectIdxArr: selecIdxArr, count: self.dishCount)

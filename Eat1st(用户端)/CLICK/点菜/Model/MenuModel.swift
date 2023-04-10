@@ -9,15 +9,256 @@ import UIKit
 import SwiftyJSON
 
 
-
+//MARK: - 构建页面的数据Model
 class MenuModel: NSObject {
+    
+    ///总的菜品数据
+    var allDataArr:[ClassiftyModel] = []
+    
+    ///营业时间列表
+    var openTimeArr: [OpenTimeModel] = []
+        
+    ///当前的时间段
+    var curentTime = OpenTimeModel()
+    
+    ///当前时间段的位置下标
+    var curTimeIdx: Int = 1000 {
+        didSet {
+            pageDataArr = openTimeArr[curTimeIdx].dataArr
+        }
+    }
+    
+    ///当前选择的菜品分类位置下标
+    var classifyIdx: Int = 0
+    
+    ///是否改变时间段
+    var isChangeSelectTime: Bool = false
+    
+    ///页面展示的菜品数据  根据点击时间段的变化 来改变菜品数据
+    var pageDataArr: [ClassiftyModel] = []
+    
+    ///初始店铺的购买状态 1外卖 2自取 ""为关店状态
+    var buyType: String = "1"
+
     
     ///根据购物车菜品处理之后的单品数据
     var dinnerDataArr: [ClassiftyModel] = []
     ///购物车处理之后的套餐商品
     var lunchDataArr: [DishModel] = []
     
+    
+    
+    func updateModel(json: JSON) {
+                
+        ///时间段列表数据
+        var tArr1: [OpenTimeModel] = []
+        for jsonData in json["data"]["openTimeList"].arrayValue {
+            let model = OpenTimeModel()
+            model.updateModel(json: jsonData)
+            
+            var c_arr: [ClassiftyModel] = []
+            for c_json in json["data"]["classifyList"].arrayValue {
+                let model = ClassiftyModel()
+                model.updateModel(json: c_json)
+                c_arr.append(model)
+            }
+            model.dataArr = c_arr
+            tArr1.append(model)
+        }
+        self.openTimeArr = tArr1
+
+        ///当前时间所在的时间段
+        if (openTimeArr.filter { $0.nowType == "2" }).count != 0 {
+            self.curentTime = (openTimeArr.filter { $0.nowType == "2" })[0]
+            
+            ///设置当前店铺的购买方式 1外卖 2自取 ""为关店状态
+            
+            if curentTime.deliverStatus == "1" {
+                buyType = "1"
+            } else {
+                if curentTime.collectStatus == "1" {
+                    buyType = "2"
+                } else {
+                    buyType = "1"
+                }
+            }
+        }
+        
+        
+        ///分类列表
+        var c_arr: [ClassiftyModel] = []
+        for c_json in json["data"]["classifyList"].arrayValue {
+            let model = ClassiftyModel()
+            model.updateModel(json: c_json)
+            c_arr.append(model)
+        }
+
+        
+        ///菜品列表
+        var d_arr: [DishModel] = []
+        for d_json in json["data"]["dishesList"].arrayValue {
+            let model = DishModel()
+            model.updateModel(json: d_json)
+            d_arr.append(model)
+        }
+        
+        /**
+         将菜品插入该有的分类中去
+         */
+
+        for d_model in d_arr {
+            
+            for c_model in c_arr {
+                if d_model.belongClassiftyID == c_model.flID {
+                    c_model.dishArr.append(d_model)
+                }
+            }
+        }
+        
+        ///处理后的菜品总数据
+        self.allDataArr = c_arr.filter{ $0.dishArr.count != 0 }
+        
+        /**
+         根据菜品编码和营业时间编码的关系整理菜品
+         */
+        for jsonData in json["data"]["timeDishesList"].arrayValue {
+            //菜品ID
+            let dishID = jsonData["dishesId"].stringValue
+            ///根据菜品ID找到菜品model
+            if (d_arr.filter { $0.dishID == dishID }).count != 0 {
+                let d_model = (d_arr.filter { $0.dishID == dishID })[0]
+                
+                //时间段ID
+                let timeID = jsonData["storeTimeId"].stringValue
+                //根据时间段ID 找到时间段
+                for openModel in openTimeArr {
+                    if openModel.storeTimeId == timeID {
+                        //将菜品放入相对应的分类下
+                        for c_model in openModel.dataArr {
+                            if d_model.belongClassiftyID == c_model.flID {
+                                c_model.dishArr.append(d_model)
+                            }
+                        }
+                    }
+                }
+            }
+                        
+        }
+        
+        //去除时间列表中无菜品的空分类
+        for openModel in openTimeArr {
+            openModel.dataArr = openModel.dataArr.filter { $0.dishArr.count != 0 }
+        }
+        
+        ///获取默认显示
+        if openTimeArr.count != 0 {
+            for (idx, model) in openTimeArr.enumerated() {
+                if model.defaultShow == "2" {
+                    self.curTimeIdx = idx
+                }
+            }
+        } else {
+            self.pageDataArr = allDataArr
+        }
+    }
+    
+    
+    //根据购物车数据对菜品进行赋值
+    func dealWithMenuDishesByCartData(cart_arr: [CartDishModel]) {
+        
+        //清空以选择的
+        for c_model in self.allDataArr {
+            for d_model in c_model.dishArr {
+                d_model.sel_Num = 0
+                d_model.cart.removeAll()
+            }
+        }
+        
+        
+        
+        //遍历购物车中的菜品
+        for cart_model in cart_arr {
+//            if cart_model.dishesType == "2" {
+//                //套餐
+//                //将购物车插入到菜品中
+//                for d_model in menuModel.lunchDataArr {
+//                    if cart_model.dishID == d_model.dishID {
+//                        d_model.cart.append(cart_model)
+//                        d_model.sel_Num += cart_model.cartCount
+//                    }
+//                }
+//
+//            } else {
+                //单品
+                for c_model in self.allDataArr {
+                    for d_model in c_model.dishArr {
+                        if cart_model.dishID == d_model.dishID {
+                            d_model.cart.append(cart_model)
+                            d_model.sel_Num += cart_model.cartCount
+                        }
+                    }
+                    
+                }
+//            }
+        }
+        
+    }
 }
+
+
+//MARK: - 营业时间段Model
+class OpenTimeModel: NSObject {
+    
+    ///当前时间是否在时间段内 (1否，2是)
+    var nowType: String = ""
+    ///默认显示 （1否，2是）进入页面tab显示用
+    var defaultShow: String = ""
+    
+    ///自取时间
+    var collectMax: String = ""
+    var collectMin: String = ""
+    ///自取状态(1开启，2关闭)
+    var collectStatus: String = ""
+    ///外卖时间
+    var deliverMax: String = ""
+    var deliverMin: String = ""
+    ///外卖状态（1开启，2关闭）
+    var deliverStatus: String = ""
+    
+    ///营业时间
+    var startTime: String = ""
+    var endTime: String = ""
+    
+    ///时间段名称
+    var name: String = ""
+    ///时间段ID
+    var storeTimeId: String = ""
+    
+    ///营业时间关联的菜品
+    var dataArr: [ClassiftyModel] = []
+    
+    
+    
+    func updateModel(json: JSON) {
+        self.storeTimeId = json["storeTimeId"].stringValue
+        self.name = json["name"].stringValue
+//        self.startTime = json["startTime"].stringValue
+//        self.endTime = json["endTime"].stringValue
+        self.deliverStatus = json["deliverStatus"].stringValue
+        self.deliverMax = json["deliverMax"].stringValue
+        self.deliverMin = json["deliverMin"].stringValue
+        self.collectStatus = json["collectStatus"].stringValue
+        self.collectMax = json["collectMax"].stringValue
+        self.collectMin = json["collectMin"].stringValue
+        self.nowType = json["nowType"].stringValue
+        self.defaultShow = json["defaultShow"].stringValue
+        
+    }
+    
+    
+}
+
+
 
 
 class DishTagsModel: NSObject {
@@ -79,6 +320,7 @@ class DishModel: NSObject {
     var dish_H: CGFloat = 0
     ///菜品的分类 （1单品 2套餐）
     var dishesType: String = ""
+    
     
     
 ///以上点餐列表页面使用
@@ -150,27 +392,18 @@ class DishModel: NSObject {
         }
         self.tagList = tarr1
         
-    
+
+        //单品
+        let n_h = self.name_C.getTextHeigh(BFONT(17), S_W - 235)
+        let d_h: CGFloat = self.des.getTextHeigh(SFONT(11), S_W - 235) > 25 ? 25 : self.des.getTextHeigh(SFONT(11), S_W - 235)
         
-        if dishesType == "2" {
-            //套餐
-            let n_h = self.name_C.getTextHeigh(BFONT(17), S_W - 180)
-            let d_h = self.des.getTextHeigh(SFONT(11), S_W - 180) > 25 ? 25 : self.des.getTextHeigh(SFONT(11), S_W - 180)
-            
-            self.dish_H = SET_H(110, 335) + d_h + n_h + 95
-            
+        if (S_W - 230) > 140 {
+            //非放大模式
+            self.dish_H = (n_h + d_h + 90) > 130 ? (n_h + d_h + 90) : 130
         } else {
-            //单品
-            let n_h = self.name_C.getTextHeigh(BFONT(17), S_W - 235)
-            let d_h: CGFloat = self.des.getTextHeigh(SFONT(11), S_W - 235) > 25 ? 25 : self.des.getTextHeigh(SFONT(11), S_W - 235)
-            
-            if (S_W - 230) > 140 {
-                //非放大模式
-                self.dish_H = (n_h + d_h + 90) > 130 ? (n_h + d_h + 90) : 130
-            } else {
-                self.dish_H = (n_h + d_h + 80 + 30) > 130 ? (n_h + d_h + 80 + 30) : 130
-            }
+            self.dish_H = (n_h + d_h + 80 + 30) > 130 ? (n_h + d_h + 80 + 30) : 130
         }
+        
     
         
         var tArr2: [SpecificationModel] = []
@@ -193,7 +426,7 @@ class DishModel: NSObject {
 }
 
 //MARK: - 分类模型
-class ClassiftyModel: NSObject {
+class ClassiftyModel {
     
     var flName_C: String = ""
     var flName_E: String = ""
@@ -246,9 +479,7 @@ class DishOptionModel: NSObject {
         self.name_C = json["optionName"].stringValue
         self.optionID = json["optionId"].stringValue
         self.belongID = json["specId"].stringValue
-        
-//        self.isOn = json["statusId"].stringValue == "1" ? true : false
-        
+
     }
     
 }
@@ -368,15 +599,14 @@ class CartDishModel: NSObject {
     var fee: Double = 0
     ///购物车选择的规格选项
     var cartOptionArr: [DishOptionModel] = []
-    ///购物车选择的套餐选项
-    var cartComboArr: [ComboDishModel] = []
+    
     ///购物车ID
     var cartID: String = ""
     ///菜品图片
     var dishImg: String = ""
     ///菜品名
     var dishName: String = ""
-    ///启用 禁用状态 1启用 2禁用 3超库存
+    ///启用 禁用状态 1启用 2禁用 3超库存 4不在营业时间内
     var isOn: String = ""
     ///菜品标签
     var tagList: [DishTagsModel] = []
@@ -391,11 +621,6 @@ class CartDishModel: NSObject {
     var dishesType: String = ""
     ///拼接好的规格名
     var selectOptionStr: String = ""
-    ///拼接好的套餐名
-    var selectComboStr: String = ""
-    
-
-    
     
     ///菜的优惠价格
     var discountPrice: Double = 0
@@ -403,12 +628,6 @@ class CartDishModel: NSObject {
     var discountType: String = ""
     ///优惠百分比
     var discountSale: String = ""
-
-
-    
-    ///规格是否有禁用的。已选中规格菜品中含有禁用的规格则菜品将不可购买
-//    var isOn_Opt: Bool = true
-    
 
     
     
@@ -430,42 +649,26 @@ class CartDishModel: NSObject {
 
         var tArr1: [DishOptionModel] = []
         var tStr1: String = ""
-        for (idx, jsonData) in json["dishesSpecOptionList"].arrayValue.enumerated() {
+        for (idx, jsonData) in json["optionList"].arrayValue.enumerated() {
             let model = DishOptionModel()
             model.updateModel(json: jsonData)
-            
-//            //判断是否有禁用的规格选项
-//            if !model.isOn {
-//                self.isOn_Opt = false
-//            }
-            
+                        
             tArr1.append(model)
             if idx == 0 {
                 tStr1 = model.name_E
             } else {
-                tStr1 = tStr1 + "/" + model.name_E
+                if dishesType == "1" {
+                    //单品
+                    tStr1 = tStr1 + "/" + model.name_E
+                } else {
+                    tStr1 = tStr1 + "\n" + model.name_E
+                }
             }
         }
+        
         self.cartOptionArr = tArr1
         self.selectOptionStr = tStr1
-        
-        
-        var tArr2: [ComboDishModel] = []
-        var tStr2: String = ""
-        for (idx, jsonData) in json["dishesSpecComboList"].arrayValue.enumerated() {
-            let model = ComboDishModel()
-            model.updateModel(json: jsonData)
-            tArr2.append(model)
-            if idx == 0 {
-                tStr2 = model.dishesName
-            } else {
-                tStr2 = tStr2 + "\n" + model.dishesName
-            }
-        }
-        
-        self.cartComboArr = tArr2
-        self.selectComboStr = tStr2
-        
+
         
         var tArr3: [DishTagsModel] = []
         for jsonData in json["tagList"].arrayValue {
@@ -475,22 +678,11 @@ class CartDishModel: NSObject {
         }
         self.tagList = tArr3
         
-        
-        ///菜品显示的高度
-        
-        if dishesType == "2" {
-            //套餐
-            let n_h = self.dishName.getTextHeigh(BFONT(17), S_W - 170)
-            let d_h = self.selectComboStr.getTextHeigh(SFONT(11), S_W - 170)
-            self.cart_dish_H = SET_H(110, 335) + d_h + n_h + 75
-            
-        } else {
-            //单品
-            let n_h = self.dishName.getTextHeigh(BFONT(17), S_W - 160)
-            let d_h = self.selectOptionStr.getTextHeigh(SFONT(11), S_W - 160)
-            let h = (n_h + d_h + 90) > 130 ? (n_h + d_h + 90) : 130
-            self.cart_dish_H = h
-        }
+        ///菜品在购物车中显示的高度
+        let n_h = self.dishName.getTextHeigh(BFONT(17), S_W - 160)
+        let d_h = self.selectOptionStr.getTextHeigh(SFONT(11), S_W - 160)
+        let h = (n_h + d_h + 90) > 130 ? (n_h + d_h + 90) : 130
+        self.cart_dish_H = h
         
     }
     
@@ -519,8 +711,6 @@ class CartDishModel: NSObject {
         }
         
         
-        
-        
         var tStr: String = ""
         
         if dishesType == "2" {
@@ -533,11 +723,11 @@ class CartDishModel: NSObject {
                     tStr = tStr + "\n" + jsonData["comboDishesName"].stringValue
                 }
             }
-            self.selectComboStr = tStr
+            self.selectOptionStr = tStr
             
             //计算高度
             let n_h = dishName.getTextHeigh(BFONT(14), S_W - 155)
-            let t_h = selectComboStr.getTextHeigh(SFONT(11), S_W - 195)
+            let t_h = selectOptionStr.getTextHeigh(SFONT(11), S_W - 195)
             self.confirm_cart_dish_H = n_h + t_h + 40 < 80 ? 80 : n_h + t_h + 40
             
         } else {
@@ -567,9 +757,6 @@ class CartDishModel: NSObject {
             tArr2.append(model)
         }
         self.tagList = tArr2
-        
-        
-
         
     }
     

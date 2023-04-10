@@ -37,7 +37,7 @@ class DishDetailBottmView: UIView {
         let but = UIButton()
         but.layer.cornerRadius = 15
         but.backgroundColor = .white
-        but.setCommentStyle(.zero, "Add to order", MAINCOLOR, SFONT(13), .white)
+        but.setCommentStyle(.zero, "Add to order", MAINCOLOR, BFONT(13), .white)
         return but
     }()
     
@@ -90,13 +90,13 @@ class DishDetailBottmView: UIView {
     
     
     
-    func setButTitleType(lunchOrDinner: String, cartID: String) {
+    func setButTitleType(canBuy: Bool, cartID: String) {
         
-        if lunchOrDinner == "2" {
+        if !canBuy {
             self.backgroundColor = HCOLOR("#CCCCCC")
             self.sureBut.setTitleColor(HCOLOR("#CCCCCC"), for: .normal)
             self.sureBut.isEnabled = false
-            self.sureBut.setTitle("For Dinner only", for: .normal)
+            self.sureBut.setTitle("Closed", for: .normal)
         } else {
             self.backgroundColor = MAINCOLOR
             self.sureBut.setTitleColor(MAINCOLOR, for: .normal)

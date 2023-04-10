@@ -238,7 +238,13 @@ class SizeHeaderCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionV
 
     }
     
-    func setCellData(model: DishModel, selectCount: Int)  {
+    func setCellData(model: DishModel, selectCount: Int, canBuy: Bool)  {
+        
+        if canBuy {
+            self.selectView.isHidden = false
+        } else {
+            self.selectView.isHidden = true
+        }
         
         if model.specification.count == 0 {
             self.tlab.text = ""

@@ -16,6 +16,8 @@ class MealSelectSizeController: BaseViewController, UICollectionViewDelegate, UI
     
     var dishesID: String = ""
     
+    var canBuy: Bool = false
+    
     ///选择数量
     private var dishCount: Int = 1
     private var dishModel = DishModel() {
@@ -46,6 +48,7 @@ class MealSelectSizeController: BaseViewController, UICollectionViewDelegate, UI
     
     private lazy var b_view: DishDetailBottmView = {
         let view = DishDetailBottmView()
+        view.setButTitleType(canBuy: canBuy, cartID: "")
         view.clickAddBlock = { [unowned self] (_) in
             self.clickAddOrderAction()
         }
@@ -117,7 +120,7 @@ class MealSelectSizeController: BaseViewController, UICollectionViewDelegate, UI
         }
         
         
-        t_view.setCellData(model: self.dishModel, selectCount: self.dishCount)
+        t_view.setCellData(model: dishModel, selectCount: dishCount, canBuy: canBuy)
         collection.addSubview(t_view)
         t_view.snp.makeConstraints {
             $0.left.equalToSuperview()

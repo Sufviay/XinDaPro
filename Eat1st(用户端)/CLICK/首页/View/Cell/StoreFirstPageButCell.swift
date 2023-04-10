@@ -171,8 +171,8 @@ class StoreFirstPageButCell: BaseTableViewCell {
         //配送
         let menuVC = StoreMenuOrderController()
         menuVC.storeID = dataModel.storeID
-        menuVC.buyType = "1"
-        menuVC.isStoreMain = true
+//        menuVC.buyType = "1"
+//        menuVC.isStoreMain = true
         PJCUtil.currentVC()?.navigationController?.pushViewController(menuVC, animated: true)
         
     }
@@ -186,8 +186,8 @@ class StoreFirstPageButCell: BaseTableViewCell {
         //自取
         let menuVC = StoreMenuOrderController()
         menuVC.storeID = dataModel.storeID
-        menuVC.buyType = "2"
-        menuVC.isStoreMain = true
+        //menuVC.buyType = "2"
+        //menuVC.isStoreMain = true
         PJCUtil.currentVC()?.navigationController?.pushViewController(menuVC, animated: true)
     }
     

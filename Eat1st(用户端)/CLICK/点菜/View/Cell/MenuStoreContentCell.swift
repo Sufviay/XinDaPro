@@ -10,12 +10,15 @@ import UIKit
 class MenuStoreContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSource {
     
     
-    private var dataModel = StoreInfoModel()
+    private var storeInfo = StoreInfoModel()
+    private var timeInfo = OpenTimeModel()
+    
     
     private var buyType: String = ""
     
     ///购买方式
     var clickBuyTypeBlock: VoidStringBlock?
+    
     
     
     private let backView: UIView = {
@@ -85,7 +88,7 @@ class MenuStoreContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == 1 {
-            if !dataModel.isHaveDiscountBar {
+            if !storeInfo.isHaveDiscountBar {
                 return 0
             }
         }
@@ -96,7 +99,7 @@ class MenuStoreContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if indexPath.section == 0 {
-            return dataModel.storeInfo_H
+            return storeInfo.storeInfo_H
         }
         if indexPath.section == 1 {
             return 28
@@ -113,20 +116,20 @@ class MenuStoreContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
         
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MenuStoreInfoCell") as! MenuStoreInfoCell
-            cell.setCellData(model: dataModel)
+            cell.setCellData(model: storeInfo)
             return cell
         }
         
         if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MenuDiscountCell") as! MenuDiscountCell
-            cell.setCellData(model: dataModel)
+            cell.setCellData(model: storeInfo)
             
             cell.clickBlock = { [unowned self] (_) in
                 if PJCUtil.checkLoginStatus() {
                     //MARK: - 积分兑换优惠券
                     let nextVC = ExchangeJiFenController()
-                    nextVC.storeID = dataModel.storeID
-                    nextVC.storeName = dataModel.name
+                    nextVC.storeID = storeInfo.storeID
+                    nextVC.storeName = storeInfo.name
                     PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
                 }
             }
@@ -137,7 +140,7 @@ class MenuStoreContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
         
         if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MenuSelectCell") as! MenuSelectCell
-            cell.setData(model: dataModel, selectWay: buyType)
+            cell.setData(model: timeInfo, selectWay: buyType)
             
             cell.clickBlock = { [unowned self] (type) in
 
@@ -154,9 +157,10 @@ class MenuStoreContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
     
 
     
-    func setCellData(model: StoreInfoModel, selectType: String) {
-        self.dataModel = model
-        self.buyType = selectType
+    func setCellData(model: StoreInfoModel, timeModel: OpenTimeModel, buyType: String) {
+        self.storeInfo = model
+        self.timeInfo = timeModel
+        self.buyType = buyType
         self.table.reloadData()
     }
     

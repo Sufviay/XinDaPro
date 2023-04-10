@@ -15,8 +15,10 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
         
     private let bag = DisposeBag()
     
-    ///店铺信息
-    var storeModel = StoreInfoModel()
+//    ///店铺信息
+//    var storeModel = StoreInfoModel()
+    ///当前店铺的营业时间
+    var curentTimeModel = OpenTimeModel()
     
     ///1外卖 2自取
     var type: String = "" {
@@ -164,12 +166,6 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
         return alert
     }()
     
-    
-//    ///钱包
-//    private let walletView: WalletView = {
-//        let view = WalletView()
-//        return view
-//    }()
 
     
     override func setViews() {
@@ -204,9 +200,7 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
         backBut.addTarget(self, action: #selector(clickBackAction), for: .touchUpInside)
         
         setUpUI()
-        
-//        let lat = UserDefaults.standard.local_lat ?? ""
-//        let lng = UserDefaults.standard.local_lng ?? ""
+
         
         //加载页面首次请求
         initData_Net()
@@ -214,7 +208,7 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
     
     
     override func setNavi() {
-        //getWalletMoney_Net()
+
         
     }
     
@@ -244,10 +238,6 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
         //NotificationCenter.default.removeObserver(self, name: NSNotification.Name("wallet"), object: nil)
     }
     
-//    @objc func walletRefresh() {
-//        getWalletMoney_Net()
-//    }
-
     
     
     
@@ -257,7 +247,7 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
         self.setSubmitModelValue(model: model)
     
         //切换地址后 刷新数据
-        loadData_Net(lat: model.lat, lng: model.lng)
+        loadData_Net(lat: model.lat, lng: model.lng, postCode: model.postcode)
     }
     
     //MARK: - 选择优惠券
@@ -266,7 +256,7 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
         self.submitModel.couponId = coupon.couponId
         
         //选择优惠券后 刷新数据
-        loadData_Net(lat: submitModel.recipientLat, lng: submitModel.recipientLng)
+        loadData_Net(lat: submitModel.recipientLat, lng: submitModel.recipientLng, postCode: submitModel.recipientPostcode)
     }
 
     
@@ -297,7 +287,7 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
                 }
             }
             //请求确认订单页面的数据
-            self.loadData_Net(lat: self.submitModel.recipientLat, lng: self.submitModel.recipientLng)
+            self.loadData_Net(lat: self.submitModel.recipientLat, lng: self.submitModel.recipientLng, postCode: self.submitModel.recipientPostcode)
             
         }, onError: { (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
@@ -309,17 +299,13 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
     
     
     
-    private func loadData_Net(lat: String, lng: String) {
+    private func loadData_Net(lat: String, lng: String, postCode: String) {
         HUD_MB.loading("", onView: view)
         
         ///cal
-        HTTPTOOl.loadConfirmOrderDetail(storeID: storeID, buyWay: type, lat: lat, lng: lng, couponID: selectCoupon.couponId).subscribe(onNext: { (json) in
+        HTTPTOOl.loadConfirmOrderDetail(storeID: storeID, buyWay: type, lat: lat, lng: lng, couponID: selectCoupon.couponId, postCode: postCode).subscribe(onNext: { (json) in
             HUD_MB.dissmiss(onView: self.view)
             
-//            ///如果是优惠券添加赠品菜要更新购物车
-//            if self.selectCoupon.couponId != "" && self.selectCoupon.couponType == "3" {
-//                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "cartRefresh"), object: nil)
-//            }
             
             self.cartModel.updateModel(json: json["data"])
             
@@ -568,44 +554,13 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
     }
 
     
-    
-//    //获取钱包
-//    private func getWalletMoney_Net() {
-//        HTTPTOOl.getWalletAmount().subscribe(onNext: { (json) in
-//
-//            let moneyStr = "£" + json["data"]["amount"].stringValue
-//            self.walletView.setData(money: moneyStr)
-//            let w = moneyStr.getTextWidth(SFONT(11), 23) > 15 ? moneyStr.getTextWidth(SFONT(11), 23) : 15
-//
-//
-//            self.walletView.snp.makeConstraints {
-//                $0.bottom.equalToSuperview().offset(-bottomBarH - 80)
-//                $0.right.equalToSuperview().offset(-20)
-//                $0.size.equalTo(CGSize(width: w + 50, height: 32))
-//            }
-//
-//            self.walletView.isHidden = false
-//
-//        }, onError: { (error) in
-//            HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
-//        }).disposed(by: self.bag)
-//    }
-    
     //改变菜品数量
     private func updateDishesCount_Net(count: Int, cartID: String, dishesID: String) {
-        
-//        if selectCoupon.couponId != "" && selectCoupon.couponType == "3" && count == 0 {
-//            ///当选择优惠券是赠送菜品时。 改变菜品的数量时，当要删除赠送菜品时需要校验，必须要取消优惠券后才能删除
-//            if selectCoupon.dishesId == dishesID {
-//                showSystemAlert("Tip", "Please deselect the coupon first", "Sure")
-//                return
-//            }
-//        }
-//
+
         HUD_MB.loading("", onView: self.view)
         HTTPTOOl.updateCartNum(buyNum: count, cartID: cartID).subscribe(onNext: { (json) in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "cartRefresh"), object: nil)
-            HTTPTOOl.loadConfirmOrderDetail(storeID: self.storeID, buyWay: self.type, lat: self.submitModel.recipientLat, lng: self.submitModel.recipientLng, couponID: self.selectCoupon.couponId).subscribe(onNext: { (json) in
+            HTTPTOOl.loadConfirmOrderDetail(storeID: self.storeID, buyWay: self.type, lat: self.submitModel.recipientLat, lng: self.submitModel.recipientLng, couponID: self.selectCoupon.couponId, postCode: self.submitModel.recipientPostcode).subscribe(onNext: { (json) in
                 HUD_MB.dissmiss(onView: self.view)
                 self.cartModel.updateModel(json: json["data"])
                 if self.cartModel.deliveryType == "4" {
@@ -618,9 +573,6 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
                 self.mainTable.reloadData()
             }, onError: { (error) in
                 HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
-//                DispatchQueue.main.after(time: .now() + 1) {
-//                    self.navigationController?.popViewController(animated: true)
-//                }
             }).disposed(by: self.bag)
         }, onError: { (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
@@ -721,22 +673,22 @@ extension ConfirmOrderController {
         
         if indexPath.section == 0 {
             
-            if storeModel.deStatus == "1" && storeModel.coStatus == "2" {
+            if curentTimeModel.deliverStatus == "1" && curentTimeModel.collectStatus == "2" {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OrderTagDeliveryCell") as! OrderTagDeliveryCell
                 return cell
             }
-            if storeModel.deStatus == "2" && storeModel.coStatus == "1" {
+            if curentTimeModel.deliverStatus == "2" && curentTimeModel.collectStatus == "1" {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OrderTagCollectionCell") as! OrderTagCollectionCell
                 return cell
             }
-            if storeModel.deStatus == "1" && storeModel.coStatus == "1" {
+            if curentTimeModel.deliverStatus == "1" && curentTimeModel.collectStatus == "1" {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OrderSelectTagCell") as! OrderSelectTagCell
                 cell.setCellData(type: self.type, isCanEdite: self.isCanEidte)
                 cell.clickTypeBlock = { [unowned self] (tStr) in
                     self.type = tStr as! String
                     
                     //切换购买方式  外卖 还是自取
-                    self.loadData_Net(lat: submitModel.recipientLat, lng: submitModel.recipientLng)
+                    self.loadData_Net(lat: submitModel.recipientLat, lng: submitModel.recipientLng, postCode: submitModel.recipientPostcode)
                 }
                 return cell
             }

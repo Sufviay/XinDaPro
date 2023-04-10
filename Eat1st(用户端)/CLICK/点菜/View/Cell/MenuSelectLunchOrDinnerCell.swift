@@ -11,6 +11,7 @@ class MenuSelectLunchOrDinnerCell: BaseTableViewCell {
     
     var clickBlock: VoidStringBlock?
     
+    
     private var type: String = "" {
         didSet {
             if type == "lunch" {

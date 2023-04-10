@@ -253,7 +253,14 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
     
     
     
-    func setCellData(model: DishModel, selectCount: Int)  {
+    func setCellData(model: DishModel, selectCount: Int, canBuy: Bool)  {
+       
+        if canBuy {
+            selectView.isHidden = false
+        } else {
+            selectView.isHidden = true
+        }
+        
         
         if model.specification.count == 0 {
             self.tlab.text = ""
@@ -264,7 +271,6 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
         self.headImg.setImage(imageStr: model.detailImgArr[0])
         self.nameLab.text = model.name_E
         self.desLab.text = model.des
-        //self.countLab.text = "\(model.sales) sold"
         self.selectView.count = selectCount
         self.gmyLab.text = "Allergen: " +  model.allergen
         

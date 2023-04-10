@@ -571,11 +571,13 @@ class OrderConfirmGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UIColl
         self.selectView.isHidden = false
         
         
-        if model.dishesType == "2" {
-            self.desLab.text = model.selectComboStr
-        } else {
-            self.desLab.text = model.selectOptionStr
-        }
+//        if model.dishesType == "2" {
+//            self.desLab.text = model.selectComboStr
+//        } else {
+            
+//        }
+        
+        self.desLab.text = model.selectOptionStr
         
         if model.discountType == "1" {
             //无优惠

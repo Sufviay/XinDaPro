@@ -287,47 +287,44 @@ class MenuGoodsNoSizeCell: BaseTableViewCell, UICollectionViewDelegate, UICollec
     }
 
     
-    func setCellData(model: DishModel, type: String)  {
+    func setCellData(model: DishModel, canBuy: Bool)  {
+        
         
         self.dataModel = model
         
         
-        if type == "2" {
-            //卖午餐 单品都不可买卖
+        if !canBuy {
+            selectView.isHidden = true
+        } else {
+            if model.isOn == "1" {
+                selectView.isHidden = false
+            } else {
+                selectView.isHidden = true
+            }
+        }
+        
+        //晚餐 正常卖单品
+        self.un_lab.text = model.unAlbleMsg
+
+        //设置商品是否启用
+        if model.isOn == "1" {
+
+            self.nameLab.textColor = FONTCOLOR
+            self.s_lab.textColor = HCOLOR("#FB5348")
+            self.moneyLab.textColor = HCOLOR("#FB5348")
+            self.unUseImg.isHidden = true
             
-            self.un_lab.text = "For Dinner only"
-            self.selectView.isHidden = true
+            
+            
+        } else {
+
             self.nameLab.textColor = HCOLOR("#AAAAAA")
             self.s_lab.textColor = HCOLOR("#AAAAAA")
             self.moneyLab.textColor = HCOLOR("AAAAAA")
             self.unUseImg.isHidden = false
-
             
-            
-        } else {
-            //晚餐 正常卖单品
-            self.un_lab.text = model.unAlbleMsg
-
-            //设置商品是否启用
-            if model.isOn == "1" {
-                self.selectView.isHidden = false
-                self.nameLab.textColor = FONTCOLOR
-                self.s_lab.textColor = HCOLOR("#FB5348")
-                self.moneyLab.textColor = HCOLOR("#FB5348")
-                self.unUseImg.isHidden = true
-                
-                
-                
-            } else {
-                self.selectView.isHidden = true
-                self.nameLab.textColor = HCOLOR("#AAAAAA")
-                self.s_lab.textColor = HCOLOR("#AAAAAA")
-                self.moneyLab.textColor = HCOLOR("AAAAAA")
-                self.unUseImg.isHidden = false
-                
-            }
         }
-        
+    
         
         
         //设置商品买卖数量
@@ -785,36 +782,35 @@ class MenuGoodsSizeCell: BaseTableViewCell, UICollectionViewDelegate, UICollecti
     }
 
     
-    func setCellData(model: DishModel, type: String) {
+    func setCellData(model: DishModel, canBuy: Bool) {
         self.dataModel = model
         
-        if type == "2" {
-            self.un_lab.text = "For Dinner only"
-            self.optionBut.isHidden = true
+        
+        if !canBuy {
+            optionBut.isHidden = true
+        } else {
+            if model.isOn == "1" {
+                optionBut.isHidden = false
+            } else {
+                optionBut.isHidden = true
+            }
+        }
+        
+        self.un_lab.text = model.unAlbleMsg
+        //设置是否启用
+        if model.isOn == "1" {
+            self.nameLab.textColor = FONTCOLOR
+            self.s_lab.textColor = HCOLOR("FB5348")
+            self.moneyLab.textColor = HCOLOR("FB5348")
+            self.unUseImg.isHidden = true
+                    
+        } else {
+            
             self.nameLab.textColor = HCOLOR("#AAAAAA")
             self.s_lab.textColor = HCOLOR("#AAAAAA")
             self.moneyLab.textColor = HCOLOR("AAAAAA")
             self.unUseImg.isHidden = false
-
-        } else {
-
-            self.un_lab.text = model.unAlbleMsg
-            //设置是否启用
-            if model.isOn == "1" {
-                self.optionBut.isHidden = false
-                self.nameLab.textColor = FONTCOLOR
-                self.s_lab.textColor = HCOLOR("FB5348")
-                self.moneyLab.textColor = HCOLOR("FB5348")
-                self.unUseImg.isHidden = true
-                        
-            } else {
-                self.optionBut.isHidden = true
-                self.nameLab.textColor = HCOLOR("#AAAAAA")
-                self.s_lab.textColor = HCOLOR("#AAAAAA")
-                self.moneyLab.textColor = HCOLOR("AAAAAA")
-                self.unUseImg.isHidden = false
-                
-            }
+            
         }
     
         

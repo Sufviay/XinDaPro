@@ -54,7 +54,7 @@ enum ApiManager {
     ///搜索店铺
     case searchStoreList(keyword: String, lat: String, lng: String, page: String)
     ///确认订单详情
-    case loadConfirmOrderDetail(lat: String, lng: String, buyWay: String, storeID: String, couponID: String)
+    case loadConfirmOrderDetail(lat: String, lng: String, buyWay: String, storeID: String, couponID: String, postCode: String)
     ///可选择的时间列表 1：外卖    2：自取
     case canChooseTimeList(storeID: String, type: String)
     ///可选择时间列表有预定  1：外卖    2：自取
@@ -257,7 +257,7 @@ extension ApiManager: TargetType {
             return "api/user/store/getNearStoreList"
         case .updateCartNum(buyNum: _, cartID: _):
             return "api/user/cart/updateBuyNum"
-        case .loadConfirmOrderDetail(lat: _, lng: _, buyWay: _, storeID: _, couponID: _):
+        case .loadConfirmOrderDetail(lat: _, lng: _, buyWay: _, storeID: _, couponID: _, postCode: _):
             return "api/user/order/calOrder"
         case .searchStoreList(keyword: _, lat: _, lng: _, page: _):
             return "api/user/store/getSearchStoreList"
@@ -454,8 +454,8 @@ extension ApiManager: TargetType {
             dic = ["lat": lat, "lng": lng, "pageIndex": page, "tagId": tag, "allStore": allStore, "env": "1"]
         case .updateCartNum(let buyNum, let cartID):
             dic = ["buyNum": buyNum, "carId": cartID]
-        case .loadConfirmOrderDetail(let lat, let lng, let buyWay, let storeID, let couponID):
-            dic = ["deliveryType": buyWay, "lat": lat, "lng": lng, "storeId": storeID, "couponId": couponID]
+        case .loadConfirmOrderDetail(let lat, let lng, let buyWay, let storeID, let couponID, let postCode):
+            dic = ["deliveryType": buyWay, "lat": lat, "lng": lng, "storeId": storeID, "couponId": couponID, "postcode": postCode]
         case .searchStoreList(let keyword, let lat, let lng, let page):
             dic = ["keyword": keyword, "lat": lat, "lng": lng, "pageIndex": page, "env": ""]
         case .canChooseTimeList(let storeID, let type):
@@ -645,7 +645,7 @@ extension ApiManager: TargetType {
         print(deviceID)
         
         let baseDic = ["Accept": "application/json",
-                       "token": token,
+                       "token-user": token,
                        "verId": UserDefaults.standard.verID ?? "0",
                        "verCode": "v\(curAppVer)",
                        "sysType": systemtype,

@@ -21,18 +21,14 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
     ///添加购物车（0 ->1 ）
     var addCartBlock: VoidBlock?
     
+    ///菜品数据
+    private var dishData = MenuModel()
     
-    ///晚餐数据
-    private var dinner_Data: [ClassiftyModel] = []
-    ///午餐数据
-    private var lunch_Data: [DishModel] = []
+    ///当前菜品是否可以购买
+    private var canBuy: Bool = false
     
-    ///当前店铺卖的午餐还是晚餐 2午餐 3 晚餐
-    private var storeLunchOrDinner: String = ""
-    
-    
-    ///当前选中的分类下标
-    private var curSel_Idx: Int = 0
+//    ///当前选中的分类下标
+//    private var curSel_Idx: Int = 0
     
     //是否可以滑动
     var canSroll: Bool = false
@@ -93,28 +89,6 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
     }()
 
     
-    lazy var mealTable: GestureTableView = {
-        let tableView = GestureTableView()
-        tableView.backgroundColor = .white
-        //去掉单元格的线
-        tableView.separatorStyle = .none
-        tableView.showsVerticalScrollIndicator =  false
-        tableView.estimatedRowHeight = 0
-        tableView.estimatedSectionFooterHeight = 0
-        tableView.estimatedSectionHeaderHeight = 0
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.contentInsetAdjustmentBehavior = .never
-        tableView.tag = 2
-        tableView.bounces = false
-        
-        tableView.register(MenuMealGoodsCell.self, forCellReuseIdentifier: "MenuMealGoodsCell")
-        
-        return tableView
-    }()
-    
-    
-    
     
 
     override func setViews() {
@@ -133,11 +107,6 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
             $0.left.equalTo(l_table.snp.right)
             $0.right.bottom.top.equalToSuperview()
         }
-        
-        contentView.addSubview(mealTable)
-        mealTable.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
     }
 
     
@@ -146,40 +115,33 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
         if tableView.tag == 0 {
             return 1
         }
-        else if tableView.tag == 1 {
-            return dinner_Data.count
-        } else {
-            return 1
-        }
+        
+        return dishData.pageDataArr.count
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView.tag == 0 {
-            return dinner_Data.count
-        } else if tableView.tag == 1 {
-            return dinner_Data[section].dishArr.count
-        } else {
-            return lunch_Data.count
+            return dishData.pageDataArr.count
         }
-        
+        return dishData.pageDataArr[section].dishArr.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if tableView.tag == 0 {
-            let h = dinner_Data[indexPath.row].flName_C.getTextHeigh(BFONT(13), 70) + 35
+            let h = dishData.pageDataArr[indexPath.row].flName_C.getTextHeigh(BFONT(13), 70) + 35
             return h > 50 ? h : 50
-        } else if tableView.tag == 1 {
-            let model = dinner_Data[indexPath.section].dishArr[indexPath.row]
-            return model.dish_H
-        } else {
-            return lunch_Data[indexPath.row].dish_H
         }
+        let model = dishData.pageDataArr[indexPath.section].dishArr[indexPath.row]
+        return model.dish_H
+        
+        
     }
     
     ///头部Header
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if tableView.tag == 1 {
-            let h = dinner_Data[section].flName_C.getTextHeigh(BFONT(15), S_W - 90 - 40)
+            let h = dishData.pageDataArr[section].flName_C.getTextHeigh(BFONT(15), S_W - 90 - 40)
             return h + 10
         }
         return 0
@@ -190,7 +152,7 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
 
         if tableView.tag == 1 {
             let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "ClassifySectionHeader") as! ClassifySectionHeader
-            header.titLab.text = dinner_Data[section].flName_C
+            header.titLab.text = dishData.pageDataArr[section].flName_C
 
             return header
         }
@@ -202,27 +164,39 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
         
         if tableView.tag == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MenuTypeCell") as! MenuTypeCell
-            let isSelect: Bool = indexPath.row == curSel_Idx ? true : false
-            cell.setCellData(isSelect: isSelect, name: dinner_Data[indexPath.row].flName_E)
+            let isSelect: Bool = indexPath.row == dishData.classifyIdx ? true : false
+            cell.setCellData(isSelect: isSelect, name: dishData.pageDataArr[indexPath.row].flName_E)
             
             return cell
         }
         
         if tableView.tag == 1 {
             
-            let model = dinner_Data[indexPath.section].dishArr[indexPath.row]
+            let model = dishData.pageDataArr[indexPath.section].dishArr[indexPath.row]
             
-            if model.isSelect {
+            //套餐也要去选择规格
+            if model.isSelect || model.dishesType == "2" {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "MenuGoodsSizeCell") as! MenuGoodsSizeCell
-                cell.setCellData(model: model, type: storeLunchOrDinner)
+                cell.setCellData(model: model, canBuy: canBuy)
             
             
-                cell.optionBlock = {[unowned self] (_) in
+                cell.optionBlock = { _ in
                     ///进入选择规格页面
-                    let nextVC = SelectSizeController()
-                    nextVC.dishesID = model.dishID
-                    nextVC.storeSellLunchOrDinner = self.storeLunchOrDinner
-                    PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
+                    
+                    if model.dishesType == "1" {
+                        //单品
+                        let nextVC = SelectSizeController()
+                        nextVC.dishesID = model.dishID
+                        nextVC.canBuy = self.canBuy
+                        PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
+                    }
+                    if model.dishesType == "2" {
+                        //套餐
+                        let nextVC = MealSelectSizeController()
+                        nextVC.dishesID = model.dishID
+                        nextVC.canBuy = self.canBuy
+                        PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
+                    }
                 }
                 
                 cell.jiaBlock = { (par) in
@@ -245,7 +219,7 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
             } else {
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "MenuGoodsNoSizeCell") as! MenuGoodsNoSizeCell
-                cell.setCellData(model: model, type: storeLunchOrDinner)
+                cell.setCellData(model: model, canBuy: canBuy)
                 
                 cell.clickCountBlock = { [unowned self] (par) in
                     
@@ -266,44 +240,44 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
                 return cell
             }
         }
-        
-        if tableView.tag == 2 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "MenuMealGoodsCell") as! MenuMealGoodsCell
-            cell.setCellData(model: lunch_Data[indexPath.row])
-            
-            
-            cell.optionBlock = { [unowned self] (_) in
-                ///进入选择套餐规格页面
-                let nextVC = MealSelectSizeController()
-                nextVC.dishesID = self.lunch_Data[indexPath.row].dishID
-                PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
-            }
-            return cell
-        }
-        
+                
         let cell = UITableViewCell()
         return cell
     }
     
 
     
-    func setCellData(model: MenuModel, curSelectedlunchOrDinner: String, storeLunchOrDinner: String) {
-        self.dinner_Data = model.dinnerDataArr
-        self.lunch_Data = model.lunchDataArr
-        self.storeLunchOrDinner = storeLunchOrDinner
+    func setCellData(model: MenuModel) {
+        self.dishData = model
+                
+        if dishData.openTimeArr.count == 0 {
+            canBuy = false
+        } else {
+
+            let timeModel = dishData.openTimeArr[dishData.curTimeIdx]
+            if timeModel.nowType == "1" {
+                //当前时间不在时间段内
+                canBuy = false
+            } else {
+                if timeModel.deliverStatus == "2" && timeModel.collectStatus == "2" {
+                    canBuy = false
+                } else {
+                    canBuy = true
+                }
+            }
+        }
+        
+        if dishData.isChangeSelectTime {
+            //滑动到最最顶部
+            self.l_table.setContentOffset(.zero, animated: false)
+            self.r_table.setContentOffset(.zero, animated: false)
+            dishData.isChangeSelectTime = false
+        }
+
         self.l_table.reloadData()
         self.r_table.reloadData()
-        self.mealTable.reloadData()
         
-        if curSelectedlunchOrDinner == "lunch" {
-            self.l_table.isHidden = true
-            self.r_table.isHidden = true
-            self.mealTable.isHidden = false
-        } else {
-            self.l_table.isHidden = false
-            self.r_table.isHidden = false
-            self.mealTable.isHidden = true
-        }
+
     }
     
     deinit {
@@ -320,14 +294,14 @@ extension MenuContentCell {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView.tag == 0 {
             //点击分类 菜品Table滑动到相应的分类下
-            if curSel_Idx != indexPath.row {
-                curSel_Idx = indexPath.row
+            if dishData.classifyIdx != indexPath.row {
+                dishData.classifyIdx = indexPath.row
                 self.l_table.reloadData()
                 
 
                 
                 //菜品Table滑动到相应的分类下 当分类下没有菜品时就无需跳转
-                if dinner_Data[indexPath.row].dishArr.count != 0 {
+                if dishData.pageDataArr[indexPath.row].dishArr.count != 0 {
                     //点击分类 发送通知主页面店铺信息置顶
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "classify"), object: nil)
                     self.isSelect = true
@@ -338,28 +312,32 @@ extension MenuContentCell {
         
         if tableView.tag == 1 {
             //点击进入菜品详情页页面
-            let model = dinner_Data[indexPath.section].dishArr[indexPath.row]
-            if model.isOn == "1" {
-                print("aaaaa")
-                let nextVC = SelectSizeController()
-                nextVC.dishesID = model.dishID
-                nextVC.storeSellLunchOrDinner = storeLunchOrDinner
-                
-                //如果不是规格规格商品 且已添加到购物车中 需将数量带到下一页面
-                if !model.isSelect && model.cart.count != 0 {
-                    nextVC.cartID = model.cart[0].cartID
-                    nextVC.dishCount = model.sel_Num
+            let model = dishData.pageDataArr[indexPath.section].dishArr[indexPath.row]
+            
+            if model.dishesType == "1" {
+                //单品
+                if model.isOn == "1" {
+                    print("aaaaa")
+                    let nextVC = SelectSizeController()
+                    nextVC.dishesID = model.dishID
+                    nextVC.canBuy = canBuy
+                    
+                    //如果不是规格规格商品 且已添加到购物车中 需将数量带到下一页面
+                    if !model.isSelect && model.cart.count != 0 {
+                        nextVC.cartID = model.cart[0].cartID
+                        nextVC.dishCount = model.sel_Num
+                    }
+                                    
+                    PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
                 }
-                                
+            }
+            if model.dishesType == "2" {
+                //套餐
+                let nextVC = MealSelectSizeController()
+                nextVC.dishesID = model.dishID
+                nextVC.canBuy = canBuy
                 PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
             }
-        }
-        
-        if tableView.tag == 2 {
-            //点击进入套餐详情页
-            let nextVC = MealSelectSizeController()
-            nextVC.dishesID = self.lunch_Data[indexPath.row].dishID
-            PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
         }
     }
     
@@ -376,7 +354,7 @@ extension MenuContentCell {
             }
             // 左侧 talbelview 移动到的位置 indexpath
             let l_indexpath = IndexPath(row: topIndexPath.section, section: 0)
-            self.curSel_Idx = topIndexPath.section
+            dishData.classifyIdx = topIndexPath.section
             l_table.reloadData()
             // 移动 左侧 tableview 到 指定 indexpath 居中显示
             self.l_table.selectRow(at: l_indexpath, animated: true, scrollPosition: .middle)
@@ -386,7 +364,7 @@ extension MenuContentCell {
         
         //MARK: - 嵌套滑动
         
-        if scrollView.tag == 1 || scrollView.tag == 2 {
+        if scrollView.tag == 1 {
             let y = scrollView.contentOffset.y
 
             print("---------------\(y)")

@@ -19,22 +19,12 @@ class StoreMenuOrderController: BaseViewController, UITableViewDataSource, UITab
     ///店铺ID
     var storeID: String = ""
     
-    ///购买类型  1外卖 2自取 ""为关店状态
-    var buyType: String = ""
-    
-    ///当前选择的是午餐｜晚餐分类
-    var lunchOrDinner: String = "lunch"
-    
-    ///从店铺主页进来的 buyType是选择好的。从列表进来需要根据店铺的营业状态为buyType赋初始值
-    var isStoreMain: Bool = false
-    
+
     ///店铺信息模型
     private let storeInfo = StoreInfoModel()
     
     ///店铺菜品模型
     private var menuInfo = MenuModel()
-    
-    
     
     ///购物车的数据模型
     private var cart_dataModelArr: [CartDishModel] = []
@@ -80,8 +70,8 @@ class StoreMenuOrderController: BaseViewController, UITableViewDataSource, UITab
                 self.cartView.disAppearAction()
                 let nextVC = ConfirmOrderController()
                 nextVC.storeID = self.storeID
-                nextVC.type = self.buyType
-                nextVC.storeModel = self.storeInfo
+                nextVC.type = self.menuInfo.buyType
+                nextVC.curentTimeModel = self.menuInfo.curentTime
                 self.navigationController?.pushViewController(nextVC, animated: true)
             }
         }
@@ -119,7 +109,7 @@ class StoreMenuOrderController: BaseViewController, UITableViewDataSource, UITab
         tableView.bounces = false
         
         tableView.register(MenuStoreContentCell.self, forCellReuseIdentifier: "MenuStoreContentCell")
-        tableView.register(MenuSelectLunchOrDinnerCell.self, forCellReuseIdentifier: "MenuSelectLunchOrDinnerCell")
+        tableView.register(MenuTimeTabCell.self, forCellReuseIdentifier: "MenuTimeTabCell")
         tableView.register(MenuContentCell.self, forCellReuseIdentifier: "MenuContentCell")
         tableView.isHidden = true
         
@@ -205,13 +195,13 @@ extension StoreMenuOrderController {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == 1 {
-            //当卖午餐时显示晚餐，当卖晚餐时不显示午餐
-            if storeInfo.storeSellLunchOrDinner == "2" {
+            
+            if menuInfo.openTimeArr.count == 0 {
+                return 0
+            } else {
                 return 1
             }
-            if storeInfo.storeSellLunchOrDinner == "3" {
-                return 0
-            }
+            
         }
         
         return 1
@@ -222,7 +212,7 @@ extension StoreMenuOrderController {
             return storeInfo.storeContent_H
         }
         if indexPath.section == 1 {
-            return 50
+            return 40
         }
         if indexPath.section == 2 {
             return S_H - statusBarH - 44 - bottomBarH - 50 - 15 - 10 + 1
@@ -235,11 +225,11 @@ extension StoreMenuOrderController {
         if indexPath.section == 0 {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "MenuStoreContentCell") as! MenuStoreContentCell
-            cell.setCellData(model: storeInfo, selectType: buyType)
+            cell.setCellData(model: storeInfo, timeModel: menuInfo.curentTime, buyType: menuInfo.buyType)
             
             //点击切换购买方式
             cell.clickBuyTypeBlock = { [unowned self] (type) in
-                self.buyType = type
+                self.menuInfo.buyType = type
                 self.mainTable.reloadSections([0], with: .none)
                 if UserDefaults.standard.isLogin {
                     HUD_MB.loading("", onView: view)
@@ -251,18 +241,27 @@ extension StoreMenuOrderController {
             
         }
         if indexPath.section == 1 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "MenuSelectLunchOrDinnerCell") as! MenuSelectLunchOrDinnerCell
-            cell.clickBlock = { [unowned self] (type) in
-                self.lunchOrDinner = type
+            let cell = tableView.dequeueReusableCell(withIdentifier: "MenuTimeTabCell") as! MenuTimeTabCell
+            cell.setCellData(timeArr: menuInfo.openTimeArr, selectIdx: menuInfo.curTimeIdx)
+            cell.selectBlock = { [unowned self] (idx) in
+                self.menuInfo.curTimeIdx = idx as! Int
+                self.menuInfo.classifyIdx = 0
+                self.menuInfo.isChangeSelectTime = true
+                //self.menuInfo.pageDataArr = self.menuInfo.openTimeArr[idx as! Int].dataArr
                 ///刷新午餐晚餐的列表
-                self.mainTable.reloadSections([2], with: .none)
+                self.mainTable.reloadData()
+                
+                /**
+                 这样写回崩溃  数组越界 很神奇 不知道为什么
+                 */
+                //self.mainTable.reloadSections([1, 2], with: .none)
             }
             return cell
         }
 
         if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MenuContentCell") as! MenuContentCell
-            cell.setCellData(model: menuInfo, curSelectedlunchOrDinner: lunchOrDinner, storeLunchOrDinner: storeInfo.storeSellLunchOrDinner)
+            cell.setCellData(model: menuInfo)
             
             //弹出购物车
             cell.showCartBlock = { [unowned self] (_) in
@@ -318,8 +317,6 @@ extension StoreMenuOrderController {
         HTTPTOOl.Store_MainPageData(storeID: storeID, type: "").subscribe(onNext: { (json) in
             
             self.storeInfo.updateModel(json: json["data"])
-            //赋值buyType
-            self.setBuyTypeValue()
             //请求菜品信息
             self.loadData_Net()
             //是否有首单优惠
@@ -331,42 +328,21 @@ extension StoreMenuOrderController {
     }
     
     
+    
     //MARK: - 请求分类和菜品和购物车的数据
     private func loadData_Net() {
         
         ///获取所有分类和所有菜品
         HTTPTOOl.getClassifyAndDishesList(storeID: storeID).subscribe(onNext: { (json) in
-            
-            var c_arr: [ClassiftyModel] = []
-            var d_arr: [DishModel] = []
-            
-            for c_json in json["data"]["classifyList"].arrayValue {
-                let model = ClassiftyModel()
-                model.updateModel(json: c_json)
-                c_arr.append(model)
-            }
-            
-            for d_json in json["data"]["dishesList"].arrayValue {
-                let model = DishModel()
-                model.updateModel(json: d_json)
-                d_arr.append(model)
-            }
-            
-            ///通过分类和菜品处理可供页面使用的数据，（将菜品放到指定分类下并将套餐分出）
-            self.menuInfo = self.manager.dealWithMenuDishesBy(classify_Arr: c_arr, dishes_Arr: d_arr)
-            
-            
-            //当前时间店铺卖的是午餐（卖套餐）还是晚餐（卖单品） (2午餐 3晚餐)
-            self.storeInfo.storeSellLunchOrDinner = json["data"]["mealType"].stringValue
-            self.lunchOrDinner = self.storeInfo.storeSellLunchOrDinner == "2" ? "lunch" : "dinner"
-            
-            
+
+            ///初始化菜单页面的数据
+            self.menuInfo.updateModel(json: json)
+
             ///如果登录就请求购物车的信息
             if UserDefaults.standard.isLogin {
                 ///请求购物车中的菜品信息
                 self.loadCartData_Net()
             } else {
-                //self.dataModelArr = self.manager.getMenuDishesData(c_arr: c_arr, d_arr: d_arr, cart_arr: [])
                 
                 self.b_view.setValue(dishMoney: "0", buyCount: 0, discountType: "2", discountMoney: "0", deliveryFee: "0", minOrder: D_2_STR(self.storeInfo.minOrder), type: "8")
                 self.b_view.isHidden = false
@@ -378,14 +354,13 @@ extension StoreMenuOrderController {
         }, onError: { (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
-        
     }
     
     
     //MARK: - 已添加购物车的菜品
     func loadCartData_Net() {
         
-        HTTPTOOl.getAddedCartDishes(storeID: self.storeID, psType: self.buyType).subscribe(onNext: { (json) in
+        HTTPTOOl.getAddedCartDishes(storeID: storeID, psType: menuInfo.buyType).subscribe(onNext: { (json) in
             var cart_arr: [CartDishModel] = []
             for cart_json in json["data"]["dishesList"].arrayValue {
                 let model = CartDishModel()
@@ -398,13 +373,14 @@ extension StoreMenuOrderController {
             self.cartView.cartDataArr = self.cart_dataModelArr
     
             ///根据购物车 处理页面数据
-            self.manager.dealWithMenuDishesByCartData(cart_arr: self.cart_dataModelArr, menuModel: self.menuInfo)
+            //self.manager.dealWithMenuDishesByCartData(cart_arr: self.cart_dataModelArr, menuModel: self.menuInfo)
+            self.menuInfo.dealWithMenuDishesByCartData(cart_arr: self.cart_dataModelArr)
                         
             ///更新底部购物车栏
             //购物车价格
             let cart_money = D_2_STR(json["data"]["allPrice"].doubleValue) 
             //购物车数量
-            let cart_num = self.manager.getCartAddedNum(cart_arr: self.cart_dataModelArr)
+            let cart_num = self.getCartAddedNum(cart_arr: self.cart_dataModelArr)
             ///是否打折
             let disType = json["data"]["discountType"].stringValue
             ///折扣钱数
@@ -423,28 +399,6 @@ extension StoreMenuOrderController {
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
-
-        
-    ///为buyType赋值
-    private func setBuyTypeValue() {
-        //判断
-        if !self.isStoreMain {
-            //从店铺列表进入点餐页面
-            if storeInfo.deStatus == "1" && storeInfo.coStatus == "1" {
-                buyType = "1"
-            }
-            if storeInfo.deStatus == "1" && storeInfo.coStatus == "2" {
-                buyType = "1"
-            }
-            if storeInfo.deStatus == "2" && storeInfo.coStatus == "1" {
-                buyType = "2"
-            }
-            if storeInfo.deStatus == "2" && storeInfo.coStatus == "2" {
-                //关店状态
-                buyType = "1"
-            }
-        }
-    }
     
     //MARK: - 添加购物车
     private func addCart_Net(dishesID: String, buyNum: Int) {
@@ -456,6 +410,7 @@ extension StoreMenuOrderController {
         }).disposed(by: self.bag)
     }
     
+    
     //MARK: - 修改购物车
     private func updateCart_Net(cartID: String, buyNum: Int) {
         HUD_MB.loading("", onView: view)
@@ -466,34 +421,14 @@ extension StoreMenuOrderController {
         }).disposed(by: self.bag)
     }
     
-    
-//    //获取钱包
-//    @objc func loadWallet_Net() {
-//
-//        if UserDefaults.standard.isLogin {
-//            HTTPTOOl.getWalletAmount().subscribe(onNext: { (json) in
-//
-//                let moneyStr = "£\(D_2_STR(json["data"]["amount"].doubleValue))"
-//                self.headerView.walletLab.text = moneyStr
-//                self.headerView.walletLab.isHidden = false
-//                self.headerView.walletImg.isHidden = false
-//
-//            }, onError: { (error) in
-//                HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
-//            }).disposed(by: self.bag)
-//        }
-//    }
 }
 
 extension StoreMenuOrderController {
-    
-    
     
     private func addNotificationCenter() {
         NotificationCenter.default.addObserver(self, selector: #selector(cartDataRefresh), name: NSNotification.Name(rawValue: "cartRefresh"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(pageDataRefresh), name: NSNotification.Name(rawValue: "pageRefresh"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(loginRefresh), name: NSNotification.Name(rawValue: "login"), object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(walletRefresh), name: NSNotification.Name(rawValue: "wallet"), object: nil)
         
         //MARK: - 页面的嵌套滑动
         //注册通知中心 等待下层tabel发来状态改变
@@ -534,15 +469,18 @@ extension StoreMenuOrderController {
     @objc private func loginRefresh() {
         
         loadStoreDetail_Net()
-        //loadCartData_Net()
-        //loadWallet_Net()
     }
+
     
-//    //钱包刷新
-//    @objc private func walletRefresh() {
-//        loadWallet_Net()
-//    }
-    
+    ///获取购物车添加的菜品数量
+    private func getCartAddedNum(cart_arr: [CartDishModel]) -> Int {
+        
+        var tNum = 0
+        for model in cart_arr {
+            tNum += model.cartCount
+        }
+        return tNum
+    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let y = scrollView.contentOffset.y
@@ -565,33 +503,14 @@ extension StoreMenuOrderController {
             let cell = cellArr.last
             if cell != nil {
                 if cell!.isKind(of: MenuContentCell.self) {
-                    
-                    if self.lunchOrDinner == "lunch" {
-                        
-                        let frame_H = (cell as! MenuContentCell).mealTable.frame.size.height
-                        let content_H = (cell as! MenuContentCell).mealTable.contentSize.height
-                        if frame_H > content_H {
-                            canScroll = true
-                        } else {
-                            self.canScroll = false
-                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "topTable"), object: nil)
-                        }
+                    let frame_H = (cell as! MenuContentCell).r_table.frame.size.height
+                    let content_H = (cell as! MenuContentCell).r_table.contentSize.height
+                    if frame_H > content_H {
+                        canScroll = true
+                    } else {
+                        self.canScroll = false
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "topTable"), object: nil)
                     }
-                    
-                    
-                    if self.lunchOrDinner == "dinner" {
-                        
-                        let frame_H = (cell as! MenuContentCell).r_table.frame.size.height
-                        let content_H = (cell as! MenuContentCell).r_table.contentSize.height
-                        if frame_H > content_H {
-                            canScroll = true
-                        } else {
-                            self.canScroll = false
-                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "topTable"), object: nil)
-                        }
-
-                    }
-                    
                 }
             }
         }

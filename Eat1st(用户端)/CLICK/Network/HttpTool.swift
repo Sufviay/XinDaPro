@@ -83,8 +83,7 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
                             }
 
                             json = JSON(data)
-
-                            print(json)
+                            
                         }
                         
                         if json["code"].stringValue == "1"  {
@@ -250,8 +249,8 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
     }
     
     //MARK: - 获取确认订单详情
-    func loadConfirmOrderDetail(storeID: String, buyWay: String, lat: String, lng: String, couponID: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .loadConfirmOrderDetail(lat: lat, lng: lng, buyWay: buyWay, storeID: storeID, couponID: couponID))
+    func loadConfirmOrderDetail(storeID: String, buyWay: String, lat: String, lng: String, couponID: String, postCode: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .loadConfirmOrderDetail(lat: lat, lng: lng, buyWay: buyWay, storeID: storeID, couponID: couponID, postCode: postCode))
         return Observable<JSON>.create(response)
     }
     

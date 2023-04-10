@@ -19,13 +19,6 @@ class MenuSelectCell: BaseTableViewCell {
         return view
     }()
     
-//    private let backView: UIView = {
-//        let view = UIView()
-//        view.backgroundColor = HCOLOR("#F1F1F1")
-//        view.layer.cornerRadius = 15
-//        return view
-//    }()
-    
 
     private let de_But: UIButton = {
         let but = UIButton()
@@ -52,18 +45,7 @@ class MenuSelectCell: BaseTableViewCell {
         lab.isHidden = true
         return lab
     }()
-    
-//    private let deline: UIView = {
-//        let view = UIView()
-//        view.backgroundColor = MAINCOLOR
-//        return view
-//    }()
-//
-//    private let coline: UIView = {
-//        let view = UIView()
-//        view.backgroundColor = MAINCOLOR
-//        return view
-//    }()
+
     
     private let timeLab: UILabel = {
         let lab = UILabel()
@@ -78,23 +60,7 @@ class MenuSelectCell: BaseTableViewCell {
     override func setViews() {
         
         contentView.backgroundColor = .white
-        
-//        contentView.addSubview(line)
-//        line.snp.makeConstraints {
-//            $0.left.right.bottom.equalToSuperview()
-//            $0.height.equalTo(0.5)
-//        }
-        
-        
 
-//        contentView.addSubview(backView)
-//        backView.snp.makeConstraints {
-//            $0.width.equalTo(190)
-//            $0.centerY.equalToSuperview()
-//            $0.left.equalToSuperview().offset(15)
-//            $0.height.equalTo(30)
-//        }
-        
 
         contentView.addSubview(de_But)
         de_But.snp.makeConstraints {
@@ -148,95 +114,14 @@ class MenuSelectCell: BaseTableViewCell {
     }
     
     
-    func setData(model: StoreInfoModel, selectWay: String)  {
+    func setData(model: OpenTimeModel, selectWay: String)  {
         
         //1 配送  2 自取
         self.type = selectWay
         
-        //可配送 可自取
-        if model.deStatus == "1" && model.coStatus == "1" {
-            
-            closedLab.isHidden = true
-            co_But.isHidden = false
-            de_But.isHidden = false
-            
-            
-            de_But.setTitle("Delivery", for: .normal)
-            co_But.setTitle("Collection", for: .normal)
-            de_But.isEnabled = true
-            co_But.isEnabled = true
-//
-//            co_But.titleLabel?.font = BFONT(14)
-//            de_But.titleLabel?.font = BFONT(14)
-            
-            if type == "1" {
-                self.de_But.setTitleColor(FONTCOLOR, for: .normal)
-                self.de_But.backgroundColor = MAINCOLOR
-                self.co_But.setTitleColor(HCOLOR("999999"), for: .normal)
-                self.co_But.backgroundColor = HCOLOR("#F1F1F1")
-                self.timeLab.text = "Delivers in \(model.deMin)-\(model.deMax) mins"
-            }
-            if type == "2" {
-                self.de_But.setTitleColor(HCOLOR("999999"), for: .normal)
-                self.de_But.backgroundColor = HCOLOR("#F1F1F1")
-                self.co_But.setTitleColor(FONTCOLOR, for: .normal)
-                self.co_But.backgroundColor = MAINCOLOR
-                self.timeLab.text = "Collect in \(model.coMin)-\(model.coMax) mins"
-            }
-            
-            
-        }
-        //可配送 不可自取
-        if model.deStatus == "1" && model.coStatus == "2" {
-            
-            closedLab.isHidden = true
-            co_But.isHidden = false
-            de_But.isHidden = false
-
-            
-            
-            de_But.setTitle("Delivery", for: .normal)
-            co_But.setTitle("No collection", for: .normal)
-            de_But.setTitleColor(FONTCOLOR, for: .normal)
-            co_But.setTitleColor(HCOLOR("#999999"), for: .normal)
-            de_But.backgroundColor = MAINCOLOR
-            co_But.backgroundColor = HCOLOR("#F1F1F1")
-            de_But.isEnabled = false
-            co_But.isEnabled = false
-            
-//            co_But.titleLabel?.font = BFONT(12)
-//            de_But.titleLabel?.font = BFONT(14)
-//
-
-            self.timeLab.text = "Delivers in \(model.deMin)-\(model.deMax) mins"
-
-        }
-        //不可配送 可自取
-        if model.deStatus == "2" && model.coStatus == "1" {
-            closedLab.isHidden = true
-            co_But.isHidden = false
-            de_But.isHidden = false
-
-            
-
-            de_But.setTitle("No delivery", for: .normal)
-            co_But.setTitle("Collection", for: .normal)
-            de_But.setTitleColor(HCOLOR("#999999"), for: .normal)
-            co_But.setTitleColor(FONTCOLOR, for: .normal)
-            de_But.backgroundColor = HCOLOR("#F1F1F1")
-            co_But.backgroundColor = MAINCOLOR
-            de_But.isEnabled = false
-            co_But.isEnabled = false
-            
-//            co_But.titleLabel?.font = BFONT(14)
-//            de_But.titleLabel?.font = BFONT(12)
-
-
-            self.timeLab.text = "Collect in \(model.coMin)-\(model.coMax) mins"
-
-        }
-        //不可配送 不可自取
-        if model.deStatus == "2" && model.coStatus == "2" {
+        
+        if model.storeTimeId == "" {
+            //没有时间段关店
             closedLab.isHidden = false
             co_But.isHidden = true
             de_But.isHidden = true
@@ -251,15 +136,103 @@ class MenuSelectCell: BaseTableViewCell {
             de_But.isEnabled = false
             co_But.isEnabled = false
             
-            
-//            co_But.titleLabel?.font = BFONT(14)
-//            de_But.titleLabel?.font = BFONT(14)
-
 
             self.timeLab.text = ""
-        }
+            
+        } else {
+            
+            //可配送 可自取
+            if model.deliverStatus == "1" && model.collectStatus == "1" {
                 
+                closedLab.isHidden = true
+                co_But.isHidden = false
+                de_But.isHidden = false
+                
+                
+                de_But.setTitle("Delivery", for: .normal)
+                co_But.setTitle("Collection", for: .normal)
+                de_But.isEnabled = true
+                co_But.isEnabled = true
+                
+                if type == "1" {
+                    self.de_But.setTitleColor(FONTCOLOR, for: .normal)
+                    self.de_But.backgroundColor = MAINCOLOR
+                    self.co_But.setTitleColor(HCOLOR("999999"), for: .normal)
+                    self.co_But.backgroundColor = HCOLOR("#F1F1F1")
+                    self.timeLab.text = "Delivers in \(model.deliverMin)-\(model.deliverMax) mins"
+                }
+                if type == "2" {
+                    self.de_But.setTitleColor(HCOLOR("999999"), for: .normal)
+                    self.de_But.backgroundColor = HCOLOR("#F1F1F1")
+                    self.co_But.setTitleColor(FONTCOLOR, for: .normal)
+                    self.co_But.backgroundColor = MAINCOLOR
+                    self.timeLab.text = "Collect in \(model.collectMin)-\(model.collectMax) mins"
+                }
+                
+                
+            }
+            //可配送 不可自取
+            if model.deliverStatus == "1" && model.collectStatus == "2" {
+                
+                closedLab.isHidden = true
+                co_But.isHidden = false
+                de_But.isHidden = false
+
+                
+                
+                de_But.setTitle("Delivery", for: .normal)
+                co_But.setTitle("No collection", for: .normal)
+                de_But.setTitleColor(FONTCOLOR, for: .normal)
+                co_But.setTitleColor(HCOLOR("#999999"), for: .normal)
+                de_But.backgroundColor = MAINCOLOR
+                co_But.backgroundColor = HCOLOR("#F1F1F1")
+                de_But.isEnabled = false
+                co_But.isEnabled = false
+                
+
+                self.timeLab.text = "Delivers in \(model.deliverMin)-\(model.deliverMax) mins"
+
+            }
+            //不可配送 可自取
+            if model.deliverStatus == "2" && model.collectStatus == "1" {
+                closedLab.isHidden = true
+                co_But.isHidden = false
+                de_But.isHidden = false
+
+
+
+                de_But.setTitle("No delivery", for: .normal)
+                co_But.setTitle("Collection", for: .normal)
+                de_But.setTitleColor(HCOLOR("#999999"), for: .normal)
+                co_But.setTitleColor(FONTCOLOR, for: .normal)
+                de_But.backgroundColor = HCOLOR("#F1F1F1")
+                co_But.backgroundColor = MAINCOLOR
+                de_But.isEnabled = false
+                co_But.isEnabled = false
+
+
+                self.timeLab.text = "Collect in \(model.collectMin)-\(model.collectMax) mins"
+
+            }
+            //不可配送 不可自取
+            if model.deliverStatus == "2" && model.collectStatus == "2" {
+                closedLab.isHidden = false
+                co_But.isHidden = true
+                de_But.isHidden = true
+
+                
+                de_But.setTitle("Closed", for: .normal)
+                co_But.setTitle("Closed", for: .normal)
+                de_But.setTitleColor(FONTCOLOR, for: .normal)
+                co_But.setTitleColor(FONTCOLOR, for: .normal)
+                de_But.backgroundColor = HCOLOR("#F1F1F1")
+                co_But.backgroundColor = HCOLOR("#F1F1F1")
+                de_But.isEnabled = false
+                co_But.isEnabled = false
+                
+
+                self.timeLab.text = ""
+            }
+        }
     }
-    
-    
 }
