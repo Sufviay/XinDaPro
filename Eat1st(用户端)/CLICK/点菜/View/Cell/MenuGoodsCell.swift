@@ -294,17 +294,19 @@ class MenuGoodsNoSizeCell: BaseTableViewCell, UICollectionViewDelegate, UICollec
         
         
         if !canBuy {
+            self.unUseImg.isHidden = false
+            self.un_lab.text = "Unavailable"
             selectView.isHidden = true
         } else {
+            self.un_lab.text = model.unAlbleMsg
             if model.isOn == "1" {
+                self.unUseImg.isHidden = true
                 selectView.isHidden = false
             } else {
+                self.unUseImg.isHidden = false
                 selectView.isHidden = true
             }
         }
-        
-        //晚餐 正常卖单品
-        self.un_lab.text = model.unAlbleMsg
 
         //设置商品是否启用
         if model.isOn == "1" {
@@ -312,17 +314,11 @@ class MenuGoodsNoSizeCell: BaseTableViewCell, UICollectionViewDelegate, UICollec
             self.nameLab.textColor = FONTCOLOR
             self.s_lab.textColor = HCOLOR("#FB5348")
             self.moneyLab.textColor = HCOLOR("#FB5348")
-            self.unUseImg.isHidden = true
-            
-            
             
         } else {
-
             self.nameLab.textColor = HCOLOR("#AAAAAA")
             self.s_lab.textColor = HCOLOR("#AAAAAA")
             self.moneyLab.textColor = HCOLOR("AAAAAA")
-            self.unUseImg.isHidden = false
-            
         }
     
         
@@ -787,30 +783,30 @@ class MenuGoodsSizeCell: BaseTableViewCell, UICollectionViewDelegate, UICollecti
         
         
         if !canBuy {
+            self.un_lab.text = "Unavailable"
+            self.unUseImg.isHidden = false
             optionBut.isHidden = true
         } else {
+            self.un_lab.text = model.unAlbleMsg
             if model.isOn == "1" {
+                self.unUseImg.isHidden = true
                 optionBut.isHidden = false
             } else {
+                self.unUseImg.isHidden = false
                 optionBut.isHidden = true
             }
         }
         
-        self.un_lab.text = model.unAlbleMsg
+        
         //设置是否启用
         if model.isOn == "1" {
             self.nameLab.textColor = FONTCOLOR
             self.s_lab.textColor = HCOLOR("FB5348")
             self.moneyLab.textColor = HCOLOR("FB5348")
-            self.unUseImg.isHidden = true
-                    
         } else {
-            
             self.nameLab.textColor = HCOLOR("#AAAAAA")
             self.s_lab.textColor = HCOLOR("#AAAAAA")
             self.moneyLab.textColor = HCOLOR("AAAAAA")
-            self.unUseImg.isHidden = false
-            
         }
     
         

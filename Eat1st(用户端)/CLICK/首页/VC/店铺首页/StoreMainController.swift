@@ -222,7 +222,6 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
         }
         if indexPath.row == 3 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "StoreFirstPageButCell") as! StoreFirstPageButCell
-            cell.setCellData(model: dataModel)
             return cell
             
         }

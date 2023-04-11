@@ -94,19 +94,19 @@ class StoreTableCell: BaseTableViewCell {
         return lab
     }()
     
-    private let timeLab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(12), .right)
-        lab.text = "55mins"
-        return lab
-    }()
+//    private let timeLab: UILabel = {
+//        let lab = UILabel()
+//        lab.setCommentStyle(HCOLOR("#666666"), SFONT(12), .right)
+//        lab.text = "55mins"
+//        return lab
+//    }()
     
-    private let s_img1: UIImageView = {
-        let img = UIImageView()
-        img.image = LOIMG("first_time")
-        return img
-    }()
-    
+//    private let s_img1: UIImageView = {
+//        let img = UIImageView()
+//        img.image = LOIMG("first_time")
+//        return img
+//    }()
+//
     
     private let s_img2: UIImageView = {
         let img = UIImageView()
@@ -211,7 +211,7 @@ class StoreTableCell: BaseTableViewCell {
         backView.addSubview(disLab)
         disLab.snp.makeConstraints {
             $0.right.equalToSuperview().offset(-7)
-            $0.top.equalTo(nameLab.snp.bottom).offset(18)
+            $0.top.equalTo(nameLab.snp.bottom).offset(10)
         }
         
         
@@ -222,23 +222,23 @@ class StoreTableCell: BaseTableViewCell {
             $0.right.equalTo(disLab.snp.left).offset(-2)
         }
 
-        backView.addSubview(timeLab)
-        timeLab.snp.makeConstraints {
-            $0.right.equalTo(s_img2.snp.left).offset(-8)
-            $0.centerY.equalTo(disLab)
-        }
-        
-        backView.addSubview(s_img1)
-        s_img1.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 13, height: 13))
-            $0.centerY.equalTo(s_img2)
-            $0.right.equalTo(timeLab.snp.left).offset(-2)
-        }
+//        backView.addSubview(timeLab)
+//        timeLab.snp.makeConstraints {
+//            $0.right.equalTo(s_img2.snp.left).offset(-8)
+//            $0.centerY.equalTo(disLab)
+//        }
+//
+//        backView.addSubview(s_img1)
+//        s_img1.snp.makeConstraints {
+//            $0.size.equalTo(CGSize(width: 13, height: 13))
+//            $0.centerY.equalTo(s_img2)
+//            $0.right.equalTo(timeLab.snp.left).offset(-2)
+//        }
         
         backView.addSubview(desLab)
         desLab.snp.makeConstraints {
             $0.left.equalToSuperview().offset(7)
-            $0.centerY.equalTo(timeLab)
+            $0.top.equalTo(nameLab.snp.bottom).offset(20)
             $0.right.equalToSuperview().offset(-150)
             //$0.right.equalTo(s_img1.snp.left).offset(-15)
         }
@@ -267,7 +267,7 @@ class StoreTableCell: BaseTableViewCell {
         self.disLab.text = model.distance
         self.psMoneuLab.text = model.deliveryFeeStr
         self.qsMoneuLab.text = model.minOrderStr
-        self.timeLab.text = model.minTime
+//        self.timeLab.text = model.minTime
         self.starView.setPointValue = Int(ceil(model.star))
         self.firstScaleLab.text = model.firstDiscountScale
         

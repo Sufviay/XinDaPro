@@ -23,33 +23,37 @@ class JTFeeModel: NSObject {
 
 
 
-
-
-class DaySetTimeModel: NSObject {
-
-    var weekDay: String  = ""
-    var takeBegin: String = ""
-    var takeEnd: String = ""
+class WeekOpenTimeModel {
     
-    var deliveryBegin: String = ""
-    var deliveryEnd: String = ""
+    var weekName: String = ""
+    var weekID: String = ""
+    var timeArr: [DayTimeModel] = []
+    
+}
+
+
+
+
+class DayTimeModel: NSObject {
     
     //1开启，2关闭
     var deStatus: String = ""
     var coStatus: String = ""
     
-    var id: String = ""
+    var timeId: String = ""
+    var timeName: String = ""
+    
+    var startTime: String = ""
+    var endTime: String = ""
     
     func updateModel(json: JSON) {
         //self.id = json["id"].stringValue
-        self.weekDay = json["week"].stringValue
-        self.takeBegin = json["collectionStartTime"].stringValue
-        self.takeEnd = json["collectionEndTime"].stringValue
-        self.deliveryBegin = json["deliveryStartTime"].stringValue
-        self.deliveryEnd = json["deliveryEndTime"].stringValue
-        
-        self.deStatus = json["deliveryStatus"].stringValue
-        self.coStatus = json["collectionStatus"].stringValue
+        self.timeId = json["storeTimeId"].stringValue
+        self.timeName = json["timeName"].stringValue
+        self.startTime = json["startTime"].stringValue
+        self.endTime = json["endTime"].stringValue
+        self.deStatus = json["deliverStatus"].stringValue
+        self.coStatus = json["collectStatus"].stringValue
         
     }
 
@@ -98,20 +102,22 @@ class StoreInfoModel: NSObject {
     var storeAddress: String = ""
     ///店铺ID
     var storeID: String = ""
-    ///阶梯配送费列表
-    var feeList: [JTFeeModel] = []
-    ///配送状态 1开启 2关闭
-    var deStatus: String = ""
-    ///自取状态 1开启 2关闭
-    var coStatus: String = ""
+//    ///阶梯配送费列表
+//    var feeList: [JTFeeModel] = []
+//    ///配送状态 1开启 2关闭
+//    var deStatus: String = ""
+//    ///自取状态 1开启 2关闭
+//    var coStatus: String = ""
     ///营业时间
-    var timeArr: [DaySetTimeModel] = []
-    ///自取时间
-    var coMin: String = ""
-    var coMax: String = ""
-    ///配送时间
-    var deMin: String = ""
-    var deMax: String = ""
+    //var timeArr: [DaySetTimeModel] = []
+    var storeOpenTime: [WeekOpenTimeModel] = []
+    
+//    ///自取时间
+//    var coMin: String = ""
+//    var coMax: String = ""
+//    ///配送时间
+//    var deMin: String = ""
+//    var deMax: String = ""
     
 
     ///折扣说明
@@ -186,31 +192,33 @@ class StoreInfoModel: NSObject {
         self.storeAddress = json["address"].stringValue
         
         
-        var tArr: [JTFeeModel] = []
-        for jsonData in json["deliveryFeeList"].arrayValue {
-            let model = JTFeeModel()
-            model.updateModel(json: jsonData)
-            tArr.append(model)
-        }
+//        var tArr: [JTFeeModel] = []
+//        for jsonData in json["deliveryFeeList"].arrayValue {
+//            let model = JTFeeModel()
+//            model.updateModel(json: jsonData)
+//            tArr.append(model)
+//        }
+//
+//        self.feeList = tArr
+//
+//        self.deStatus = json["openTypeResult"]["deliveryStatus"].stringValue
+//        self.coStatus = json["openTypeResult"]["collectionStatus"].stringValue
         
-        self.feeList = tArr
-        
-        self.deStatus = json["openTypeResult"]["deliveryStatus"].stringValue
-        self.coStatus = json["openTypeResult"]["collectionStatus"].stringValue
-        
-        var tArr2: [DaySetTimeModel] = []
-        for jsondata in json["openTimeList"].arrayValue {
-            let model = DaySetTimeModel()
-            model.updateModel(json: jsondata)
-            tArr2.append(model)
-        }
-        self.timeArr = tArr2
+//        var tArr2: [DaySetTimeModel] = []
+//        for jsondata in json["openTimeList"].arrayValue {
+//            let model = DaySetTimeModel()
+//            model.updateModel(json: jsondata)
+//            tArr2.append(model)
+//        }
+//        self.timeArr = tArr2
         
         
-        self.coMin = json["collectionMin"].stringValue
-        self.coMax = json["collectionMax"].stringValue
-        self.deMin = json["deliveryMin"].stringValue
-        self.deMax = json["deliveryMax"].stringValue
+//        self.coMin = json["collectionMin"].stringValue
+//        self.coMax = json["collectionMax"].stringValue
+//        self.deMin = json["deliveryMin"].stringValue
+//        self.deMax = json["deliveryMax"].stringValue
+        
+        
         self.discountMsg = json["discountMsg"].stringValue
         self.discountImgUrl = json["discountImageUrl"].stringValue
         self.isDiscount = json["discountType"].stringValue == "1" ? true : false
@@ -284,12 +292,57 @@ class StoreInfoModel: NSObject {
             self.storeContent_H = storeInfo_H + 15 + 50
         }
         
+        ///处理营业时间
         
+        for idx in 1...7 {
+            let model = WeekOpenTimeModel()
+            model.weekID = String(idx)
+            if idx == 1 {
+                model.weekName = "Monday"
+            }
+            if idx == 2 {
+                model.weekName = "Tuesday"
+            }
+            if idx == 3 {
+                model.weekName = "Wednesday"
+            }
+            if idx == 4 {
+                model.weekName = "Thursday"
+            }
+            if idx == 5 {
+                model.weekName = "Friday"
+            }
+            if idx == 6 {
+                model.weekName = "Saturday"
+            }
+            if idx == 7 {
+                model.weekName = "Sunday"
+            }
+            
+            storeOpenTime.append(model)
+        }
         
-    }
-    
-    
-    
-    
+        //获取所有时间段
+        var allTime: [DayTimeModel] = []
+        for jsonData in json["timeList"].arrayValue {
+            let model = DayTimeModel()
+            model.updateModel(json: jsonData)
+            allTime.append(model)
+        }
 
+        //循环星期列表
+        for jsonData in json["weekList"].arrayValue {
+            //获取timeID
+            let timeID = jsonData["storeTimeId"].stringValue
+            //找到相对应的TimeModel
+            if (allTime.filter { $0.timeId == timeID }).count != 0 {
+                let model = allTime.filter { $0.timeId == timeID }[0]
+                
+                ///获取weekID
+                let weekId = jsonData["weekId"].stringValue
+                ///根据weekID将timeModel插入指定位置
+                storeOpenTime[(Int(weekId) ?? 0) - 1].timeArr.append(model)
+            }
+        }
+    }
 }

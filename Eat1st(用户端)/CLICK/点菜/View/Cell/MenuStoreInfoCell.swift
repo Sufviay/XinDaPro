@@ -97,13 +97,6 @@ class MenuStoreInfoCell: BaseTableViewCell {
         return lab
     }()
     
-//    private let checkPSBut: UIButton = {
-//        let but = UIButton()
-//        but.setImage(LOIMG("s_about"), for: .normal)
-//        return but
-//    }()
-    
-    
     
     
     override func setViews() {
@@ -112,9 +105,9 @@ class MenuStoreInfoCell: BaseTableViewCell {
         
         contentView.addSubview(logoImg)
         logoImg.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 65, height: 65))
+            $0.size.equalTo(CGSize(width: 63, height: 63))
             $0.right.equalToSuperview().offset(-10)
-            $0.top.equalToSuperview().offset(15)
+            $0.top.equalToSuperview().offset(10)
         }
         
         contentView.addSubview(nameLab)
@@ -142,7 +135,7 @@ class MenuStoreInfoCell: BaseTableViewCell {
         starView.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 90, height: 15))
             $0.left.equalToSuperview().offset(10)
-            $0.top.equalTo(tagLab.snp.bottom).offset(7)
+            $0.top.equalTo(tagLab.snp.bottom).offset(10)
         }
         
         contentView.addSubview(pointLab)
@@ -175,14 +168,6 @@ class MenuStoreInfoCell: BaseTableViewCell {
             $0.top.equalTo(deQSLab.snp.bottom).offset(8)
         }
         
-//        contentView.addSubview(checkPSBut)
-//        checkPSBut.snp.makeConstraints {
-//            $0.centerY.equalTo(psMoneyLab)
-//            $0.left.equalTo(psMoneyLab.snp.right).offset(5)
-//        }
-//
-        
-        
 
         let reviewsTap = UITapGestureRecognizer(target: self, action: #selector(clickReviewsAction))
         self.plCountLab.addGestureRecognizer(reviewsTap)
@@ -191,7 +176,6 @@ class MenuStoreInfoCell: BaseTableViewCell {
         self.nameLab.addGestureRecognizer(detailTap)
         
         detailBut.addTarget(self, action: #selector(clickDesAction), for: .touchUpInside)
-//        checkPSBut.addTarget(self, action: #selector(clickCheckPSMoneyAction), for: .touchUpInside)
         
     }
     
@@ -209,15 +193,6 @@ class MenuStoreInfoCell: BaseTableViewCell {
         PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
     }
     
-    
-    @objc private func clickCheckPSMoneyAction() {
-        //查看配送费
-        if storeModel.feeList.count != 0 {
-            let alert = PSFeeDesAlert()
-            alert.feeListArr = storeModel.feeList
-            alert.appearAction()
-        }
-    }
 
     
     

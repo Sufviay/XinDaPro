@@ -11,9 +11,6 @@ class StoreIntroduceController: BaseViewController, UITableViewDelegate, UITable
     
     var storeInfoModel = StoreInfoModel()
     
-    
-    private var timeType: String = "De"
-    
     private let backBut: UIButton = {
         let but = UIButton()
         but.backgroundColor = .black.withAlphaComponent(0.4)
@@ -38,9 +35,9 @@ class StoreIntroduceController: BaseViewController, UITableViewDelegate, UITable
 
         tableView.register(StoreIntroduceHeaderCell.self, forCellReuseIdentifier: "StoreIntroduceHeaderCell")
         tableView.register(StoreIntroduceAddressCell.self, forCellReuseIdentifier: "StoreIntroduceAddressCell")
-        tableView.register(SetDayTimeCell.self, forCellReuseIdentifier: "SetDayTimeCell")
-        tableView.register(StoreIntroduceOpenTimeCell.self, forCellReuseIdentifier: "StoreIntroduceOpenTimeCell")
-        tableView.register(StoreIntroduceButCell.self, forCellReuseIdentifier: "StoreIntroduceButCell")
+        tableView.register(StoreLabCell.self, forCellReuseIdentifier: "StoreLabCell")
+        tableView.register(WeekNameCell.self, forCellReuseIdentifier: "WeekNameCell")
+        tableView.register(TimeSetInfoCell.self, forCellReuseIdentifier: "TimeSetInfoCell")
         return tableView
     }()
     
@@ -80,14 +77,15 @@ class StoreIntroduceController: BaseViewController, UITableViewDelegate, UITable
 extension StoreIntroduceController {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return 3 + 7
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 3 {
-            return storeInfoModel.timeArr.count
+        if section == 1 || section == 2 || section == 0 {
+            return 1
+        } else {
+            return storeInfoModel.storeOpenTime[section - 3].timeArr.count + 1
         }
-        return 1
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -98,15 +96,23 @@ extension StoreIntroduceController {
             
             return  360 + h1 + h2
         }
-        if indexPath.section == 1 {
-            return 90
+        else if indexPath.section == 1 {
+            
+            let h = storeInfoModel.storeAddress.getTextHeigh(SFONT(14), S_W - 125) < 30 ? 30 : storeInfoModel.storeAddress.getTextHeigh(SFONT(14), S_W - 125)
+            return h + 30
         }
         
-        if indexPath.section == 2 {
-            return 100
+        else if indexPath.section == 2 {
+            return 40
         }
         
-        return 50
+        else  {
+            if indexPath.row == 0 {
+                return 30
+            } else {
+                return 95
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -116,40 +122,27 @@ extension StoreIntroduceController {
             return cell
         }
         
-        if indexPath.section == 1 {
+        else if indexPath.section == 1 {
             let cell = table.dequeueReusableCell(withIdentifier: "StoreIntroduceAddressCell") as! StoreIntroduceAddressCell
             cell.setCellData(model: storeInfoModel)
             
             return cell
         }
-        if indexPath.section == 2 {
-            let cell = table.dequeueReusableCell(withIdentifier: "StoreIntroduceButCell") as! StoreIntroduceButCell
-            
-            cell.setCellData(type: timeType)
-            
-            cell.clickBlock = { [unowned self] (type) in
-                self.timeType = type as! String
-                self.table.reloadData()
-            }
-            
+        else if indexPath.section == 2 {
+            let cell = table.dequeueReusableCell(withIdentifier: "StoreLabCell") as! StoreLabCell
             return cell
         }
         
-        let week = PJCUtil.getweekDay(Date())
-        
-        let isToday = week == indexPath.row ? true : false
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "StoreIntroduceOpenTimeCell") as! StoreIntroduceOpenTimeCell
-        
-        let model = storeInfoModel.timeArr[indexPath.row]
-        
-        if timeType == "De" {
-            cell.setCellData(weekStr: model.weekDay, timeStr: model.deliveryBegin + " - " + model.deliveryEnd, isToday: isToday, status: model.deStatus)
+        else {
+            if indexPath.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "WeekNameCell") as! WeekNameCell
+                cell.setCellData(model: storeInfoModel.storeOpenTime[indexPath.section - 3])
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "TimeSetInfoCell") as! TimeSetInfoCell
+                cell.setCellData(model: storeInfoModel.storeOpenTime[indexPath.section - 3].timeArr[indexPath.row - 1])
+                return cell
+            }
         }
-        
-        if timeType == "Co" {
-            cell.setCellData(weekStr: model.weekDay, timeStr: model.takeBegin + " - " + model.takeEnd, isToday: isToday, status: model.coStatus)
-        }
-        return cell
     }
 }

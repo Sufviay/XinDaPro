@@ -45,36 +45,6 @@ class StoreIntroduceHeaderCell: BaseTableViewCell {
     }()
     
     
-    private let delab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("000000"), SFONT(11), .right)
-        lab.text = "Delivery"
-        lab.isHidden = true
-        return lab
-    }()
-    
-    private let colab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("000000"), SFONT(11), .right)
-        lab.text = "Collection"
-        lab.isHidden = true
-        return lab
-    }()
-    
-    private let s_img1: UIImageView = {
-        let img = UIImageView()
-        img.image = LOIMG("success")
-        img.isHidden = true
-        return img
-    }()
-    
-    private let s_img2: UIImageView = {
-        let img = UIImageView()
-        img.image = LOIMG("success")
-        img.isHidden = true
-        return img
-    }()
-    
     private let taglab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#666666"), SFONT(13), .left)
@@ -103,10 +73,6 @@ class StoreIntroduceHeaderCell: BaseTableViewCell {
         }
 
         
-//        contentView.addSubview(headImg)
-//        headImg.snp.makeConstraints {
-//        }
-        
         contentView.addSubview(backView)
         backView.snp.makeConstraints {
             $0.left.equalToSuperview().offset(10)
@@ -123,31 +89,6 @@ class StoreIntroduceHeaderCell: BaseTableViewCell {
             $0.height.equalTo(40)
         }
         
-        backView.addSubview(colab)
-        colab.snp.makeConstraints {
-            $0.centerY.equalTo(nameLab)
-            $0.right.equalToSuperview().offset(-10)
-        }
-        backView.addSubview(s_img2)
-        s_img2.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 10, height: 10))
-            $0.centerY.equalTo(colab)
-            $0.right.equalTo(colab.snp.left).offset(-3)
-        }
-        
-        backView.addSubview(delab)
-        delab.snp.makeConstraints {
-            $0.centerY.equalTo(colab)
-            $0.right.equalTo(colab.snp.left).offset(-25)
-        }
-        
-        backView.addSubview(s_img1)
-        s_img1.snp.makeConstraints {
-            $0.size.equalTo(s_img2)
-            $0.centerY.equalTo(colab)
-            $0.right.equalTo(delab.snp.left).offset(-3)
-        }
-        
         backView.addSubview(taglab)
         taglab.snp.makeConstraints {
             $0.left.equalToSuperview().offset(10)
@@ -162,8 +103,6 @@ class StoreIntroduceHeaderCell: BaseTableViewCell {
             $0.right.equalToSuperview().offset(-10)
         }
         
-        
-        //40 + 300 + h1 + h2 + 20
         
     }
     
@@ -183,18 +122,6 @@ class StoreIntroduceHeaderCell: BaseTableViewCell {
         self.nameLab.text = model.name
         self.taglab.text = model.tags
         self.titlab.text = model.des
-        
-//        if model.isDelivery {
-//            self.s_img1.image = LOIMG("success")
-//        } else {
-//            self.s_img1.image = LOIMG("error")
-//        }
-//        
-//        if model.isTake {
-//            self.s_img2.image = LOIMG("success")
-//        } else {
-//            self.s_img2.image = LOIMG("error")
-//        }
         
     }
     

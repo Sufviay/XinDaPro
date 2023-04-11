@@ -34,7 +34,6 @@
 		E31790D528C5CE74007BA6B9 /* DateTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31790D428C5CE74007BA6B9 /* DateTool.swift */; };
 		E321ABDF2760E45C000CF43E /* StoreMainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E321ABDE2760E45C000CF43E /* StoreMainController.swift */; };
 		E321ABE327633048000CF43E /* LogInOverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E321ABE227633048000CF43E /* LogInOverController.swift */; };
-		E321ABE7276728AF000CF43E /* MenuSelectWayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E321ABE6276728AF000CF43E /* MenuSelectWayView.swift */; };
 		E321ABE9276728E4000CF43E /* MenuHeadInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E321ABE8276728E4000CF43E /* MenuHeadInfoView.swift */; };
 		E32539B3276C3FE000EC0C84 /* AddressAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32539B2276C3FE000EC0C84 /* AddressAlertView.swift */; };
 		E32539B6276C774000EC0C84 /* OrderSelectTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32539B5276C774000EC0C84 /* OrderSelectTagView.swift */; };
@@ -102,8 +101,6 @@
 		E357461326AEA76C00BC3763 /* FirstSideToolViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E357461226AEA76C00BC3763 /* FirstSideToolViewCell.swift */; };
 		E363C15F28DC445C00C29C48 /* CouponContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E363C15E28DC445C00C29C48 /* CouponContentCell.swift */; };
 		E363C16128DC637D00C29C48 /* CouponModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E363C16028DC637D00C29C48 /* CouponModel.swift */; };
-		E36C037C2727E82400E9154F /* StoreIntroduceOpenTimeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36C037B2727E82400E9154F /* StoreIntroduceOpenTimeCell.swift */; };
-		E36C037E2727FD1200E9154F /* StoreIntroduceButCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36C037D2727FD1200E9154F /* StoreIntroduceButCell.swift */; };
 		E36D1698287561CE003CE4BE /* MenuSelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36D1697287561CE003CE4BE /* MenuSelectCell.swift */; };
 		E36D169A28767EDC003CE4BE /* ClassifySectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36D169928767EDC003CE4BE /* ClassifySectionHeader.swift */; };
 		E36D169C2876BBDF003CE4BE /* MenuCartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36D169B2876BBDF003CE4BE /* MenuCartView.swift */; };
@@ -345,7 +342,6 @@
 		E31790D428C5CE74007BA6B9 /* DateTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTool.swift; sourceTree = "<group>"; };
 		E321ABDE2760E45C000CF43E /* StoreMainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreMainController.swift; sourceTree = "<group>"; };
 		E321ABE227633048000CF43E /* LogInOverController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInOverController.swift; sourceTree = "<group>"; };
-		E321ABE6276728AF000CF43E /* MenuSelectWayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuSelectWayView.swift; sourceTree = "<group>"; };
 		E321ABE8276728E4000CF43E /* MenuHeadInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHeadInfoView.swift; sourceTree = "<group>"; };
 		E32539B2276C3FE000EC0C84 /* AddressAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressAlertView.swift; sourceTree = "<group>"; };
 		E32539B5276C774000EC0C84 /* OrderSelectTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSelectTagView.swift; sourceTree = "<group>"; };
@@ -419,8 +415,6 @@
 		E357461226AEA76C00BC3763 /* FirstSideToolViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FirstSideToolViewCell.swift; path = "CLICK/首页/View/FirstSideToolViewCell.swift"; sourceTree = SOURCE_ROOT; };
 		E363C15E28DC445C00C29C48 /* CouponContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponContentCell.swift; sourceTree = "<group>"; };
 		E363C16028DC637D00C29C48 /* CouponModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponModel.swift; sourceTree = "<group>"; };
-		E36C037B2727E82400E9154F /* StoreIntroduceOpenTimeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreIntroduceOpenTimeCell.swift; sourceTree = "<group>"; };
-		E36C037D2727FD1200E9154F /* StoreIntroduceButCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreIntroduceButCell.swift; sourceTree = "<group>"; };
 		E36D1697287561CE003CE4BE /* MenuSelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuSelectCell.swift; sourceTree = "<group>"; };
 		E36D169928767EDC003CE4BE /* ClassifySectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassifySectionHeader.swift; sourceTree = "<group>"; };
 		E36D169B2876BBDF003CE4BE /* MenuCartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCartView.swift; sourceTree = "<group>"; };
@@ -1206,7 +1200,6 @@
 				E321ABE8276728E4000CF43E /* MenuHeadInfoView.swift */,
 				E3F82A302875214F005E5FAB /* MenuNavBarView.swift */,
 				E39BF3C526B7D76E009E6330 /* MenuBottomToolView.swift */,
-				E321ABE6276728AF000CF43E /* MenuSelectWayView.swift */,
 				E30E72BE26B92EBC001919AD /* MeunHeadToolView.swift */,
 				E36D169B2876BBDF003CE4BE /* MenuCartView.swift */,
 				E33C188D299F769700D4D4E3 /* DishDetailBottmView.swift */,
@@ -1275,8 +1268,6 @@
 				E30E72C426BA8CEB001919AD /* StoreIntroduceHeaderCell.swift */,
 				E30E72C626BAAA1C001919AD /* StoreIntroduceAddressCell.swift */,
 				E30E72C826BAB228001919AD /* StoreIntroduceTimeCell.swift */,
-				E36C037B2727E82400E9154F /* StoreIntroduceOpenTimeCell.swift */,
-				E36C037D2727FD1200E9154F /* StoreIntroduceButCell.swift */,
 				E3C7F8B326BE5199006BF56E /* OrderSelectTagCell.swift */,
 				E3C7F8B526BE6482006BF56E /* OrderStoreInfoCell.swift */,
 				E3C7F8B726BE6C69006BF56E /* OrderGoodsCell.swift */,
@@ -1809,7 +1800,6 @@
 				E363C15F28DC445C00C29C48 /* CouponContentCell.swift in Sources */,
 				E3469C79279FD18D00F7828D /* PayAlert.swift in Sources */,
 				E3C7F8B626BE6482006BF56E /* OrderStoreInfoCell.swift in Sources */,
-				E36C037E2727FD1200E9154F /* StoreIntroduceButCell.swift in Sources */,
 				E36E9AA226CA06D000483736 /* HttpTool.swift in Sources */,
 				E39BF3AE26B25077009E6330 /* StoreSearchController.swift in Sources */,
 				E39BF3BA26B784EB009E6330 /* GestureTableView.swift in Sources */,
@@ -1953,8 +1943,6 @@
 				E3CCD1E12944211600381FF4 /* JiFenExchangeCell.swift in Sources */,
 				E305E86C26DE064700AAB580 /* OrderReviewCell.swift in Sources */,
 				E3949AAB26AE4E6900160C75 /* SDWaitingView.m in Sources */,
-				E36C037C2727E82400E9154F /* StoreIntroduceOpenTimeCell.swift in Sources */,
-				E321ABE7276728AF000CF43E /* MenuSelectWayView.swift in Sources */,
 				E3949ADA26AE4F0800160C75 /* PJCUtil.swift in Sources */,
 				E3A30499299CDEBC0023DCC1 /* MenuMealGoodsCell.swift in Sources */,
 				E3DEBD4E28F2991D00CE328E /* FirstHavePrizeDrawCell.swift in Sources */,

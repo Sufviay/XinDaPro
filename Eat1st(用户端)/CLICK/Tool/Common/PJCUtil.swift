@@ -292,7 +292,7 @@ class PJCUtil: NSObject {
 
         let weekday = ((days + 4)%7+7)%7
         
-        return weekday
+        return (weekday == 0 ? 7 : weekday)
 
         //let comps = weekday == 0 ? 7 : weekday
 

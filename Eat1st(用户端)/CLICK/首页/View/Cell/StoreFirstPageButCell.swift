@@ -45,7 +45,7 @@ class StoreFirstPageButCell: BaseTableViewCell {
     
     private let deImg: UIImageView = {
         let img = UIImageView()
-        //img.image = LOIMG("store_wm")
+        img.image = LOIMG("store_wm")
         return img
     }()
     
@@ -58,7 +58,7 @@ class StoreFirstPageButCell: BaseTableViewCell {
     
     private let coImg: UIImageView = {
         let img = UIImageView()
-        //img.image = LOIMG("store_zq")
+        img.image = LOIMG("store_zq")
         return img
     }()
     
@@ -163,31 +163,18 @@ class StoreFirstPageButCell: BaseTableViewCell {
     
     
     @objc private func clickDeAction()  {
-        if dataModel.deStatus != "1" {
-            HUD_MB.showWarnig("Unusable！", onView: PJCUtil.getWindowView())
-            return
-        }
 
         //配送
         let menuVC = StoreMenuOrderController()
         menuVC.storeID = dataModel.storeID
-//        menuVC.buyType = "1"
-//        menuVC.isStoreMain = true
         PJCUtil.currentVC()?.navigationController?.pushViewController(menuVC, animated: true)
         
     }
     
     @objc private func clickCoAction()  {
-        
-        if dataModel.coStatus != "1" {
-            HUD_MB.showWarnig("Unusable！", onView: PJCUtil.getWindowView())
-            return
-        }
         //自取
         let menuVC = StoreMenuOrderController()
         menuVC.storeID = dataModel.storeID
-        //menuVC.buyType = "2"
-        //menuVC.isStoreMain = true
         PJCUtil.currentVC()?.navigationController?.pushViewController(menuVC, animated: true)
     }
     
@@ -196,26 +183,5 @@ class StoreFirstPageButCell: BaseTableViewCell {
         PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
     }
     
-    
-    func setCellData(model: StoreInfoModel) {
-        self.dataModel = model
-        
-        if self.dataModel.deStatus == "1" {
-            self.deLab.textColor = HCOLOR("333333")
-            self.deImg.image = LOIMG("store_wm")
-        } else {
-            self.deLab.textColor = HCOLOR("#999999")
-            self.deImg.image = LOIMG("store_wm_nusel")
 
-        }
-
-        if self.dataModel.coStatus == "1" {
-            self.coLab.textColor = HCOLOR("333333")
-            self.coImg.image = LOIMG("store_zq")
-
-        } else {
-            self.coLab.textColor = HCOLOR("#999999")
-            self.coImg.image = LOIMG("store_zq_nusel")
-        }
-    }
 }
