@@ -41,6 +41,7 @@ class OrderDetailController: BaseViewController, UITableViewDataSource, UITableV
         tableView.register(OrderMoneyCell.self, forCellReuseIdentifier: "OrderMoneyCell")
         tableView.register(OrderBottomButCell.self, forCellReuseIdentifier: "OrderBottomButCell")
         tableView.register(OrderRemarkCell.self, forCellReuseIdentifier: "OrderRemarkCell")
+        tableView.register(OrderGiftCell.self, forCellReuseIdentifier: "OrderGiftCell")
         return tableView
     }()
     
@@ -105,8 +106,19 @@ class OrderDetailController: BaseViewController, UITableViewDataSource, UITableV
             return dataModel.dishArr.count
         }
         
-
+        if section == 4 {
+            if dataModel.couponDish.name_C == "" {
+                return 0
+            } else {
+                return 2
+            }
+        }
+        
         if section == 5 {
+            return 2
+        }
+
+        if section == 6 {
             
             if dataModel.status == .delivery_ing || dataModel.status == .paiDan {
                 if haveBut {
@@ -137,11 +149,24 @@ class OrderDetailController: BaseViewController, UITableViewDataSource, UITableV
         if indexPath.section == 3 {
             return dataModel.dishArr[indexPath.row].dish_H
         }
-        
         if indexPath.section == 4 {
-            return 240
+            if indexPath.row == 0 {
+                return 40
+            } else {
+                return dataModel.couponDish.dish_H
+            }
         }
+        
+        
         if indexPath.section == 5 {
+            if indexPath.row == 0 {
+                return 40
+            } else {
+                return dataModel.detailMoney_H
+            }
+            
+        }
+        if indexPath.section == 6 {
             return 60
         }
         return 10
@@ -170,17 +195,34 @@ class OrderDetailController: BaseViewController, UITableViewDataSource, UITableV
         
         if indexPath.section == 3 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderGoodsCell") as! OrderGoodsCell
-            cell.setCellData(model: dataModel.dishArr[indexPath.row])
+            cell.setCellData(model: dataModel.dishArr[indexPath.row], isGift: false)
             return cell
         }
         
         if indexPath.section == 4 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "OrderMoneyCell") as! OrderMoneyCell
-            cell.setCellData(model: dataModel)
-            return cell
+            if indexPath.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "OrderGiftCell") as! OrderGiftCell
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "OrderGoodsCell") as! OrderGoodsCell
+                cell.setCellData(model: dataModel.couponDish, isGift: true)
+                return cell
+            }
         }
         
         if indexPath.section == 5 {
+            if indexPath.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "OrderGiftCell") as! OrderGiftCell
+                cell.titLab.text = "Details"
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "OrderMoneyCell") as! OrderMoneyCell
+                cell.setCellData(model: dataModel)
+                return cell
+            }
+        }
+        
+        if indexPath.section == 6 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderBottomButCell") as! OrderBottomButCell
             cell.setCellData(model: dataModel)
         
@@ -223,7 +265,7 @@ class OrderDetailController: BaseViewController, UITableViewDataSource, UITableV
         HUD_MB.loading("", onView: view)
         HTTPTOOl.getOrderDetail(orderID: orderID).subscribe(onNext: { (json) in
             HUD_MB.dissmiss(onView: self.view)
-            self.sectionNum = 6
+            self.sectionNum = 7
             self.dataModel.updateModel(json: json["data"])
             self.mainTabel.reloadData()
             

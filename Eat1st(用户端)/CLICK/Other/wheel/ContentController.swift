@@ -134,7 +134,7 @@ class ContentController: BaseViewController, WKUIDelegate, WKNavigationDelegate,
 //            return
 //        }
 
-        let request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 5)
+        let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 5)
         webView?.load(request)
         
         

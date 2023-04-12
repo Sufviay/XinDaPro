@@ -27,10 +27,6 @@ class OrderModel: NSObject {
     var endTime: String = ""
     ///邮编
     var postCode: String = ""
-    ///配送费
-    var deliveryFee: Double = 0
-    ///支付金额
-    var payPrice: Double = 0
     ///地址
     var address: String = ""
     ///列表内容高度
@@ -38,9 +34,7 @@ class OrderModel: NSObject {
 
     ///以上首页订单列表用的字段
     
-   
     
-
     
     ///订单备注
     var remarks: String = "1"
@@ -54,38 +48,61 @@ class OrderModel: NSObject {
     var lng: Double = 0
     ///预定送餐时间
     var hopeTime: String = ""
-
-    
-    
     
     ///距离
     var distance: Double = 0
     
-    ///商品总金额
-    var dishPrice: Double = 0
-    ///优惠金额
-    var discountPrice: Double = 0
+    
+    ///商品实际金额
+    var actualFee: Double = 0
+    ///配送金额
+    var deliveryFee: Double = 0
     ///服务费用
     var serviceFee: Double = 0
-    ///优惠金额 钱包抵扣金额
-    var walletPrice: Double = 0
+    ///包装费
+    var packPrice: Double = 0
+    ///菜品的优惠金额
+    var dishesDiscountAmount: Double = 0
+    ///优惠券抵扣金额
+    var couponAmount: Double = 0
+    ///折扣金额
+    var discountAmount: Double = 0
     ///订单金额 减去折扣 不减钱包之前的价格
     var orderPrice: Double = 0
-
+    ///优惠金额 钱包抵扣金额
+    var walletPrice: Double = 0
+    ///实际付款金额
+    var payPrice: Double = 0
+    ///总金额
+    var totalFee: Double = 0
+    ///折扣比例
+    var discountScale: String = ""
+    ///是否有折扣 1有折扣，2无折扣
+    var discountStatus: String = ""
+    ///折扣说明
+    var discountMsg: String = ""
+    ///菜品是否有优惠 1无优惠 2有优惠
+    var dishesDiscountType: String = ""
+    ///是否有优惠券（1是，2否）
+    var couponType: String = ""
+    ///支付方式 1：cash、2：online   -1位选择支付方式
+    var paymentMethod: String = ""
+    
+    
 
     ///订单创建时间
     var createTime: String = ""
-    
-    ///付款方式 （1：cash、2：card）
-    var paymentMethod: String = ""
-    
+    //购买的菜品
     var dishArr: [OrderDishModel] = []
-            
+    //赠送的菜品
+    var couponDish = OrderDishModel()
+    
+    
     var address_H: CGFloat = 0
     var remark_H: CGFloat = 0
     
-    
-
+    var detailMoney_H: CGFloat = 0
+    var discountMsg_H: CGFloat = 0
     
     
     
@@ -102,8 +119,8 @@ class OrderModel: NSObject {
         self.dayNum = json["orderDayNum"].stringValue
         self.orderNum = json["orderId"].stringValue
         self.id = json["orderId"].stringValue
-        self.deliveryFee = json["deliveryPrice"].doubleValue
-        self.payPrice = json["payPrice"].doubleValue
+//        self.deliveryFee = json["deliveryPrice"].doubleValue
+//        self.payPrice = json["payPrice"].doubleValue
         self.address = json["addressResult"]["address"].stringValue
         self.postCode = json["addressResult"]["postCode"].stringValue
         self.startTime = json["hopeTimeResult"]["startTime"].stringValue
@@ -112,8 +129,26 @@ class OrderModel: NSObject {
         self.content_H = self.address == "" ? 105 : self.address.getTextHeigh(SFONT(13), S_W - 205) + 90
 
         
-
-
+        
+        self.actualFee = json["dishesPrice"].doubleValue
+        self.deliveryFee = json["deliveryPrice"].doubleValue
+        self.totalFee = json["totalPrice"].doubleValue
+        self.serviceFee = json["servicePrice"].doubleValue
+        self.walletPrice = json["walletPrice"].doubleValue
+        self.payPrice = json["payPrice"].doubleValue
+        self.orderPrice = json["orderPrice"].doubleValue
+        self.packPrice = json["packPrice"].doubleValue
+        self.dishesDiscountAmount = json["dishesDiscountAmount"].doubleValue
+        self.dishesDiscountType = json["dishesDiscountType"].stringValue
+        self.couponAmount = json["couponAmount"].doubleValue
+        self.couponType = json["couponType"].stringValue
+        self.discountStatus = json["discountStatus"].stringValue
+        self.discountScale = json["discountScale"].stringValue
+        self.discountAmount = json["discountAmount"].doubleValue
+        self.discountMsg = json["discountMsg"].stringValue
+        self.paymentMethod = json["payType"].stringValue
+        
+    
         
 
         self.remarks = json["remark"].stringValue
@@ -124,15 +159,6 @@ class OrderModel: NSObject {
         self.distance = json["distance"].doubleValue
         self.lat = json["addressResult"]["lat"].doubleValue
         self.lng = json["addressResult"]["lng"].doubleValue
-
-
-        self.dishPrice = json["dishesPrice"].doubleValue
-        self.serviceFee = json["servicePrice"].doubleValue
-        self.discountPrice = json["discountAmount"].doubleValue
-        self.walletPrice = json["walletPrice"].doubleValue
-        self.orderPrice = json["orderPrice"].doubleValue
-
-        self.paymentMethod = json["payType"].stringValue
 
 
         self.createTime = json["createTime"].stringValue
@@ -146,18 +172,23 @@ class OrderModel: NSObject {
             tArr.append(model)
         }
         self.dishArr = tArr
+        
+        self.couponDish.updateModel(json: json["couponResult"]["dishesResult"])
 
 
         let addressStr = self.postCode + "\n" + self.address
         address_H = self.address == "" ? 0 : addressStr.getTextHeigh(SFONT(14), S_W - 60) + 60
         remark_H = self.remarks == "" ? 0 : self.remarks.getTextHeigh(SFONT(13), S_W - 110) + 10
         
-        
+        if discountMsg == "" {
+            self.discountMsg_H = 0
+        } else {
+            self.discountMsg_H = discountMsg.getTextHeigh(SFONT(10), S_W - 60) + 20
+        }
 
+        let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, walletPrice].filter { $0 != 0 }
+        self.detailMoney_H = 6 * 35 + CGFloat(arr.count) * 35 + discountMsg_H + 20
     }
-
-
-    
 }
 
 
@@ -182,6 +213,9 @@ class OrderDishModel: NSObject {
     ///描述英文
     var des_E: String = ""
     
+    ///商品类型 1单品，2套餐
+    var dishtype: String = ""
+    
     
     var nameStr: String = ""
     var desStr: String = ""
@@ -193,27 +227,49 @@ class OrderDishModel: NSObject {
     func updateModel(json: JSON) {
         self.count = json["buyNum"].intValue
         self.listImg = json["imageUrl"].stringValue
-        self.name_C = json["nameHk"].stringValue
-        self.name_E = json["nameEn"].stringValue
+        self.name_C = HTML(json["nameHk"].stringValue)
+        self.name_E = HTML(json["nameEn"].stringValue)
         self.detailImg = json["imageUrl"].stringValue
         self.subFee = json["dishesPrice"].doubleValue
+        self.dishtype = json["dishesType"].stringValue
 
         
         
-        var t1: String = ""
-        var t2: String = ""
-        for (idx, jsonData) in json["optionList"].arrayValue.enumerated() {
-            
-            if idx == 0 {
-                t1 = jsonData["nameEn"].stringValue
-                t2 = jsonData["nameHk"].stringValue
-            } else {
-                t1 = t1 + "/" + jsonData["nameEn"].stringValue
-                t2 = t2 + "/" + jsonData["nameHk"].stringValue
+        if dishtype == "1" {
+            var t1: String = ""
+            var t2: String = ""
+            for (idx, jsonData) in json["optionList"].arrayValue.enumerated() {
+                
+                if idx == 0 {
+                    t1 = HTML(jsonData["nameEn"].stringValue)
+                    t2 = HTML(jsonData["nameHk"].stringValue)
+                } else {
+                    t1 = t1 + "/" + HTML(jsonData["nameEn"].stringValue)
+                    t2 = t2 + "/" + HTML(jsonData["nameHk"].stringValue)
+                }
             }
+            self.des_C = t2
+            self.des_E = t1
         }
-        self.des_C = t2
-        self.des_E = t1
+        
+        if dishtype == "2" {
+            var t1: String = ""
+            var t2: String = ""
+            for (idx, jsonData) in json["comboList"].arrayValue.enumerated() {
+                
+                if idx == 0 {
+                    t1 = HTML(jsonData["nameEn"].stringValue)
+                    t2 = HTML(jsonData["nameHk"].stringValue)
+                } else {
+                    t1 = t1 + "\n" + HTML(jsonData["nameEn"].stringValue)
+                    t2 = t2 + "\n" + HTML(jsonData["nameHk"].stringValue)
+                }
+            }
+            self.des_C = t2
+            self.des_E = t1
+
+        }
+        
         
         
         let curLa = PJCUtil.getCurrentLanguage()

@@ -44,25 +44,8 @@ class HttpTool {
                 switch event {
                 case .success(let response):
                     if response.statusCode == 200 {
-                        
-                        let tjson = JSON(response.data)
-                        //获取数据字典
-                        guard let dic = tjson.dictionaryObject else {
-                            return
-                        }
-                        //字典转json字符串
-                        var jsonStr = PJCUtil.convertDictionaryToString(dict: dic)
-                        //统一处理转义符号
-                        jsonStr = PJCUtil.dealHtmlZhuanYiString(contentStr: jsonStr)
-
-                        //根据处理转义符号后的jsonString生成JSON
-                        guard let data = jsonStr.data(using: .utf8) else {
-                            return
-                        }
-        
-                        let json = JSON(data)
+                        let json = JSON(response.data)
                         print(json)
-                        
                         if json["code"].stringValue == "1" {
                             observer.onNext(json)
                             observer.onCompleted()
@@ -360,44 +343,6 @@ class HttpTool {
 
     
     
-    //MARK: - 上传头像
-    func uploadAvatar(image: UIImage, success:@escaping (_ result: JSON)->(), failure:@escaping (_ error: NetworkError)->())  {
-
-        let url = BASEURL + "/api/user/edit_avatar"
-        let params = ["token": UserDefaults.standard.token ?? ""]
-        AF.upload(multipartFormData: { (multipartFormData) in
-            // 压缩
-            let data = image.jpegData(compressionQuality: 0.1)
-            let fileName = String.init(describing: NSDate()) + ".png"
-            // withName:：是根据文档决定传入的字符串
-            multipartFormData.append(data!, withName: "avatar", fileName: fileName, mimeType: "image/png")
-
-            // 遍历添加参数
-            for (key, value) in params{
-                // string 转 data
-                multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
-            }
-
-        }, to: url, method: .post, headers: HTTPHeaders([:])).responseJSON { (dataResponse) in
-            switch dataResponse.result {
-            case .success(let json):
-                let jsonData = JSON(json)
-                ERROR_Message = jsonData["msg"].stringValue
-                print(jsonData)
-                if jsonData["code"].stringValue == "200" {
-                    success(jsonData)
-                } else {
-                    failure(NetworkError.unkonw)
-                }
-            case .failure(let error):
-                ERROR_Message = error.localizedDescription
-                failure(NetworkError.unkonw)
-            }
-        }
-    }
-
-    
-    
     
     //MARK: - 上传多张图片
     func uploadImages(images: [UIImage], success:@escaping (_ result: JSON)->(), failure:@escaping (_ error: NetworkError)->()) {
@@ -418,7 +363,7 @@ class HttpTool {
 //                multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
 //            }
 
-        }, to: url, method: .post, headers: HTTPHeaders(["token": UserDefaults.standard.token ?? ""])).responseJSON { (dataResponse) in
+        }, to: url, method: .post, headers: HTTPHeaders(["token-rider": UserDefaults.standard.token ?? ""])).responseJSON { (dataResponse) in
             switch dataResponse.result {
             case .success(let json):
                 let jsonData = JSON(json)

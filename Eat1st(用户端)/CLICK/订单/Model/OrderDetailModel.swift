@@ -28,8 +28,7 @@ class OrderDetailModel: NSObject {
     var hopeTime: String = ""
     ///备注
     var remark: String = ""
-    ///支付方式 1：cash、2：online   -1位选择支付方式
-    var paymentMethod: String = ""
+
     
     ///订单编号
     var orderNum: String = ""
@@ -48,47 +47,52 @@ class OrderDetailModel: NSObject {
     ///店铺信息
     var storeInfo = StoreInfoModel()
     
+    
+    
+    /**
+     [model.actualFee, model.deliveryFee, model.serviceFee, model.packPrice, model.dishesDiscountAmount, model.couponAmount, model.discountAmount, 0, model.orderPrice, model.walletPrice, model.payPrice]
+     */
+    
     ///商品实际金额
     var actualFee: Double = 0
     ///配送金额
     var deliveryFee: Double = 0
-    ///优惠金额 钱包抵扣金额
-    var walletPrice: Double = 0
-    ///总金额
-    var totalFee: Double = 0
     ///服务费用
     var serviceFee: Double = 0
-    ///实际付款金额
-    var payPrice: Double = 0
-    ///订单金额 减去折扣 不减钱包之前的价格
-    var orderPrice: Double = 0
-    
-    ///预定说明
-    var reserveMsg: String = ""
+    ///包装费
+    var packPrice: Double = 0
+    ///菜品的优惠金额
+    var dishesDiscountAmount: Double = 0
+    ///优惠券抵扣金额
+    var couponAmount: Double = 0
     ///折扣金额
     var discountAmount: Double = 0
+    ///订单金额 减去折扣 不减钱包之前的价格
+    var orderPrice: Double = 0
+    ///优惠金额 钱包抵扣金额
+    var walletPrice: Double = 0
+    ///实际付款金额
+    var payPrice: Double = 0
+    ///总金额
+    var totalFee: Double = 0
     ///折扣比例
     var discountScale: String = ""
     ///是否有折扣 1有折扣，2无折扣
     var discountStatus: String = ""
     ///折扣说明
     var discountMsg: String = ""
-    
-    
-    ///菜品的优惠金额
-    var dishesDiscountAmount: Double = 0
     ///菜品是否有优惠 1无优惠 2有优惠
     var dishesDiscountType: String = ""
-    
-    ///优惠券抵扣金额
-    var couponAmount: Double = 0
     ///是否有优惠券（1是，2否）
     var couponType: String = ""
+    ///支付方式 1：cash、2：online   -1位选择支付方式
+    var paymentMethod: String = ""
     
-    ///包装费
-    var packPrice: Double = 0
     
     
+    
+    ///预定说明
+    var reserveMsg: String = ""
     
     ///评论信息
     var evaluateContent: String = ""
@@ -230,19 +234,20 @@ class OrderDetailModel: NSObject {
         self.payPrice = json["payPrice"].doubleValue
         self.orderPrice = json["orderPrice"].doubleValue
         self.packPrice = json["packPrice"].doubleValue
-        
         self.dishesDiscountAmount = json["dishesDiscountAmount"].doubleValue
         self.dishesDiscountType = json["dishesDiscountType"].stringValue
-        
         self.couponAmount = json["couponAmount"].doubleValue
         self.couponType = json["couponType"].stringValue
-        
-        
-        self.reserveMsg = json["reserveMsg"].stringValue
         self.discountStatus = json["discountStatus"].stringValue
         self.discountScale = json["discountScale"].stringValue
         self.discountAmount = json["discountAmount"].doubleValue
         self.discountMsg = json["discountMsg"].stringValue
+        self.paymentMethod = json["payType"].stringValue
+
+        
+        
+        
+        self.reserveMsg = json["reserveMsg"].stringValue
 
         
         self.evaluateContent = json["evaluateResult"]["content"].stringValue

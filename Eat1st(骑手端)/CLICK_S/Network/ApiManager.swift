@@ -475,7 +475,7 @@ extension ApiManager: TargetType {
         print(deviceID)
         
         let baseDic = ["Accept": "application/json",
-                       "token": token,
+                       "token-rider": token,
                        "verId": UserDefaults.standard.verID ?? "0",
                        "verCode": "v\(curAppVer)",
                        "sysType": systemtype,

@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         //设置版本号
-        UserDefaults.standard.verID = "5"
+        UserDefaults.standard.verID = VERID
         
         //MARK: - IQKeyboardManager
         IQKeyboardManager.shared.enable = true
