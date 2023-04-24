@@ -671,7 +671,7 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
 //                // string 转 data
 //                multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
 //            }
-        }, to: url, method: .post, headers: HTTPHeaders(["token-user": UserDefaults.standard.token ?? ""])).responseJSON { (dataResponse) in
+        }, to: url, method: .post, headers: HTTPHeaders(["token-user": UserDefaults.standard.token ?? "", "token": UserDefaults.standard.token ?? ""])).responseJSON { (dataResponse) in
             switch dataResponse.result {
             case .success(let json):
                 let jsonData = JSON(json)
@@ -709,7 +709,7 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
 //                multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
 //            }
 
-        }, to: url, method: .post, headers: HTTPHeaders(["token-user": UserDefaults.standard.token ?? ""])).responseJSON { (dataResponse) in
+        }, to: url, method: .post, headers: HTTPHeaders(["token-user": UserDefaults.standard.token ?? "", "token": UserDefaults.standard.token ?? ""])).responseJSON { (dataResponse) in
             switch dataResponse.result {
                                 
             case .success(let json):

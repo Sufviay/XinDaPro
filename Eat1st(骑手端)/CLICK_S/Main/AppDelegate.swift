@@ -27,6 +27,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private let bag = DisposeBag()
     
     private lazy var player = PJCUtil.playVoice(name: "voice_order_pay_succeed", type: "mp3")
+    
+    
+    //版本提示框
+    private lazy var versonAlert: VersionAlert = {
+        let alert = VersionAlert()
+        return alert
+    }()
+
 
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -67,6 +75,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         application.registerForRemoteNotifications()
         
+        //MARK: - 检查版本
+        checkVerson_Net()
         
 //        LocationManager.shared.initialize()
 //        LocationManager.shared.doLocation()
@@ -79,9 +89,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(_ application: UIApplication) {
         print("进入前台刷新列表")
         NotificationCenter.default.post(name: NSNotification.Name("orderList"), object: nil)
-        
-        //检测语言是否发生变化 如果是
-        
+        checkVerson_Net()
     }
     
     
@@ -234,6 +242,22 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
     completionHandler()
   }
+    
+    
+    
+    ///检查版本
+    private func checkVerson_Net() {
+        //检查版本
+        HTTPTOOl.CheckAppVer().subscribe(onNext: { [unowned self] (json) in
+            if json["data"]["verId"].stringValue != "" {
+
+                versonAlert.appUrlStr = json["data"]["url"].stringValue
+                versonAlert.isMust = json["data"]["updateType"].stringValue == "1" ? true : false
+                versonAlert.showAction()
+            }
+        }, onError: { (error) in
+        }).disposed(by: self.bag)
+    }
 }
 
 

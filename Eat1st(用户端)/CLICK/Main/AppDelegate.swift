@@ -28,9 +28,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     
     private let bag = DisposeBag()
     
+    
+    //版本提示框
+    private lazy var versonAlert: VersionAlert = {
+        let alert = VersionAlert()
+        return alert
+    }()
+    
+    
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
+                
         //设置版本号
         UserDefaults.standard.verID = VERID
         
@@ -70,29 +79,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         application.registerForRemoteNotifications()
         
        
-        //MARK: - 展示未读消息
-        if UserDefaults.standard.isLogin {
-            //是否有未读消息
-            HTTPTOOl.getMessagesList(page: 1).subscribe(onNext: { (json) in
-                
-                for jsonData in json["data"].arrayValue {
-                    if jsonData["readType"].stringValue == "1" {
-                        //有未读消息展示消息弹窗
-                        let model = MessageModel()
-                        model.updateModel(json: jsonData)
-                        let alert = MessageAlert()
-                        alert.messageModel = model
-                        alert.appearAction()
-                        break
-                    }
-                }
-    
-            }).disposed(by: self.bag)
-        }
+        //MARK: - 检查版本
+        checkVerison_Net()
         
-    
         return true
     }
+    
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        checkVerison_Net()
+    }
+    
+    
+    //版本检查
+    private func checkVerison_Net() {
+        //检查版本
+        HTTPTOOl.CheckAppVer().subscribe(onNext: { [unowned self] (json) in
+            if json["data"]["verId"].stringValue != "" {
+                versonAlert.appUrlStr = json["data"]["url"].stringValue
+                versonAlert.isMust = json["data"]["updateType"].stringValue == "1" ? true : false
+                versonAlert.showAction()
+            }
+        }, onError: { (error) in
+        }).disposed(by: self.bag)
+    }
+    
+    
     
     
     func application(_ application: UIApplication,

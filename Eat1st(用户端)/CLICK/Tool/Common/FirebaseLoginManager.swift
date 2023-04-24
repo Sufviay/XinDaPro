@@ -44,7 +44,7 @@ class FirebaseLoginManager: NSObject, FUIAuthDelegate {
         var providers: [FUIAuthProvider] = []
         
         
-        if ISONLINE {
+        if ISONLINE && ENV == "1" {
             providers = [FUIPhoneAuth(authUI: FUIAuth.defaultAuthUI()!)]
         } else {
             providers = [FUIEmailAuth(), FUIPhoneAuth(authUI: FUIAuth.defaultAuthUI()!)]
@@ -119,6 +119,7 @@ class FirebaseLoginManager: NSObject, FUIAuthDelegate {
         
         
         if isFirstLoginBack {
+            isFirstLoginBack = false
             let cUser = authDataResult!.user
             let addUser = authDataResult!.additionalUserInfo
             
@@ -145,10 +146,13 @@ class FirebaseLoginManager: NSObject, FUIAuthDelegate {
                     UserDefaults.standard.isLogin = true
                     UserDefaults.standard.token = json["data"].stringValue
                     
+                    
+                    print("888888888888888888888888")
+                    
                     NotificationCenter.default.post(name: NSNotification.Name("login"), object: nil)
                     self.successBlock?()
                     
-                    
+                                        
                     //获取用户信息
                     HTTPTOOl.getUserInfo().subscribe(onNext: { (json) in
                         let name = json["data"]["name"].stringValue
@@ -187,22 +191,22 @@ class FirebaseLoginManager: NSObject, FUIAuthDelegate {
                         PJCUtil.currentVC()?.present(infoVC, animated: true)
                     }
                     
-                    //查看是否有新的消息
-                    HTTPTOOl.getMessagesList(page: 1).subscribe(onNext: { (json) in
-                        
-                        for jsonData in json["data"].arrayValue {
-                            if jsonData["readType"].stringValue == "1" {
-                                //有未读消息展示消息弹窗
-                                let model = MessageModel()
-                                model.updateModel(json: jsonData)
-                                let alert = MessageAlert()
-                                alert.messageModel = model
-                                alert.appearAction()
-                                break
-                            }
-                        }
-            
-                    }).disposed(by: self.bag)
+//                    //查看是否有新的消息
+//                    HTTPTOOl.getMessagesList(page: 1).subscribe(onNext: { (json) in
+//
+//                        for jsonData in json["data"].arrayValue {
+//                            if jsonData["readType"].stringValue == "1" {
+//                                //有未读消息展示消息弹窗
+//                                let model = MessageModel()
+//                                model.updateModel(json: jsonData)
+//                                let alert = MessageAlert()
+//                                alert.messageModel = model
+//                                alert.appearAction()
+//                                break
+//                            }
+//                        }
+//
+//                    }).disposed(by: self.bag)
 
 
                 }, onError: { (error) in
@@ -212,7 +216,7 @@ class FirebaseLoginManager: NSObject, FUIAuthDelegate {
                 }).disposed(by: self.bag)
             }
         }
-        self.isFirstLoginBack = false
+        //self.isFirstLoginBack = false
     }
     
     

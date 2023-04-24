@@ -27,7 +27,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private let bag = DisposeBag()
     
     private lazy var player = PJCUtil.playVoice(name: "voice_order_pay_succeed", type: "mp3")
-
+    
+    //版本提示框
+    private lazy var versonAlert: VersionAlert = {
+        let alert = VersionAlert()
+        return alert
+    }()
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -67,15 +72,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         application.registerForRemoteNotifications()
-        
+    
+        //MARK: - 检查版本
+        checkVerson_Net()
     
         return true
     }
+    
+    
+    //从后台进入前台
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        checkVerson_Net()
+    }
+
     
     func application(_ application: UIApplication,
                      didFailToRegisterForRemoteNotificationsWithError error: Error) {
       print("Unable to register for remote notifications: \(error.localizedDescription)")
     }
+    
+    
+    
+    
     
     
     
@@ -158,12 +176,15 @@ extension AppDelegate: MessagingDelegate {
         }).disposed(by: self.bag)
     }
     
-    // TODO: If necessary send token to application server.
-    // Note: This callback is fired at each app startup and whenever a new token is generated.
   }
 
   // [END refresh_token]
 }
+
+
+
+
+
 
 
 // [START ios_10_message_handling]
@@ -187,17 +208,17 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     // Print full message.
     print(userInfo)
       
-      let type = userInfo["type"]
-      if type as! String == "3" {
-          //播放试音
-          self.player?.play()
-      }
-
-    // Change this to your preferred presentation option
-      completionHandler([[.alert, .sound]])
-    
-    //推送来了 刷新订单列表
-    NotificationCenter.default.post(name: NSNotification.Name("orderList"), object: nil)
+//      let type = userInfo["type"]
+//      if type as! String == "3" {
+//          //播放试音
+//          self.player?.play()
+//      }
+//
+//    // Change this to your preferred presentation option
+//      completionHandler([[.alert, .sound]])
+//
+//    //推送来了 刷新订单列表
+//    NotificationCenter.default.post(name: NSNotification.Name("orderList"), object: nil)
 
     
   }
@@ -220,6 +241,22 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
     completionHandler()
   }
+    
+    
+    
+    
+    
+    func checkVerson_Net() {
+        //检查版本
+        HTTPTOOl.checkAppVer().subscribe(onNext: { [unowned self] (json) in
+            if json["data"]["verId"].stringValue != "" {
+                versonAlert.appUrlStr = json["data"]["url"].stringValue
+                versonAlert.isMust = json["data"]["updateType"].stringValue == "1" ? true : false
+                versonAlert.showAction()
+            }
+        }, onError: { (error) in
+        }).disposed(by: self.bag)
+    }
 }
 
 

@@ -11,6 +11,7 @@ import RxSwift
 
 class MessageAlert: BaseAlertView {
 
+    private var isAppear: Bool = false
     
     private let bag = DisposeBag()
     
@@ -90,6 +91,8 @@ class MessageAlert: BaseAlertView {
     
     override func setViews() {
         
+        //self.backgroundColor = UIColor.black.withAlphaComponent(0)
+        
         self.addSubview(backImg)
         backImg.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: R_W(285), height: SET_H(390, 285)))
@@ -154,8 +157,17 @@ class MessageAlert: BaseAlertView {
     }
     
     
+    func showAction() {
+        if !isAppear {
+            PJCUtil.currentVC()?.view.addSubview(self)
+            isAppear = true
+        }
+    }
+    
+    
     @objc private func clickCloseAction()  {
         self.disAppearAction()
+        isAppear = false
     }
     
     @objc private func clickGoAciton() {
@@ -165,6 +177,7 @@ class MessageAlert: BaseAlertView {
         HTTPTOOl.doReadMessage(id: messageModel.id).subscribe(onNext: { (_) in
             HUD_MB.dissmiss(onView: PJCUtil.getWindowView())
             self.disAppearAction()
+            self.isAppear = false
             let detailVC = MessageDetailController()
             detailVC.dataModel = self.messageModel
             PJCUtil.currentVC()?.navigationController?.pushViewController(detailVC, animated: true)

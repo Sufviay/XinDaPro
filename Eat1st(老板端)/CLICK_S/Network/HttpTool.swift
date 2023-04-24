@@ -153,11 +153,49 @@ class HttpTool {
     }
 
     
-    //MARK: - 营业信息
+    //MARK: - 营业时间列表
     func getStoreOpeningHours() -> Observable<JSON> {
         let response = rxApiManager(api: .getStoreOpeningHours)
         return Observable<JSON>.create(response)
     }
+    
+    
+    //MARK: - 添加营业时间
+    func addOpeningHours(model: AddTimeSubmitModel) -> Observable<JSON> {
+        let response = rxApiManager(api: .addOpeningHours(submitModel: model))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 获取营业时间菜品
+    func getTimeBindingDishes(timeID: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getTimeBindingDishes(timeID: timeID))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 保存营业时间菜品
+    func saveTimeBindingDishes(timeID: String, dishes: [[String: String]]) -> Observable<JSON> {
+        let response = rxApiManager(api: .saveTimeBindingDishes(timeID: timeID, dishes: dishes))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 编辑时间段
+    func editOpeningHours(model: AddTimeSubmitModel) -> Observable<JSON> {
+        let response = rxApiManager(api: .editOpeningHours(submitModel: model))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 删除时间段
+    func deleteOpeningHours(timeID: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .deleteOpeningHours(timeID: timeID))
+        return Observable<JSON>.create(response)
+    }
+
+    //MARK: - 营业时间禁用和启用
+    func openingHoursCanUse(timeID: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .OpeningHoursCanUse(timeID: timeID))
+        return Observable<JSON>.create(response)
+    }
+
 
     //MARK: - 上传推送token
     func updateTSToken(token: String) -> Observable<JSON> {
@@ -532,6 +570,8 @@ class HttpTool {
     }
     
     
+
+    
     
     
     
@@ -744,7 +784,7 @@ class HttpTool {
 //                multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
 //            }
 
-        }, to: url, method: .post, headers: HTTPHeaders(["token": UserDefaults.standard.token ?? ""])).responseJSON { (dataResponse) in
+        }, to: url, method: .post, headers: HTTPHeaders(["token": UserDefaults.standard.token ?? "", "token-boss": UserDefaults.standard.token ?? ""])).responseJSON { (dataResponse) in
             switch dataResponse.result {
             case .success(let json):
                 let jsonData = JSON(json)
@@ -767,41 +807,41 @@ class HttpTool {
     
     
     
-    //MARK: - 上传图片
-    func uploadImage(image: UIImage, success:@escaping (_ result: JSON)->(), failure:@escaping (_ error: NetworkError)->())  {
-
-        let url = BASEURL + "/index/index/upload"
-        let params = ["Authorization": UserDefaults.standard.token ?? ""]
-        AF.upload(multipartFormData: { (multipartFormData) in
-            // 压缩
-            let data = image.jpegData(compressionQuality: 0.1)
-            let fileName = String.init(describing: NSDate()) + ".png"
-            // withName:：是根据文档决定传入的字符串
-            multipartFormData.append(data!, withName: "file", fileName: fileName, mimeType: "image/png")
-
-            // 遍历添加参数
-            for (key, value) in params{
-                // string 转 data
-                multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
-            }
-
-        }, to: url, method: .post, headers: HTTPHeaders([:])).responseJSON { (dataResponse) in
-            switch dataResponse.result {
-            case .success(let json):
-                let jsonData = JSON(json)
-                ERROR_Message = jsonData["msg"].stringValue
-                print(jsonData)
-                if jsonData["code"].stringValue == "0" || jsonData["code"].stringValue == "200" {
-                    success(jsonData)
-                } else {
-                    failure(NetworkError.unkonw)
-                }
-            case .failure(let error):
-                ERROR_Message = error.localizedDescription
-                failure(NetworkError.unkonw)
-            }
-        }
-    }
+//    //MARK: - 上传图片
+//    func uploadImage(image: UIImage, success:@escaping (_ result: JSON)->(), failure:@escaping (_ error: NetworkError)->())  {
+//
+//        let url = BASEURL + "/index/index/upload"
+//        let params = ["Authorization": UserDefaults.standard.token ?? ""]
+//        AF.upload(multipartFormData: { (multipartFormData) in
+//            // 压缩
+//            let data = image.jpegData(compressionQuality: 0.1)
+//            let fileName = String.init(describing: NSDate()) + ".png"
+//            // withName:：是根据文档决定传入的字符串
+//            multipartFormData.append(data!, withName: "file", fileName: fileName, mimeType: "image/png")
+//
+//            // 遍历添加参数
+//            for (key, value) in params{
+//                // string 转 data
+//                multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
+//            }
+//
+//        }, to: url, method: .post, headers: HTTPHeaders([:])).responseJSON { (dataResponse) in
+//            switch dataResponse.result {
+//            case .success(let json):
+//                let jsonData = JSON(json)
+//                ERROR_Message = jsonData["msg"].stringValue
+//                print(jsonData)
+//                if jsonData["code"].stringValue == "0" || jsonData["code"].stringValue == "200" {
+//                    success(jsonData)
+//                } else {
+//                    failure(NetworkError.unkonw)
+//                }
+//            case .failure(let error):
+//                ERROR_Message = error.localizedDescription
+//                failure(NetworkError.unkonw)
+//            }
+//        }
+//    }
 
 }
 

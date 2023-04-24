@@ -167,7 +167,6 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
 
     
     override func setNavi() {
-        checkVerson_Net()
         loadTag_Net()
     }
     
@@ -471,19 +470,7 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
     }
     
     
-    ///检查版本
-    private func checkVerson_Net() {
-        //检查版本
-        HTTPTOOl.CheckAppVer().subscribe(onNext: { (json) in
-            if json["data"]["verId"].stringValue != "" {
-                let alert = VersionAlert()
-                alert.appUrlStr = json["data"]["url"].stringValue
-                alert.isMust = json["data"]["updateType"].stringValue == "1" ? true : false
-                alert.appearAction()
-            }
-        }, onError: { (error) in
-        }).disposed(by: self.bag)
-    }
+
     
     //MARK: - 判断底部操作按钮的显示 与 统计试图的显示
     private func updateBottonAndView() {

@@ -451,7 +451,8 @@ extension ApiManager: TargetType {
             dic = ["lat": lat, "lng": lng, "pageIndex": page, "tagId": tag]
             
         case .storeList_nearby(let tag, let lat, let lng, let page, let allStore):
-            dic = ["lat": lat, "lng": lng, "pageIndex": page, "tagId": tag, "allStore": allStore, "env": "1"]
+            ///env = 2  是生产环境下的测试
+            dic = ["lat": lat, "lng": lng, "pageIndex": page, "tagId": tag, "allStore": allStore, "env": ENV]
         case .updateCartNum(let buyNum, let cartID):
             dic = ["buyNum": buyNum, "carId": cartID]
         case .loadConfirmOrderDetail(let lat, let lng, let buyWay, let storeID, let couponID, let postCode):
@@ -604,8 +605,6 @@ extension ApiManager: TargetType {
         case .storeInfo(let storeID):
             dic = ["storeId": storeID]
             
-            
-            
         }
         
         print("参数：\(dic)")
@@ -646,6 +645,7 @@ extension ApiManager: TargetType {
         
         let baseDic = ["Accept": "application/json",
                        "token-user": token,
+                       "token": token,
                        "verId": UserDefaults.standard.verID ?? "0",
                        "verCode": "v\(curAppVer)",
                        "sysType": systemtype,
@@ -654,6 +654,8 @@ extension ApiManager: TargetType {
                        "deviceId": deviceID,
                        "sysLang": Locale.preferredLanguages.first ?? ""
                         ]
+        print(baseDic)
+        
         return baseDic
     }
 }

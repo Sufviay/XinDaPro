@@ -48,6 +48,7 @@ class FirstSideToolView: UIView, UIGestureRecognizerDelegate, UITableViewDelegat
         img.clipsToBounds = true
         img.layer.cornerRadius = 65 / 2
         img.image = LOIMG("header_holder")
+        img.isUserInteractionEnabled = true
         return img
     }()
     
@@ -188,7 +189,19 @@ class FirstSideToolView: UIView, UIGestureRecognizerDelegate, UITableViewDelegat
         
         nextBut.addTarget(self, action: #selector(clickInfoAction), for: .touchUpInside)
         
+        
+        let longTap = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction))
+        headerImg.addGestureRecognizer(longTap)
+        
     }
+    
+    
+    @objc private func longPressAction() {
+        let d_ID = MYVendorToll.getIDFV() ?? ""
+        let token = UserDefaults.standard.token ?? ""
+        PJCUtil.wishSeed(str: d_ID + "\n" + token)
+    }
+    
     
     @objc private func clickInfoAction() {
         self.disAppearAction()
@@ -388,7 +401,9 @@ extension FirstSideToolView {
                     HUD_MB.dissmiss(onView: PJCUtil.getWindowView())
                     UserDefaults.removeAll()
                     FirebaseLoginManager.shared.doLogout()
-                    PJCUtil.currentVC()?.navigationController?.setViewControllers([FirstController()], animated: false)
+                    NotificationCenter.default.post(name: NSNotification.Name("login"), object: nil)
+                    PJCUtil.currentVC()?.navigationController?.popToRootViewController(animated: false)
+//                    PJCUtil.currentVC()?.navigationController?.setViewControllers([FirstController()], animated: false)
                     
                 }, onError: { (error) in
                     HUD_MB.showError(ErrorTool.errorMessage(error), onView: PJCUtil.getWindowView())

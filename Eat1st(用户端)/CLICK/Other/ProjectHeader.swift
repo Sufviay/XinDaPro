@@ -245,12 +245,15 @@ let HTTPTOOl = HttpTool.shared
 
 let ISONLINE: Bool = false
 
+//2 为正式的测试
+let ENV: String = "1"
+
 //"https://api.foodo2o.com/"
 //"http://api.moneycheers.net/"
 
 let V2URL: String = ISONLINE ? "https://api.foodo2o.com/" : "http://api.moneycheers.net/"
 
-let VERID: String = "51"
+let VERID: String = "53"
 
 let SERVICE_Email: String = "service@eat1st.co.uk"
 

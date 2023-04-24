@@ -123,13 +123,11 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
     }()
 
     
-//
-//    ///钱包
-//    private let walletView: WalletView = {
-//        let view = WalletView()
-//        return view
-//    }()
-    
+    //消息提示框
+    lazy var messShowAlert: MessageAlert = {
+        let alert = MessageAlert()
+        return alert
+    }()
     
     ///积分
     private let jifenView: JiFenView = {
@@ -146,23 +144,15 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
         return lab
         
     }()
-    
-    
-//    ///消息提醒
-//    private let systemAlertView: SystemMsgView = {
-//        let view = SystemMsgView()
-//        return view
-//    }()
-
-        
+            
     
     override func setViews() {
         self.naviBar.isHidden = true
+        addNotificationCenter()
         
         //判断是否有地理位置
         if UserDefaults.standard.local_lat != nil {
             self.setUpUI()
-            addNotificationCenter()
             loadData_Net()
         } else {
             self.navigationController?.setViewControllers([LocationController()], animated: false)
@@ -171,10 +161,10 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
 
     
     override func setNavi() {
-        //getWalletMoney_Net()
-        checkVerison_Net()
         ///获取是否有未读消息
         checkMessage_Net()
+        ///展示消息
+        showMessage_Net()
         ///是否有优惠券
         checkHaveCoupon_Net()
         ///是否有未抽奖的订单
@@ -331,13 +321,14 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
         //监测消息的变化
         NotificationCenter.default.addObserver(self, selector: #selector(centerAciton_msg), name: NSNotification.Name(rawValue: "message"), object: nil)
         //监测登录的变化
-        NotificationCenter.default.addObserver(self, selector: #selector(centerAction_login), name: NSNotification.Name(rawValue: "login"), object: nil)
-
+        NotificationCenter.default.addObserver(self, selector: #selector(centerAction_login), name: NSNotification.Name( "login"), object: nil)
+    
     }
         
     deinit {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("message"), object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("login"), object: nil)
+
     }
 
     @objc private func centerAciton_msg() {
@@ -345,13 +336,14 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
     }
     
     @objc private func centerAction_login() {
+        
         self.loadData_Net()
         self.checkHaveCoupon_Net()
         self.checkMessage_Net()
         self.checkHavePrizeDraw_Net()
         self.getJiFen_Net()
+        self.showMessage_Net()
     }
-
 
 }
 
@@ -676,8 +668,12 @@ extension FirstController {
                 //self.table.reloadData()
                 self.table.reloadSections([0], with: .none)
                     
+            }, onError: { _ in
+                self.haveCoupon = false
             }).disposed(by: self.bag)
 
+        } else {
+            haveCoupon = false
         }
     }
     
@@ -694,25 +690,13 @@ extension FirstController {
                 }
                 //self.table.reloadData()
                 self.table.reloadSections([1], with: .none)
+            }, onError: {_ in
+                self.havePrize = false
             }).disposed(by: self.bag)
 
+        } else {
+            havePrize = false
         }
-    }
-    
-    
-    
-    //版本检查
-    private func checkVerison_Net() {
-        //检查版本
-        HTTPTOOl.CheckAppVer().subscribe(onNext: { (json) in
-            if json["data"]["verId"].stringValue != "" {
-                let alert = VersionAlert()
-                alert.appUrlStr = json["data"]["url"].stringValue
-                alert.isMust = json["data"]["updateType"].stringValue == "1" ? true : false
-                alert.appearAction()
-            }
-        }, onError: { (error) in
-        }).disposed(by: self.bag)
     }
     
     
@@ -731,12 +715,33 @@ extension FirstController {
                 }
                 
             }, onError: { (error) in
+                self.moreView.isHave = false
             }).disposed(by: self.bag)
             
         } else {
             moreView.isHave = false
         }
     }
+    
+    //展示未读消息
+    private func showMessage_Net() {
+        //展示未读消息
+        if UserDefaults.standard.isLogin {
+            HTTPTOOl.getMessagesList(page: 1).subscribe(onNext: { (json) in
+                for jsonData in json["data"].arrayValue {
+                    if jsonData["readType"].stringValue == "1" {
+                        //有未读消息展示消息弹窗
+                        let model = MessageModel()
+                        model.updateModel(json: jsonData)
+                        self.messShowAlert.messageModel = model
+                        self.messShowAlert.showAction()
+                        break
+                    }
+                }
+            }).disposed(by: self.bag)
+        }        
+    }
+    
     
     //获取积分
     private func getJiFen_Net() {
@@ -765,7 +770,11 @@ extension FirstController {
                 self.jifenView.isHidden = false
                 
                 
+            }, onError: {_ in
+                self.jifenView.isHidden = true
             }).disposed(by: self.bag)
+        } else {
+            self.jifenView.isHidden = true
         }
     }
     

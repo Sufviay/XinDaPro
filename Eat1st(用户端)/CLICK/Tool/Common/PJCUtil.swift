@@ -118,24 +118,10 @@ class PJCUtil: NSObject {
     
     //MARK: - 登出
     static func logOut() {
-//        let vc = PJCUtil.currentVC()
-//        UserDefaults.removeAll()
-//        NotificationCenter.default.post(name: NSNotification.Name(rawValue: Keys.firstRefresh), object: nil)
-//        let nav = UINavigationController(rootViewController: PhoneLoginController())
-//        nav.modalPresentationStyle = .fullScreen
-//        vc?.present(nav, animated: true, completion: nil)
-        
-        
         UserDefaults.removeAll()
         FirebaseLoginManager.shared.doLogout()
-        PJCUtil.currentVC()?.navigationController?.setViewControllers([FirstController()], animated: false)
-//
-//        let window = UIApplication.shared.keyWindow
-//
-//        let loginVC = FirebaseLoginManager.shared.setLoginController {
-//            window?.rootViewController = MainNaviController()
-//        }
-//        window?.rootViewController = loginVC
+        NotificationCenter.default.post(name: NSNotification.Name("login"), object: nil)
+        PJCUtil.currentVC()?.navigationController?.popToRootViewController(animated: false)
     }
     
     //MARK: - 检查是否登录

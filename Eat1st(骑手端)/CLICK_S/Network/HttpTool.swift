@@ -363,7 +363,7 @@ class HttpTool {
 //                multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
 //            }
 
-        }, to: url, method: .post, headers: HTTPHeaders(["token-rider": UserDefaults.standard.token ?? ""])).responseJSON { (dataResponse) in
+        }, to: url, method: .post, headers: HTTPHeaders(["token-rider": UserDefaults.standard.token ?? "", "token": UserDefaults.standard.token ?? ""])).responseJSON { (dataResponse) in
             switch dataResponse.result {
             case .success(let json):
                 let jsonData = JSON(json)

@@ -9,7 +9,7 @@ import UIKit
 
 class VersionAlert: BaseAlertView {
 
-    
+    private var isAppear: Bool = false
     var appUrlStr: String = ""
     var isMust: Bool = false {
         didSet {
@@ -140,7 +140,16 @@ class VersionAlert: BaseAlertView {
 //    }
 //
     
+    
+    func showAction() {
+        if !isAppear {
+            self.appearAction()
+            self.isAppear = true
+        }
+    }
+    
     @objc private func clickSureAction() {
+        self.isAppear = false
         disAppearAction()
         goAppStore()
 
@@ -148,6 +157,7 @@ class VersionAlert: BaseAlertView {
     
     
     @objc private func clickCancelAction() {
+        self.isAppear = false
         disAppearAction()
     }
     

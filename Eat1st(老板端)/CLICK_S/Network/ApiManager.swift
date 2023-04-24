@@ -159,9 +159,19 @@ enum ApiManager {
     case getDishSales_Month(dishID: String, date: String, type: String)
     ///设置菜品优惠
     case setDishedDiscount(id: String, type: String, price: String)
+    ///添加时间段
+    case addOpeningHours(submitModel: AddTimeSubmitModel)
+    ///请求时间段关联菜品
+    case getTimeBindingDishes(timeID: String)
+    ///保存时间段关联菜品
+    case saveTimeBindingDishes(timeID: String, dishes: [[String: String]])
+    ///编辑时间段
+    case editOpeningHours(submitModel: AddTimeSubmitModel)
+    ///删除时间段
+    case deleteOpeningHours(timeID: String)
+    ///店铺营业时间禁用 启用
+    case OpeningHoursCanUse(timeID: String)
 
-    
-    
     
     
     
@@ -284,7 +294,7 @@ extension ApiManager: TargetType {
         case .setBusyTime(busyID: _):
             return "api/boss/store/doBusyTime"
         case .getStoreOnlineStatus:
-            return "api/boss/store/getStoreStatus"
+            return "api/boss/store/opentime/getStoreOpenTimeStatus"
         case .uploadLanguage:
             return "api/boss/lang/doSetUpLang"
         case .getDishesList:
@@ -296,7 +306,7 @@ extension ApiManager: TargetType {
         case .updateCloubMessageToken(token: _):
             return "api/boss/user/doPushToken"
         case .getStoreOpeningHours:
-            return "api/boss/store/getStoreOpenTimeList"
+            return "api/boss/store/opentime/getStoreOpenTimeList"
         case .setStoreOpeningHours(starTime: _, endTime: _, type: _, timeID: _):
             return "api/boss/store/updateDayOpenTime"
         case .setStoreOpenStatusByDay(timeID: _, coStatus: _, deStatus: _):
@@ -412,9 +422,18 @@ extension ApiManager: TargetType {
             return "api/boss/report/getDishesMonthSales"
         case .setDishedDiscount(id: _, type: _, price: _):
             return "api/boss/dishes/doDiscount"
-          
-            
-            
+        case .addOpeningHours(submitModel: _):
+            return "api/boss/store/opentime/doAddStoreOpenTime"
+        case .getTimeBindingDishes(timeID: _):
+            return "api/boss/store/opentime/getStoreOpenTimeDishesList"
+        case .saveTimeBindingDishes(timeID: _, dishes: _):
+            return "api/boss/store/opentime/doSaveOpenTimeDishes"
+        case .editOpeningHours(submitModel: _):
+            return "api/boss/store/opentime/doUpdateStoreOpenTime"
+        case .deleteOpeningHours(timeID: _):
+            return "api/boss/store/opentime/doDelOpenTime"
+        case .OpeningHoursCanUse(timeID: _):
+            return "api/boss/store/opentime/doStatusOpenTime"
     
             
             
@@ -670,11 +689,19 @@ extension ApiManager: TargetType {
             dic = ["dishesId": dishID, "date": date, "type": type]
         case .setDishedDiscount(let id, let type, let price):
             dic = ["dishesId": id, "discountType": type, "discountPrice": price]
-            
-            
-
-            
-            
+        case .addOpeningHours(let submitModel):
+            dic = submitModel.toJSON() ?? [:]
+        case .getTimeBindingDishes(let timeID):
+            dic = ["storeTimeId": timeID]
+        case .saveTimeBindingDishes(let timeID, let dishes):
+            dic = ["storeTimeId": timeID, "dishesList": dishes]
+        case .editOpeningHours(let submitModel):
+            dic = submitModel.toJSON() ?? [:]
+        case .deleteOpeningHours(let timeID):
+            dic = ["storeTimeId": timeID]
+        case .OpeningHoursCanUse(let timeID):
+            dic = ["storeTimeId": timeID]
+           
             
             
             
@@ -793,6 +820,7 @@ extension ApiManager: TargetType {
         
         let baseDic = ["Accept": "application/json",
                        "token": token,
+                       "token-boss": token,
                        "verId": UserDefaults.standard.verID ?? "0",
                        "verCode": "v\(curAppVer)",
                        "sysType": systemtype,
