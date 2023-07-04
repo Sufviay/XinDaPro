@@ -1,0 +1,44 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'CLICK_S' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+ source 'https://github.com/CocoaPods/Specs.git'
+
+  pod 'SwiftyJSON', '~>5.0.0'
+  pod 'SnapKit', '~>5.0.0'
+  pod 'Moya/RxSwift'
+  pod 'RxCocoa'
+  pod 'MBProgressHUD', '~>1.1.0'
+  pod 'HandyJSON'
+  pod 'IQKeyboardManagerSwift', '~>6.3.0'
+  pod 'MJRefresh'
+  pod 'HXPhotoPicker', '~> 3.3.1'
+  pod 'SDWebImage'
+  
+  pod 'Firebase/Messaging'
+  
+  
+#  #谷歌地图
+#  pod'GoogleMaps'
+#  pod'GooglePlaces'
+#  
+  pod 'FSCalendar'
+  
+  pod 'Charts'
+  
+
+  # Pods for CLICK_S
+
+  target 'CLICK_STests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'CLICK_SUITests' do
+    # Pods for testing
+  end
+
+end
