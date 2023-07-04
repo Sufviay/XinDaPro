@@ -184,9 +184,19 @@ class OrderDetailButCell: BaseTableViewCell, UICollectionViewDelegate, UICollect
             if model.pjStatus == "1" && model.tsStauts == "1" {
                 let evaluteBut = ButtonModel(name: "Review", imageStr: "order_evaluation")
                 //let afterBut = ButtonModel(name: "After sales", imageStr: "order_after")
-                self.buttonArr = [contectBut, helpBut, evaluteBut, againBut]
+                
+                if model.type == "3" {
+                    self.buttonArr = [contectBut, helpBut, evaluteBut]
+                } else {
+                    self.buttonArr = [contectBut, helpBut, evaluteBut, againBut]
+                }
+                
             } else {
-                self.buttonArr = [contectBut, helpBut, againBut]
+                if model.type == "3" {
+                    self.buttonArr = [contectBut, helpBut]
+                } else {
+                    self.buttonArr = [contectBut, helpBut, againBut]
+                }
             }
             
         }

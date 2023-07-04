@@ -15,8 +15,6 @@ let MENU_STORE_TAGS_W: CGFloat = S_W - 145
 class MenuStoreInfoCell: BaseTableViewCell {
     
     
-    var clickBuyTypeBlock: VoidBlock?
-    
     private var storeModel = StoreInfoModel()
 
         

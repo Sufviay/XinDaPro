@@ -158,7 +158,7 @@ enum ApiManager {
     ///菜品的月销量
     case getDishSales_Month(dishID: String, date: String, type: String)
     ///设置菜品优惠
-    case setDishedDiscount(id: String, type: String, price: String)
+    case setDishedDiscount(id: String, type: String, price: String, startTime: String, endTime: String)
     ///添加时间段
     case addOpeningHours(submitModel: AddTimeSubmitModel)
     ///请求时间段关联菜品
@@ -171,7 +171,12 @@ enum ApiManager {
     case deleteOpeningHours(timeID: String)
     ///店铺营业时间禁用 启用
     case OpeningHoursCanUse(timeID: String)
-
+    ///增加或修改菜品的规格
+    case specDoAddOrUpdate(model: DishDetailModel)
+    ///增加或修改套餐信息
+    case comboDoAddOrUpdate(model: DishDetailModel)
+    
+    
     
     
     
@@ -420,7 +425,7 @@ extension ApiManager: TargetType {
             return "api/boss/report/getDishesWeekSales"
         case .getDishSales_Month(dishID: _, date: _, type: _):
             return "api/boss/report/getDishesMonthSales"
-        case .setDishedDiscount(id: _, type: _, price: _):
+        case .setDishedDiscount(id: _, type: _, price: _, startTime: _ , endTime: _):
             return "api/boss/dishes/doDiscount"
         case .addOpeningHours(submitModel: _):
             return "api/boss/store/opentime/doAddStoreOpenTime"
@@ -434,6 +439,10 @@ extension ApiManager: TargetType {
             return "api/boss/store/opentime/doDelOpenTime"
         case .OpeningHoursCanUse(timeID: _):
             return "api/boss/store/opentime/doStatusOpenTime"
+        case .specDoAddOrUpdate(model: _):
+            return "api/boss/dishes/spec/doAddOrUpdate"
+        case .comboDoAddOrUpdate(model: _):
+            return "api/boss/dishes/combo/doAddOrUpdate"
     
             
             
@@ -641,6 +650,7 @@ extension ApiManager: TargetType {
             dic = [:]
         case .addDish(let model):
             dic = model.toJSON() ?? [:]
+            
         case .editeDish(let model):
             dic = model.toJSON() ?? [:]
         case .deleteDish(let id):
@@ -687,8 +697,8 @@ extension ApiManager: TargetType {
             dic = ["dishesId": dishID, "start": startDate, "end": endDate, "type": type]
         case .getDishSales_Month(let dishID, let date, let type):
             dic = ["dishesId": dishID, "date": date, "type": type]
-        case .setDishedDiscount(let id, let type, let price):
-            dic = ["dishesId": id, "discountType": type, "discountPrice": price]
+        case .setDishedDiscount(let id, let type, let price, let start, let end):
+            dic = ["dishesId": id, "discountType": type, "discountPrice": price, "endTime": end, "startTime": start]
         case .addOpeningHours(let submitModel):
             dic = submitModel.toJSON() ?? [:]
         case .getTimeBindingDishes(let timeID):
@@ -701,7 +711,10 @@ extension ApiManager: TargetType {
             dic = ["storeTimeId": timeID]
         case .OpeningHoursCanUse(let timeID):
             dic = ["storeTimeId": timeID]
-           
+        case .specDoAddOrUpdate(let model):
+            dic = model.toJSON() ?? [:]
+        case .comboDoAddOrUpdate(let model):
+            dic = model.toJSON() ?? [:]
             
             
             
@@ -826,7 +839,9 @@ extension ApiManager: TargetType {
                        "sysType": systemtype,
                        "sysVer": systemVer,
                        "lang": curLanguage,
-                       "deviceId": deviceID
+                       "deviceId": deviceID,
+                       "deviceType": "apple",
+                       "sysLang": Locale.preferredLanguages.first ?? ""
                         ]
         
         return baseDic

@@ -35,6 +35,8 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
     var cartID: String = ""
     ///选择数量
     var dishCount: Int = 1
+    
+    var deskID: String = ""
 
 
     private var dishModel = DishModel() {
@@ -189,7 +191,7 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
         
         if self.cartID == "" {
             //添加购物车
-            HTTPTOOl.addShoppingCart(dishesID: dishModel.dishID, buyNum: String(dishCount), type: "2", optionList: selectOption).subscribe(onNext: { (json) in
+            HTTPTOOl.addShoppingCart(dishesID: dishModel.dishID, buyNum: String(dishCount), type: "2", optionList: selectOption, deskID: deskID).subscribe(onNext: { (json) in
                 HUD_MB.showSuccess("Success!", onView: self.view)
                 //发送通知刷新点餐页面
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "cartRefresh"), object: nil)
@@ -229,7 +231,7 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
     ///获取菜品详情
     private func loadDishedDetail_Net() {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.loadDishesDetail(dishesID: dishesID).subscribe(onNext: { (json) in
+        HTTPTOOl.loadDishesDetail(dishesID: dishesID, deskID: deskID).subscribe(onNext: { (json) in
             HUD_MB.dissmiss(onView: self.view)
             
             let model = DishModel()

@@ -280,22 +280,34 @@ class MenuDishCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionVie
             self.collection.isHidden = false
         }
         
+        //不是堂食
         if model.discountType == "2" {
             //有优惠
             self.moneyLab.text = "£ \(model.discountPrice)"
-            self.disMoneyLab.text = "£\(model.price)"
+            if model.sellType == "2" {
+                self.disMoneyLab.text = "£\(model.dinePrice)"
+            } else {
+                self.disMoneyLab.text = "£\(model.deliPrice)"
+            }
             self.discountScaleLab.text = "\(model.discountSale)%OFF"
             self.disCountImg.isHidden = false
             self.disBackImg.isHidden = false
             self.disMoneyLab.isHidden = false
         } else {
-            self.moneyLab.text = "£ \(model.price)"
+            
+            if model.sellType == "2" {
+                self.moneyLab.text = "£ \(model.dinePrice)"
+            } else {
+                self.moneyLab.text = "£ \(model.deliPrice)"
+            }
+            
             self.disMoneyLab.text = ""
             self.discountScaleLab.text = ""
             self.disCountImg.isHidden = true
             self.disBackImg.isHidden = true
             self.disMoneyLab.isHidden = true
         }
+
         
         if model.limitBuy == "1" {
             self.kuCunLab.text = ""

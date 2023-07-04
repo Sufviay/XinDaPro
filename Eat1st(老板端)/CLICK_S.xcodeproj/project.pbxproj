@@ -62,6 +62,11 @@
 		E316889429F569ED00318307 /* OpeningTimeDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E316889329F569ED00318307 /* OpeningTimeDetailCell.swift */; };
 		E316889629F5822E00318307 /* StoreTimeBindingDishController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E316889529F5822E00318307 /* StoreTimeBindingDishController.swift */; };
 		E31790D728CA2DE3007BA6B9 /* EditDiscountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31790D628CA2DE3007BA6B9 /* EditDiscountView.swift */; };
+		E31C2C742A2081C3007B6DC2 /* MenuDishComboEditeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31C2C732A2081C3007B6DC2 /* MenuDishComboEditeController.swift */; };
+		E31C2C762A2092FB007B6DC2 /* ComboNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31C2C752A2092FB007B6DC2 /* ComboNameCell.swift */; };
+		E31C2C782A2098E7007B6DC2 /* MenuComboEditSpecController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31C2C772A2098E7007B6DC2 /* MenuComboEditSpecController.swift */; };
+		E31C2C7A2A20A19D007B6DC2 /* MenuComboEditDishController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31C2C792A20A19D007B6DC2 /* MenuComboEditDishController.swift */; };
+		E3284BAF2A4A6FF9004BC2C5 /* DishEditeSellTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3284BAE2A4A6FF9004BC2C5 /* DishEditeSellTypeCell.swift */; };
 		E337296C28B64FE100A06AB7 /* StatisticalUnfulfilledDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E337296B28B64FE100A06AB7 /* StatisticalUnfulfilledDateCell.swift */; };
 		E337297428BF333500A06AB7 /* DishChartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E337297328BF333500A06AB7 /* DishChartController.swift */; };
 		E337297628C1939400A06AB7 /* WeekSalesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E337297528C1939400A06AB7 /* WeekSalesModel.swift */; };
@@ -82,6 +87,8 @@
 		E372C65F28A5E5F80046DC55 /* DishKuCunEditeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E372C65E28A5E5F80046DC55 /* DishKuCunEditeCell.swift */; };
 		E372C66128A604EF0046DC55 /* DishDetailKuCunCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E372C66028A604EF0046DC55 /* DishDetailKuCunCell.swift */; };
 		E37C18AB29F6646F00D7C39D /* AddItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37C18AA29F6646F00D7C39D /* AddItemCell.swift */; };
+		E37C18C32A0BAA4700D7C39D /* DiscountSelectDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37C18C22A0BAA4700D7C39D /* DiscountSelectDateView.swift */; };
+		E37C18C52A1A426300D7C39D /* MenuDishComboDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37C18C42A1A426300D7C39D /* MenuDishComboDetailController.swift */; };
 		E37D4E6926E61F4C00D497FF /* FirstSideToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37D4E6826E61F4C00D497FF /* FirstSideToolView.swift */; };
 		E398A28E277B0187002A1D24 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E398A28D277B0187002A1D24 /* GoogleService-Info.plist */; };
 		E39A1A1028605A9700FF29A6 /* AddClassifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39A1A0F28605A9700FF29A6 /* AddClassifyView.swift */; };
@@ -252,6 +259,11 @@
 		E316889329F569ED00318307 /* OpeningTimeDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpeningTimeDetailCell.swift; sourceTree = "<group>"; };
 		E316889529F5822E00318307 /* StoreTimeBindingDishController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreTimeBindingDishController.swift; sourceTree = "<group>"; };
 		E31790D628CA2DE3007BA6B9 /* EditDiscountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDiscountView.swift; sourceTree = "<group>"; };
+		E31C2C732A2081C3007B6DC2 /* MenuDishComboEditeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDishComboEditeController.swift; sourceTree = "<group>"; };
+		E31C2C752A2092FB007B6DC2 /* ComboNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboNameCell.swift; sourceTree = "<group>"; };
+		E31C2C772A2098E7007B6DC2 /* MenuComboEditSpecController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuComboEditSpecController.swift; sourceTree = "<group>"; };
+		E31C2C792A20A19D007B6DC2 /* MenuComboEditDishController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuComboEditDishController.swift; sourceTree = "<group>"; };
+		E3284BAE2A4A6FF9004BC2C5 /* DishEditeSellTypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishEditeSellTypeCell.swift; sourceTree = "<group>"; };
 		E337296B28B64FE100A06AB7 /* StatisticalUnfulfilledDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticalUnfulfilledDateCell.swift; sourceTree = "<group>"; };
 		E337297328BF333500A06AB7 /* DishChartController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishChartController.swift; sourceTree = "<group>"; };
 		E337297528C1939400A06AB7 /* WeekSalesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekSalesModel.swift; sourceTree = "<group>"; };
@@ -272,6 +284,8 @@
 		E372C65E28A5E5F80046DC55 /* DishKuCunEditeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishKuCunEditeCell.swift; sourceTree = "<group>"; };
 		E372C66028A604EF0046DC55 /* DishDetailKuCunCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishDetailKuCunCell.swift; sourceTree = "<group>"; };
 		E37C18AA29F6646F00D7C39D /* AddItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemCell.swift; sourceTree = "<group>"; };
+		E37C18C22A0BAA4700D7C39D /* DiscountSelectDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountSelectDateView.swift; sourceTree = "<group>"; };
+		E37C18C42A1A426300D7C39D /* MenuDishComboDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDishComboDetailController.swift; sourceTree = "<group>"; };
 		E37D4E6826E61F4C00D497FF /* FirstSideToolView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstSideToolView.swift; sourceTree = "<group>"; };
 		E398A28D277B0187002A1D24 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E39A1A0F28605A9700FF29A6 /* AddClassifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClassifyView.swift; sourceTree = "<group>"; };
@@ -841,6 +855,10 @@
 				E3F829FF28654DC6005E5FAB /* MenuDishEditeController.swift */,
 				E3F829F1286434F9005E5FAB /* MenuDishAddSpecController.swift */,
 				E3F829F32864352F005E5FAB /* MenuDishAddOptionController.swift */,
+				E37C18C42A1A426300D7C39D /* MenuDishComboDetailController.swift */,
+				E31C2C732A2081C3007B6DC2 /* MenuDishComboEditeController.swift */,
+				E31C2C772A2098E7007B6DC2 /* MenuComboEditSpecController.swift */,
+				E31C2C792A20A19D007B6DC2 /* MenuComboEditDishController.swift */,
 				E3F82A1328698DC5005E5FAB /* MenuAdditionalAddController.swift */,
 				E3F82A0D2869562B005E5FAB /* MenuAdditionalDetailController.swift */,
 				E3F82A0F286958F9005E5FAB /* MenuGiftDetailController.swift */,
@@ -878,6 +896,7 @@
 				E3F829E12861B327005E5FAB /* EditeClassifyView.swift */,
 				E372C65C28A501AB0046DC55 /* EditeKuCunView.swift */,
 				E31790D628CA2DE3007BA6B9 /* EditDiscountView.swift */,
+				E37C18C22A0BAA4700D7C39D /* DiscountSelectDateView.swift */,
 				E3F82A09286597FB005E5FAB /* DishSelectTagsView.swift */,
 				E3F82A0B28659822005E5FAB /* DishSelectClassifyView.swift */,
 			);
@@ -892,6 +911,7 @@
 				E3F829E528631000005E5FAB /* DishDetailEditeCell.swift */,
 				E372C65E28A5E5F80046DC55 /* DishKuCunEditeCell.swift */,
 				E3F829DD28619172005E5FAB /* MenuDishCell.swift */,
+				E3284BAE2A4A6FF9004BC2C5 /* DishEditeSellTypeCell.swift */,
 				E3F829F72864393A005E5FAB /* DishEditeInPutCell.swift */,
 				E3F82A0128655458005E5FAB /* DishEditeTextViewCell.swift */,
 				E3F82A0328655824005E5FAB /* DishEditeClassifyCell.swift */,
@@ -906,6 +926,7 @@
 				E372C66028A604EF0046DC55 /* DishDetailKuCunCell.swift */,
 				E3F829F52864376D005E5FAB /* SpecHeaderCell.swift */,
 				E3F829FB28644C83005E5FAB /* DishDetailSpecNameCell.swift */,
+				E31C2C752A2092FB007B6DC2 /* ComboNameCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1429,6 +1450,7 @@
 				E3B1CFB72852FD4D0044D69F /* F_DishModel.swift in Sources */,
 				E3B3B132285DC210007CCED4 /* MenuListClassifyCell.swift in Sources */,
 				E3DF13A328448BF0007FCC11 /* MenuItemsController.swift in Sources */,
+				E31C2C782A2098E7007B6DC2 /* MenuComboEditSpecController.swift in Sources */,
 				E3D83D87277AE6F000615D4E /* TimeYearAlert.swift in Sources */,
 				E3DE48BE27745ED600F3DCCD /* LocationManager.swift in Sources */,
 				E3F829F2286434F9005E5FAB /* MenuDishAddSpecController.swift in Sources */,
@@ -1448,6 +1470,7 @@
 				E3F82A12286987D4005E5FAB /* AdditionalDetailModel.swift in Sources */,
 				E305E8B126DF131C00AAB580 /* ProjectHeader.swift in Sources */,
 				E3F829E628631000005E5FAB /* DishDetailEditeCell.swift in Sources */,
+				E31C2C7A2A20A19D007B6DC2 /* MenuComboEditDishController.swift in Sources */,
 				E3F82A16286AC3ED005E5FAB /* GiftDetailModel.swift in Sources */,
 				E316889029F3D71100318307 /* AddOpeningTimeCell.swift in Sources */,
 				E305E8EC26DF133D00AAB580 /* LTVCExtension.swift in Sources */,
@@ -1455,12 +1478,14 @@
 				E305E8E526DF133D00AAB580 /* LTCollectionFlowLayout.swift in Sources */,
 				E34C881D293B40C200A24F4D /* StatisticalFeeCell.swift in Sources */,
 				E305E8EF26DF133D00AAB580 /* Extension.swift in Sources */,
+				E37C18C52A1A426300D7C39D /* MenuDishComboDetailController.swift in Sources */,
 				E3F829DE28619172005E5FAB /* MenuDishCell.swift in Sources */,
 				E3F829E22861B327005E5FAB /* EditeClassifyView.swift in Sources */,
 				E305E8E626DF133D00AAB580 /* LTDispatchQueue.swift in Sources */,
 				E305E8F326DF133D00AAB580 /* Protocol.swift in Sources */,
 				E3F82A0228655458005E5FAB /* DishEditeTextViewCell.swift in Sources */,
 				E3F82A10286958F9005E5FAB /* MenuGiftDetailController.swift in Sources */,
+				E3284BAF2A4A6FF9004BC2C5 /* DishEditeSellTypeCell.swift in Sources */,
 				E30B46B326F1DB3500FB9B2B /* SearchPlaceManager.swift in Sources */,
 				E3DE48BC2774163D00F3DCCD /* DateTool.swift in Sources */,
 				E34C8821293DAD1800A24F4D /* StatisticalRefundCell.swift in Sources */,
@@ -1482,6 +1507,7 @@
 				E305E8BA26DF133000AAB580 /* BaseTableViewCell.swift in Sources */,
 				E366ADE82847547400295039 /* ReportModel.swift in Sources */,
 				E3F82A1A286AE97A005E5FAB /* PaymentMethodController.swift in Sources */,
+				E31C2C762A2092FB007B6DC2 /* ComboNameCell.swift in Sources */,
 				E305E90226DF146E00AAB580 /* MainNaviController.swift in Sources */,
 				E305E8EB26DF133D00AAB580 /* LTPageView.swift in Sources */,
 				E305E8ED26DF133D00AAB580 /* LTScrollExtension.swift in Sources */,
@@ -1512,6 +1538,7 @@
 				E3D83D89277AEA8400615D4E /* TimeMonthAlert.swift in Sources */,
 				E3F829FA28643C30005E5FAB /* DishEditeChooseCell.swift in Sources */,
 				E3F829EE28642E98005E5FAB /* DishListPictureCell.swift in Sources */,
+				E37C18C32A0BAA4700D7C39D /* DiscountSelectDateView.swift in Sources */,
 				E3DF13A128448BA1007FCC11 /* LiveReportingController.swift in Sources */,
 				E305E90826DF154600AAB580 /* LogInController.swift in Sources */,
 				E316888A29F3C11100318307 /* OpeningTimeMoreAlert.swift in Sources */,
@@ -1524,6 +1551,7 @@
 				E305E8FB26DF133D00AAB580 /* SearchManager.swift in Sources */,
 				E3F82A0C28659822005E5FAB /* DishSelectClassifyView.swift in Sources */,
 				E3DE48BA27731CDD00F3DCCD /* SalesFiltrateView.swift in Sources */,
+				E31C2C742A2081C3007B6DC2 /* MenuDishComboEditeController.swift in Sources */,
 				E39B5EB927C0CE7900276432 /* InPutAlert.swift in Sources */,
 				E3DF13AB2844AB63007FCC11 /* StatisticalHeaderCell.swift in Sources */,
 			);
@@ -1714,7 +1742,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.22;
+				MARKETING_VERSION = 1.0.25;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app-Boss";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "CLICK_S/CLICK_S-Bridging-Header.h";
@@ -1743,7 +1771,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.22;
+				MARKETING_VERSION = 1.0.25;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app-Boss";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = boss_dis;

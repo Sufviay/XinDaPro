@@ -244,7 +244,7 @@ let HTTPTOOl = HttpTool.shared
 //"https://api.foodo2o.com/"
 
 let ISONLINE: Bool = true
-let VERID: String = "7"
+let VERID: String = "8"
 var BASEURL: String = ISONLINE ? "https://api.foodo2o.com/" : "http://api.moneycheers.net/"
 
 

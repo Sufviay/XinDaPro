@@ -40,6 +40,8 @@ class CreateOrderModel: HandyJSON {
     ///1：外卖、2：自取
     var type: String = ""
     
+    var deskId: String = ""
+    
     required init() {
         
     }

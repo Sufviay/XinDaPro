@@ -251,8 +251,14 @@ class StoreMidInfoCell: BaseTableViewCell {
         self.plCountLab.text = "(\(self.dataModel.evaluateNum))"
         self.starView.setPointValue = Int(ceil(self.dataModel.star))
         
-        self.tagArr = self.dataModel.tags.components(separatedBy: "·")
-        self.setStoreTag()
+        if dataModel.tags == "" {
+            self.tagArr = []
+        } else {
+            self.tagArr = self.dataModel.tags.components(separatedBy: "·")
+            self.setStoreTag()
+        }
+        
+        
         
         
     }

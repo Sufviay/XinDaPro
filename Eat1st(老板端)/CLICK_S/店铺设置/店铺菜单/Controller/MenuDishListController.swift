@@ -224,8 +224,7 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
             if par == "ed" {
                 //编辑
                 if type == "dis" {
-                    let nextVC = MenuDishEditeController()
-                    nextVC.isAdd = false
+                    let nextVC = MenuDishDetailController()
                     nextVC.dishID = dishArr[indexPath.row].id
                     self.navigationController?.pushViewController(nextVC, animated: true)
                 }
@@ -253,7 +252,7 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
             if par == "yh" {
                 //优惠
                 let model = self.dishArr[indexPath.row]
-                self.discountView.setAlertData(discountType: model.discountType, discountPrice: model.discountPrice, dishID: model.id)
+                self.discountView.setAlertData(discountType: model.discountType, discountPrice: model.discountPrice, dishID: model.id, discountStartDate: model.discountStartDate, discountEndDate: model.discountEndDate)
                 self.discountView.appearAction()
             }
             
@@ -290,6 +289,7 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
             if type == "dis" {
                 let nextVC = MenuDishEditeController()
                 nextVC.isAdd = true
+                nextVC.dishType = "1"
                 self.navigationController?.pushViewController(nextVC, animated: true)
             }
             if type == "add" {
@@ -339,7 +339,9 @@ extension MenuDishListController {
                 for jsonData in json["data"].arrayValue {
                     let model = DishModel()
                     model.updateModel(json: jsonData)
-                    tArr.append(model)
+                    if model.dishesType == "1" {
+                        tArr.append(model)
+                    }
                 }
                 self.dishArr = tArr
                 self.table.mj_header?.endRefreshing()

@@ -62,6 +62,7 @@ class HUD_MB: NSObject {
     ///隐藏
     static func dissmiss(onView view: UIView) {
         let hud: MBProgressHUD = MBProgressHUD.forView(view) ?? MBProgressHUD()
+        hud.removeFromSuperViewOnHide = true
         hud.hide(animated: true)
     }
     

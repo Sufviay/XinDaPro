@@ -78,7 +78,7 @@ class MenuDishMoreFourAlert: UIView, UIGestureRecognizerDelegate {
     private let editeLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#080808"), BFONT(11), .left)
-        lab.text = "Edit the detailed"
+        lab.text = "Detail"
         return lab
     }()
     
@@ -102,7 +102,7 @@ class MenuDishMoreFourAlert: UIView, UIGestureRecognizerDelegate {
     private let deleteLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#F75E5E"), BFONT(11), .left)
-        lab.text = "Remove item"
+        lab.text = "Delete"
         return lab
     }()
 
@@ -320,7 +320,7 @@ class MenuDishMoreTwoAlert: UIView, UIGestureRecognizerDelegate {
     private let editeLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#080808"), BFONT(11), .left)
-        lab.text = "Edit the detailed"
+        lab.text = "Detail"
         return lab
     }()
     
@@ -329,7 +329,7 @@ class MenuDishMoreTwoAlert: UIView, UIGestureRecognizerDelegate {
     private let deleteLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#F75E5E"), BFONT(11), .left)
-        lab.text = "Remove item"
+        lab.text = "Delete"
         return lab
     }()
 

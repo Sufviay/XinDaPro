@@ -10,12 +10,14 @@ import RxSwift
 
 
 class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate {
+    
+    private var timeSeltype: String = "start"
 
     private let bag = DisposeBag()
 
     private var dishID: String = ""
     
-    private var H: CGFloat = bottomBarH + 320
+    private var H: CGFloat = bottomBarH + 490
     
     ///是否有优惠 1无优惠 2有优惠
     private var discountType: String = "1" {
@@ -25,6 +27,12 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
                 self.yesImg.image = LOIMG("busy_unsel_b")
                 self.noImg.image = LOIMG("busy_sel_b")
                 self.tfBackView.isHidden = true
+                self.startBackView.isHidden = true
+                self.endBackView.isHidden = true
+                self.tlab1.isHidden = true
+                self.sLab1.isHidden = true
+                self.tlab2.isHidden = true
+                self.sLab2.isHidden = true
             }
             
             if discountType == "2" {
@@ -32,15 +40,43 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
                 self.yesImg.image = LOIMG("busy_sel_b")
                 self.noImg.image = LOIMG("busy_unsel_b")
                 self.tfBackView.isHidden = false
+                self.startBackView.isHidden = false
+                self.endBackView.isHidden = false
+                self.tlab1.isHidden = false
+                self.sLab1.isHidden = false
+                self.tlab2.isHidden = false
+                self.sLab2.isHidden = false
+
             }
             
         }
     }
     
+    
+    //日历弹窗
+    private lazy var calendarView: DiscountSelectDateView = {
+        let view = DiscountSelectDateView()
+                
+        view.clickDateBlock = { [unowned self] (par) in
+            
+            let date = par as! Date
+            
+            if timeSeltype == "start" {
+                self.startInputTF.text = date.getString("yyyy-MM-dd")
+            }
+            if timeSeltype == "end" {
+                self.endInputTF.text = date.getString("yyyy-MM-dd")
+            }
+        
+        }
+        
+        return view
+    }()
+    
     private let backView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: bottomBarH + 320), byRoundingCorners: [.topLeft, .topRight], radii: 10)
+        view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: bottomBarH + 490), byRoundingCorners: [.topLeft, .topRight], radii: 10)
         return view
     }()
 
@@ -81,6 +117,36 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
     }()
     
     private let sLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(16), .left)
+        lab.text = "*"
+        return lab
+    }()
+    
+    
+    private let tlab1: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(.black, BFONT(16), .left)
+        lab.text = "Start Date"
+        return lab
+    }()
+    
+    private let sLab1: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(16), .left)
+        lab.text = "*"
+        return lab
+    }()
+    
+    
+    private let tlab2: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(.black, BFONT(16), .left)
+        lab.text = "End Date"
+        return lab
+    }()
+    
+    private let sLab2: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(16), .left)
         lab.text = "*"
@@ -144,7 +210,40 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
         return tf
     }()
     
+    
+    private let startBackView: UIView = {
+        let view = UIView()
+        view.backgroundColor = HCOLOR("#8F92A1").withAlphaComponent(0.06)
+        view.layer.cornerRadius = 7
+        return view
+    }()
+    
+    private lazy var startInputTF: UITextField = {
+        let tf = UITextField()
+        tf.placeholder = "Choose start date"
+        tf.font = SFONT(14)
+        tf.textColor = FONTCOLOR
+        tf.isUserInteractionEnabled = false
+        return tf
+    }()
+    
+    private let endBackView: UIView = {
+        let view = UIView()
+        view.backgroundColor = HCOLOR("#8F92A1").withAlphaComponent(0.06)
+        view.layer.cornerRadius = 7
+        return view
+    }()
+    
+    private lazy var endInputTF: UITextField = {
+        let tf = UITextField()
+        tf.placeholder = "Choose end date"
+        tf.font = SFONT(14)
+        tf.textColor = FONTCOLOR
+        tf.isUserInteractionEnabled = false
+        return tf
+    }()
 
+    
 
     
 
@@ -264,7 +363,70 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
             $0.right.equalToSuperview().offset(-20)
             $0.top.bottom.equalToSuperview()
         }
+        
+        
+        backView.addSubview(tlab1)
+        tlab1.snp.makeConstraints {
+            $0.left.equalTo(tlab)
+            $0.top.equalTo(tfBackView.snp.bottom).offset(20)
+        }
+        
+        backView.addSubview(sLab1)
+        sLab1.snp.makeConstraints {
+            $0.centerY.equalTo(tlab1)
+            $0.left.equalTo(tlab1.snp.right).offset(3)
+        }
+        
+        
+        backView.addSubview(startBackView)
+        startBackView.snp.makeConstraints {
+            $0.left.right.height.equalTo(tfBackView)
+            $0.top.equalTo(tlab1.snp.bottom).offset(15)
+        }
+        
+        startBackView.addSubview(startInputTF)
+        startInputTF.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(20)
+            $0.right.equalToSuperview().offset(-20)
+            $0.top.bottom.equalToSuperview()
+        }
+        
 
+
+        
+        backView.addSubview(tlab2)
+        tlab2.snp.makeConstraints {
+            $0.left.equalTo(tlab)
+            $0.top.equalTo(startBackView.snp.bottom).offset(20)
+        }
+        
+        backView.addSubview(sLab2)
+        sLab2.snp.makeConstraints {
+            $0.centerY.equalTo(tlab2)
+            $0.left.equalTo(tlab2.snp.right).offset(3)
+        }
+        
+
+        backView.addSubview(endBackView)
+        endBackView.snp.makeConstraints {
+            $0.left.right.height.equalTo(tfBackView)
+            $0.top.equalTo(tlab2.snp.bottom).offset(15)
+        }
+
+        
+        endBackView.addSubview(endInputTF)
+        endInputTF.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(20)
+            $0.right.equalToSuperview().offset(-20)
+            $0.top.bottom.equalToSuperview()
+        }
+
+        
+        let startTap = UITapGestureRecognizer(target: self, action: #selector(chooseStartAction))
+        let endTap = UITapGestureRecognizer(target: self, action: #selector(chooseEndAction))
+        
+        startBackView.addGestureRecognizer(startTap)
+        endBackView.addGestureRecognizer(endTap)
         
         self.closeBut.addTarget(self, action: #selector(clickCloseAction), for: .touchUpInside)
         self.saveBut.addTarget(self, action: #selector(clickSaveAction), for: .touchUpInside)
@@ -290,6 +452,18 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
     }
 
     
+    @objc private func chooseStartAction() {
+        print("aaaaa")
+        timeSeltype = "start"
+        calendarView.appearAction()
+    }
+    
+    @objc private func chooseEndAction() {
+        print("bbbbbb")
+        timeSeltype = "end"
+        calendarView.appearAction()
+    }
+    
     
     @objc private func clickCloseAction() {
         self.disAppearAction()
@@ -302,6 +476,18 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
                 HUD_MB.showWarnig("Place fill in the price!", onView: PJCUtil.getWindowView())
                 return
             }
+            
+            if startInputTF.text ?? "" == "" {
+                HUD_MB.showWarnig("Place fill in start date!", onView: PJCUtil.getWindowView())
+                return
+            }
+            
+            if endInputTF.text ?? "" == "" {
+                HUD_MB.showWarnig("Place fill in end date!", onView: PJCUtil.getWindowView())
+                return
+            }
+
+            
         }
         setDiscount_Net()
     }
@@ -350,10 +536,12 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
     }
     
     
-    func setAlertData(discountType: String, discountPrice: String, dishID: String) {
+    func setAlertData(discountType: String, discountPrice: String, dishID: String, discountStartDate: String, discountEndDate: String) {
         self.dishID = dishID
         self.discountType = discountType
         self.inputTF.text = discountPrice
+        self.startInputTF.text = discountStartDate
+        self.endInputTF.text = discountEndDate
     }
     
 
@@ -424,12 +612,15 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
         HUD_MB.loading("", onView: backView)
         
         let price = discountType == "2" ? inputTF.text ?? "" : ""
-        HTTPTOOl.setDishesDiscount(dishId: dishID, discountType: discountType, discountPrice: price).subscribe(onNext: { (json) in
+        let start = discountType == "2" ? startInputTF.text ?? "" : ""
+        let end = discountType == "2" ? endInputTF.text ?? "" : ""
+        
+        HTTPTOOl.setDishesDiscount(dishId: dishID, discountType: discountType, discountPrice: price, startTime: start, endTime: end).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: self.backView)
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "dishList"), object: nil)
             self.disAppearAction()
             
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.backView)
         }).disposed(by: self.bag)
     }

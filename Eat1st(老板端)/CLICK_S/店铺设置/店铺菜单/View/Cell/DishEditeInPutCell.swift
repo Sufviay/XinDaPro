@@ -165,7 +165,8 @@ class DishEditePriceInPutCell: BaseTableViewCell, UITextFieldDelegate {
     }
     
     
-    func setCellData(money: String) {
+    func setCellData(money: String, titStr: String) {
+        self.titlab.text = titStr
         
         self.inputTF.text = money
         

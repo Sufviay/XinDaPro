@@ -86,7 +86,7 @@ class MenuAdditionalAddController: HeadBaseViewController, UITableViewDelegate, 
     
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Details"
+        self.biaoTiLab.text = "Additional edit"
     }
 
     
@@ -214,7 +214,7 @@ class MenuAdditionalAddController: HeadBaseViewController, UITableViewDelegate, 
         
         if indexPath.row == 4 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditePriceInPutCell") as! DishEditePriceInPutCell
-            cell.setCellData(money: dataModel.price)
+            cell.setCellData(money: dataModel.price, titStr: "Price")
             cell.editeEndBlock = { [unowned self] (text) in
                 self.dataModel.price = text == "" ? "0" : text
             }

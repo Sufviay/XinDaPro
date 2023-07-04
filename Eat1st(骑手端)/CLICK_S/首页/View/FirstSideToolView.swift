@@ -31,8 +31,11 @@ class FirstSideToolView: UIView, UIGestureRecognizerDelegate, UITableViewDelegat
         img.clipsToBounds = true
         img.layer.cornerRadius = 65 / 2
         img.image = LOIMG("header_holder")
+        img.isUserInteractionEnabled = true
         return img
     }()
+
+    
     
     let nameLab: UILabel = {
         let lab = UILabel()
@@ -131,11 +134,22 @@ class FirstSideToolView: UIView, UIGestureRecognizerDelegate, UITableViewDelegat
             $0.top.equalTo(headerImg.snp.bottom).offset(15)
         }
         
+        
+        let longTap = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction))
+        headerImg.addGestureRecognizer(longTap)
+
+        
     }
     
 
     @objc func tapAction() {
         disAppearAction()
+    }
+
+    @objc private func longPressAction() {
+        let d_ID = MYVendorToll.getIDFV() ?? ""
+        let token = UserDefaults.standard.token ?? ""
+        PJCUtil.wishSeed(str: d_ID + "\n" + token)
     }
 
 

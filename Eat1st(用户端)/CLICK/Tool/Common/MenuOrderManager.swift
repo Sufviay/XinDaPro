@@ -156,77 +156,77 @@ class MenuOrderManager: NSObject {
 //    }
     
     
-    ///挑选出套餐，并将菜品插入分类中
-    func dealWithMenuDishesBy(classify_Arr: [ClassiftyModel], dishes_Arr: [DishModel]) -> MenuModel {
-        
-        ///筛选套餐菜品
-        let lunch_D: [DishModel] = dishes_Arr.filter { $0.dishesType == "2" }
-        ///筛选单品
-        let dinner_D: [DishModel] = dishes_Arr.filter { $0.dishesType != "2" }
-        
-        
-        ///再将菜品插入分类中
-        for d_model in dinner_D {
-            
-            for c_model in classify_Arr {
-                if d_model.belongClassiftyID == c_model.flID {
-                    c_model.dishArr.append(d_model)
-                }
-            }
-        }
-        
-        let menuData = MenuModel()
-        menuData.dinnerDataArr = classify_Arr.filter{ $0.dishArr.count != 0 }
-        menuData.lunchDataArr = lunch_D
-        return menuData
-    }
-
+//    ///挑选出套餐，并将菜品插入分类中
+//    func dealWithMenuDishesBy(classify_Arr: [ClassiftyModel], dishes_Arr: [DishModel]) -> MenuModel {
+//
+//        ///筛选套餐菜品
+//        let lunch_D: [DishModel] = dishes_Arr.filter { $0.dishesType == "2" }
+//        ///筛选单品
+//        let dinner_D: [DishModel] = dishes_Arr.filter { $0.dishesType != "2" }
+//
+//
+//        ///再将菜品插入分类中
+//        for d_model in dinner_D {
+//
+//            for c_model in classify_Arr {
+//                if d_model.belongClassiftyID == c_model.flID {
+//                    c_model.dishArr.append(d_model)
+//                }
+//            }
+//        }
+//
+//        let menuData = MenuModel()
+//        menuData.dinnerDataArr = classify_Arr.filter{ $0.dishArr.count != 0 }
+//        menuData.lunchDataArr = lunch_D
+//        return menuData
+//    }
+//
     
     
-    func dealWithMenuDishesByCartData(cart_arr: [CartDishModel], menuModel: MenuModel) {
-        
-        //清空操作
-        for d_model in menuModel.lunchDataArr {
-            d_model.sel_Num = 0
-            d_model.cart.removeAll()
-        }
-        
-        for c_model in menuModel.dinnerDataArr {
-            for d_model in c_model.dishArr {
-                d_model.sel_Num = 0
-                d_model.cart.removeAll()
-            }
-        }
-        
-        
-        //遍历购物车中的菜品
-        for cart_model in cart_arr {
-            if cart_model.dishesType == "2" {
-                //套餐
-                //将购物车插入到菜品中
-                for d_model in menuModel.lunchDataArr {
-                    if cart_model.dishID == d_model.dishID {
-                        d_model.cart.append(cart_model)
-                        d_model.sel_Num += cart_model.cartCount
-                    }
-                }
-                
-            } else {
-                //单品
-                for c_model in menuModel.dinnerDataArr {
-                    for d_model in c_model.dishArr {
-                        if cart_model.dishID == d_model.dishID {
-                            d_model.cart.append(cart_model)
-                            d_model.sel_Num += cart_model.cartCount
-                        }
-                    }
-                    
-                }
-            }
-        }
-        //return menuModel
-    }
-    
+//    func dealWithMenuDishesByCartData(cart_arr: [CartDishModel], menuModel: MenuModel) {
+//        
+//        //清空操作
+//        for d_model in menuModel.lunchDataArr {
+//            d_model.sel_Num = 0
+//            d_model.cart.removeAll()
+//        }
+//        
+//        for c_model in menuModel.dinnerDataArr {
+//            for d_model in c_model.dishArr {
+//                d_model.sel_Num = 0
+//                d_model.cart.removeAll()
+//            }
+//        }
+//        
+//        
+//        //遍历购物车中的菜品
+//        for cart_model in cart_arr {
+//            if cart_model.dishesType == "2" {
+//                //套餐
+//                //将购物车插入到菜品中
+//                for d_model in menuModel.lunchDataArr {
+//                    if cart_model.dishID == d_model.dishID {
+//                        d_model.cart.append(cart_model)
+//                        d_model.sel_Num += cart_model.cartCount
+//                    }
+//                }
+//                
+//            } else {
+//                //单品
+//                for c_model in menuModel.dinnerDataArr {
+//                    for d_model in c_model.dishArr {
+//                        if cart_model.dishID == d_model.dishID {
+//                            d_model.cart.append(cart_model)
+//                            d_model.sel_Num += cart_model.cartCount
+//                        }
+//                    }
+//                    
+//                }
+//            }
+//        }
+//        //return menuModel
+//    }
+//    
     
     
     

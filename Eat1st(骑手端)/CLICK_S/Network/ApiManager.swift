@@ -46,6 +46,14 @@ enum ApiManager {
     case logOut
     ///检查App版本
     case CheckAppVer
+    ///获取外部订单列表  1全部，2未派送和派送中，3已完成）
+    case getOtherPTOrders(status: String)
+    ///外部订单开始派送
+    case otherPTOdersStart(orderID: String)
+    ///外部订单派送完成
+    case otherPTOrderComplete(orderID: String)
+    
+    
 
     
     
@@ -187,7 +195,12 @@ extension ApiManager: TargetType {
             return "api/rider/logout"
         case .CheckAppVer:
             return "api/rider/version/checkVersion"
-            
+        case .getOtherPTOrders(status: _):
+            return "api/rider/outer/order/getOrderList"
+        case .otherPTOdersStart(orderID: _):
+            return "api/rider/outer/order/doStart"
+        case .otherPTOrderComplete(orderID: _):
+            return "api/rider/outer/order/doComplete"
                         
             
          
@@ -394,8 +407,12 @@ extension ApiManager: TargetType {
             dic = [:]
         case .CheckAppVer:
             dic = ["sysType": "2", "verId": UserDefaults.standard.verID!]
-            
-            
+        case .getOtherPTOrders(let status):
+            dic = ["orderStatus": status]
+        case .otherPTOdersStart(let orderID):
+            dic = ["orderId": orderID]
+        case .otherPTOrderComplete(let orderID):
+            dic = ["orderId": orderID]
             
             
             

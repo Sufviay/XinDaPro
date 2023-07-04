@@ -183,5 +183,9 @@ class StoreFirstPageButCell: BaseTableViewCell {
         PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
     }
     
+    func setCellData(data: StoreInfoModel) {
+        self.dataModel = data
+    }
+    
 
 }

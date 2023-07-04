@@ -10,6 +10,8 @@ import UIKit
 class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSource {
     
     
+    var deskID: String = ""
+    
     var isSelect: Bool = false
     
     ///弹出购物车
@@ -82,8 +84,8 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
         tableView.register(MenuGoodsNoSizeCell.self, forCellReuseIdentifier: "MenuGoodsNoSizeCell")
         tableView.register(MenuGoodsSizeCell.self, forCellReuseIdentifier: "MenuGoodsSizeCell")
         
-        tableView.register(Big_MenuGoodsNoSizeCell.self, forCellReuseIdentifier: "Big_MenuGoodsNoSizeCell")
-        tableView.register(Big_MenuGoodsSizeCell.self, forCellReuseIdentifier: "Big_MenuGoodsSizeCell")
+        //tableView.register(Big_MenuGoodsNoSizeCell.self, forCellReuseIdentifier: "Big_MenuGoodsNoSizeCell")
+        //tableView.register(Big_MenuGoodsSizeCell.self, forCellReuseIdentifier: "Big_MenuGoodsSizeCell")
 
         return tableView
     }()
@@ -180,7 +182,7 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
                 cell.setCellData(model: model, canBuy: canBuy)
             
             
-                cell.optionBlock = { _ in
+                cell.optionBlock = { [unowned self] _ in
                     ///进入选择规格页面
                     
                     if model.dishesType == "1" {
@@ -188,6 +190,7 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
                         let nextVC = SelectSizeController()
                         nextVC.dishesID = model.dishID
                         nextVC.canBuy = self.canBuy
+                        nextVC.deskID = self.deskID
                         PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
                     }
                     if model.dishesType == "2" {
@@ -195,6 +198,7 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
                         let nextVC = MealSelectSizeController()
                         nextVC.dishesID = model.dishID
                         nextVC.canBuy = self.canBuy
+                        nextVC.deskID = self.deskID
                         PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
                     }
                 }
@@ -247,9 +251,10 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
     
 
     
-    func setCellData(model: MenuModel) {
+    func setCellData(model: MenuModel, deskID: String) {
         self.dishData = model
-                
+        self.deskID = deskID
+        
         if dishData.openTimeArr.count == 0 {
             canBuy = false
         } else {
@@ -321,7 +326,7 @@ extension MenuContentCell {
                     let nextVC = SelectSizeController()
                     nextVC.dishesID = model.dishID
                     nextVC.canBuy = canBuy
-                    
+                    nextVC.deskID = deskID
                     //如果不是规格规格商品 且已添加到购物车中 需将数量带到下一页面
                     if !model.isSelect && model.cart.count != 0 {
                         nextVC.cartID = model.cart[0].cartID
@@ -336,6 +341,7 @@ extension MenuContentCell {
                 let nextVC = MealSelectSizeController()
                 nextVC.dishesID = model.dishID
                 nextVC.canBuy = canBuy
+                nextVC.deskID = deskID
                 PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
             }
         }

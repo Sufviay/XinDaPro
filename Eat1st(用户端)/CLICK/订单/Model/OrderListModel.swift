@@ -30,7 +30,7 @@ class OrderListModel: NSObject {
     ///订单ID
     var orderID: String = ""
     
-    ///订单类型(1：外卖 2：自取)
+    ///订单类型(1：外卖 2：自取，3堂食)
     var type: String = ""
     
     ///订单评价状态 （1未评价，2已评价）
@@ -68,8 +68,17 @@ class OrderListModel: NSObject {
         self.prizeStatus = json["prizeStatus"].stringValue == "1" ? false : true
         
         //1待支付,2支付中,3支付失败,4用户取消,5商家取消,6系统取消,7商家拒单,8支付成功,9已接单,10已出餐,11已派单,12配送中,13已完成
-        if self.status == .pay_wait || self.status == .pay_fail || self.status == .pay_success || self.status == .pay_ing || self.status == .finished {
+        if self.status == .pay_wait || self.status == .pay_fail || self.status == .pay_success || self.status == .pay_ing {
             self.isHaveBotton = true
+        }
+        if self.status == .finished {
+            if self.plaintStatus == "1" && self.evaluateStatus == "1" {
+                self.isHaveBotton = true
+            } else {
+                if self.type != "3" {
+                    self.isHaveBotton = true
+                }
+            }
         }
 //        else if (self.status == .cooked && self.type == "2" ) {
 //            self.isHaveBotton = true
@@ -77,9 +86,9 @@ class OrderListModel: NSObject {
 //        else if self.status == .finished && self.plaintStatus == "1" && self.evaluateStatus == "1" {
 //            self.isHaveBotton = true
 //        }
-        else {
-            self.isHaveBotton = false
-        }
+//        else {
+//            self.isHaveBotton = false
+//        }
     
     }
 

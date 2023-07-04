@@ -8,6 +8,52 @@
 import UIKit
 import SwiftyJSON
 
+
+class OtherOrderModel {
+    
+    ///订单状态（2已派单，3配送中，4已完成）
+    var orderStatus: String = ""
+    /// 用户地址
+    var address: String = ""
+    var lat: Double = 0
+    var lng: Double = 0
+    ///用户邮编 ,
+    var postCode: String = ""
+    ///用户电话
+    var phone: String = ""
+    ///订单编号
+    var orderCode: String = ""
+    ///订单编码
+    var orderId: String = ""
+    ///骑手结束配送时间
+    var riderEndTime: String = ""
+    ///骑手开始配送时间
+    var riderStartTime: String = ""
+    
+    
+    var cell_H: CGFloat = 0
+    
+    func updateModel(json: JSON) {
+        self.orderId = json["orderId"].stringValue
+        self.address = json["address"].stringValue
+        self.postCode = json["postCode"].stringValue
+        self.lat = json["lat"].doubleValue
+        self.lng = json["lng"].doubleValue
+        self.phone = json["phone"].stringValue
+        self.orderCode = json["postCode"].stringValue
+        self.orderStatus = json["orderStatus"].stringValue
+        self.riderStartTime = json["riderStartTime"].stringValue
+        self.riderEndTime = json["riderEndTime"].stringValue
+            
+        self.cell_H = self.address == "" ? (75 + 40 + 35) : (self.address.getTextHeigh(SFONT(13), S_W - 205) + 75 + 40 + 35)
+
+    }
+    
+    
+}
+
+
+
 class OrderModel: NSObject {
     
     ///订单状态 1待支付,2支付中,3支付失败,4用户取消,5商家取消,6系统取消,7商家拒单,8支付成功,9已接单,10已出餐,11已派单,12配送中,13已完成

@@ -32,8 +32,8 @@ class DishDetailModel: HandyJSON {
     var nameCn: String = ""
     var nameEn: String = ""
     var nameHk: String = ""
-//    ///优惠 1是 2否
-//    var discountId: String = ""
+    ///优惠 （1无优惠，2有优惠）
+    var discountType: String = ""
     
     
     ///是否限购 1否 2是
@@ -41,9 +41,19 @@ class DishDetailModel: HandyJSON {
     ///库存数量
     var limitNum: Int = 0
     
-    
-    
+    ///优惠价格
+    var discountPrice: String = ""
+    ///菜品价格
     var price: String = "0"
+    
+    ///外卖价格
+    var deliPrice: String = ""
+    ///堂食价格
+    var dinePrice: String = ""
+    
+    ///售卖类型 1外卖，2堂食，3均可
+    var sellType: String = ""
+    
     
     ///菜品描述
     var remarkCn: String = ""
@@ -58,8 +68,16 @@ class DishDetailModel: HandyJSON {
     ///上下架状态
     var statusId: String = ""
     
+    
+    ///菜品类型 1是单品2是套餐
+    var dishesType: String = ""
+    
     ///规格选项列表
     var specList: [DishDetailSpecModel] = []
+    
+    
+    ///套餐列表
+    var comboList: [DishDetailComboModel] = []
     
     ///标签
     var tagList: [DishDetailTagModel] = []
@@ -82,15 +100,8 @@ class DishDetailModel: HandyJSON {
     
     
     required init() { }
-    
-    
-    func updateModel(json: JSON) {
-      
         
-        
-    }
-    
-    
+
     
     func updateModle() {
         
@@ -115,6 +126,14 @@ class DishDetailModel: HandyJSON {
                 omodel.updateModel()
             }
             smodel.updateModel()
+        }
+        
+        
+        for cmodel in comboList {
+            for cdmodel in cmodel.comboDishesList {
+                cdmodel.updateModel()
+            }
+            cmodel.updateModel()
         }
         
         
@@ -170,28 +189,106 @@ class DishDetailModel: HandyJSON {
 }
 
 
+class DishDetailComboModel: HandyJSON {
+    
+    var comboDishesList: [ComboDishModel] = []
+    var nameEn: String = ""
+    var nameHk: String = ""
+    var nameCn: String = ""
+    
+    
+    var name1: String = ""
+    var name2: String = ""
+    
+    var name_h: CGFloat = 0
+
+    
+    required init() { }
+    
+    func updateModel() {
+        
+        let curL = PJCUtil.getCurrentLanguage()
+        if curL == "en_GB" {
+            name1 = nameEn == "" ? "--" : nameEn
+            name2 = nameHk == "" ? "--" : nameHk
+        } else {
+            name1 = nameHk == "" ? "--" : nameHk
+            name2 = nameEn == "" ? "--" : nameEn
+        }
+        
+        let h1 = name1.getTextHeigh(BFONT(17), S_W - 120)
+        let h2 = name2.getTextHeigh(SFONT(15), S_W - 120)
+        self.name_h = 30 + h1 + 2 + h2
+        
+    }
+    
+}
+
+
+class ComboDishModel: HandyJSON {
+    
+    var nameEn: String = ""
+    var nameHk: String = ""
+    var nameCn: String = ""
+    var dishesId: Int64 = 0
+    
+    
+    var name1: String = ""
+    var name2: String = ""
+
+    var name_h: CGFloat = 0
+    
+    
+    required init() { }
+    
+    
+    func updateModel() {
+        let curL = PJCUtil.getCurrentLanguage()
+
+        if curL == "en_GB" {
+            name1 = nameEn == "" ? "--" : nameEn
+            name2 = nameHk == "" ? "--" : nameHk
+        } else {
+            name1 = nameHk == "" ? "--" : nameHk
+            name2 = nameEn == "" ? "--" : nameEn
+        }
+        
+        let h1 = name1.getTextHeigh(BFONT(13), S_W - 95)
+        let h2 = name2.getTextHeigh(SFONT(13), S_W - 95)
+        self.name_h = 20 + h1 + 2 + h2
+    }
+    
+}
+
+
 class DishDetailSpecModel: HandyJSON {
     
     var nameCn: String = ""
     var nameEn: String = ""
     var nameHk: String = ""
     var optionList: [DishDetailOptionModel] = []
-    ///1必选 2非必选
+    ///1非必选 2必选
     var required: String = ""
     ///规格是否可以多选   1否，2是
     var multiple: String = ""
     
-    var specId: Int64 = 0
     ///规格状态（1启用、2禁用）
-    var statusId: String = ""
+    var statusId: String = "1"
     ///菜品ID
-    var dishesId: String = ""
+    var dishesId: Int64 = 0
     
     var name1: String = ""
     var name2: String = ""
     
     var name_h: CGFloat = 0
     var spe_H: CGFloat = 0
+    
+    
+    
+    var specId: Int64 = 0
+
+    
+    
     
     required init() { }
     
@@ -216,7 +313,7 @@ class DishDetailSpecModel: HandyJSON {
         for oModel in optionList {
             t_h += oModel.op_h
         }
-        self.spe_H = t_h + name_h + 50 + 65 + 55 + 65 + 65
+        self.spe_H = t_h + name_h + 50 + 65 + 55 + 65
     }
     
 }
@@ -232,7 +329,7 @@ class DishDetailOptionModel: HandyJSON {
     ///选项状态（1启用、2禁用）
     var statusId: String = ""
     ///规格ID
-    var specId: String = ""
+    var specId: Int64 = 0
     
     
     var name1: String = ""
@@ -259,7 +356,7 @@ class DishDetailOptionModel: HandyJSON {
         let h1 = name1.getTextHeigh(BFONT(14), S_W - 120)
         let h2 = name2.getTextHeigh(SFONT(14), S_W - 120)
         self.name_h = 30 + h1 + h2
-        self.op_h = name_h + 45 + 70 + 60
+        self.op_h = name_h + 45 + 70
     }
 }
 

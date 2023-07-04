@@ -242,13 +242,12 @@ class StoreReviewsCell: BaseTableViewCell {
         
         if model.orderType == "1" {
             self.tlab3.text = "Delivery time"
-        } else {
+        }
+        if model.orderType == "2" {
             self.tlab3.text = "Collection time"
         }
-        
-
-
+        if model.orderType == "3" {
+            self.tlab3.text = "Dine in time"
+        }
     }
-
-    
 }

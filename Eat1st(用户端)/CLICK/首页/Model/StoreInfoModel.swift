@@ -150,6 +150,12 @@ class StoreInfoModel: NSObject {
     ///店铺所有内容的高度
     var storeContent_H: CGFloat = 100
     
+    ///扫码点餐页面店铺信息高度
+    var scanStoreInfo_H: CGFloat = 0
+    ///扫码点餐页面的店铺内容高度
+    var scanContent_H: CGFloat = 100
+    
+    
     ///外卖的起送金额字符串，用于显示
     var minOrderStr: String = ""
 
@@ -284,12 +290,14 @@ class StoreInfoModel: NSObject {
         let name_h = name.getTextHeigh(BFONT(18), MENU_STORE_NAME_W)
         let tag_h = tags.getTextHeigh(SFONT(13), MENU_STORE_TAGS_W)
         self.storeInfo_H = name_h + tag_h + 20 + 75
+        self.scanStoreInfo_H = (name_h + tag_h + 50) > 80 ? (name_h + tag_h + 50) : 80
 
-        
         if isHaveDiscountBar {
             self.storeContent_H = storeInfo_H + 15 + 28 + 50
+            self.scanContent_H = scanStoreInfo_H + 15 + 40
         } else {
             self.storeContent_H = storeInfo_H + 15 + 50
+            self.scanContent_H = scanStoreInfo_H + 10
         }
         
         ///处理营业时间

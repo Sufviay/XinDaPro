@@ -121,6 +121,7 @@ class PJCUtil: NSObject {
         UserDefaults.removeAll()
         FirebaseLoginManager.shared.doLogout()
         NotificationCenter.default.post(name: NSNotification.Name("login"), object: nil)
+//        PJCUtil.currentVC()?.navigationController?.setViewControllers(<#T##viewControllers: [UIViewController]##[UIViewController]#>, animated: <#T##Bool#>)
         PJCUtil.currentVC()?.navigationController?.popToRootViewController(animated: false)
     }
     

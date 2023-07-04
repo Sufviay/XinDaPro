@@ -249,8 +249,12 @@ class NoButtonOrderCell: BaseTableViewCell, UICollectionViewDelegate, UICollecti
         
         if model.type == "1" {
             typeLab.text = "Delivery"
-        } else {
+        }
+        if model.type == "2" {
             typeLab.text = "Collection"
+        }
+        if model.type == "3" {
+            typeLab.text = "Dine In"
         }
         
         let status_W = model.statusStr.getTextWidth(BFONT(15), 20)

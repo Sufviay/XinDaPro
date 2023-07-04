@@ -363,14 +363,20 @@ class MenuGoodsNoSizeCell: BaseTableViewCell, UICollectionViewDelegate, UICollec
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DishTagCell", for: indexPath) as! DishTagCell
-        //赋值图片
-        let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
-        if img == nil {
-            //下载图片
-            cell.sImg.image = nil
-            self.downLoadImgage(url: tagArr[indexPath.row].tagImg)
+        cell.nameLab.text = tagArr[indexPath.item].tagName
+        
+        if tagArr[indexPath.item].tagImg == "" {
+            cell.setImage(img: nil)
         } else {
-            cell.sImg.image = img!
+            //赋值图片
+            let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
+            if img == nil {
+                //下载图片
+                cell.setImage(img: nil)
+                self.downLoadImgage(url: tagArr[indexPath.row].tagImg)
+            } else {
+                cell.setImage(img: img)
+            }
         }
         
         return cell
@@ -379,15 +385,21 @@ class MenuGoodsNoSizeCell: BaseTableViewCell, UICollectionViewDelegate, UICollec
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        //从缓存中查找图片
-        let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
+        let textW = tagArr[indexPath.item].tagName.getTextWidth(SFONT(11), 14)
+        
+        if tagArr[indexPath.item].tagImg == "" {
+            return CGSize(width: textW, height: 14)
+        } else {
+            //从缓存中查找图片
+            let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
 
-        if img == nil {
-            return CGSize(width: 14, height: 14)
+            if img == nil {
+                return CGSize(width: textW, height: 14)
+            }
+            //根据图片计算宽度
+            let img_W = (img!.size.width * 14) / img!.size.height
+            return  CGSize(width: img_W + textW + 2 , height: 14)
         }
-        //根据图片计算宽度
-        let img_W = (img!.size.width * 14) / img!.size.height
-        return  CGSize(width: img_W, height: 14)
     }
     
     
@@ -405,9 +417,7 @@ class MenuGoodsNoSizeCell: BaseTableViewCell, UICollectionViewDelegate, UICollec
                 DispatchQueue.main.async {
                     self.collection.reloadData()
                 }
-                
             }
-            
         }
     }
 
@@ -729,14 +739,20 @@ class MenuGoodsSizeCell: BaseTableViewCell, UICollectionViewDelegate, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DishTagCell", for: indexPath) as! DishTagCell
-        //赋值图片
-        let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
-        if img == nil {
-            //下载图片
-            cell.sImg.image = nil
-            self.downLoadImgage(url: tagArr[indexPath.row].tagImg)
+        cell.nameLab.text = tagArr[indexPath.item].tagName
+        
+        if tagArr[indexPath.item].tagImg == "" {
+            cell.setImage(img: nil)
         } else {
-            cell.sImg.image = img!
+            //赋值图片
+            let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
+            if img == nil {
+                //下载图片
+                cell.setImage(img: nil)
+                self.downLoadImgage(url: tagArr[indexPath.row].tagImg)
+            } else {
+                cell.setImage(img: img)
+            }
         }
         
         return cell
@@ -745,15 +761,23 @@ class MenuGoodsSizeCell: BaseTableViewCell, UICollectionViewDelegate, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        //从缓存中查找图片
-        let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
+        let textW = tagArr[indexPath.item].tagName.getTextWidth(SFONT(11), 14)
+                
+        if tagArr[indexPath.item].tagImg == "" {
+            return CGSize(width: textW, height: 14)
+        } else {
+            //从缓存中查找图片
+            let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
 
-        if img == nil {
-            return CGSize(width: 14, height: 14)
+            if img == nil {
+                return CGSize(width: textW, height: 14)
+            }
+            //根据图片计算宽度
+            let img_W = (img!.size.width * 14) / img!.size.height
+            return  CGSize(width: img_W + textW + 2 , height: 14)
         }
-        //根据图片计算宽度
-        let img_W = (img!.size.width * 14) / img!.size.height
-        return  CGSize(width: img_W, height: 14)
+        
+
     }
     
     
@@ -776,6 +800,8 @@ class MenuGoodsSizeCell: BaseTableViewCell, UICollectionViewDelegate, UICollecti
             
         }
     }
+    
+    
 
     
     func setCellData(model: DishModel, canBuy: Bool) {
@@ -846,21 +872,54 @@ class MenuGoodsSizeCell: BaseTableViewCell, UICollectionViewDelegate, UICollecti
 
 class DishTagCell: UICollectionViewCell {
     
-    let sImg: UIImageView = {
+    private let sImg: UIImageView = {
         let img = UIImageView()
         img.contentMode = .scaleAspectFit
+        img.clipsToBounds = true
         return img
     }()
-
+    
+    let nameLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#666666"), SFONT(11), .right)
+        return lab
+    }()
+    
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
+        contentView.addSubview(nameLab)
+        nameLab.snp.makeConstraints {
+            $0.right.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
+        }
+
         
         contentView.addSubview(sImg)
         sImg.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.bottom.left.equalToSuperview()
         }
+        
+    }
+    
+    
+    func setImage(img: UIImage?) {
+        sImg.image = img
+        
+        if img == nil {
+            sImg.isHidden = true
+        } else {
+            sImg.isHidden = false
+            
+            let img_w = (img!.size.width * 14) / img!.size.height
+            sImg.snp.remakeConstraints {
+                $0.top.bottom.left.equalToSuperview()
+                $0.width.equalTo(img_w)
+            }
+        }
+        
+        
     }
     
     required init?(coder: NSCoder) {

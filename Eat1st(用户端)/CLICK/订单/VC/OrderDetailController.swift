@@ -104,7 +104,7 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
     func loadData_Net() {
         self.invalidateTimer()
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.getOrderDetail(orderID: orderID).subscribe(onNext: { (json) in
+        HTTPTOOl.getOrderDetail(orderID: orderID).subscribe(onNext: { [unowned self] (json) in
             
             self.dataModel.updateModel(json: json["data"])
             
@@ -112,14 +112,14 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
             
             //获取配送员地理位置
             if self.dataModel.status == .delivery_ing {
-                HTTPTOOl.getCurrentPSLocation(orderID: self.dataModel.orderID).subscribe(onNext: { (json1) in
+                HTTPTOOl.getCurrentPSLocation(orderID: self.dataModel.orderID).subscribe(onNext: { [unowned self] (json1) in
                     HUD_MB.dissmiss(onView: self.view)
                     self.dataModel.deliveryLat = json1["data"]["lat"].stringValue
                     self.dataModel.deliveryLng = json1["data"]["lng"].stringValue
                     self.mainTable.reloadData()
 
 
-                }, onError: { (error) in
+                }, onError: { [unowned self] (error) in
                     HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
                     
                     self.mainTable.reloadData()
@@ -138,20 +138,21 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
                 let wheelVC = ContentController()
                 wheelVC.orderID = self.orderID
                 wheelVC.storeID = self.dataModel.storeInfo.storeID
-                self.present(wheelVC, animated: true) {
+                self.present(wheelVC, animated: true) { [unowned self] in
                     self.isPayAfter = false
                 }
             }
             
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
     
     
+    
     //刷新骑手位置
     private func refreshRiderLocationData() {
-        HTTPTOOl.getCurrentPSLocation(orderID: self.dataModel.orderID).subscribe(onNext: { (json1) in
+        HTTPTOOl.getCurrentPSLocation(orderID: self.dataModel.orderID).subscribe(onNext: {[unowned self] (json1) in
             self.dataModel.deliveryLat = json1["data"]["lat"].stringValue
             self.dataModel.deliveryLng = json1["data"]["lng"].stringValue
             self.mainTable.reloadSections([0], with: .none)
@@ -160,7 +161,7 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
     
     //刷新订单状态
     private func refreshOrderStatus() {
-        HTTPTOOl.refreshOrderStatus(id: orderID).subscribe(onNext: { (json) in
+        HTTPTOOl.refreshOrderStatus(id: orderID).subscribe(onNext: { [unowned self] (json) in
             self.dataModel.type = json["data"]["deliveryType"].stringValue
             self.dataModel.status = PJCUtil.getOrderStatus(StatusString: json["data"]["statusId"].stringValue)
             self.dataModel.statusStr = json["data"]["statusName"].stringValue
@@ -173,16 +174,16 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
     
     ///获取刷新的数据
     private func getRefreshData() {
-        HTTPTOOl.getCurrentPSLocation(orderID: self.dataModel.orderID).subscribe(onNext: { (json1) in
+        HTTPTOOl.getCurrentPSLocation(orderID: self.dataModel.orderID).subscribe(onNext: {[unowned self] (json1) in
             self.dataModel.deliveryLat = json1["data"]["lat"].stringValue
             self.dataModel.deliveryLng = json1["data"]["lng"].stringValue
             
-            HTTPTOOl.getOrderDetail(orderID: self.orderID).subscribe(onNext: { (json) in
+            HTTPTOOl.getOrderDetail(orderID: self.orderID).subscribe(onNext: {[unowned self] (json) in
                 self.dataModel.updateModel(json: json["data"])
                 self.mainTable.reloadSections([0, 2], with: .none)
             }, onError: {_ in}).disposed(by: self.bag)
             
-        }, onError: { (error) in
+        }, onError: {[unowned self] (error) in
 //            HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
@@ -191,10 +192,10 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
     ///取消订单
     private func cancelOrder_Net(orderID: String) {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.orderCancelAction(orderID: orderID).subscribe(onNext: { (json) in
+        HTTPTOOl.orderCancelAction(orderID: orderID).subscribe(onNext: {[unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
             self.loadData_Net()
-        }, onError: { (error) in
+        }, onError: {[unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
@@ -203,10 +204,10 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
     ///确认订单
     func confiromOrder_Net(orderID: String) {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.orderConfirmAction(orderID: orderID).subscribe(onNext: { (json) in
+        HTTPTOOl.orderConfirmAction(orderID: orderID).subscribe(onNext: {[unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
             self.loadData_Net()
-        }, onError: { (error) in
+        }, onError: {[unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
@@ -214,14 +215,14 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
     //再来一单
     func orderAgain_Net(orderID: String, storeID: String) {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.orderAgain(orderID: orderID).subscribe(onNext: { (json) in
+        HTTPTOOl.orderAgain(orderID: orderID).subscribe(onNext: {[unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
             //跳转到点餐页面
             let nextVC = StoreMenuOrderController()
             nextVC.storeID = storeID
             PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
             
-        }, onError: { (error) in
+        }, onError: {[unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
@@ -235,7 +236,7 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
         
         if dataModel.status == .delivery_ing {
             //获取骑手位置
-            timer1 = Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { (_) in
+            timer1 = Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { [unowned self] (_) in
                 //获取刷新的数据
                 print("timer1")
                 self.refreshRiderLocationData()
@@ -246,7 +247,7 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
         
         
         if dataModel.status != .user_cancel && dataModel.status != .shops_cancel && dataModel.status != .system_cancel && dataModel.status != .reject && dataModel.status != .finished {
-            timer2 = Timer.scheduledTimer(withTimeInterval: 30, repeats: true, block: { _ in
+            timer2 = Timer.scheduledTimer(withTimeInterval: 30, repeats: true, block: { [unowned self] _ in
                 print("timer2")
                 self.refreshOrderStatus()
                 
@@ -281,22 +282,21 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
     
     
     
-
-    
-    
-    
     //MARK: - 注册通知中心
     private func addNotificationCenter() {
         NotificationCenter.default.addObserver(self, selector: #selector(orderRefresh), name: NSNotification.Name(rawValue: "orderList"), object: nil)
     }
     
     deinit {
+        print("\(self.classForCoder)销毁")
+        
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("orderList"), object: nil)
     }
     
     @objc func orderRefresh() {
         loadData_Net()
     }
+
     
 }
 
@@ -657,14 +657,14 @@ extension OrderDetailController {
                 
                 if type == "Cancel" {
                     //取消
-                    self.showSystemChooseAlert("Alert", "Are you sure you want to cancel the order？", "YES", "NO") {
+                    self.showSystemChooseAlert("Alert", "Are you sure you want to cancel the order？", "YES", "NO") { [unowned self] in
                         self.cancelOrder_Net(orderID: self.orderID)
                     } _: {}
                 }
                 
                 if type == "Confirm" {
                     //确认
-                    self.showSystemChooseAlert("Alert", "Confirm receipt of goods?？", "YES", "NO") {
+                    self.showSystemChooseAlert("Alert", "Confirm receipt of goods?？", "YES", "NO") { [unowned self] in
                         self.confiromOrder_Net(orderID: self.orderID)
                     } _: {}
 

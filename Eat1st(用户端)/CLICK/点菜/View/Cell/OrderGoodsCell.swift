@@ -274,34 +274,44 @@ class OrderGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DishTagCell", for: indexPath) as! DishTagCell
-        //赋值图片
-        let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
-        if img == nil {
-            //下载图片
-            cell.sImg.image = nil
-            self.downLoadImgage(url: tagArr[indexPath.row].tagImg)
-        } else {
-            cell.sImg.image = img!
-        }
+        cell.nameLab.text = tagArr[indexPath.item].tagName
         
+        if tagArr[indexPath.item].tagImg == "" {
+            cell.setImage(img: nil)
+        } else {
+            //赋值图片
+            let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
+            if img == nil {
+                //下载图片
+                cell.setImage(img: nil)
+                self.downLoadImgage(url: tagArr[indexPath.row].tagImg)
+            } else {
+                cell.setImage(img: img)
+            }
+        }
         return cell
     }
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        //从缓存中查找图片
-        let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
+        let textW = tagArr[indexPath.item].tagName.getTextWidth(SFONT(11), 14)
+                
+        if tagArr[indexPath.item].tagImg == "" {
+            return CGSize(width: textW, height: 14)
+        } else {
+            //从缓存中查找图片
+            let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
 
-        if img == nil {
-            return CGSize(width: 14, height: 14)
+            if img == nil {
+                return CGSize(width: textW, height: 14)
+            }
+            //根据图片计算宽度
+            let img_W = (img!.size.width * 14) / img!.size.height
+            return  CGSize(width: img_W + textW + 2 , height: 14)
         }
-        //根据图片计算宽度
-        let img_W = (img!.size.width * 14) / img!.size.height
-        return  CGSize(width: img_W, height: 14)
     }
-    
-    
+
     
     //下载图片
     private func downLoadImgage(url: String) {
@@ -316,13 +326,9 @@ class OrderGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionV
                 DispatchQueue.main.async {
                     self.collection.reloadData()
                 }
-                
             }
-            
         }
     }
-
-    
 }
 
 
@@ -608,31 +614,42 @@ class OrderConfirmGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UIColl
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DishTagCell", for: indexPath) as! DishTagCell
-        //赋值图片
-        let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
-        if img == nil {
-            //下载图片
-            cell.sImg.image = nil
-            self.downLoadImgage(url: tagArr[indexPath.row].tagImg)
-        } else {
-            cell.sImg.image = img!
-        }
+        cell.nameLab.text = tagArr[indexPath.item].tagName
         
+        if tagArr[indexPath.item].tagImg == "" {
+            cell.setImage(img: nil)
+        } else {
+            //赋值图片
+            let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
+            if img == nil {
+                //下载图片
+                cell.setImage(img: nil)
+                self.downLoadImgage(url: tagArr[indexPath.row].tagImg)
+            } else {
+                cell.setImage(img: img)
+            }
+        }
         return cell
     }
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        //从缓存中查找图片
-        let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
+        let textW = tagArr[indexPath.item].tagName.getTextWidth(SFONT(11), 14)
+                
+        if tagArr[indexPath.item].tagImg == "" {
+            return CGSize(width: textW, height: 14)
+        } else {
+            //从缓存中查找图片
+            let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
 
-        if img == nil {
-            return CGSize(width: 14, height: 14)
+            if img == nil {
+                return CGSize(width: textW, height: 14)
+            }
+            //根据图片计算宽度
+            let img_W = (img!.size.width * 14) / img!.size.height
+            return  CGSize(width: img_W + textW + 2 , height: 14)
         }
-        //根据图片计算宽度
-        let img_W = (img!.size.width * 14) / img!.size.height
-        return  CGSize(width: img_W, height: 14)
     }
     
     

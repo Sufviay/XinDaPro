@@ -564,13 +564,27 @@ class HttpTool {
     
     
     //MARK: - 设置菜品优惠
-    func setDishesDiscount(dishId: String, discountType: String, discountPrice: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .setDishedDiscount(id: dishId, type: discountType, price: discountPrice))
+    func setDishesDiscount(dishId: String, discountType: String, discountPrice: String, startTime: String, endTime: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .setDishedDiscount(id: dishId, type: discountType, price: discountPrice, startTime: startTime, endTime: endTime))
         return Observable<JSON>.create(response)
     }
     
     
-
+    //MARK: - 新增或修改规格
+    func specDoAddOrUpdate(model: DishDetailModel) -> Observable<JSON> {
+        let response = rxApiManager(api: .specDoAddOrUpdate(model: model))
+        return Observable<JSON>.create(response)
+    }
+    
+    
+    //MARK: - 新增或修改套餐
+    func comboDoAddOrUpdate(model: DishDetailModel) -> Observable<JSON> {
+        let response = rxApiManager(api: .comboDoAddOrUpdate(model: model))
+        return Observable<JSON>.create(response)
+    }
+    
+    
+    
     
     
     
@@ -746,7 +760,7 @@ class HttpTool {
 //                multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
 //            }
 
-        }, to: url, method: .post, headers: HTTPHeaders(["token": UserDefaults.standard.token ?? ""])).responseJSON { (dataResponse) in
+        }, to: url, method: .post, headers: HTTPHeaders(["token": UserDefaults.standard.token ?? "", "token-boss": UserDefaults.standard.token ?? ""])).responseJSON { (dataResponse) in
             switch dataResponse.result {
             case .success(let json):
                 let jsonData = JSON(json)

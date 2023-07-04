@@ -503,13 +503,10 @@ extension AfterSalesController {
                 let dic = ["url": jsonData["imageUrl"].stringValue]
                 par.append(dic)
             }
-            
             self.complaint_Net(imageUrl: par)
-            
         } failure: { error in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }
-        
     }
     
     

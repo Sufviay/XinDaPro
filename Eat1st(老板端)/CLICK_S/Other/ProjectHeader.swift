@@ -182,7 +182,27 @@ let HOLDCOLOR: UIColor = HCOLOR("#F8F8F8")
 
 
 let D_2_STR: (Double) -> String = { num in
-    return String(format: "%.2f", num)
+    ///高精度计算
+    let numberString = String(format: "%.2f", num)
+    var outNumber = numberString
+    var i = 1
+
+    if numberString.contains("."){
+        while i < numberString.count{
+            if outNumber.hasSuffix("0") {
+                outNumber.remove(at: outNumber.index(before: outNumber.endIndex))
+                i = i + 1
+            } else {
+                break
+            }
+        }
+        if outNumber.hasSuffix("."){
+            outNumber.remove(at: outNumber.index(before: outNumber.endIndex))
+        }
+        return outNumber
+    } else {
+        return numberString
+    }
 }
 
 let D_1_STR: (Double) -> String = { num in
@@ -226,8 +246,8 @@ let HTTPTOOl = HttpTool.shared
 //"http://api.moneycheers.net/"
 //"https://api.foodo2o.com/"
 
-let ISONLINE: Bool = false
+let ISONLINE: Bool = true
 
-let VERID: String = "22"
+let VERID: String = "25"
 var BASEURL: String = ISONLINE ? "https://api.foodo2o.com/" : "http://api.moneycheers.net/"
 

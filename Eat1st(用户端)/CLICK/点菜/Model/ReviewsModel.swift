@@ -34,7 +34,7 @@ class ReviewsModel: NSObject {
     ///回复时间
     var replyTime: String = ""
     
-    ///评价的订单类型 1外卖。2自取
+    ///评价的订单类型 1外卖。2自取  3外卖
     var orderType: String = ""
     
     

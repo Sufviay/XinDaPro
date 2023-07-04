@@ -306,3 +306,51 @@ class OrderTagCollectionCell: BaseTableViewCell {
 }
 
 
+
+class OrderTagDineInCell: BaseTableViewCell {
+    
+    
+    
+    private let deBut: UIButton = {
+        let but = UIButton()
+        but.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W - 20, height: 50), byRoundingCorners: [.topLeft, .topRight], radii: 10)
+        but.setCommentStyle(.zero, "Dine In", FONTCOLOR, BFONT(17), .white)
+        return but
+    }()
+    
+
+    private let lineTwo: UIView = {
+        let view = UIView()
+        view.backgroundColor = MAINCOLOR
+        view.layer.cornerRadius = 1
+        return view
+    }()
+        
+
+    
+    override func setViews() {
+        
+        self.contentView.backgroundColor = .clear
+        self.backgroundColor = .clear
+        
+        contentView.addSubview(deBut)
+        deBut.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(10)
+            $0.right.equalToSuperview().offset(-10)
+            $0.height.equalTo(50)
+            $0.bottom.equalToSuperview()
+        }
+    
+        
+        deBut.addSubview(lineTwo)
+        lineTwo.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 55, height: 3))
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-5)
+        }
+    }
+}
+
+
+
+

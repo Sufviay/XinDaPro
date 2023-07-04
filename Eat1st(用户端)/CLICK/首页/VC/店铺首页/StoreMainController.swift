@@ -122,7 +122,7 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
         HTTPTOOl.Store_MainPageData(storeID: storeID, type: type).subscribe(onNext: { (json) in
             HUD_MB.dissmiss(onView: self.view)
             self.dataModel.updateModel(json: json["data"])
-            self.bindingAction_Net()
+            //self.bindingAction_Net()
             self.table.reloadData()
                         
         }, onError: { (error) in
@@ -134,13 +134,13 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
     
     
     
-    private func bindingAction_Net() {
-        //进行店铺绑定
-        HTTPTOOl.bindingStore(storeID: dataModel.storeID).subscribe(onNext: { (json) in
-        }, onError: { (error) in
-            HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
-        }).disposed(by: self.bag)
-    }
+//    private func bindingAction_Net() {
+//        //进行店铺绑定
+//        HTTPTOOl.bindingStore(storeID: dataModel.storeID).subscribe(onNext: { (json) in
+//        }, onError: { (error) in
+//            HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
+//        }).disposed(by: self.bag)
+//    }
     
     
     
@@ -222,8 +222,8 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
         }
         if indexPath.row == 3 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "StoreFirstPageButCell") as! StoreFirstPageButCell
+            cell.setCellData(data: dataModel)
             return cell
-            
         }
         
         let cell = UITableViewCell()

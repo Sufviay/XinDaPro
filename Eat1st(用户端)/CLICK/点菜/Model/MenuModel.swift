@@ -40,11 +40,10 @@ class MenuModel: NSObject {
     ///初始店铺的购买状态 1外卖 2自取 ""为关店状态
     var buyType: String = "1"
 
-    
     ///根据购物车菜品处理之后的单品数据
-    var dinnerDataArr: [ClassiftyModel] = []
+    //var dinnerDataArr: [ClassiftyModel] = []
     ///购物车处理之后的套餐商品
-    var lunchDataArr: [DishModel] = []
+    //var lunchDataArr: [DishModel] = []
     
     
     

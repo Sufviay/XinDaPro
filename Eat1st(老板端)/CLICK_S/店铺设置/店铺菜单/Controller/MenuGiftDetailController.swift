@@ -60,7 +60,7 @@ class MenuGiftDetailController: HeadBaseViewController, UITableViewDelegate, UIT
     
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Edite item"
+        self.biaoTiLab.text = "Gift detail"
         self.loadData_Net()
     }
 

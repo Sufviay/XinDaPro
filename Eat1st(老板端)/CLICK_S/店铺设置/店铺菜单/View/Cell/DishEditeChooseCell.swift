@@ -53,13 +53,13 @@ class DishEditeChooseCell: BaseTableViewCell {
 
     private let tlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), SFONT(14), .left)
+        lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .left)
         return lab
     }()
     
     private let tlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), SFONT(14), .left)
+        lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .left)
         return lab
     }()
     

@@ -169,7 +169,7 @@ class OrderListController: BaseViewController, UITableViewDelegate, UITableViewD
     //MARK: - 网络请求
     private func loadData_Net() {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.getOrderList(page: 1).subscribe(onNext: { (json) in
+        HTTPTOOl.getOrderList(page: 1).subscribe(onNext: {[unowned self] (json) in
 
             HUD_MB.dissmiss(onView: self.view)
             self.page = 2
@@ -192,14 +192,14 @@ class OrderListController: BaseViewController, UITableViewDelegate, UITableViewD
             self.mainTable.mj_footer?.resetNoMoreData()
             
             
-        }, onError: { (error) in
+        }, onError: {[unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
             self.mainTable.mj_header?.endRefreshing()
         }).disposed(by: self.bag)
     }
     
     private func loadDataMore_Net() {
-        HTTPTOOl.getOrderList(page: self.page).subscribe(onNext: { (json) in
+        HTTPTOOl.getOrderList(page: self.page).subscribe(onNext: {[unowned self] (json) in
 
             if json["data"].arrayValue.count == 0 {
                 self.mainTable.mj_footer?.endRefreshingWithNoMoreData()
@@ -214,7 +214,7 @@ class OrderListController: BaseViewController, UITableViewDelegate, UITableViewD
                 self.mainTable.mj_footer?.endRefreshing()
                 
             }
-        }, onError: { (error) in
+        }, onError: {[unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
             self.mainTable.mj_footer?.endRefreshing()
         }).disposed(by: self.bag)
@@ -225,10 +225,10 @@ class OrderListController: BaseViewController, UITableViewDelegate, UITableViewD
     ///取消订单
     private func cancelOrder_Net(orderID: String) {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.orderCancelAction(orderID: orderID).subscribe(onNext: { (json) in
+        HTTPTOOl.orderCancelAction(orderID: orderID).subscribe(onNext: {[unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
             self.loadData_Net()
-        }, onError: { (error) in
+        }, onError: {[unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
@@ -236,10 +236,10 @@ class OrderListController: BaseViewController, UITableViewDelegate, UITableViewD
     ///确认订单
     func confiromOrder_Net(orderID: String) {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.orderConfirmAction(orderID: orderID).subscribe(onNext: { (json) in
+        HTTPTOOl.orderConfirmAction(orderID: orderID).subscribe(onNext: {[unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
             self.loadData_Net()
-        }, onError: { (error) in
+        }, onError: {[unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
@@ -247,14 +247,14 @@ class OrderListController: BaseViewController, UITableViewDelegate, UITableViewD
     //再来一单
     func orderAgain_Net(orderID: String, storeID: String) {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.orderAgain(orderID: orderID).subscribe(onNext: { (json) in
+        HTTPTOOl.orderAgain(orderID: orderID).subscribe(onNext: {[unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
             //跳转到点餐页面
             let nextVC = StoreMenuOrderController()
             nextVC.storeID = storeID
-            PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
+            self.navigationController?.pushViewController(nextVC, animated: true)
             
-        }, onError: { (error) in
+        }, onError: {[unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
@@ -262,10 +262,12 @@ class OrderListController: BaseViewController, UITableViewDelegate, UITableViewD
     
     //MARK: - 注册通知中心
     private func addNotificationCenter() {
+        
         NotificationCenter.default.addObserver(self, selector: #selector(orderRefresh), name: NSNotification.Name(rawValue: "orderList"), object: nil)
     }
     
     deinit {
+        print("\(self.classForCoder)销毁")
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("orderList"), object: nil)
     }
     
@@ -306,13 +308,13 @@ extension OrderListController {
             cell.setCellData(model: dataArr[indexPath.row])
             cell.clickBlock = { [unowned self] (type) in
                 if (type as! String) == "qx" {
-                    self.showSystemChooseAlert("Alert", "Are you sure you want to cancel the order?", "YES", "NO") {
+                    self.showSystemChooseAlert("Alert", "Are you sure you want to cancel the order?", "YES", "NO") { [unowned self] in
                         self.cancelOrder_Net(orderID: model.orderID)
                     } _: {}
                 }
                 
                 if type as! String == "qr" {
-                    self.showSystemChooseAlert("Alert", "Confirm receipt of goods?", "YES", "NO") {
+                    self.showSystemChooseAlert("Alert", "Confirm receipt of goods?", "YES", "NO") { [unowned self] in
                         self.confiromOrder_Net(orderID: model.orderID)
                     } _: {}
                 }
@@ -348,6 +350,11 @@ extension OrderListController {
 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+//        let nextVC = OderListConfirmController()
+//        nextVC.orderID = dataArr[indexPath.row].orderID
+//        self.navigationController?.pushViewController(nextVC, animated: true)
+        
         let nextVC = OrderDetailController()
         nextVC.orderID = dataArr[indexPath.row].orderID
         self.navigationController?.pushViewController(nextVC, animated: true)

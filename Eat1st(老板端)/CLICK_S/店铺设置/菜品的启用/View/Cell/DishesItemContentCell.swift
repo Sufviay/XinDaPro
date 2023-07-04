@@ -110,24 +110,23 @@ class DishesItemContentCell: BaseTableViewCell, UITableViewDelegate, UITableView
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
-            if dataModel.haveSpec {
-                
-                if dataModel.optionArr.count == 0 {
-                    self.clickShowBlock?("show")
-                } else {
-                    self.clickShowBlock?("hide")
-                }
-            }
-        } else {
-            
-            if indexPath.row == 0 {
-                self.clickSpecBlock?(dataModel.optionArr[indexPath.section - 1].specId)
-            } else {
-                self.clickOptionBlock?(dataModel.optionArr[indexPath.section - 1].itemArr[indexPath.row - 1].optionId)
-            }
-        }
-        
+//        if indexPath.section == 0 {
+//            if dataModel.haveSpec {
+//
+//                if dataModel.optionArr.count == 0 {
+//                    self.clickShowBlock?("show")
+//                } else {
+//                    self.clickShowBlock?("hide")
+//                }
+//            }
+//        } else {
+//
+//            if indexPath.row == 0 {
+//                self.clickSpecBlock?(dataModel.optionArr[indexPath.section - 1].specId)
+//            } else {
+//                self.clickOptionBlock?(dataModel.optionArr[indexPath.section - 1].itemArr[indexPath.row - 1].optionId)
+//            }
+//        }
         
     }
     

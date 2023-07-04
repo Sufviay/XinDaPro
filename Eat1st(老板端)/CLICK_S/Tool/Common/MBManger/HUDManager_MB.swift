@@ -78,7 +78,7 @@ class HUD_MB: NSObject {
         hud.label.text = msg
         hud.label.font = UIFont.systemFont(ofSize: 13)
         hud.bezelView.layer.cornerRadius = 15
-        
+        hud.removeFromSuperViewOnHide = true
         
         switch status {
         case .onlyText:

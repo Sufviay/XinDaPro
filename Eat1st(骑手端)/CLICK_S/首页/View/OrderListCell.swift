@@ -177,3 +177,266 @@ class OrderListCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSour
         PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
+
+
+
+
+
+
+class OtherOderCell: BaseTableViewCell {
+    
+    
+    var clickBlock: VoidStringBlock?
+    
+    private var dataModel = OtherOrderModel()
+    
+    private var backView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 10
+        return view
+    }()
+    
+    
+    private let numberLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#333333"), BFONT(15), .left)
+        lab.text = "#1647883633409781761"
+        return lab
+    }()
+    
+    private let tlab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("999999"), SFONT(10), .right)
+        lab.text = "Estimated time"
+        return lab
+    }()
+    
+    private let timeLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("333333"), BFONT(15), .right)
+        lab.text = "11:03-12:05"
+        return lab
+    }()
+    
+    private let phoneLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("333333"), BFONT(13), .right)
+        lab.text = "13940159904"
+        lab.isUserInteractionEnabled = true
+        return lab
+    }()
+    
+    private let phoneBut: UIButton = {
+        let but = UIButton()
+        but.setImage(LOIMG("phone"), for: .normal)
+        return but
+    }()
+    
+    
+    private let postCodeLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(.black, BFONT(18), .left)
+        lab.text = "MK8 8AN"
+        return lab
+    }()
+    
+    private let addressLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("333333"), SFONT(13), .left)
+        lab.numberOfLines = 0
+        lab.text = "3 Medhurst，Two Mile Ash"
+        return lab
+    }()
+    
+    
+    ///完成
+    private let completeBut: UIButton = {
+        let but = UIButton()
+        but.setCommentStyle(.zero, "Complete", .white, SFONT(14), MAINCOLOR)
+        but.layer.cornerRadius = 10
+        return but
+    }()
+    
+    
+    ///开始按钮
+    private let startBut: UIButton = {
+        let but = UIButton()
+        but.setCommentStyle(.zero, "Start", .white, SFONT(14), MAINCOLOR)
+        but.layer.cornerRadius = 10
+        but.isHidden = true
+        return but
+    }()
+    
+    ///导航按钮
+    private let daoHangBut: UIButton = {
+        let but = UIButton()
+        but.setCommentStyle(.zero, "Navigate", MAINCOLOR, SFONT(14), .white)
+        but.layer.cornerRadius = 10
+        but.layer.borderWidth = 1
+        but.layer.borderColor = MAINCOLOR.cgColor
+        return but
+    }()
+    
+    
+    
+    
+    
+    override func setViews() {
+        
+        contentView.backgroundColor = .clear
+        self.backgroundColor = .clear
+        
+        contentView.addSubview(backView)
+        backView.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(10)
+            $0.right.equalToSuperview().offset(-10)
+            $0.top.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-10)
+        }
+        
+        backView.addSubview(numberLab)
+        numberLab.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(15)
+            $0.top.equalToSuperview().offset(10)
+        }
+        
+        backView.addSubview(tlab)
+        tlab.snp.makeConstraints {
+            $0.right.equalToSuperview().offset(-15)
+            $0.top.equalToSuperview().offset(35)
+        }
+        
+        backView.addSubview(timeLab)
+        timeLab.snp.makeConstraints {
+            $0.right.equalTo(tlab.snp.left).offset(-5)
+            $0.bottom.equalTo(tlab.snp.bottom).offset(2)
+        }
+        
+        backView.addSubview(phoneLab)
+        phoneLab.snp.makeConstraints {
+            $0.right.equalToSuperview().offset(-15)
+            $0.top.equalToSuperview().offset(55)
+        }
+
+
+        backView.addSubview(phoneBut)
+        phoneBut.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 30, height: 30))
+            $0.centerY.equalTo(phoneLab)
+            $0.right.equalTo(phoneLab.snp.left).offset(-3)
+        }
+        
+        
+        backView.addSubview(postCodeLab)
+        postCodeLab.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(15)
+            $0.top.equalToSuperview().offset(50)
+        }
+        
+        backView.addSubview(addressLab)
+        addressLab.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(15)
+            $0.top.equalToSuperview().offset(75)
+            $0.right.equalToSuperview().offset(-170)
+        }
+
+        
+        
+        
+        backView.addSubview(startBut)
+        startBut.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(R_W(100))
+            $0.right.equalToSuperview().offset(-R_W(100))
+            $0.bottom.equalToSuperview().offset(-15)
+            $0.height.equalTo(40)
+        }
+        
+        
+        backView.addSubview(completeBut)
+        completeBut.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(20)
+            $0.bottom.equalToSuperview().offset(-15)
+            $0.height.equalTo(40)
+            $0.width.equalTo((S_W - 80) / 2)
+
+        }
+        
+        backView.addSubview(daoHangBut)
+        daoHangBut.snp.makeConstraints {
+            $0.right.equalToSuperview().offset(-20)
+            $0.bottom.equalToSuperview().offset(-15)
+            $0.height.equalTo(40)
+            $0.width.equalTo((S_W - 80) / 2)
+        }
+        
+        phoneBut.addTarget(self, action: #selector(clickPhoneAction), for: .touchUpInside)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(clickPhoneAction))
+        phoneLab.addGestureRecognizer(tap)
+        
+        daoHangBut.addTarget(self, action: #selector(clickDaoHangAction), for: .touchUpInside)
+        completeBut.addTarget(self, action: #selector(clickCompleteAction), for: .touchUpInside)
+        startBut.addTarget(self, action: #selector(clickStartAction), for: .touchUpInside)
+        
+    }
+    
+    
+    @objc private func clickPhoneAction() {
+        PJCUtil.callPhone(phone: dataModel.phone)
+    }
+    
+    
+    
+    @objc private func clickStartAction() {
+        clickBlock?("start")
+        
+    }
+
+    
+    @objc func clickCompleteAction() {
+        clickBlock?("complete")
+    }
+        
+    
+    @objc func clickDaoHangAction() {
+        PJCUtil.goDaohang(lat: dataModel.lat, lng: dataModel.lng)
+    }
+
+    
+    
+    func setCellData(model: OtherOrderModel) {
+        self.dataModel = model
+        self.numberLab.text = "#\(model.orderCode)"
+        
+        self.timeLab.text = model.riderStartTime + "-" + model.riderEndTime
+        self.postCodeLab.text = model.postCode
+        self.addressLab.text = model.address
+        self.phoneLab.text = model.phone
+        
+        if model.riderStartTime == "" {
+            self.timeLab.isHidden = true
+            self.tlab.isHidden = true
+        } else {
+            self.timeLab.isHidden = false
+            self.tlab.isHidden = false
+
+        }
+        
+        if model.orderStatus == "2" {
+            //可以点击start
+            self.startBut.isHidden = false
+            self.daoHangBut.isHidden = true
+            self.completeBut.isHidden = true
+        }
+        
+        if model.orderStatus == "3" {
+            self.startBut.isHidden = true
+            self.daoHangBut.isHidden = false
+            self.completeBut.isHidden = false
+
+        }
+        
+    }
+    
+    
+}

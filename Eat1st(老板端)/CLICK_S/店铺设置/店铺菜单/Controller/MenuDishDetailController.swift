@@ -7,7 +7,7 @@
 
 import UIKit
 import RxSwift
-import HandyJSON
+//import HandyJSON
 
 class MenuDishDetailController: HeadBaseViewController, UITableViewDelegate, UITableViewDataSource, SystemAlertProtocol {
 
@@ -54,6 +54,7 @@ class MenuDishDetailController: HeadBaseViewController, UITableViewDelegate, UIT
         tableView.register(DishDetailAddSpecCell.self, forCellReuseIdentifier: "DishDetailAddSpecCell")
         tableView.register(DishDetailSpecInfoCell.self, forCellReuseIdentifier: "DishDetailSpecInfoCell")
         tableView.register(DishDetailKuCunCell.self, forCellReuseIdentifier: "DishDetailKuCunCell")
+        tableView.register(DishDetailPriceCell.self, forCellReuseIdentifier: "DishDetailPriceCell")
         return tableView
         
     }()
@@ -62,7 +63,7 @@ class MenuDishDetailController: HeadBaseViewController, UITableViewDelegate, UIT
 
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Edite item"
+        self.biaoTiLab.text = "Dish Detail"
         self.loadData_Net()
     }
 
@@ -120,7 +121,7 @@ class MenuDishDetailController: HeadBaseViewController, UITableViewDelegate, UIT
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 12
+            return 14
         }
         
         return dishModel.specList.count
@@ -135,7 +136,7 @@ class MenuDishDetailController: HeadBaseViewController, UITableViewDelegate, UIT
                 return 25 + 15 + h1 + h2
                 
             }
-            if indexPath.row == 1 || indexPath.row == 3 || indexPath.row == 4 || indexPath.row == 7 {
+            if indexPath.row == 1 || indexPath.row == 3 || indexPath.row == 4 || indexPath.row == 5 || indexPath.row == 6 ||  indexPath.row == 9 {
                 return 66
             }
             
@@ -143,28 +144,28 @@ class MenuDishDetailController: HeadBaseViewController, UITableViewDelegate, UIT
                 let h = dishModel.desStr.getTextHeigh(SFONT(14), S_W - 80)
                 return h + 50
             }
-            if indexPath.row == 5 {
+            if indexPath.row == 7 {
                 let h = dishModel.classifyStr.getTextHeigh(SFONT(14), S_W - 80)
                 return h + 50
             }
-            if indexPath.row == 6 {
+            if indexPath.row == 8 {
                 let h = dishModel.allergenStr.getTextHeigh(SFONT(14), S_W - 80)
                 return h + 50
             }
             
-            if indexPath.row == 8 {
+            if indexPath.row == 10 {
                 let h = dishModel.tagsStr.getTextHeigh(SFONT(14), S_W - 80)
                 return h + 50
             }
             
-            if indexPath.row == 9 {
+            if indexPath.row == 11 {
                 return 110
             }
             
-            if indexPath.row == 10 {
+            if indexPath.row == 12 {
                 return 135
             }
-            if indexPath.row == 11 {
+            if indexPath.row == 13 {
                 return 110
             }
             
@@ -212,52 +213,77 @@ class MenuDishDetailController: HeadBaseViewController, UITableViewDelegate, UIT
             
             if indexPath.row == 4 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
-                cell.setCellData(titStr: "Price", msgStr: "£ \(dishModel.price)")
+                
+                var msg = ""
+                if dishModel.sellType == "1" {
+                    msg = "Delivery"
+                }
+                if dishModel.sellType == "2" {
+                    msg = "Dine in"
+                }
+                if dishModel.sellType == "3" {
+                    msg = "All"
+                }
+                
+                cell.setCellData(titStr: "Method of sale", msgStr: msg)
                 return cell
+
             }
             
             if indexPath.row == 5 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailPriceCell") as! DishDetailPriceCell
+                cell.setCellData(model: dishModel, type: "1")
+                return cell
+            }
+            if indexPath.row == 6 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailPriceCell") as! DishDetailPriceCell
+                cell.setCellData(model: dishModel, type: "2")
+                return cell
+            }
+
+            
+            if indexPath.row == 7 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
                 cell.setCellData(titStr: "Category", msgStr: dishModel.classifyStr)
                 return cell
             }
             
-            if indexPath.row == 6 {
+            if indexPath.row == 8 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
                 cell.setCellData(titStr: "Allergen", msgStr: dishModel.allergenStr)
                 return cell
             }
             
-            if indexPath.row == 7 {
+            if indexPath.row == 9 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
                 var msg = ""
                 if dishModel.statusId == "1" {
-                    msg = "On menu"
+                    msg = "On the menu"
                 } else {
                     msg = "Off menu"
                 }
-                cell.setCellData(titStr: "Dishes state", msgStr: msg)
+                cell.setCellData(titStr: "Status", msgStr: msg)
                 return cell
             }
             
-            if indexPath.row == 8 {
+            if indexPath.row == 10 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
-                cell.setCellData(titStr: "Food tags", msgStr: dishModel.tagsStr)
+                cell.setCellData(titStr: "Tags", msgStr: dishModel.tagsStr)
                 return cell
             }
 
-            if indexPath.row == 9 {
+            if indexPath.row == 11 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishListPictureCell") as! DishListPictureCell
                 cell.setCellData(titStr: "Dish picture", picUrl: dishModel.showListUrl)
                 return cell
             }
             
-            if indexPath.row == 10 {
+            if indexPath.row == 12 {
                 let cell = table.dequeueReusableCell(withIdentifier: "DishDetailPictureCell") as! DishDetailPictureCell
                 cell.setCellData(picUrl: dishModel.showDetailUrl)
                 return cell
             }
-            if indexPath.row == 11 {
+            if indexPath.row == 13 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailAddSpecCell") as! DishDetailAddSpecCell
                 return cell
             }
@@ -272,8 +298,10 @@ class MenuDishDetailController: HeadBaseViewController, UITableViewDelegate, UIT
                 ///编辑规格
                 let nextVC = MenuDishAddSpecController()
                 nextVC.dataModel = self.dishModel.specList[indexPath.row]
-                nextVC.number = indexPath.section
+                nextVC.dishModel = self.dishModel
+                nextVC.number = indexPath.row + 1
                 nextVC.isAdd = false
+                nextVC.isSave = true
                 self.navigationController?.pushViewController(nextVC, animated: true)
             }
             
@@ -281,9 +309,11 @@ class MenuDishDetailController: HeadBaseViewController, UITableViewDelegate, UIT
                 ///编辑选项
                 let nextVC = MenuDishAddOptionController()
                 nextVC.dataModel = self.dishModel.specList[indexPath.row].optionList[idx]
+                nextVC.dishModel = self.dishModel
+                nextVC.curSpecModel = self.dishModel.specList[indexPath.row]
+                nextVC.isSave = true
                 nextVC.number = idx + 1
                 nextVC.isAdd = false
-                nextVC.specID = String(self.dishModel.specList[indexPath.row].specId)
                 self.navigationController?.pushViewController(nextVC, animated: true)
             }
             
@@ -296,12 +326,13 @@ class MenuDishDetailController: HeadBaseViewController, UITableViewDelegate, UIT
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-            if indexPath.row == 11 {
+            if indexPath.row == 13 {
                 ///添加规格
                 let nextVC = MenuDishAddSpecController()
                 nextVC.isAdd = true
+                nextVC.isSave = true
+                nextVC.dishModel = self.dishModel
                 nextVC.number = self.dishModel.specList.count + 1
-                nextVC.dishID = String(self.dishModel.dishesId)
                 self.navigationController?.pushViewController(nextVC, animated: true)
             }
         }

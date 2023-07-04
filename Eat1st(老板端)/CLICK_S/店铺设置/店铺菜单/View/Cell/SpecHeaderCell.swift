@@ -43,7 +43,7 @@ class SpecHeaderEditeCell: BaseTableViewCell {
         return but
     }()
     
-    private let titlab: UILabel = {
+    let titlab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(.black, BFONT(16), .left)
         lab.text = "#1 Specification"

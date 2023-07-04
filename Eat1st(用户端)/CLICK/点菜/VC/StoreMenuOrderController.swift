@@ -29,8 +29,6 @@ class StoreMenuOrderController: BaseViewController, UITableViewDataSource, UITab
     ///购物车的数据模型
     private var cart_dataModelArr: [CartDishModel] = []
     
-    ///处理数据的工具类
-    private let manager = MenuOrderManager()
     
     ///tableview是否可以滑动
     private var canScroll: Bool = true
@@ -261,7 +259,7 @@ extension StoreMenuOrderController {
 
         if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MenuContentCell") as! MenuContentCell
-            cell.setCellData(model: menuInfo)
+            cell.setCellData(model: menuInfo, deskID: "")
             
             //弹出购物车
             cell.showCartBlock = { [unowned self] (_) in
@@ -333,7 +331,7 @@ extension StoreMenuOrderController {
     private func loadData_Net() {
         
         ///获取所有分类和所有菜品
-        HTTPTOOl.getClassifyAndDishesList(storeID: storeID).subscribe(onNext: { (json) in
+        HTTPTOOl.getClassifyAndDishesList(storeID: storeID, deskID: "").subscribe(onNext: { (json) in
 
             ///初始化菜单页面的数据
             self.menuInfo.updateModel(json: json)
@@ -373,7 +371,6 @@ extension StoreMenuOrderController {
             self.cartView.cartDataArr = self.cart_dataModelArr
     
             ///根据购物车 处理页面数据
-            //self.manager.dealWithMenuDishesByCartData(cart_arr: self.cart_dataModelArr, menuModel: self.menuInfo)
             self.menuInfo.dealWithMenuDishesByCartData(cart_arr: self.cart_dataModelArr)
                         
             ///更新底部购物车栏
@@ -403,7 +400,7 @@ extension StoreMenuOrderController {
     //MARK: - 添加购物车
     private func addCart_Net(dishesID: String, buyNum: Int) {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.addShoppingCart(dishesID: dishesID, buyNum: "1", type: "2", optionList: []).subscribe(onNext: { (json) in
+        HTTPTOOl.addShoppingCart(dishesID: dishesID, buyNum: "1", type: "2", optionList: [], deskID: "").subscribe(onNext: { (json) in
             self.loadCartData_Net()
         }, onError: { (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)

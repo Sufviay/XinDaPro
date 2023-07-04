@@ -88,7 +88,7 @@ class MenuGiftAddController: HeadBaseViewController, UITableViewDelegate, UITabl
     
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Details"
+        self.biaoTiLab.text = "Gift edit"
     }
 
     
@@ -227,7 +227,7 @@ class MenuGiftAddController: HeadBaseViewController, UITableViewDelegate, UITabl
         
         if indexPath.row == 5 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeImageCell") as! DishEditeImageCell
-            cell.setCellData(titStr: "Gifts picture", imgUrl: dataModel.showImageUrl, picImage: up_Pic)
+            cell.setCellData(titStr: "Gift picture", imgUrl: dataModel.showImageUrl, picImage: up_Pic)
 
 
             cell.selectImgBlock = { [unowned self] (img) in

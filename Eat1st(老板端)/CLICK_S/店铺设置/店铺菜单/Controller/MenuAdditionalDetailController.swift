@@ -58,7 +58,7 @@ class MenuAdditionalDetailController: HeadBaseViewController, UITableViewDelegat
     
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Edite item"
+        self.biaoTiLab.text = "Additional detail"
         self.loadData_Net()
     }
 

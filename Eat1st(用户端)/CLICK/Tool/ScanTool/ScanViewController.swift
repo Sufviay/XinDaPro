@@ -50,7 +50,7 @@ class ScanViewController: LBXScanViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.modalPresentationStyle = .fullScreen
+        
         
         
         //需要识别后的图像
@@ -124,6 +124,9 @@ class ScanViewController: LBXScanViewController {
         }
     }
 
+    
+    
+    
     
     override func handleCodeResult(arrayResult: [LBXScanResult]) {
 

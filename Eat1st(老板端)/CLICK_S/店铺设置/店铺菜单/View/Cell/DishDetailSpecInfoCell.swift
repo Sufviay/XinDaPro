@@ -63,9 +63,9 @@ class DishDetailSpecInfoCell: BaseTableViewCell, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 6
+            return 5
         } else {
-            return 4
+            return 3
         }
         
     }
@@ -80,11 +80,11 @@ class DishDetailSpecInfoCell: BaseTableViewCell, UITableViewDelegate, UITableVie
                 return dataModel.name_h
             }
             
-            if indexPath.row == 2 || indexPath.row == 3 || indexPath.row == 4{
+            if indexPath.row == 2 || indexPath.row == 3 {
                 return 65
             }
             
-            if indexPath.row == 5 {
+            if indexPath.row == 4 {
                 return 55
             }
         } else {
@@ -94,10 +94,10 @@ class DishDetailSpecInfoCell: BaseTableViewCell, UITableViewDelegate, UITableVie
             if indexPath.row == 1 {
                 return dataModel.optionList[indexPath.section - 1].name_h
             }
-            if indexPath.row == 2  {
-                return 60
-            }
-            if indexPath.row == 3 {
+//            if indexPath.row == 2  {
+//                return 60
+//            }
+            if indexPath.row == 2 {
                 return 70
             }
                 
@@ -126,12 +126,12 @@ class DishDetailSpecInfoCell: BaseTableViewCell, UITableViewDelegate, UITableVie
                 return cell
             }
             
-            if indexPath.row == 2 || indexPath.row == 3 || indexPath.row == 4 {
+            if indexPath.row == 2 || indexPath.row == 3 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
                 var msgStr = ""
                 
                 if indexPath.row == 2 {
-                    if dataModel.required == "1" {
+                    if dataModel.required == "2" {
                         msgStr = "Required"
                     } else {
                         msgStr = "Optional"
@@ -148,19 +148,19 @@ class DishDetailSpecInfoCell: BaseTableViewCell, UITableViewDelegate, UITableVie
                     cell.setCellData(titStr: "Multi-select", msgStr: msgStr)
                 }
                 
-                if indexPath.row == 4 {
-                    if dataModel.statusId == "1" {
-                        msgStr = "On menu"
-                    } else {
-                        msgStr = "Off menu"
-                    }
-                    cell.setCellData(titStr: "Specification state", msgStr: msgStr)
-                }
+//                if indexPath.row == 4 {
+//                    if dataModel.statusId == "1" {
+//                        msgStr = "On menu"
+//                    } else {
+//                        msgStr = "Off menu"
+//                    }
+//                    cell.setCellData(titStr: "Specification state", msgStr: msgStr)
+//                }
                 
                 return cell
             }
             
-            if indexPath.row == 5 {
+            if indexPath.row == 4 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OptionHeaderCell") as! OptionHeaderCell
                 return cell
             }
@@ -184,19 +184,19 @@ class DishDetailSpecInfoCell: BaseTableViewCell, UITableViewDelegate, UITableVie
                 return cell
             }
             
-            if indexPath.row == 2 {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailOptionMsgCell") as! DishDetailOptionMsgCell
-                var msgStr = ""
-                if dataModel.optionList[indexPath.section - 1].statusId == "1" {
-                    msgStr = "On menu"
-                } else {
-                    msgStr = "Off menu"
-                }
-                cell.setCellData(titStr: "Option state", msgStr: msgStr)
-                return cell
-            }
+//            if indexPath.row == 2 {
+//                let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailOptionMsgCell") as! DishDetailOptionMsgCell
+//                var msgStr = ""
+//                if dataModel.optionList[indexPath.section - 1].statusId == "1" {
+//                    msgStr = "On menu"
+//                } else {
+//                    msgStr = "Off menu"
+//                }
+//                cell.setCellData(titStr: "Option state", msgStr: msgStr)
+//                return cell
+//            }
             
-            if indexPath.row == 3 {
+            if indexPath.row == 2 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailOptionPriceCell") as! DishDetailOptionPriceCell
                 let price = dataModel.optionList[indexPath.section - 1].price
                 cell.setCellData(price: price)

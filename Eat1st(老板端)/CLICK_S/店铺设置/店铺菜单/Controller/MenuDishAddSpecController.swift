@@ -15,12 +15,22 @@ class MenuDishAddSpecController: HeadBaseViewController, UITableViewDelegate, UI
     private let bag = DisposeBag()
         
     var dataModel = DishDetailSpecModel()
+    
+    var dishModel = DishDetailModel()
+    
     var number = 0
     
     var isAdd: Bool = false
     
-    ///菜品ID 添加规格时使用
-    var dishID: String = ""
+    var isSave: Bool = false {
+        didSet {
+            if isSave {
+                self.saveBut.setTitle("Save", for: .normal)
+            } else {
+                self.saveBut.setTitle("Confirm", for: .normal)
+            }
+        }
+    }
     
     private let rightBut: UIButton = {
         let but = UIButton()
@@ -78,23 +88,27 @@ class MenuDishAddSpecController: HeadBaseViewController, UITableViewDelegate, UI
 
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "save", .white, BFONT(14), HCOLOR("#465DFD"))
+        but.setCommentStyle(.zero, "Confirm", .white, BFONT(14), HCOLOR("#465DFD"))
         but.layer.cornerRadius = 14
         return but
     }()
     
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Specification"
+        if isAdd {
+            self.biaoTiLab.text = "Specification add"
+        } else {
+            self.biaoTiLab.text = "Specification edit"
+        }
+        
         self.rightBut.isHidden = isAdd
+        self.table.reloadData()
     }
-    
     
 
     
     override func setViews() {
         setUpUI()
-        addNotificationCenter()
     }
     
     
@@ -174,9 +188,9 @@ class MenuDishAddSpecController: HeadBaseViewController, UITableViewDelegate, UI
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 9
+            return 8
         }
-        return 4
+        return 3
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -187,15 +201,15 @@ class MenuDishAddSpecController: HeadBaseViewController, UITableViewDelegate, UI
             if indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 3 {
                 return 80
             }
-            if indexPath.row == 4 || indexPath.row == 5 || indexPath.row == 6 {
+            if indexPath.row == 4 || indexPath.row == 5 {
                 return 90
             }
             
-            if indexPath.row == 7 {
+            if indexPath.row == 6 {
                 return 55
             }
             
-            if indexPath.row == 8 {
+            if indexPath.row == 7 {
                 return 100
             }
         } else {
@@ -206,9 +220,6 @@ class MenuDishAddSpecController: HeadBaseViewController, UITableViewDelegate, UI
                 return dataModel.optionList[indexPath.section - 1].name_h
             }
             if indexPath.row == 2 {
-                return 60
-            }
-            if indexPath.row == 3 {
                 return 70
             }
             
@@ -228,13 +239,13 @@ class MenuDishAddSpecController: HeadBaseViewController, UITableViewDelegate, UI
             if indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 3 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeInPutCell") as! DishEditeInPutCell
                 if indexPath.row == 1 {
-                    cell.setCellData(titStr: "Specifications Simplified Chinese name", msgStr: dataModel.nameCn)
+                    cell.setCellData(titStr: "Simplified Chinese name", msgStr: dataModel.nameCn)
                 }
                 if indexPath.row == 2 {
-                    cell.setCellData(titStr: "Specification Chinese traditional name", msgStr: dataModel.nameHk)
+                    cell.setCellData(titStr: "Traditional Chinese name", msgStr: dataModel.nameHk)
                 }
                 if indexPath.row == 3 {
-                    cell.setCellData(titStr: "English name of specification", msgStr: dataModel.nameEn)
+                    cell.setCellData(titStr: "English name", msgStr: dataModel.nameEn)
                 }
                 
                 
@@ -253,20 +264,16 @@ class MenuDishAddSpecController: HeadBaseViewController, UITableViewDelegate, UI
                 return cell
             }
             
-            if indexPath.row == 4 || indexPath.row == 5 || indexPath.row == 6 {
+            if indexPath.row == 4 || indexPath.row == 5 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell") as! DishEditeChooseCell
                 if indexPath.row == 4 {
-                    cell.setCellData(titStr: "Whether the choice", l_str: "Required", r_Str: "Optional", statusID: dataModel.required)
+                    cell.setCellData(titStr: "Choose", l_str: "Optional", r_Str: "Required", statusID: dataModel.required)
                 }
                 
                 if indexPath.row == 5 {
                     cell.setCellData(titStr: "Multi-select", l_str: "Disable", r_Str: "Enable", statusID: dataModel.multiple)
-
                 }
                 
-                if indexPath.row == 6 {
-                    cell.setCellData(titStr: "Dishes state", l_str: "On menu", r_Str: "Off menu", statusID: dataModel.statusId)
-                }
                 
                 cell.selectBlock = { [unowned self] (type) in
                     if indexPath.row == 4 {
@@ -279,21 +286,17 @@ class MenuDishAddSpecController: HeadBaseViewController, UITableViewDelegate, UI
                         self.table.reloadRows(at: [IndexPath(row: 5, section: 0)], with: .none)
                     }
                     
-                    if indexPath.row == 6 {
-                        self.dataModel.statusId = type
-                        self.table.reloadRows(at: [IndexPath(row: 6, section: 0)], with: .none)
-                    }
                 }
                 
                 return cell
             }
-            if indexPath.row == 7 {
+            if indexPath.row == 6 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OptionHeaderCell") as! OptionHeaderCell
                 return cell
             }
-            if indexPath.row == 8 {
+            if indexPath.row == 7 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddItemCell") as! AddItemCell
-                cell.inLab.text = "Add Option"
+                cell.inLab.text = "Add options"
                 return cell
             }
                         
@@ -307,9 +310,10 @@ class MenuDishAddSpecController: HeadBaseViewController, UITableViewDelegate, UI
                 //编辑规格选项
                 let nextVC = MenuDishAddOptionController()
                 nextVC.dataModel = self.dataModel.optionList[indexPath.section - 1]
+                nextVC.curSpecModel = self.dataModel
+                nextVC.dishModel = self.dishModel
                 nextVC.isAdd = false
                 nextVC.number = indexPath.section
-                nextVC.specID = String(dataModel.specId)
                 self.navigationController?.pushViewController(nextVC, animated: true)
             }
             return cell
@@ -322,19 +326,6 @@ class MenuDishAddSpecController: HeadBaseViewController, UITableViewDelegate, UI
         }
         
         if indexPath.row == 2 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailOptionMsgCell") as! DishDetailOptionMsgCell
-            var msgStr = ""
-            if dataModel.optionList[indexPath.section - 1].statusId == "1" {
-                msgStr = "On menu"
-            } else {
-                msgStr = "Off menu"
-            }
-            cell.setCellData(titStr: "Option state", msgStr: msgStr)
-            return cell
-
-        }
-        
-        if indexPath.row == 3 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailOptionPriceCell") as! DishDetailOptionPriceCell
             
             let price = dataModel.optionList[indexPath.section - 1].price
@@ -349,50 +340,22 @@ class MenuDishAddSpecController: HeadBaseViewController, UITableViewDelegate, UI
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-            if indexPath.row == 8 {
+            if indexPath.row == 7 {
                 //添加选项
                 let nextVC = MenuDishAddOptionController()
+                nextVC.dishModel = dishModel
+                nextVC.curSpecModel = dataModel
                 nextVC.isAdd = true
                 nextVC.number = dataModel.optionList.count + 1
-                nextVC.specID = String(dataModel.specId)
                 self.navigationController?.pushViewController(nextVC, animated: true)
             }
         }
     }
     
-    //MARK: - 注册通知中心
-    private func addNotificationCenter() {
-        NotificationCenter.default.addObserver(self, selector: #selector(addOptionAction(info:)), name: NSNotification.Name(rawValue: "addOption"), object: nil)
-    }
-    
-    @objc func addOptionAction(info: Notification) {
-        
-        let dic = info.object as! [String: Any]
-        let model = dic["opt"] as! DishDetailOptionModel
-        let type = dic["type"] as! String
-        let idx = dic["idx"] as! Int
-        
-        if type == "edite" {
-            ///编辑选项
-            self.dataModel.optionList[idx] = model
-        }
-        
-        if type == "add" {
-            ///添加选项
-            self.dataModel.optionList.append(model)
-        }
-        
-        if type == "delete" {
-            ///删除选项
-            self.dataModel.optionList.remove(at: idx)
-        }
-        
-        self.table.reloadData()
-        
-    }
-    
     deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "addOption"), object: nil)
+        
+        print("\(self.classForCoder)销毁")
+        
     }
 
 }
@@ -432,40 +395,48 @@ extension MenuDishAddSpecController {
             HUD_MB.showWarnig("Whether you can select both!", onView: self.view)
             return
         }
+        
+        if dataModel.optionList.count == 0 {
+            HUD_MB.showWarnig("Please add an optio!", onView: self.view)
+            return
+        }
+        
 
         HUD_MB.loading("", onView: view)
+        
+        dataModel.updateModel()
+        
         if isAdd {
-            //添加规格
-            self.dataModel.dishesId = dishID
-            HTTPTOOl.addSpec(model: dataModel).subscribe(onNext: { (json) in
-                HUD_MB.dissmiss(onView: self.view)
-                self.navigationController?.popViewController(animated: true)
-            }, onError: { (error) in
-                HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
-            }).disposed(by: self.bag)
-
-        } else {
-            //编辑规格
-            HTTPTOOl.editeSpec(model: dataModel).subscribe(onNext: { (json) in
-                HUD_MB.dissmiss(onView: self.view)
-                self.navigationController?.popViewController(animated: true)
-            }, onError: { (error) in
-                HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
-            }).disposed(by: self.bag)
+            dishModel.specList.append(dataModel)
         }
+        
+        if isSave {
+            HTTPTOOl.specDoAddOrUpdate(model: dishModel).subscribe(onNext: { [unowned self] (json) in
+                HUD_MB.dissmiss(onView: self.view)
+                self.navigationController?.popViewController(animated: true)
+                
+            }, onError: { [unowned self] (error) in
+                HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
+            }).disposed(by: self.bag)
+        } else {
+            self.navigationController?.popViewController(animated: true)
+        }
+        
+        
     }
 
     
     //删除规格
     private func deleteSpec_Net() {
+        dishModel.specList.remove(at: number - 1)
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.deleteSpec(id: String(dataModel.specId)).subscribe(onNext: { (json) in
-            HUD_MB.dissmiss(onView: self.view)
-            self.navigationController?.popViewController(animated: true)
-        }, onError: { (error) in
+        HTTPTOOl.specDoAddOrUpdate(model: dishModel).subscribe(onNext: { [unowned self] (json) in
+            HUD_MB.showSuccess("Success", onView: self.view)
+            DispatchQueue.main.after(time: .now() + 1.5) {
+                self.navigationController?.popViewController(animated: true)
+            }
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
-    
-    
 }

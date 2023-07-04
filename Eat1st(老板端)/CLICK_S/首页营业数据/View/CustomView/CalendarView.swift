@@ -12,6 +12,7 @@ class CalendarView: BaseAlertView, UIGestureRecognizerDelegate, FSCalendarDelega
 
     
     var clickDateBlock: VoidBlock?
+
     
     private var dateArr: [String] = []
     
@@ -198,7 +199,6 @@ class CalendarView: BaseAlertView, UIGestureRecognizerDelegate, FSCalendarDelega
                 //取消选中状态
                 calendar.deselect(date)
             }
-            
             
         
         }

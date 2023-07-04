@@ -14,7 +14,7 @@ class F_DishModel: NSObject {
     var name_En: String = ""
     var name_Hk: String = ""
     
-    var dishNum: String = ""
+    var dishNum: Int = 0
     
     var name1: String = ""
     var name2: String = ""
@@ -26,7 +26,7 @@ class F_DishModel: NSObject {
 
     func updateModel(json: JSON) {
         self.id = json["classifyId"].stringValue
-        self.dishNum = json["num"].stringValue
+        self.dishNum = json["num"].intValue
         self.name_En = json["nameEn"].stringValue == "" ? "--" : json["nameEn"].stringValue
         self.name_Hk = json["nameHk"].stringValue == "" ? "--" : json["nameHk"].stringValue
 
@@ -53,12 +53,25 @@ class DishModel: NSObject {
     var statusID: String = ""
     ///原价格
     var price: String = "0"
+    
+    ///外卖价格
+    var deliPrice: String = "0"
+    
+    ///堂食价格
+    var dinePrice: String = "0"
+    
+    ///售卖类型（1外卖，2堂食，3均可）
+    var sellType: String = ""
+    
     ///优惠价格
     var discountPrice: String = "0"
     ///是否有优惠 1无 2有
     var discountType: String = ""
     ///优惠百分比
     var discountSale: String = ""
+    
+    var discountStartDate: String = ""
+    var discountEndDate: String = ""
     
     
     var name_En: String = ""
@@ -93,6 +106,9 @@ class DishModel: NSObject {
     ///限购的库存数量
     var limitNum: String = ""
     
+    ///菜品类型 1 单品 2套餐
+    var dishesType: String = ""
+    
     
     var optionArr: [DishOptionModel] = [] {
         didSet {
@@ -118,7 +134,7 @@ class DishModel: NSObject {
     //规格选项的高度
     var optionItem_H: CGFloat = 0
     
-    ///
+
     
     
     
@@ -128,20 +144,39 @@ class DishModel: NSObject {
         self.id = json["dishesId"].stringValue
         self.statusID = json["statusId"].stringValue
         self.price = D_2_STR(json["price"].doubleValue)
+        self.deliPrice = D_2_STR(json["deliPrice"].doubleValue)
+        self.dinePrice = D_2_STR(json["dinePrice"].doubleValue)
+        self.sellType = json["sellType"].stringValue
         self.discountPrice = D_2_STR(json["discountPrice"].doubleValue)
+        self.discountStartDate = json["startTime"].stringValue
+        self.discountEndDate = json["endTime"].stringValue
+        self.dishesType = json["dishesType"].stringValue
+        self.discountType = json["discountType"].stringValue
         
-    
-        let dishesPrice = json["price"].doubleValue
+        
+        let deliPrice = json["deliPrice"].doubleValue
+        let dinePrice = json["dinePrice"].doubleValue
         let disPrice = json["discountPrice"].doubleValue
         
         
-        if (dishesPrice - disPrice) > 0 {
-            let ts = (dishesPrice - disPrice) / dishesPrice  * 100
-            self.discountSale = String(Int(floor(ts)))
+        if sellType == "2" {
+            //堂食
+            
+            if discountType == "2" {
+                //有优惠
+                let ts = (dinePrice - disPrice) / dinePrice  * 100
+                self.discountSale = String(Int(floor(ts)))
+            }
+            
+        } else {
+            if discountType == "2" {
+                //有优惠
+                let ts = (deliPrice - disPrice) / deliPrice  * 100
+                self.discountSale = String(Int(floor(ts)))
+            }
         }
+                
         
-        
-        self.discountType = json["discountType"].stringValue
         self.name_En = json["nameEn"].stringValue == "" ? "--" : json["nameEn"].stringValue
         self.name_Hk = json["nameHk"].stringValue == "" ? "--" : json["nameHk"].stringValue
         

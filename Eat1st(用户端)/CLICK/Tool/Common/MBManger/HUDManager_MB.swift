@@ -72,6 +72,7 @@ class HUD_MB: NSObject {
         
         let path = Bundle.main.path(forResource: "HUD_MB", ofType: "bundle")
         let hud = MBProgressHUD.forView(view) ?? MBProgressHUD()
+        hud.removeFromSuperViewOnHide = true
         hud.bezelView.style = .solidColor
         hud.bezelView.color = UIColor.black.withAlphaComponent(0.5)
         hud.contentColor = .white

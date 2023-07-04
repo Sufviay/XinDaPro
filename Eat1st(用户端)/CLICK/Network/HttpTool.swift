@@ -201,8 +201,8 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
     }
     
     //MARK: - 添加购物车
-    func addShoppingCart(dishesID: String, buyNum: String, type: String, optionList: [[String: String]]) -> Observable<JSON> {
-        let response = rxApiManager(api: .addShoppingCart(dishesID: dishesID, buyNum: buyNum, type: type, optionList: optionList))
+    func addShoppingCart(dishesID: String, buyNum: String, type: String, optionList: [[String: String]], deskID: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .addShoppingCart(dishesID: dishesID, buyNum: buyNum, type: type, optionList: optionList, deskID: deskID))
         return Observable<JSON>.create(response)
     }
 
@@ -213,8 +213,8 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
     }
     
     //MARK: - 获取菜品详情
-    func loadDishesDetail(dishesID: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .loadDishedDetail(dishesId: dishesID))
+    func loadDishesDetail(dishesID: String, deskID: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .loadDishedDetail(dishesId: dishesID, deskId: deskID))
         return Observable<JSON>.create(response)
     }
     
@@ -436,8 +436,8 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
     }
     
     //MARK: - 获取分类及菜品列表
-    func getClassifyAndDishesList(storeID: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .getClassifyAndDishesList(storeID: storeID))
+    func getClassifyAndDishesList(storeID: String, deskID: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getClassifyAndDishesList(storeID: storeID, deskId: deskID))
         return Observable<JSON>.create(response)
     }
     
@@ -583,6 +583,12 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
     //MARK: - 获取积分数量
     func getJiFenCount() -> Observable<JSON> {
         let response = rxApiManager(api: .getJiFenCount)
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 验证餐桌
+    func checkDesk(storeID: String, deskID: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .checkDesk(storeID: storeID, deskID: deskID))
         return Observable<JSON>.create(response)
     }
     

@@ -14,7 +14,6 @@ class OderListConfirmController: BaseViewController, UITableViewDelegate, UITabl
     
     var isDetailVC: Bool = false
     
-
     ///支付
     private var paymentSheet: PaymentSheet?
     private var sectionNum: Int = 0
@@ -68,6 +67,7 @@ class OderListConfirmController: BaseViewController, UITableViewDelegate, UITabl
         tableView.contentInsetAdjustmentBehavior = .never
         tableView.bounces = false
 
+        tableView.register(OrderTagDineInCell.self, forCellReuseIdentifier: "OrderTagDineInCell")
         tableView.register(OrderSelectTagCell.self, forCellReuseIdentifier: "OrderSelectTagCell")
         tableView.register(OrderStoreInfoCell.self, forCellReuseIdentifier: "OrderStoreInfoCell")
         tableView.register(OrderGoodsCell.self, forCellReuseIdentifier: "OrderGoodsCell")
@@ -134,8 +134,6 @@ class OderListConfirmController: BaseViewController, UITableViewDelegate, UITabl
         }
         setUpUI()
         
-//        view.addSubview(walletView)
-
         backBut.addTarget(self, action: #selector(clickBackAction), for: .touchUpInside)
 
         loadData_Net()
@@ -164,25 +162,29 @@ class OderListConfirmController: BaseViewController, UITableViewDelegate, UITabl
     //MARK: - 网络请求
     func loadData_Net() {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.getOrderDetail(orderID: orderID).subscribe(onNext: { (json) in
+        HTTPTOOl.getOrderDetail(orderID: orderID).subscribe(onNext: { [unowned self] (json) in
 
-
+            HUD_MB.dissmiss(onView: self.view)
             self.dataModel.updateModel(json: json["data"])
             self.sectionNum = 9
             self.mainTable.reloadData()
-            self.getYSDTime_Net()
-        }, onError: { (error) in
+            if dataModel.type != "3" {
+                self.getYSDTime_Net()
+            }
+            
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
     
     private func getYSDTime_Net() {
-        HTTPTOOl.getCalOrderTime(type: dataModel.type, storeID: dataModel.storeInfo.storeID, time: dataModel.hopeTime).subscribe(onNext: { (json) in
+        
+        HTTPTOOl.getCalOrderTime(type: dataModel.type, storeID: dataModel.storeInfo.storeID, time: dataModel.hopeTime).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
             self.minTime = json["data"]["startTime"].stringValue
             self.maxTime = json["data"]["endTime"].stringValue
             self.mainTable.reloadData()
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
@@ -192,7 +194,12 @@ class OderListConfirmController: BaseViewController, UITableViewDelegate, UITabl
     
     private func showPayAlert() {
         ///弹出支付弹窗
-        payAlert.paymentSupport = dataModel.storePayType
+        
+        if dataModel.type == "3" {
+            payAlert.paymentSupport = "2"
+        } else {
+            payAlert.paymentSupport = dataModel.storePayType
+        }
         payAlert.deductionAmount = dataModel.walletPrice
         payAlert.payPrice = dataModel.payPrice
         payAlert.subtotal = dataModel.actualFee
@@ -211,7 +218,7 @@ class OderListConfirmController: BaseViewController, UITableViewDelegate, UITabl
     private func orderPay_Net() {
         
         HUD_MB.loading("", onView: PJCUtil.getWindowView())
-        HTTPTOOl.orderPay(orderID: self.orderID, payType: payWay).subscribe(onNext: { (json) in
+        HTTPTOOl.orderPay(orderID: self.orderID, payType: payWay).subscribe(onNext: { [unowned self] (json) in
             
             HUD_MB.dissmiss(onView: PJCUtil.getWindowView())
             self.payAlert.disAppearAction()
@@ -235,7 +242,7 @@ class OderListConfirmController: BaseViewController, UITableViewDelegate, UITabl
                 DispatchQueue.main.async {
 
                     self.paymentSheet = PaymentSheet(paymentIntentClientSecret: paymentIntentClientSecret, configuration: config)
-                    self.paymentSheet?.present(from: self, completion: { paymentResult in
+                    self.paymentSheet?.present(from: self, completion: { [unowned self] paymentResult in
                         switch paymentResult {
                         case .completed:
 
@@ -259,40 +266,52 @@ class OderListConfirmController: BaseViewController, UITableViewDelegate, UITabl
                 //跳转到订单详情页面
                 self.jumpDetailVC(isCanWheel: false)
             }
-        }, onError: { (error) in
-            HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
+        }, onError: {[unowned self] (error) in
+            HUD_MB.showError(ErrorTool.errorMessage(error), onView: PJCUtil.getWindowView())
+            self.payAlert.disAppearAction()
         }).disposed(by: self.bag)
     }
     
     
     private func jumpDetailVC(isCanWheel: Bool) {
         if self.isDetailVC {
-    
+            
+            //订单详情中点击继续支付
+            
             let vcs: [UIViewController] = self.navigationController!.viewControllers
             let detailVC: OrderDetailController = vcs[vcs.count - 2] as! OrderDetailController
             detailVC.isPayAfter = isCanWheel
             self.navigationController?.popViewController(animated: true)
             
         } else {
+            
+            //订单列表中点击继续支付
+            
             var vcs: [UIViewController] = self.navigationController!.viewControllers
             vcs.removeLast()
             let orderDetailVC = OrderDetailController()
             orderDetailVC.orderID = self.orderID
             orderDetailVC.isPayAfter = isCanWheel
+//            self.navigationController?.pushViewController(orderDetailVC, animated: true)
             vcs += [orderDetailVC]
             self.navigationController?.setViewControllers(vcs, animated: true)
-            
         }
     }
     
-    
-    
+        
     ///取消支付
     func cancelPay_Net() {
         HTTPTOOl.payCancel(id: self.orderID).subscribe(onNext: { (josn) in
         }).disposed(by: self.bag)
     }
 
+    
+    deinit {
+        print("订单确认页面销毁")
+    }
+    
+    
+    
 
 }
 
@@ -324,6 +343,14 @@ extension OderListConfirmController {
         
         if section == 4 {
             if dataModel.couponDish.dishName == "" {
+                return 0
+            } else {
+                return 1
+            }
+        }
+        
+        if section == 5 {
+            if dataModel.type == "3" {
                 return 0
             } else {
                 return 1
@@ -387,9 +414,16 @@ extension OderListConfirmController {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "OrderSelectTagCell") as! OrderSelectTagCell
-            cell.setCellData(type: dataModel.type, isCanEdite: false)
-            return cell
+            
+            if dataModel.type == "3" {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "OrderTagDineInCell") as! OrderTagDineInCell
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "OrderSelectTagCell") as! OrderSelectTagCell
+                cell.setCellData(type: dataModel.type, isCanEdite: false)
+                return cell
+            }
+            
         }
         if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderStoreInfoCell") as! OrderStoreInfoCell
@@ -404,7 +438,7 @@ extension OderListConfirmController {
         }
 
         if indexPath.section == 3 {
-            
+
             if dataModel.dishArr.count <= 2  {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OrderRoundedCornersCell") as! OrderRoundedCornersCell
                 return cell
@@ -418,25 +452,25 @@ extension OderListConfirmController {
                 return cell
             }
         }
-        
+
         if indexPath.section == 4 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderCouponDishCell") as! OrderCouponDishCell
             cell.setCellData(model: dataModel.couponDish)
             return cell
         }
-        
-        
+
+
         if indexPath.section == 5 {
 
             if dataModel.type == "1" {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OrderListInputCell") as! OrderListInputCell
-                
+
                 cell.setCellData(name: dataModel.recipient, phone: dataModel.recipientPhone, address: dataModel.recipientAddress, time: dataModel.hopeTime, minTime: minTime, maxTime: maxTime, ydMsg: dataModel.reserveMsg)
                 return cell
             }
             if dataModel.type == "2" {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OrderInputZQCell") as! OrderInputZQCell
-                
+
                 cell.setCellData1(name: dataModel.recipient, phone: dataModel.recipientPhone, time: dataModel.hopeTime, isCanEidte: false, minTime: minTime, maxTime: maxTime, ydMsg: dataModel.reserveMsg)
                 return cell
             }
@@ -455,7 +489,7 @@ extension OderListConfirmController {
 
         if indexPath.section == 8 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderPayButCell") as! OrderPayButCell
-            
+
             cell.setCellData(titStr: "Confirm An Order")
             cell.clickPayBlock = { [unowned self] (_) in
                 self.showPayAlert()

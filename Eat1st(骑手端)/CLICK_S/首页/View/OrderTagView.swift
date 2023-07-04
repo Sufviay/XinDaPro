@@ -44,8 +44,8 @@ class OrderTagView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     private lazy var collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 10
-        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
         layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         
         let coll = UICollectionView(frame: .zero, collectionViewLayout: layout)

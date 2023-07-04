@@ -251,36 +251,72 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
         
         if PJCUtil.checkLoginStatus() {
             let scanVC = ScanViewController()
+            var style = LBXScanViewStyle()
+            style.animationImage = UIImage(named: "CodeScan.bundle/qrcode_scan_light_green")
+            style.colorAngle = MAINCOLOR
+            scanVC.scanStyle = style
+            
+            
+            ///https://share.eat1st.co.uk/store/detail/?storeId=1558386586135650305&deskId=1111111111
+
             
             scanVC.scanFinshBlock = { [unowned self] (str) in
+                
+                print("---------------------\(str)")
+                
                 let scanStr = str as! String
                 if scanStr != "" {
-                    let arr = scanStr.components(separatedBy: "storeId=")
-                    if arr.count != 0 {
-                        let storeID = arr.last!
-                        var type = ""
-                        
-                        var urlStr = arr.first!
-                        urlStr = urlStr.filter { $0 != "&"}
-    
-                        let arr1 = urlStr.components(separatedBy: "type=")
-                        if arr1.count != 0 {
-                            
-                            if arr1.count == 2 {
-                                type = arr1.last!
-                            } else {
-                                type = "1"
+                    
+                    var storeID = ""
+                    var deskID = ""
+                    
+                    let arr1 = scanStr.components(separatedBy: "?")
+
+                    let str1 = arr1.last ?? ""
+
+                    if str1 != "" {
+
+                        let arr2 = str1.components(separatedBy: "&")
+
+                        for tStr in arr2 {
+
+                            let arr3 = tStr.components(separatedBy: "=")
+                            if arr3.first ?? "" == "storeId" {
+                                storeID = arr3.last ?? ""
+                            }
+                            if arr3.first ?? "" == "deskId" {
+                                deskID = arr3.last ?? ""
                             }
                         }
-                        //进入店铺主页
-                        let nextVC = StoreMainController()
-                        nextVC.storeID = storeID
-                        nextVC.type = type
-                        self.navigationController?.pushViewController(nextVC, animated: true)
+                        
+                        if deskID == "" && storeID != "" {
+                            //店铺宣传
+                            //进入店铺主页
+                            let nextVC = StoreMainController()
+                            nextVC.storeID = storeID
+                            self.navigationController?.pushViewController(nextVC, animated: true)
+                        }
+                        
+                        if deskID != "" && storeID != "" {
+                            //扫码点餐
+                            //验证桌号
+                            HUD_MB.loading("", onView: view)
+                            HTTPTOOl.checkDesk(storeID: storeID, deskID: deskID).subscribe(onNext: { [unowned self] json in
+                                HUD_MB.dissmiss(onView: self.view)
+                                let orderVC = ScanOrderController()
+                                orderVC.deskID = deskID
+                                orderVC.storeID = storeID
+                                self.navigationController?.pushViewController(orderVC, animated: true)
+                                
+                            }, onError: { [unowned self] error in
+                                HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
+                            }).disposed(by: self.bag)
+                        }
 
                     }
                 }
             }
+            scanVC.modalPresentationStyle = .fullScreen
             self.present(scanVC, animated: true, completion: nil)
         }
     }
@@ -294,7 +330,7 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
     //MARK: - 搜索
     func clickSearchAction() {
         print("search")
-        SearchPlaceManager.shared.doSearchPlace { (model) in
+        SearchPlaceManager.shared.doSearchPlace { [unowned self] (model) in
             UserDefaults.standard.address = model.address
             UserDefaults.standard.postCode = model.postCode
             UserDefaults.standard.local_lng = model.lng
@@ -326,6 +362,7 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
     }
         
     deinit {
+        print("\(self.classForCoder)销毁")
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("message"), object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("login"), object: nil)
 
@@ -450,6 +487,7 @@ extension FirstController {
                 
                 if type == "scan" {
                     //MARK: - 扫一扫
+                    
                     self.clickSaoYiSaoAction()
                 }
             }
@@ -486,7 +524,7 @@ extension FirstController {
     
     //下载图片
     private func downLoadImgage(url: String) {
-        SDWebImageDownloader.shared.downloadImage(with: URL(string: url)) { image, data, error, finished in
+        SDWebImageDownloader.shared.downloadImage(with: URL(string: url)) { [unowned self] image, data, error, finished in
             
             SDImageCache.shared.store(image, forKey: url, toDisk: true)
             
@@ -524,7 +562,7 @@ extension FirstController {
             //店铺菜单
             let nextVC = StoreMenuOrderController()
             nextVC.storeID = nearestArr[indexPath.row].storeID
-            PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
+            self.navigationController?.pushViewController(nextVC, animated: true)
 
         }
         
@@ -537,7 +575,7 @@ extension FirstController {
         
         if UserDefaults.standard.isLogin {
             
-            HTTPTOOl.getStoreListFirstDiscount().subscribe(onNext: { (json) in
+            HTTPTOOl.getStoreListFirstDiscount().subscribe(onNext: { [unowned self] (json) in
                 //获取存在首单优惠的店铺ID
                 var storeIDArr: [String] = []
                 for jsondata in json["data"].arrayValue {
@@ -567,7 +605,7 @@ extension FirstController {
         
         let isAll = isShowAll ? "1" : "2"
         
-        HTTPTOOl.storeList_Nearby(tag: "", lat: UserDefaults.standard.local_lat!, lng: UserDefaults.standard.local_lng!, allStore: isAll, page: 1).subscribe(onNext: { (json) in
+        HTTPTOOl.storeList_Nearby(tag: "", lat: UserDefaults.standard.local_lat!, lng: UserDefaults.standard.local_lng!, allStore: isAll, page: 1).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
             self.page = 2
             //热门的店铺
@@ -611,7 +649,7 @@ extension FirstController {
             
             self.loadStoreListFirstDiscount_Net()
     
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
             self.table.mj_header?.endRefreshing()
         }).disposed(by: self.bag)
@@ -622,7 +660,7 @@ extension FirstController {
     
         let isAll = isShowAll ? "1" : "2"
         
-        HTTPTOOl.storeList_Nearby(tag: "", lat: UserDefaults.standard.local_lat!, lng: UserDefaults.standard.local_lng!, allStore: isAll, page: self.page).subscribe(onNext: { (json) in
+        HTTPTOOl.storeList_Nearby(tag: "", lat: UserDefaults.standard.local_lat!, lng: UserDefaults.standard.local_lng!, allStore: isAll, page: self.page).subscribe(onNext: { [unowned self] (json) in
             
             for jsonData in json["data"].arrayValue {
                 let model = StoreInfoModel()
@@ -648,7 +686,7 @@ extension FirstController {
             }
             self.table.reloadData()
             
-        }, onError: { (error) in
+        }, onError: {[unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
             self.table.mj_footer?.endRefreshing()
         }).disposed(by: bag)
@@ -659,7 +697,7 @@ extension FirstController {
     private func checkHaveCoupon_Net() {
         
         if UserDefaults.standard.isLogin {
-            HTTPTOOl.getMyCouponList().subscribe(onNext: { (json) in
+            HTTPTOOl.getMyCouponList().subscribe(onNext: { [unowned self] (json) in
                 if json["data"].arrayValue.count == 0 {
                     self.haveCoupon = false
                 } else {
@@ -668,7 +706,7 @@ extension FirstController {
                 //self.table.reloadData()
                 self.table.reloadSections([0], with: .none)
                     
-            }, onError: { _ in
+            }, onError: {[unowned self] _ in
                 self.haveCoupon = false
             }).disposed(by: self.bag)
 
@@ -681,7 +719,7 @@ extension FirstController {
     func checkHavePrizeDraw_Net() {
         
         if UserDefaults.standard.isLogin {
-            HTTPTOOl.isHaveDrawPrize().subscribe(onNext: { (json) in
+            HTTPTOOl.isHaveDrawPrize().subscribe(onNext: {[unowned self] (json) in
                 
                 if json["data"]["status"].stringValue == "1" {
                     self.havePrize = true
@@ -690,7 +728,7 @@ extension FirstController {
                 }
                 //self.table.reloadData()
                 self.table.reloadSections([1], with: .none)
-            }, onError: {_ in
+            }, onError: { [unowned self] _ in
                 self.havePrize = false
             }).disposed(by: self.bag)
 
@@ -707,14 +745,14 @@ extension FirstController {
         print("-----------------检查未读消息")
         
         if UserDefaults.standard.isLogin {
-            HTTPTOOl.isHaveMessage().subscribe(onNext: { (json) in
+            HTTPTOOl.isHaveMessage().subscribe(onNext: {[unowned self] (json) in
                 if json["data"]["status"].stringValue == "1" {
                     self.moreView.isHave = true
                 } else {
                     self.moreView.isHave = false
                 }
                 
-            }, onError: { (error) in
+            }, onError: {[unowned self] (error) in
                 self.moreView.isHave = false
             }).disposed(by: self.bag)
             
@@ -727,7 +765,7 @@ extension FirstController {
     private func showMessage_Net() {
         //展示未读消息
         if UserDefaults.standard.isLogin {
-            HTTPTOOl.getMessagesList(page: 1).subscribe(onNext: { (json) in
+            HTTPTOOl.getMessagesList(page: 1).subscribe(onNext: {[unowned self] (json) in
                 for jsonData in json["data"].arrayValue {
                     if jsonData["readType"].stringValue == "1" {
                         //有未读消息展示消息弹窗
@@ -746,7 +784,7 @@ extension FirstController {
     //获取积分
     private func getJiFen_Net() {
         if UserDefaults.standard.isLogin {
-            HTTPTOOl.getJiFenCount().subscribe(onNext: { (json) in
+            HTTPTOOl.getJiFenCount().subscribe(onNext: {[unowned self] (json) in
                 
                 //积分
                 let jfStr = json["data"]["pointsNum"].stringValue
@@ -770,14 +808,13 @@ extension FirstController {
                 self.jifenView.isHidden = false
                 
                 
-            }, onError: {_ in
+            }, onError: {[unowned self] _ in
                 self.jifenView.isHidden = true
             }).disposed(by: self.bag)
         } else {
             self.jifenView.isHidden = true
         }
     }
-    
 }
 
 

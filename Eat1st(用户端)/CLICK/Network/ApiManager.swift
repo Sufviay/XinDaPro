@@ -38,13 +38,13 @@ enum ApiManager {
     ///分类下的菜品
     case getClassifyDishes(classifyID: String, storeID: String, keyword: String)
     ///添加购物车
-    case addShoppingCart(dishesID: String, buyNum: String, type: String, optionList: [[String: String]])
+    case addShoppingCart(dishesID: String, buyNum: String, type: String, optionList: [[String: String]], deskID: String)
     ///修改购物车数量
     case updateCartNum(buyNum: String, cartID: String)
     ///获取已添加购物车的菜品列表
     case getAddedCartDishes(storeID: String, psType: String)
     ///获取菜品详情
-    case loadDishedDetail(dishesId: String)
+    case loadDishedDetail(dishesId: String, deskId: String)
     ///店铺列表——绑定
     case storeList_binding(tag: String, lat: String, lng: String, page: String)
     ///店铺列表——热门
@@ -117,7 +117,7 @@ enum ApiManager {
     ///检查App版本
     case CheckAppVer
     ///获取分类及菜品列表
-    case getClassifyAndDishesList(storeID: String)
+    case getClassifyAndDishesList(storeID: String, deskId: String)
     ///清空购物车
     case emptyCart(storeID: String)
     ///账户删除
@@ -165,7 +165,8 @@ enum ApiManager {
     case jiFenExchange(exID: String)
     ///获取积分和过期积分
     case getJiFenCount
-    
+    ///验证店铺桌号
+    case checkDesk(storeID: String, deskID: String)
     
     
     
@@ -245,9 +246,9 @@ extension ApiManager: TargetType {
             return "api/user/dishes/getDishesList"
         case .getAddedCartDishes(storeID: _, psType: _):
             return "api/user/cart/getAddedCartDishesList"
-        case .addShoppingCart(dishesID: _, buyNum: _, type: _, optionList: _):
+        case .addShoppingCart(dishesID: _, buyNum: _, type: _, optionList: _, deskID: _):
             return "api/user/cart/addCart"
-        case .loadDishedDetail(dishesId: _):
+        case .loadDishedDetail(dishesId: _, deskId: _):
             return "api/user/dishes/getDishesDetail"
         case .storeList_binding(tag: _, lat: _, lng: _, page: _):
             return "api/user/store/getBindStoreList"
@@ -319,7 +320,7 @@ extension ApiManager: TargetType {
             return "api/user/logout"
         case .CheckAppVer:
             return "api/user/version/checkVersion"
-        case .getClassifyAndDishesList(storeID: _):
+        case .getClassifyAndDishesList(storeID: _, deskId: _):
             return "api/user/dishes/getDishesClassifyList"
         case .emptyCart(storeID: _):
             return "api/user/cart/doClearCart"
@@ -367,6 +368,9 @@ extension ApiManager: TargetType {
             return "api/user/points/doPointsExchange"
         case .getJiFenCount:
             return "api/user/points/getUserPoints"
+        case .checkDesk(storeID: _, deskID: _):
+            return "api/user/desk/checkDesk"
+            
             
             
             
@@ -439,12 +443,12 @@ extension ApiManager: TargetType {
             dic = ["storeId": storeID]
         case .getClassifyDishes(let classifyID, let storeID, let keyword):
             dic = ["classifyId": classifyID, "storeId": storeID, "keyword": keyword]
-        case .addShoppingCart(let dishesID, let buyNum, let type, let optionList):
-            dic = ["buyNum": buyNum, "dishesId": dishesID, "type": type, "optionList": optionList]
+        case .addShoppingCart(let dishesID, let buyNum, let type, let optionList, let deskID):
+            dic = ["buyNum": buyNum, "dishesId": dishesID, "type": type, "optionList": optionList, "deskId": deskID]
         case .getAddedCartDishes(let storeID, let psType):
             dic = ["storeId": storeID, "deliveryType": psType]
-        case .loadDishedDetail(let dishesId):
-            dic = ["dishesId": dishesId]
+        case .loadDishedDetail(let dishesId, let deskId):
+            dic = ["dishesId": dishesId, "deskId": deskId]
         case .storeList_binding(let tag, let lat, let lng, let page):
             dic = ["lat": lat, "lng": lng, "pageIndex": page, "tagId": tag]
         case .storeList_hot(let tag, let lat, let lng, let page):
@@ -470,7 +474,7 @@ extension ApiManager: TargetType {
         case .deleteAddress(let id):
             dic = ["addressId": id]
         case .creatOrder(let submitModel):
-            dic = ["couponId": submitModel.couponId, "deliveryType": submitModel.type, "payType": submitModel.paymentMethod, "remark": submitModel.remark, "storeId": submitModel.storeId, "orderAddress": ["address": submitModel.recipientAddress, "name": submitModel.recipient, "phone": submitModel.recipientPhone, "takeTime": submitModel.hopeTime, "lat": submitModel.recipientLat, "lng": submitModel.recipientLng, "postCode": submitModel.recipientPostcode]]
+            dic = ["couponId": submitModel.couponId, "deliveryType": submitModel.type, "payType": submitModel.paymentMethod, "remark": submitModel.remark, "storeId": submitModel.storeId, "orderAddress": ["address": submitModel.recipientAddress, "name": submitModel.recipient, "phone": submitModel.recipientPhone, "takeTime": submitModel.hopeTime, "lat": submitModel.recipientLat, "lng": submitModel.recipientLng, "postCode": submitModel.recipientPostcode], "deskId": submitModel.deskId]
         case .orderpay(let orderID, let payType):
             dic = ["orderId": orderID, "payType": payType]
         case .getOrderList(let page):
@@ -528,8 +532,8 @@ extension ApiManager: TargetType {
             dic = [:]
         case .CheckAppVer:
             dic = ["sysType": "2", "verId": UserDefaults.standard.verID!]
-        case .getClassifyAndDishesList(let storeID):
-            dic = ["storeId": storeID]
+        case .getClassifyAndDishesList(let storeID, let deskId):
+            dic = ["storeId": storeID, "deskId": deskId]
         case .emptyCart(let storeID):
             dic = ["storeId": storeID]
         case .deleteAccountApply:
@@ -576,9 +580,12 @@ extension ApiManager: TargetType {
             dic = ["pointsCouponId": exID]
         case .getJiFenCount:
             dic = [:]
-            
+        case .checkDesk(let storeID, let deskID):
+            dic = ["deskId": deskID, "storeId": storeID]
+
             
 
+            
             
             
             
@@ -652,6 +659,7 @@ extension ApiManager: TargetType {
                        "sysVer": systemVer,
                        "lang": curLanguage,
                        "deviceId": deviceID,
+                       "deviceType": "apple",
                        "sysLang": Locale.preferredLanguages.first ?? ""
                         ]
         print(baseDic)

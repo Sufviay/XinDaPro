@@ -303,15 +303,18 @@ class HaveButtonOrderCell: BaseTableViewCell, UICollectionViewDelegate, UICollec
         contentView.addSubview(buyAgainBut)
         buyAgainBut.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 120, height: 30))
-            $0.right.equalToSuperview().offset(-10)
+            //$0.right.equalToSuperview().offset(-10)
+            $0.right.equalToSuperview().offset(-120)
             $0.bottom.equalToSuperview().offset(-20)
+            
         }
         
         contentView.addSubview(evaluationBut)
         evaluationBut.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 100, height: 30))
             $0.bottom.equalToSuperview().offset(-20)
-            $0.right.equalToSuperview().offset(-140)
+            //$0.right.equalToSuperview().offset(-140)
+            $0.right.equalToSuperview().offset(-10)
         }
         
         contentView.addSubview(payBut)
@@ -387,9 +390,14 @@ class HaveButtonOrderCell: BaseTableViewCell, UICollectionViewDelegate, UICollec
         
         if model.type == "1" {
             typeLab.text = "Delivery"
-        } else {
+        }
+        if model.type == "2" {
             typeLab.text = "Collection"
         }
+        if model.type == "3" {
+            typeLab.text = "Dine In"
+        }
+        
         
         let status_W = model.statusStr.getTextWidth(BFONT(15), 20)
         self.statusLab.snp.updateConstraints {
@@ -455,6 +463,12 @@ class HaveButtonOrderCell: BaseTableViewCell, UICollectionViewDelegate, UICollec
             self.t_cancelBut.isHidden = true
             self.confirmBut.isHidden = true
             self.buyAgainBut.isHidden = false
+            
+            if model.type == "3" {
+                self.buyAgainBut.isHidden = true
+            } else {
+                self.buyAgainBut.isHidden = false
+            }
 
             if model.plaintStatus == "1" && model.evaluateStatus == "1" {
                 //完成的订单 当 未投诉  未评价 展示评价按钮

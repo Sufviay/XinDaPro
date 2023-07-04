@@ -14,7 +14,7 @@ class DishDetailPictureCell: BaseTableViewCell, CommonToolProtocol, SDPhotoBrows
     private let titleLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .left)
-        lab.text = "Dish picture"
+        lab.text = "Dish detail picture"
         return lab
     }()
 

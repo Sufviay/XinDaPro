@@ -340,6 +340,26 @@ class HttpTool {
         let response = rxApiManager(api: .CheckAppVer)
         return Observable<JSON>.create(response)
     }
+    
+    
+    //MARK: - 获取外部订单
+    func getOtherOders(status: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getOtherPTOrders(status: status))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 其他订单开始
+    func otherOdersStart(id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .otherPTOdersStart(orderID: id))
+        return Observable<JSON>.create(response)
+    }
+    
+    func otherOdersComplete(id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .otherPTOrderComplete(orderID: id))
+        return Observable<JSON>.create(response)
+    }
+
+    
 
     
     

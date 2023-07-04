@@ -35,10 +35,10 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
     }
     
     ///支付的订单ID
-    var payOrderID: String = ""
+    private var payOrderID: String = ""
     
     ///是否可编辑
-    var isCanEidte: Bool = true
+    private var isCanEidte: Bool = true
     
     ///支付
     private var paymentSheet: PaymentSheet?
