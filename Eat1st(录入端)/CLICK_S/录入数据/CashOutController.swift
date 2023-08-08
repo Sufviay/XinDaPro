@@ -154,11 +154,11 @@ class CashOutController: HeadBaseViewController, UITableViewDelegate, UITableVie
             return
         }
 
-        if dataModel.otherCashOut != "" && dataModel.otherCashOut != "0" && picImgArr.count == 0 {
-            HUD_MB.showWarnig("Please upload pictures!", onView: self.view)
-            return
-        }
-
+//        if dataModel.otherCashOut != "" && dataModel.otherCashOut != "0" && picImgArr.count == 0 {
+//            HUD_MB.showWarnig("Please upload pictures!", onView: self.view)
+//            return
+//        }
+//
         HUD_MB.loading("", onView: self.view)
         if picImgArr.count != 0 {
             //上传图片

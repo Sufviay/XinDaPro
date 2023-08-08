@@ -46,6 +46,9 @@ class PayAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
     
     ///包装费用
     var packPrice: Double = 0
+    
+    ///购买方式 1外卖 2自取 3堂食
+    var buyType: String = ""
 
     
     
@@ -204,8 +207,17 @@ class PayAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
-            let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount].filter { $0 != 0 }
-            return 4 * 35 + CGFloat(arr.count) * 35 + 20
+            
+            if buyType == "1" {
+                //外卖
+                let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, servicePrice].filter { $0 != 0 }
+                return 3 * 35 + CGFloat(arr.count) * 35 + 20
+                
+            } else {
+                let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, servicePrice, deliveryPrice].filter { $0 != 0 }
+                return 2 * 35 + CGFloat(arr.count) * 35 + 20
+            }
+
         }
         
         if indexPath.row == 1 {
@@ -229,7 +241,8 @@ class PayAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PayAlertMoneyCell") as! PayAlertMoneyCell
         
-            cell.setCellData(money: [subtotal, deliveryPrice, servicePrice, packPrice, dishesDiscountAmount, couponAmount, discountAmount, total], scale: discountScale)
+            cell.setCellData(money: [subtotal, deliveryPrice, servicePrice, packPrice, dishesDiscountAmount, couponAmount, discountAmount, total], scale: discountScale, buyType: buyType)
+            
             return cell
         }
         

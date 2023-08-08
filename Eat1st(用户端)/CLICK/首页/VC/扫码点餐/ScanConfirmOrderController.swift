@@ -228,7 +228,7 @@ class ScanConfirmOrderController: BaseViewController, UITableViewDelegate, UITab
         HTTPTOOl.loadConfirmOrderDetail(storeID: storeID, buyWay: "3", lat: "", lng: "", couponID: selectCoupon.couponId, postCode: "").subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
                         
-            self.cartModel.updateModel(json: json["data"])
+            self.cartModel.updateModel(json: json["data"], type: "3")
 
             self.sectionNum = 10
             self.mainTable.reloadData()
@@ -270,6 +270,7 @@ class ScanConfirmOrderController: BaseViewController, UITableViewDelegate, UITab
         payAlert.dishesDiscountAmount = cartModel.dishesDiscountAmount
         payAlert.couponAmount = cartModel.couponAmount
         payAlert.packPrice = cartModel.packPrice
+        payAlert.buyType = "3"
         self.payAlert.alertReloadData()
         self.payAlert.appearAction()
     }
@@ -401,7 +402,7 @@ class ScanConfirmOrderController: BaseViewController, UITableViewDelegate, UITab
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "cartRefresh"), object: nil)
             HTTPTOOl.loadConfirmOrderDetail(storeID: self.storeID, buyWay: "3", lat: "", lng: "", couponID: self.selectCoupon.couponId, postCode: "").subscribe(onNext: { [unowned self] (json) in
                 HUD_MB.dissmiss(onView: self.view)
-                self.cartModel.updateModel(json: json["data"])
+                self.cartModel.updateModel(json: json["data"], type: "3")
                 if self.cartModel.deliveryType == "4" {
                     self.showSystemAlert("Tip", json["data"]["deliveryMsg"].stringValue, "Sure")
                 }
@@ -580,7 +581,7 @@ extension ScanConfirmOrderController {
         if indexPath.section == 8 {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "ConfirmMoneyCell") as! ConfirmMoneyCell
-            cell.setCellData(model: cartModel)
+            cell.setCellData(model: cartModel, buyType: "3")
             return cell
         }
         

@@ -337,13 +337,30 @@ class OrderDetailModel: NSObject {
         }
                 
         //actualFee, deliveryFee, serviceFee, orderPrice
-        let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount].filter { $0 != 0 }
-        self.confirmMoney_H = 4 * 30 + CGFloat(arr.count) * 30 + discountMsg_H + 20
+        
+        
+        if type == "1" {
+            let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, serviceFee].filter { $0 != 0 }
+            self.confirmMoney_H = 3 * 30 + CGFloat(arr.count) * 30 + discountMsg_H + 20
+            
+            let arr1 = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, walletPrice, serviceFee].filter { $0 != 0 }
+            self.detailMoney_H = 4 * 35 + CGFloat(arr1.count) * 35 + discountMsg_H + 20
+            
+        } else {
+            let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, serviceFee, deliveryFee].filter { $0 != 0 }
+            self.confirmMoney_H = 2 * 30 + CGFloat(arr.count) * 30 + discountMsg_H + 20
+            
+            let arr1 = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, walletPrice, serviceFee, deliveryFee].filter { $0 != 0 }
+            self.detailMoney_H = 3 * 35 + CGFloat(arr1.count) * 35 + discountMsg_H + 20
+        }
+        
+//        let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount].filter { $0 != 0 }
+//        self.confirmMoney_H = 4 * 30 + CGFloat(arr.count) * 30 + discountMsg_H + 20
         
         
         //actualFee, deliveryFee, serviceFee,  orderPrice
-        let arr1 = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, walletPrice].filter { $0 != 0 }
-        self.detailMoney_H = 5 * 35 + CGFloat(arr1.count) * 35 + discountMsg_H + 20
+//        let arr1 = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, walletPrice].filter { $0 != 0 }
+//        self.detailMoney_H = 5 * 35 + CGFloat(arr1.count) * 35 + discountMsg_H + 20
         
     }
     

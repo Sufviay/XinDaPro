@@ -162,7 +162,8 @@ class SaturdayController3: HeadBaseViewController, UITableViewDelegate, UITableV
             
             if dataModel.dayList.count == 0 {
                 //进入cash in
-                let nextVC = CashInController()
+                //let nextVC = CashInController()
+                let nextVC = CashOutController()
                 nextVC.dataModel = dataModel
                 nextVC.code = dataModel.nameList[idx + 1]
                 self.navigationController?.pushViewController(nextVC, animated: false)

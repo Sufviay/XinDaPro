@@ -14,6 +14,8 @@ class MealSelectSizeController: BaseViewController, UICollectionViewDelegate, UI
     
     private let manager = MenuOrderManager()
     
+    var isSearchVC: Bool = false
+    
     var dishesID: String = ""
     
     var canBuy: Bool = false
@@ -177,7 +179,7 @@ extension MealSelectSizeController {
     ///获取菜品详情
     private func loadDishedDetail_Net() {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.loadDishesDetail(dishesID: dishesID, deskID: deskID).subscribe(onNext: { (json) in
+        HTTPTOOl.loadDishesDetail(dishesID: dishesID, deskID: deskID).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
             
             let model = DishModel()
@@ -198,7 +200,7 @@ extension MealSelectSizeController {
             self.setUpUI()
             
                     
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
@@ -210,13 +212,18 @@ extension MealSelectSizeController {
         HUD_MB.loading("", onView: view)
         let selectOption = manager.getComboDicBySelected(selectIdxArr: selectIdxArr, dishModel: dishModel)
         //添加购物车
-        HTTPTOOl.addShoppingCart(dishesID: dishModel.dishID, buyNum: String(dishCount), type: "2", optionList: selectOption, deskID: deskID).subscribe(onNext: { (json) in
+        HTTPTOOl.addShoppingCart(dishesID: dishModel.dishID, buyNum: String(dishCount), type: "2", optionList: selectOption, deskID: deskID).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.showSuccess("Success!", onView: self.view)
             //发送通知刷新点餐页面
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "cartRefresh"), object: nil)
+            if isSearchVC {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "SearchRefresh"), object: nil)
+                
+            } else {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "cartRefresh"), object: nil)
+            }
             self.navigationController?.popViewController(animated: true)
             
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
         

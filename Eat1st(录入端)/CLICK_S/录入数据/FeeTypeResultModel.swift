@@ -70,27 +70,29 @@ class DateModel: NSObject {
     func updateModel(json: JSON, platList: [PingTaiModel]) {
         self.date = json["date"].stringValue
         self.writeDay = json["writeDay"].stringValue == "1" ? false : true
-        self.saturday = json["saturday"].stringValue == "1" ? false : true
+        //self.saturday = json["saturday"].stringValue == "1" ? false : true
         self.writeSat = json["writeSat"].stringValue == "1" ? false : true
         
         if saturday {
-            stepCount = platList.count + 5
+            stepCount = platList.count + 4
             if !writeDay {
                 //未填写
                 nameList = ["sat1", "sat2", "sat3"]
                 for model in platList {
                     nameList.append(model.name)
                 }
-                nameList += ["Cash In", "Cash Out"]
+                //nameList += ["Cash In", "Cash Out"]
+                nameList += ["Cash Out"]
             }
         } else {
-            stepCount = platList.count + 2
+            stepCount = platList.count + 1
             if !writeDay {
                 //未填写
                 for model in platList {
                     nameList.append(model.name)
                 }
-                nameList += ["Cash In", "Cash Out"]
+                //nameList += ["Cash In", "Cash Out"]
+                nameList += [ "Cash Out"]
             }
         }
         

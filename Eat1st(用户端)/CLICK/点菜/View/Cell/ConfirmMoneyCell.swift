@@ -12,6 +12,9 @@ class ConfirmMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataS
 //
 //    private var dataModel = ConfirmOrderCartModel()
     
+    ///1：外卖、2：自取 3 堂食
+    private var sellType: String = ""
+    
     private var dis_H: CGFloat = 0
     private var disScale: String = ""
     private var disMsg: String = ""
@@ -88,7 +91,20 @@ class ConfirmMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataS
                 return 1
             }
         }
-        if section == 3 || section == 4 || section == 5 || section == 6 {
+        
+        if section == 1 {
+            if sellType == "1" {
+                return 1
+            } else {
+                if moneyArr[section] == 0 {
+                    return 0
+                } else {
+                    return 1
+                }
+            }
+        }
+        
+        if section == 2 || section == 3 || section == 4 || section == 5 || section == 6 {
             if moneyArr[section] == 0 {
                 return 0
             } else {
@@ -122,11 +138,13 @@ class ConfirmMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataS
     }
     
     
-    func setCellData(model: ConfirmOrderCartModel) {
+    func setCellData(model: ConfirmOrderCartModel, buyType: String) {
+        
+        sellType = buyType
         disMsg = model.discountMsg
         dis_H = model.discountMsg_H
         disScale = model.discountScale
-        
+
         moneyArr = [model.subFee, model.deliverFee, model.serviceFee, model.packPrice, model.dishesDiscountAmount, model.couponAmount, model.discountAmount, 0, model.orderPrice]
         self.table.reloadData()
     }
@@ -135,6 +153,7 @@ class ConfirmMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataS
     
     
     func setDetailCellData(model: OrderDetailModel) {
+        sellType = model.type
         disMsg = model.discountMsg
         dis_H = model.discountMsg_H
         disScale = model.discountScale

@@ -12,37 +12,42 @@ class MenuNavBarView: UIView {
     
     var backBlock: VoidBlock?
     
+    var searchBlock: VoidBlock?
+    
     private let backBut: UIButton = {
         let but = UIButton()
         but.setImage(LOIMG("nav_back"), for: .normal)
         return but
     }()
     
-    private let titlab: UILabel = {
+    let searchBut: UIButton = {
+        let but = UIButton()
+        but.setCommentStyle(.zero, "Search", FONTCOLOR, BFONT(13), .clear)
+        return but
+    }()
+    
+    let backView: UIButton = {
+        let but = UIButton()
+        but.backgroundColor = HCOLOR("#F6F6F6")
+        but.layer.cornerRadius = 15
+        return but
+    }()
+    
+    private let sImg: UIImageView = {
+        let img = UIImageView()
+        img.image = LOIMG("search")
+        img.isUserInteractionEnabled = true
+        return img
+    }()
+    
+    private let searchLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(18), .left)
-        lab.text = "Menu"
+        lab.setCommentStyle(HCOLOR("#999999"), BFONT(13), .left)
+        lab.text = "Search for dishes"
         return lab
     }()
     
-    
-//    //钱包
-//    let walletLab: UILabel = {
-//        let lab = UILabel()
-//        lab.setCommentStyle(MAINCOLOR, BFONT(15), .right)
-//        lab.isHidden = true
-//        lab.isUserInteractionEnabled = true
-//        return lab
-//    }()
-//    
-//    let walletImg: UIImageView = {
-//        let img = UIImageView()
-//        img.image = LOIMG("wallet-1")
-//        img.isHidden = true
-//        return img
-//    }()
-    
-    
+
     
 
     override init(frame: CGRect) {
@@ -57,28 +62,39 @@ class MenuNavBarView: UIView {
             $0.size.equalTo(CGSize(width: 40, height: 40))
         }
         
-        self.addSubview(titlab)
-        titlab.snp.makeConstraints {
+        self.addSubview(searchBut)
+        searchBut.snp.makeConstraints {
             $0.centerY.equalTo(backBut)
-            $0.left.equalToSuperview().offset(60)
+            $0.right.equalToSuperview().offset(-10)
+            $0.size.equalTo(CGSize(width: 50, height: 30))
         }
         
-//        self.addSubview(walletLab)
-//        walletLab.snp.makeConstraints {
-//            $0.centerY.equalTo(titlab)
-//            $0.right.equalToSuperview().offset(-15)
-//        }
+        self.addSubview(backView)
+        backView.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(60)
+            $0.height.equalTo(30)
+            $0.right.equalTo(searchBut.snp.left).offset(-10)
+            $0.centerY.equalTo(backBut)
+        }
         
-//        self.addSubview(walletImg)
-//        walletImg.snp.makeConstraints {
-//            $0.centerY.equalTo(titlab)
-//            $0.right.equalTo(walletLab.snp.left).offset(-3)
-//        }
         
-//        let walletTap = UITapGestureRecognizer(target: self, action: #selector(walletTapAction))
-//        walletLab.addGestureRecognizer(walletTap)
+        backView.addSubview(sImg)
+        sImg.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 14, height: 14))
+            $0.left.equalToSuperview().offset(15)
+            $0.centerY.equalToSuperview()
+        }
+        
+        backView.addSubview(searchLab)
+        searchLab.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalTo(sImg.snp.right).offset(5)
+        }
+        
         
         backBut.addTarget(self, action: #selector(clickBackAction), for: .touchUpInside)
+        searchBut.addTarget(self, action: #selector(clickSearchAction), for: .touchUpInside)
+        backView.addTarget(self, action: #selector(clickSearchAction), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -90,10 +106,8 @@ class MenuNavBarView: UIView {
         self.backBlock?("")
     }
     
-    @objc private func walletTapAction() {
-        let walletVC = WalletController()
-        PJCUtil.currentVC()?.navigationController?.pushViewController(walletVC, animated: true)
+    @objc private func clickSearchAction() {
+        self.searchBlock?("")
     }
-    
     
 }

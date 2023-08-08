@@ -203,20 +203,20 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
                     }
                 }
                 
-                cell.jiaBlock = { (par) in
-                    ///添加购物车
-                    let count = par as! Int
-                    var dic: [String: Any] = [:]
-                    //添加购物车
-                    dic = ["num": count, "id": model.dishID]
-                    self.addCartBlock?(dic)
-                        
-
-                }
-                cell.jianBlock = { [unowned self] (_) in
-                    ///弹出购物车
-                    self.showCartBlock?("")
-                }
+//                cell.jiaBlock = { (par) in
+//                    ///添加购物车
+//                    let count = par as! Int
+//                    var dic: [String: Any] = [:]
+//                    //添加购物车
+//                    dic = ["num": count, "id": model.dishID]
+//                    self.addCartBlock?(dic)
+//                        
+//
+//                }
+//                cell.jianBlock = { [unowned self] (_) in
+//                    ///弹出购物车
+//                    self.showCartBlock?("")
+//                }
     
                 return cell
                 

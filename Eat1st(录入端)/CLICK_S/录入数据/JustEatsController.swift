@@ -145,8 +145,10 @@ class JustEatsController: HeadBaseViewController, UITableViewDelegate, UITableVi
             
             let code = dataModel.nameList[idx + 1]
             
-            if code == "Cash In" {
-                let nextVC = CashInController()
+//            if code == "Cash In" {
+//                let nextVC = CashInController()
+            if code == "Cash Out" {
+                let nextVC = CashOutController()
                 nextVC.dataModel = dataModel
                 nextVC.code = code
                 self.navigationController?.pushViewController(nextVC, animated: false)

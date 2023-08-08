@@ -101,7 +101,7 @@ class ConfirmOrderCartModel: NSObject {
     
     
     
-    func updateModel(json: JSON) {
+    func updateModel(json: JSON, type: String) {
         self.paymentSupport = json["payType"].stringValue
         self.deductionAmount = json["deductionAmount"].doubleValue
         self.deliverFee = json["deliveryPrice"].doubleValue
@@ -155,9 +155,17 @@ class ConfirmOrderCartModel: NSObject {
         } else {
             self.discountMsg_H = discountMsg.getTextHeigh(SFONT(10), S_W - 60) + 20
         }
+        
+        if type == "1" {
+            //外卖
+            let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, serviceFee].filter { $0 != 0 }
+            self.confirmMoney_H = 3 * 30 +  CGFloat(arr.count) * 30 + discountMsg_H + 20
+        } else {
+            let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, serviceFee, deliverFee].filter { $0 != 0 }
+            self.confirmMoney_H = 2 * 30 +  CGFloat(arr.count) * 30 + discountMsg_H + 20
+        }
  
-        let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount].filter { $0 != 0 }
-        self.confirmMoney_H = 4 * 30 +  CGFloat(arr.count) * 30 + discountMsg_H + 20
+
     }
     
     

@@ -9,28 +9,17 @@ import UIKit
 import RxSwift
 
 
-//protocol SelectSizeDelegate {
-//    
-//    func didSelectedSpecification()
-//}
-//
-
 
 class SelectSizeController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
     private let bag = DisposeBag()
-    //var delegate: SelectSizeDelegate?
     
     
-    ///当前店铺是卖午餐 还是晚餐 （2午餐 3晚餐）
-    //var storeSellLunchOrDinner: String = ""
+    var isSearchVC: Bool = false
     
     ///菜品是否可以购买
     var canBuy: Bool = false
-    
     ///菜品ID
     var dishesID: String = ""
-//    ///店铺ID
-//    var storeID: String = ""
     ///购物车ID  空为添加。不为空更新
     var cartID: String = ""
     ///选择数量
@@ -122,32 +111,7 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
             $0.height.equalTo(bottomBarH + 50)
         }
         
-//        b_view.addSubview(cartBut)
-//        cartBut.snp.makeConstraints {
-//            $0.size.equalTo(CGSize(width: 40, height: 40))
-//            $0.left.equalToSuperview().offset(15)
-//            $0.top.equalToSuperview().offset(5)
-//        }
-//
-//        b_view.addSubview(moneyLab)
-//        moneyLab.snp.makeConstraints {
-//            $0.centerY.equalTo(cartBut)
-//            $0.left.equalToSuperview().offset(60)
-//        }
-//
-//        b_view.addSubview(s_lab)
-//        s_lab.snp.makeConstraints {
-//            $0.bottom.equalTo(moneyLab).offset(-2)
-//            $0.right.equalTo(moneyLab.snp.left).offset(-1)
-//        }
-//
-//        b_view.addSubview(sureBut)
-//        sureBut.snp.makeConstraints {
-//            $0.size.equalTo(CGSize(width: 110, height: 30))
-//            $0.centerY.equalTo(cartBut)
-//            $0.right.equalToSuperview().offset(-10)
-//        }
-//
+
         view.addSubview(mainTable)
         mainTable.snp.makeConstraints {
             $0.left.right.top.equalToSuperview()
@@ -162,7 +126,6 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
         }
         
         backBut.addTarget(self, action: #selector(clickBackAction), for: .touchUpInside)
-        //sureBut.addTarget(self, action: #selector(clickAddOrderAction), for: .touchUpInside)
     }
     
     
@@ -191,47 +154,48 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
         
         if self.cartID == "" {
             //添加购物车
-            HTTPTOOl.addShoppingCart(dishesID: dishModel.dishID, buyNum: String(dishCount), type: "2", optionList: selectOption, deskID: deskID).subscribe(onNext: { (json) in
+            HTTPTOOl.addShoppingCart(dishesID: dishModel.dishID, buyNum: String(dishCount), type: "2", optionList: selectOption, deskID: deskID).subscribe(onNext: { [unowned self] (json) in
                 HUD_MB.showSuccess("Success!", onView: self.view)
+            
                 //发送通知刷新点餐页面
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "cartRefresh"), object: nil)
+                if self.isSearchVC {
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "SearchRefresh"), object: nil)
+                    
+                } else {
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "cartRefresh"), object: nil)
+                }
                 
                 self.navigationController?.popViewController(animated: true)
             
-            }, onError: { (error) in
+            }, onError: { [unowned self] (error) in
                 HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
             }).disposed(by: self.bag)
 
         } else {
-            HTTPTOOl.updateCartNum(buyNum: dishCount, cartID: cartID).subscribe(onNext: { (json) in
+            HTTPTOOl.updateCartNum(buyNum: dishCount, cartID: cartID).subscribe(onNext: { [unowned self] (json) in
                 HUD_MB.showSuccess("Success!", onView: self.view)
                 //发送通知刷新点餐页面
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "cartRefresh"), object: nil)
-                
+                if isSearchVC {
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "SearchRefresh"), object: nil)
+                    
+                } else {
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "cartRefresh"), object: nil)
+                }
+
                 self.navigationController?.popViewController(animated: true)
-            }, onError: { (error) in
+            }, onError: { [unowned self] (error) in
                 HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
             }).disposed(by: self.bag)
         }
         
         
         
-        
-//        HTTPTOOl.editeDishSpecification(cartID: "0", classiftyID: dishModel.belongClassiftyID, count: dishCount, dishID: dishModel.dishID, storeID: storeID, selectArr: selectOption).subscribe(onNext: { (json) in
-//
-//            HUD_MB.showSuccess("Success!", onView: self.view)
-//            self.delegate?.didSelectedSpecification()
-//
-//
-//        }, onError: { (error) in
-//            HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
-//        }).disposed(by: bag)
     }
     
     ///获取菜品详情
     private func loadDishedDetail_Net() {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.loadDishesDetail(dishesID: dishesID, deskID: deskID).subscribe(onNext: { (json) in
+        HTTPTOOl.loadDishesDetail(dishesID: dishesID, deskID: deskID).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
             
             let model = DishModel()
@@ -239,7 +203,7 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
             self.dishModel = model
             self.rowCount = self.dishModel.specification.count + 1
             self.mainTable.reloadData()
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }

@@ -9,6 +9,53 @@ import UIKit
 import SwiftyJSON
 
 
+class CartDataModel: NSObject {
+    
+    ///菜品的原价
+    var allPrice: Double = 0
+    ///是否有折扣（1有折扣，2无折扣）
+    var discountType: String = ""
+    ///折扣后菜品价格
+    var discountAmount: Double = 0
+    ///最低配送金额
+    var minDeliveryPrice: Double = 0
+    ///是否可配送（3是，4菜品金额小于等于0，5菜品金额小于店铺最低配送金额），6关店（不在营业时间呗），7菜品无效 8未登录
+    var deliveryType: String = ""
+    ///已选择的菜品
+    var dishesList: [CartDishModel] = []
+    ///菜品数量
+    var dishesNum: Int = 0
+    
+    
+    func updateModel(json: JSON) {
+        
+        var tarr: [CartDishModel] = []
+        for cart_json in json["data"]["dishesList"].arrayValue {
+            let model = CartDishModel()
+            model.updateModel(json: cart_json)
+            tarr.append(model)
+        }
+        ///购物车数据排序 失效的在上边，可用的在下
+        self.dishesList = tarr.filter { $0.isOn != "1" } + tarr.filter { $0.isOn == "1" }
+
+        self.allPrice = json["data"]["allPrice"].doubleValue
+        self.deliveryType = json["data"]["deliveryType"].stringValue
+        self.discountType = json["data"]["discountType"].stringValue
+        self.discountAmount = json["data"]["discountAmount"].doubleValue
+        self.minDeliveryPrice = json["data"]["minDeliveryPrice"].doubleValue
+        
+        var tNum = 0
+        for model in dishesList {
+            tNum += model.cartCount
+        }
+        self.dishesNum = tNum
+        
+    }
+    
+    
+}
+
+
 //MARK: - 构建页面的数据Model
 class MenuModel: NSObject {
     
@@ -38,8 +85,10 @@ class MenuModel: NSObject {
     var pageDataArr: [ClassiftyModel] = []
     
     ///初始店铺的购买状态 1外卖 2自取 ""为关店状态
-    var buyType: String = "1"
+    var buyType: String = ""
 
+    
+    
     ///根据购物车菜品处理之后的单品数据
     //var dinnerDataArr: [ClassiftyModel] = []
     ///购物车处理之后的套餐商品
@@ -48,40 +97,6 @@ class MenuModel: NSObject {
     
     
     func updateModel(json: JSON) {
-                
-        ///时间段列表数据
-        var tArr1: [OpenTimeModel] = []
-        for jsonData in json["data"]["openTimeList"].arrayValue {
-            let model = OpenTimeModel()
-            model.updateModel(json: jsonData)
-            
-            var c_arr: [ClassiftyModel] = []
-            for c_json in json["data"]["classifyList"].arrayValue {
-                let model = ClassiftyModel()
-                model.updateModel(json: c_json)
-                c_arr.append(model)
-            }
-            model.dataArr = c_arr
-            tArr1.append(model)
-        }
-        self.openTimeArr = tArr1
-
-        ///当前时间所在的时间段
-        if (openTimeArr.filter { $0.nowType == "2" }).count != 0 {
-            self.curentTime = (openTimeArr.filter { $0.nowType == "2" })[0]
-            
-            ///设置当前店铺的购买方式 1外卖 2自取 ""为关店状态
-            
-            if curentTime.deliverStatus == "1" {
-                buyType = "1"
-            } else {
-                if curentTime.collectStatus == "1" {
-                    buyType = "2"
-                } else {
-                    buyType = "1"
-                }
-            }
-        }
         
         
         ///分类列表
@@ -92,6 +107,9 @@ class MenuModel: NSObject {
             c_arr.append(model)
         }
 
+
+        ///将菜品标签作为分类
+        var tag_C_Arr: [ClassiftyModel] = []
         
         ///菜品列表
         var d_arr: [DishModel] = []
@@ -99,6 +117,18 @@ class MenuModel: NSObject {
             let model = DishModel()
             model.updateModel(json: d_json)
             d_arr.append(model)
+            
+            for tagModel in model.tagList {
+                //如果标签分类中不存在就添加进去
+                if (tag_C_Arr.filter { $0.flName_C == tagModel.tagName }).count == 0 {
+                    let model = ClassiftyModel()
+                    model.isOn = true
+                    model.flName_E = tagModel.tagName
+                    model.flName_C = tagModel.tagName
+                    tag_C_Arr.append(model)
+                }
+                
+            }
         }
         
         /**
@@ -116,6 +146,49 @@ class MenuModel: NSObject {
         
         ///处理后的菜品总数据
         self.allDataArr = c_arr.filter{ $0.dishArr.count != 0 }
+
+        
+        
+                
+        ///时间段列表数据
+        var tArr1: [OpenTimeModel] = []
+        for jsonData in json["data"]["openTimeList"].arrayValue {
+            let model = OpenTimeModel()
+            model.updateModel(json: jsonData)
+            
+            var tc_arr: [ClassiftyModel] = []
+            for c_json in json["data"]["classifyList"].arrayValue {
+                let model = ClassiftyModel()
+                model.updateModel(json: c_json)
+                tc_arr.append(model)
+            }
+            model.dataArr = tc_arr + tag_C_Arr
+            tArr1.append(model)
+        }
+        self.openTimeArr = tArr1
+
+        
+        
+        
+        ///当前时间所在的时间段
+        if (openTimeArr.filter { $0.nowType == "2" }).count != 0 {
+            self.curentTime = (openTimeArr.filter { $0.nowType == "2" })[0]
+            
+            ///设置当前店铺的购买方式 1外卖 2自取 ""为关店状态
+            
+            if curentTime.deliverStatus == "1" {
+                buyType = "1"
+            } else {
+                if curentTime.collectStatus == "1" {
+                    buyType = "2"
+                } else {
+                    buyType = ""
+                }
+            }
+        } else {
+            buyType = ""
+        }
+        
         
         /**
          根据菜品编码和营业时间编码的关系整理菜品
@@ -134,16 +207,16 @@ class MenuModel: NSObject {
                     if openModel.storeTimeId == timeID {
                         //将菜品放入相对应的分类下
                         for c_model in openModel.dataArr {
-                            if d_model.belongClassiftyID == c_model.flID {
+                            //分类ID相同加入 或者 标签跟分类名相同加入
+                            if d_model.belongClassiftyID == c_model.flID || (d_model.tagList.filter { $0.tagName == c_model.flName_C }).count != 0  {
                                 c_model.dishArr.append(d_model)
                             }
                         }
                     }
                 }
             }
-                        
         }
-        
+
         //去除时间列表中无菜品的空分类
         for openModel in openTimeArr {
             openModel.dataArr = openModel.dataArr.filter { $0.dishArr.count != 0 }
@@ -317,6 +390,10 @@ class DishModel: NSObject {
     var sel_Num: Int = 0
     ///商品高度
     var dish_H: CGFloat = 0
+    
+    ///搜索页面商品高度
+    var dish_H_S: CGFloat = 0
+    
     ///菜品的分类 （1单品 2套餐）
     var dishesType: String = ""
     
@@ -394,14 +471,21 @@ class DishModel: NSObject {
 
         //单品
         let n_h = self.name_C.getTextHeigh(BFONT(17), S_W - 235)
+        let n_h_s = self.name_C.getTextHeigh(BFONT(17), S_W - 145)
         let d_h: CGFloat = self.des.getTextHeigh(SFONT(11), S_W - 235) > 25 ? 25 : self.des.getTextHeigh(SFONT(11), S_W - 235)
+        let d_h_s: CGFloat = self.des.getTextHeigh(SFONT(11), S_W - 145) > 25 ? 25 : self.des.getTextHeigh(SFONT(11), S_W - 145)
         
-        if (S_W - 230) > 140 {
-            //非放大模式
-            self.dish_H = (n_h + d_h + 90) > 130 ? (n_h + d_h + 90) : 130
-        } else {
-            self.dish_H = (n_h + d_h + 80 + 30) > 130 ? (n_h + d_h + 80 + 30) : 130
-        }
+        
+        self.dish_H = (n_h + d_h + 90) > 130 ? (n_h + d_h + 90) : 130
+        self.dish_H_S = (n_h_s + d_h_s + 90) > 130 ? (n_h_s + d_h_s + 90) : 130
+        
+        
+//        if (S_W - 230) > 140 {
+//            //非放大模式
+//            self.dish_H = (n_h + d_h + 90) > 130 ? (n_h + d_h + 90) : 130
+//        } else {
+//            self.dish_H = (n_h + d_h + 80 + 30) > 130 ? (n_h + d_h + 80 + 30) : 130
+//        }
         
     
         

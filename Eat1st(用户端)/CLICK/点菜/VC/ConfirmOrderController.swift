@@ -307,7 +307,7 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
             HUD_MB.dissmiss(onView: self.view)
             
             
-            self.cartModel.updateModel(json: json["data"])
+            self.cartModel.updateModel(json: json["data"], type: self.type)
             
             if self.cartModel.deliveryType == "1" {
                 //当前没有位置信息
@@ -426,6 +426,7 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
         payAlert.dishesDiscountAmount = cartModel.dishesDiscountAmount
         payAlert.couponAmount = cartModel.couponAmount
         payAlert.packPrice = cartModel.packPrice
+        payAlert.buyType = type
         self.payAlert.alertReloadData()
         self.payAlert.appearAction()
     }
@@ -562,7 +563,7 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "cartRefresh"), object: nil)
             HTTPTOOl.loadConfirmOrderDetail(storeID: self.storeID, buyWay: self.type, lat: self.submitModel.recipientLat, lng: self.submitModel.recipientLng, couponID: self.selectCoupon.couponId, postCode: self.submitModel.recipientPostcode).subscribe(onNext: { (json) in
                 HUD_MB.dissmiss(onView: self.view)
-                self.cartModel.updateModel(json: json["data"])
+                self.cartModel.updateModel(json: json["data"], type: self.type)
                 if self.cartModel.deliveryType == "4" {
                     self.showSystemAlert("Tip", json["data"]["deliveryMsg"].stringValue, "Sure")
                 }
@@ -820,7 +821,7 @@ extension ConfirmOrderController {
         if indexPath.section == 8 {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "ConfirmMoneyCell") as! ConfirmMoneyCell
-            cell.setCellData(model: cartModel)
+            cell.setCellData(model: cartModel, buyType: type)
             return cell
         }
         

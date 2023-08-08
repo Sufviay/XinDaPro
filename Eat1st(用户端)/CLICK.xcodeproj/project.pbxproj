@@ -33,6 +33,7 @@
 		E31790D128C5CAA9007BA6B9 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31790D028C5CAA9007BA6B9 /* CalendarView.swift */; };
 		E31790D328C5CE21007BA6B9 /* TimeDayAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31790D228C5CE21007BA6B9 /* TimeDayAlert.swift */; };
 		E31790D528C5CE74007BA6B9 /* DateTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31790D428C5CE74007BA6B9 /* DateTool.swift */; };
+		E31EF59C2A58ED3800E88670 /* OrderSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31EF59B2A58ED3800E88670 /* OrderSearchController.swift */; };
 		E321ABDF2760E45C000CF43E /* StoreMainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E321ABDE2760E45C000CF43E /* StoreMainController.swift */; };
 		E321ABE327633048000CF43E /* LogInOverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E321ABE227633048000CF43E /* LogInOverController.swift */; };
 		E321ABE9276728E4000CF43E /* MenuHeadInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E321ABE8276728E4000CF43E /* MenuHeadInfoView.swift */; };
@@ -345,6 +346,7 @@
 		E31790D028C5CAA9007BA6B9 /* CalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		E31790D228C5CE21007BA6B9 /* TimeDayAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeDayAlert.swift; sourceTree = "<group>"; };
 		E31790D428C5CE74007BA6B9 /* DateTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTool.swift; sourceTree = "<group>"; };
+		E31EF59B2A58ED3800E88670 /* OrderSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSearchController.swift; sourceTree = "<group>"; };
 		E321ABDE2760E45C000CF43E /* StoreMainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreMainController.swift; sourceTree = "<group>"; };
 		E321ABE227633048000CF43E /* LogInOverController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInOverController.swift; sourceTree = "<group>"; };
 		E321ABE8276728E4000CF43E /* MenuHeadInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHeadInfoView.swift; sourceTree = "<group>"; };
@@ -1239,6 +1241,7 @@
 			isa = PBXGroup;
 			children = (
 				E3F82A2E287520D4005E5FAB /* StoreMenuOrderController.swift */,
+				E31EF59B2A58ED3800E88670 /* OrderSearchController.swift */,
 				E30E72C226BA716B001919AD /* StoreIntroduceController.swift */,
 				E3C7F8B126BE3121006BF56E /* ConfirmOrderController.swift */,
 				E36E9A9C26C7A43400483736 /* SelectSizeController.swift */,
@@ -1875,6 +1878,7 @@
 				E34929A626D8BA3B0014F40E /* AddressCell.swift in Sources */,
 				E3B3FCDE27C36E4800B479B7 /* UIScrollView+GKGestureHandle.m in Sources */,
 				E32A39E8275F3113004C63D7 /* LBXPermissions.swift in Sources */,
+				E31EF59C2A58ED3800E88670 /* OrderSearchController.swift in Sources */,
 				E373803A2A394D1F0008A67C /* ScanOrderStoreContentCell.swift in Sources */,
 				E38BF4B4288E2F3E0048F2EA /* SystemMsgView.swift in Sources */,
 				E3BEFEB0282BA9DE0050D1E6 /* OrderDetailMapCell.swift in Sources */,
@@ -2187,7 +2191,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.54;
+				MARKETING_VERSION = 1.0.55;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Foodo2o-User";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2213,6 +2217,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_TEAM = 2CRFF5W24M;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 2CRFF5W24M;
 				INFOPLIST_FILE = CLICK/Other/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Eat1st;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -2220,10 +2225,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.54;
+				MARKETING_VERSION = 1.0.55;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Foodo2o-User";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = user_dis;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = userDis;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

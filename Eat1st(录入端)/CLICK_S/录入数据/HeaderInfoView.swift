@@ -68,7 +68,8 @@ class HeaderInfoView: UIView {
                         //未填写
                         
                         if FeeTypeResultModel.sharedInstance.platTypeList.count == 0 {
-                            let firstVC = CashInController()
+                            //let firstVC = CashInController()
+                            let firstVC = CashOutController()
                             firstVC.dataModel = subModel
                             firstVC.code = subModel.nameList[0]
                             PJCUtil.currentVC()?.navigationController?.setViewControllers([firstVC], animated: false)
@@ -359,7 +360,8 @@ class CompleteHeaderView: UIView {
                         //未填写
 
                         if FeeTypeResultModel.sharedInstance.platTypeList.count == 0 {
-                            let firstVC = CashInController()
+                            //let firstVC = CashInController()
+                            let firstVC = CashOutController()
                             firstVC.dataModel = subModel
                             firstVC.code = subModel.nameList[0]
                             PJCUtil.currentVC()?.navigationController?.setViewControllers([firstVC], animated: false)

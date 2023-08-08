@@ -210,6 +210,7 @@ class OderListConfirmController: BaseViewController, UITableViewDelegate, UITabl
         payAlert.discountAmount = dataModel.discountAmount
         payAlert.dishesDiscountAmount = dataModel.dishesDiscountAmount
         payAlert.couponAmount = dataModel.couponAmount
+        payAlert.buyType = dataModel.type
         self.payAlert.alertReloadData()
         self.payAlert.appearAction()
     }

@@ -9,6 +9,9 @@ import UIKit
 
 class PayAlertMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSource {
     
+    ///1外卖 2自取 3堂食
+    private var sellType: String = ""
+    
     private var discountScale: String = ""
     
     private let titStrArr: [String] = ["Subtotal", "Delivery fee", "Service fee", "Bag fee", "Dishes discount", "Coupon", "Discount", "Total"]
@@ -71,7 +74,20 @@ class PayAlertMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if section == 3 || section == 4 || section == 5 || section == 6 {
+        
+        if section == 1 {
+            if sellType == "1" {
+                return 1
+            } else {
+                if moneyArr[section] == 0 {
+                    return 0
+                } else {
+                    return 1
+                }
+            }
+        }
+        
+        if section == 2 || section == 3 || section == 4 || section == 5 || section == 6 {
             if moneyArr[section] == 0 {
                 return 0
             } else {
@@ -92,7 +108,8 @@ class PayAlertMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewData
         return cell
     }
     
-    func setCellData(money: [Double], scale: String) {
+    func setCellData(money: [Double], scale: String, buyType: String) {
+        sellType = buyType
         discountScale = scale
         moneyArr = money
         self.table.reloadData()

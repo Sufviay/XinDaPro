@@ -12,6 +12,8 @@ class MenuCartView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UI
 
     private let bag = DisposeBag()
     
+    var isSearchVC: Bool = false
+    
     var storeID: String = ""
     
     var cartDataArr: [CartDishModel] = [] {
@@ -232,11 +234,16 @@ extension MenuCartView {
     //MARK: - 修改购物车
     private func updateCart_Net(cartID: String, buyNum: Int, idx: Int) {
         HUD_MB.loading("", onView: backView)
-        HTTPTOOl.updateCartNum(buyNum: buyNum, cartID: cartID).subscribe(onNext: { (json) in
+        HTTPTOOl.updateCartNum(buyNum: buyNum, cartID: cartID).subscribe(onNext: { [unowned self] (json) in
             
             
             //发送通知刷新点餐页面
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "cartRefresh"), object: nil)
+            if isSearchVC {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "SearchRefresh"), object: nil)
+                
+            } else {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "cartRefresh"), object: nil)
+            }
            
             if buyNum == 0 {
                 self.cartDataArr.remove(at: idx)
@@ -253,7 +260,7 @@ extension MenuCartView {
             }
             HUD_MB.dissmiss(onView: self.backView)
         
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.backView)
         }).disposed(by: self.bag)
     }
@@ -262,14 +269,20 @@ extension MenuCartView {
     //MARK: - 清空购物车
     private func emptyCart_Net() {
         HUD_MB.loading("", onView: backView)
-        HTTPTOOl.emptyCart(storeID: storeID).subscribe(onNext: { (json) in
+        HTTPTOOl.emptyCart(storeID: storeID).subscribe(onNext: { [unowned self] (json) in
             //发送通知刷新点餐页面
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "cartRefresh"), object: nil)
+            if isSearchVC {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "SearchRefresh"), object: nil)
+                
+            } else {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "cartRefresh"), object: nil)
+            }
+
             self.cartDataArr.removeAll()
             self.table.reloadData()
             self.disAppearAction()
             HUD_MB.dissmiss(onView: self.backView)
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.backView)
         }).disposed(by: self.bag)
     }
@@ -278,10 +291,14 @@ extension MenuCartView {
     //MARK: - 删除购物车商品
     private func deleteCartGoods_Net(id: String, idx: Int) {
         HUD_MB.loading("", onView: backView)
-        HTTPTOOl.deleteCartGoods(id: id).subscribe(onNext: { (json) in
+        HTTPTOOl.deleteCartGoods(id: id).subscribe(onNext: { [unowned self] (json) in
             //发送通知刷新点餐页面
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "cartRefresh"), object: nil)
-           
+            if isSearchVC {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "SearchRefresh"), object: nil)
+                
+            } else {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "cartRefresh"), object: nil)
+            }
             self.cartDataArr.remove(at: idx)
             self.backView.snp.updateConstraints {
                 $0.height.equalTo(self.H)
@@ -293,7 +310,7 @@ extension MenuCartView {
             }
             HUD_MB.dissmiss(onView: self.backView)
 
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.backView)
         }).disposed(by: self.bag)
         

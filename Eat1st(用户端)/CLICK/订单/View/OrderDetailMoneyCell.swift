@@ -79,7 +79,20 @@ class OrderDetailMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
                 return 1
             }
         }
-        if section == 3 || section == 4 || section == 5 || section == 6 || section == 9 {
+        
+        if section == 1 {
+            if dataModel.type == "1" {
+                return 1
+            } else {
+                if moneyArr[section] == 0 {
+                    return 0
+                } else {
+                    return 1
+                }
+            }
+        }
+        
+        if section == 2 || section == 3 || section == 4 || section == 5 || section == 6 || section == 9 {
             if moneyArr[section] == 0 {
                 return 0
             } else {

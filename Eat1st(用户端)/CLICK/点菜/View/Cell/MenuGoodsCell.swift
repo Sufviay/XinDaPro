@@ -431,11 +431,11 @@ class MenuGoodsNoSizeCell: BaseTableViewCell, UICollectionViewDelegate, UICollec
 //MARK: - 有规格
 class MenuGoodsSizeCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, SDPhotoBrowserDelegate, CommonToolProtocol, UICollectionViewDelegateFlowLayout {
     
-    ///添加规格菜品
-    var jiaBlock: VoidBlock?
-    
-    ///减少菜品规格
-    var jianBlock: VoidBlock?
+//    ///添加规格菜品
+//    var jiaBlock: VoidBlock?
+//
+//    ///减少菜品规格
+//    var jianBlock: VoidBlock?
     ///点开选项
     var optionBlock: VoidBlock?
     

@@ -299,13 +299,13 @@ class LogInController: BaseViewController {
                             self.navigationController?.setViewControllers([completeVC], animated: true)
                         } else {
                             // 未填写
-                            
+
                             let firstVC = SaturdayController1()
                             firstVC.dataModel = subModel
                             firstVC.code = subModel.nameList[0]
                             self.navigationController?.setViewControllers([firstVC], animated: true)
                         }
-                        
+
                     } else {
                         //不是周六
                         
@@ -318,7 +318,11 @@ class LogInController: BaseViewController {
                             //未填写
                                         
                             if model.platTypeList.count == 0 {
-                                let firstVC = CashInController()
+                                
+                                
+                                
+                                //let firstVC = CashInController()
+                                let firstVC = CashOutController()
                                 firstVC.dataModel = subModel
                                 firstVC.code = subModel.nameList[0]
                                 self.navigationController?.setViewControllers([firstVC], animated: true)
