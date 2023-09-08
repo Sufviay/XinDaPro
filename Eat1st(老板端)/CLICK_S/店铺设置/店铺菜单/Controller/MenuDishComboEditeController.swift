@@ -379,7 +379,7 @@ class MenuDishComboEditeController: HeadBaseViewController, UITableViewDelegate,
                     cell.setCellData(money: dataModel.deliPrice, titStr: "Delivery Price")
                 }
                 if indexPath.row == 10 {
-                    cell.setCellData(money: dataModel.dinePrice, titStr: "Dine in Price")
+                    cell.setCellData(money: dataModel.dinePrice, titStr: "Dine-in Price")
                 }
                 
                 cell.editeEndBlock = { [unowned self] (text) in
@@ -568,39 +568,39 @@ extension MenuDishComboEditeController {
 
             }
         }
-
-        if dataModel.sellType == "" {
-            HUD_MB.showWarnig("Please select the type of dishes sold!", onView: self.view)
-            return
-        }
-        
-
-        
-        if dataModel.sellType == "3" {
-            if dataModel.deliPrice == "0" || dataModel.deliPrice == "" {
-                HUD_MB.showWarnig("Please fill in the delivery price of the dishes!", onView: self.view)
-                return
-            }
-            if dataModel.dinePrice == "0" || dataModel.dinePrice == "" {
-                HUD_MB.showWarnig("Please fill in the price of the dishes!", onView: self.view)
-                return
-            }
-        }
-        
-        if dataModel.sellType == "1" {
-            if dataModel.deliPrice == "0" || dataModel.deliPrice == "" {
-                HUD_MB.showWarnig("Please fill in the delivery price of the dishes!", onView: self.view)
-                return
-            }
-        }
-        if dataModel.sellType == "2" {
-            if dataModel.dinePrice == "0" || dataModel.dinePrice == "" {
-                HUD_MB.showWarnig("Please fill in the price of the dishes!", onView: self.view)
-                return
-            }
-
-        }
-        
+//
+//        if dataModel.sellType == "" {
+//            HUD_MB.showWarnig("Please select the type of dishes sold!", onView: self.view)
+//            return
+//        }
+//
+//
+//
+//        if dataModel.sellType == "3" {
+//            if dataModel.deliPrice == "0" || dataModel.deliPrice == "" {
+//                HUD_MB.showWarnig("Please fill in the delivery price of the dishes!", onView: self.view)
+//                return
+//            }
+//            if dataModel.dinePrice == "0" || dataModel.dinePrice == "" {
+//                HUD_MB.showWarnig("Please fill in the price of the dishes!", onView: self.view)
+//                return
+//            }
+//        }
+//
+//        if dataModel.sellType == "1" {
+//            if dataModel.deliPrice == "0" || dataModel.deliPrice == "" {
+//                HUD_MB.showWarnig("Please fill in the delivery price of the dishes!", onView: self.view)
+//                return
+//            }
+//        }
+//        if dataModel.sellType == "2" {
+//            if dataModel.dinePrice == "0" || dataModel.dinePrice == "" {
+//                HUD_MB.showWarnig("Please fill in the price of the dishes!", onView: self.view)
+//                return
+//            }
+//
+//        }
+//
         if dataModel.classifyId == 0 {
             HUD_MB.showWarnig("Please fill in the food category!", onView: self.view)
             return

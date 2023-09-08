@@ -238,6 +238,13 @@ typealias VoidIntBlock = (_ num: Int) -> ()
 typealias VoidImgBlock = (_ img: UIImage?) -> ()
 
 
+//MARK: - 处理字符串中的转义字符
+let HTML: (String) -> String = { (str) in
+    return String(htmlEncodedString: str) ?? ""
+}
+
+
+
 //MARK: - 网络
 let HTTPTOOl = HttpTool.shared
 
@@ -248,6 +255,6 @@ let HTTPTOOl = HttpTool.shared
 
 let ISONLINE: Bool = true
 
-let VERID: String = "25"
+let VERID: String = "28"
 var BASEURL: String = ISONLINE ? "https://api.foodo2o.com/" : "http://api.moneycheers.net/"
 

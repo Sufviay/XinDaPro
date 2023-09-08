@@ -175,6 +175,32 @@ enum ApiManager {
     case specDoAddOrUpdate(model: DishDetailModel)
     ///增加或修改套餐信息
     case comboDoAddOrUpdate(model: DishDetailModel)
+    ///获取消息列表
+    case getMsgList(page: String, type: String)
+    ///获取合并订单的订单列表
+    case getMergeDetail(mergeID: String)
+    ///获取投诉列表
+    case getComplainsList(page: String)
+    ///获取评论列表
+    case getReviewsList(page: String)
+    ///获取投诉详情
+    case getComplainsDetail(id: String)
+    ///处理投诉
+    case doComplains(plaintId: String, handleType: String, refundMode: String, amount: String, refundFlow: String, plaintDishesList: [[String: String]])
+    ///回复评论
+    case doEvaluateReply(id: String, content: String)
+    ///获取餐桌列表
+    case getDeskList(page: String)
+    ///餐桌的启用禁用
+    case setDeskStatus(id: String)
+    ///删除餐桌
+    case deleteDesk(id: String)
+    ///添加餐桌
+    case addDesk(name: String, remark: String)
+    ///编辑餐桌
+    case editDesk(id: String, name: String, remark: String)
+    
+
     
     
     
@@ -443,8 +469,30 @@ extension ApiManager: TargetType {
             return "api/boss/dishes/spec/doAddOrUpdate"
         case .comboDoAddOrUpdate(model: _):
             return "api/boss/dishes/combo/doAddOrUpdate"
-    
-            
+        case .getMsgList(page: _, type: _):
+            return "api/boss/operate/getLogList"
+        case .getMergeDetail(mergeID: _):
+            return "api/boss/merge/getMergeDetail"
+        case .getComplainsList(page: _):
+            return "api/boss/plaint/getBossPlaintList"
+        case .getReviewsList(page: _):
+            return "api/boss/evaluate/getEvaluateList"
+        case .getComplainsDetail(id: _):
+            return "api/boss/plaint/getPlaintDetail"
+        case .doComplains(plaintId: _, handleType: _, refundMode: _, amount: _, refundFlow: _, plaintDishesList: _):
+            return "api/boss/plaint/doBossPlaint"
+        case .doEvaluateReply(id: _, content: _):
+            return "api/boss/evaluate/doReply"
+        case .getDeskList(page: _):
+            return "api/boss/desk/getDeskList"
+        case .setDeskStatus(id: _):
+            return "api/boss/desk/doStatus"
+        case .deleteDesk(id: _):
+            return "api/boss/desk/doDelete"
+        case .editDesk(id: _, name: _, remark: _):
+            return "api/boss/desk/doUpdate"
+        case .addDesk(name: _, remark: _):
+            return "api/boss/desk/doAdd"
             
 
 
@@ -462,7 +510,6 @@ extension ApiManager: TargetType {
             
         case .getOrderStatusTag:
             return "api/boss/order/getTabList"
-            
             
         case .getOrderList(page: _, tag: _, type: _):
             return "api/boss/order/getOrderList"
@@ -715,11 +762,30 @@ extension ApiManager: TargetType {
             dic = model.toJSON() ?? [:]
         case .comboDoAddOrUpdate(let model):
             dic = model.toJSON() ?? [:]
-            
-            
-            
-            
-            
+        case .getMsgList(let page, let type):
+            dic = ["pageIndex": page, "operateType": type]
+        case .getMergeDetail(let mergeID):
+            dic = ["mergeId": mergeID]
+        case .getReviewsList(let page):
+            dic = ["pageIndex": page]
+        case .getComplainsList(let page):
+            dic = ["pageIndex": page]
+        case .getComplainsDetail(let id):
+            dic = ["plaintId": id]
+        case .doComplains(let plaintId, let handleType, let refundMode, let amount, let refundFlow, let plaintDishesList):
+            dic = ["plaintId": plaintId, "handleType": handleType, "refundMode": refundMode, "amount": amount, "refundFlow": refundFlow, "plaintDishesList": plaintDishesList]
+        case .doEvaluateReply(let id, let content):
+            dic = ["evaluateId": id, "replyContent": content]
+        case .getDeskList(let page):
+            dic = ["pageIndex": page]
+        case .setDeskStatus(let id):
+            dic = ["deskId": id]
+        case .deleteDesk(let id):
+            dic = ["deskId": id]
+        case .editDesk(let id, let name, let remark):
+            dic = ["deskId": id, "deskName": name, "remark": remark]
+        case .addDesk(let name, let remark):
+            dic = ["deskName": name, "remark": remark]
         
             
             

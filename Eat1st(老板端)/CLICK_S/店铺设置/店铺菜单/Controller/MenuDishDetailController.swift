@@ -219,7 +219,7 @@ class MenuDishDetailController: HeadBaseViewController, UITableViewDelegate, UIT
                     msg = "Delivery"
                 }
                 if dishModel.sellType == "2" {
-                    msg = "Dine in"
+                    msg = "Dine-in"
                 }
                 if dishModel.sellType == "3" {
                     msg = "All"

@@ -583,9 +583,90 @@ class HttpTool {
         return Observable<JSON>.create(response)
     }
     
+    //MARK: - 获取消息
+    func getMsgList(page: Int, type: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getMsgList(page: String(page), type: type))
+        return Observable<JSON>.create(response)
+    }
     
     
+    //MARK: - 获取合并订单的详情
+    func getMergeDetail(mergeID: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getMergeDetail(mergeID: mergeID))
+        return Observable<JSON>.create(response)
+    }
     
+    
+    //MARK: - 评论列表
+    func getReviewsList(page: Int) -> Observable<JSON> {
+        let response = rxApiManager(api: .getReviewsList(page: String(page)))
+        return Observable<JSON>.create(response)
+    }
+    
+    
+    //MARK: - 投诉列表
+    func getComplatinsList(page: Int) -> Observable<JSON> {
+        let response = rxApiManager(api: .getComplainsList(page: String(page)))
+        return Observable<JSON>.create(response)
+    }
+    
+    
+    //MARK: - 投诉详情
+    func getComplatinsDetail(id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getComplainsDetail(id: id))
+        return Observable<JSON>.create(response)
+    }
+    
+    
+    //MARK: - 获取投诉处理内容
+    func getComplaintDealContent() -> Observable<JSON> {
+        let response = rxApiManager(api: .getDealComplaintWay)
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 处理投诉
+    func doComplaints(plaintId: String, handleType: String, refundMode: String, amount: String, refundFlow: String, plaintDishesList: [[String: String]]) -> Observable<JSON> {
+        let response = rxApiManager(api: .doComplains(plaintId: plaintId, handleType: handleType, refundMode: refundMode, amount: amount, refundFlow: refundFlow, plaintDishesList: plaintDishesList))
+        return Observable<JSON>.create(response)
+    }
+    
+    
+    //MARK: - 回复评价
+    func doEvaluateReply(id: String, content: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .doEvaluateReply(id: id, content: content))
+        return Observable<JSON>.create(response)
+    }
+    
+    
+    //MARK: - 获取餐桌列表
+    func getDeskList(page: Int) -> Observable<JSON> {
+        let response = rxApiManager(api: .getDeskList(page: String(page)))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 删除餐桌
+    func deleteDesk(id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .deleteDesk(id: id))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 餐桌启用禁用
+    func setDeskStatus(id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .setDeskStatus(id: id))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 添加餐桌
+    func addDesk(name: String, remark: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .addDesk(name: name, remark: remark))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 编辑餐桌
+    func editDesk(id: String, name: String, remark: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .editDesk(id: id, name: name, remark: remark))
+        return Observable<JSON>.create(response)
+    }
     
     
     
@@ -650,13 +731,8 @@ class HttpTool {
     }
     
 
+
     
-    
-    //MARK: - 获取投诉处理内容
-    func getComplaintDealContent() -> Observable<JSON> {
-        let response = rxApiManager(api: .getDealComplaintWay)
-        return Observable<JSON>.create(response)
-    }
     
     //MARK: - 获取投诉内容
     func loadComplainContent(orderId: String) -> Observable<JSON> {

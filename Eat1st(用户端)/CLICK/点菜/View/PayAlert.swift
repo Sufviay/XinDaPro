@@ -12,13 +12,13 @@ class PayAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
     
     var clickPayBlock: VoidBlock?
 
-    ///是否可以现金付款或是否可以在线付款 1现金 2卡  99都行
+    ///是否可以现金付款或是否可以在线付款 1现金 2卡  3都行 4不需要
     var paymentSupport: String = ""
 
     ///1 现金  2 卡
     private var payWay: String = ""
     
-    private var H: CGFloat = bottomBarH + 570
+    private var H: CGFloat = bottomBarH + 550
     
 //    ///钱包金额
 //    var walletAmount: Double = 0
@@ -200,13 +200,23 @@ class PayAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
         return true
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+         return 4
+    }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        
+        if section == 2 {
+            if paymentSupport == "4" {
+                return 0
+            }
+        }
+        return 1
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 0 {
+        if indexPath.section == 0 {
             
             if buyType == "1" {
                 //外卖
@@ -220,7 +230,7 @@ class PayAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
 
         }
         
-        if indexPath.row == 1 {
+        if indexPath.section == 1 {
             
             if deductionAmount == 0 {
                 return 35 + 20
@@ -229,7 +239,8 @@ class PayAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
             }
         }
         
-        if indexPath.row == 2 {
+        if indexPath.section == 2 {
+                    
             return 160
         }
         
@@ -238,7 +249,7 @@ class PayAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.row == 0 {
+        if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PayAlertMoneyCell") as! PayAlertMoneyCell
         
             cell.setCellData(money: [subtotal, deliveryPrice, servicePrice, packPrice, dishesDiscountAmount, couponAmount, discountAmount, total], scale: discountScale, buyType: buyType)
@@ -246,13 +257,13 @@ class PayAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
             return cell
         }
         
-        if indexPath.row == 1 {
+        if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PayAlertPayCell") as! PayAlertPayCell
             cell.setCellData(money: [deductionAmount, payPrice])
             return cell
         }
         
-        if indexPath.row == 2 {
+        if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderChoosePayWayCell") as! OrderChoosePayWayCell
             cell.setCellData(status: paymentSupport, type: payWay)
             
@@ -264,12 +275,12 @@ class PayAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
             return cell
         }
         
-        if indexPath.row == 3 {
+        if indexPath.section == 3 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderPayButCell") as! OrderPayButCell
             cell.clickPayBlock = { [unowned self] (_) in
                 print("支付")
                 
-                if self.payWay == "" {
+                if paymentSupport != "4" && payWay == "" {
                     HUD_MB.showWarnig("Please select payment method!", onView: self)
                     return
                 }
@@ -292,217 +303,4 @@ class PayAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
 
 
 
-
-
-//class PayAlertMoneyCell: BaseTableViewCell {
-//
-//
-//    private let backView: UIView = {
-//        let view = UIView()
-//        view.backgroundColor = .white
-//        view.layer.cornerRadius = 10
-//        return view
-//    }()
-//    
-//    private let tlab1: UILabel = {
-//        let lab = UILabel()
-//        lab.setCommentStyle(FONTCOLOR, SFONT(14), .left)
-//        lab.text = "Subtotal"
-//        return lab
-//    }()
-//    
-//    private let tlab2: UILabel = {
-//        let lab = UILabel()
-//        lab.setCommentStyle(FONTCOLOR, SFONT(14), .left)
-//        lab.text = "Delivery fee"
-//        return lab
-//    }()
-//    
-//    private let tlab3: UILabel = {
-//        let lab = UILabel()
-//        lab.setCommentStyle(FONTCOLOR, SFONT(14), .left)
-//        lab.text = "Service fee"
-//        return lab
-//    }()
-//    
-//    private let tlab4: UILabel = {
-//        let lab = UILabel()
-//        lab.setCommentStyle(FONTCOLOR, SFONT(14), .left)
-//        lab.text = "Discount"
-//        return lab
-//    }()
-//
-//    
-//    private let tlab5: UILabel = {
-//        let lab = UILabel()
-//        lab.setCommentStyle(FONTCOLOR, SFONT(14), .left)
-//        lab.text = "Total"
-//        return lab
-//    }()
-//
-//
-//    
-//    private let moneyLab1: UILabel = {
-//        let lab = UILabel()
-//        lab.setCommentStyle(FONTCOLOR, BFONT(15), .right)
-//        lab.text = "£10"
-//        return lab
-//    }()
-//    
-//    
-//    private let moneyLab2: UILabel = {
-//        let lab = UILabel()
-//        lab.setCommentStyle(FONTCOLOR, BFONT(15), .right)
-//        lab.text = "£10"
-//        return lab
-//    }()
-//    
-//    
-//    private let moneyLab3: UILabel = {
-//        let lab = UILabel()
-//        lab.setCommentStyle(FONTCOLOR, BFONT(15), .right)
-//        lab.text = "£10"
-//        return lab
-//    }()
-//    
-//    private let moneyLab4: UILabel = {
-//        let lab = UILabel()
-//        lab.setCommentStyle(HCOLOR("#FF461C"), BFONT(15), .right)
-//        lab.text = "-£10"
-//        return lab
-//    }()
-//
-//    
-//    private let moneyLab5: UILabel = {
-//        let lab = UILabel()
-//        lab.setCommentStyle(FONTCOLOR, BFONT(15), .right)
-//        lab.text = "£10"
-//        return lab
-//    }()
-//    
-//    
-//    private let discountScaleLab: UILabel = {
-//        let lab = UILabel()
-//        lab.setCommentStyle(HCOLOR("#FF461C"), SFONT(13), .left)
-//        return lab
-//    }()
-//    
-//    private let discountImg: UIImageView = {
-//        let img = UIImageView()
-//        img.image = LOIMG("discount")
-//        return img
-//    }()
-//
-//
-//
-//
-//    override func setViews() {
-//        
-//        self.backgroundColor = .clear
-//        self.contentView.backgroundColor = .clear
-//        
-//        contentView.addSubview(backView)
-//        backView.snp.makeConstraints {
-//            $0.left.equalToSuperview().offset(10)
-//            $0.top.equalToSuperview().offset(10)
-//            $0.right.equalToSuperview().offset(-10)
-//            $0.bottom.equalToSuperview()
-//        }
-//        
-//        backView.addSubview(tlab1)
-//        tlab1.snp.makeConstraints {
-//            $0.left.equalToSuperview().offset(10)
-//            $0.top.equalToSuperview().offset(20)
-//        }
-//        
-//        backView.addSubview(tlab2)
-//        tlab2.snp.makeConstraints {
-//            $0.left.equalTo(tlab1)
-//            $0.top.equalToSuperview().offset(55)
-//        }
-//        
-//        backView.addSubview(tlab3)
-//        tlab3.snp.makeConstraints {
-//            $0.left.equalTo(tlab1)
-//            $0.top.equalToSuperview().offset(90)
-//        }
-//        
-//        backView.addSubview(tlab4)
-//        tlab4.snp.makeConstraints {
-//            $0.left.equalTo(tlab1)
-//            $0.top.equalToSuperview().offset(125)
-//        }
-//        
-//        backView.addSubview(tlab5)
-//        tlab5.snp.makeConstraints {
-//            $0.left.equalTo(tlab1)
-//            $0.top.equalToSuperview().offset(160)
-//        }
-//
-//        
-//        
-//        backView.addSubview(moneyLab1)
-//        moneyLab1.snp.makeConstraints {
-//            $0.right.equalToSuperview().offset(-10)
-//            $0.centerY.equalTo(tlab1)
-//        }
-//        
-//        backView.addSubview(moneyLab2)
-//        moneyLab2.snp.makeConstraints {
-//            $0.centerY.equalTo(tlab2)
-//            $0.right.equalToSuperview().offset(-10)
-//        }
-//        
-//        backView.addSubview(moneyLab3)
-//        moneyLab3.snp.makeConstraints {
-//            $0.centerY.equalTo(tlab3)
-//            $0.right.equalToSuperview().offset(-10)
-//        }
-//        
-//        backView.addSubview(moneyLab4)
-//        moneyLab4.snp.makeConstraints {
-//            $0.centerY.equalTo(tlab4)
-//            $0.right.equalToSuperview().offset(-10)
-//        }
-//        
-//        backView.addSubview(moneyLab5)
-//        moneyLab5.snp.makeConstraints {
-//            $0.centerY.equalTo(tlab5)
-//            $0.right.equalToSuperview().offset(-10)
-//        }
-//        
-//        backView.addSubview(discountImg)
-//        discountImg.snp.makeConstraints {
-//            $0.centerY.equalTo(tlab4)
-//            $0.right.equalTo(moneyLab1.snp.left).offset(-7)
-//        }
-//        
-//        backView.addSubview(discountScaleLab)
-//        discountScaleLab.snp.makeConstraints {
-//            $0.centerY.equalTo(tlab4)
-//            $0.left.equalTo(tlab1.snp.right).offset(5)
-//        }
-//
-//        
-//    }
-//    
-//
-//    func setCellPayAlertData(subtotal: String, dePrice: String, orderTotal: String, service: String, discountPrice: String, discountScale: String) {
-//        
-//        if discountScale == "" {
-//            self.discountScaleLab.text = ""
-//        } else {
-//            self.discountScaleLab.text = "(\(discountScale)OFF)"
-//        }
-//
-//        
-//        self.moneyLab1.text = "£\(subtotal)"
-//        self.moneyLab2.text = "£\(dePrice)"
-//        self.moneyLab3.text = "£\(service)"
-//        self.moneyLab4.text = "-£\(discountPrice)"
-//        self.moneyLab5.text = "£\(orderTotal)"
-//  
-//     }
-//    
-//}
 

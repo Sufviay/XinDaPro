@@ -23,6 +23,11 @@ class OrderNumModel: NSObject {
     var waitTake: Int = 0
     ///骑手数量
     var riderNum: Int = 0
+    ///桌子数量
+    var deskEmptyNum: Int = 0
+    ///占用的桌子数量
+    var deskOccupyNum: Int = 0
+    
     
     
     func updateModel(json: JSON) {
@@ -32,6 +37,10 @@ class OrderNumModel: NSObject {
         self.waitSend = json["waitSend"].intValue
         self.waitTake = json["waitTake"].intValue
         self.riderNum = json["riderNum"].intValue
+        self.deskEmptyNum = json["deskEmptyNum"].intValue
+        self.deskOccupyNum = json["deskOccupyNum"].intValue
+        
+        
     }
     
 }
@@ -64,6 +73,8 @@ class ReportModel: NSObject {
     var deOrderNum: Int = 0
     ///自取订单数量
     var coOrderNum: Int = 0
+    ///堂食订单数
+    var dineOrderNum: Int = 0
     
     
     
@@ -90,14 +101,29 @@ class ReportModel: NSObject {
     var deOrderSum: Double = 0
     ///自取订单金额
     var coOrderSum: Double = 0
+    ///堂食订单金额
+    var dineOrderSum: Double = 0
+    
+    
+    
 
     
     ///配送费用
     var deliveryFee: Double = 0
-    ///服务费
-    var serviceFee: Double = 0
+    ///堂食服务费
+    var dineServiceFee: Double = 0
+    ///平台服务费
+    var platServiceFee: Double = 0
+    
+    
     ///打包费
     var packFee: Double = 0
+    ///优惠金额
+    var discountPrice: Double = 0
+    ///小费
+    var tipsPrice: Double = 0
+    
+    
     
     
     //MARK: - 拒接订单
@@ -105,51 +131,6 @@ class ReportModel: NSObject {
     var refundNum: Int = 0
     var refundSum: Double = 0
     
-    
-    
-    
-    
-    
-    
-    
-    ///card的自取单单数
-    var cardOrderNum_Co: Int = 0
-    ///card的外卖单单数
-    var cardOrderNum_De: Int = 0
-    
-    
-    ///card的自取单总金额
-    var cardOrderSum_Co: Double = 0
-    ///card的外卖单总金额
-    var cardOrderSum_De: Double = 0
-
-    
-    
-    
-    ///cash的自取单单数
-    var cashOrderNum_Co: Int = 0
-    ///cash的外卖单单数
-    var cashOrderNum_De: Int = 0
-    
-    
-    ///cash的自取单总金额
-    var cashOrderSum_Co: Double = 0
-    ///cash的外卖单总金额
-    var cashOrderSum_De: Double = 0
-
-    
-    
-
-    ///POS的自取单单数
-    var posOrderNum_Co: Int = 0
-    ///POS的外卖单单数
-    var posOrderNum_De: Int = 0
-    
-    
-    ///POS的自取单总金额
-    var posOrderSum_Co: Double = 0
-    ///POS的外卖单总金额
-    var posOrderSum_De: Double = 0
     
     
     
@@ -173,6 +154,8 @@ class ReportModel: NSObject {
     var unDeOrderNum: Int = 0
     ///自取订单数量
     var unCoOrderNum: Int = 0
+    ///堂食订单数量
+    var unDineOrderNum: Int = 0
 
     
     //订单金额
@@ -191,6 +174,8 @@ class ReportModel: NSObject {
     var unDeOrderSum: Double = 0
     ///外卖订单金额
     var unCoOrderSum: Double = 0
+    ///堂食订单金额
+    var unDineOrderSum: Double = 0
 
     
 
@@ -212,8 +197,12 @@ class ReportModel: NSObject {
         self.machOrderNum = json["businessNum"].intValue
         self.deOrderNum = json["deliveryNum"].intValue
         self.coOrderNum = json["collectionNum"].intValue
+        self.dineOrderNum = json["dineInNum"].intValue
         
-        self.orderNum_All = cardOrderNum_All + cashOrderNum_All + posOrderNum_All
+        self.orderNum_All = json["allNum"].intValue
+        
+        
+        
         
         
         //成功订单金额数据
@@ -225,12 +214,16 @@ class ReportModel: NSObject {
         self.machOrderSum = json["businessPrice"].doubleValue
         self.deOrderSum = json["deliveryPrice"].doubleValue
         self.coOrderSum = json["collectionPrice"].doubleValue
+        self.dineOrderSum = json["dineInPrice"].doubleValue
         
-        self.orderSum_All = cardOrderSum_All + cashOrderSum_All + posOrderSum_All
+        self.orderSum_All = json["allPrice"].doubleValue
         
         self.deliveryFee = json["deliveryFee"].doubleValue
-        self.serviceFee = json["serviceFee"].doubleValue
+        self.dineServiceFee = json["dineServiceFee"].doubleValue
+        self.platServiceFee = json["platServiceFee"].doubleValue
         self.packFee = json["packFee"].doubleValue
+        self.tipsPrice = json["tipsPrice"].doubleValue
+        self.discountPrice = json["noPayPrice"].doubleValue
         
         
         //拒接
@@ -246,6 +239,7 @@ class ReportModel: NSObject {
         self.unMachOrderNum = json["unBusinessNum"].intValue
         self.unDeOrderNum = json["unDeliveryNum"].intValue
         self.unCoOrderNum = json["unCollectionNum"].intValue
+        //self.unDineOrderNum = json[""]
         self.unOrderNum_All = unDeOrderNum + unCoOrderNum
         
         

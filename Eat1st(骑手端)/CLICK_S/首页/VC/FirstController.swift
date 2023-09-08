@@ -35,7 +35,7 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
     }
     
     ///当前选择的状态下标
-    private var statusIdx: Int = 1
+    private var statusIdx: Int = 0
     
     ///设置工作状态
     private lazy var workAlert: WorkAlertView = {
@@ -105,15 +105,16 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
             updateBottonAndView()
         
             
-            //只有待配送才显示底部配送按钮
-            if self.statusIdx == 0 {
-                HUD_MB.loading("", onView: self.view)
-                getOtherOrders_Net {
-                    HUD_MB.dissmiss(onView: self.view)
-                }
-            }
+//            //只有待配送才显示底部配送按钮
+//            if self.statusIdx == 0 {
+//                HUD_MB.loading("", onView: self.view)
+//                getOtherOrders_Net {
+//                    HUD_MB.dissmiss(onView: self.view)
+//                }
+//            }
             
-            else if self.statusIdx == 3 {
+            if statusArr[statusIdx].id == "3" {
+                //已完成
                 loadCurentDayMoney()
                 
             } else {
@@ -146,25 +147,25 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
     }()
     
     
-    private lazy var Other_table: UITableView = {
-        let tableView = UITableView()
-        tableView.isHidden = true
-        tableView.tag = 200
-        tableView.backgroundColor = .clear
-        //去掉单元格的线
-        tableView.separatorStyle = .none
-        //回弹效果
-        tableView.bounces = true
-        tableView.showsVerticalScrollIndicator =  false
-        tableView.estimatedRowHeight = 0
-        tableView.estimatedSectionFooterHeight = 0
-        tableView.estimatedSectionHeaderHeight = 0
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.contentInsetAdjustmentBehavior = .never
-        tableView.register(OtherOderCell.self, forCellReuseIdentifier: "OtherOderCell")
-        return tableView
-    }()
+//    private lazy var Other_table: UITableView = {
+//        let tableView = UITableView()
+//        tableView.isHidden = true
+//        tableView.tag = 200
+//        tableView.backgroundColor = .clear
+//        //去掉单元格的线
+//        tableView.separatorStyle = .none
+//        //回弹效果
+//        tableView.bounces = true
+//        tableView.showsVerticalScrollIndicator =  false
+//        tableView.estimatedRowHeight = 0
+//        tableView.estimatedSectionFooterHeight = 0
+//        tableView.estimatedSectionHeaderHeight = 0
+//        tableView.delegate = self
+//        tableView.dataSource = self
+//        tableView.contentInsetAdjustmentBehavior = .never
+//        tableView.register(OtherOderCell.self, forCellReuseIdentifier: "OtherOderCell")
+//        return tableView
+//    }()
 
     
     
@@ -287,13 +288,13 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
             $0.top.equalTo(statusTagView.snp.bottom).offset(10)
             $0.bottom.equalToSuperview().offset(-bottomBarH)
         }
-
-        view.addSubview(Other_table)
-        Other_table.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-            $0.top.equalTo(statusTagView.snp.bottom).offset(10)
-            $0.bottom.equalToSuperview().offset(-bottomBarH)
-        }
+//
+//        view.addSubview(Other_table)
+//        Other_table.snp.makeConstraints {
+//            $0.left.right.equalToSuperview()
+//            $0.top.equalTo(statusTagView.snp.bottom).offset(10)
+//            $0.bottom.equalToSuperview().offset(-bottomBarH)
+//        }
 
     
         
@@ -308,9 +309,9 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
             self.loadTag_Net()
         }
         
-        Other_table.mj_header = MJRefreshNormalHeader() { [unowned self] in
-            self.loadTag_Net()
-        }
+//        Other_table.mj_header = MJRefreshNormalHeader() { [unowned self] in
+//            self.loadTag_Net()
+//        }
 
 
         table.mj_footer = MJRefreshBackNormalFooter() { [unowned self] in
@@ -365,81 +366,83 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
     
     private func loadTag_Net() {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.getOrderStatusTag().subscribe(onNext: { (json) in
+        HTTPTOOl.getOrderStatusTag().subscribe(onNext: { [unowned self] (json) in
             var tArr: [StatusTagModel] = []
             for jsonData in json["data"].arrayValue {
                 let model = StatusTagModel()
                 model.updateModel(json: jsonData)
                 tArr.append(model)
             }
-            self.statusArr = tArr
-            self.getOtherOrders_Net {
-                if self.statusIdx != 0 {
-                    self.loadData_Net()
-                } else {
-                    HUD_MB.dissmiss(onView: self.view)
-                }
-            }
+            statusArr = tArr
+            statusTagView.tagArr = statusArr
+            loadData_Net()
+//            self.getOtherOrders_Net {
+//                if self.statusIdx != 0 {
+//
+//                } else {
+//                    HUD_MB.dissmiss(onView: self.view)
+//                }
+//            }
 
-        }, onError: { (error) in
-            HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
-        }).disposed(by: self.bag)
+        }, onError: { [unowned self] (error) in
+            HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
+        }).disposed(by: bag)
     }
     
-    //MARK: - 获取外部订单
-    func getOtherOrders_Net(success: @escaping () -> ()) {
-        HTTPTOOl.getOtherOders(status: "2").subscribe(onNext: { (json) in
-            var tArr: [OtherOrderModel] = []
-            for jsonData in json["data"].arrayValue {
-                let model = OtherOrderModel()
-                model.updateModel(json: jsonData)
-                tArr.append(model)
-            }
-            self.otherArr = tArr
-            
-            let tagModel = StatusTagModel()
-            tagModel.name = "Other Order"
-            tagModel.num = self.otherArr.count
-            
-            if self.statusArr.count != 0 {
-                if self.statusArr[0].name == "Other Order" {
-                    self.statusArr[0] = tagModel
-                } else {
-                    self.statusArr.insert(tagModel, at: 0)
-                }
-            }
-            self.statusTagView.tagArr = self.statusArr
-            
-            if self.statusIdx == 0 {
-                if self.otherArr.count == 0 {
-                    self.noDataView.frame = self.Other_table.bounds
-                    self.Other_table.addSubview(self.noDataView)
-                } else {
-                    self.noDataView.removeFromSuperview()
-                }
-            }
-            
-            self.Other_table.mj_header?.endRefreshing()
-            self.Other_table.reloadData()
-            success()
-            
-        }, onError: { (error) in
-            HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
-            self.Other_table.mj_header?.endRefreshing()
-        }).disposed(by: self.bag)
-    }
+//    //MARK: - 获取外部订单
+//    func getOtherOrders_Net(success: @escaping () -> ()) {
+//        HTTPTOOl.getOtherOders(status: "2").subscribe(onNext: { (json) in
+//            var tArr: [OtherOrderModel] = []
+//            for jsonData in json["data"].arrayValue {
+//                let model = OtherOrderModel()
+//                model.updateModel(json: jsonData)
+//                tArr.append(model)
+//            }
+//            self.otherArr = tArr
+//
+//            let tagModel = StatusTagModel()
+//            tagModel.name = "Other Order"
+//            tagModel.num = self.otherArr.count
+//
+//            if self.statusArr.count != 0 {
+//                if self.statusArr[0].name == "Other Order" {
+//                    self.statusArr[0] = tagModel
+//                } else {
+//                    self.statusArr.insert(tagModel, at: 0)
+//                }
+//            }
+//            self.statusTagView.tagArr = self.statusArr
+//
+//            if self.statusIdx == 0 {
+//                if self.otherArr.count == 0 {
+//                    self.noDataView.frame = self.Other_table.bounds
+//                    self.Other_table.addSubview(self.noDataView)
+//                } else {
+//                    self.noDataView.removeFromSuperview()
+//                }
+//            }
+//
+//            self.Other_table.mj_header?.endRefreshing()
+//            self.Other_table.reloadData()
+//            success()
+//
+//        }, onError: { (error) in
+//            HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
+//            self.Other_table.mj_header?.endRefreshing()
+//        }).disposed(by: self.bag)
+//    }
     
     
     //MARK: - 获取当前
     private func loadCurentDayMoney() {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.getCurentDayCashAndDeFee().subscribe(onNext: { (json) in
+        HTTPTOOl.getCurentDayCashAndDeFee().subscribe(onNext: { [unowned self] (json) in
             let cashMoney = json["data"]["cashAmount"].doubleValue
             let deMoney = json["data"]["deliveryAmount"].doubleValue
             self.TJView.updateData(cashMoney: D_2_STR(cashMoney), deFeeMoney: D_2_STR(deMoney))
             self.loadData_Net()
             
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
@@ -454,7 +457,7 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
             return
         }
         
-        HTTPTOOl.getOrderList(page: 1, tag: self.statusArr[statusIdx].id).subscribe(onNext: { (json) in
+        HTTPTOOl.getOrderList(page: 1, tag: self.statusArr[statusIdx].id).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
             self.page = 2
             
@@ -477,7 +480,7 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
             self.table.mj_header?.endRefreshing()
             self.table.mj_footer?.resetNoMoreData()
             
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
             self.table.mj_header?.endRefreshing()
         }).disposed(by: self.bag)
@@ -486,7 +489,7 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
     
     
     private func loadDataMore_Net() {
-        HTTPTOOl.getOrderList(page: page, tag: self.statusArr[statusIdx].id).subscribe(onNext: { (json) in
+        HTTPTOOl.getOrderList(page: page, tag: self.statusArr[statusIdx].id).subscribe(onNext: { [unowned self] (json) in
             if json["data"].arrayValue.count == 0 {
                 self.table.mj_footer?.endRefreshingWithNoMoreData()
             } else {
@@ -500,7 +503,7 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
                 self.table.mj_footer?.endRefreshing()
             }
             
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
             self.table.mj_footer?.endRefreshing()
 
@@ -510,9 +513,9 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
     
     //请求工作状态
     private func getWorkStatus_Net() {
-        HTTPTOOl.getRiderWorkStatus().subscribe(onNext: { (json) in
+        HTTPTOOl.getRiderWorkStatus().subscribe(onNext: { [unowned self] (json) in
             self.workStatus = json["data"]["workStatus"].stringValue
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
@@ -520,7 +523,7 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
     //设置工作状态
     private func setWorkStatus_Net() {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.setRiderWorkStatus().subscribe(onNext: { (json) in
+        HTTPTOOl.setRiderWorkStatus().subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
             self.workStatus = json["data"]["workStatus"].stringValue
 //            if self.workStatus == "1" {
@@ -529,7 +532,7 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
 //                self.workStatus = "1"
 //            }
 
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
@@ -539,10 +542,10 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
     ///开始送单
     private func startAction_Net(orderID: String) {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.orderStart(orderID: orderID).subscribe(onNext: { (json) in
+        HTTPTOOl.orderStart(orderID: orderID).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.showSuccess("", onView: self.view)
             self.loadTag_Net()
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
@@ -551,10 +554,10 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
     ///外部订单开始送单
     private func Other_startAction_Net(orderID: String) {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.otherOdersStart(id: orderID).subscribe(onNext: { (json) in
+        HTTPTOOl.otherOdersStart(id: orderID).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.showSuccess("", onView: self.view)
             self.loadTag_Net()
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
@@ -562,10 +565,10 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
     ///外部订单点击完成
     private func Other_completeAction_Net(orderID: String) {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.otherOdersComplete(id: orderID).subscribe(onNext: { (json) in
+        HTTPTOOl.otherOdersComplete(id: orderID).subscribe(onNext: {[unowned self] (json) in
             HUD_MB.showSuccess("", onView: self.view)
             self.loadTag_Net()
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
@@ -577,10 +580,10 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
         
         self.showSystemChooseAlert("Alert", "Are you sure you want to confirm the order?", "YES", "NO") {
             HUD_MB.loading("", onView: self.view)
-            HTTPTOOl.riderDoReceiveOrder(orderID: orderID).subscribe(onNext: { (json) in
+            HTTPTOOl.riderDoReceiveOrder(orderID: orderID).subscribe(onNext: { [unowned self] (json) in
                 HUD_MB.showSuccess("", onView: self.view)
                 self.loadTag_Net()
-            }, onError: { (error) in
+            }, onError: { [unowned self] (error) in
                 HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
             }).disposed(by: self.bag)
         } _: {}
@@ -591,12 +594,12 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
     
     //MARK: - 判断底部操作按钮的显示 与 统计试图的显示
     private func updateBottonAndView() {
-        if self.statusIdx == 1 {
+        if self.statusIdx == 0 {
             self.TJView.isHidden = true
             self.QXBut.isHidden = true
             self.PSBut.isHidden = false
             self.table.isHidden = false
-            self.Other_table.isHidden = true
+            //self.Other_table.isHidden = true
 
             
             self.table.snp.updateConstraints {
@@ -605,11 +608,11 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
             }
         }
         
-        if self.statusIdx == 2 {
+        if self.statusIdx == 1 {
             self.TJView.isHidden = true
             self.PSBut.isHidden = true
             self.table.isHidden = false
-            self.Other_table.isHidden = true
+            //self.Other_table.isHidden = true
 
             
             
@@ -658,12 +661,12 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
             
         }
         
-        if self.statusIdx == 3 {
+        if self.statusIdx == 2 {
             self.TJView.isHidden = false
             self.QXBut.isHidden = true
             self.PSBut.isHidden = true
             self.table.isHidden = false
-            self.Other_table.isHidden = true
+            //self.Other_table.isHidden = true
 
             
             self.table.snp.updateConstraints {
@@ -672,13 +675,13 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
             }
         }
         
-        if self.statusIdx == 0 {
-            self.TJView.isHidden = true
-            self.QXBut.isHidden = true
-            self.PSBut.isHidden = true
-            self.table.isHidden = true
-            self.Other_table.isHidden = false
-        }
+//        if self.statusIdx == 0 {
+//            self.TJView.isHidden = true
+//            self.QXBut.isHidden = true
+//            self.PSBut.isHidden = true
+//            self.table.isHidden = true
+//            self.Other_table.isHidden = false
+//        }
         
     }
     
@@ -753,7 +756,7 @@ extension FirstController {
         if tableView.tag == 100 {
             let model = dataArr[indexPath.row]
             
-            if statusIdx == 2 {
+            if statusIdx == 1 {
                 
                 if model.paymentMethod == "1" {
                     //现金

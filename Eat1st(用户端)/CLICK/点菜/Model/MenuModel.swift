@@ -562,7 +562,7 @@ class DishOptionModel: NSObject {
         self.name_C = json["optionName"].stringValue
         self.optionID = json["optionId"].stringValue
         self.belongID = json["specId"].stringValue
-
+        
     }
     
 }

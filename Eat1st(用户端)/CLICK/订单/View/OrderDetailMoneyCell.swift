@@ -11,7 +11,7 @@ class OrderDetailMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
     
     private var dataModel = OrderDetailModel()
     
-    private let titStrArr: [String] = ["Subtotal", "Delivery fee", "Service fee", "Bag fee", "Dishes discount", "Coupon", "Discount", "", "Total", "Wallet", "Payment"]
+    private let titStrArr: [String] = ["Subtotal", "Delivery fee", "Service charge", "Bag fee", "Dishes discount", "Coupon", "Discount", "", "Total", "Wallet", "Payment"]
     private var moneyArr: [Double] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     
     private let backView: UIView = {

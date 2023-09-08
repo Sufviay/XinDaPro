@@ -168,7 +168,8 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
             self.dataModel.startTime = json["data"]["hopeTimeResult"]["startTime"].stringValue
             self.dataModel.endTime = json["data"]["hopeTimeResult"]["endTime"].stringValue
             self.dataModel.timeOut = json["data"]["hopeTimeResult"]["timeOut"].stringValue == "1" ? true : false
-            self.mainTable.reloadSections([2], with: .none)
+            self.mainTable.reloadData()
+            //self.mainTable.reloadSections([2], with: .none)
         }).disposed(by: bag)
     }
     
@@ -234,7 +235,7 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
         invalidateTimer()
         
         
-        if dataModel.status == .delivery_ing {
+        if dataModel.type != "3" && dataModel.status == .delivery_ing {
             //获取骑手位置
             timer1 = Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { [unowned self] (_) in
                 //获取刷新的数据
@@ -311,7 +312,7 @@ extension OrderDetailController {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             
-            if dataModel.status == .delivery_ing {
+            if dataModel.type != "3" && dataModel.status == .delivery_ing {
                 return 1
             }
             return 0

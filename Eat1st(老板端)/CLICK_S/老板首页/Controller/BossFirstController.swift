@@ -77,6 +77,13 @@ class BossFirstController: HeadBaseViewController {
         return pageView
     }()
     
+    private let msgBut: UIButton = {
+        let but = UIButton()
+        but.setImage(LOIMG("sy_msg"), for: .normal)
+        return but
+    }()
+    
+    
 
     
     override func setNavi() {
@@ -89,6 +96,13 @@ class BossFirstController: HeadBaseViewController {
     override func setViews() {
         
         self.view.backgroundColor = .white
+        
+        view.addSubview(msgBut)
+        msgBut.snp.makeConstraints {
+            $0.size.equalTo(leftBut)
+            $0.right.equalToSuperview().offset(-10)
+            $0.centerY.equalTo(leftBut)
+        }
         
         view.addSubview(tagView)
         tagView.snp.makeConstraints {
@@ -111,6 +125,7 @@ class BossFirstController: HeadBaseViewController {
         
         
         leftBut.addTarget(self, action: #selector(clickSideBarAction), for: .touchUpInside)
+        msgBut.addTarget(self, action: #selector(clickMsgAction), for: .touchUpInside)
         
     }
     
@@ -118,6 +133,12 @@ class BossFirstController: HeadBaseViewController {
     @objc private func clickSideBarAction() {
         sideBar.appearAction()
         
+    }
+    
+    
+    @objc private func clickMsgAction() {
+        let msgVC = MessageController()
+        self.navigationController?.pushViewController(msgVC, animated: true)
     }
     
     

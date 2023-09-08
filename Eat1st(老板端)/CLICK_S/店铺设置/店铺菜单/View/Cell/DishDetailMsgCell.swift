@@ -131,7 +131,7 @@ class DishDetailPriceCell: BaseTableViewCell {
             self.titleLab.text = "Delivery Price"
         }
         if type == "2" {
-            self.titleLab.text = "Dine in Price"
+            self.titleLab.text = "Dine-in Price"
         }
         
         if model.discountType == "2" {

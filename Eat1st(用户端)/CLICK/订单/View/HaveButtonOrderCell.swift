@@ -395,7 +395,7 @@ class HaveButtonOrderCell: BaseTableViewCell, UICollectionViewDelegate, UICollec
             typeLab.text = "Collection"
         }
         if model.type == "3" {
-            typeLab.text = "Dine In"
+            typeLab.text = "Dine-in"
         }
         
         

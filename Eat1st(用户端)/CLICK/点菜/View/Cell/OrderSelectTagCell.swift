@@ -314,7 +314,7 @@ class OrderTagDineInCell: BaseTableViewCell {
     private let deBut: UIButton = {
         let but = UIButton()
         but.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W - 20, height: 50), byRoundingCorners: [.topLeft, .topRight], radii: 10)
-        but.setCommentStyle(.zero, "Dine In", FONTCOLOR, BFONT(17), .white)
+        but.setCommentStyle(.zero, "Dine-in", FONTCOLOR, BFONT(17), .white)
         return but
     }()
     

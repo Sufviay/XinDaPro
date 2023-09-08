@@ -14,7 +14,7 @@ class PayAlertMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewData
     
     private var discountScale: String = ""
     
-    private let titStrArr: [String] = ["Subtotal", "Delivery fee", "Service fee", "Bag fee", "Dishes discount", "Coupon", "Discount", "Total"]
+    private let titStrArr: [String] = ["Subtotal", "Delivery fee", "Service charge", "Bag fee", "Dishes discount", "Coupon", "Discount", "Total"]
     private var moneyArr: [Double] = [0, 0, 0, 0, 0, 0, 0, 0]
 
     

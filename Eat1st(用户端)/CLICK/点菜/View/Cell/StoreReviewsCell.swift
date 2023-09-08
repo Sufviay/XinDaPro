@@ -247,7 +247,7 @@ class StoreReviewsCell: BaseTableViewCell {
             self.tlab3.text = "Collection time"
         }
         if model.orderType == "3" {
-            self.tlab3.text = "Dine in time"
+            self.tlab3.text = "Dine-in time"
         }
     }
 }

@@ -64,7 +64,7 @@ class ConfirmOrderCartModel: NSObject {
     
     
     ///支付弹窗的信息
-    ///是否可以现金付款或是否可以在线付款 1现金 2卡  99都行
+    ///是否可以现金付款或是否可以在线付款 1现金 2卡  3都行 4不需要支付
     var paymentSupport: String = ""
     ///钱包抵扣的金额
     var deductionAmount: Double = 0

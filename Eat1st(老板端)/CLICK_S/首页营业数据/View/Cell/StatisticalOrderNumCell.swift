@@ -114,6 +114,13 @@ class StatisticalOrderNumCell: BaseTableViewCell {
             self.numberLab.textColor = HCOLOR("#465DFD")
         }
         if idx == 6 {
+            self.titlab.text = "Dine-in"
+            self.l_img.image = LOIMG("sy_zh")
+            self.numberLab.text = "\(model.deskOccupyNum)/\(model.deskEmptyNum)"
+            self.numberLab.textColor = HCOLOR("#465DFD")
+        }
+        
+        if idx == 7 {
             self.titlab.text = "Driver"
             self.l_img.image = LOIMG("sy_rider")
             self.numberLab.text = String(model.riderNum)

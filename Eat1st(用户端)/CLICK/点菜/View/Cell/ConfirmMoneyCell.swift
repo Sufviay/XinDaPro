@@ -20,7 +20,7 @@ class ConfirmMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataS
     private var disMsg: String = ""
     
     
-    private let titStrArr: [String] = ["Subtotal", "Delivery fee", "Service fee", "Bag fee", "Dishes discount", "Coupon" , "Discount", "", "Total"]
+    private let titStrArr: [String] = ["Subtotal", "Delivery fee", "Service charge", "Bag fee", "Dishes discount", "Coupon" , "Discount", "", "Total"]
     private var moneyArr: [Double] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     
     private let backView: UIView = {
@@ -178,7 +178,7 @@ class MoneyCell: BaseTableViewCell {
     private let titLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(FONTCOLOR, SFONT(14), .left)
-        lab.text = "Service fee"
+        lab.text = "Service charge"
         return lab
     }()
     

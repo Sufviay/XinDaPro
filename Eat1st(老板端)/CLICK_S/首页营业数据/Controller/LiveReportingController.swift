@@ -78,7 +78,7 @@ class LiveReportingController: UIViewController, UITableViewDelegate, UITableVie
         tableView.register(SelectDateCell.self, forCellReuseIdentifier: "SelectDateCell")
         tableView.register(StatisticalHeaderCell.self, forCellReuseIdentifier: "StatisticalHeaderCell")
         tableView.register(StatisticalDataCell.self, forCellReuseIdentifier: "StatisticalDataCell")
-        tableView.register(StatisticalChartsCell.self, forCellReuseIdentifier: "StatisticalChartsCell")
+        //tableView.register(StatisticalChartsCell.self, forCellReuseIdentifier: "StatisticalChartsCell")
         tableView.register(StatisticalBottomCell.self, forCellReuseIdentifier: "StatisticalBottomCell")
         tableView.register(StatisticalOrderNumCell.self, forCellReuseIdentifier: "StatisticalOrderNumCell")
         tableView.register(StatisticalUnfulfilledDateCell.self, forCellReuseIdentifier: "StatisticalUnfulfilledDateCell")
@@ -130,7 +130,7 @@ class LiveReportingController: UIViewController, UITableViewDelegate, UITableVie
         }
         
         if section == 1 {
-            return 7
+            return 8
         }
         
         if section == 4 {
@@ -188,7 +188,7 @@ class LiveReportingController: UIViewController, UITableViewDelegate, UITableVie
                 return 240
             }
             if indexPath.row == 2 {
-                return 75
+                return 175
             }
         }
        
@@ -197,7 +197,7 @@ class LiveReportingController: UIViewController, UITableViewDelegate, UITableVie
                 return 55
             }
             if indexPath.row == 1 {
-                return 75
+                return 90
             }
         }
         
@@ -285,7 +285,7 @@ class LiveReportingController: UIViewController, UITableViewDelegate, UITableVie
             
             if indexPath.row == 2 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "StatisticalFeeCell") as! StatisticalFeeCell
-                cell.setCellData(de_fee: dataModel.deliveryFee, ser_fee: dataModel.serviceFee, bag_fee: dataModel.packFee)
+                cell.setCellData(model: dataModel)
                 return cell
             }
         }
@@ -324,9 +324,9 @@ class LiveReportingController: UIViewController, UITableViewDelegate, UITableVie
         }
         
         if indexPath.section == 10 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "StatisticalChartsCell") as! StatisticalChartsCell
+            //let cell = tableView.dequeueReusableCell(withIdentifier: "StatisticalChartsCell") as! StatisticalChartsCell
             //cell.setCellData(model: dataModel)
-            return cell
+            //return cell
         }
         
         if indexPath.section == 11 {

@@ -85,7 +85,7 @@ class OrderDetailModel: NSObject {
     var dishesDiscountType: String = ""
     ///是否有优惠券（1是，2否）
     var couponType: String = ""
-    ///支付方式 1：cash、2：online   -1位选择支付方式
+    ///支付方式 1：cash、2：online   3pos  4cash&pos  -1位选择支付方式
     var paymentMethod: String = ""
     
     
@@ -210,7 +210,6 @@ class OrderDetailModel: NSObject {
         self.recipientAddress = json["addressResult"]["address"].stringValue
         self.hopeTime = json["addressResult"]["takeTime"].stringValue
         self.remark = json["remark"].stringValue
-        self.paymentMethod = json["payType"].stringValue
         self.recipientLng = json["addressResult"]["lng"].stringValue
         self.recipientLat = json["addressResult"]["lat"].stringValue
         self.postCode = json["addressResult"]["postCode"].stringValue
@@ -296,12 +295,18 @@ class OrderDetailModel: NSObject {
         if paymentMethod == "1" {
             payWay = "cash"
         }
-        if paymentMethod == "2" {
+        else if paymentMethod == "2" {
             payWay = "card"
         }
-        if paymentMethod == "-1" {
+        else if paymentMethod == "3" {
+            payWay = "Pos"
+        }
+        else if paymentMethod == "4" {
+            payWay = "Cash&Pos"
+        } else {
             payWay = "No choice yet"
         }
+        
         
         
         var addressStr = ""

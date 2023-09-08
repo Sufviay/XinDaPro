@@ -43,6 +43,13 @@ class StatisticalDataCell: BaseTableViewCell {
         return view
     }()
     
+    private let line6: UIView = {
+        let view = UIView()
+        view.backgroundColor = HCOLOR("#EEEEEE")
+        return view
+    }()
+
+    
     private let cashImg: UIImageView = {
         let img = UIImageView()
         img.image = LOIMG("tj_cash")
@@ -148,6 +155,27 @@ class StatisticalDataCell: BaseTableViewCell {
         return lab
     }()
     
+    private let dineImg: UIImageView = {
+        let img = UIImageView()
+        img.image = LOIMG("tj_ts")
+        return img
+    }()
+    
+    private let dineNumLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#333333"), BFONT(18), .center)
+        lab.text = "0"
+        return lab
+    }()
+    
+    private let dineLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#ADADAD"), BFONT(11), .center)
+        lab.text = "Dine-in"
+        return lab
+    }()
+
+    
     
     private let appImg: UIImageView = {
         let img = UIImageView()
@@ -199,19 +227,6 @@ class StatisticalDataCell: BaseTableViewCell {
         
         contentView.backgroundColor = .white
         
-        contentView.addSubview(line1)
-        line1.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(S_W / 3)
-            $0.top.equalToSuperview().offset(30)
-            $0.size.equalTo(CGSize(width: 1, height: 30))
-        }
-        
-        contentView.addSubview(line2)
-        line2.snp.makeConstraints {
-            $0.right.equalToSuperview().offset(-(S_W / 3))
-            $0.top.equalToSuperview().offset(25)
-            $0.size.equalTo(line1)
-        }
         
         contentView.addSubview(cashImg)
         cashImg.snp.makeConstraints {
@@ -231,27 +246,9 @@ class StatisticalDataCell: BaseTableViewCell {
             $0.centerY.equalTo(cashImg)
         }
         
-        contentView.addSubview(cashNumLab)
-        cashNumLab.snp.makeConstraints {
-            $0.centerX.equalTo(cashImg)
-            $0.top.equalToSuperview().offset(40)
-        }
-        
-        contentView.addSubview(posNumLab)
-        posNumLab.snp.makeConstraints {
-            $0.centerX.equalTo(posImg)
-            $0.centerY.equalTo(cashNumLab)
-        }
-        
-        contentView.addSubview(cardNumLab)
-        cardNumLab.snp.makeConstraints {
-            $0.centerX.equalTo(cardImg)
-            $0.centerY.equalTo(cashNumLab)
-        }
-        
         contentView.addSubview(cashLab)
         cashLab.snp.makeConstraints {
-            $0.top.equalTo(cashNumLab.snp.bottom).offset(2)
+            $0.top.equalToSuperview().offset(40)
             $0.centerX.equalTo(cashImg)
         }
         
@@ -267,28 +264,85 @@ class StatisticalDataCell: BaseTableViewCell {
             $0.centerX.equalTo(cardImg)
         }
 
+        contentView.addSubview(cashNumLab)
+        cashNumLab.snp.makeConstraints {
+            $0.centerX.equalTo(cashImg)
+            $0.top.equalTo(cashLab.snp.bottom).offset(2)
+        }
+        
+        contentView.addSubview(posNumLab)
+        posNumLab.snp.makeConstraints {
+            $0.centerX.equalTo(posImg)
+            $0.centerY.equalTo(cashNumLab)
+        }
+        
+        contentView.addSubview(cardNumLab)
+        cardNumLab.snp.makeConstraints {
+            $0.centerX.equalTo(cardImg)
+            $0.centerY.equalTo(cashNumLab)
+        }
+        
+
+        contentView.addSubview(line1)
+        line1.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(S_W / 3)
+            $0.centerY.equalTo(cashLab)
+            $0.size.equalTo(CGSize(width: 0.5, height: 30))
+        }
+        
+        contentView.addSubview(line2)
+        line2.snp.makeConstraints {
+            $0.right.equalToSuperview().offset(-(S_W / 3))
+            $0.size.centerY.equalTo(line1)
+        }
+
+        
+        
+        
+        
+        
+        
         contentView.addSubview(deImg)
         deImg.snp.makeConstraints {
             $0.top.equalToSuperview().offset(90)
-            $0.centerX.equalTo(contentView.snp.left).offset(S_W / 4)
+            $0.centerX.equalTo(cashImg)
         }
         
         contentView.addSubview(coImg)
         coImg.snp.makeConstraints {
-            $0.centerX.equalTo(contentView.snp.right).offset(-(S_W / 4))
+            $0.centerX.equalTo(posImg)
             $0.centerY.equalTo(deImg)
         }
         
-        contentView.addSubview(deNumLab)
-        deNumLab.snp.makeConstraints {
-            $0.centerX.equalTo(deImg)
-            $0.top.equalToSuperview().offset(110)
+        contentView.addSubview(dineImg)
+        dineImg.snp.makeConstraints {
+            $0.centerX.equalTo(cardImg)
+            $0.centerY.equalTo(deImg)
         }
         
         contentView.addSubview(deLab)
         deLab.snp.makeConstraints {
-            $0.top.equalTo(deNumLab.snp.bottom).offset(2)
             $0.centerX.equalTo(deImg)
+            $0.top.equalToSuperview().offset(110)
+        }
+        
+        contentView.addSubview(coLab)
+        coLab.snp.makeConstraints {
+            $0.centerY.equalTo(deLab)
+            $0.centerX.equalTo(coImg)
+        }
+
+        contentView.addSubview(dineLab)
+        dineLab.snp.makeConstraints {
+            $0.centerY.equalTo(deLab)
+            $0.centerX.equalTo(dineImg)
+        }
+
+
+        contentView.addSubview(deNumLab)
+        deNumLab.snp.makeConstraints {
+            $0.centerX.equalTo(deImg)
+            $0.top.equalTo(deLab.snp.bottom).offset(2)
         }
         
         contentView.addSubview(coNumLab)
@@ -297,74 +351,92 @@ class StatisticalDataCell: BaseTableViewCell {
             $0.centerY.equalTo(deNumLab)
         }
         
-        contentView.addSubview(coLab)
-        coLab.snp.makeConstraints {
-            $0.centerY.equalTo(deLab)
-            $0.centerX.equalTo(coImg)
+        contentView.addSubview(dineNumLab)
+        dineNumLab.snp.makeConstraints {
+            $0.centerX.equalTo(dineImg)
+            $0.centerY.equalTo(deNumLab)
         }
+
         
         contentView.addSubview(line3)
         line3.snp.makeConstraints {
-            $0.size.equalTo(line1)
-            $0.centerY.equalTo(deNumLab)
-            $0.centerX.equalToSuperview()
+            $0.size.centerX.equalTo(line1)
+            $0.centerY.equalTo(deLab)
         }
+
+
+        contentView.addSubview(line4)
+        line4.snp.makeConstraints {
+            $0.size.equalTo(line1)
+            $0.centerY.equalTo(line3)
+            $0.centerX.equalTo(line2)
+        }
+
+        
+        
+        
+        
+        
         
         
         contentView.addSubview(appImg)
         appImg.snp.makeConstraints {
             $0.top.equalToSuperview().offset(165)
-            $0.centerX.equalTo(deImg)
+            $0.centerX.equalTo(cashImg)
         }
         
-        contentView.addSubview(appNumLab)
-        appNumLab.snp.makeConstraints {
-            $0.centerX.equalTo(appImg)
-            $0.top.equalToSuperview().offset(190)
+    
+        contentView.addSubview(machImg)
+        machImg.snp.makeConstraints {
+            $0.centerY.equalTo(appImg)
+            $0.centerX.equalTo(posImg)
         }
+        
         
         contentView.addSubview(appLab)
         appLab.snp.makeConstraints {
             $0.centerX.equalTo(appImg)
-            $0.top.equalTo(appNumLab.snp.bottom).offset(2)
+            $0.top.equalToSuperview().offset(190)
         }
         
-        
-        contentView.addSubview(machImg)
-        machImg.snp.makeConstraints {
-            $0.centerY.equalTo(appImg)
-            $0.centerX.equalTo(coImg)
-        }
-        
-        contentView.addSubview(machNumLab)
-        machNumLab.snp.makeConstraints {
-            $0.centerX.equalTo(machImg)
-            $0.centerY.equalTo(appNumLab)
-        }
         
         contentView.addSubview(machLab)
         machLab.snp.makeConstraints {
             $0.centerX.equalTo(machImg)
             $0.centerY.equalTo(appLab)
         }
-        
-        
-        contentView.addSubview(line4)
-        line4.snp.makeConstraints {
-            $0.size.equalTo(line1)
+
+
+        contentView.addSubview(appNumLab)
+        appNumLab.snp.makeConstraints {
+            $0.centerX.equalTo(appImg)
+            $0.top.equalTo(appLab.snp.bottom).offset(2)
+        }
+
+
+        contentView.addSubview(machNumLab)
+        machNumLab.snp.makeConstraints {
+            $0.centerX.equalTo(machImg)
             $0.centerY.equalTo(appNumLab)
-            $0.centerX.equalToSuperview()
         }
 
         
         contentView.addSubview(line5)
         line5.snp.makeConstraints {
+            $0.size.equalTo(line1)
+            $0.centerY.equalTo(appLab)
+            $0.centerX.equalTo(line1)
+        }
+
+        
+        contentView.addSubview(line6)
+        line6.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
             $0.right.equalToSuperview().offset(-20)
             $0.bottom.equalToSuperview()
-            $0.height.equalTo(1)
+            $0.height.equalTo(0.5)
         }
-        
+
     }
     
     
@@ -379,18 +451,19 @@ class StatisticalDataCell: BaseTableViewCell {
             self.coNumLab.text = "\(model.coOrderNum)"
             self.appNumLab.text = "\(model.appOrderNum)"
             self.machNumLab.text = "\(model.machOrderNum)"
-            
+            self.dineNumLab.text = "\(model.dineOrderNum)"
         }
         
         if section == 6 {
-            
-            self.cashNumLab.text = "£ \(D_2_STR(model.cashOrderSum_All))"
-            self.posNumLab.text = "£ \(D_2_STR(model.posOrderSum_All))"
-            self.cardNumLab.text = "£ \(D_2_STR(model.cardOrderSum_All))"
-            self.deNumLab.text = "£ \(D_2_STR(model.deOrderSum))"
-            self.coNumLab.text = "£ \(D_2_STR(model.coOrderSum))"
-            self.appNumLab.text = "£ \(D_2_STR(model.appOrderSum))"
-            self.machNumLab.text = "£ \(D_2_STR(model.machOrderSum))"
+
+            self.cashNumLab.text = "£\(D_2_STR(model.cashOrderSum_All))"
+            self.posNumLab.text = "£\(D_2_STR(model.posOrderSum_All))"
+            self.cardNumLab.text = "£\(D_2_STR(model.cardOrderSum_All))"
+            self.deNumLab.text = "£\(D_2_STR(model.deOrderSum))"
+            self.coNumLab.text = "£\(D_2_STR(model.coOrderSum))"
+            self.appNumLab.text = "£\(D_2_STR(model.appOrderSum))"
+            self.machNumLab.text = "£\(D_2_STR(model.machOrderSum))"
+            self.dineNumLab.text = "£\(D_2_STR(model.dineOrderSum))"
             
         }
         

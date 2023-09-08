@@ -77,7 +77,7 @@ class DishEditeSellTypeCell: BaseTableViewCell {
     private let tlab2: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .left)
-        lab.text = "Dine in"
+        lab.text = "Dine-in"
         return lab
     }()
     

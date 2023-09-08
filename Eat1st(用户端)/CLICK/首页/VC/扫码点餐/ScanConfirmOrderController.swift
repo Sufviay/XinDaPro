@@ -314,58 +314,65 @@ class ScanConfirmOrderController: BaseViewController, UITableViewDelegate, UITab
     
     private func orderPay_Net() {
         
-        HTTPTOOl.orderPay(orderID: payOrderID, payType: payWay).subscribe(onNext: { [unowned self] (json)
-            in
-            
+        if cartModel.paymentSupport == "4" {
             HUD_MB.dissmiss(onView: PJCUtil.getWindowView())
-            self.payAlert.disAppearAction()
-            
-            ///1需要stripe支付，2不需要
-            let stripeType = json["data"]["stripeType"].stringValue
-            
-            if stripeType == "1" {
-                //调起支付
+            payAlert.disAppearAction()
+            jumpDetailVC(isCanWheel: false)
+        } else {
+            HTTPTOOl.orderPay(orderID: payOrderID, payType: payWay).subscribe(onNext: { [unowned self] (json)
+                in
                 
-                STPAPIClient.shared.publishableKey = json["data"]["publicKey"].stringValue
+                HUD_MB.dissmiss(onView: PJCUtil.getWindowView())
+                self.payAlert.disAppearAction()
+                
+                ///1需要stripe支付，2不需要
+                let stripeType = json["data"]["stripeType"].stringValue
+                
+                if stripeType == "1" {
+                    //调起支付
+                    
+                    STPAPIClient.shared.publishableKey = json["data"]["publicKey"].stringValue
 
-                let customerId = json["data"]["customerId"].stringValue
-                let customerEphemeralKeySecret = json["data"]["ephemeralKey"].stringValue
-                let paymentIntentClientSecret = json["data"]["clientSecret"].stringValue
+                    let customerId = json["data"]["customerId"].stringValue
+                    let customerEphemeralKeySecret = json["data"]["ephemeralKey"].stringValue
+                    let paymentIntentClientSecret = json["data"]["clientSecret"].stringValue
 
-                var config = PaymentSheet.Configuration()
-                //config.merchantDisplayName = "Test"
+                    var config = PaymentSheet.Configuration()
+                    //config.merchantDisplayName = "Test"
 
-                config.customer = .init(id: customerId, ephemeralKeySecret: customerEphemeralKeySecret)
+                    config.customer = .init(id: customerId, ephemeralKeySecret: customerEphemeralKeySecret)
 
-                DispatchQueue.main.async {
+                    DispatchQueue.main.async {
 
-                    self.paymentSheet = PaymentSheet(paymentIntentClientSecret: paymentIntentClientSecret, configuration: config)
-                    self.paymentSheet?.present(from: self, completion: {  [unowned self] paymentResult in
-                        switch paymentResult {
-                        case .completed:
-                            //跳转到订单详情页面
-                            self.jumpDetailVC(isCanWheel: true)
-                            
-                        case .canceled:
-                            self.cancelPay_Net()
-                            HUD_MB.showWarnig("Canceled!", onView: PJCUtil.getWindowView())
-                          print("Canceled!")
-                        case .failed(let error):
-                            HUD_MB.showWarnig("Payment failed: \n\(error.localizedDescription)", onView: PJCUtil.getWindowView())
-                          print("Payment failed: \n\(error.localizedDescription)")
-                        }
-                    })
+                        self.paymentSheet = PaymentSheet(paymentIntentClientSecret: paymentIntentClientSecret, configuration: config)
+                        self.paymentSheet?.present(from: self, completion: {  [unowned self] paymentResult in
+                            switch paymentResult {
+                            case .completed:
+                                //跳转到订单详情页面
+                                self.jumpDetailVC(isCanWheel: true)
+                                
+                            case .canceled:
+                                self.cancelPay_Net()
+                                HUD_MB.showWarnig("Canceled!", onView: PJCUtil.getWindowView())
+                              print("Canceled!")
+                            case .failed(let error):
+                                HUD_MB.showWarnig("Payment failed: \n\(error.localizedDescription)", onView: PJCUtil.getWindowView())
+                              print("Payment failed: \n\(error.localizedDescription)")
+                            }
+                        })
+                    }
                 }
-            }
 
-            if stripeType == "2" {
-                //跳转到订单详情页面
-                self.jumpDetailVC(isCanWheel: false)
-            }
-        }, onError: { [unowned self] (error) in
-            HUD_MB.showError(ErrorTool.errorMessage(error), onView: PJCUtil.getWindowView())
-            
-        }).disposed(by: self.bag)
+                if stripeType == "2" {
+                    //跳转到订单详情页面
+                    self.jumpDetailVC(isCanWheel: false)
+                }
+            }, onError: { [unowned self] (error) in
+                HUD_MB.showError(ErrorTool.errorMessage(error), onView: PJCUtil.getWindowView())
+                
+            }).disposed(by: self.bag)
+
+        }
     }
     
     

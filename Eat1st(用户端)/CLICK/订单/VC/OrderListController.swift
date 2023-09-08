@@ -212,7 +212,6 @@ class OrderListController: BaseViewController, UITableViewDelegate, UITableViewD
                 }
                 self.mainTable.reloadData()
                 self.mainTable.mj_footer?.endRefreshing()
-                
             }
         }, onError: {[unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)

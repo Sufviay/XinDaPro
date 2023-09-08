@@ -276,7 +276,7 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
     private func initData_Net() {
         //请求地址 获取默认地址
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.getAddressList(storeID: storeID, type: "1", page: 1).subscribe(onNext: { (json) in
+        HTTPTOOl.getAddressList(storeID: storeID, type: "1", page: 1).subscribe(onNext: { [unowned self] (json) in
             if json["data"].arrayValue.count != 0  {
                 if json["data"].arrayValue.first!["defaultAddr"].stringValue == "2" &&  json["data"].arrayValue.first!["deliverType"].stringValue == "1" {
                     //有默认地址
@@ -289,7 +289,7 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
             //请求确认订单页面的数据
             self.loadData_Net(lat: self.submitModel.recipientLat, lng: self.submitModel.recipientLng, postCode: self.submitModel.recipientPostcode)
             
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
         
@@ -303,7 +303,7 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
         HUD_MB.loading("", onView: view)
         
         ///cal
-        HTTPTOOl.loadConfirmOrderDetail(storeID: storeID, buyWay: type, lat: lat, lng: lng, couponID: selectCoupon.couponId, postCode: postCode).subscribe(onNext: { (json) in
+        HTTPTOOl.loadConfirmOrderDetail(storeID: storeID, buyWay: type, lat: lat, lng: lng, couponID: selectCoupon.couponId, postCode: postCode).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
             
             
@@ -348,7 +348,7 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
             self.mainTable.reloadData()
             self.getYSDTime_Net()
 
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             
             if error as! NetworkError  == .errorCode10  {
                 /////优惠券无法使用 清除选中的优惠券
@@ -367,12 +367,12 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
         
         ///当不是预售订单时 请求送达时间
         if cartModel.reserveMsg == "" {
-            HTTPTOOl.getCalOrderTime(type: type, storeID: storeID, time: submitModel.hopeTime).subscribe(onNext: { (json) in
+            HTTPTOOl.getCalOrderTime(type: type, storeID: storeID, time: submitModel.hopeTime).subscribe(onNext: { [unowned self] (json) in
                 //HUD_MB.dissmiss(onView: self.view)
                 self.minTime = json["data"]["startTime"].stringValue
                 self.maxTime = json["data"]["endTime"].stringValue
                 self.mainTable.reloadSections([5], with: .none)
-            }, onError: { (error) in
+            }, onError: { [unowned self] (error) in
                 HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
             }).disposed(by: self.bag)
 
@@ -454,7 +454,7 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
                 self.submitModel.recipientAddress = submitModel.doorNum + "\n" + submitModel.address
             }
 
-            HTTPTOOl.createOrder(model: self.submitModel).subscribe(onNext: { (json) in
+            HTTPTOOl.createOrder(model: self.submitModel).subscribe(onNext: { [unowned self] (json) in
                 ///刷新点餐页面
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "pageRefresh"), object: nil)
                 self.isCanEidte = false
@@ -463,7 +463,7 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
                 self.payOrderID = json["data"]["orderId"].stringValue
                 self.orderPay_Net()
 
-            }, onError: { (error) in
+            }, onError: { [unowned self] (error) in
                 HUD_MB.showError(ErrorTool.errorMessage(error), onView: PJCUtil.getWindowView())
             }).disposed(by: self.bag)
 
@@ -475,58 +475,67 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
     
     private func orderPay_Net() {
         
-        HTTPTOOl.orderPay(orderID: payOrderID, payType: payWay).subscribe(onNext: { (json)
-            in
-            
+        
+        if cartModel.paymentSupport == "4" {
             HUD_MB.dissmiss(onView: PJCUtil.getWindowView())
-            self.payAlert.disAppearAction()
+            payAlert.disAppearAction()
+            jumpDetailVC(isCanWheel: false)
+        } else {
             
-            ///1需要stripe支付，2不需要
-            let stripeType = json["data"]["stripeType"].stringValue
-            
-            if stripeType == "1" {
-                //调起支付
+            HTTPTOOl.orderPay(orderID: payOrderID, payType: payWay).subscribe(onNext: { [unowned self] (json)
+                in
                 
-                STPAPIClient.shared.publishableKey = json["data"]["publicKey"].stringValue
+                HUD_MB.dissmiss(onView: PJCUtil.getWindowView())
+                self.payAlert.disAppearAction()
+                
+                ///1需要stripe支付，2不需要
+                let stripeType = json["data"]["stripeType"].stringValue
+                
+                if stripeType == "1" {
+                    //调起支付
+                    
+                    STPAPIClient.shared.publishableKey = json["data"]["publicKey"].stringValue
 
-                let customerId = json["data"]["customerId"].stringValue
-                let customerEphemeralKeySecret = json["data"]["ephemeralKey"].stringValue
-                let paymentIntentClientSecret = json["data"]["clientSecret"].stringValue
+                    let customerId = json["data"]["customerId"].stringValue
+                    let customerEphemeralKeySecret = json["data"]["ephemeralKey"].stringValue
+                    let paymentIntentClientSecret = json["data"]["clientSecret"].stringValue
 
-                var config = PaymentSheet.Configuration()
-                //config.merchantDisplayName = "Test"
+                    var config = PaymentSheet.Configuration()
+                    //config.merchantDisplayName = "Test"
 
-                config.customer = .init(id: customerId, ephemeralKeySecret: customerEphemeralKeySecret)
+                    config.customer = .init(id: customerId, ephemeralKeySecret: customerEphemeralKeySecret)
 
-                DispatchQueue.main.async {
+                    DispatchQueue.main.async {
 
-                    self.paymentSheet = PaymentSheet(paymentIntentClientSecret: paymentIntentClientSecret, configuration: config)
-                    self.paymentSheet?.present(from: self, completion: { paymentResult in
-                        switch paymentResult {
-                        case .completed:
-                            //跳转到订单详情页面
-                            self.jumpDetailVC(isCanWheel: true)
-                            
-                        case .canceled:
-                            self.cancelPay_Net()
-                            HUD_MB.showWarnig("Canceled!", onView: PJCUtil.getWindowView())
-                          print("Canceled!")
-                        case .failed(let error):
-                            HUD_MB.showWarnig("Payment failed: \n\(error.localizedDescription)", onView: PJCUtil.getWindowView())
-                          print("Payment failed: \n\(error.localizedDescription)")
-                        }
-                    })
+                        self.paymentSheet = PaymentSheet(paymentIntentClientSecret: paymentIntentClientSecret, configuration: config)
+                        self.paymentSheet?.present(from: self, completion: { [unowned self]  paymentResult in
+                            switch paymentResult {
+                            case .completed:
+                                //跳转到订单详情页面
+                                self.jumpDetailVC(isCanWheel: true)
+                                
+                            case .canceled:
+                                self.cancelPay_Net()
+                                HUD_MB.showWarnig("Canceled!", onView: PJCUtil.getWindowView())
+                              print("Canceled!")
+                            case .failed(let error):
+                                HUD_MB.showWarnig("Payment failed: \n\(error.localizedDescription)", onView: PJCUtil.getWindowView())
+                              print("Payment failed: \n\(error.localizedDescription)")
+                            }
+                        })
+                    }
                 }
-            }
 
-            if stripeType == "2" {
-                //跳转到订单详情页面
-                self.jumpDetailVC(isCanWheel: false)
-            }
-        }, onError: { (error) in
-            HUD_MB.showError(ErrorTool.errorMessage(error), onView: PJCUtil.getWindowView())
-            
-        }).disposed(by: self.bag)
+                if stripeType == "2" {
+                    //跳转到订单详情页面
+                    self.jumpDetailVC(isCanWheel: false)
+                }
+            }, onError: { [unowned self] (error) in
+                HUD_MB.showError(ErrorTool.errorMessage(error), onView: PJCUtil.getWindowView())
+                
+            }).disposed(by: self.bag)
+        }
+        
     }
     
     
@@ -551,7 +560,7 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
     ///取消支付
     func cancelPay_Net() {
         HTTPTOOl.payCancel(id: self.payOrderID).subscribe(onNext: { (josn) in
-        }).disposed(by: self.bag)
+        }).disposed(by: bag)
     }
 
     
@@ -559,9 +568,9 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
     private func updateDishesCount_Net(count: Int, cartID: String, dishesID: String) {
 
         HUD_MB.loading("", onView: self.view)
-        HTTPTOOl.updateCartNum(buyNum: count, cartID: cartID).subscribe(onNext: { (json) in
+        HTTPTOOl.updateCartNum(buyNum: count, cartID: cartID).subscribe(onNext: { [unowned self] (json) in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "cartRefresh"), object: nil)
-            HTTPTOOl.loadConfirmOrderDetail(storeID: self.storeID, buyWay: self.type, lat: self.submitModel.recipientLat, lng: self.submitModel.recipientLng, couponID: self.selectCoupon.couponId, postCode: self.submitModel.recipientPostcode).subscribe(onNext: { (json) in
+            HTTPTOOl.loadConfirmOrderDetail(storeID: self.storeID, buyWay: self.type, lat: self.submitModel.recipientLat, lng: self.submitModel.recipientLng, couponID: self.selectCoupon.couponId, postCode: self.submitModel.recipientPostcode).subscribe(onNext: { [unowned self] (json) in
                 HUD_MB.dissmiss(onView: self.view)
                 self.cartModel.updateModel(json: json["data"], type: self.type)
                 if self.cartModel.deliveryType == "4" {
@@ -572,10 +581,10 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
                     self.showSystemAlert("Tip", self.cartModel.deliveryMsg, "Sure")
                 }
                 self.mainTable.reloadData()
-            }, onError: { (error) in
+            }, onError: { [unowned self] (error) in
                 HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
             }).disposed(by: self.bag)
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }

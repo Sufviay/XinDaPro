@@ -12,9 +12,9 @@ class FirstSideToolView: UIView, UIGestureRecognizerDelegate, UITableViewDelegat
     
     private let bag = DisposeBag()
     
-    private let imgStrArr: [String] = ["side_home", "side_set", "side_review", "side_tousu", "side_fankui", "side_about"]
+    private let imgStrArr: [String] = ["side_home", "side_set", "side_review", "side_tousu", "side_table"]
 
-    private let titStrArr: [String] = ["Home", "Restaurant settings", "Reviews", "Complaints", "Feedback", "About"]
+    private let titStrArr: [String] = ["Home", "Restaurant settings", "Reviews", "Complaints", "Table setting"]
 
     private let backView: UIView = {
         let view = UIView()
@@ -232,10 +232,13 @@ extension FirstSideToolView {
             } else {
                 return 0
             }
-        } else {
-            return 0
         }
-        //return 1
+//        else if (section == 2 || section == 3) {
+//            return 1
+//        } else {
+//            return 0
+//        }
+        return 1
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -267,10 +270,28 @@ extension FirstSideToolView {
         
         if indexPath.section == 1 {
             //Restaurant settings
-            let nextVC = RestaurantSettingController()
-            PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
+            let setVC = RestaurantSettingController()
+            PJCUtil.currentVC()?.navigationController?.pushViewController(setVC, animated: true)
         }
         
+        if indexPath.section == 2 {
+            //评论列表
+            let reviewsVC = ReviewsController()
+            PJCUtil.currentVC()?.navigationController?.pushViewController(reviewsVC, animated: true)
+        }
+        
+        if indexPath.section == 3 {
+            //投诉列表
+            let complatinVC = ComplaintsController()
+            PJCUtil.currentVC()?.navigationController?.pushViewController(complatinVC, animated: true)
+
+        }
+        
+        if indexPath.section == 4 {
+            //餐桌设置
+            let deskVC = DeskSettingController()
+            PJCUtil.currentVC()?.navigationController?.pushViewController(deskVC, animated: true)
+        }
         
         if indexPath.section == titStrArr.count {
             //退出
