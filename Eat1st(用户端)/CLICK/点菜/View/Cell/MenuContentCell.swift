@@ -310,6 +310,7 @@ extension MenuContentCell {
                     //点击分类 发送通知主页面店铺信息置顶
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "classify"), object: nil)
                     self.isSelect = true
+                    canSroll = true
                     self.r_table.selectRow(at: IndexPath(row: 0, section: indexPath.row), animated: false, scrollPosition: .top)
                 }
             }
@@ -364,8 +365,6 @@ extension MenuContentCell {
             l_table.reloadData()
             // 移动 左侧 tableview 到 指定 indexpath 居中显示
             self.l_table.selectRow(at: l_indexpath, animated: true, scrollPosition: .middle)
-            //self.l_table.scrollToRow(at: l_indexpath, at: .middle, animated: true)
-
         }
         
         //MARK: - 嵌套滑动

@@ -221,6 +221,33 @@ class ScanConfirmOrderController: BaseViewController, UITableViewDelegate, UITab
     
     //MARK: - 网络请求
     
+    
+    
+    //MARK: - 请求可用的优惠券
+    private func loadCouponStatus(price: String) {
+        
+        if price == "0" {
+            cartModel.isHaveCanUseCoupon = false
+            mainTable.reloadData()
+        } else {
+            HTTPTOOl.getAvabliableCouponList(dishesPrice: price, storeID: storeID).subscribe(onNext: { [unowned self] (json) in
+                
+                for jsonData in json["data"].arrayValue {
+                    if jsonData["status"].stringValue == "1" {
+                        cartModel.isHaveCanUseCoupon = true
+                        break
+                    } else {
+                        cartModel.isHaveCanUseCoupon = false
+                    }
+                }
+                mainTable.reloadData()
+            }).disposed(by: bag)
+        }
+    }
+    
+    
+
+    //MARK: - 获取订单信息
     private func loadData_Net() {
         HUD_MB.loading("", onView: view)
         
@@ -232,6 +259,8 @@ class ScanConfirmOrderController: BaseViewController, UITableViewDelegate, UITab
 
             self.sectionNum = 10
             self.mainTable.reloadData()
+            
+            self.loadCouponStatus(price: D_2_STR(self.cartModel.subFee - self.cartModel.dishesDiscountAmount))
 
         }, onError: { [unowned self] (error) in
             
@@ -407,6 +436,10 @@ class ScanConfirmOrderController: BaseViewController, UITableViewDelegate, UITab
         HUD_MB.loading("", onView: self.view)
         HTTPTOOl.updateCartNum(buyNum: count, cartID: cartID).subscribe(onNext: { [unowned self] (json) in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "cartRefresh"), object: nil)
+            //取消优惠券
+            selectCoupon = CouponModel()
+            submitModel.couponId = ""
+
             HTTPTOOl.loadConfirmOrderDetail(storeID: self.storeID, buyWay: "3", lat: "", lng: "", couponID: self.selectCoupon.couponId, postCode: "").subscribe(onNext: { [unowned self] (json) in
                 HUD_MB.dissmiss(onView: self.view)
                 self.cartModel.updateModel(json: json["data"], type: "3")
@@ -418,8 +451,10 @@ class ScanConfirmOrderController: BaseViewController, UITableViewDelegate, UITab
                     self.showSystemAlert("Tip", self.cartModel.deliveryMsg, "Sure")
                 }
                 self.mainTable.reloadData()
+                self.loadCouponStatus(price: D_2_STR(self.cartModel.subFee - self.cartModel.dishesDiscountAmount))
             }, onError: {[unowned self] (error) in
                 HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
+                self.mainTable.reloadData()
             }).disposed(by: self.bag)
         }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
@@ -563,7 +598,7 @@ extension ScanConfirmOrderController {
 
         if indexPath.section == 6 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderCouponsCell") as! OrderCouponsCell
-            cell.setCellData(coupon: self.selectCoupon, isCanEdite: self.isCanEidte)
+            cell.setCellData(coupon: self.selectCoupon, isHave: cartModel.isHaveCanUseCoupon, isCanEdite: self.isCanEidte)
             
             cell.clickBlock = { [unowned self] (_) in
                 //选择优惠券

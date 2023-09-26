@@ -668,6 +668,11 @@ class HttpTool {
         return Observable<JSON>.create(response)
     }
     
+    //MARK: - 更新菜品价格
+    func updateDishesPrice(id: String, sellType: String, buffetType: String, dePrice: String, dinePrice: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .updateDishesPrice(id: id, sellType: sellType, buffetType: buffetType, dePrice: dePrice, dinePrice: dinePrice))
+        return Observable<JSON>.create(response)
+    }
     
     
     

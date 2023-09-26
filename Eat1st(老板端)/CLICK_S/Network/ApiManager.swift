@@ -199,6 +199,8 @@ enum ApiManager {
     case addDesk(name: String, remark: String)
     ///编辑餐桌
     case editDesk(id: String, name: String, remark: String)
+    ///更新菜品价格
+    case updateDishesPrice(id: String, sellType: String, buffetType: String, dePrice: String, dinePrice: String)
     
 
     
@@ -493,6 +495,8 @@ extension ApiManager: TargetType {
             return "api/boss/desk/doUpdate"
         case .addDesk(name: _, remark: _):
             return "api/boss/desk/doAdd"
+        case .updateDishesPrice(id: _, sellType: _, buffetType: _, dePrice: _, dinePrice: _):
+            return "api/boss/dishes/doUpdatePrice"
             
 
 
@@ -786,6 +790,10 @@ extension ApiManager: TargetType {
             dic = ["deskId": id, "deskName": name, "remark": remark]
         case .addDesk(let name, let remark):
             dic = ["deskName": name, "remark": remark]
+        case .updateDishesPrice(let id, let sellType, let buffetType, let dePrice, let dinePrice):
+            dic = ["dishesId": id, "sellType": sellType, "buffetType": buffetType, "deliPrice": dePrice, "dinePrice": dinePrice]
+            
+            
         
             
             
@@ -897,12 +905,16 @@ extension ApiManager: TargetType {
         let deviceID = MYVendorToll.getIDFV() ?? ""
         print(deviceID)
         
+        
+        ///sysType：系统类型（01用户安卓，02用户苹果，03骑手安卓，04骑手苹果，05老板安卓，06老板苹果，07店家安卓）
+
         let baseDic = ["Accept": "application/json",
                        "token": token,
                        "token-boss": token,
                        "verId": UserDefaults.standard.verID ?? "0",
                        "verCode": "v\(curAppVer)",
-                       "sysType": systemtype,
+                       "sysType": "06",
+                       "sysModel": systemtype,
                        "sysVer": systemVer,
                        "lang": curLanguage,
                        "deviceId": deviceID,

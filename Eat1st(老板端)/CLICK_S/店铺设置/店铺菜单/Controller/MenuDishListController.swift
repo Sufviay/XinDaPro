@@ -82,6 +82,13 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
         return view
     }()
     
+    //价格
+    private lazy var priceView: EditPriceView = {
+        let view = EditPriceView()
+        return view
+    }()
+
+    
     
     private lazy var table: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -215,9 +222,9 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
         cell.clickMoreBlock = { [unowned self] (par) in
             if par == "de" {
                 //删除
-                DispatchQueue.main.async {
-                    self.showSystemChooseAlert("Alert", "Delete it?", "YES", "NO") {
-                        self.deleteDish_Net(idx: indexPath.row)
+                DispatchQueue.main.async { [unowned self] in
+                    self.showSystemChooseAlert("Alert", "Delete it?", "YES", "NO") { [unowned self] in
+                        deleteDish_Net(idx: indexPath.row)
                     }
                 }                
             }
@@ -254,6 +261,13 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
                 let model = self.dishArr[indexPath.row]
                 self.discountView.setAlertData(discountType: model.discountType, discountPrice: model.discountPrice, dishID: model.id, discountStartDate: model.discountStartDate, discountEndDate: model.discountEndDate)
                 self.discountView.appearAction()
+            }
+            
+            if par == "pr" {
+                //价格
+                let model = self.dishArr[indexPath.row]
+                priceView.setAlertData(id: model.id, sellType: model.sellType, buffetType: model.buffetType, dePrice: model.deliPrice, dinePrice: model.dinePrice)
+                priceView.appearAction()
             }
             
         }

@@ -66,6 +66,7 @@
 		E31C2C762A2092FB007B6DC2 /* ComboNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31C2C752A2092FB007B6DC2 /* ComboNameCell.swift */; };
 		E31C2C782A2098E7007B6DC2 /* MenuComboEditSpecController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31C2C772A2098E7007B6DC2 /* MenuComboEditSpecController.swift */; };
 		E31C2C7A2A20A19D007B6DC2 /* MenuComboEditDishController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31C2C792A20A19D007B6DC2 /* MenuComboEditDishController.swift */; };
+		E326BC232AAF06A800E138CF /* EditPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E326BC222AAF06A800E138CF /* EditPriceView.swift */; };
 		E3284BAF2A4A6FF9004BC2C5 /* DishEditeSellTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3284BAE2A4A6FF9004BC2C5 /* DishEditeSellTypeCell.swift */; };
 		E337296C28B64FE100A06AB7 /* StatisticalUnfulfilledDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E337296B28B64FE100A06AB7 /* StatisticalUnfulfilledDateCell.swift */; };
 		E337297428BF333500A06AB7 /* DishChartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E337297328BF333500A06AB7 /* DishChartController.swift */; };
@@ -304,6 +305,7 @@
 		E31C2C752A2092FB007B6DC2 /* ComboNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboNameCell.swift; sourceTree = "<group>"; };
 		E31C2C772A2098E7007B6DC2 /* MenuComboEditSpecController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuComboEditSpecController.swift; sourceTree = "<group>"; };
 		E31C2C792A20A19D007B6DC2 /* MenuComboEditDishController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuComboEditDishController.swift; sourceTree = "<group>"; };
+		E326BC222AAF06A800E138CF /* EditPriceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPriceView.swift; sourceTree = "<group>"; };
 		E3284BAE2A4A6FF9004BC2C5 /* DishEditeSellTypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishEditeSellTypeCell.swift; sourceTree = "<group>"; };
 		E337296B28B64FE100A06AB7 /* StatisticalUnfulfilledDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticalUnfulfilledDateCell.swift; sourceTree = "<group>"; };
 		E337297328BF333500A06AB7 /* DishChartController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishChartController.swift; sourceTree = "<group>"; };
@@ -1058,6 +1060,7 @@
 				E3F829DB28617749005E5FAB /* MenuDishSearchView.swift */,
 				E3F829E12861B327005E5FAB /* EditeClassifyView.swift */,
 				E372C65C28A501AB0046DC55 /* EditeKuCunView.swift */,
+				E326BC222AAF06A800E138CF /* EditPriceView.swift */,
 				E31790D628CA2DE3007BA6B9 /* EditDiscountView.swift */,
 				E37C18C22A0BAA4700D7C39D /* DiscountSelectDateView.swift */,
 				E3F82A09286597FB005E5FAB /* DishSelectTagsView.swift */,
@@ -1643,6 +1646,7 @@
 				E3DF139A2843B8EF007FCC11 /* HeadBaseViewController.swift in Sources */,
 				E36570C62A9EDC1C0020BD35 /* ComplaintsDishesAlert.swift in Sources */,
 				E337297828C193B000A06AB7 /* MonthSalesModel.swift in Sources */,
+				E326BC232AAF06A800E138CF /* EditPriceView.swift in Sources */,
 				E3F82A12286987D4005E5FAB /* AdditionalDetailModel.swift in Sources */,
 				E305E8B126DF131C00AAB580 /* ProjectHeader.swift in Sources */,
 				E3F829E628631000005E5FAB /* DishDetailEditeCell.swift in Sources */,
@@ -1946,7 +1950,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.28;
+				MARKETING_VERSION = 1.0.29;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app-Boss";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "CLICK_S/CLICK_S-Bridging-Header.h";
@@ -1976,7 +1980,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.28;
+				MARKETING_VERSION = 1.0.29;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app-Boss";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = boss_dis;

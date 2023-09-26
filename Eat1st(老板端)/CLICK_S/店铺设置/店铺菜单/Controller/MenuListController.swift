@@ -32,13 +32,18 @@ class MenuListController: HeadBaseViewController, UITableViewDelegate, UITableVi
     //折扣
     private lazy var discountView: EditDiscountView = {
         let view = EditDiscountView()
-        
         return view
     }()
     
     //库存
     private lazy var kuCunView: EditeKuCunView = {
         let view = EditeKuCunView()
+        return view
+    }()
+    
+    //价格
+    private lazy var priceView: EditPriceView = {
+        let view = EditPriceView()
         return view
     }()
 
@@ -193,38 +198,40 @@ class MenuListController: HeadBaseViewController, UITableViewDelegate, UITableVi
             cell.clickMoreBlock = { [unowned self] (par) in
                 if par == "de" {
                     //删除
-                    DispatchQueue.main.async {
-                        self.showSystemChooseAlert("Alert", "Delete it?", "YES", "NO") { [unowned self] in
-                            self.deleteDishes_Net(idx: indexPath.row)
+                    DispatchQueue.main.async { [unowned self] in
+                        showSystemChooseAlert("Alert", "Delete it?", "YES", "NO") { [unowned self] in
+                            deleteDishes_Net(idx: indexPath.row)
                         }
                     }
                 }
                 if par == "yh" {
                     //优惠
-                    let model = self.comboDishes[indexPath.row]
-                    self.discountView.setAlertData(discountType: model.discountType, discountPrice: model.discountPrice, dishID: model.id, discountStartDate: model.discountStartDate, discountEndDate: model.discountEndDate)
-                    self.discountView.appearAction()
+                    let model = comboDishes[indexPath.row]
+                    discountView.setAlertData(discountType: model.discountType, discountPrice: model.discountPrice, dishID: model.id, discountStartDate: model.discountStartDate, discountEndDate: model.discountEndDate)
+                    discountView.appearAction()
                 }
                 
                 if par == "kc" {
                     //库存
-                    let model = self.comboDishes[indexPath.row]
-                    self.kuCunView.setAlertData(name1: model.name1, name2: model.name2, type: model.limitBuy, num: model.limitNum, dishID: model.id)
-                    self.kuCunView.appearAction()
+                    let model = comboDishes[indexPath.row]
+                    kuCunView.setAlertData(name1: model.name1, name2: model.name2, type: model.limitBuy, num: model.limitNum, dishID: model.id)
+                    kuCunView.appearAction()
                 }
 
                 if par == "ed" {
-                    
+                    //详情
                     let nextVC = MenuDishComboDetailController()
                     nextVC.dishID = comboDishes[indexPath.row].id
                     self.navigationController?.pushViewController(nextVC, animated: true)
-
-//
-//                    let nextVC = MenuDishEditeController()
-//                    nextVC.isAdd = false
-//                    nextVC.dishID = comboDishes[indexPath.row].id
-//                    self.navigationController?.pushViewController(nextVC, animated: true)
                 }
+                
+                if par == "pr" {
+                    //修改价格
+                    let model = comboDishes[indexPath.row]
+                    priceView.setAlertData(id: model.id, sellType: model.sellType, buffetType: model.buffetType, dePrice: model.deliPrice, dinePrice: model.dinePrice)
+                    priceView.appearAction()
+                }
+                
             }
             
             return cell
@@ -245,16 +252,13 @@ class MenuListController: HeadBaseViewController, UITableViewDelegate, UITableVi
         
                 //添加套餐菜品
                 let nextVC = MenuDishComboEditeController()
-                nextVC.isAdd = true
                 self.navigationController?.pushViewController(nextVC, animated: true)
-                
                 
             } else {
                 
                 //添加分类
                 self.addClassifyView.type = self.type
                 self.addClassifyView.appearAction()
-
             }
             
         } else {

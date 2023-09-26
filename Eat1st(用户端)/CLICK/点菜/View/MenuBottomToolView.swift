@@ -181,7 +181,7 @@ class MenuBottomToolView: UIView {
     
     func setValue(dishMoney: String, buyCount: Int, discountType: String, discountMoney: String, deliveryFee: String, minOrder: String, type: String) {
 
-        ///type:  3是，4菜品金额小于等于0，5菜品金额小于店铺最低配送金额），6关店（不在营业时间呗) 7菜品不可用  8未登录
+        ///type:  3是，4菜品金额小于等于0，5菜品金额小于店铺最低配送金额），6关店（不在营业时间呗) 7菜品不可用  8 没有菜  9未登录
         
         
         if type == "3" {
@@ -218,11 +218,14 @@ class MenuBottomToolView: UIView {
             self.msgLab.text = ""
         } else if type == "7" {
             self.msgLab.text = "Some dishes are not available"
-        } else if type == "8" {
+        } else if type == "9" {
             self.msgLab.text = "Please log in"
         } else if type == "4" {
             self.msgLab.text = "Please order"
-        } else {
+        } else if type == "8" {
+            self.msgLab.text = "Please order"
+        }
+        else {
             self.msgLab.textColor = HCOLOR("FB5348")
             self.msgLab.text = "The minimum charge is £\(minOrder)"
         }

@@ -63,6 +63,9 @@ class DishModel: NSObject {
     ///售卖类型（1外卖，2堂食，3均可）
     var sellType: String = ""
     
+    ///是否是自主餐
+    var buffetType: String = ""
+    
     ///优惠价格
     var discountPrice: String = "0"
     ///是否有优惠 1无 2有
@@ -152,6 +155,7 @@ class DishModel: NSObject {
         self.discountEndDate = json["endTime"].stringValue
         self.dishesType = json["dishesType"].stringValue
         self.discountType = json["discountType"].stringValue
+        self.buffetType = json["buffetType"].stringValue
         
         
         let deliPrice = json["deliPrice"].doubleValue

@@ -240,6 +240,7 @@ let HTML: (String) -> String = { (str) in
 let HTTPTOOl = HttpTool.shared
 
 
+
 //"http://api.moneycheers.net/"
 //"https://api.foodo2o.com/"
 

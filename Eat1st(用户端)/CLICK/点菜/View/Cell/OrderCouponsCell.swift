@@ -71,6 +71,13 @@ class OrderCouponsCell: BaseTableViewCell {
         return lab
     }()
     
+    private let noLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#DADADA"), BFONT(14), .right)
+        lab.text = "No more coupons"
+        return lab
+    }()
+    
 
     override func setViews() {
         
@@ -140,6 +147,12 @@ class OrderCouponsCell: BaseTableViewCell {
             $0.right.equalTo(selectedLab.snp.left).offset(-10)
         }
         
+        clickBut.addSubview(noLab)
+        noLab.snp.makeConstraints {
+            $0.right.equalToSuperview().offset(-15)
+            $0.centerY.equalToSuperview()
+        }
+        
         clickBut.addTarget(self, action: #selector(clickSelectAction), for: .touchUpInside)
         
     }
@@ -150,47 +163,70 @@ class OrderCouponsCell: BaseTableViewCell {
     }
     
     
-    func setCellData(coupon: CouponModel, isCanEdite: Bool) {
+    func setCellData(coupon: CouponModel, isHave: Bool , isCanEdite: Bool) {
         
-        self.clickBut.isEnabled = isCanEdite
         
-        if coupon.couponId == "" {
-            //未选择
-            self.zkImg.isHidden = true
-            self.selectedLab.isHidden = true
-            self.moreImg.isHidden = false
-            
-            self.selectedLab.text = ""
-            self.zkImg.image = nil
-            
+        //是否能按
+        if !isHave || !isCanEdite {
+            clickBut.isEnabled = false
         } else {
-            //以选择
-            
-            self.zkImg.isHidden = false
-            self.selectedLab.isHidden = false
-            self.moreImg.isHidden = true
-        
-            
-            if coupon.couponType == "1" {
-                //折扣
-                self.selectedLab.text = "\(Int(coupon.couponScale * 100))%OFF"
-                self.zkImg.image = LOIMG("coupon_discount")
-                
-            }
-            
-            if coupon.couponType == "2" {
-                //满减
-                self.selectedLab.text = "-£\(D_2_STR(coupon.couponAmount))"
-                self.zkImg.image = LOIMG("coupon_voucher")
-            }
-            
-            if coupon.couponType == "3" {
-                //赠送菜
-                self.selectedLab.text = coupon.dishesName
-                self.zkImg.image = LOIMG("coupon_free")
-            }
+            clickBut.isEnabled = true
         }
         
+        //样式
+        if !isHave {
+            //没有优惠券
+            noLab.isHidden = false
+            zkImg.isHidden = true
+            selectedLab.isHidden = true
+            moreImg.isHidden = true
+            
+            selectedLab.text = ""
+            zkImg.image = nil
+            nextImg.isHidden = true
+        } else {
+            //有可用优惠券
+            noLab.isHidden = true
+            nextImg.isHidden = false
+            
+            if coupon.couponId == "" {
+                //未选择
+                self.zkImg.isHidden = true
+                self.selectedLab.isHidden = true
+                self.moreImg.isHidden = false
+                
+                self.selectedLab.text = ""
+                self.zkImg.image = nil
+                
+            } else {
+                //以选择
+                
+                self.zkImg.isHidden = false
+                self.selectedLab.isHidden = false
+                self.moreImg.isHidden = true
+            
+                
+                if coupon.couponType == "1" {
+                    //折扣
+                    self.selectedLab.text = "\(Int(coupon.couponScale * 100))%OFF"
+                    self.zkImg.image = LOIMG("coupon_discount")
+                    
+                }
+                
+                if coupon.couponType == "2" {
+                    //满减
+                    self.selectedLab.text = "-£\(D_2_STR(coupon.couponAmount))"
+                    self.zkImg.image = LOIMG("coupon_voucher")
+                }
+                
+                if coupon.couponType == "3" {
+                    //赠送菜
+                    self.selectedLab.text = coupon.dishesName
+                    self.zkImg.image = LOIMG("coupon_free")
+                }
+            }
+            
+        }        
     }
     
     

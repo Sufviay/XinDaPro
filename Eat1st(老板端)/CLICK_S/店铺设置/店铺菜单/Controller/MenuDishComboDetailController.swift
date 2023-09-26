@@ -118,7 +118,7 @@ class MenuDishComboDetailController: HeadBaseViewController, UITableViewDelegate
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 14
+            return 15
         } else {
             return dishModel.comboList[section - 1].comboDishesList.count + 1
         }
@@ -133,7 +133,7 @@ class MenuDishComboDetailController: HeadBaseViewController, UITableViewDelegate
                 return 25 + 15 + h1 + h2
                 
             }
-            if indexPath.row == 1 || indexPath.row == 3 || indexPath.row == 4 || indexPath.row == 5 || indexPath.row == 6 ||  indexPath.row == 9  {
+            if indexPath.row == 1 || indexPath.row == 3 || indexPath.row == 4 || indexPath.row == 5 || indexPath.row == 6 || indexPath.row == 7 ||  indexPath.row == 10  {
                 return 66
             }
             
@@ -141,28 +141,28 @@ class MenuDishComboDetailController: HeadBaseViewController, UITableViewDelegate
                 let h = dishModel.desStr.getTextHeigh(SFONT(14), S_W - 80)
                 return h + 50
             }
-            if indexPath.row == 7 {
+            if indexPath.row == 8 {
                 let h = dishModel.classifyStr.getTextHeigh(SFONT(14), S_W - 80)
                 return h + 50
             }
-            if indexPath.row == 8 {
+            if indexPath.row == 9 {
                 let h = dishModel.allergenStr.getTextHeigh(SFONT(14), S_W - 80)
                 return h + 50
             }
             
-            if indexPath.row == 10 {
+            if indexPath.row == 11 {
                 let h = dishModel.tagsStr.getTextHeigh(SFONT(14), S_W - 80)
                 return h + 50
             }
             
-            if indexPath.row == 11 {
+            if indexPath.row == 12 {
                 return 110
             }
             
-            if indexPath.row == 12 {
+            if indexPath.row == 13 {
                 return 135
             }
-            if indexPath.row == 13 {
+            if indexPath.row == 14 {
                 return 110
             }
         } else {
@@ -174,7 +174,7 @@ class MenuDishComboDetailController: HeadBaseViewController, UITableViewDelegate
         }
         
         
-        return 10
+        return 0
     }
     
     
@@ -230,32 +230,50 @@ class MenuDishComboDetailController: HeadBaseViewController, UITableViewDelegate
                 return cell
 
             }
-
+            
+            
             if indexPath.row == 5 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
+                
+                var msg = ""
+                if dishModel.buffetType == "1" {
+                    msg = "Not"
+                }
+                if dishModel.buffetType == "2" {
+                    msg = "Buffet"
+                }
+                
+                cell.setCellData(titStr: "Buffet or not", msgStr: msg)
+                return cell
+
+            }
+
+
+            if indexPath.row == 6 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailPriceCell") as! DishDetailPriceCell
                 cell.setCellData(model: dishModel, type: "1")
                 return cell
             }
-            if indexPath.row == 6 {
+            if indexPath.row == 7 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailPriceCell") as! DishDetailPriceCell
                 cell.setCellData(model: dishModel, type: "2")
                 return cell
             }
 
 
-            if indexPath.row == 7 {
+            if indexPath.row == 8 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
                 cell.setCellData(titStr: "Category", msgStr: dishModel.classifyStr)
                 return cell
             }
             
-            if indexPath.row == 8 {
+            if indexPath.row == 9 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
                 cell.setCellData(titStr: "Allergen", msgStr: dishModel.allergenStr)
                 return cell
             }
             
-            if indexPath.row == 9 {
+            if indexPath.row == 10 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
                 var msg = ""
                 if dishModel.statusId == "1" {
@@ -267,24 +285,24 @@ class MenuDishComboDetailController: HeadBaseViewController, UITableViewDelegate
                 return cell
             }
             
-            if indexPath.row == 10 {
+            if indexPath.row == 11 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
                 cell.setCellData(titStr: "Food tags", msgStr: dishModel.tagsStr)
                 return cell
             }
 
-            if indexPath.row == 11 {
+            if indexPath.row == 12 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishListPictureCell") as! DishListPictureCell
                 cell.setCellData(titStr: "Dish picture", picUrl: dishModel.showListUrl)
                 return cell
             }
             
-            if indexPath.row == 12 {
+            if indexPath.row == 13 {
                 let cell = table.dequeueReusableCell(withIdentifier: "DishDetailPictureCell") as! DishDetailPictureCell
                 cell.setCellData(picUrl: dishModel.showDetailUrl)
                 return cell
             }
-            if indexPath.row == 13 {
+            if indexPath.row == 14 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailAddSpecCell") as! DishDetailAddSpecCell
                 cell.inLab.text = "Add"
                 return cell

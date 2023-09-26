@@ -72,6 +72,10 @@ class DishDetailModel: HandyJSON {
     ///菜品类型 1是单品2是套餐
     var dishesType: String = ""
     
+    ///是否为自助餐 1否 2是
+    var buffetType: String = ""
+    
+    
     ///规格选项列表
     var specList: [DishDetailSpecModel] = []
     

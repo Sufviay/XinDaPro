@@ -28,7 +28,8 @@ class JuJieInputCell: BaseTableViewCell, UITextViewDelegate {
         return view
     }()
 
-
+    
+    
     private let holderLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#999999"), SFONT(14), .left)

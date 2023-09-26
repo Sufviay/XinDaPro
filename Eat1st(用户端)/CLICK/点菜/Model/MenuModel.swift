@@ -19,7 +19,7 @@ class CartDataModel: NSObject {
     var discountAmount: Double = 0
     ///最低配送金额
     var minDeliveryPrice: Double = 0
-    ///是否可配送（3是，4菜品金额小于等于0，5菜品金额小于店铺最低配送金额），6关店（不在营业时间呗），7菜品无效 8未登录
+    ///是否可配送（3是，4菜品金额小于等于0，5菜品金额小于店铺最低配送金额），6关店（不在营业时间呗），7菜品无效 8没有菜 9未登陆
     var deliveryType: String = ""
     ///已选择的菜品
     var dishesList: [CartDishModel] = []

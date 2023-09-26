@@ -491,15 +491,20 @@ extension ApiManager: TargetType {
         let deviceID = MYVendorToll.getIDFV() ?? ""
         print(deviceID)
         
+        
+        ///sysType：系统类型（01用户安卓，02用户苹果，03骑手安卓，04骑手苹果，05老板安卓，06老板苹果，07店家安卓）
         let baseDic = ["Accept": "application/json",
                        "token-rider": token,
                        "token": token,
                        "verId": UserDefaults.standard.verID ?? "0",
                        "verCode": "v\(curAppVer)",
-                       "sysType": systemtype,
+                       "sysType": "04",
+                       "sysModel": systemtype,
                        "sysVer": systemVer,
                        "lang": curLanguage,
-                       "deviceId": deviceID
+                       "deviceId": deviceID,
+                       "deviceType": "apple",
+                       "sysLang": Locale.preferredLanguages.first ?? ""
                         ]
         return baseDic
         

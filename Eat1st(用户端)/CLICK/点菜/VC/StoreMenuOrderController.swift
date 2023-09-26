@@ -361,7 +361,7 @@ extension StoreMenuOrderController {
                 self.loadCartData_Net()
             } else {
                 
-                self.b_view.setValue(dishMoney: "0", buyCount: 0, discountType: "2", discountMoney: "0", deliveryFee: "0", minOrder: D_2_STR(self.storeInfo.minOrder), type: "8")
+                self.b_view.setValue(dishMoney: "0", buyCount: 0, discountType: "2", discountMoney: "0", deliveryFee: "0", minOrder: D_2_STR(self.storeInfo.minOrder), type: "9")
                 self.b_view.isHidden = false
                 self.mainTable.isHidden = false
                 HUD_MB.dissmiss(onView: self.view)

@@ -62,6 +62,10 @@ class ConfirmOrderCartModel: NSObject {
     var couponAmount: Double = 0
     
     
+    ///是否有可用优惠券
+    var isHaveCanUseCoupon: Bool = false
+    
+    
     
     ///支付弹窗的信息
     ///是否可以现金付款或是否可以在线付款 1现金 2卡  3都行 4不需要支付
