@@ -249,8 +249,8 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
     }
     
     //MARK: - 获取确认订单详情
-    func loadConfirmOrderDetail(storeID: String, buyWay: String, lat: String, lng: String, couponID: String, postCode: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .loadConfirmOrderDetail(lat: lat, lng: lng, buyWay: buyWay, storeID: storeID, couponID: couponID, postCode: postCode))
+    func loadConfirmOrderDetail(storeID: String, buyWay: String, lat: String, lng: String, couponID: String, postCode: String, couponUserDishesId: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .loadConfirmOrderDetail(lat: lat, lng: lng, buyWay: buyWay, storeID: storeID, couponID: couponID, couponUserDishesId: couponUserDishesId, postCode: postCode))
         return Observable<JSON>.create(response)
     }
     
@@ -593,7 +593,25 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
     }
     
     
+    //MARK: - 获取国家列表
+    func getCountryList() -> Observable<JSON> {
+        let response = rxApiManager(api: .getCountryList)
+        return Observable<JSON>.create(response)
+    }
     
+        
+    //MARK: - 发送短信
+    func sendSMSCode(countryCode: String, phone: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .sendSMSCode(countryCode: countryCode, phone: phone))
+        return Observable<JSON>.create(response)
+    }
+    
+    
+    //MARK: - 手机登陆
+    func loginPhone(countryCode: String, phone: String, smsCode: String, smsID: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .loginPhone(countryCode: countryCode, phone: phone, smsID: smsID, smsCode: smsCode))
+        return Observable<JSON>.create(response)
+    }
     
     
     

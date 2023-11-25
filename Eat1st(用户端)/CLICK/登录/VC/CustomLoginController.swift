@@ -82,7 +82,7 @@ class CustomLoginController: FUIAuthPickerViewController {
             $0.size.equalTo(CGSize(width: 280, height: 30))
             $0.bottom.equalToSuperview().offset(-bottomBarH - 10)
         }
-
+        
     }
     
 

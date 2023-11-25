@@ -20,7 +20,7 @@ class OrderCouponsCell: BaseTableViewCell {
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, SFONT(14), .left)
+        lab.setCommentStyle(MAINCOLOR, BFONT(14), .left)
         lab.text = "Coupons"
         return lab
     }()
@@ -96,7 +96,7 @@ class OrderCouponsCell: BaseTableViewCell {
         backView.addSubview(titLab)
         titLab.snp.makeConstraints {
             $0.left.equalToSuperview().offset(10)
-            $0.top.equalToSuperview().offset(20)
+            $0.top.equalToSuperview().offset(15)
         }
         
         backView.addSubview(disImg)
@@ -221,7 +221,7 @@ class OrderCouponsCell: BaseTableViewCell {
                 
                 if coupon.couponType == "3" {
                     //赠送菜
-                    self.selectedLab.text = coupon.dishesName
+                    self.selectedLab.text = coupon.selDishesName
                     self.zkImg.image = LOIMG("coupon_free")
                 }
             }

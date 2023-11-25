@@ -41,6 +41,10 @@ class CreateOrderModel: HandyJSON {
     var type: String = ""
     
     var deskId: String = ""
+    ///满赠菜品ID
+    var giftDishesId: String = ""
+    ///优惠券选择的菜品
+    var couponUserDishesId: String = ""
     
     required init() {
         

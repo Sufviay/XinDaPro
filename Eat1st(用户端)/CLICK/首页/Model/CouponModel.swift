@@ -23,8 +23,6 @@ class CouponModel: NSObject {
     var couponScale: Double = 0
     ///发放时间
     var createTime: String = ""
-    ///菜品名称
-    var dishesName: String = ""
     ///菜品ID
     var dishesId: String = ""
     ///使用结束时间
@@ -44,9 +42,17 @@ class CouponModel: NSObject {
     var storeName: String = ""
     ///折扣上限金额 只有折扣有
     var couponLimitPrice: Double = 0
+    
+    
+    ///优惠券的菜品列表
+    var dishesList: [CartDishModel] = []
 
     
     
+    ///选择的菜品名称
+    var selDishesName: String = ""
+    ///选择的优惠券菜品ID
+    var selCouponUserDishesId: String = ""
     
     
     ///优惠券的名称
@@ -61,8 +67,16 @@ class CouponModel: NSObject {
     
     ///Cell的高度
     var cell_H: CGFloat = 0
+    
+    ///优惠券内容高度
+    var content_H: CGFloat = 0
+    
+    ///菜品的高度
+    var dishesContent_H: CGFloat = 0
+    
     ///是否需要展开规则
     var ruleNeedOpen: Bool = false
+    
     
     
     
@@ -76,15 +90,38 @@ class CouponModel: NSObject {
             
             if ruleIsOpen {
                 //展开 改变高度
-                self.cell_H = 80 + 30 + name_H + store_H + rule_H
-                
+                self.content_H = 80 + 15 + name_H + store_H + rule_H
+                            
             } else {
                 //关闭 改变高度
-                self.cell_H = 80 + 40  + name_H + store_H
+                self.content_H = 80 + 25  + name_H + store_H
             }
-
+            
+            cell_H = content_H + dishesContent_H + 15
         }
     }
+    
+    
+    ///菜品是否展开
+    var dishIsOpen: Bool = false {
+        didSet {
+            //菜品的总高度
+            var t_H: CGFloat = 0
+            for model in dishesList  {
+                t_H += model.giftDish_H
+            }
+
+
+            if dishIsOpen {
+                dishesContent_H = t_H + 35
+            } else {
+                dishesContent_H = 35
+            }
+            
+            cell_H = content_H + dishesContent_H + 15
+        }
+    }
+
     
     
     
@@ -98,7 +135,6 @@ class CouponModel: NSObject {
         self.couponRule = json["couponRule"].stringValue
         self.couponScale = json["couponScale"].doubleValue
         self.createTime = json["createTime"].stringValue
-        self.dishesName = json["dishesName"].stringValue
         self.dishesId = json["dishesId"].stringValue
         self.endDate = json["endDate"].stringValue
         self.startDate = json["startDate"].stringValue
@@ -108,6 +144,8 @@ class CouponModel: NSObject {
         self.storeLimit = json["storeLimit"].stringValue
         self.storeName = json["storeName"].stringValue
         self.couponLimitPrice = json["couponLimitPrice"].doubleValue
+        
+        
         
         
         if couponType == "1" {
@@ -121,7 +159,7 @@ class CouponModel: NSObject {
         }
         if couponType == "3" {
             ///赠送菜品
-            self.couponName = "COUPON-\(dishesName)"
+            self.couponName = "COUPON-Dishes"
         }
         
         if storeLimit == "1" {
@@ -148,12 +186,31 @@ class CouponModel: NSObject {
             self.ruleNeedOpen = false
         }
         
+        
+        
+        var tArr: [CartDishModel] = []
+        var t_H: CGFloat = 0
+        for jsondata in json["dishesList"].arrayValue  {
+            let model = CartDishModel()
+            model.updateCouponModel(json: jsondata)
+            tArr.append(model)
+            t_H += model.giftDish_H
+        }
+        dishesList = tArr
+        
+        if dishesList.count == 0 {
+            dishesContent_H = 0
+        } else {
+            dishesContent_H = 35
+        }
+        
         //初始高度 都是折叠的
         let name_H = couponName.getTextHeigh(BFONT(11), S_W - 40)
         let store_H = canUseStore == "" ? 0 : canUseStore.getTextHeigh(BFONT(13), S_W - 155)
+        //15 + 15 + 35 + 40
+        content_H = 105 + name_H + store_H
         
-        //15 + 15 + 15 + 35 + 40
-        self.cell_H = 120  + name_H + store_H
+        self.cell_H = content_H + 15 + dishesContent_H
         
     }
     

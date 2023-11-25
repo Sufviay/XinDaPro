@@ -119,9 +119,8 @@ class PJCUtil: NSObject {
     //MARK: - 登出
     static func logOut() {
         UserDefaults.removeAll()
-        FirebaseLoginManager.shared.doLogout()
+        //FirebaseLoginManager.shared.doLogout()
         NotificationCenter.default.post(name: NSNotification.Name("login"), object: nil)
-//        PJCUtil.currentVC()?.navigationController?.setViewControllers(<#T##viewControllers: [UIViewController]##[UIViewController]#>, animated: <#T##Bool#>)
         PJCUtil.currentVC()?.navigationController?.popToRootViewController(animated: false)
     }
     
@@ -130,7 +129,11 @@ class PJCUtil: NSObject {
         if !UserDefaults.standard.isLogin {
             let alert = ReminLogInAlert()
             alert.clickBlock = { (_) in
-                FirebaseLoginManager.shared.doLogin {}
+                //FirebaseLoginManager.shared.doLogin {}
+                
+                let nav = UINavigationController(rootViewController: LogInController())
+                nav.modalPresentationStyle = .fullScreen
+                PJCUtil.currentVC()?.present(nav, animated: true)
             }
             alert.appearAction()
             return false

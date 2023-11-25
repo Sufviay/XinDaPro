@@ -10,15 +10,15 @@ import UIKit
 class RestaurantSettingController: HeadBaseViewController, UITableViewDataSource, UITableViewDelegate {
     
     
-    private var imgStrArr: [String] = ["set_menu", "set_item", "set_area", "set_deFee", "set_time", "set_set", "set_pay"]
-    private var nameStrArr: [String] = ["Menu", "ltem availability", "Delivery area", "Delivery charges", "Opening hours", "Restaurant details", "Payment Method"]
+    private var imgStrArr: [String] = ["set_menu", "set_item", "set_area", "set_deFee", "set_time", "set_set", "set_pay", "set_printer"]
+    private var nameStrArr: [String] = ["Menu", "ltem availability", "Delivery area", "Delivery charges", "Opening hours", "Restaurant details", "Payment Method", "Printer"]
     private var desStrArr: [String] = ["View and edit your menu",
                                        "Take items off menu temporarily if they go out of stock",
                                        "Manage the area you deliver to",
                                        "Manage how much you charge for delivery",
                                        "Set the days and times you want to take orders",
                                        "Make changes to your menu, restaurant details and bag fees",
-                                       "Change user app payment method setting"]
+                                       "Change user app payment method setting", "Printer setting"]
     
 
     private let backView: UIView = {
@@ -126,7 +126,7 @@ class RestaurantSettingController: HeadBaseViewController, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if section == 0 || section == 1 || section == 3 || section == 4 || section == 6 {
+        if section == 0 || section == 1 || section == 3 || section == 4 || section == 6 || section == 7 {
             return 1
         }
         
@@ -168,6 +168,12 @@ class RestaurantSettingController: HeadBaseViewController, UITableViewDataSource
             let nextVC = PaymentMethodController()
             self.navigationController?.pushViewController(nextVC, animated: true)
         }
+        
+        if indexPath.section == 7 {
+            let nextVC = PrinterSettingController()
+            self.navigationController?.pushViewController(nextVC, animated: true)
+        }
+        
     }
 
 }

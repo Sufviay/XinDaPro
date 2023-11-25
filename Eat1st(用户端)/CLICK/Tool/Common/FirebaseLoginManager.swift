@@ -147,8 +147,6 @@ class FirebaseLoginManager: NSObject, FUIAuthDelegate {
                     UserDefaults.standard.token = json["data"].stringValue
                     
                     
-                    print("888888888888888888888888")
-                    
                     NotificationCenter.default.post(name: NSNotification.Name("login"), object: nil)
                     self.successBlock?()
                     

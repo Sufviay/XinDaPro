@@ -201,8 +201,16 @@ enum ApiManager {
     case editDesk(id: String, name: String, remark: String)
     ///更新菜品价格
     case updateDishesPrice(id: String, sellType: String, buffetType: String, dePrice: String, dinePrice: String)
-    
-
+    ///打印机列表
+    case getPrinterList
+    ///新增打印机
+    case addPrinter(name: String, ip: String)
+    ///编辑打印机
+    case editePrinter(id: String, name: String, ip: String)
+    ///启用禁用打印机
+    case printerDoStatus(id: String)
+    ///删除打印机
+    case deletePrinter(id: String)
     
     
     
@@ -497,11 +505,16 @@ extension ApiManager: TargetType {
             return "api/boss/desk/doAdd"
         case .updateDishesPrice(id: _, sellType: _, buffetType: _, dePrice: _, dinePrice: _):
             return "api/boss/dishes/doUpdatePrice"
-            
-
-
-            
-            
+        case .getPrinterList:
+            return "api/boss/printer/getPrinterList"
+        case .addPrinter(name: _, ip: _):
+            return "api/boss/printer/doAdd"
+        case .editePrinter(id: _, name: _, ip: _):
+            return "api/boss/printer/doUpdate"
+        case .printerDoStatus(id: _):
+            return "api/boss/printer/doStatus"
+        case .deletePrinter(id: _):
+            return "api/boss/printer/doDelete"
             
             
             
@@ -589,7 +602,7 @@ extension ApiManager: TargetType {
         
         var dic: [String: Any] = [:]
         switch self {
-
+            
         case .checkAppVer:
             dic = ["sysType": "2", "verId": UserDefaults.standard.verID!]
         case .loginAction(let user, let pw):
@@ -792,10 +805,16 @@ extension ApiManager: TargetType {
             dic = ["deskName": name, "remark": remark]
         case .updateDishesPrice(let id, let sellType, let buffetType, let dePrice, let dinePrice):
             dic = ["dishesId": id, "sellType": sellType, "buffetType": buffetType, "deliPrice": dePrice, "dinePrice": dinePrice]
-            
-            
-        
-            
+        case .getPrinterList:
+            dic = [:]
+        case .addPrinter(let name, let ip):
+            dic = ["nameCn": name, "nameHk": name, "nameEn": name, "ip": ip, "status": "1", "remark": ""]
+        case .editePrinter(let id, let name, let ip):
+            dic = ["printerId": id, "nameCn": name, "nameHk": name, "nameEn": name, "ip": ip, "status": "1", "remark": ""]
+        case .printerDoStatus(let id):
+            dic = ["printerId": id]
+        case .deletePrinter(let id):
+            dic = ["printerId": id]
             
             
             

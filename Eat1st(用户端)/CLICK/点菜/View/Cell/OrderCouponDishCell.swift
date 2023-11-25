@@ -21,7 +21,7 @@ class OrderCouponDishCell: BaseTableViewCell {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, SFONT(14), .left)
+        lab.setCommentStyle(MAINCOLOR, BFONT(14), .left)
         lab.text = "Gift"
         return lab
     }()
@@ -45,7 +45,7 @@ class OrderCouponDishCell: BaseTableViewCell {
     
     private let countLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(14), .right)
+        lab.setCommentStyle(HCOLOR("#666666"), BFONT(14), .right)
         lab.text = "x1"
         return lab
     }()
@@ -109,7 +109,8 @@ class OrderCouponDishCell: BaseTableViewCell {
     }
     
     
-    func setCellData(model: CartDishModel) {
+    func setCellData(titStr: String, model: CartDishModel) {
+        self.titlab.text = titStr
         self.nameLab.text = model.dishName
         self.goodsImg.sd_setImage(with: URL(string: model.dishImg), placeholderImage: HOLDIMG)
     }

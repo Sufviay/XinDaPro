@@ -31,7 +31,7 @@ class SelectCouponListController: BaseViewController, UITableViewDelegate, UITab
     var selectCoupon = CouponModel() {
         didSet {
             if selectCoupon.couponId == "" {
-                self.moneyLab.text = "0.00"
+                self.moneyLab.text = "0"
             } else {
                 self.moneyLab.text = D_2_STR(selectCoupon.couponAmount)
             }
@@ -80,7 +80,7 @@ class SelectCouponListController: BaseViewController, UITableViewDelegate, UITab
         tableView.delegate = self
         tableView.dataSource = self
         tableView.contentInsetAdjustmentBehavior = .never
-        tableView.register(SeledctCouponContentCell.self, forCellReuseIdentifier: "SeledctCouponContentCell")
+        tableView.register(SelectCouponListCell.self, forCellReuseIdentifier: "SelectCouponListCell")
         return tableView
     }()
     
@@ -151,6 +151,12 @@ class SelectCouponListController: BaseViewController, UITableViewDelegate, UITab
     }
     
     @objc private func clickConfirm() {
+        
+        if selectCoupon.couponType == "3" && selectCoupon.selCouponUserDishesId == "" {
+            HUD_MB.showWarnig("Please select a dish!", onView: self.view)
+            return
+        }
+        
         self.delegate?.didSelectedCoupon(coupon: selectCoupon)
         self.navigationController?.popViewController(animated: true)
     }
@@ -205,15 +211,60 @@ extension SelectCouponListController {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SeledctCouponContentCell") as! SeledctCouponContentCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SelectCouponListCell") as! SelectCouponListCell
         
-        let isSelect = dataArr[indexPath.row].couponId == selectCoupon.couponId ? true : false
+        cell.setCellData(model:  dataArr[indexPath.row], selectModel: selectCoupon)
         
-        cell.setCellData(model: dataArr[indexPath.row], isSelect: isSelect)
-        
-        cell.clickRuleBlock = { (_) in
+        //点击规格
+        cell.clickRuleBlock = { [unowned self] (_) in
             self.dataArr[indexPath.row].ruleIsOpen = !self.dataArr[indexPath.row].ruleIsOpen
             self.table.reloadData()
+        }
+        
+        //展开菜品
+        cell.clickDishesMoreBlock = { [unowned self] (_) in
+            dataArr[indexPath.row].dishIsOpen = !dataArr[indexPath.row].dishIsOpen
+            table.reloadData()
+        }
+
+        //点击选择优惠券
+        cell.clickCouponBlock = { [unowned self] (_) in
+            let model = dataArr[indexPath.row]
+            
+            if model.status == "1" {
+                
+                if selectCoupon.couponId == model.couponId {
+                    selectCoupon = CouponModel()
+
+                } else {
+                    selectCoupon = model
+                    if selectCoupon.couponType == "3" {
+                        model.dishIsOpen = true
+                    }
+                    
+                }
+                
+                self.table.reloadData()
+            }
+        }
+        
+        //点选菜品
+        cell.clickCouponDishBlock = { [unowned self] (arr) in
+            
+            let strArr = arr as! [String]
+            
+            let name = strArr[0]
+            let id = strArr[1]
+            
+            
+            if id != "" && selectCoupon.couponId == "" {
+                selectCoupon = dataArr[indexPath.row]
+            }
+        
+            selectCoupon.selDishesName = name
+            selectCoupon.selCouponUserDishesId = id
+            
+            table.reloadData()
         }
         
         
@@ -221,20 +272,4 @@ extension SelectCouponListController {
     }
     
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let model = dataArr[indexPath.row]
-        
-        if model.status == "1" {
-            
-            if selectCoupon.couponId == dataArr[indexPath.row].couponId {
-                selectCoupon = CouponModel()
-
-            } else {
-                selectCoupon = dataArr[indexPath.row]
-            }
-            
-            self.table.reloadData()
-        }
-        
-    }
 }

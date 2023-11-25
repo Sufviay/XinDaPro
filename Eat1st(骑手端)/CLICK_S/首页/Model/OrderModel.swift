@@ -143,6 +143,9 @@ class OrderModel: NSObject {
     //赠送的菜品
     var couponDish = OrderDishModel()
     
+    //满赠的菜品
+    var fullGiftDish = OrderDishModel()
+    
     
     var address_H: CGFloat = 0
     var remark_H: CGFloat = 0
@@ -220,6 +223,10 @@ class OrderModel: NSObject {
         self.dishArr = tArr
         
         self.couponDish.updateModel(json: json["couponResult"]["dishesResult"])
+        
+        
+        self.fullGiftDish.nameStr = json["fullGiftResult"]["dishesName"].stringValue
+        self.fullGiftDish.listImg = json["fullGiftResult"]["imageUrl"].stringValue
 
 
         let addressStr = self.postCode + "\n" + self.address

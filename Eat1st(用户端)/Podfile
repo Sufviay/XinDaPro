@@ -33,6 +33,10 @@ target 'CLICK' do
   pod 'FirebaseUI/OAuth' # Used for Sign in with Apple, Twitter, etc
 
   pod 'Firebase/Messaging'
+  
+  #验证码输入框
+  pod 'CRBoxInputView', '1.2.1'
+  
 
   # Pods for CLICK
 

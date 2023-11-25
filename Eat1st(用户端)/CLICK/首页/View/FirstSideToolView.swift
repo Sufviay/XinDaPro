@@ -400,10 +400,9 @@ extension FirstSideToolView {
                 HTTPTOOl.logout().subscribe(onNext: { (json) in
                     HUD_MB.dissmiss(onView: PJCUtil.getWindowView())
                     UserDefaults.removeAll()
-                    FirebaseLoginManager.shared.doLogout()
+                    //FirebaseLoginManager.shared.doLogout()
                     NotificationCenter.default.post(name: NSNotification.Name("login"), object: nil)
                     PJCUtil.currentVC()?.navigationController?.popToRootViewController(animated: false)
-//                    PJCUtil.currentVC()?.navigationController?.setViewControllers([FirstController()], animated: false)
                     
                 }, onError: { (error) in
                     HUD_MB.showError(ErrorTool.errorMessage(error), onView: PJCUtil.getWindowView())

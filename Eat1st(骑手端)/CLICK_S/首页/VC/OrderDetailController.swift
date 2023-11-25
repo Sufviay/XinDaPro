@@ -115,10 +115,20 @@ class OrderDetailController: BaseViewController, UITableViewDataSource, UITableV
         }
         
         if section == 5 {
+            if dataModel.fullGiftDish.nameStr == "" {
+                return 0
+            } else {
+                return 2
+            }
+        }
+
+        
+        
+        if section == 6 {
             return 2
         }
 
-        if section == 6 {
+        if section == 7 {
             
             if dataModel.status == .delivery_ing || dataModel.status == .paiDan {
                 if haveBut {
@@ -151,22 +161,31 @@ class OrderDetailController: BaseViewController, UITableViewDataSource, UITableV
         }
         if indexPath.section == 4 {
             if indexPath.row == 0 {
-                return 40
+                return 30
             } else {
                 return dataModel.couponDish.dish_H
             }
         }
         
-        
         if indexPath.section == 5 {
             if indexPath.row == 0 {
-                return 40
+                return 30
+            } else {
+                return 90
+            }
+
+        }
+        
+        
+        if indexPath.section == 6 {
+            if indexPath.row == 0 {
+                return 30
             } else {
                 return dataModel.detailMoney_H
             }
             
         }
-        if indexPath.section == 6 {
+        if indexPath.section == 7 {
             return 60
         }
         return 10
@@ -202,6 +221,7 @@ class OrderDetailController: BaseViewController, UITableViewDataSource, UITableV
         if indexPath.section == 4 {
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OrderGiftCell") as! OrderGiftCell
+                cell.titLab.text = "Gift"
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OrderGoodsCell") as! OrderGoodsCell
@@ -213,6 +233,19 @@ class OrderDetailController: BaseViewController, UITableViewDataSource, UITableV
         if indexPath.section == 5 {
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OrderGiftCell") as! OrderGiftCell
+                cell.titLab.text = "Free after the order amount is reached"
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "OrderGoodsCell") as! OrderGoodsCell
+                cell.setCellData(model: dataModel.fullGiftDish, isGift: true)
+                return cell
+            }
+        }
+
+        
+        if indexPath.section == 6 {
+            if indexPath.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "OrderGiftCell") as! OrderGiftCell
                 cell.titLab.text = "Details"
                 return cell
             } else {
@@ -222,7 +255,7 @@ class OrderDetailController: BaseViewController, UITableViewDataSource, UITableV
             }
         }
         
-        if indexPath.section == 6 {
+        if indexPath.section == 7 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderBottomButCell") as! OrderBottomButCell
             cell.setCellData(model: dataModel)
         
@@ -265,7 +298,7 @@ class OrderDetailController: BaseViewController, UITableViewDataSource, UITableV
         HUD_MB.loading("", onView: view)
         HTTPTOOl.getOrderDetail(orderID: orderID).subscribe(onNext: { (json) in
             HUD_MB.dissmiss(onView: self.view)
-            self.sectionNum = 7
+            self.sectionNum = 8
             self.dataModel.updateModel(json: json["data"])
             self.mainTabel.reloadData()
             

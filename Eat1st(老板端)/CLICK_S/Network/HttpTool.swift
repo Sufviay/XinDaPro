@@ -674,6 +674,38 @@ class HttpTool {
         return Observable<JSON>.create(response)
     }
     
+    //MARK: - 获取打印机列表
+    func getPrinterList() -> Observable<JSON> {
+        let response = rxApiManager(api: .getPrinterList)
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 添加打印机
+    func addPrinter(name: String, ip: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .addPrinter(name: name, ip: ip))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 编辑打印机
+    func editPrinter(id: String, name: String, ip: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .editePrinter(id: id, name: name, ip: ip))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 启用禁用打印机
+    func doPrinterStatus(id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .printerDoStatus(id: id))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 删除打印机
+    func deletePrinter(id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .deletePrinter(id: id))
+        return Observable<JSON>.create(response)
+    }
+    
+    
+    
     
     
     

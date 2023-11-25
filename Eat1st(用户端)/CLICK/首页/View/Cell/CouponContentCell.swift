@@ -69,13 +69,7 @@ class CouponContentCell: BaseTableViewCell {
         return lab
     }()
     
-    
-//    private let useBut: UIButton = {
-//        let but = UIButton()
-//        but.setCommentStyle(.zero, "USE", .white, BFONT(11), HCOLOR("#FA7268"))
-//        but.layer.cornerRadius = 5
-//        return but
-//    }()
+
     
     private let moreBut: UIButton = {
         let but = UIButton()
@@ -129,9 +123,7 @@ class CouponContentCell: BaseTableViewCell {
         lab.text = "20"
         return lab
     }()
-
     
-
         
     override func setViews() {
         
@@ -140,10 +132,11 @@ class CouponContentCell: BaseTableViewCell {
         
         contentView.addSubview(backView)
         backView.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(10)
-            $0.right.equalToSuperview().offset(-10)
-            $0.top.equalToSuperview().offset(15)
-            $0.bottom.equalToSuperview()
+//            $0.left.equalToSuperview().offset(10)
+//            $0.right.equalToSuperview().offset(-10)
+//            $0.top.equalToSuperview().offset(15)
+//            $0.bottom.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
         
         
@@ -475,10 +468,11 @@ class SeledctCouponContentCell: BaseTableViewCell {
         
         contentView.addSubview(backView)
         backView.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(10)
-            $0.right.equalToSuperview().offset(-10)
-            $0.top.equalToSuperview().offset(15)
-            $0.bottom.equalToSuperview()
+//            $0.left.equalToSuperview().offset(10)
+//            $0.right.equalToSuperview().offset(-10)
+//            $0.top.equalToSuperview().offset(15)
+//            $0.bottom.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
         
         
@@ -727,5 +721,36 @@ class SeledctCouponContentCell: BaseTableViewCell {
 
 }
 
+
+
+class CouponShowMoreCell: BaseTableViewCell {
+    
+    
+    private let showImg: UIImageView = {
+        let img = UIImageView()
+        img.image = LOIMG("coupon_sq")
+        return img
+    }()
+    
+    override func setViews() {
+        
+        contentView.addSubview(showImg)
+        showImg.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
+        
+    }
+    
+    
+    func setCellData(isShow: Bool) {
+        if isShow {
+            showImg.image = LOIMG("coupon_sq")
+            
+        } else {
+            showImg.image = LOIMG("coupon_zk")
+        }
+    }
+    
+}
 
 

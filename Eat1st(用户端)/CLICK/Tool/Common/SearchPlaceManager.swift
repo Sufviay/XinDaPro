@@ -21,8 +21,7 @@ class PlaceModel: NSObject {
 
 class SearchPlaceManager: NSObject, GMSAutocompleteViewControllerDelegate, CLLocationManagerDelegate {
 
-
-
+    
     private var searchSuccessBlock: ((PlaceModel) -> Void)?
     
     private var locationSuccessBlock: (([PlaceModel]) -> Void)?
@@ -92,6 +91,7 @@ class SearchPlaceManager: NSObject, GMSAutocompleteViewControllerDelegate, CLLoc
         
         let placeFields: GMSPlaceField = [.all]
         HUD_MB.loading("", onView: PJCUtil.getWindowView())
+        
         
         placesClient.findPlaceLikelihoodsFromCurrentLocation(withPlaceFields: placeFields) { [unowned self] (placeLikehoods, error) in
             

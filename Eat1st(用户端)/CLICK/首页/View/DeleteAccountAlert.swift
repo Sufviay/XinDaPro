@@ -147,7 +147,7 @@ class DeleteAccountAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
                 }
                 //登出账号
                 UserDefaults.removeAll()
-                FirebaseLoginManager.shared.doLogout()
+                //FirebaseLoginManager.shared.doLogout()
                 PJCUtil.currentVC()?.navigationController?.setViewControllers([FirstController()], animated: false)
                 
             }, onError: { (error) in

@@ -10,5 +10,6 @@
 #import "DeviceID.h"
 #import "HXPhotoPicker.h"
 #import "FSCalendar.h"
+#import <CRBoxInputView/CRBoxInputView.h>
 
 

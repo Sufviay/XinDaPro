@@ -67,6 +67,10 @@
 		E31C2C782A2098E7007B6DC2 /* MenuComboEditSpecController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31C2C772A2098E7007B6DC2 /* MenuComboEditSpecController.swift */; };
 		E31C2C7A2A20A19D007B6DC2 /* MenuComboEditDishController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31C2C792A20A19D007B6DC2 /* MenuComboEditDishController.swift */; };
 		E326BC232AAF06A800E138CF /* EditPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E326BC222AAF06A800E138CF /* EditPriceView.swift */; };
+		E326D9F82ADFB7340060C0BE /* PrinterSettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E326D9F72ADFB7340060C0BE /* PrinterSettingController.swift */; };
+		E326D9FA2ADFBF440060C0BE /* PrinterInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E326D9F92ADFBF440060C0BE /* PrinterInfoCell.swift */; };
+		E326D9FC2ADFC4020060C0BE /* PrinterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E326D9FB2ADFC4020060C0BE /* PrinterModel.swift */; };
+		E326D9FE2ADFC91B0060C0BE /* EditPrintAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E326D9FD2ADFC91B0060C0BE /* EditPrintAlert.swift */; };
 		E3284BAF2A4A6FF9004BC2C5 /* DishEditeSellTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3284BAE2A4A6FF9004BC2C5 /* DishEditeSellTypeCell.swift */; };
 		E337296C28B64FE100A06AB7 /* StatisticalUnfulfilledDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E337296B28B64FE100A06AB7 /* StatisticalUnfulfilledDateCell.swift */; };
 		E337297428BF333500A06AB7 /* DishChartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E337297328BF333500A06AB7 /* DishChartController.swift */; };
@@ -306,6 +310,10 @@
 		E31C2C772A2098E7007B6DC2 /* MenuComboEditSpecController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuComboEditSpecController.swift; sourceTree = "<group>"; };
 		E31C2C792A20A19D007B6DC2 /* MenuComboEditDishController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuComboEditDishController.swift; sourceTree = "<group>"; };
 		E326BC222AAF06A800E138CF /* EditPriceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPriceView.swift; sourceTree = "<group>"; };
+		E326D9F72ADFB7340060C0BE /* PrinterSettingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterSettingController.swift; sourceTree = "<group>"; };
+		E326D9F92ADFBF440060C0BE /* PrinterInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterInfoCell.swift; sourceTree = "<group>"; };
+		E326D9FB2ADFC4020060C0BE /* PrinterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterModel.swift; sourceTree = "<group>"; };
+		E326D9FD2ADFC91B0060C0BE /* EditPrintAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPrintAlert.swift; sourceTree = "<group>"; };
 		E3284BAE2A4A6FF9004BC2C5 /* DishEditeSellTypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishEditeSellTypeCell.swift; sourceTree = "<group>"; };
 		E337296B28B64FE100A06AB7 /* StatisticalUnfulfilledDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticalUnfulfilledDateCell.swift; sourceTree = "<group>"; };
 		E337297328BF333500A06AB7 /* DishChartController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishChartController.swift; sourceTree = "<group>"; };
@@ -729,6 +737,17 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		E326D9F62ADFB7020060C0BE /* 打印机设置 */ = {
+			isa = PBXGroup;
+			children = (
+				E326D9F72ADFB7340060C0BE /* PrinterSettingController.swift */,
+				E326D9F92ADFBF440060C0BE /* PrinterInfoCell.swift */,
+				E326D9FB2ADFC4020060C0BE /* PrinterModel.swift */,
+				E326D9FD2ADFC91B0060C0BE /* EditPrintAlert.swift */,
+			);
+			path = "打印机设置";
+			sourceTree = "<group>";
+		};
 		E34E6E062A84CF8400DBC2A5 /* 消息 */ = {
 			isa = PBXGroup;
 			children = (
@@ -973,6 +992,7 @@
 		E37C18A129F6614C00D7C39D /* 店铺设置 */ = {
 			isa = PBXGroup;
 			children = (
+				E326D9F62ADFB7020060C0BE /* 打印机设置 */,
 				E37C18A229F661F300D7C39D /* 设置目录 */,
 				E37C18A329F6625500D7C39D /* 店铺菜单 */,
 				E37C18A429F6626B00D7C39D /* 店铺营业时间 */,
@@ -1600,6 +1620,7 @@
 				E3F829F0286431E9005E5FAB /* DishDetailAddSpecCell.swift in Sources */,
 				E305E8B926DF133000AAB580 /* BaseViewController.swift in Sources */,
 				E372C66128A604EF0046DC55 /* DishDetailKuCunCell.swift in Sources */,
+				E326D9FE2ADFC91B0060C0BE /* EditPrintAlert.swift in Sources */,
 				E3386CA92791558400CBD42C /* XYViewController.swift in Sources */,
 				E305E8F426DF133D00AAB580 /* HUDManager_MB.swift in Sources */,
 				E3F829E828631BA2005E5FAB /* DishDetailModel.swift in Sources */,
@@ -1701,6 +1722,7 @@
 				E36570C42A9DE90B0020BD35 /* OrderDishModel.swift in Sources */,
 				E31C2C762A2092FB007B6DC2 /* ComboNameCell.swift in Sources */,
 				E305E90226DF146E00AAB580 /* MainNaviController.swift in Sources */,
+				E326D9F82ADFB7340060C0BE /* PrinterSettingController.swift in Sources */,
 				E305E8EB26DF133D00AAB580 /* LTPageView.swift in Sources */,
 				E305E8ED26DF133D00AAB580 /* LTScrollExtension.swift in Sources */,
 				E3AFB4B7285431EC005847AE /* ChangeDistanceController.swift in Sources */,
@@ -1731,6 +1753,7 @@
 				E305E8BB26DF133000AAB580 /* GestureTableView.swift in Sources */,
 				E34E6E082A84CFB200DBC2A5 /* MessageController.swift in Sources */,
 				E305E8FF26DF134900AAB580 /* ApiManager.swift in Sources */,
+				E326D9FA2ADFBF440060C0BE /* PrinterInfoCell.swift in Sources */,
 				E3DF13AF2844C0B8007FCC11 /* StatisticalDataCell.swift in Sources */,
 				E36570BA2A9C811D0020BD35 /* ComplaintsReplyController.swift in Sources */,
 				E3B3B126285C81EC007CCED4 /* DishesItemContentCell.swift in Sources */,
@@ -1754,6 +1777,7 @@
 				E3B3B12E285DBB94007CCED4 /* MenuListController.swift in Sources */,
 				E337297428BF333500A06AB7 /* DishChartController.swift in Sources */,
 				E364A8522AA08EEB00190DC9 /* DetailTitleCell.swift in Sources */,
+				E326D9FC2ADFC4020060C0BE /* PrinterModel.swift in Sources */,
 				E316888829F3AFD800318307 /* StoreTimeListController.swift in Sources */,
 				E305E8FB26DF133D00AAB580 /* SearchManager.swift in Sources */,
 				E3F82A0C28659822005E5FAB /* DishSelectClassifyView.swift in Sources */,

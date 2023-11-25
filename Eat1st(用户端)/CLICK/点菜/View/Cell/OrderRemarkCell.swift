@@ -20,7 +20,7 @@ class OrderRemarkCell: BaseTableViewCell, UITextViewDelegate {
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, SFONT(14), .left)
+        lab.setCommentStyle(MAINCOLOR, BFONT(14), .left)
         lab.text = "Special Instruction"
         return lab
     }()

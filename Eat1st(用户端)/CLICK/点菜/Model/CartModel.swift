@@ -64,7 +64,8 @@ class ConfirmOrderCartModel: NSObject {
     
     ///是否有可用优惠券
     var isHaveCanUseCoupon: Bool = false
-    
+    ///是否有优惠券
+    var isHaveCoupon: Bool = false
     
     
     ///支付弹窗的信息
@@ -90,6 +91,21 @@ class ConfirmOrderCartModel: NSObject {
     //    ///购物车实际支付金额
     //    var total: Double = 0
 
+    
+    ///赠送优惠券需达到的订单数
+    var giveCouponReachNum: Int = 0
+    ///赠送优惠券已有的订单数
+    var giveCouponHaveNum: Int = 0
+    ///赠送的优惠券金额
+    var giveCouponPrice: String = ""
+    ///赠送需要达到的订单金额
+    var giveCouponOrderPrice: String = ""
+    
+    
+    ///满赠菜品
+    var fullGiftList: [FullGiftModel] = []
+    ///是否可以选择满赠菜品
+    var canChooseFullGift: Bool = false
     
     
     var discountMsg_H: CGFloat = 0
@@ -141,6 +157,13 @@ class ConfirmOrderCartModel: NSObject {
         self.couponAmount = json["couponAmount"].doubleValue
         
         self.packPrice = json["packPrice"].doubleValue
+        
+        
+        self.giveCouponReachNum = json["fiveGiveCouponResult"]["reachNum"].intValue
+        self.giveCouponHaveNum = json["fiveGiveCouponResult"]["haveNum"].intValue
+        self.giveCouponPrice = D_2_STR(json["fiveGiveCouponResult"]["couponPrice"].doubleValue)
+        self.giveCouponOrderPrice = D_2_STR(json["fiveGiveCouponResult"]["orderReachPrice"].doubleValue)
+        
 
         
         var tArr: [CartDishModel] = []
@@ -152,6 +175,22 @@ class ConfirmOrderCartModel: NSObject {
         self.dishArr = tArr
         
         self.couponDish.updateModel(json: json["orderCoupon"])
+        
+        
+        var tArr1: [FullGiftModel] = []
+        for jsonData in json["orderFullGiftList"].arrayValue {
+            let model = FullGiftModel()
+            model.updateModel(json: jsonData)
+            tArr1.append(model)
+        }
+        self.fullGiftList = tArr1
+        
+
+        if (fullGiftList.filter { $0.chooseType == "2" }).count == 0 {
+            canChooseFullGift = false
+        } else {
+            canChooseFullGift = true
+        }
         
         
         if discountMsg == "" {
@@ -170,6 +209,32 @@ class ConfirmOrderCartModel: NSObject {
         }
  
 
+    }
+    
+    
+    
+    func updateGiftDishesID(selectGiftID: String) -> String {
+        
+        if selectGiftID != "" {
+            
+            for giftModel in fullGiftList {
+                
+                for dishModel in giftModel.dishesList {
+                    
+                    if selectGiftID == dishModel.giftDishesId {
+                        
+                        if giftModel.chooseType == "1" {
+                            return ""
+                        } else {
+                            return selectGiftID
+                        }
+                    }
+                }
+            }
+        }
+        return ""
+        
+        
     }
     
     

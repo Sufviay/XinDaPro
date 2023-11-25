@@ -42,13 +42,10 @@ class MainNaviController: UINavigationController {
          */
         
         
-//        if UserDefaults.standard.isLogin {
-//            self.setViewControllers([LogInOverController()], animated: false)
-//            checkUserBindingStore()
-//
-//        } else {
+        
+        //self.setViewControllers([LogInController()], animated: false)
+        
             self.setViewControllers([FirstController()], animated: false)
-//        }
         
     }
     

@@ -108,7 +108,7 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
             
             self.dataModel.updateModel(json: json["data"])
             
-            self.sectionNum = 29
+            self.sectionNum = 30
             
             //获取配送员地理位置
             if self.dataModel.status == .delivery_ing {
@@ -155,7 +155,7 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
         HTTPTOOl.getCurrentPSLocation(orderID: self.dataModel.orderID).subscribe(onNext: {[unowned self] (json1) in
             self.dataModel.deliveryLat = json1["data"]["lat"].stringValue
             self.dataModel.deliveryLng = json1["data"]["lng"].stringValue
-            self.mainTable.reloadSections([0], with: .none)
+            self.mainTable.reloadData()
         }, onError: { (error) in  }).disposed(by: self.bag)
     }
     
@@ -169,7 +169,6 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
             self.dataModel.endTime = json["data"]["hopeTimeResult"]["endTime"].stringValue
             self.dataModel.timeOut = json["data"]["hopeTimeResult"]["timeOut"].stringValue == "1" ? true : false
             self.mainTable.reloadData()
-            //self.mainTable.reloadSections([2], with: .none)
         }).disposed(by: bag)
     }
     
@@ -181,7 +180,7 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
             
             HTTPTOOl.getOrderDetail(orderID: self.orderID).subscribe(onNext: {[unowned self] (json) in
                 self.dataModel.updateModel(json: json["data"])
-                self.mainTable.reloadSections([0, 2], with: .none)
+                mainTable.reloadData()
             }, onError: {_ in}).disposed(by: self.bag)
             
         }, onError: {[unowned self] (error) in
@@ -374,40 +373,41 @@ extension OrderDetailController {
                 return 1
             }
         }
-
+        
         if section == 11 {
-            return 1
+            if dataModel.fullGiftDish.dishName == "" {
+                return 0
+            } else {
+                return 1
+            }
         }
         
+
         if section == 12 {
             return 1
         }
         
-        if section == 21 {
+        if section == 13 {
             return 1
         }
         
+        
         if section == 22 {
+            return 1
+        }
+        
+        if section == 23 {
             if dataModel.refuseReason == "" && dataModel.cancelReason == "" {
                 return 0
             }
             return 1
         }
     
-        if section == 23 {
+        if section == 24 {
             if dataModel.pjStatus == "1" {
                 return 0
             } else {
                 return 1
-            }
-        }
-        
-        if section == 24 {
-            
-            if dataModel.tsReason != "" {
-                return 1
-            } else {
-                return 0
             }
         }
         
@@ -418,7 +418,6 @@ extension OrderDetailController {
             } else {
                 return 0
             }
-    
         }
         
         if section == 26 {
@@ -428,9 +427,19 @@ extension OrderDetailController {
             } else {
                 return 0
             }
+    
+        }
+        
+        if section == 27 {
+            
+            if dataModel.tsReason != "" {
+                return 1
+            } else {
+                return 0
+            }
         }
            
-        if section == 27 {
+        if section == 28 {
             if dataModel.tsStauts == "1" || dataModel.tsStauts == "2" {
                 return 0
             } else {
@@ -438,7 +447,7 @@ extension OrderDetailController {
             }
         }
         
-        if section == 28 {
+        if section == 29 {
             if dataModel.tsReason != "" {
                 return 1
             } else {
@@ -446,7 +455,7 @@ extension OrderDetailController {
             }
         }
         
-        let msg = dataModel.msgArr[section - 13]
+        let msg = dataModel.msgArr[section - 14]
         if msg == "" {
             return 0
         } else {
@@ -498,8 +507,7 @@ extension OrderDetailController {
             if indexPath.row == 1 {
                 return 40
             }
-            
-            //return 55
+
         }
         if indexPath.section == 8 {
             
@@ -518,34 +526,39 @@ extension OrderDetailController {
             return 140
         }
         
-        
         if indexPath.section == 11 {
+            return 140
+        }
+        
+        
+        if indexPath.section == 12 {
             return dataModel.detailMoney_H
         }
         
-        if indexPath.section == 12 {
+        
+        if indexPath.section == 13 {
             return 50
         }
         
-        if indexPath.section == 15 {
+        if indexPath.section == 16 {
             let h = dataModel.recipientAddress.getTextHeigh(SFONT(14), S_W - 160) + 30
             return h
         }
         
-        if indexPath.section == 17 {
+        if indexPath.section == 18 {
             let h = dataModel.remark.getTextHeigh(SFONT(14), S_W - 160) + 30
             return h
         }
     
-        if indexPath.section == 21 {
+        if indexPath.section == 22 {
             return 30
         }
         
-        if indexPath.section == 22 {
+        if indexPath.section == 23 {
             return 140
         }
         
-        if indexPath.section == 23 {
+        if indexPath.section == 24 {
                         
             if dataModel.pjReplyContent == "" {
                 return  20 + 50 + 20  + 80 + dataModel.evaluateContent.getTextHeigh(BFONT(15), S_W - 40)
@@ -554,13 +567,13 @@ extension OrderDetailController {
             }
         }
         
-        if indexPath.section == 24 {
+        if indexPath.section == 25 {
             
             return 50
             
         }
     
-        if indexPath.section == 25 {
+        if indexPath.section == 26 {
             
             let W = (S_W - 80) / 5
             
@@ -572,7 +585,7 @@ extension OrderDetailController {
             
         }
         
-        if indexPath.section == 26 {
+        if indexPath.section == 27 {
             
             var str = ""
             
@@ -586,13 +599,13 @@ extension OrderDetailController {
 
         }
         
-        if indexPath.section == 27 {
+        if indexPath.section == 28 {
             
             return dataModel.tsDealContent.getTextHeigh(SFONT(14), S_W - 60) + 65
             
         }
         
-        if indexPath.section == 28 {
+        if indexPath.section == 29 {
             return 30
         }
         
@@ -751,7 +764,7 @@ extension OrderDetailController {
                 cell.setCellData(state: self.isShowAll)
                 cell.clickBlock = { [unowned self] (bool) in
                     self.isShowAll = bool as! Bool
-                    self.mainTable.reloadSections([8], with: .none)
+                    mainTable.reloadData()
                 }
                 return cell
 
@@ -760,12 +773,18 @@ extension OrderDetailController {
         
         if indexPath.section == 10 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderCouponDishCell") as! OrderCouponDishCell
-            cell.setCellData(model: dataModel.couponDish)
+            cell.setCellData(titStr: "Gift", model: dataModel.couponDish)
             return cell
         }
         
-        
         if indexPath.section == 11 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "OrderCouponDishCell") as! OrderCouponDishCell
+            cell.setCellData(titStr: "Free after the order amount is reached", model: dataModel.fullGiftDish)
+            return cell
+        }
+
+        
+        if indexPath.section == 12 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderDetailMoneyCell") as! OrderDetailMoneyCell
             cell.setCellData(model: dataModel)
             return cell
@@ -773,25 +792,25 @@ extension OrderDetailController {
         
         
         
-        if indexPath.section == 12 {
+        if indexPath.section == 13 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DetailOneCell") as! DetailOneCell
             cell.titLab.text = "Details"
             return cell
         }
         
         
-        if indexPath.section == 21 || indexPath.section == 28 {
+        if indexPath.section == 22 || indexPath.section == 29 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DetailTwoCell") as! DetailTwoCell
             return cell
         }
         
-        if indexPath.section == 22 {
+        if indexPath.section == 23 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderRejectCell") as! OrderRejectCell
             cell.setCellData(model: dataModel)
             return cell
         }
         
-        if indexPath.section == 23 {
+        if indexPath.section == 24 {
                         
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderReviewCell") as! OrderReviewCell
             cell.setCellData(model: dataModel)
@@ -799,14 +818,14 @@ extension OrderDetailController {
         }
         
         
-        if indexPath.section == 24 {
+        if indexPath.section == 25 {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "DetailOneCell") as! DetailOneCell
             cell.titLab.text = "Complain"
             return cell
         }
         
-        if indexPath.section == 25 {
+        if indexPath.section == 26 {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderTSImageCell") as! OrderTSImageCell
             cell.setCellData(model: dataModel)
@@ -814,21 +833,22 @@ extension OrderDetailController {
             
         }
         
-        if indexPath.section == 26 {
+        if indexPath.section == 27 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderTSContentCell") as! OrderTSContentCell
             cell.setCellData(model: dataModel)
             return cell
             
         }
         
-        if indexPath.section == 27 {
+        if indexPath.section == 28 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderTSDealCell") as! OrderTSDealCell
             cell.setCellData(model: dataModel)
             return cell
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "OrderDetailMsgCell") as! OrderDetailMsgCell
-        cell.setCellData(titStr: titStrArr[indexPath.section - 13], msgStr: dataModel.msgArr[indexPath.section - 13])
+        cell.setCellData(titStr: titStrArr[indexPath.section - 14], msgStr: dataModel.msgArr[indexPath.section - 14])
+        
         return cell
     }
     

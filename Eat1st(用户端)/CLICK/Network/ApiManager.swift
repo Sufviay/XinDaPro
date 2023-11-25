@@ -54,7 +54,7 @@ enum ApiManager {
     ///搜索店铺
     case searchStoreList(keyword: String, lat: String, lng: String, page: String)
     ///确认订单详情
-    case loadConfirmOrderDetail(lat: String, lng: String, buyWay: String, storeID: String, couponID: String, postCode: String)
+    case loadConfirmOrderDetail(lat: String, lng: String, buyWay: String, storeID: String, couponID: String, couponUserDishesId: String, postCode: String)
     ///可选择的时间列表 1：外卖    2：自取
     case canChooseTimeList(storeID: String, type: String)
     ///可选择时间列表有预定  1：外卖    2：自取
@@ -167,8 +167,12 @@ enum ApiManager {
     case getJiFenCount
     ///验证店铺桌号
     case checkDesk(storeID: String, deskID: String)
-    
-    
+    ///获取国家列表
+    case getCountryList
+    ///发送验证码
+    case sendSMSCode(countryCode: String, phone: String)
+    ///手机登陆
+    case loginPhone(countryCode: String, phone: String, smsID: String, smsCode: String)
     
 
 
@@ -258,7 +262,7 @@ extension ApiManager: TargetType {
             return "api/user/store/getNearStoreList"
         case .updateCartNum(buyNum: _, cartID: _):
             return "api/user/cart/updateBuyNum"
-        case .loadConfirmOrderDetail(lat: _, lng: _, buyWay: _, storeID: _, couponID: _, postCode: _):
+        case .loadConfirmOrderDetail(lat: _, lng: _, buyWay: _, storeID: _, couponID: _, couponUserDishesId: _, postCode: _):
             return "api/user/order/calOrder"
         case .searchStoreList(keyword: _, lat: _, lng: _, page: _):
             return "api/user/store/getSearchStoreList"
@@ -317,7 +321,7 @@ extension ApiManager: TargetType {
         case .complaintsDishes(other: _, orderID: _, reasonID: _, imageurl: _, dishes: _, hopeID: _):
             return "api/user/order/plaint/doPlanitOrder"
         case .logout:
-            return "api/user/logout"
+            return "api/user/login/logout"
         case .CheckAppVer:
             return "api/user/version/checkVersion"
         case .getClassifyAndDishesList(storeID: _, deskId: _):
@@ -325,7 +329,7 @@ extension ApiManager: TargetType {
         case .emptyCart(storeID: _):
             return "api/user/cart/doClearCart"
         case .deleteAccountApply:
-            return "api/user/cancelApply"
+            return "api/user/login/cancelApply"
         case .doSuggest(name: _, phone: _, suggest: _):
             return "api/user/suggest/doSuggest"
         case .getSuggestList(page: _):
@@ -370,9 +374,12 @@ extension ApiManager: TargetType {
             return "api/user/points/getUserPoints"
         case .checkDesk(storeID: _, deskID: _):
             return "api/user/desk/checkDesk"
-            
-            
-            
+        case .getCountryList:
+            return "api/user/login/getSmsCountryList"
+        case .sendSMSCode(countryCode: _, phone: _):
+            return "api/user/login/getSmsCode"
+        case .loginPhone(countryCode: _, phone: _, smsID: _, smsCode: _):
+            return "api/user/login/loginPhone"
             
             
             
@@ -459,8 +466,8 @@ extension ApiManager: TargetType {
             dic = ["lat": lat, "lng": lng, "pageIndex": page, "tagId": tag, "allStore": allStore, "env": ENV]
         case .updateCartNum(let buyNum, let cartID):
             dic = ["buyNum": buyNum, "carId": cartID]
-        case .loadConfirmOrderDetail(let lat, let lng, let buyWay, let storeID, let couponID, let postCode):
-            dic = ["deliveryType": buyWay, "lat": lat, "lng": lng, "storeId": storeID, "couponId": couponID, "postcode": postCode]
+        case .loadConfirmOrderDetail(let lat, let lng, let buyWay, let storeID, let couponID, let couponUserDishesId, let postCode):
+            dic = ["deliveryType": buyWay, "lat": lat, "lng": lng, "storeId": storeID, "couponId": couponID, "couponUserDishesId": couponUserDishesId, "postcode": postCode]
         case .searchStoreList(let keyword, let lat, let lng, let page):
             dic = ["keyword": keyword, "lat": lat, "lng": lng, "pageIndex": page, "env": ""]
         case .canChooseTimeList(let storeID, let type):
@@ -474,7 +481,7 @@ extension ApiManager: TargetType {
         case .deleteAddress(let id):
             dic = ["addressId": id]
         case .creatOrder(let submitModel):
-            dic = ["couponId": submitModel.couponId, "deliveryType": submitModel.type, "payType": submitModel.paymentMethod, "remark": submitModel.remark, "storeId": submitModel.storeId, "orderAddress": ["address": submitModel.recipientAddress, "name": submitModel.recipient, "phone": submitModel.recipientPhone, "takeTime": submitModel.hopeTime, "lat": submitModel.recipientLat, "lng": submitModel.recipientLng, "postCode": submitModel.recipientPostcode], "deskId": submitModel.deskId]
+            dic = ["couponId": submitModel.couponId, "deliveryType": submitModel.type, "payType": submitModel.paymentMethod, "remark": submitModel.remark, "storeId": submitModel.storeId, "orderAddress": ["address": submitModel.recipientAddress, "name": submitModel.recipient, "phone": submitModel.recipientPhone, "takeTime": submitModel.hopeTime, "lat": submitModel.recipientLat, "lng": submitModel.recipientLng, "postCode": submitModel.recipientPostcode], "deskId": submitModel.deskId, "couponUserDishesId": submitModel.couponUserDishesId, "giftDishesId": submitModel.giftDishesId]
         case .orderpay(let orderID, let payType):
             dic = ["orderId": orderID, "payType": payType]
         case .getOrderList(let page):
@@ -582,10 +589,12 @@ extension ApiManager: TargetType {
             dic = [:]
         case .checkDesk(let storeID, let deskID):
             dic = ["deskId": deskID, "storeId": storeID]
-
-            
-
-            
+        case .getCountryList:
+            dic = [:]
+        case .sendSMSCode(let countryCode, let phone):
+            dic = ["countryCode": countryCode, "phone": phone]
+        case .loginPhone(let countryCode, let phone, let smsID, let smsCode):
+            dic = ["countryCode": countryCode, "phone": phone, "code": smsCode, "smsId": smsID]
             
             
             

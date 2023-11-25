@@ -63,7 +63,12 @@ class ScanConfirmOrderController: BaseViewController, UITableViewDelegate, UITab
     ///选择的优惠券
     private var selectCoupon = CouponModel()
     
-
+    ///满赠菜品的ID
+    private var giftDishesId: String = "" {
+        didSet {
+            submitModel.giftDishesId = giftDishesId
+        }
+    }
         
     private let headImg: UIImageView = {
         let img = UIImageView()
@@ -115,6 +120,10 @@ class ScanConfirmOrderController: BaseViewController, UITableViewDelegate, UITab
         
         tableView.register(OrderCouponDishCell.self, forCellReuseIdentifier: "OrderCouponDishCell")
         
+        tableView.register(OrderFullGiftCell.self, forCellReuseIdentifier: "OrderFullGiftCell")
+        tableView.register(OrderTitleCell.self, forCellReuseIdentifier: "OrderTitleCell")
+        tableView.register(OrderCouponProgressCell.self, forCellReuseIdentifier: "OrderCouponProgressCell")
+
         return tableView
     }()
     
@@ -131,6 +140,22 @@ class ScanConfirmOrderController: BaseViewController, UITableViewDelegate, UITab
         return alert
     }()
     
+    
+    ///选择优惠券提示框
+    lazy var couponAlert: CouponAlertView = {
+        let alert = CouponAlertView()
+        alert.clickBlock = { [unowned self] (str) in
+            if str == "yes" {
+                //去选择优惠券
+                goSelectCoupon()
+            }
+            if str == "no" {
+                //忽略
+                popUpPayAlert()
+            }
+        }
+        return alert
+    }()
 
     
     override func setViews() {
@@ -212,7 +237,7 @@ class ScanConfirmOrderController: BaseViewController, UITableViewDelegate, UITab
     func didSelectedCoupon(coupon: CouponModel) {
         self.selectCoupon = coupon
         self.submitModel.couponId = coupon.couponId
-        
+        self.submitModel.couponUserDishesId = coupon.selCouponUserDishesId
         //选择优惠券后 刷新数据
         loadData_Net()
     }
@@ -228,9 +253,17 @@ class ScanConfirmOrderController: BaseViewController, UITableViewDelegate, UITab
         
         if price == "0" {
             cartModel.isHaveCanUseCoupon = false
+            cartModel.isHaveCoupon = false
             mainTable.reloadData()
         } else {
             HTTPTOOl.getAvabliableCouponList(dishesPrice: price, storeID: storeID).subscribe(onNext: { [unowned self] (json) in
+                
+                if json["data"].arrayValue.count == 0 {
+                    cartModel.isHaveCoupon = false
+                } else {
+                    cartModel.isHaveCoupon = true
+                }
+                
                 
                 for jsonData in json["data"].arrayValue {
                     if jsonData["status"].stringValue == "1" {
@@ -252,12 +285,14 @@ class ScanConfirmOrderController: BaseViewController, UITableViewDelegate, UITab
         HUD_MB.loading("", onView: view)
         
         ///cal
-        HTTPTOOl.loadConfirmOrderDetail(storeID: storeID, buyWay: "3", lat: "", lng: "", couponID: selectCoupon.couponId, postCode: "").subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.loadConfirmOrderDetail(storeID: storeID, buyWay: "3", lat: "", lng: "", couponID: selectCoupon.couponId, postCode: "", couponUserDishesId: selectCoupon.selCouponUserDishesId).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
                         
             self.cartModel.updateModel(json: json["data"], type: "3")
+            ///更新选择的赠送菜品
+            giftDishesId = cartModel.updateGiftDishesID(selectGiftID: giftDishesId)
 
-            self.sectionNum = 10
+            self.sectionNum = 12
             self.mainTable.reloadData()
             
             self.loadCouponStatus(price: D_2_STR(self.cartModel.subFee - self.cartModel.dishesDiscountAmount))
@@ -268,6 +303,7 @@ class ScanConfirmOrderController: BaseViewController, UITableViewDelegate, UITab
                 /////优惠券无法使用 清除选中的优惠券
                 self.selectCoupon = CouponModel()
                 self.submitModel.couponId = ""
+                self.submitModel.couponUserDishesId = ""
                 HUD_MB.showWarnig(ErrorTool.errorMessage(error), onView: self.view)
             } else {
                 HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
@@ -286,22 +322,21 @@ class ScanConfirmOrderController: BaseViewController, UITableViewDelegate, UITab
             return
         }
         
+        if cartModel.canChooseFullGift && giftDishesId == "" {
+            HUD_MB.showWarnig("Please choose free dishes!", onView: self.view)
+            return
+        }
+        
+        if cartModel.isHaveCanUseCoupon && selectCoupon.couponId == "" {
+            //是否有可用优惠券且有没有选择优惠券
+            couponAlert.appearAction()
+            return
+        }
+        
+        
         ///弹出支付弹窗
-        payAlert.paymentSupport = cartModel.paymentSupport
-        payAlert.deductionAmount = cartModel.deductionAmount
-        payAlert.payPrice = cartModel.payPrice
-        payAlert.subtotal = cartModel.subFee
-        payAlert.total = cartModel.orderPrice
-        payAlert.deliveryPrice = cartModel.deliverFee
-        payAlert.servicePrice = cartModel.serviceFee
-        payAlert.discountScale = cartModel.discountScale
-        payAlert.discountAmount = cartModel.discountAmount
-        payAlert.dishesDiscountAmount = cartModel.dishesDiscountAmount
-        payAlert.couponAmount = cartModel.couponAmount
-        payAlert.packPrice = cartModel.packPrice
-        payAlert.buyType = "3"
-        self.payAlert.alertReloadData()
-        self.payAlert.appearAction()
+        popUpPayAlert()
+
     }
     
     
@@ -439,10 +474,14 @@ class ScanConfirmOrderController: BaseViewController, UITableViewDelegate, UITab
             //取消优惠券
             selectCoupon = CouponModel()
             submitModel.couponId = ""
+            submitModel.couponUserDishesId = ""
 
-            HTTPTOOl.loadConfirmOrderDetail(storeID: self.storeID, buyWay: "3", lat: "", lng: "", couponID: self.selectCoupon.couponId, postCode: "").subscribe(onNext: { [unowned self] (json) in
+            HTTPTOOl.loadConfirmOrderDetail(storeID: self.storeID, buyWay: "3", lat: "", lng: "", couponID: self.selectCoupon.couponId, postCode: "", couponUserDishesId: selectCoupon.selCouponUserDishesId).subscribe(onNext: { [unowned self] (json) in
                 HUD_MB.dissmiss(onView: self.view)
                 self.cartModel.updateModel(json: json["data"], type: "3")
+                ///更新选择的赠送菜品
+                giftDishesId = cartModel.updateGiftDishesID(selectGiftID: giftDishesId)
+
                 if self.cartModel.deliveryType == "4" {
                     self.showSystemAlert("Tip", json["data"]["deliveryMsg"].stringValue, "Sure")
                 }
@@ -497,7 +536,25 @@ extension ScanConfirmOrderController {
             }
         }
         
+        //满赠菜品
         if section == 5 {
+            if cartModel.fullGiftList.count == 0 {
+                return 0
+            } else {
+                return cartModel.fullGiftList.count + 2
+            }
+        }
+        //满五单送优惠券
+        if section == 6 {
+            if cartModel.giveCouponReachNum == 0 {
+                return 0
+            } else {
+                return 1
+            }
+        }
+
+        
+        if section == 7 {
             return 0
         }
         
@@ -526,16 +583,33 @@ extension ScanConfirmOrderController {
         if indexPath.section == 4 {
             return 140
         }
+        
+        if indexPath.section == 5 {
+            ///满赠
+            if indexPath.row == 0 {
+                return 50
+            }
+            else if indexPath.row == cartModel.fullGiftList.count + 1 {
+                return 20
+            } else {
+                return cartModel.fullGiftList[indexPath.row - 1].fullGift_H
+            }
+        }
 
         if indexPath.section == 6 {
+            ///满单赠
+            return 115
+        }
+
+        if indexPath.section == 8 {
             return 100
         }
         
-        if indexPath.section == 7 {
+        if indexPath.section == 9 {
             return 155
         }
         
-        if indexPath.section == 8 {
+        if indexPath.section == 10 {
             return cartModel.confirmMoney_H
             
         }
@@ -591,28 +665,55 @@ extension ScanConfirmOrderController {
         
         if indexPath.section == 4 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderCouponDishCell") as! OrderCouponDishCell
-            cell.setCellData(model: cartModel.couponDish)
+            cell.setCellData(titStr: "Gift", model: cartModel.couponDish)
+            return cell
+        }
+        
+        if indexPath.section == 5 {
+            
+            if indexPath.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "OrderTitleCell") as! OrderTitleCell
+                cell.titLab.text = "Free after the order amount is reached"
+                return cell
+            }
+            
+            else if indexPath.row == cartModel.fullGiftList.count + 1 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "OrderRoundedCornersCell") as! OrderRoundedCornersCell
+                return cell
+            }
+            else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "OrderFullGiftCell") as! OrderFullGiftCell
+                
+                cell.setCellData(model: cartModel.fullGiftList[indexPath.row - 1], selGiftDishesID: giftDishesId)
+                
+                cell.selectGiftDishBlock = { [unowned self] (id) in
+                    giftDishesId = id as! String
+                    mainTable.reloadData()
+                }
+                
+                return cell
+            }
+        }
+        
+        if indexPath.section == 6 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "OrderCouponProgressCell") as! OrderCouponProgressCell
+            cell.setCellData(model: cartModel)
             return cell
         }
         
 
-        if indexPath.section == 6 {
+        if indexPath.section == 8 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderCouponsCell") as! OrderCouponsCell
-            cell.setCellData(coupon: self.selectCoupon, isHave: cartModel.isHaveCanUseCoupon, isCanEdite: self.isCanEidte)
+            cell.setCellData(coupon: self.selectCoupon, isHave: cartModel.isHaveCoupon, isCanEdite: self.isCanEidte)
             
             cell.clickBlock = { [unowned self] (_) in
                 //选择优惠券
-                let couponVC = SelectCouponListController()
-                couponVC.delegate = self
-                couponVC.storeID = self.storeID
-                couponVC.dishesPrice = D_2_STR(self.cartModel.subFee - self.cartModel.dishesDiscountAmount)
-                couponVC.selectCoupon = self.selectCoupon
-                self.navigationController?.pushViewController(couponVC, animated: true)
+                goSelectCoupon()
             }
             
             return cell
         }
-        if indexPath.section == 7 {
+        if indexPath.section == 9 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderRemarkCell") as! OrderRemarkCell
             cell.setCellData(cStr: submitModel.remark, isCanEdite: self.isCanEidte)
             cell.editedBlock = { [unowned self] (str) in
@@ -620,7 +721,7 @@ extension ScanConfirmOrderController {
             }
             return cell
         }
-        if indexPath.section == 8 {
+        if indexPath.section == 10 {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "ConfirmMoneyCell") as! ConfirmMoneyCell
             cell.setCellData(model: cartModel, buyType: "3")
@@ -628,7 +729,7 @@ extension ScanConfirmOrderController {
         }
         
                 
-        if indexPath.section == 9 {
+        if indexPath.section == 11 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderPayButCell") as! OrderPayButCell
             cell.setCellData(titStr: "Confirm An Order")
             cell.clickPayBlock = { [unowned self] (_) in
@@ -640,6 +741,42 @@ extension ScanConfirmOrderController {
         let cell = UITableViewCell()
         return cell
     }
+}
+
+
+extension ScanConfirmOrderController {
+    
+    ///选择优惠券
+    private func goSelectCoupon() {
+        let couponVC = SelectCouponListController()
+        couponVC.delegate = self
+        couponVC.storeID = self.storeID
+        couponVC.dishesPrice = D_2_STR(self.cartModel.subFee - self.cartModel.dishesDiscountAmount)
+        couponVC.selectCoupon = self.selectCoupon
+        self.navigationController?.pushViewController(couponVC, animated: true)
+
+    }
+
+    ///弹出支付框
+    private func popUpPayAlert() {
+        payAlert.paymentSupport = cartModel.paymentSupport
+        payAlert.deductionAmount = cartModel.deductionAmount
+        payAlert.payPrice = cartModel.payPrice
+        payAlert.subtotal = cartModel.subFee
+        payAlert.total = cartModel.orderPrice
+        payAlert.deliveryPrice = cartModel.deliverFee
+        payAlert.servicePrice = cartModel.serviceFee
+        payAlert.discountScale = cartModel.discountScale
+        payAlert.discountAmount = cartModel.discountAmount
+        payAlert.dishesDiscountAmount = cartModel.dishesDiscountAmount
+        payAlert.couponAmount = cartModel.couponAmount
+        payAlert.packPrice = cartModel.packPrice
+        payAlert.buyType = "3"
+        self.payAlert.alertReloadData()
+        self.payAlert.appearAction()
+
+    }
+
 }
 
 

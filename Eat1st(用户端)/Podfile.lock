@@ -1,5 +1,7 @@
 PODS:
   - Alamofire (5.4.3)
+  - CRBoxInputView (1.2.1):
+    - Masonry
   - Firebase/Auth (8.6.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 8.6.0)
@@ -92,6 +94,7 @@ PODS:
     - HXPhotoPicker/Default (= 3.3.1)
   - HXPhotoPicker/Default (3.3.1)
   - IQKeyboardManagerSwift (6.3.0)
+  - Masonry (1.1.0)
   - MBProgressHUD (1.1.0)
   - MJRefresh (3.7.2)
   - Moya/Core (14.0.0):
@@ -132,6 +135,7 @@ PODS:
   - SwiftyJSON (5.0.1)
 
 DEPENDENCIES:
+  - CRBoxInputView (= 1.2.1)
   - Firebase/Auth
   - Firebase/Messaging
   - FirebaseUI/Auth
@@ -155,8 +159,10 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
+    - CRBoxInputView
     - FSCalendar
     - HXPhotoPicker
+    - Masonry
     - Stripe
     - StripeApplePay
     - StripeCore
@@ -195,6 +201,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
+  CRBoxInputView: d73a630e5326ee70487b4a56d09daebf915d82fd
   Firebase: 21ac9f28b09a8bdfc005f34c984fca84e7e8786d
   FirebaseAuth: 223adeeb2262b417532e89bf06a960e3a0a1e9e4
   FirebaseAuthUI: e75ef9d6cfcd8f1ba8bee2b360493a9947533f6c
@@ -215,6 +222,7 @@ SPEC CHECKSUMS:
   HandyJSON: 9e4e236f5d2dbefad5155a77417bbea438201c03
   HXPhotoPicker: f1274d0c931ad8564e0f23f33fe8b6110b639bd7
   IQKeyboardManagerSwift: a8228c257614af98743b4cd8584637025f36358f
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
   MJRefresh: 30997d30b347c8e9508a4db11e3a690da0c9b85a
   Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
@@ -231,6 +239,6 @@ SPEC CHECKSUMS:
   StripeUICore: 08c1efbd7e3c54ee7fa74334a37a1d4c08ba944d
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
 
-PODFILE CHECKSUM: e799c5807bc3a1b5700653e3970a0d4d0b5a0a45
+PODFILE CHECKSUM: 5e7681182f1313ba0bfb9a7af6b2fad380ab93db
 
-COCOAPODS: 1.11.0
+COCOAPODS: 1.11.3

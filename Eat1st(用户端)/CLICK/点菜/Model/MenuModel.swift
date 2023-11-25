@@ -676,6 +676,15 @@ class CartDishModel: NSObject {
     
     ///购物车菜品ID
     var cartDishID: String = ""
+    
+    ///赠品菜品ID
+    var giftDishesId: String = ""
+    
+    ///优惠券菜品ID
+    var couponUserDishesId: String = ""
+    
+    
+    
     ///数量
     var cartCount: Int = 0
     ///菜的原价
@@ -699,6 +708,10 @@ class CartDishModel: NSObject {
     ///确认订单页面的菜品高度
     var confirm_cart_dish_H: CGFloat = 0
     
+    ///赠品、优惠券菜的Cell高度
+    var giftDish_H: CGFloat = 0
+    
+
     
     ///菜品类型 1单品。2套餐
     var dishesType: String = ""
@@ -843,6 +856,27 @@ class CartDishModel: NSObject {
         
     }
     
+    
+    func updateGiftModel(json: JSON) {
+        giftDishesId = json["giftDishesId"].stringValue
+        dishName = json["dishesName"].stringValue
+        dishImg = json["imageUrl"].stringValue
+        
+        giftDish_H = (dishName.getTextHeigh(BFONT(14), S_W - 195) + 20) > 75 ? (dishName.getTextHeigh(BFONT(14), S_W - 195) + 20) : 75
+                
+    }
+    
+    
+    func updateCouponModel(json: JSON) {
+        couponUserDishesId = json["couponUserDishesId"].stringValue
+        dishID = json["dishesId"].stringValue
+        dishName = json["dishesName"].stringValue
+        dishImg = json["imageUrl"].stringValue
+        
+        giftDish_H = (dishName.getTextHeigh(BFONT(14), S_W - 195) + 20) > 75 ? (dishName.getTextHeigh(BFONT(14), S_W - 195) + 20) : 75
+                
+    }
+
     
 }
 

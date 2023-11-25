@@ -166,7 +166,7 @@ class OderListConfirmController: BaseViewController, UITableViewDelegate, UITabl
 
             HUD_MB.dissmiss(onView: self.view)
             self.dataModel.updateModel(json: json["data"])
-            self.sectionNum = 9
+            self.sectionNum = 10
             self.mainTable.reloadData()
             if dataModel.type != "3" {
                 self.getYSDTime_Net()
@@ -351,6 +351,16 @@ extension OderListConfirmController {
         }
         
         if section == 5 {
+            if dataModel.fullGiftDish.dishName == "" {
+                return 0
+            } else {
+                return 1
+            }
+            
+        }
+        
+        
+        if section == 6 {
             if dataModel.type == "3" {
                 return 0
             } else {
@@ -386,8 +396,11 @@ extension OderListConfirmController {
         if indexPath.section == 4 {
             return 140
         }
-        
         if indexPath.section == 5 {
+            return 140
+        }
+        
+        if indexPath.section == 6 {
             
             let h = dataModel.reserveMsg.getTextHeigh(SFONT(10), S_W - 60) > 11 ? dataModel.reserveMsg.getTextHeigh(SFONT(10), S_W - 60) : 11
 
@@ -400,10 +413,10 @@ extension OderListConfirmController {
             }
         }
         
-        if indexPath.section == 6 {
+        if indexPath.section == 7 {
             return 155
         }
-        if indexPath.section == 7 {
+        if indexPath.section == 8 {
 
             return dataModel.confirmMoney_H
             
@@ -448,7 +461,7 @@ extension OderListConfirmController {
                 cell.setCellData(state: self.isShowAll)
                 cell.clickBlock = { [unowned self] (bool) in
                     self.isShowAll = bool as! Bool
-                    self.mainTable.reloadSections([2, 3], with: .none)
+                    mainTable.reloadData()
                 }
                 return cell
             }
@@ -456,12 +469,18 @@ extension OderListConfirmController {
 
         if indexPath.section == 4 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderCouponDishCell") as! OrderCouponDishCell
-            cell.setCellData(model: dataModel.couponDish)
+            cell.setCellData(titStr: "Gift", model: dataModel.couponDish)
             return cell
         }
 
-
         if indexPath.section == 5 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "OrderCouponDishCell") as! OrderCouponDishCell
+            cell.setCellData(titStr: "Free after the order amount is reached", model: dataModel.fullGiftDish)
+            return cell
+        }
+        
+
+        if indexPath.section == 6 {
 
             if dataModel.type == "1" {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OrderListInputCell") as! OrderListInputCell
@@ -476,19 +495,19 @@ extension OderListConfirmController {
                 return cell
             }
         }
-        if indexPath.section == 6 {
+        if indexPath.section == 7 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderRemarkCell") as! OrderRemarkCell
             cell.setCellData(cStr: dataModel.remark, isCanEdite: false)
             return cell
         }
-        if indexPath.section == 7 {
+        if indexPath.section == 8 {
 
             let cell = tableView.dequeueReusableCell(withIdentifier: "ConfirmMoneyCell") as! ConfirmMoneyCell
             cell.setDetailCellData(model: dataModel)
             return cell
         }
 
-        if indexPath.section == 8 {
+        if indexPath.section == 9 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderPayButCell") as! OrderPayButCell
 
             cell.setCellData(titStr: "Confirm An Order")

@@ -29,7 +29,8 @@ class CouponListController: BaseViewController, UITableViewDelegate, UITableView
         tableView.delegate = self
         tableView.dataSource = self
         tableView.contentInsetAdjustmentBehavior = .never
-        tableView.register(CouponContentCell.self, forCellReuseIdentifier: "CouponContentCell")
+        //tableView.register(CouponContentCell.self, forCellReuseIdentifier: "CouponContentCell")
+        tableView.register(CouponListCell.self, forCellReuseIdentifier: "CouponListCell")
         return tableView
     }()
     
@@ -89,12 +90,17 @@ extension CouponListController {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CouponContentCell") as! CouponContentCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CouponListCell") as! CouponListCell
         cell.setCellData(model: dataArr[indexPath.row])
         
-        cell.clickRuleBlock = { (_) in
-            self.dataArr[indexPath.row].ruleIsOpen = !self.dataArr[indexPath.row].ruleIsOpen
-            self.table.reloadData()
+        cell.clickRuleBlock = { [unowned self] (_) in
+            dataArr[indexPath.row].ruleIsOpen = !dataArr[indexPath.row].ruleIsOpen
+            table.reloadData()
+        }
+        
+        cell.clickDishesMoreBlock = { [unowned self] (_) in
+            dataArr[indexPath.row].dishIsOpen = !dataArr[indexPath.row].dishIsOpen
+            table.reloadData()
         }
         
         
