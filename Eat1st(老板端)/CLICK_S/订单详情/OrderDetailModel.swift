@@ -106,6 +106,10 @@ class OrderDetailModel: NSObject {
     //赠送的菜品
     var giftList: [OrderDishModel] = []
     
+    //满赠的菜品
+    var fullGiftDish = OrderDishModel()
+    
+    
     var detailMoney_H: CGFloat = 0
     var discountMsg_H: CGFloat = 0
     
@@ -187,6 +191,10 @@ class OrderDetailModel: NSObject {
         }
         giftList = tArr2
 
+        
+        self.fullGiftDish.nameStr = json["fullGiftResult"]["dishesName"].stringValue
+        self.fullGiftDish.imageUrl = json["fullGiftResult"]["imageUrl"].stringValue
+        
 
         if discountMsg == "" {
             self.discountMsg_H = 0

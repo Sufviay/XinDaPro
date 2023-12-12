@@ -88,14 +88,7 @@ class MenuModel: NSObject {
     var buyType: String = ""
 
     
-    
-    ///根据购物车菜品处理之后的单品数据
-    //var dinnerDataArr: [ClassiftyModel] = []
-    ///购物车处理之后的套餐商品
-    //var lunchDataArr: [DishModel] = []
-    
-    
-    
+
     func updateModel(json: JSON) {
         
         
@@ -193,29 +186,65 @@ class MenuModel: NSObject {
         /**
          根据菜品编码和营业时间编码的关系整理菜品
          */
-        for jsonData in json["data"]["timeDishesList"].arrayValue {
-            //菜品ID
-            let dishID = jsonData["dishesId"].stringValue
-            ///根据菜品ID找到菜品model
-            if (d_arr.filter { $0.dishID == dishID }).count != 0 {
-                let d_model = (d_arr.filter { $0.dishID == dishID })[0]
+        
+        
+        //便利每个菜品
+        for d_model in d_arr {
+            
+            ///遍历时间段关系
+            for jsonData in json["data"]["timeDishesList"].arrayValue {
                 
-                //时间段ID
-                let timeID = jsonData["storeTimeId"].stringValue
-                //根据时间段ID 找到时间段
-                for openModel in openTimeArr {
-                    if openModel.storeTimeId == timeID {
-                        //将菜品放入相对应的分类下
-                        for c_model in openModel.dataArr {
-                            //分类ID相同加入 或者 标签跟分类名相同加入
-                            if d_model.belongClassiftyID == c_model.flID || (d_model.tagList.filter { $0.tagName == c_model.flName_C }).count != 0  {
-                                c_model.dishArr.append(d_model)
+                //时间关系里的菜品ID
+                let dishID = jsonData["dishesId"].stringValue
+                
+                ///如果时间段里的菜品ID 与 菜品列表的ID 相匹配 就把菜品插入到相应的时间段下
+                if d_model.dishID == dishID {
+                    
+                    //时间段ID
+                    let timeID = jsonData["storeTimeId"].stringValue
+
+                    //根据时间段ID 找到时间段
+                    for openModel in openTimeArr {
+                        if openModel.storeTimeId == timeID {
+                            //将菜品放入相对应的分类下
+                            for c_model in openModel.dataArr {
+                                //分类ID相同加入 或者 标签跟分类名相同加入
+                                if d_model.belongClassiftyID == c_model.flID || (d_model.tagList.filter { $0.tagName == c_model.flName_C }).count != 0  {
+                                    c_model.dishArr.append(d_model)
+                                }
                             }
                         }
                     }
                 }
             }
         }
+        
+        
+        
+        
+//        for jsonData in json["data"]["timeDishesList"].arrayValue {
+//            //菜品ID
+//            let dishID = jsonData["dishesId"].stringValue
+//            ///根据菜品ID找到菜品model
+//            if (d_arr.filter { $0.dishID == dishID }).count != 0 {
+//                let d_model = (d_arr.filter { $0.dishID == dishID })[0]
+//                
+//                //时间段ID
+//                let timeID = jsonData["storeTimeId"].stringValue
+//                //根据时间段ID 找到时间段
+//                for openModel in openTimeArr {
+//                    if openModel.storeTimeId == timeID {
+//                        //将菜品放入相对应的分类下
+//                        for c_model in openModel.dataArr {
+//                            //分类ID相同加入 或者 标签跟分类名相同加入
+//                            if d_model.belongClassiftyID == c_model.flID || (d_model.tagList.filter { $0.tagName == c_model.flName_C }).count != 0  {
+//                                c_model.dishArr.append(d_model)
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
         //去除时间列表中无菜品的空分类
         for openModel in openTimeArr {
@@ -335,10 +364,16 @@ class OpenTimeModel: NSObject {
 
 class DishTagsModel: NSObject {
     
+    //1 普通的菜品标签 2 菜品买一赠一的标签
+    var tagType: String = ""
+    
     var tagName: String = ""
     var tagImg: String = ""
     
+        
+    
     func updateModel(json: JSON) {
+        self.tagType = "1"
         self.tagName = json["tagName"].stringValue
         self.tagImg = json["imageUrl"].stringValue
     }
@@ -377,17 +412,38 @@ class DishModel: NSObject {
     ///优惠百分比
     var discountSale: String = ""
     
-    ///是否是新品
+    ///是否是新品 没有了
     var isNew: Bool = false
     
-    
+    ///是否买一赠一
+    var isGiveOne: Bool = false
     
     ///描述
     var des: String = ""
     ///标签
     var tagList: [DishTagsModel] = []
     ///已购买数量
-    var sel_Num: Int = 0
+    var sel_Num: Int = 0 {
+        
+        didSet {
+            if isGiveOne {
+                if sel_Num == 0 {
+                    self.dish_H = (name_H + des_H + 90) > 130 ? (name_H + des_H + 90) : 130
+                    self.dish_H_S = (name_H_Search + des_H_Search + 90) > 130 ? (name_H_Search + des_H_Search + 90) : 130
+                } else {
+                    self.dish_H = (name_H + des_H + 90 + 30) > 130 ? (name_H + des_H + 90 + 30) : 130
+                    self.dish_H_S = (name_H_Search + des_H_Search + 90 + 30) > 130 ? (name_H_Search + des_H_Search + 90 + 30) : 130
+                }
+            }
+        }
+    }
+    
+    var name_H: CGFloat = 0
+    var des_H: CGFloat = 0
+    
+    var name_H_Search: CGFloat = 0
+    var des_H_Search: CGFloat = 0
+    
     ///商品高度
     var dish_H: CGFloat = 0
     
@@ -443,6 +499,7 @@ class DishModel: NSObject {
         self.isOn = json["statusId"].stringValue
         self.unAlbleMsg = json["statusMsg"].stringValue
         self.belongClassiftyID = json["classifyId"].stringValue
+        self.isGiveOne = json["giveOne"].stringValue == "1" ? false : true
         
         self.discountPrice = json["discountPrice"].doubleValue
         self.discountType = json["discountType"].stringValue
@@ -466,18 +523,26 @@ class DishModel: NSObject {
             model.updateModel(json: jsonData)
             tarr1.append(model)
         }
+        
+        if isGiveOne {
+            //是买1赠1 的菜
+            let tag = DishTagsModel()
+            tag.tagType = "2"
+            tarr1.append(tag)
+        }
+        
         self.tagList = tarr1
         
 
         //单品
-        let n_h = self.name_C.getTextHeigh(BFONT(17), S_W - 235)
-        let n_h_s = self.name_C.getTextHeigh(BFONT(17), S_W - 145)
-        let d_h: CGFloat = self.des.getTextHeigh(SFONT(11), S_W - 235) > 25 ? 25 : self.des.getTextHeigh(SFONT(11), S_W - 235)
-        let d_h_s: CGFloat = self.des.getTextHeigh(SFONT(11), S_W - 145) > 25 ? 25 : self.des.getTextHeigh(SFONT(11), S_W - 145)
+        name_H = self.name_C.getTextHeigh(BFONT(17), S_W - 235)
+        name_H_Search = self.name_C.getTextHeigh(BFONT(17), S_W - 145)
+        des_H = self.des.getTextHeigh(SFONT(11), S_W - 235) > 25 ? 25 : self.des.getTextHeigh(SFONT(11), S_W - 235)
+        des_H_Search = self.des.getTextHeigh(SFONT(11), S_W - 145) > 25 ? 25 : self.des.getTextHeigh(SFONT(11), S_W - 145)
         
         
-        self.dish_H = (n_h + d_h + 90) > 130 ? (n_h + d_h + 90) : 130
-        self.dish_H_S = (n_h_s + d_h_s + 90) > 130 ? (n_h_s + d_h_s + 90) : 130
+        self.dish_H = (name_H + des_H + 90) > 130 ? (name_H + des_H + 90) : 130
+        self.dish_H_S = (name_H_Search + des_H_Search + 90) > 130 ? (name_H_Search + des_H_Search + 90) : 130
         
         
 //        if (S_W - 230) > 140 {
@@ -700,6 +765,11 @@ class CartDishModel: NSObject {
     var dishName: String = ""
     ///启用 禁用状态 1启用 2禁用 3超库存 4不在营业时间内
     var isOn: String = ""
+    
+    ///是否是买一赠一
+    var isGiveOne: Bool = false
+    
+    
     ///菜品标签
     var tagList: [DishTagsModel] = []
     
@@ -739,6 +809,8 @@ class CartDishModel: NSObject {
         self.dishImg = json["imageUrl"].stringValue
         self.dishesType = json["dishesType"].stringValue
         self.isOn = json["statusId"].stringValue
+        self.isGiveOne = json["giveOne"].stringValue == "1" ? false : true
+        
         
         
         
@@ -772,13 +844,25 @@ class CartDishModel: NSObject {
             model.updateModel(json: jsonData)
             tArr3.append(model)
         }
+        
+        if isGiveOne {
+            let tag = DishTagsModel()
+            tag.tagType = "2"
+            tArr3.append(tag)
+        }
+        
         self.tagList = tArr3
         
         ///菜品在购物车中显示的高度
         let n_h = self.dishName.getTextHeigh(BFONT(17), S_W - 160)
         let d_h = self.selectOptionStr.getTextHeigh(SFONT(11), S_W - 160)
-        let h = (n_h + d_h + 90) > 130 ? (n_h + d_h + 90) : 130
-        self.cart_dish_H = h
+        
+        
+        if isGiveOne {
+            cart_dish_H = (n_h + d_h + 90 + 30) > 130 ? (n_h + d_h + 90 + 30) : 130
+        } else {
+            cart_dish_H = (n_h + d_h + 90) > 130 ? (n_h + d_h + 90) : 130
+        }
         
     }
     
@@ -799,6 +883,7 @@ class CartDishModel: NSObject {
         self.discountPrice = json["discountPrice"].doubleValue
         self.discountType = json["discountType"].stringValue
         self.dishesType = json["dishesType"].stringValue
+        self.isGiveOne = json["giveOne"].stringValue == "1" ? false : true
         
         if fee - discountPrice > 0 {
             let ts = (fee - discountPrice) / fee * 100
@@ -806,9 +891,7 @@ class CartDishModel: NSObject {
 
         }
         
-        
         var tStr: String = ""
-        
         if dishesType == "2" {
             //套餐
             for (idx, jsonData) in json["comboNameList"].arrayValue.enumerated() {
@@ -820,11 +903,6 @@ class CartDishModel: NSObject {
                 }
             }
             self.selectOptionStr = tStr
-            
-            //计算高度
-            let n_h = dishName.getTextHeigh(BFONT(14), S_W - 155)
-            let t_h = selectOptionStr.getTextHeigh(SFONT(11), S_W - 195)
-            self.confirm_cart_dish_H = n_h + t_h + 40 < 80 ? 80 : n_h + t_h + 40
             
         } else {
             //单品
@@ -838,13 +916,17 @@ class CartDishModel: NSObject {
             }
             self.selectOptionStr = tStr
 
-            //计算高度
-            let n_h = dishName.getTextHeigh(BFONT(14), S_W - 155)
-            let t_h = selectOptionStr.getTextHeigh(SFONT(11), S_W - 195)
-            self.confirm_cart_dish_H = n_h + t_h + 40 < 80 ? 80 : n_h + t_h + 40
         }
         
-        self.selectOptionStr = tStr
+        //计算高度
+        let n_h = dishName.getTextHeigh(BFONT(14), S_W - 195)
+        let t_h = selectOptionStr.getTextHeigh(SFONT(11), S_W - 195)
+        
+        if isGiveOne && cartCount != 0 {
+            confirm_cart_dish_H = n_h + t_h + 40 + 30 < 80 ? 80 : n_h + t_h + 40 + 30
+        } else {
+            confirm_cart_dish_H = n_h + t_h + 40 < 80 ? 80 : n_h + t_h + 40
+        }
     
         var tArr2: [DishTagsModel] = []
         for jsonData in json["tagList"].arrayValue {
@@ -852,6 +934,13 @@ class CartDishModel: NSObject {
             model.updateModel(json: jsonData)
             tArr2.append(model)
         }
+        
+        if isGiveOne {
+            let tag = DishTagsModel()
+            tag.tagType = "2"
+            tArr2.append(tag)
+        }
+        
         self.tagList = tArr2
         
     }

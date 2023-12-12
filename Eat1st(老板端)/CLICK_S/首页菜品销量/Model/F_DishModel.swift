@@ -90,6 +90,10 @@ class DishModel: NSObject {
     ///类型（查询菜品每周销量、菜品每月销量时带上此参数）
     var type: String = ""
     
+    ///菜品是否买一赠一
+    var isGiveOne: Bool = false
+    
+    
     ///菜品描述英文
     var des_En: String = ""
     ///简体中文
@@ -156,7 +160,7 @@ class DishModel: NSObject {
         self.dishesType = json["dishesType"].stringValue
         self.discountType = json["discountType"].stringValue
         self.buffetType = json["buffetType"].stringValue
-        
+        self.isGiveOne = json["giveOne"].stringValue == "1" ? false : true
         
         let deliPrice = json["deliPrice"].doubleValue
         let dinePrice = json["dinePrice"].doubleValue

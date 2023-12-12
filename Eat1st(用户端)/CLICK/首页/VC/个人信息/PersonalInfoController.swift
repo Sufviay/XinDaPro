@@ -83,6 +83,15 @@ class PersonalInfoController: BaseViewController {
         return lab
     }()
     
+    
+    private let pwLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(FONTCOLOR, BFONT(14), .left)
+        lab.text = "Password:"
+        return lab
+    }()
+
+    
     private let line1: UIView = {
         let view = UIView()
         view.backgroundColor = HCOLOR("#E4E4E4")
@@ -129,6 +138,33 @@ class PersonalInfoController: BaseViewController {
     }()
 
     
+    private let line4: UIView = {
+        let view = UIView()
+        view.backgroundColor = HCOLOR("#E4E4E4")
+        return view
+    }()
+
+    
+    private let resetBut: UIButton = {
+        let but = UIButton()
+//        but.setCommentStyle(.zero, "RESET", HCOLOR("#999999"), BFONT(11), .clear)
+//        but.setImage(LOIMG("info_next"), for: .normal)
+        return but
+    }()
+    
+    private let resetlab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("999999"), BFONT(11), .center)
+        lab.text = "RESET"
+        return lab
+    }()
+    
+    private let nextImg: UIImageView = {
+        let img = UIImageView()
+        img.image = LOIMG("info_next")
+        return img
+    }()
+    
     
     private let xlbut: UIButton = {
         let but = UIButton()
@@ -145,6 +181,11 @@ class PersonalInfoController: BaseViewController {
         }
         return view
     }()
+    
+    
+    
+    
+    
     
     
     override func setNavi() {
@@ -190,9 +231,17 @@ class PersonalInfoController: BaseViewController {
         
         if isInfoCenter {
             self.sikpBut.isHidden = true
+            self.line4.isHidden = true
+            self.resetBut.isHidden = true
+            self.pwLab.isHidden = true
+            
         } else {
             self.sikpBut.isHidden = false
+            self.line4.isHidden = false
+            self.resetBut.isHidden = false
+            self.pwLab.isHidden = false
         }
+        
         
         view.addSubview(line)
         line.snp.makeConstraints {
@@ -268,7 +317,43 @@ class PersonalInfoController: BaseViewController {
             $0.top.equalTo(birthdayLab.snp.bottom).offset(20)
             $0.height.equalTo(1)
         }
+        
+        
+        view.addSubview(pwLab)
+        pwLab.snp.makeConstraints {
+            $0.left.equalTo(nameLab)
+            $0.top.equalTo(line3.snp.bottom).offset(20)
+        }
 
+
+        
+        view.addSubview(line4)
+        line4.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(20)
+            $0.right.equalToSuperview().offset(-20)
+            $0.top.equalTo(pwLab.snp.bottom).offset(20)
+            $0.height.equalTo(1)
+        }
+        
+        view.addSubview(resetBut)
+        resetBut.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 60, height: 40))
+            $0.right.equalToSuperview().offset(-15)
+            $0.centerY.equalTo(pwLab)
+        }
+        
+        resetBut.addSubview(resetlab)
+        resetlab.snp.makeConstraints {
+            $0.centerX.equalToSuperview().offset(-5)
+            $0.centerY.equalToSuperview()
+        }
+        
+        resetBut.addSubview(nextImg)
+        nextImg.snp.makeConstraints {
+            $0.left.equalTo(resetlab.snp.right).offset(5)
+            $0.centerY.equalToSuperview()
+        }
+        
         
         view.addSubview(nameTF)
         nameTF.snp.makeConstraints {
@@ -302,6 +387,7 @@ class PersonalInfoController: BaseViewController {
         saveBut.addTarget(self, action: #selector(clickSaveAciton), for: .touchUpInside)
         sikpBut.addTarget(self, action: #selector(clickSikpAction), for: .touchUpInside)
         xlbut.addTarget(self, action: #selector(clickXLAction), for: .touchUpInside)
+        resetBut.addTarget(self, action: #selector(clickResetPW), for: .touchUpInside)
         
         let birthdayTap = UITapGestureRecognizer(target: self, action: #selector(clickTimeAction))
         self.birthdayTF.addGestureRecognizer(birthdayTap)
@@ -338,6 +424,12 @@ class PersonalInfoController: BaseViewController {
     
     @objc private func clickXLAction() {
         self.dayAlert.appearAction()
+    }
+    
+    @objc private func clickResetPW() {
+        //修改密码页面
+        let nextVC = ResetPasswordController()
+        navigationController?.pushViewController(nextVC, animated: true)
     }
     
     

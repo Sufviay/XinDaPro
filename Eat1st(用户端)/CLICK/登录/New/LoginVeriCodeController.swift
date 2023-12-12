@@ -12,6 +12,7 @@ class LoginVeriCodeController: BaseViewController {
 
     
     private let bag = DisposeBag()
+
     
     var phoneNum: String = ""
     var countryCode: String = ""
@@ -85,6 +86,7 @@ class LoginVeriCodeController: BaseViewController {
     }()
     
     
+    
     private lazy var codeView: CRBoxInputView = {
         let inputView = CRBoxInputView(codeLength: 6)!
         inputView.backgroundColor = .clear
@@ -128,8 +130,7 @@ class LoginVeriCodeController: BaseViewController {
             
             canGo = isFinished
         }
-        
-        
+                
         return inputView
     }()
     
@@ -217,19 +218,18 @@ class LoginVeriCodeController: BaseViewController {
     @objc private func clickAgainAction() {
         //再次发送验证码
         sendSMS_Net()
-                
     }
     
     @objc private func clickNextAction() {
-        if codeView.textValue ?? "" != "" {
+        
+        if codeView.textValue ?? "" != "" && smsID != "" {
             login_Net()
         }
-        
     }
     
     private func sendSMS_Net() {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.sendSMSCode(countryCode: countryCode, phone: phoneNum).subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.sendSMSCode(countryCode: countryCode, phone: phoneNum, type: "1").subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: view)
             smsID = json["data"]["smsId"].stringValue
         }, onError: { [unowned self] (error) in
@@ -243,51 +243,63 @@ class LoginVeriCodeController: BaseViewController {
         HTTPTOOl.loginPhone(countryCode: countryCode, phone: phoneNum, smsCode: codeView.textValue ?? "", smsID: smsID).subscribe(onNext: { [unowned self] (json) in
             
             HUD_MB.showSuccess("Success", onView: view)
-            UserDefaults.standard.isLogin = true
             UserDefaults.standard.token = json["data"]["token"].stringValue
-            UserDefaults.standard.userPhone = phoneNum
-            NotificationCenter.default.post(name: NSNotification.Name("login"), object: nil)
             
-            ///1 否 2 是
-            let isNewUser = json["data"]["newType"].stringValue == "2" ? true : false
-                    
-            DispatchQueue.main.after(time: .now() + 1) { [unowned self] in
-                
-                if isNewUser {
-                    let infoVC = PersonalInfoController()
-                    infoVC.isCanEdite = true
-                    navigationController?.pushViewController(infoVC, animated: true)
-                } else {
-                    self.dismiss(animated: true)
+            //验证是否设置密码
+            if json["data"]["pwdType"].stringValue == "1" {
+                //未设置密码
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [unowned self] in
+                    let nextVC = SetPasswordContrller()
+                    nextVC.loginJsonData = json
+                    nextVC.userPhone = phoneNum
+                    navigationController?.pushViewController(nextVC, animated: true)
                 }
-            }
-            
-            //获取用户信息
-            HTTPTOOl.getUserInfo().subscribe(onNext: { (json) in
-                UserDefaults.standard.userName = json["data"]["name"].stringValue
-                UserDefaults.standard.userEmail = json["data"]["email"].stringValue
+            } else {
+                //已经设置过密码
+                UserDefaults.standard.isLogin = true
+                UserDefaults.standard.userPhone = phoneNum
+                NotificationCenter.default.post(name: NSNotification.Name("login"), object: nil)
                 
-            }).disposed(by: bag)
-            
-            //上传tsToken
-            let tsToken = UserDefaults.standard.tsToken ?? ""
-
-            if tsToken != "" {
-                HTTPTOOl.updateTSToken(token: tsToken).subscribe(onNext: { (json) in
-                    print("推送注册成功")
-                }, onError: { (error) in
-                    print("推送注册失败")
-                }).disposed(by: bag)
-            }
-
-            //上传语言
-            HTTPTOOl.setLanguage().subscribe(onNext: { (json) in
-                print("语言设置成功")
-            }, onError: {_ in
-                
-            }).disposed(by: self.bag)
-            
+                ///1 否 2 是
+                let isNewUser = json["data"]["newType"].stringValue == "2" ? true : false
                         
+                DispatchQueue.main.after(time: .now() + 1) { [unowned self] in
+                    
+                    if isNewUser {
+                        let infoVC = PersonalInfoController()
+                        infoVC.isCanEdite = true
+                        navigationController?.pushViewController(infoVC, animated: true)
+                    } else {
+                        self.dismiss(animated: true)
+                    }
+                }
+                
+                //获取用户信息
+                HTTPTOOl.getUserInfo().subscribe(onNext: { (json) in
+                    UserDefaults.standard.userName = json["data"]["name"].stringValue
+                    UserDefaults.standard.userEmail = json["data"]["email"].stringValue
+                    
+                }).disposed(by: bag)
+                
+                //上传tsToken
+                let tsToken = UserDefaults.standard.tsToken ?? ""
+
+                if tsToken != "" {
+                    HTTPTOOl.updateTSToken(token: tsToken).subscribe(onNext: { (json) in
+                        print("推送注册成功")
+                    }, onError: { (error) in
+                        print("推送注册失败")
+                    }).disposed(by: bag)
+                }
+
+                //上传语言
+                HTTPTOOl.setLanguage().subscribe(onNext: { (json) in
+                    print("语言设置成功")
+                }, onError: {_ in
+                    
+                }).disposed(by: self.bag)
+
+            }
             
         }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)

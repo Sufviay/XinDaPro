@@ -18,12 +18,17 @@ class OrderDishModel: NSObject {
     var nameHk: String = ""
     ///菜品价格
     var dishesPrice: String = ""
+    
+    ///是否是买一赠一的
+    var isGiveOne: Bool = false
+    
     ///菜品类型 1单品2套餐
     var dishesType: String = ""
     ///购买数量
     var buyNum: Int = 0
     ///投诉数量
     var plaintNum: Int = 0
+    
     
     
     ///菜品选项名称
@@ -62,6 +67,7 @@ class OrderDishModel: NSObject {
         nameHk = json["nameHk"].stringValue
         dishesPrice = D_2_STR(json["dishesPrice"].doubleValue)
         dishesType = json["dishesType"].stringValue
+        isGiveOne = json["giveOne"].stringValue == "1" ? false : true
         buyNum = json["buyNum"].intValue
         plaintNum = json["plaintNum"].intValue
         
@@ -205,7 +211,15 @@ class OrderDishModel: NSObject {
         //投诉菜品高度
         complaintsCell_H = (nameStr.getTextHeigh(BFONT(14), S_W - 155) + desStr.getTextHeigh(SFONT(12), S_W - 195) + 30) > 85 ? (nameStr.getTextHeigh(BFONT(14), S_W - 155) + desStr.getTextHeigh(SFONT(12), S_W - 195) + 30) : 85
         
-        showCell_H = (nameStr.getTextHeigh(BFONT(11), S_W - 145) + desStr.getTextHeigh(SFONT(11), S_W - 125) + 35) > 70 ? (nameStr.getTextHeigh(BFONT(11), S_W - 145) + desStr.getTextHeigh(SFONT(11), S_W - 125) + 35) : 70
+       
+        
+        if isGiveOne {
+            showCell_H = (nameStr.getTextHeigh(BFONT(11), S_W - 145) + desStr.getTextHeigh(SFONT(11), S_W - 125) + 35 + 30) > 70 ? (nameStr.getTextHeigh(BFONT(11), S_W - 145) + desStr.getTextHeigh(SFONT(11), S_W - 125) + 35 + 30) : 70
+        } else {
+            showCell_H = (nameStr.getTextHeigh(BFONT(11), S_W - 145) + desStr.getTextHeigh(SFONT(11), S_W - 125) + 35) > 70 ? (nameStr.getTextHeigh(BFONT(11), S_W - 145) + desStr.getTextHeigh(SFONT(11), S_W - 125) + 35) : 70
+        }
+        
+        
         
     }
     

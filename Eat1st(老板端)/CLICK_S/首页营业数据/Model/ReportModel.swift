@@ -120,10 +120,10 @@ class ReportModel: NSObject {
     var packFee: Double = 0
     ///优惠金额
     var discountPrice: Double = 0
-    ///小费
-    var tipsPrice: Double = 0
-    
-    
+    ///cash小费
+    var tipCashPrice: Double = 0
+    ///pos小费
+    var tipPosPrice: Double = 0
     
     
     //MARK: - 拒接订单
@@ -222,7 +222,8 @@ class ReportModel: NSObject {
         self.dineServiceFee = json["dineServiceFee"].doubleValue
         self.platServiceFee = json["platServiceFee"].doubleValue
         self.packFee = json["packFee"].doubleValue
-        self.tipsPrice = json["tipsPrice"].doubleValue
+        self.tipCashPrice = json["tipCashPrice"].doubleValue
+        self.tipPosPrice = json["tipPosPrice"].doubleValue
         self.discountPrice = json["noPayPrice"].doubleValue
         
         

@@ -31,7 +31,6 @@ class MealSelectSizeController: BaseViewController, UICollectionViewDelegate, UI
                 //let idx = 1000
                 self.selectIdxArr.append(1000)
             }
-            self.b_view.moneyLab.text = dishModel.discountType == "2" ? D_2_STR(dishModel.discountPrice) : D_2_STR(dishModel.price)
         }
     }
     
@@ -186,15 +185,19 @@ extension MealSelectSizeController {
             model.updateModel(json: json["data"])
             self.dishModel = model
             
-            //self.mainTable.reloadData()
-            
+            b_view.moneyLab.text =  manager.selectedComboDishMoney(dishModel: dishModel, count: dishCount)
             
             //计算菜品详情视图的高度
             let str = "Allergen: " + self.dishModel.allergen
             let g_h = str.getTextHeigh(BFONT(13), S_W - 130)
             let d_h = self.dishModel.des.getTextHeigh(SFONT(13), S_W - 120)
             let n_h = self.dishModel.name_C.getTextHeigh(BFONT(17), S_W - 50)
-            self.info_H = (R_W(375) * (9/16)) + g_h + d_h + n_h + 50
+            
+            if canBuy && model.isGiveOne {
+                info_H = (R_W(375) * (9/16)) + g_h + d_h + n_h + 50 + 30
+            } else {
+                info_H = (R_W(375) * (9/16)) + g_h + d_h + n_h + 50
+            }
             
             self.collection.contentInset = UIEdgeInsets(top: self.info_H, left: 0, bottom: 0, right: 0)
             self.setUpUI()

@@ -268,12 +268,17 @@ class OrderDishModel: NSObject {
     
     ///商品类型 1单品，2套餐
     var dishtype: String = ""
+        
+    //是否是买一赠一的
+    var isGiveOne: Bool = false
     
     
     var nameStr: String = ""
     var desStr: String = ""
     
     var dish_H: CGFloat = 0
+    
+
     
     
     
@@ -285,7 +290,7 @@ class OrderDishModel: NSObject {
         self.detailImg = json["imageUrl"].stringValue
         self.subFee = json["dishesPrice"].doubleValue
         self.dishtype = json["dishesType"].stringValue
-
+        self.isGiveOne = json["giveOne"].stringValue == "1" ? false : true
         
         
         if dishtype == "1" {
@@ -336,10 +341,15 @@ class OrderDishModel: NSObject {
         }
 
         
+        
         let n_h = nameStr.getTextHeigh(BFONT(14), S_W - 180)
         let d_h = desStr.getTextHeigh(SFONT(13), S_W - 180)
         let a_h = n_h + d_h + 5 + 25
-        self.dish_H = a_h > 90 ? a_h : 90
         
+        if isGiveOne {
+            dish_H = a_h + 30 > 90 ? a_h + 30 : 90
+        } else {
+            dish_H = a_h > 90 ? a_h : 90
+        }
     }
 }

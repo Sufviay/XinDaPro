@@ -38,6 +38,7 @@ class OrderDetailController: BaseViewController, UITableViewDataSource, UITableV
         tableView.register(OrderNumberInfoCell.self, forCellReuseIdentifier: "OrderNumberInfoCell")
         tableView.register(OrderAddressCell.self, forCellReuseIdentifier: "OrderAddressCell")
         tableView.register(OrderGoodsCell.self, forCellReuseIdentifier: "OrderGoodsCell")
+        tableView.register(OrderGoodsFreeCell.self, forCellReuseIdentifier: "OrderGoodsFreeCell")
         tableView.register(OrderMoneyCell.self, forCellReuseIdentifier: "OrderMoneyCell")
         tableView.register(OrderBottomButCell.self, forCellReuseIdentifier: "OrderBottomButCell")
         tableView.register(OrderRemarkCell.self, forCellReuseIdentifier: "OrderRemarkCell")
@@ -163,7 +164,7 @@ class OrderDetailController: BaseViewController, UITableViewDataSource, UITableV
             if indexPath.row == 0 {
                 return 30
             } else {
-                return dataModel.couponDish.dish_H
+                return 90
             }
         }
         
@@ -214,7 +215,7 @@ class OrderDetailController: BaseViewController, UITableViewDataSource, UITableV
         
         if indexPath.section == 3 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderGoodsCell") as! OrderGoodsCell
-            cell.setCellData(model: dataModel.dishArr[indexPath.row], isGift: false)
+            cell.setCellData(model: dataModel.dishArr[indexPath.row])
             return cell
         }
         
@@ -224,8 +225,8 @@ class OrderDetailController: BaseViewController, UITableViewDataSource, UITableV
                 cell.titLab.text = "Gift"
                 return cell
             } else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "OrderGoodsCell") as! OrderGoodsCell
-                cell.setCellData(model: dataModel.couponDish, isGift: true)
+                let cell = tableView.dequeueReusableCell(withIdentifier: "OrderGoodsFreeCell") as! OrderGoodsFreeCell
+                cell.setCellData(model: dataModel.couponDish)
                 return cell
             }
         }
@@ -236,8 +237,8 @@ class OrderDetailController: BaseViewController, UITableViewDataSource, UITableV
                 cell.titLab.text = "Free after the order amount is reached"
                 return cell
             } else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "OrderGoodsCell") as! OrderGoodsCell
-                cell.setCellData(model: dataModel.fullGiftDish, isGift: true)
+                let cell = tableView.dequeueReusableCell(withIdentifier: "OrderGoodsFreeCell") as! OrderGoodsFreeCell
+                cell.setCellData(model: dataModel.fullGiftDish)
                 return cell
             }
         }

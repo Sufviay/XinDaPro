@@ -204,13 +204,15 @@ enum ApiManager {
     ///打印机列表
     case getPrinterList
     ///新增打印机
-    case addPrinter(name: String, ip: String)
+    case addPrinter(name: String, ip: String, printNum: String)
     ///编辑打印机
-    case editePrinter(id: String, name: String, ip: String)
+    case editePrinter(id: String, name: String, ip: String, printNum: String)
     ///启用禁用打印机
     case printerDoStatus(id: String)
     ///删除打印机
     case deletePrinter(id: String)
+    ///菜品添加买一赠一
+    case doGiveOne(id: String)
     
     
     
@@ -507,14 +509,18 @@ extension ApiManager: TargetType {
             return "api/boss/dishes/doUpdatePrice"
         case .getPrinterList:
             return "api/boss/printer/getPrinterList"
-        case .addPrinter(name: _, ip: _):
+        case .addPrinter(name: _, ip: _, printNum: _):
             return "api/boss/printer/doAdd"
-        case .editePrinter(id: _, name: _, ip: _):
+        case .editePrinter(id: _, name: _, ip: _, printNum: _):
             return "api/boss/printer/doUpdate"
         case .printerDoStatus(id: _):
             return "api/boss/printer/doStatus"
         case .deletePrinter(id: _):
             return "api/boss/printer/doDelete"
+        case .doGiveOne(id: _):
+            return "api/boss/dishes/doGiveOne"
+            
+            
             
             
             
@@ -807,14 +813,17 @@ extension ApiManager: TargetType {
             dic = ["dishesId": id, "sellType": sellType, "buffetType": buffetType, "deliPrice": dePrice, "dinePrice": dinePrice]
         case .getPrinterList:
             dic = [:]
-        case .addPrinter(let name, let ip):
-            dic = ["nameCn": name, "nameHk": name, "nameEn": name, "ip": ip, "status": "1", "remark": ""]
-        case .editePrinter(let id, let name, let ip):
-            dic = ["printerId": id, "nameCn": name, "nameHk": name, "nameEn": name, "ip": ip, "status": "1", "remark": ""]
+        case .addPrinter(let name, let ip, let printNum):
+            dic = ["nameCn": name, "nameHk": name, "nameEn": name, "ip": ip, "status": "1", "remark": "", "printNum": printNum]
+        case .editePrinter(let id, let name, let ip, let printNum):
+            dic = ["printerId": id, "nameCn": name, "nameHk": name, "nameEn": name, "ip": ip, "status": "1", "remark": "", "printNum": printNum]
         case .printerDoStatus(let id):
             dic = ["printerId": id]
         case .deletePrinter(let id):
             dic = ["printerId": id]
+        case .doGiveOne(let id):
+            dic = ["dishesId": id]
+            
             
             
             

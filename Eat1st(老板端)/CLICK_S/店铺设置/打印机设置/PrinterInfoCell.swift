@@ -44,6 +44,14 @@ class PrinterInfoCell: BaseTableViewCell {
         return lab
     }()
     
+    private let copiesLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#666666"), SFONT(15), .left)
+        lab.text = "Print copies: 1"
+        lab.numberOfLines = 0
+        return lab
+    }()
+    
     
     private let moreBut: UIButton = {
         let but = UIButton()
@@ -90,6 +98,13 @@ class PrinterInfoCell: BaseTableViewCell {
             $0.top.equalTo(nameLab.snp.bottom).offset(5)
         }
         
+        contentView.addSubview(copiesLab)
+        copiesLab.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(20)
+            $0.right.equalToSuperview().offset(-80)
+            $0.top.equalTo(ipLab.snp.bottom).offset(2)
+        }
+        
         moreBut.addTarget(self, action: #selector(clickMoreAction(sender:)), for: .touchUpInside)
 
         
@@ -114,14 +129,18 @@ class PrinterInfoCell: BaseTableViewCell {
             //启用
             nameLab.textColor = .black
             ipLab.textColor = HCOLOR("#666666")
+            copiesLab.textColor = HCOLOR("#666666")
         } else {
             //禁用
             nameLab.textColor = HCOLOR("#CCCCCC")
             ipLab.textColor = HCOLOR("#CCCCCC")
+            copiesLab.textColor = HCOLOR("#CCCCCC")
         }
         
         nameLab.text = model.name
-        ipLab.text = "IP:\(model.ip)"
+        ipLab.text = "IP: \(model.ip)"
+        copiesLab.text = "Print copies: \(model.printNum)"
+        
     }
     
 

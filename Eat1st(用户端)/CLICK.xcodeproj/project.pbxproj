@@ -209,6 +209,7 @@
 		E3B1CF9D284F476D0044D69F /* AfterSalesTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B1CF9C284F476D0044D69F /* AfterSalesTitleCell.swift */; };
 		E3B1CF9F2850495C0044D69F /* AfterSalesDetailReasonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B1CF9E2850495C0044D69F /* AfterSalesDetailReasonCell.swift */; };
 		E3B2B2F029E13B7F003B6A2F /* MenuTimeTabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B2B2EF29E13B7F003B6A2F /* MenuTimeTabCell.swift */; };
+		E3B2D7602B215918003847C4 /* PhoneLoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B2D75F2B215918003847C4 /* PhoneLoginController.swift */; };
 		E3B3B13A28603DDD007CCED4 /* DeviceID.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B3B13828603DDD007CCED4 /* DeviceID.m */; };
 		E3B3FC3027C32EAF00B479B7 /* FAQController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B3FC2F27C32EAF00B479B7 /* FAQController.swift */; };
 		E3B3FC3227C36B4800B479B7 /* FAQDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B3FC3127C36B4800B479B7 /* FAQDetailController.swift */; };
@@ -300,6 +301,10 @@
 		E3EBB21E28E13893007CCB22 /* 金币喷散动图-横版.gif in Resources */ = {isa = PBXBuildFile; fileRef = E3EBB21B28E13891007CCB22 /* 金币喷散动图-横版.gif */; };
 		E3EBB21F28E13893007CCB22 /* 优惠劵背景.gif in Resources */ = {isa = PBXBuildFile; fileRef = E3EBB21C28E13893007CCB22 /* 优惠劵背景.gif */; };
 		E3EBB23F28E4453E007CCB22 /* ContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3EBB23E28E4453E007CCB22 /* ContentController.swift */; };
+		E3F4A9CB2B22A49C00494E39 /* SetPasswordContrller.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F4A9CA2B22A49C00494E39 /* SetPasswordContrller.swift */; };
+		E3F4A9CD2B22E4A200494E39 /* ResetPasswordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F4A9CC2B22E4A200494E39 /* ResetPasswordController.swift */; };
+		E3F4A9CF2B23010400494E39 /* FindPasswordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F4A9CE2B23010400494E39 /* FindPasswordController.swift */; };
+		E3F4A9D12B234F7000494E39 /* MenuDishesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F4A9D02B234F7000494E39 /* MenuDishesCell.swift */; };
 		E3F82A1E2872C970005E5FAB /* VersionAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F82A1D2872C970005E5FAB /* VersionAlert.swift */; };
 		E3F82A2F287520D4005E5FAB /* StoreMenuOrderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F82A2E287520D4005E5FAB /* StoreMenuOrderController.swift */; };
 		E3F82A312875214F005E5FAB /* MenuNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F82A302875214F005E5FAB /* MenuNavBarView.swift */; };
@@ -545,6 +550,7 @@
 		E3B1CF9C284F476D0044D69F /* AfterSalesTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterSalesTitleCell.swift; sourceTree = "<group>"; };
 		E3B1CF9E2850495C0044D69F /* AfterSalesDetailReasonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterSalesDetailReasonCell.swift; sourceTree = "<group>"; };
 		E3B2B2EF29E13B7F003B6A2F /* MenuTimeTabCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTimeTabCell.swift; sourceTree = "<group>"; };
+		E3B2D75F2B215918003847C4 /* PhoneLoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneLoginController.swift; sourceTree = "<group>"; };
 		E3B3B13828603DDD007CCED4 /* DeviceID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceID.m; sourceTree = "<group>"; };
 		E3B3B13928603DDD007CCED4 /* DeviceID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceID.h; sourceTree = "<group>"; };
 		E3B3FC2F27C32EAF00B479B7 /* FAQController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQController.swift; sourceTree = "<group>"; };
@@ -653,6 +659,10 @@
 		E3EBB21B28E13891007CCB22 /* 金币喷散动图-横版.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "金币喷散动图-横版.gif"; sourceTree = "<group>"; };
 		E3EBB21C28E13893007CCB22 /* 优惠劵背景.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "优惠劵背景.gif"; sourceTree = "<group>"; };
 		E3EBB23E28E4453E007CCB22 /* ContentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentController.swift; sourceTree = "<group>"; };
+		E3F4A9CA2B22A49C00494E39 /* SetPasswordContrller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPasswordContrller.swift; sourceTree = "<group>"; };
+		E3F4A9CC2B22E4A200494E39 /* ResetPasswordController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordController.swift; sourceTree = "<group>"; };
+		E3F4A9CE2B23010400494E39 /* FindPasswordController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordController.swift; sourceTree = "<group>"; };
+		E3F4A9D02B234F7000494E39 /* MenuDishesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDishesCell.swift; sourceTree = "<group>"; };
 		E3F82A1D2872C970005E5FAB /* VersionAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionAlert.swift; sourceTree = "<group>"; };
 		E3F82A2E287520D4005E5FAB /* StoreMenuOrderController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreMenuOrderController.swift; sourceTree = "<group>"; };
 		E3F82A302875214F005E5FAB /* MenuNavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuNavBarView.swift; sourceTree = "<group>"; };
@@ -714,6 +724,7 @@
 			isa = PBXGroup;
 			children = (
 				E31790CE28C58552007BA6B9 /* PersonalInfoController.swift */,
+				E3F4A9CC2B22E4A200494E39 /* ResetPasswordController.swift */,
 			);
 			path = "个人信息";
 			sourceTree = "<group>";
@@ -740,7 +751,10 @@
 			isa = PBXGroup;
 			children = (
 				E326D9F42AC2BF410060C0BE /* LogInController.swift */,
+				E3B2D75F2B215918003847C4 /* PhoneLoginController.swift */,
 				E326DA112AE9397D0060C0BE /* LoginVeriCodeController.swift */,
+				E3F4A9CA2B22A49C00494E39 /* SetPasswordContrller.swift */,
+				E3F4A9CE2B23010400494E39 /* FindPasswordController.swift */,
 				E326DA0F2AE9200E0060C0BE /* AreaAlert.swift */,
 			);
 			path = New;
@@ -1318,6 +1332,7 @@
 				E36D169928767EDC003CE4BE /* ClassifySectionHeader.swift */,
 				E30E72BA26B923C1001919AD /* MenuTypeCell.swift */,
 				E30E72BC26B923DA001919AD /* MenuGoodsCell.swift */,
+				E3F4A9D02B234F7000494E39 /* MenuDishesCell.swift */,
 				E3A30498299CDEBC0023DCC1 /* MenuMealGoodsCell.swift */,
 				E38BF4C2288FDCEF0048F2EA /* MenuGoodsCell_Big.swift */,
 				E33C189529A3260600D4D4E3 /* CartCell.swift */,
@@ -1857,6 +1872,7 @@
 				E30E72C926BAB228001919AD /* StoreIntroduceTimeCell.swift in Sources */,
 				E34929E326DA02D90014F40E /* OrderChoosePayWayCell.swift in Sources */,
 				E39BF3A226B11EE4009E6330 /* StoreListController.swift in Sources */,
+				E3B2D7602B215918003847C4 /* PhoneLoginController.swift in Sources */,
 				E33C189429A078B900D4D4E3 /* DishDetailHeaderCell.swift in Sources */,
 				E326DA042AE12A820060C0BE /* OrderTitleCell.swift in Sources */,
 				E373803C2A395B280008A67C /* ScanConfirmOrderController.swift in Sources */,
@@ -1901,6 +1917,7 @@
 				E3949AE726AE50AF00160C75 /* MainNaviController.swift in Sources */,
 				E3949AC326AE4EAE00160C75 /* LTPageTitleView.swift in Sources */,
 				E31790CF28C58552007BA6B9 /* PersonalInfoController.swift in Sources */,
+				E3F4A9D12B234F7000494E39 /* MenuDishesCell.swift in Sources */,
 				E3C7CFE1280CFB4000992CDE /* CollectionViewCell.swift in Sources */,
 				E3E8CAAA28266B3000611323 /* PlaintDishModel.swift in Sources */,
 				E374A4E426CD2E2D009C8AB2 /* StoreInfoModel.swift in Sources */,
@@ -1952,6 +1969,7 @@
 				E3B3FC3227C36B4800B479B7 /* FAQDetailController.swift in Sources */,
 				E39BF3C626B7D76E009E6330 /* MenuBottomToolView.swift in Sources */,
 				E3DE48C0277599BF00F3DCCD /* OderListConfirmController.swift in Sources */,
+				E3F4A9CB2B22A49C00494E39 /* SetPasswordContrller.swift in Sources */,
 				E34929E526DA1DB00014F40E /* OrderInputZQCell.swift in Sources */,
 				E3B1CF9F2850495C0044D69F /* AfterSalesDetailReasonCell.swift in Sources */,
 				E3406B8F26D0DA4F00915ADA /* SizeAllergenCell.swift in Sources */,
@@ -2001,6 +2019,7 @@
 				E32539B6276C774000EC0C84 /* OrderSelectTagView.swift in Sources */,
 				E3B3FCE627C36E4800B479B7 /* HXQView.swift in Sources */,
 				E3F82A3328755E71005E5FAB /* MenuDiscountCell.swift in Sources */,
+				E3F4A9CD2B22E4A200494E39 /* ResetPasswordController.swift in Sources */,
 				E39147CE282E534000E9D37C /* OrderDetailButCell.swift in Sources */,
 				E3AD363127FC600B00AA121F /* StoreReviewsCell.swift in Sources */,
 				E39BF3C926B7F171009E6330 /* MenuContentCell.swift in Sources */,
@@ -2024,6 +2043,7 @@
 				E3C7F8C026C20D1C006BF56E /* OrderpayMoneyCell.swift in Sources */,
 				E39BF3B126B26E28009E6330 /* LocationController.swift in Sources */,
 				E3949ABD26AE4EAE00160C75 /* LTSimpleManager.swift in Sources */,
+				E3F4A9CF2B23010400494E39 /* FindPasswordController.swift in Sources */,
 				E326DA082AE132400060C0BE /* OrderCouponProgressCell.swift in Sources */,
 				E36E9AA326CA06D000483736 /* ApiManager.swift in Sources */,
 				E34929A226D8B04D0014F40E /* ChooseCouponsController.swift in Sources */,
@@ -2224,6 +2244,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 35BB367F397E1F4854163DFD /* Pods-CLICK.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
@@ -2257,6 +2278,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E23B41EFBC775033C10209C7 /* Pods-CLICK.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;

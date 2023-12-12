@@ -87,6 +87,12 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
         let view = EditPriceView()
         return view
     }()
+    
+    //买一赠一
+    private lazy var giveView: EditeFreeOneView = {
+        let view = EditeFreeOneView()
+        return view
+    }()
 
     
     
@@ -268,6 +274,13 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
                 let model = self.dishArr[indexPath.row]
                 priceView.setAlertData(id: model.id, sellType: model.sellType, buffetType: model.buffetType, dePrice: model.deliPrice, dinePrice: model.dinePrice)
                 priceView.appearAction()
+            }
+            
+            if par == "give" {
+                //买一赠一
+                let model = self.dishArr[indexPath.row]
+                giveView.setAlertData(isGive: model.isGiveOne, dishId: model.id)
+                giveView.appearAction()
             }
             
         }

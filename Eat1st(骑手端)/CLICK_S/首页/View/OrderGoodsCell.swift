@@ -50,13 +50,6 @@ class OrderGoodsCell: BaseTableViewCell {
         return lab
     }()
     
-    private let freeLab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#2AD389"), BFONT(18), .right)
-        lab.text = "FREE"
-        return lab
-    }()
-    
     private let desLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#777777"), SFONT(13), .left)
@@ -65,6 +58,36 @@ class OrderGoodsCell: BaseTableViewCell {
         lab.text = "options,options,options,options"
         return lab
     }()
+    
+    
+    private let giveOneBackView: UIView = {
+        let view = UIView()
+        view.backgroundColor = HCOLOR("#FFD645").withAlphaComponent(0.12)
+        view.layer.cornerRadius = 3
+        return view
+    }()
+    
+    
+    private let freeMoneyLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#FB5348"), BFONT(8), .left)
+        lab.text = "£0.00"
+        return lab
+    }()
+    
+    private let freeImg: UIImageView = {
+        let img = UIImageView()
+        img.image = LOIMG("free")
+        return img
+    }()
+    
+    private let freeCountLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#666666"), BFONT(10), .right)
+        lab.text = "x2"
+        return lab
+    }()
+
     
 
     override func setViews() {
@@ -110,28 +133,49 @@ class OrderGoodsCell: BaseTableViewCell {
             $0.left.right.equalTo(nameLab)
             $0.top.equalTo(nameLab.snp.bottom).offset(5)
         }
-        
-        contentView.addSubview(freeLab)
-        freeLab.snp.makeConstraints {
-            $0.right.equalToSuperview().offset(-10)
-            $0.top.equalToSuperview().offset(20)
+            
+        contentView.addSubview(giveOneBackView)
+        giveOneBackView.snp.makeConstraints {
+            $0.left.equalTo(nameLab)
+            $0.right.equalToSuperview().offset(-110)
+            $0.height.equalTo(20)
+            $0.bottom.equalToSuperview().offset(-15)
         }
+        
+        giveOneBackView.addSubview(freeMoneyLab)
+        freeMoneyLab.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalToSuperview().offset(6)
+        }
+        
+        giveOneBackView.addSubview(freeImg)
+        freeImg.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 35, height: 11))
+            $0.centerY.equalToSuperview()
+            $0.left.equalToSuperview().offset(35)
+        }
+        
+        giveOneBackView.addSubview(freeCountLab)
+        freeCountLab.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.right.equalToSuperview().offset(-7)
+        }
+
         
     }
     
     
-    func setCellData(model: OrderDishModel, isGift: Bool) {
+    func setCellData(model: OrderDishModel) {
         
-        if isGift {
-            self.freeLab.isHidden = false
-            self.countLab.text = "x1"
+        if model.isGiveOne {
+            giveOneBackView.isHidden = false
+            
         } else {
-            self.freeLab.isHidden = true
-            self.countLab.text = "x\(model.count)"
+            giveOneBackView.isHidden = true
         }
         
-        self.slab.isHidden = isGift
-        self.moneyLab.isHidden = isGift
+        freeCountLab.text = "x\(model.count)"
+        countLab.text = "x\(model.count)"
         self.goodsImg.sd_setImage(with: URL(string: model.listImg), completed: nil)
         nameLab.text = model.nameStr
         desLab.text = model.desStr
@@ -139,6 +183,8 @@ class OrderGoodsCell: BaseTableViewCell {
     }
     
 }
+
+
 
 
 class OrderGiftCell: BaseTableViewCell {
@@ -159,6 +205,94 @@ class OrderGiftCell: BaseTableViewCell {
         }
     }
     
+}
+
+
+
+
+class OrderGoodsFreeCell: BaseTableViewCell {
+
     
+    private let goodsImg: UIImageView = {
+        let img = UIImageView()
+        img.backgroundColor = HOLDCOLOR
+        img.clipsToBounds = true
+        img.layer.cornerRadius = 10
+        img.contentMode = .scaleAspectFill
+        return img
+    }()
+
+    
+    private let nameLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(FONTCOLOR, BFONT(14), .left)
+        lab.text = "Dish Name 1"
+        lab.numberOfLines = 0
+        lab.lineBreakMode = .byTruncatingTail
+        return lab
+    }()
+    
+
+    
+    private let countLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#777777"), SFONT(14), .right)
+        lab.text = "x1"
+        return lab
+    }()
+    
+    private let freeLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#2AD389"), BFONT(18), .right)
+        lab.text = "FREE"
+        return lab
+    }()
+        
+
+    override func setViews() {
+        
+        contentView.backgroundColor = .clear
+        self.backgroundColor = .clear
+        
+        
+        contentView.addSubview(goodsImg)
+        goodsImg.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 60, height: 60))
+            $0.left.equalToSuperview().offset(10)
+            $0.centerY.equalToSuperview()
+        }
+
+        contentView.addSubview(nameLab)
+        nameLab.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(80)
+            $0.top.equalToSuperview().offset(10)
+            $0.right.equalToSuperview().offset(-80)
+            $0.bottom.equalToSuperview().offset(-20)
+        }
+                
+        
+        contentView.addSubview(freeLab)
+        freeLab.snp.makeConstraints {
+            $0.right.equalToSuperview().offset(-10)
+            $0.top.equalToSuperview().offset(20)
+        }
+        
+        contentView.addSubview(countLab)
+        countLab.snp.makeConstraints {
+            $0.top.equalTo(freeLab.snp.bottom).offset(3)
+            $0.right.equalToSuperview().offset(-10)
+        }
+        
+    }
+    
+    
+    func setCellData(model: OrderDishModel) {
+        self.goodsImg.sd_setImage(with: URL(string: model.listImg), completed: nil)
+        nameLab.text = model.nameStr
+    }
     
 }
+
+
+
+

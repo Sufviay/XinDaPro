@@ -78,6 +78,7 @@ class PrinterSettingController: HeadBaseViewController, UITableViewDelegate, UIT
     private func setUpUI() {
         
         view.addSubview(backView)
+        
         backView.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(S_H - statusBarH - 80)
@@ -111,13 +112,13 @@ class PrinterSettingController: HeadBaseViewController, UITableViewDelegate, UIT
 
     
     @objc private func clickAddAction() {
-        editAlert.setData(name: "", ip: "", id: "")
+        editAlert.setData(name: "", ip: "", id: "", copy: "")
         editAlert.appearAction()
     }
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 85
+        return 95
     }
     
 
@@ -139,7 +140,7 @@ class PrinterSettingController: HeadBaseViewController, UITableViewDelegate, UIT
             
             if type as! String == "edit" {
                 //编辑
-                editAlert.setData(name: dataArr[indexPath.row].name, ip: dataArr[indexPath.row].ip, id: dataArr[indexPath.row].printerId)
+                editAlert.setData(name: dataArr[indexPath.row].name, ip: dataArr[indexPath.row].ip, id: dataArr[indexPath.row].printerId, copy: dataArr[indexPath.row].printNum)
                 editAlert.appearAction()
             }
             

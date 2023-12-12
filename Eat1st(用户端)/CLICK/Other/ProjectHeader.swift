@@ -243,7 +243,7 @@ typealias VoidStringBlock = (_ str: String) -> ()
 //MARK: - 网络
 let HTTPTOOl = HttpTool.shared
 
-let ISONLINE: Bool = true
+let ISONLINE: Bool = false
 
 //2 为正式的测试
 let ENV: String = "1"

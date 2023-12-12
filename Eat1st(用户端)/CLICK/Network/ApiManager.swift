@@ -170,13 +170,20 @@ enum ApiManager {
     ///获取国家列表
     case getCountryList
     ///发送验证码
-    case sendSMSCode(countryCode: String, phone: String)
+    case sendSMSCode(countryCode: String, phone: String, type: String)
     ///手机登陆
     case loginPhone(countryCode: String, phone: String, smsID: String, smsCode: String)
+    ///设置密码
+    case setLoginPWD(pwd: String)
+    ///修改密码
+    case doUpdatePWD(oldPwd: String, newPwd: String)
+    ///密码登录
+    case loginPWD(countryCode: String, phone: String, pwd: String)
+    ///找回密码
+    case findPWD(countryCode: String, phone: String, smsID: String, smsCode: String, pwd: String)
     
-
-
-
+    
+    
 
 
     
@@ -376,14 +383,20 @@ extension ApiManager: TargetType {
             return "api/user/desk/checkDesk"
         case .getCountryList:
             return "api/user/login/getSmsCountryList"
-        case .sendSMSCode(countryCode: _, phone: _):
+        case .sendSMSCode(countryCode: _, phone: _, type: _):
             return "api/user/login/getSmsCode"
         case .loginPhone(countryCode: _, phone: _, smsID: _, smsCode: _):
             return "api/user/login/loginPhone"
+        case .setLoginPWD(pwd: _):
+            return "api/user/doSetLoginPwd"
+        case .doUpdatePWD(oldPwd: _, newPwd: _):
+            return "api/user/doUpdatePwd"
+        case .findPWD(countryCode: _, phone: _, smsID: _, smsCode: _, pwd: _):
+            return "api/user/login/findPwd"
+        case .loginPWD(countryCode: _, phone: _, pwd: _):
+            return "api/user/login/loginPwd"
             
             
-            
-
             
             
             
@@ -591,14 +604,18 @@ extension ApiManager: TargetType {
             dic = ["deskId": deskID, "storeId": storeID]
         case .getCountryList:
             dic = [:]
-        case .sendSMSCode(let countryCode, let phone):
-            dic = ["countryCode": countryCode, "phone": phone]
+        case .sendSMSCode(let countryCode, let phone, let type):
+            dic = ["countryCode": countryCode, "phone": phone, "useType": type]
         case .loginPhone(let countryCode, let phone, let smsID, let smsCode):
             dic = ["countryCode": countryCode, "phone": phone, "code": smsCode, "smsId": smsID]
-            
-            
-            
-            
+        case .setLoginPWD(let pwd):
+            dic = ["password": pwd]
+        case .doUpdatePWD(let oldPwd, let newPwd):
+            dic = ["oldPassword": oldPwd, "newPassword": newPwd]
+        case .findPWD(let countryCode, let phone, let smsID, let smsCode, let pwd):
+            dic = ["countryCode": countryCode, "phone": phone, "code": smsCode, "smsId": smsID, "password": pwd]
+        case .loginPWD(let countryCode, let phone, let pwd):
+            dic = ["countryCode": countryCode, "phone": phone, "password": pwd]  
             
             
 
@@ -700,7 +717,12 @@ enum NetworkError: Error {
     case imageError
     case medicalError
     
+    ///优惠券不存在
     case errorCode10
+    ///手机号不存在
+    case errorCode11
+    ///未设置密码
+    case errorCode12
     
 } 
 
@@ -712,6 +734,11 @@ class ErrorTool {
             return ERROR_Message
         case .errorCode10:
             return ERROR_Message
+        case .errorCode11:
+            return ERROR_Message
+        case .errorCode12:
+            return ERROR_Message
+            
         case .serverError:
             return "Server connection error"
         case .netError:

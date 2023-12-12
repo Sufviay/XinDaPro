@@ -115,6 +115,7 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
         view.canBeZero = false
         view.countBlock = { [unowned self] (count) in
             print(count as! Int)
+            freeCountLab.text = "x\(count as! Int)"
             self.countBlock?(count as! Int)
         }
         return view
@@ -135,7 +136,37 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
         coll.backgroundColor = .clear
         coll.showsHorizontalScrollIndicator = false
         coll.register(DishTagCell.self, forCellWithReuseIdentifier: "DishTagCell")
+        coll.register(BuyOneGiveOneTagCell.self, forCellWithReuseIdentifier: "BuyOneGiveOneTagCell")
         return coll
+    }()
+    
+    
+    private let giveOneBackView: UIView = {
+        let view = UIView()
+        view.backgroundColor = HCOLOR("#FFD645").withAlphaComponent(0.12)
+        view.layer.cornerRadius = 3
+        return view
+    }()
+    
+    
+    private let freeMoneyLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#FB5348"), BFONT(11), .left)
+        lab.text = "£0.00"
+        return lab
+    }()
+    
+    private let freeImg: UIImageView = {
+        let img = UIImageView()
+        img.image = LOIMG("free")
+        return img
+    }()
+    
+    private let freeCountLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#666666"), BFONT(10), .right)
+        lab.text = "x2"
+        return lab
     }()
 
     
@@ -173,7 +204,7 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
         collection.snp.makeConstraints {
             $0.left.equalToSuperview().offset(10)
             $0.top.equalTo(nameLab.snp.bottom).offset(3)
-            $0.height.equalTo(14)
+            $0.height.equalTo(15)
             $0.right.equalToSuperview().offset(-20)
         }
         
@@ -215,6 +246,7 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
             $0.edges.equalToSuperview()
         }
         
+    
         
         
         backView.addSubview(selectView)
@@ -232,11 +264,42 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
             $0.right.equalToSuperview().offset(-90)
         }
         
+        
+        backView.addSubview(giveOneBackView)
+        giveOneBackView.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(10)
+            $0.right.equalToSuperview().offset(-60)
+            $0.height.equalTo(24)
+            $0.top.equalTo(desLab.snp.bottom).offset(8)
+        }
+        
+        
+        
+        giveOneBackView.addSubview(freeMoneyLab)
+        freeMoneyLab.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalToSuperview().offset(6)
+        }
+        
+        giveOneBackView.addSubview(freeImg)
+        freeImg.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 35, height: 11))
+            $0.centerY.equalToSuperview()
+            $0.left.equalToSuperview().offset(50)
+        }
+        
+        giveOneBackView.addSubview(freeCountLab)
+        freeCountLab.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.right.equalToSuperview().offset(-7)
+        }
+
+        
         backView.addSubview(gmyLab)
         gmyLab.snp.makeConstraints {
             $0.left.equalToSuperview().offset(40)
             $0.right.equalToSuperview().offset(-70)
-            $0.top.equalTo(desLab.snp.bottom).offset(10)
+            $0.bottom.equalToSuperview().offset(-15)
         }
         
         backView.addSubview(s_img)
@@ -257,8 +320,17 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
        
         if canBuy {
             selectView.isHidden = false
+            if model.isGiveOne {
+                giveOneBackView.isHidden = false
+                freeCountLab.text = "x\(selectCount)"
+                
+            } else {
+                giveOneBackView.isHidden = true
+            }
+            
         } else {
             selectView.isHidden = true
+            giveOneBackView.isHidden = true
         }
         
         if model.specification.count == 0 {
@@ -267,8 +339,10 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
             self.tlab.text = "from"
         }
         
+        if model.detailImgArr.count != 0 {
+            self.headImg.setImage(imageStr: model.detailImgArr[0])
+        }
         
-        self.headImg.setImage(imageStr: model.detailImgArr[0])
         self.nameLab.text = model.name_E
         self.desLab.text = model.des
         self.selectView.count = selectCount
@@ -290,7 +364,7 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
 
         }
         
-        self.tagArr = model.tagList.filter{ $0.tagImg != "" }
+        self.tagArr = model.tagList//.filter{ $0.tagImg != "" }
         self.collection.reloadData()
 
     }
@@ -302,43 +376,65 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DishTagCell", for: indexPath) as! DishTagCell
-        cell.nameLab.text = tagArr[indexPath.item].tagName
         
-        if tagArr[indexPath.item].tagImg == "" {
-            cell.setImage(img: nil)
-        } else {
-            //赋值图片
-            let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
-            if img == nil {
-                //下载图片
+        let tag = tagArr[indexPath.item]
+        
+        if tag.tagType == "1" {
+            cell.nameLab.text = tag.tagName
+            
+            if tag.tagImg == "" {
                 cell.setImage(img: nil)
-                self.downLoadImgage(url: tagArr[indexPath.row].tagImg)
             } else {
-                cell.setImage(img: img)
+                //赋值图片
+                let img = SDImageCache.shared.imageFromCache(forKey: tag.tagImg)
+                if img == nil {
+                    //下载图片
+                    cell.setImage(img: nil)
+                    self.downLoadImgage(url: tag.tagImg)
+                } else {
+                    cell.setImage(img: img)
+                }
             }
+            return cell
         }
         
-        return cell
+        if tag.tagType == "2" {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BuyOneGiveOneTagCell", for: indexPath) as! BuyOneGiveOneTagCell
+            return cell
+        }
+
+        return UICollectionViewCell()
+
     }
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let textW = tagArr[indexPath.item].tagName.getTextWidth(SFONT(11), 14)
-                
-        if tagArr[indexPath.item].tagImg == "" {
-            return CGSize(width: textW, height: 14)
-        } else {
-            //从缓存中查找图片
-            let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
-
-            if img == nil {
+        let tag = tagArr[indexPath.item]
+        
+        if tag.tagType == "1" {
+            let textW = tag.tagName.getTextWidth(SFONT(11), 14)
+                    
+            if tag.tagImg == "" {
                 return CGSize(width: textW, height: 14)
+            } else {
+                //从缓存中查找图片
+                let img = SDImageCache.shared.imageFromCache(forKey: tag.tagImg)
+
+                if img == nil {
+                    return CGSize(width: textW, height: 14)
+                }
+                //根据图片计算宽度
+                let img_W = (img!.size.width * 14) / img!.size.height
+                return  CGSize(width: img_W + textW + 2 , height: 14)
             }
-            //根据图片计算宽度
-            let img_W = (img!.size.width * 14) / img!.size.height
-            return  CGSize(width: img_W + textW + 2 , height: 14)
         }
+        
+        if tag.tagType == "2" {
+            return CGSize(width: 85, height: 15)
+        }
+        return CGSize.zero
+        
         
     }
     

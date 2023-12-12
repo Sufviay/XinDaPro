@@ -241,7 +241,7 @@ extension String {
         CC_MD5(utf8_str, str_len, result)
         let str = NSMutableString()
         for i in 0..<digest_len {
-            str.appendFormat("%02x", result[i])
+            str.appendFormat("%02X", result[i])
         }
         result.deallocate()
         return str as String

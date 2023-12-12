@@ -133,11 +133,14 @@ class DataInPutCell_S: BaseTableViewCell, UITextFieldDelegate {
     // let expression = "^[A-Za-z0-9]+$" //允许输入数字和字母
         let regex = try!  NSRegularExpression(pattern: expression, options: .allowCommentsAndWhitespace)
         let numberOfMatches =  regex.numberOfMatches(in: newString, options:.reportProgress,    range:NSMakeRange(0, newString.count))
-        if  numberOfMatches == 0{
+        if  numberOfMatches == 0 {
              print("请输入数字")
              return false
         }
+        
+        
       return true
+        
     }
     
     

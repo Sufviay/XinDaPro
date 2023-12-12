@@ -37,29 +37,29 @@ class CouponAlertView: BaseAlertView {
     private let titlab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(FONTCOLOR, BFONT(17), .center)
-        lab.text = "Coupon remind"
+        lab.text = "Infomation"
         return lab
     }()
     
     private let desLab: UILabel = {
         let lab = UILabel()
         lab.numberOfLines = 0
-        let tempStr = "There are coupons you can use"
+        let tempStr = "There are coupons that can be used, whether to choose now?"
         lab.attributedText = tempStr.attributedString(font: SFONT(14), textColor: FONTCOLOR, lineSpaceing: 3, wordSpaceing: 0)
-        lab.textAlignment = .center
+        lab.textAlignment = .left
         return lab
     }()
 
     private let sureBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Go to Use", .white, BFONT(15), MAINCOLOR)
+        but.setCommentStyle(.zero, "Select coupon", .white, BFONT(15), MAINCOLOR)
         but.layer.cornerRadius = 10
         return but
     }()
     
     private let cancelBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Ignore", MAINCOLOR, SFONT(13), .clear)
+        but.setCommentStyle(.zero, "Skip", MAINCOLOR, SFONT(13), .clear)
         return but
     }()
 
@@ -97,7 +97,8 @@ class CouponAlertView: BaseAlertView {
         
         backView.addSubview(desLab)
         desLab.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
+            $0.left.equalToSuperview().offset(20)
+            $0.right.equalToSuperview().offset(-20)
             $0.top.equalTo(titlab.snp.bottom).offset(15)
         }
         

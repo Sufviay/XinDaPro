@@ -80,6 +80,7 @@ class OrderGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionV
         coll.backgroundColor = .clear
         coll.showsHorizontalScrollIndicator = false
         coll.register(DishTagCell.self, forCellWithReuseIdentifier: "DishTagCell")
+        coll.register(BuyOneGiveOneTagCell.self, forCellWithReuseIdentifier: "BuyOneGiveOneTagCell")
         return coll
     }()
     
@@ -110,17 +111,45 @@ class OrderGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionV
         return lab
     }()
     
-    private let freeLab: UILabel = {
+//    private let freeLab: UILabel = {
+//        let lab = UILabel()
+//        lab.setCommentStyle(HCOLOR("#2AD389"), BFONT(18), .right)
+//        lab.text = "FREE"
+//        return lab
+//    }()
+//
+//    private let freeCountLab: UILabel = {
+//        let lab = UILabel()
+//        lab.setCommentStyle(HCOLOR("666666"), SFONT(14), .right)
+//        lab.text = "x1"
+//        return lab
+//    }()
+    
+    private let giveOneBackView: UIView = {
+        let view = UIView()
+        view.backgroundColor = HCOLOR("#FFD645").withAlphaComponent(0.12)
+        view.layer.cornerRadius = 3
+        return view
+    }()
+    
+    
+    private let freeMoneyLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#2AD389"), BFONT(18), .right)
-        lab.text = "FREE"
+        lab.setCommentStyle(HCOLOR("#FB5348"), BFONT(8), .left)
+        lab.text = "£0.00"
         return lab
+    }()
+    
+    private let freeImg: UIImageView = {
+        let img = UIImageView()
+        img.image = LOIMG("free")
+        return img
     }()
     
     private let freeCountLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("666666"), SFONT(14), .right)
-        lab.text = "x1"
+        lab.setCommentStyle(HCOLOR("#666666"), BFONT(10), .right)
+        lab.text = "x2"
         return lab
     }()
 
@@ -148,15 +177,15 @@ class OrderGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionV
         nameLab.snp.makeConstraints {
             $0.left.equalTo(goodsImg.snp.right).offset(10)
             $0.top.equalToSuperview().offset(10)
-            $0.right.equalToSuperview().offset(-70)
+            $0.right.equalToSuperview().offset(-110)
         }
         
         contentView.addSubview(collection)
         collection.snp.makeConstraints {
             $0.left.equalTo(nameLab)
-            $0.height.equalTo(14)
-            $0.top.equalTo(nameLab.snp.bottom).offset(0)
-            $0.right.equalToSuperview().offset(-70)
+            $0.height.equalTo(15)
+            $0.top.equalTo(nameLab.snp.bottom).offset(2)
+            $0.right.equalToSuperview().offset(-110)
         }
 
         
@@ -181,8 +210,8 @@ class OrderGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionV
         backView.addSubview(desLab)
         desLab.snp.makeConstraints {
             $0.left.equalTo(nameLab)
-            $0.top.equalTo(nameLab.snp.bottom).offset(15)
-            $0.right.equalToSuperview().offset(-60)
+            $0.top.equalTo(nameLab.snp.bottom).offset(18)
+            $0.right.equalToSuperview().offset(-110)
         }
         
         
@@ -212,20 +241,46 @@ class OrderGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionV
         }
         
         
-        backView.addSubview(freeLab)
-        freeLab.snp.makeConstraints {
-            $0.right.equalToSuperview().offset(-10)
-            $0.bottom.equalTo(goodsImg.snp.centerY).offset(-2)
+//        backView.addSubview(freeLab)
+//        freeLab.snp.makeConstraints {
+//            $0.right.equalToSuperview().offset(-10)
+//            $0.bottom.equalTo(goodsImg.snp.centerY).offset(-2)
+//        }
+//
+//        backView.addSubview(freeCountLab)
+//        freeCountLab.snp.makeConstraints {
+//            $0.right.equalToSuperview().offset(-10)
+//            $0.top.equalTo(goodsImg.snp.centerY).offset(0)
+//        }
+        
+        backView.addSubview(giveOneBackView)
+        giveOneBackView.snp.makeConstraints {
+            $0.left.equalTo(nameLab)
+            $0.right.equalToSuperview().offset(-110)
+            $0.height.equalTo(20)
+            $0.bottom.equalToSuperview().offset(-15)
         }
         
-        backView.addSubview(freeCountLab)
+        giveOneBackView.addSubview(freeMoneyLab)
+        freeMoneyLab.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalToSuperview().offset(6)
+        }
+        
+        giveOneBackView.addSubview(freeImg)
+        freeImg.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 35, height: 11))
+            $0.centerY.equalToSuperview()
+            $0.left.equalToSuperview().offset(35)
+        }
+        
+        giveOneBackView.addSubview(freeCountLab)
         freeCountLab.snp.makeConstraints {
-            $0.right.equalToSuperview().offset(-10)
-            $0.top.equalTo(goodsImg.snp.centerY).offset(0)
+            $0.centerY.equalToSuperview()
+            $0.right.equalToSuperview().offset(-7)
         }
-        
-    }
 
+    }
    
 
     func setOrderCellData(model: OrderDishModel) {
@@ -233,14 +288,22 @@ class OrderGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionV
         self.nameLab.text = model.name_E
         self.desLab.text = model.des_E
         self.countLab.text = "x\(model.count)"
-        self.tagArr = model.tagList.filter{ $0.tagImg != "" }
+        self.tagArr = model.tagList//.filter{ $0.tagImg != "" }
+        
+        if model.isGiveOne {
+            giveOneBackView.isHidden = false
+        } else {
+            giveOneBackView.isHidden = true
+        }
+        
+        freeCountLab.text = "x\(model.count)"
         
         //正常的菜
-        self.freeLab.isHidden = true
-        self.freeCountLab.isHidden = true
-        self.slab.isHidden = false
-        self.moneyLab.isHidden = false
-        self.countLab.isHidden = false
+//        self.freeLab.isHidden = true
+//        self.freeCountLab.isHidden = true
+//        self.slab.isHidden = false
+//        self.moneyLab.isHidden = false
+//        self.countLab.isHidden = false
 
         if model.discountType == "2" {
             //有优惠
@@ -273,43 +336,64 @@ class OrderGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DishTagCell", for: indexPath) as! DishTagCell
-        cell.nameLab.text = tagArr[indexPath.item].tagName
         
-        if tagArr[indexPath.item].tagImg == "" {
-            cell.setImage(img: nil)
-        } else {
-            //赋值图片
-            let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
-            if img == nil {
-                //下载图片
+        let tag = tagArr[indexPath.item]
+        if tag.tagType == "1" {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DishTagCell", for: indexPath) as! DishTagCell
+            cell.nameLab.text = tag.tagName
+            if tag.tagImg == "" {
                 cell.setImage(img: nil)
-                self.downLoadImgage(url: tagArr[indexPath.row].tagImg)
             } else {
-                cell.setImage(img: img)
+                //赋值图片
+                let img = SDImageCache.shared.imageFromCache(forKey: tag.tagImg)
+                if img == nil {
+                    //下载图片
+                    cell.setImage(img: nil)
+                    self.downLoadImgage(url: tag.tagImg)
+                } else {
+                    cell.setImage(img: img)
+                }
             }
+            return cell
         }
+        
+        if tag.tagType == "2" {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BuyOneGiveOneTagCell", for: indexPath) as! BuyOneGiveOneTagCell
+            return cell
+        }
+        
+        let cell = UICollectionViewCell()
         return cell
     }
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let textW = tagArr[indexPath.item].tagName.getTextWidth(SFONT(11), 14)
-                
-        if tagArr[indexPath.item].tagImg == "" {
-            return CGSize(width: textW, height: 14)
-        } else {
-            //从缓存中查找图片
-            let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
-
-            if img == nil {
+        let tag = tagArr[indexPath.item]
+        
+        if tag.tagType == "1" {
+            let textW = tagArr[indexPath.item].tagName.getTextWidth(SFONT(11), 14)
+                    
+            if tagArr[indexPath.item].tagImg == "" {
                 return CGSize(width: textW, height: 14)
+            } else {
+                //从缓存中查找图片
+                let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
+
+                if img == nil {
+                    return CGSize(width: textW, height: 14)
+                }
+                //根据图片计算宽度
+                let img_W = (img!.size.width * 14) / img!.size.height
+                return  CGSize(width: img_W + textW + 2 , height: 14)
             }
-            //根据图片计算宽度
-            let img_W = (img!.size.width * 14) / img!.size.height
-            return  CGSize(width: img_W + textW + 2 , height: 14)
         }
+        
+        if tag.tagType == "2" {
+            return CGSize(width: 85, height: 15)
+        }
+
+        return CGSize.zero
     }
 
     
@@ -424,19 +508,19 @@ class OrderConfirmGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UIColl
         return lab
     }()
     
-    private let freeLab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#2AD389"), BFONT(18), .right)
-        lab.text = "FREE"
-        return lab
-    }()
-    
-    private let countLab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(14), .right)
-        lab.text = "x1"
-        return lab
-    }()
+//    private let freeLab: UILabel = {
+//        let lab = UILabel()
+//        lab.setCommentStyle(HCOLOR("#2AD389"), BFONT(18), .right)
+//        lab.text = "FREE"
+//        return lab
+//    }()
+//
+//    private let countLab: UILabel = {
+//        let lab = UILabel()
+//        lab.setCommentStyle(HCOLOR("#666666"), SFONT(14), .right)
+//        lab.text = "x1"
+//        return lab
+//    }()
     
     
     private lazy var collection: UICollectionView = {
@@ -453,7 +537,37 @@ class OrderConfirmGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UIColl
         coll.backgroundColor = .clear
         coll.showsHorizontalScrollIndicator = false
         coll.register(DishTagCell.self, forCellWithReuseIdentifier: "DishTagCell")
+        coll.register(BuyOneGiveOneTagCell.self, forCellWithReuseIdentifier: "BuyOneGiveOneTagCell")
         return coll
+    }()
+    
+    
+    private let giveOneBackView: UIView = {
+        let view = UIView()
+        view.backgroundColor = HCOLOR("#FFD645").withAlphaComponent(0.12)
+        view.layer.cornerRadius = 3
+        return view
+    }()
+    
+    
+    private let freeMoneyLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#FB5348"), BFONT(8), .left)
+        lab.text = "£0.00"
+        return lab
+    }()
+    
+    private let freeImg: UIImageView = {
+        let img = UIImageView()
+        img.image = LOIMG("free")
+        return img
+    }()
+    
+    private let freeCountLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#666666"), BFONT(10), .right)
+        lab.text = "x2"
+        return lab
     }()
 
     override func setViews() {
@@ -480,7 +594,7 @@ class OrderConfirmGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UIColl
         nameLab.snp.makeConstraints {
             $0.left.equalTo(goodsImg.snp.right).offset(10)
             $0.top.equalToSuperview().offset(10)
-            $0.right.equalToSuperview().offset(-70)
+            $0.right.equalToSuperview().offset(-110)
         }
     
     
@@ -488,9 +602,9 @@ class OrderConfirmGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UIColl
         contentView.addSubview(collection)
         collection.snp.makeConstraints {
             $0.left.equalTo(nameLab)
-            $0.height.equalTo(14)
-            $0.top.equalTo(nameLab.snp.bottom).offset(0)
-            $0.right.equalToSuperview().offset(-70)
+            $0.height.equalTo(15)
+            $0.top.equalTo(nameLab.snp.bottom).offset(2)
+            $0.right.equalToSuperview().offset(-110)
         }
 
         
@@ -536,7 +650,7 @@ class OrderConfirmGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UIColl
         backView.addSubview(desLab)
         desLab.snp.makeConstraints {
             $0.left.equalTo(nameLab)
-            $0.top.equalTo(nameLab.snp.bottom).offset(15)
+            $0.top.equalTo(nameLab.snp.bottom).offset(18)
             $0.right.equalToSuperview().offset(-110)
         }
         
@@ -548,18 +662,46 @@ class OrderConfirmGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UIColl
             $0.top.equalTo(moneyLab.snp.bottom).offset(15)
         }
 
-        backView.addSubview(freeLab)
-        freeLab.snp.makeConstraints {
-            $0.bottom.equalTo(goodsImg.snp.centerY).offset(-2)
-            $0.right.equalToSuperview().offset(-10)
+//        backView.addSubview(freeLab)
+//        freeLab.snp.makeConstraints {
+//            $0.bottom.equalTo(goodsImg.snp.centerY).offset(-2)
+//            $0.right.equalToSuperview().offset(-10)
+//        }
+//
+//        backView.addSubview(countLab)
+//        countLab.snp.makeConstraints {
+//            $0.right.equalToSuperview().offset(-10)
+//            $0.top.equalTo(goodsImg.snp.centerY).offset(0)
+//        }
+        
+        
+        backView.addSubview(giveOneBackView)
+        giveOneBackView.snp.makeConstraints {
+            $0.left.equalTo(nameLab)
+            $0.right.equalToSuperview().offset(-110)
+            $0.height.equalTo(20)
+            $0.bottom.equalToSuperview().offset(-15)
         }
         
-        backView.addSubview(countLab)
-        countLab.snp.makeConstraints {
-            $0.right.equalToSuperview().offset(-10)
-            $0.top.equalTo(goodsImg.snp.centerY).offset(0)
+        giveOneBackView.addSubview(freeMoneyLab)
+        freeMoneyLab.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalToSuperview().offset(6)
         }
         
+        giveOneBackView.addSubview(freeImg)
+        freeImg.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 35, height: 11))
+            $0.centerY.equalToSuperview()
+            $0.left.equalToSuperview().offset(35)
+        }
+        
+        giveOneBackView.addSubview(freeCountLab)
+        freeCountLab.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.right.equalToSuperview().offset(-7)
+        }
+
     }
 
     func setCellData(model: CartDishModel, isCanEdite: Bool) {
@@ -567,22 +709,15 @@ class OrderConfirmGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UIColl
         self.goodsImg.sd_setImage(with: URL(string: model.dishImg), placeholderImage: HOLDIMG)
         self.nameLab.text = model.dishName
         self.selectView.count = model.cartCount
+        freeCountLab.text = "x\(model.cartCount)"
         self.selectView.canClick = isCanEdite
-        
-        //正常购买的菜
-        self.freeLab.isHidden = true
-        self.countLab.isHidden = true
-        self.slab.isHidden = false
-        self.moneyLab.isHidden = false
-        self.selectView.isHidden = false
-        
-        
-//        if model.dishesType == "2" {
-//            self.desLab.text = model.selectComboStr
-//        } else {
-            
-//        }
-        
+                
+        if model.isGiveOne && model.cartCount != 0 {
+            giveOneBackView.isHidden = false
+        } else {
+            giveOneBackView.isHidden = true
+        }
+
         self.desLab.text = model.selectOptionStr
         
         if model.discountType == "1" {
@@ -602,7 +737,7 @@ class OrderConfirmGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UIColl
         }
         
         
-        self.tagArr = model.tagList.filter{ $0.tagImg != "" }
+        self.tagArr = model.tagList//.filter{ $0.tagImg != "" }
         self.collection.reloadData()
 
     }
@@ -613,43 +748,66 @@ class OrderConfirmGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DishTagCell", for: indexPath) as! DishTagCell
-        cell.nameLab.text = tagArr[indexPath.item].tagName
         
-        if tagArr[indexPath.item].tagImg == "" {
-            cell.setImage(img: nil)
-        } else {
-            //赋值图片
-            let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
-            if img == nil {
-                //下载图片
+        let tag = tagArr[indexPath.item]
+        if tag.tagType == "1" {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DishTagCell", for: indexPath) as! DishTagCell
+            cell.nameLab.text = tag.tagName
+            if tag.tagImg == "" {
                 cell.setImage(img: nil)
-                self.downLoadImgage(url: tagArr[indexPath.row].tagImg)
             } else {
-                cell.setImage(img: img)
+                //赋值图片
+                let img = SDImageCache.shared.imageFromCache(forKey: tag.tagImg)
+                if img == nil {
+                    //下载图片
+                    cell.setImage(img: nil)
+                    self.downLoadImgage(url: tag.tagImg)
+                } else {
+                    cell.setImage(img: img)
+                }
             }
+            return cell
         }
+        
+        if tag.tagType == "2" {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BuyOneGiveOneTagCell", for: indexPath) as! BuyOneGiveOneTagCell
+            return cell
+        }
+        
+        let cell = UICollectionViewCell()
         return cell
+
     }
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let textW = tagArr[indexPath.item].tagName.getTextWidth(SFONT(11), 14)
-                
-        if tagArr[indexPath.item].tagImg == "" {
-            return CGSize(width: textW, height: 14)
-        } else {
-            //从缓存中查找图片
-            let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
-
-            if img == nil {
+        let tag = tagArr[indexPath.item]
+        
+        if tag.tagType == "1" {
+            let textW = tagArr[indexPath.item].tagName.getTextWidth(SFONT(11), 14)
+                    
+            if tagArr[indexPath.item].tagImg == "" {
                 return CGSize(width: textW, height: 14)
+            } else {
+                //从缓存中查找图片
+                let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
+
+                if img == nil {
+                    return CGSize(width: textW, height: 14)
+                }
+                //根据图片计算宽度
+                let img_W = (img!.size.width * 14) / img!.size.height
+                return  CGSize(width: img_W + textW + 2 , height: 14)
             }
-            //根据图片计算宽度
-            let img_W = (img!.size.width * 14) / img!.size.height
-            return  CGSize(width: img_W + textW + 2 , height: 14)
         }
+        
+        if tag.tagType == "2" {
+            return CGSize(width: 85, height: 15)
+        }
+
+        return CGSize.zero
+        
     }
     
     

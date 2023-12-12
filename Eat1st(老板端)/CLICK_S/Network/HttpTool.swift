@@ -681,14 +681,14 @@ class HttpTool {
     }
     
     //MARK: - 添加打印机
-    func addPrinter(name: String, ip: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .addPrinter(name: name, ip: ip))
+    func addPrinter(name: String, ip: String, printNum: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .addPrinter(name: name, ip: ip, printNum: printNum))
         return Observable<JSON>.create(response)
     }
     
     //MARK: - 编辑打印机
-    func editPrinter(id: String, name: String, ip: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .editePrinter(id: id, name: name, ip: ip))
+    func editPrinter(id: String, name: String, ip: String, printNum: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .editePrinter(id: id, name: name, ip: ip, printNum: printNum))
         return Observable<JSON>.create(response)
     }
     
@@ -704,6 +704,12 @@ class HttpTool {
         return Observable<JSON>.create(response)
     }
     
+    
+    //MARK: - 添加买一赠一
+    func doGiveOne(id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .doGiveOne(id: id))
+        return Observable<JSON>.create(response)
+    }
     
     
     

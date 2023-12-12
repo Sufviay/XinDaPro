@@ -40,6 +40,9 @@ class OrderDishModel: NSObject {
     ///菜品类型（1单品， 2套餐）
     var dishesType: String = ""
     
+    ///是否买一赠一
+    var isGiveOne: Bool = false
+    
     ///cell的高度
     var dish_H: CGFloat = 0
     
@@ -58,6 +61,8 @@ class OrderDishModel: NSObject {
         self.discountPrice = json["discountPrice"].doubleValue
         self.discountType = json["discountType"].stringValue
         self.dishesType = json["dishesType"].stringValue
+        
+        self.isGiveOne = json["giveOne"].stringValue == "1" ? false : true
         
         if subFee - discountPrice > 0 {
             let ts = (subFee - discountPrice) / subFee * 100
@@ -98,17 +103,29 @@ class OrderDishModel: NSObject {
         self.des_C = t2
         self.des_E = t1
         
-        let h1 = self.name_C.getTextHeigh(BFONT(14), S_W - 155)
-        let h2 = self.des_C.getTextHeigh(SFONT(11), S_W - 145)
-        self.dish_H = h1 + h2 + 35 < 75 ? 75 : h1 + h2 + 35
-
+        let h1 = self.name_C.getTextHeigh(BFONT(14), S_W - 195)
+        let h2 = self.des_C.getTextHeigh(SFONT(11), S_W - 195)
         
+        if isGiveOne {
+            dish_H = h1 + h2 + 35 + 30 < 75 ? 75 : h1 + h2 + 35 + 30
+        } else {
+            dish_H = h1 + h2 + 35 < 75 ? 75 : h1 + h2 + 35
+        }
+
         var tArr2: [DishTagsModel] = []
         for jsonData in json["tagList"].arrayValue {
             let model = DishTagsModel()
             model.updateModel(json: jsonData)
             tArr2.append(model)
         }
+        
+        if isGiveOne {
+            //是买1赠1 的菜
+            let tag = DishTagsModel()
+            tag.tagType = "2"
+            tArr2.append(tag)
+        }
+        
         self.tagList = tArr2
     }
 

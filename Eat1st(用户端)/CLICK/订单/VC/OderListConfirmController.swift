@@ -379,10 +379,7 @@ extension OderListConfirmController {
             return 55
         }
         if indexPath.section == 2 {
-            let model = dataModel.dishArr[indexPath.row]
-            let h1 = model.name_C.getTextHeigh(BFONT(14), S_W - 155)
-            let h2 = model.des_C.getTextHeigh(SFONT(11), S_W - 145)
-            return h1 + h2 + 35 < 75 ? 75 : h1 + h2 + 35
+            return dataModel.dishArr[indexPath.row].dish_H
         }
         if indexPath.section == 3 {
             

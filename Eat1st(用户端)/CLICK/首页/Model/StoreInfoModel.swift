@@ -297,7 +297,7 @@ class StoreInfoModel: NSObject {
             self.scanContent_H = scanStoreInfo_H + 15 + 40
         } else {
             self.storeContent_H = storeInfo_H + 15 + 50
-            self.scanContent_H = scanStoreInfo_H + 10
+            self.scanContent_H = scanStoreInfo_H + 25
         }
         
         ///处理营业时间

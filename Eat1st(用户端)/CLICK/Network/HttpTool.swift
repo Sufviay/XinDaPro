@@ -116,6 +116,16 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
                             ERROR_Message = json["msg"].stringValue
                             observer.onError(NetworkError.errorCode10)
                         }
+                        else if json["code"].stringValue == "11" {
+                            ///手机号不存在
+                            ERROR_Message = json["msg"].stringValue
+                            observer.onError(NetworkError.errorCode11)
+                        }
+                        else if json["code"].stringValue == "12" {
+                            ///未设置密码
+                            ERROR_Message = json["msg"].stringValue
+                            observer.onError(NetworkError.errorCode12)
+                        }
                         else {
                             ERROR_Message = json["msg"].stringValue
                             observer.onError(NetworkError.unkonw)
@@ -600,9 +610,9 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
     }
     
         
-    //MARK: - 发送短信
-    func sendSMSCode(countryCode: String, phone: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .sendSMSCode(countryCode: countryCode, phone: phone))
+    //MARK: - 发送短信 1验证码登录，2注册，3找回密码
+    func sendSMSCode(countryCode: String, phone: String, type: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .sendSMSCode(countryCode: countryCode, phone: phone, type: type))
         return Observable<JSON>.create(response)
     }
     
@@ -613,6 +623,30 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
         return Observable<JSON>.create(response)
     }
     
+    
+    //MARK: - 设置登录密码
+    func setLoginPWD(pwd: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .setLoginPWD(pwd: pwd))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 修改密码
+    func doUpdatePWD(oldPwd: String, newPwd: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .doUpdatePWD(oldPwd: oldPwd, newPwd: newPwd))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 找回密码
+    func findPWD(countryCode: String, phone: String, smsCode: String, smsID: String, pwd: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .findPWD(countryCode: countryCode, phone: phone, smsID: smsID, smsCode: smsCode, pwd: pwd))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 密码登录
+    func loginPWD(countryCode: String, phone: String, pwd: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .loginPWD(countryCode: countryCode, phone: phone, pwd: pwd))
+        return Observable<JSON>.create(response)
+    }
     
     
     

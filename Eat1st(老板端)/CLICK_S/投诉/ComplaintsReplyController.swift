@@ -399,9 +399,9 @@ extension ComplaintsReplyController {
     
     private func doComplaints_Net() {
         
-        var mode = selectWayID == "4" ? refundMode : ""
-        var flow = selectWayID == "4" ? refundFlow : ""
-        var amount = mode == "4" ? refundAmount : ""
+        let mode = selectWayID == "4" ? refundMode : ""
+        let flow = selectWayID == "4" ? refundFlow : ""
+        let amount = mode == "4" ? refundAmount : ""
         
         var info: [[String: String]] = []
         if selectWayID == "5" {

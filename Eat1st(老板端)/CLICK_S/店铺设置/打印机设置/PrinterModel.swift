@@ -13,6 +13,8 @@ class PrinterModel: NSObject {
     var printerId: String = ""
     var name: String = ""
     var ip: String = ""
+    var printNum: String = ""
+    
     ///启用禁用状态 1启用 2禁用
     var status: String = ""
     var remark: String = ""
@@ -22,6 +24,7 @@ class PrinterModel: NSObject {
         printerId = json["printerId"].stringValue
         name = json["nameHk"].stringValue
         ip = json["ip"].stringValue
+        printNum = json["printNum"].stringValue
         status = json["status"].stringValue
         remark = json["remark"].stringValue
         

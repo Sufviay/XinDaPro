@@ -83,6 +83,7 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
         tableView.register(ClassifySectionHeader.self, forHeaderFooterViewReuseIdentifier: "ClassifySectionHeader")
         tableView.register(MenuGoodsNoSizeCell.self, forCellReuseIdentifier: "MenuGoodsNoSizeCell")
         tableView.register(MenuGoodsSizeCell.self, forCellReuseIdentifier: "MenuGoodsSizeCell")
+        tableView.register(MenuDishesCell.self, forCellReuseIdentifier: "MenuDishesCell")
         
         //tableView.register(Big_MenuGoodsNoSizeCell.self, forCellReuseIdentifier: "Big_MenuGoodsNoSizeCell")
         //tableView.register(Big_MenuGoodsSizeCell.self, forCellReuseIdentifier: "Big_MenuGoodsSizeCell")
@@ -176,73 +177,102 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
             
             let model = dishData.pageDataArr[indexPath.section].dishArr[indexPath.row]
             
-            //套餐也要去选择规格
-            if model.isSelect || model.dishesType == "2" {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "MenuGoodsSizeCell") as! MenuGoodsSizeCell
-                cell.setCellData(model: model, canBuy: canBuy)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "MenuDishesCell") as! MenuDishesCell
+            cell.setCellData(model: model, canBuy: canBuy)
             
-            
-                cell.optionBlock = { [unowned self] _ in
-                    ///进入选择规格页面
-                    
-                    if model.dishesType == "1" {
-                        //单品
-                        let nextVC = SelectSizeController()
-                        nextVC.dishesID = model.dishID
-                        nextVC.canBuy = self.canBuy
-                        nextVC.deskID = self.deskID
-                        PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
-                    }
-                    if model.dishesType == "2" {
-                        //套餐
-                        let nextVC = MealSelectSizeController()
-                        nextVC.dishesID = model.dishID
-                        nextVC.canBuy = self.canBuy
-                        nextVC.deskID = self.deskID
-                        PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
-                    }
-                }
+            cell.optionBlock = { [unowned self] _ in
+                ///进入选择规格页面
                 
-//                cell.jiaBlock = { (par) in
-//                    ///添加购物车
+                if model.dishesType == "1" {
+                    //单品
+                    let nextVC = SelectSizeController()
+                    nextVC.dishesID = model.dishID
+                    nextVC.canBuy = self.canBuy
+                    nextVC.deskID = self.deskID
+                    PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
+                }
+                if model.dishesType == "2" {
+                    //套餐
+                    let nextVC = MealSelectSizeController()
+                    nextVC.dishesID = model.dishID
+                    nextVC.canBuy = self.canBuy
+                    nextVC.deskID = self.deskID
+                    PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
+                }
+            }
+            
+            cell.clickCountBlock = { [unowned self] (par) in
+                
+                let count = par as! Int
+                var dic: [String: Any] = [:]
+                if model.sel_Num == 0 {
+                    //添加购物车
+                    dic = ["num": count, "id": model.dishID]
+                    self.addCartBlock?(dic)
+                    
+                } else {
+                    //更新购物车
+                    dic = ["num": count, "id": model.cart[0].cartID]
+                    self.updateCartBlock?(dic)
+                }
+            }
+
+            
+            return cell
+
+            
+//            //套餐也要去选择规格
+//            if model.isSelect || model.dishesType == "2" {
+//                let cell = tableView.dequeueReusableCell(withIdentifier: "MenuGoodsSizeCell") as! MenuGoodsSizeCell
+//                cell.setCellData(model: model, canBuy: canBuy)
+//
+//
+//                cell.optionBlock = { [unowned self] _ in
+//                    ///进入选择规格页面
+//
+//                    if model.dishesType == "1" {
+//                        //单品
+//                        let nextVC = SelectSizeController()
+//                        nextVC.dishesID = model.dishID
+//                        nextVC.canBuy = self.canBuy
+//                        nextVC.deskID = self.deskID
+//                        PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
+//                    }
+//                    if model.dishesType == "2" {
+//                        //套餐
+//                        let nextVC = MealSelectSizeController()
+//                        nextVC.dishesID = model.dishID
+//                        nextVC.canBuy = self.canBuy
+//                        nextVC.deskID = self.deskID
+//                        PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
+//                    }
+//                }
+//
+//                return cell
+//
+//            } else {
+//
+//                let cell = tableView.dequeueReusableCell(withIdentifier: "MenuGoodsNoSizeCell") as! MenuGoodsNoSizeCell
+//                cell.setCellData(model: model, canBuy: canBuy)
+//
+//                cell.clickCountBlock = { [unowned self] (par) in
+//
 //                    let count = par as! Int
 //                    var dic: [String: Any] = [:]
-//                    //添加购物车
-//                    dic = ["num": count, "id": model.dishID]
-//                    self.addCartBlock?(dic)
-//                        
+//                    if model.sel_Num == 0 {
+//                        //添加购物车
+//                        dic = ["num": count, "id": model.dishID]
+//                        self.addCartBlock?(dic)
 //
+//                    } else {
+//                        //更新购物车
+//                        dic = ["num": count, "id": model.cart[0].cartID]
+//                        self.updateCartBlock?(dic)
+//                    }
 //                }
-//                cell.jianBlock = { [unowned self] (_) in
-//                    ///弹出购物车
-//                    self.showCartBlock?("")
-//                }
-    
-                return cell
-                
-            } else {
-                
-                let cell = tableView.dequeueReusableCell(withIdentifier: "MenuGoodsNoSizeCell") as! MenuGoodsNoSizeCell
-                cell.setCellData(model: model, canBuy: canBuy)
-                
-                cell.clickCountBlock = { [unowned self] (par) in
-                    
-                    let count = par as! Int
-                    var dic: [String: Any] = [:]
-                    if model.sel_Num == 0 {
-                        //添加购物车
-                        dic = ["num": count, "id": model.dishID]
-                        self.addCartBlock?(dic)
-                        
-                    } else {
-                        //更新购物车
-                        dic = ["num": count, "id": model.cart[0].cartID]
-                        self.updateCartBlock?(dic)
-                    }
-                }
-                
-                return cell
-            }
+//
+//                return cell
+//            }
         }
                 
         let cell = UITableViewCell()

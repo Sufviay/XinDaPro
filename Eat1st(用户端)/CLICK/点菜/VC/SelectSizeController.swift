@@ -26,26 +26,21 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
     var dishCount: Int = 1
     
     var deskID: String = ""
-
+    
+    private var info_H: CGFloat = 0
+    
 
     private var dishModel = DishModel() {
         didSet {
             self.selecIdxArr.removeAll()
             for _ in dishModel.specification {
 
-                //let idx = 1000
                 ///选中下标的占位数字
                 self.selecIdxArr.append([])
             }
-            self.b_view.moneyLab.text =  dishModel.discountType == "2" ? D_2_STR(dishModel.discountPrice) : D_2_STR(dishModel.price)
         }
     }
-    
         
-    
-    private var rowCount: Int = 0
-    
-    
     ///选中的规格选项下标
     private var selecIdxArr: [[Int]] = []
     
@@ -59,6 +54,17 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
         }
         return view
     }()
+    
+    private lazy var t_view: DishDetailInfoView = {
+        let view = DishDetailInfoView()
+        
+        view.countBlock = { [unowned self] (count) in
+            self.dishCount = count as! Int
+            self.b_view.moneyLab.text = self.manager.selectedComboDishMoney(dishModel: self.dishModel, count: count as! Int)
+        }
+        return view
+    }()
+
 
     
     private let backBut: UIButton = {
@@ -84,7 +90,7 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
         tableView.contentInsetAdjustmentBehavior = .never
         tableView.bounces = false
 
-        tableView.register(SizeHeaderCell.self, forCellReuseIdentifier: "SizeHeaderCell")
+        //tableView.register(SizeHeaderCell.self, forCellReuseIdentifier: "SizeHeaderCell")
         tableView.register(SpecificationsCell.self, forCellReuseIdentifier: "SpecificationsCell")
         
         return tableView
@@ -96,7 +102,6 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
     
     override func setViews() {
         self.naviBar.isHidden = true
-        setUpUI()
         loadDishedDetail_Net()
         
     }
@@ -111,11 +116,19 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
             $0.height.equalTo(bottomBarH + 50)
         }
         
-
         view.addSubview(mainTable)
         mainTable.snp.makeConstraints {
             $0.left.right.top.equalToSuperview()
             $0.bottom.equalTo(b_view.snp.top)
+        }
+        
+        t_view.setCellData(model: dishModel, selectCount: dishCount, canBuy: canBuy)
+        mainTable.addSubview(t_view)
+        t_view.snp.makeConstraints {
+            $0.left.equalToSuperview()
+            $0.width.equalTo(S_W)
+            $0.height.equalTo(info_H)
+            $0.top.equalToSuperview().offset(-info_H)
         }
         
         view.addSubview(backBut)
@@ -201,8 +214,26 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
             let model = DishModel()
             model.updateModel(json: json["data"])
             self.dishModel = model
-            self.rowCount = self.dishModel.specification.count + 1
-            self.mainTable.reloadData()
+            
+            b_view.moneyLab.text =  manager.selectedComboDishMoney(dishModel: dishModel, count: dishCount)
+            
+            //计算菜品详情视图的高度
+            let str = "Allergen: " + self.dishModel.allergen
+            let g_h = str.getTextHeigh(BFONT(13), S_W - 130)
+            let d_h = self.dishModel.des.getTextHeigh(SFONT(13), S_W - 120)
+            let n_h = self.dishModel.name_C.getTextHeigh(BFONT(17), S_W - 50)
+            
+            if canBuy && model.isGiveOne {
+                info_H = (R_W(375) * (9/16)) + g_h + d_h + n_h + 50 + 30
+            } else {
+                info_H = (R_W(375) * (9/16)) + g_h + d_h + n_h + 50
+            }
+            
+            mainTable.contentInset = UIEdgeInsets(top: self.info_H, left: 0, bottom: 0, right: 0)
+            mainTable.contentOffset = CGPoint(x: 0, y: -info_H)
+            self.setUpUI()
+            
+            
         }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
@@ -215,49 +246,25 @@ extension SelectSizeController {
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return rowCount //dishModel.specification.count + 2
+        return dishModel.specification.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        if indexPath.row == 0 {
-            let str = "Allergen: " + dishModel.allergen
-            
-            let g_h = str.getTextHeigh(BFONT(13), S_W - 130)
-            let d_h = dishModel.des.getTextHeigh(SFONT(13), S_W - 120)
-            let n_h = dishModel.name_C.getTextHeigh(BFONT(17), S_W - 50)
-            
-            return (R_W(375) * (9/16)) + g_h + d_h + n_h + 77
-            
-        } else {
-            let model = dishModel.specification[indexPath.row - 1]
-            return CGFloat((model.optionArr.count + 1)) * 40 + 10
-        }
+        let model = dishModel.specification[indexPath.row]
+        return CGFloat((model.optionArr.count + 1)) * 40 + 10
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SpecificationsCell") as! SpecificationsCell
+        cell.setCellData(model: dishModel.specification[indexPath.row], idxArr: selecIdxArr[indexPath.row])
         
-        if indexPath.row == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "SizeHeaderCell") as! SizeHeaderCell
-            cell.setCellData(model: dishModel, selectCount: dishCount, canBuy: canBuy)
-            cell.countBlock = { [unowned self] (count) in
-                self.dishCount = count as! Int
-                self.b_view.moneyLab.text = manager.selectedSizeDishMoney(dishModel: self.dishModel, selectIdxArr: selecIdxArr, count: self.dishCount)
-                self.mainTable.reloadData()
-            }
-            return cell
+        cell.selectBlock = { [unowned self] (idxArr) in
+            self.selecIdxArr[indexPath.row] = idxArr as! [Int]
+            self.b_view.moneyLab.text = manager.selectedSizeDishMoney(dishModel: self.dishModel, selectIdxArr: selecIdxArr, count: self.dishCount)
         }
-        else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "SpecificationsCell") as! SpecificationsCell
-            cell.setCellData(model: dishModel.specification[indexPath.row - 1], idxArr: selecIdxArr[indexPath.row - 1])
-            
-            cell.selectBlock = { [unowned self] (idxArr) in
-                self.selecIdxArr[indexPath.row - 1] = idxArr as! [Int]
-                self.b_view.moneyLab.text = manager.selectedSizeDishMoney(dishModel: self.dishModel, selectIdxArr: selecIdxArr, count: self.dishCount)
-            }
-            
-            return cell
-        }
+        
+        return cell
     }
 }

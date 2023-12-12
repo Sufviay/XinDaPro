@@ -72,6 +72,7 @@
 		E326D9FC2ADFC4020060C0BE /* PrinterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E326D9FB2ADFC4020060C0BE /* PrinterModel.swift */; };
 		E326D9FE2ADFC91B0060C0BE /* EditPrintAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E326D9FD2ADFC91B0060C0BE /* EditPrintAlert.swift */; };
 		E3284BAF2A4A6FF9004BC2C5 /* DishEditeSellTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3284BAE2A4A6FF9004BC2C5 /* DishEditeSellTypeCell.swift */; };
+		E32B488D2B2803C600B0F64C /* EditeFreeOneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32B488C2B2803C600B0F64C /* EditeFreeOneView.swift */; };
 		E337296C28B64FE100A06AB7 /* StatisticalUnfulfilledDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E337296B28B64FE100A06AB7 /* StatisticalUnfulfilledDateCell.swift */; };
 		E337297428BF333500A06AB7 /* DishChartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E337297328BF333500A06AB7 /* DishChartController.swift */; };
 		E337297628C1939400A06AB7 /* WeekSalesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E337297528C1939400A06AB7 /* WeekSalesModel.swift */; };
@@ -315,6 +316,7 @@
 		E326D9FB2ADFC4020060C0BE /* PrinterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterModel.swift; sourceTree = "<group>"; };
 		E326D9FD2ADFC91B0060C0BE /* EditPrintAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPrintAlert.swift; sourceTree = "<group>"; };
 		E3284BAE2A4A6FF9004BC2C5 /* DishEditeSellTypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishEditeSellTypeCell.swift; sourceTree = "<group>"; };
+		E32B488C2B2803C600B0F64C /* EditeFreeOneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditeFreeOneView.swift; sourceTree = "<group>"; };
 		E337296B28B64FE100A06AB7 /* StatisticalUnfulfilledDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticalUnfulfilledDateCell.swift; sourceTree = "<group>"; };
 		E337297328BF333500A06AB7 /* DishChartController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishChartController.swift; sourceTree = "<group>"; };
 		E337297528C1939400A06AB7 /* WeekSalesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekSalesModel.swift; sourceTree = "<group>"; };
@@ -1080,6 +1082,7 @@
 				E3F829DB28617749005E5FAB /* MenuDishSearchView.swift */,
 				E3F829E12861B327005E5FAB /* EditeClassifyView.swift */,
 				E372C65C28A501AB0046DC55 /* EditeKuCunView.swift */,
+				E32B488C2B2803C600B0F64C /* EditeFreeOneView.swift */,
 				E326BC222AAF06A800E138CF /* EditPriceView.swift */,
 				E31790D628CA2DE3007BA6B9 /* EditDiscountView.swift */,
 				E37C18C22A0BAA4700D7C39D /* DiscountSelectDateView.swift */,
@@ -1669,6 +1672,7 @@
 				E337297828C193B000A06AB7 /* MonthSalesModel.swift in Sources */,
 				E326BC232AAF06A800E138CF /* EditPriceView.swift in Sources */,
 				E3F82A12286987D4005E5FAB /* AdditionalDetailModel.swift in Sources */,
+				E32B488D2B2803C600B0F64C /* EditeFreeOneView.swift in Sources */,
 				E305E8B126DF131C00AAB580 /* ProjectHeader.swift in Sources */,
 				E3F829E628631000005E5FAB /* DishDetailEditeCell.swift in Sources */,
 				E31C2C7A2A20A19D007B6DC2 /* MenuComboEditDishController.swift in Sources */,

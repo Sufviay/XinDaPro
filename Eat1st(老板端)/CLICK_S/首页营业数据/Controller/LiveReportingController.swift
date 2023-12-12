@@ -188,7 +188,7 @@ class LiveReportingController: UIViewController, UITableViewDelegate, UITableVie
                 return 240
             }
             if indexPath.row == 2 {
-                return 175
+                return 240
             }
         }
        

@@ -51,6 +51,7 @@ class OrderDetailController: HeadBaseViewController, UITableViewDataSource, UITa
         tableView.register(DetailTitleCell.self, forCellReuseIdentifier: "DetailTitleCell")
         tableView.register(DishesShowCell.self, forCellReuseIdentifier: "DishesShowCell")
         tableView.register(DetailMoneyCell.self, forCellReuseIdentifier: "DetailMoneyCell")
+        tableView.register(DishesFreeCell.self, forCellReuseIdentifier: "DishesFreeCell")
         return tableView
     }()
 
@@ -163,10 +164,16 @@ extension OrderDetailController {
         if section == 8 {
             if dataModel.giftList.count == 0 {
                 return 0
+            } else {
+                return dataModel.giftList.count + 1
             }
         }
         if section == 9 {
-            return dataModel.giftList.count
+            if dataModel.fullGiftDish.nameStr == "" {
+                return 0
+            } else {
+                return 2
+            }
         }
         
 
@@ -203,18 +210,27 @@ extension OrderDetailController {
         }
         
         if indexPath.section == 8 {
-            return 30
+            if indexPath.row == 0 {
+                return 30
+            } else {
+                return 75
+            }
+            
         }
         
         if indexPath.section == 9 {
-            return dataModel.giftList[indexPath.row].showCell_H
+            
+            if indexPath.row == 0 {
+                return 30
+            } else {
+                return 75
+            }
         }
         
         if indexPath.section == 10 {
             return dataModel.detailMoney_H
         }
     
-        
         return 100
     }
     
@@ -284,16 +300,30 @@ extension OrderDetailController {
         }
         
         if indexPath.section == 8 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DetailTitleCell") as! DetailTitleCell
-            cell.titLab.text = "Gift"
-            return cell
+            if indexPath.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "DetailTitleCell") as! DetailTitleCell
+                cell.titLab.text = "Gift"
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "DishesFreeCell") as! DishesFreeCell
+                cell.setCellData(model: dataModel.giftList[indexPath.row - 1])
+                return cell
+            }
         }
 
         if indexPath.section == 9 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DishesShowCell") as! DishesShowCell
-            cell.setCellData(model: dataModel.giftList[indexPath.row], isShow: false)
-            return cell
+            
+            if indexPath.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "DetailTitleCell") as! DetailTitleCell
+                cell.titLab.text = "Free after the order amount is reached"
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "DishesFreeCell") as! DishesFreeCell
+                cell.setCellData(model: dataModel.fullGiftDish)
+                return cell
+            }
         }
+        
         if indexPath.section == 10 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DetailMoneyCell") as! DetailMoneyCell
             cell.setCellData(model: dataModel)

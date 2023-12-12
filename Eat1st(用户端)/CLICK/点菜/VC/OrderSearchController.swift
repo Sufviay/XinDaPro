@@ -177,8 +177,10 @@ class OrderSearchController: BaseViewController, UITableViewDelegate, UITableVie
         
         tableView.bounces = true
         
-        tableView.register(MenuGoodsNoSizeCell.self, forCellReuseIdentifier: "MenuGoodsNoSizeCell")
-        tableView.register(MenuGoodsSizeCell.self, forCellReuseIdentifier: "MenuGoodsSizeCell")
+//        tableView.register(MenuGoodsNoSizeCell.self, forCellReuseIdentifier: "MenuGoodsNoSizeCell")
+//        tableView.register(MenuGoodsSizeCell.self, forCellReuseIdentifier: "MenuGoodsSizeCell")
+//
+        tableView.register(MenuDishesCell.self, forCellReuseIdentifier: "MenuDishesCell")
         
         return tableView
     }()
@@ -361,57 +363,46 @@ extension OrderSearchController {
         
         let model = searchResultArr[indexPath.row]
         
-        //套餐也要去选择规格
-        if model.isSelect || model.dishesType == "2" {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "MenuGoodsSizeCell") as! MenuGoodsSizeCell
-            cell.setCellData(model: model, canBuy: canBuy)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MenuDishesCell") as! MenuDishesCell
+        cell.setCellData(model: model, canBuy: canBuy)
         
-        
-            cell.optionBlock = { [unowned self] _ in
-                ///进入选择规格页面
-                
-                if model.dishesType == "1" {
-                    //单品
-                    let nextVC = SelectSizeController()
-                    nextVC.dishesID = model.dishID
-                    nextVC.canBuy = self.canBuy
-                    nextVC.deskID = self.deskID
-                    nextVC.isSearchVC = true
-                    PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
-                }
-                if model.dishesType == "2" {
-                    //套餐
-                    let nextVC = MealSelectSizeController()
-                    nextVC.dishesID = model.dishID
-                    nextVC.canBuy = self.canBuy
-                    nextVC.deskID = self.deskID
-                    nextVC.isSearchVC = true
-                    PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
-                }
+        cell.optionBlock = { [unowned self] _ in
+            ///进入选择规格页面
+            
+            if model.dishesType == "1" {
+                //单品
+                let nextVC = SelectSizeController()
+                nextVC.dishesID = model.dishID
+                nextVC.canBuy = self.canBuy
+                nextVC.deskID = self.deskID
+                nextVC.isSearchVC = true
+                PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
             }
-
-            return cell
-            
-        } else {
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "MenuGoodsNoSizeCell") as! MenuGoodsNoSizeCell
-            cell.setCellData(model: model, canBuy: canBuy)
-            
-            cell.clickCountBlock = { [unowned self] (par) in
-                
-                let count = par as! Int
-                if model.sel_Num == 0 {
-                    //添加购物车
-                    self.addCart_Net(dishesID: model.dishID, buyNum: count)
-                    
-                } else {
-                    //更新购物车
-                    self.updateCart_Net(cartID: model.cart[0].cartID, buyNum: count)
-                }
+            if model.dishesType == "2" {
+                //套餐
+                let nextVC = MealSelectSizeController()
+                nextVC.dishesID = model.dishID
+                nextVC.canBuy = self.canBuy
+                nextVC.deskID = self.deskID
+                nextVC.isSearchVC = true
+                PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
             }
-            
-            return cell
         }
+
+        cell.clickCountBlock = { [unowned self] (par) in
+            
+            let count = par as! Int
+            if model.sel_Num == 0 {
+                //添加购物车
+                self.addCart_Net(dishesID: model.dishID, buyNum: count)
+                
+            } else {
+                //更新购物车
+                self.updateCart_Net(cartID: model.cart[0].cartID, buyNum: count)
+            }
+        }
+        
+        return cell        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
