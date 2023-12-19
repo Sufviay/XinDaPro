@@ -208,7 +208,7 @@ class OrderDetailModel: NSObject {
     
 
     
-    func updateModel(json: JSON) {
+    func updateModel(json: JSON, _ isConfirm: Bool = false) {
         self.recipient = json["addressResult"]["name"].stringValue
         self.recipientPhone = json["addressResult"]["phone"].stringValue
         self.recipientAddress = json["addressResult"]["address"].stringValue
@@ -332,8 +332,18 @@ class OrderDetailModel: NSObject {
         for jsonData in json["dishesList"].arrayValue {
             
             let model = OrderDishModel()
-            model.updateModel(json: jsonData)
+            model.updateModel(json: jsonData, isConfirm: isConfirm)
             tArr.append(model)
+            
+            if model.isGiveOne {
+                
+                if !isConfirm {
+                    let t_model = OrderDishModel()
+                    t_model.isGive = true
+                    t_model.updateModel(json: jsonData, isConfirm: false)
+                    tArr.append(t_model)
+                }
+            }
         }
         self.dishArr = tArr
         

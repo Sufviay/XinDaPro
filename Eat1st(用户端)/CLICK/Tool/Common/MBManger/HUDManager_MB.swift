@@ -77,6 +77,7 @@ class HUD_MB: NSObject {
         hud.bezelView.color = UIColor.black.withAlphaComponent(0.5)
         hud.contentColor = .white
         hud.label.text = msg
+        hud.label.numberOfLines = 0
         hud.label.font = UIFont.systemFont(ofSize: 13)
         hud.bezelView.layer.cornerRadius = 15
         

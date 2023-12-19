@@ -165,7 +165,7 @@ class OderListConfirmController: BaseViewController, UITableViewDelegate, UITabl
         HTTPTOOl.getOrderDetail(orderID: orderID).subscribe(onNext: { [unowned self] (json) in
 
             HUD_MB.dissmiss(onView: self.view)
-            self.dataModel.updateModel(json: json["data"])
+            self.dataModel.updateModel(json: json["data"], true)
             self.sectionNum = 10
             self.mainTable.reloadData()
             if dataModel.type != "3" {

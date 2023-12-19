@@ -418,6 +418,12 @@ class OrderGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionV
 
 
 
+
+
+
+
+
+
 class OrderConfirmGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     private var tagArr: [DishTagsModel] = []

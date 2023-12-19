@@ -624,13 +624,13 @@ class BuyOneGiveOneTagCell: UICollectionViewCell {
         return img
     }()
     
-    private let msgLab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("333333"), BFONT(5), .left)
-        lab.text = "BUY ONE GET ONE FREE"
-        return lab
-    }()
-    
+//    private let msgLab: UILabel = {
+//        let lab = UILabel()
+//        lab.setCommentStyle(HCOLOR("333333"), BFONT(5), .left)
+//        lab.text = "BUY ONE GET ONE FREE"
+//        return lab
+//    }()
+//
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -640,11 +640,11 @@ class BuyOneGiveOneTagCell: UICollectionViewCell {
             $0.edges.equalToSuperview()
         }
         
-        backImg.addSubview(msgLab)
-        msgLab.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview().offset(17)
-        }
+//        backImg.addSubview(msgLab)
+//        msgLab.snp.makeConstraints {
+//            $0.centerY.equalToSuperview()
+//            $0.left.equalToSuperview().offset(17)
+//        }
         
     }
     

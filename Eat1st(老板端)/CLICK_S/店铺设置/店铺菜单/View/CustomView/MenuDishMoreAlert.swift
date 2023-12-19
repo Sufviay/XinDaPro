@@ -132,7 +132,7 @@ class MenuDishMoreFourAlert: UIView, UIGestureRecognizerDelegate {
     private let giveLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#080808"), BFONT(11), .left)
-        lab.text = "Edit free one"
+        lab.text = "Edit one free"
         return lab
     }()
 

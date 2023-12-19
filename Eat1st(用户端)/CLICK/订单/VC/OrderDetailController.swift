@@ -50,7 +50,7 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
         tableView.register(TopCornersCell.self, forCellReuseIdentifier: "TopCornersCell")
         tableView.register(BottomCornersCell.self, forCellReuseIdentifier: "BottomCornersCell")
         tableView.register(OrderStoreInfoCell.self, forCellReuseIdentifier: "OrderStoreInfoCell")
-        tableView.register(OrderGoodsCell.self, forCellReuseIdentifier: "OrderGoodsCell")
+        tableView.register(OrderDetailGoodsCell.self, forCellReuseIdentifier: "OrderDetailGoodsCell")
         tableView.register(OrderShowMoreCell.self, forCellReuseIdentifier: "OrderShowMoreCell")
         tableView.register(OrderDetailMoneyCell.self, forCellReuseIdentifier: "OrderDetailMoneyCell")
         tableView.register(DetailOneCell.self, forCellReuseIdentifier: "DetailOneCell")
@@ -659,7 +659,7 @@ extension OrderDetailController {
                     //帮助
                     let nextVC = FAQController()
                     
-                    if self.dataModel.status == .finished && self.dataModel.tsStauts == "1" && self.dataModel.pjStatus == "1" {
+                    if self.dataModel.status == .finished && self.dataModel.tsStauts == "1" && self.dataModel.pjStatus == "1" && dataModel.type != "3" {
                         nextVC.isHaveAfter = true
                     } else {
                         nextVC.isHaveAfter = false
@@ -748,7 +748,7 @@ extension OrderDetailController {
         }
         
         if indexPath.section == 8 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "OrderGoodsCell") as! OrderGoodsCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "OrderDetailGoodsCell") as! OrderDetailGoodsCell
             cell.setOrderCellData(model: dataModel.dishArr[indexPath.row])
             return cell
         }

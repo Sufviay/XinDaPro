@@ -52,7 +52,7 @@ class MessageController: HeadBaseViewController, UITableViewDelegate, UITableVie
     
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Message Center"
+        self.biaoTiLab.text = "Operation record"
     }
 
     
@@ -96,7 +96,7 @@ class MessageController: HeadBaseViewController, UITableViewDelegate, UITableVie
 
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 135
+        return dataArr[indexPath.row].cell_H
     }
     
     
@@ -112,14 +112,14 @@ class MessageController: HeadBaseViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        
+
         let model = dataArr[indexPath.row]
-        if model.mergeType == "2" {
-            ///合并订单
-            let mergeVC = MergeOrderController()
-            mergeVC.mergeID = model.orderID
-            self.navigationController?.pushViewController(mergeVC, animated: true)
-        } else {
+        if model.operateType != "5" || model.operateType != "6" {
+//            ///合并订单
+//            let mergeVC = MergeOrderController()
+//            mergeVC.mergeID = model.orderID
+//            self.navigationController?.pushViewController(mergeVC, animated: true)
+//        } else {
             let detailVC = OrderDetailController()
             detailVC.orderID = model.orderID
             self.navigationController?.pushViewController(detailVC, animated: true)
@@ -184,171 +184,6 @@ extension MessageController {
 }
 
 
-class MessageCell: BaseTableViewCell {
-    
-    
-    private let sImg: UIImageView = {
-        let img = UIImageView()
-        img.image = LOIMG("msgimg")
-        return img
-    }()
-    
-    private let titLab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(15), .left)
-        lab.text = "Rejected order"
-        return lab
-    }()
-    
-    private let timeLab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#999999"), BFONT(10), .right)
-        lab.text = "2021-05-16 12:45"
-        return lab
-    }()
-    
-    private let czrLab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(11), .left)
-        lab.text = "操作人"
-        return lab
-    }()
-    
-    private let orderLab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), SFONT(11), .left)
-        lab.text = "orderID"
-        return lab
-    }()
-    
-    private let disLab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("666666"), SFONT(11), .left)
-        lab.text = "Orders are discounted by £5"
-        return lab
-    }()
-    
-    private let line: UIView = {
-        let view = UIView()
-        view.backgroundColor = HCOLOR("#E4E4E4")
-        return view
-    }()
-    
-    
-    private let detailLab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(13), .left)
-        lab.text = "View order details"
-        return lab
-    }()
-
-    private let nextImg: UIImageView = {
-        let img = UIImageView()
-        img.image = LOIMG("next_black")
-        return img
-    }()
-    
-    
-    
-    override func setViews() {
-        
-        self.backgroundColor = .clear
-        self.contentView.backgroundColor = .clear
-        
-        contentView.addSubview(sImg)
-        sImg.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(25)
-            $0.size.equalTo(CGSize(width: 17, height: 17))
-            $0.top.equalToSuperview().offset(20)
-        }
-        
-        
-        contentView.addSubview(titLab)
-        titLab.snp.makeConstraints {
-            $0.centerY.equalTo(sImg)
-            $0.left.equalTo(sImg.snp.right).offset(10)
-        }
-        
-        contentView.addSubview(timeLab)
-        timeLab.snp.makeConstraints {
-            $0.centerY.equalTo(sImg)
-            $0.right.equalToSuperview().offset(-25)
-        }
-        
-        contentView.addSubview(czrLab)
-        czrLab.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(25)
-            $0.top.equalTo(titLab.snp.bottom).offset(15)
-        }
-        
-        contentView.addSubview(orderLab)
-        orderLab.snp.makeConstraints {
-            $0.centerY.equalTo(czrLab)
-            $0.left.equalTo(czrLab.snp.right).offset(3)
-        }
-        
-        contentView.addSubview(disLab)
-        disLab.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(25)
-            $0.top.equalTo(czrLab.snp.bottom).offset(2)
-        }
-        
-        contentView.addSubview(line)
-        line.snp.makeConstraints {
-            $0.height.equalTo(0.5)
-            $0.bottom.equalToSuperview()
-            $0.left.equalToSuperview().offset(20)
-            $0.right.equalToSuperview().offset(-20)
-        }
-        
-        contentView.addSubview(detailLab)
-        detailLab.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(25)
-            $0.bottom.equalToSuperview().offset(-25)
-        }
-        
-        contentView.addSubview(nextImg)
-        nextImg.snp.makeConstraints {
-            $0.right.equalToSuperview().offset(-20)
-            $0.centerY.equalTo(detailLab)
-        }
-        
-        
-    }
-    
-    
-    func setCellData(model: MessageModel) {
-        czrLab.text = model.createBy
-        orderLab.text = model.orderID
-        timeLab.text = model.createTime
-        
-        if model.operateType == "1" {
-            //拒接订单
-            titLab.text = "Rejected order"
-            disLab.text = ""
-        }
-        
-        if model.operateType == "2" {
-            //取消订单
-            titLab.text = "Cancelled order"
-            disLab.text = ""
-        }
-        
-        if model.operateType == "3" {
-            //修改订单
-            titLab.text = "Changed order"
-            disLab.text = ""
-        }
-        if model.operateType == "4" {
-            //打折订单
-            titLab.text = "Discounted order"
-            disLab.text = "Orders are discounted by £\(model.discountPrice)"
-        }
-        
-    }
-    
-    
-}
 
 
 
@@ -357,24 +192,204 @@ import SwiftyJSON
 class MessageModel: NSObject {
     
     var orderID: String = ""
-    ///操作类型（1拒接订单，2取消订单，3修改订单，4订单折扣）
+    ///操作类型（1拒接订单，2取消订单，3修改订单，4订单折扣， 5保存预付，6删除预付）
     var operateType: String = ""
-    ///订单是否合并（1否，2是），若orderId未合并订单编码，否则为订单编码
-    var mergeType: String = ""
+//    ///订单是否合并（1否，2是），若orderId未合并订单编码，否则为订单编码
+//    var mergeType: String = ""
     ///优惠金额（当operator_type=4时有值）
-    var discountPrice: String = ""
+    var discountPrice: Double = 0
+    
+    ///餐桌名称
+    var deskName: String = ""
+    
+    ///预付类型 1现金券，2现金结算，3POS结算，4现金&POS结算），当operate_type=5、6时有值
+    var advanceType: String = ""
+    
+    ///现金优惠券
+    var cashCouponPrice: Double = 0
+    
+    ///现金预缴金额
+    var cashPrice: Double = 0
+    
+    ///pos预缴金额
+    var posPrice: Double = 0
+    
+    ///现金小费金额
+    var tipCashPrice: Double = 0
+    
+    ///pos 小费金额
+    var tipPosPrice: Double = 0
+    
+    ///是否修改支付方式  (1未修改，2修改），当operateType=3时有值
+    var isUpdatePayType: Bool = false
+    
+    ///原来的支付方式 1现金，2卡，3Pos，4现金&POS 未修改为-1
+    var oldPayType: String = ""
+    
+    ///新的支付方式 1现金，2卡，3Pos，4现金&POS 未修改为-1
+    var newPayType: String = ""
+    
+    ///现金金额 只有newPayType == 4 时有值
+    var payTypeCashPrice: Double = 0
+    
+    ///POS金额 只有newPayType == 4 时有值
+    var payTypePosPrice: Double = 0
+   
+    ///是否修改配送费（1未修改，2修改）
+    var isUpdateDelivery: Bool = false
+    ///原配送费
+    var oldDeliveryPrice: Double = 0
+    ///新的配送费
+    var newDeliveryPrice: Double = 0
+    
+    ///是否修改菜品 1未修改，2修改
+    var isUpdateDishes: Bool = false
+    ///原来菜品金额
+    var oldDishesPrice: Double = 0
+    ///新菜品金额
+    var newDishesPrice: Double = 0
+    
+    ///是否修改了订单总金额
+    var isUpdateTotal: Bool = false
+    ///原来订单金额
+    var oldOrderPrice: Double = 0
+    ///新的订单金额
+    var newOrderPrice: Double = 0
+    
+    ///现金券编码
+    var couponNo: String = ""
+    
+        
+    
+    
     ///操作人
     var createBy: String = ""
     ///操作时间
     var createTime: String = ""
     
+    var cell_H: CGFloat = 0
+    
     func updateModel(json: JSON) {
         self.orderID = json["orderId"].stringValue
         self.operateType = json["operateType"].stringValue
-        self.mergeType = json["mergeType"].stringValue
-        self.discountPrice = D_2_STR(json["discountPrice"].doubleValue)
+        self.discountPrice = json["discountPrice"].doubleValue
+        
         self.createBy = json["createBy"].stringValue
         self.createTime = json["createTime"].stringValue
+        
+        deskName = json["deskName"].stringValue
+        
+        advanceType = json["advanceType"].stringValue
+        
+        cashCouponPrice = json["cashCouponPrice"].doubleValue
+        
+        cashPrice = json["cashPrice"].doubleValue
+        
+        posPrice = json["posPrice"].doubleValue
+        
+        tipPosPrice = json["tipPosPrice"].doubleValue
+        
+        tipCashPrice = json["tipCashPrice"].doubleValue
+        
+        isUpdatePayType = json["updatePayType"].stringValue == "2" ? true : false
+        
+        
+        let o_type = json["oldPayType"].stringValue
+        if o_type == "1" {
+            oldPayType = "Cash"
+        }
+        if o_type == "2" {
+            oldPayType = "Card"
+        }
+        if o_type == "3" {
+            oldPayType = "Pos"
+        }
+        if o_type == "4" {
+            oldPayType = "Cash&Pos"
+        }
+        
+        let n_type = json["newPayType"].stringValue
+        if n_type == "1" {
+            newPayType = "Cash"
+        }
+        if n_type == "2" {
+            newPayType = "Card"
+        }
+        if n_type == "3" {
+            newPayType = "Pos"
+        }
+        if n_type == "4" {
+            newPayType = "Cash&Pos"
+        }
+
+        payTypeCashPrice = json["payTypeCashPrice"].doubleValue
+        payTypePosPrice = json["payTypePosPrice"].doubleValue
+        
+        isUpdateDelivery = json["updateDelivery"].stringValue == "2" ? true : false
+        oldDeliveryPrice = json["oldDeliveryPrice"].doubleValue
+        newDeliveryPrice = json["newDeliveryPrice"].doubleValue
+        
+        isUpdateDishes = json["updateDishes"].stringValue == "2" ? true : false
+        oldDishesPrice = json["oldDishesPrice"].doubleValue
+        newDishesPrice = json["newDishesPrice"].doubleValue
+        
+        isUpdateTotal = json["updateTotal"].stringValue == "2" ? true : false
+        oldOrderPrice = json["oldOrderPrice"].doubleValue
+        newOrderPrice = json["newOrderPrice"].doubleValue
+        
+        couponNo = json["couponNo"].stringValue
+        
+        
+        
+        var t_h: CGFloat = 0
+        
+        let tarr = [discountPrice, cashCouponPrice, cashPrice, posPrice, tipCashPrice, tipPosPrice]
+        
+        let count = tarr.filter { $0 != 0 }.count
+        
+        t_h = CGFloat(count) * 20 + 75
+        
+        if deskName != "" {
+            t_h += 20
+        }
+        
+        if couponNo != "" {
+            t_h += 20
+        }
+        
+        if isUpdatePayType {
+            t_h += 20
+        }
+        
+        if payTypePosPrice != 0 {
+            t_h += 20
+        }
+        
+        if payTypeCashPrice != 0 {
+            t_h += 20
+        }
+        
+        if isUpdateDelivery {
+            t_h += 20
+        }
+        
+        if isUpdateDishes {
+            t_h += 20
+        }
+
+        if isUpdateTotal {
+            t_h += 20
+        }
+        
+        
+        if operateType == "5" || operateType == "6" {
+            t_h += 10
+        } else {
+            t_h += 40
+        }
+        
+        cell_H = t_h
+        
     }
     
     

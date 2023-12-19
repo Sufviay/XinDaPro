@@ -69,6 +69,15 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
         return lab
     }()
     
+    private let tlab2: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#FEC501"), SFONT(14), .left)
+        lab.numberOfLines = 0
+        lab.text = "Please verify the mobile phone number and reset the password, so that you can log in with the mobile phone number and new password next time"
+        return lab
+    }()
+
+    
     private let line1: UIView = {
         let view = UIView()
         view.backgroundColor = HCOLOR("#EEEEEE")
@@ -223,16 +232,24 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
         view.addSubview(tlab1)
         tlab1.snp.makeConstraints {
             $0.left.equalToSuperview().offset(25)
-            $0.top.equalToSuperview().offset(statusBarH + R_H(95))
+            $0.top.equalToSuperview().offset(statusBarH + R_H(80))
         }
         
+        
+        view.addSubview(tlab2)
+        tlab2.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(25)
+            $0.top.equalTo(tlab1.snp.bottom).offset(5)
+            $0.right.equalToSuperview().offset(-25)
+        }
+
         
         view.addSubview(line1)
         line1.snp.makeConstraints {
             $0.left.equalToSuperview().offset(25)
             $0.right.equalToSuperview().offset(-25)
             $0.height.equalTo(0.5)
-            $0.top.equalToSuperview().offset(statusBarH + R_H(210))
+            $0.top.equalToSuperview().offset(statusBarH + R_H(240))
         }
         
         
@@ -431,6 +448,7 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
     }
 
     @objc private func clickSendCodeAction() {
+        
         if numberTF.text ?? "" != "" {
             sendSMS_Net()
         }
@@ -481,23 +499,24 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
     private func sendSMS_Net() {
         sendCodeBut.isEnabled = false
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.sendSMSCode(countryCode: countryCode, phone: numberTF.text!, type: "3").subscribe(onNext: { [unowned self] (json) in
-            HUD_MB.showSuccess("The verification code has been sent.", onView: view)
-            smsID = json["data"]["smsId"].stringValue
+        HTTPTOOl.sendSMSCode(countryCode: countryCode, phone: numberTF.text!, type: "3").subscribe(onNext: { [weak self] (json) in
+                        
+            HUD_MB.showSuccess("The verification code has been sent.", onView: self!.view)
+            self?.smsID = json["data"]["smsId"].stringValue
             
-            var s = 120
+            var s = 60
             let codeTimer = DispatchSource.makeTimerSource(queue:DispatchQueue.global())
             codeTimer.schedule(deadline: .now(), repeating: .milliseconds(1000))
  
-            codeTimer.setEventHandler { [unowned self] in
+            codeTimer.setEventHandler {
                 s -= 1
                 DispatchQueue.main.async {
-                    self.sendCodeBut.setTitle(String(format: "(%d)s", s), for: .normal)
+                    self?.sendCodeBut.setTitle(String(format: "(%d)s", s), for: .normal)
                 }
                 if s == 0 {
                     DispatchQueue.main.async {
-                        self.sendCodeBut.isEnabled = true
-                        self.sendCodeBut.setTitle("Send", for: .normal)
+                        self?.sendCodeBut.isEnabled = true
+                        self?.sendCodeBut.setTitle("Send", for: .normal)
                     }
                     codeTimer.cancel()
                 }
@@ -554,8 +573,9 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
         }, onError: { [unowned self] (error) in
             
             if error as! NetworkError == .errorCode11 {
+                HUD_MB.dissmiss(onView: view)
                 //手机号不存在引导用户注册
-                showSystemChooseAlert("Tips", "Mobile number is not registered, please go to the verification code login.", "Go", "Cancel") { [unowned self] in
+                showSystemChooseAlert("Tips", "This mobile phone number has no password, please use the mobile phone verification code to log in.", "Go", "Cancel") { [unowned self] in
                     let nextVC = PhoneLoginController()
                     nextVC.areaCode = areaCode
                     nextVC.countryCode = countryCode
@@ -570,6 +590,11 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
             }
         }).disposed(by: bag)
         
+    }
+    
+    
+    deinit {
+        print("\(self.classForCoder)销毁了")
     }
 
 }

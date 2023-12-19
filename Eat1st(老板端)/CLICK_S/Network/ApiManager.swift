@@ -482,7 +482,7 @@ extension ApiManager: TargetType {
         case .comboDoAddOrUpdate(model: _):
             return "api/boss/dishes/combo/doAddOrUpdate"
         case .getMsgList(page: _, type: _):
-            return "api/boss/operate/getLogList"
+            return "api/boss/operate/log/getLogList"
         case .getMergeDetail(mergeID: _):
             return "api/boss/merge/getMergeDetail"
         case .getComplainsList(page: _):

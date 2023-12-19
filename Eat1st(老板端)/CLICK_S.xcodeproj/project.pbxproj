@@ -73,6 +73,7 @@
 		E326D9FE2ADFC91B0060C0BE /* EditPrintAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E326D9FD2ADFC91B0060C0BE /* EditPrintAlert.swift */; };
 		E3284BAF2A4A6FF9004BC2C5 /* DishEditeSellTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3284BAE2A4A6FF9004BC2C5 /* DishEditeSellTypeCell.swift */; };
 		E32B488D2B2803C600B0F64C /* EditeFreeOneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32B488C2B2803C600B0F64C /* EditeFreeOneView.swift */; };
+		E32B488F2B2BE7F500B0F64C /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32B488E2B2BE7F500B0F64C /* MessageCell.swift */; };
 		E337296C28B64FE100A06AB7 /* StatisticalUnfulfilledDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E337296B28B64FE100A06AB7 /* StatisticalUnfulfilledDateCell.swift */; };
 		E337297428BF333500A06AB7 /* DishChartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E337297328BF333500A06AB7 /* DishChartController.swift */; };
 		E337297628C1939400A06AB7 /* WeekSalesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E337297528C1939400A06AB7 /* WeekSalesModel.swift */; };
@@ -317,6 +318,7 @@
 		E326D9FD2ADFC91B0060C0BE /* EditPrintAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPrintAlert.swift; sourceTree = "<group>"; };
 		E3284BAE2A4A6FF9004BC2C5 /* DishEditeSellTypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishEditeSellTypeCell.swift; sourceTree = "<group>"; };
 		E32B488C2B2803C600B0F64C /* EditeFreeOneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditeFreeOneView.swift; sourceTree = "<group>"; };
+		E32B488E2B2BE7F500B0F64C /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		E337296B28B64FE100A06AB7 /* StatisticalUnfulfilledDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticalUnfulfilledDateCell.swift; sourceTree = "<group>"; };
 		E337297328BF333500A06AB7 /* DishChartController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishChartController.swift; sourceTree = "<group>"; };
 		E337297528C1939400A06AB7 /* WeekSalesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekSalesModel.swift; sourceTree = "<group>"; };
@@ -755,6 +757,7 @@
 			children = (
 				E34E6E072A84CFB200DBC2A5 /* MessageController.swift */,
 				E34E6E092A85DBDA00DBC2A5 /* MergeOrderController.swift */,
+				E32B488E2B2BE7F500B0F64C /* MessageCell.swift */,
 			);
 			path = "消息";
 			sourceTree = "<group>";
@@ -1636,6 +1639,7 @@
 				E34C881F293DA1E900A24F4D /* StatisticalRefundHeaderCell.swift in Sources */,
 				E305E8B826DF133000AAB580 /* GestureCollectionView.swift in Sources */,
 				E3B3B12C285D7CBF007CCED4 /* DishesSpecNameCell.swift in Sources */,
+				E32B488F2B2BE7F500B0F64C /* MessageCell.swift in Sources */,
 				E3F829F62864376D005E5FAB /* SpecHeaderCell.swift in Sources */,
 				E3F829E02861A699005E5FAB /* MenuDishMoreAlert.swift in Sources */,
 				E3F82A062865658D005E5FAB /* DishEditeTagCell.swift in Sources */,
@@ -1978,7 +1982,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.29;
+				MARKETING_VERSION = 1.0.30;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app-Boss";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "CLICK_S/CLICK_S-Bridging-Header.h";
@@ -2008,7 +2012,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.29;
+				MARKETING_VERSION = 1.0.30;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app-Boss";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = boss_dis;

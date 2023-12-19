@@ -620,13 +620,14 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
             
             if (error as! NetworkError) == .errorCode11 || (error as! NetworkError) == .errorCode12 {
                 
+                HUD_MB.dissmiss(onView: view)
                 var msg = ""
                 
                 if error as! NetworkError == .errorCode11 {
-                    msg = "Mobile number is not registered, please go to the verification code login."
+                    msg = "This mobile phone number has no password, please use the mobile phone verification code to log in."
                 }
                 if error as! NetworkError == .errorCode12 {
-                    msg = "No password has been set, please go to the verification code login."
+                    msg = "This mobile phone number has no password, please use the mobile phone verification code to log in."
                 }
                 
                 //跳到手机验证码页面进行登录

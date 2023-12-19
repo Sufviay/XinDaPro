@@ -55,6 +55,15 @@ class ResetPasswordController: BaseViewController, UITextFieldDelegate {
     }()
 
     
+    private let tlab1: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#FEC501"), SFONT(14), .left)
+        lab.numberOfLines = 0
+        lab.text = "Please enter the old password and enter the new password, so that you can log in with the new password and mobile phone number next time"
+        return lab
+    }()
+    
+    
     private let line2: UIView = {
         let view = UIView()
         view.backgroundColor = HCOLOR("#E4E4E4")
@@ -143,7 +152,7 @@ class ResetPasswordController: BaseViewController, UITextFieldDelegate {
     
     override func setNavi() {
         self.naviBar.leftImg = LOIMG("nav_back")
-        self.naviBar.headerTitle = "Reset Password"
+        self.naviBar.headerTitle = "Change Password"
     }
     
     private func setUpUI() {
@@ -154,6 +163,13 @@ class ResetPasswordController: BaseViewController, UITextFieldDelegate {
             $0.top.equalToSuperview().offset(statusBarH + 44)
             $0.height.equalTo(7)
         }
+        
+        view.addSubview(tlab1)
+        tlab1.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(20)
+            $0.right.equalToSuperview().offset(-20)
+            $0.top.equalTo(line1.snp.bottom).offset(20)
+        }
 
         
         view.addSubview(line2)
@@ -161,7 +177,7 @@ class ResetPasswordController: BaseViewController, UITextFieldDelegate {
             $0.left.equalToSuperview().offset(20)
             $0.right.equalToSuperview().offset(-20)
             $0.height.equalTo(1)
-            $0.top.equalTo(line1.snp.bottom).offset(60)
+            $0.top.equalTo(line1.snp.bottom).offset(120)
         }
         
         view.addSubview(line3)

@@ -179,8 +179,6 @@ class HaveButtonOrderCell: BaseTableViewCell, UICollectionViewDelegate, UICollec
     }()
     
 
-    
-    
     override func setViews() {
         self.contentView.backgroundColor = .white
         

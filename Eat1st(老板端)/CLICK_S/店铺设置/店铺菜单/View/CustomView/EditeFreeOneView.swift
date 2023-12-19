@@ -57,7 +57,7 @@ class EditeFreeOneView: UIView, UIGestureRecognizerDelegate {
     private let titlab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("333333"), BFONT(18), .left)
-        lab.text = "Edit free one"
+        lab.text = "Buy one get one free"
         return lab
     }()
     

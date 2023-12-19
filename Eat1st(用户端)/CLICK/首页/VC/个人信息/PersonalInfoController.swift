@@ -155,7 +155,7 @@ class PersonalInfoController: BaseViewController {
     private let resetlab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("999999"), BFONT(11), .center)
-        lab.text = "RESET"
+        lab.text = "CHANGE"
         return lab
     }()
     
@@ -231,15 +231,15 @@ class PersonalInfoController: BaseViewController {
         
         if isInfoCenter {
             self.sikpBut.isHidden = true
-            self.line4.isHidden = true
-            self.resetBut.isHidden = true
-            self.pwLab.isHidden = true
-            
-        } else {
-            self.sikpBut.isHidden = false
             self.line4.isHidden = false
             self.resetBut.isHidden = false
             self.pwLab.isHidden = false
+            
+        } else {
+            self.sikpBut.isHidden = false
+            self.line4.isHidden = true
+            self.resetBut.isHidden = true
+            self.pwLab.isHidden = true
         }
         
         

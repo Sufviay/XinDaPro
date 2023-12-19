@@ -43,13 +43,16 @@ class OrderDishModel: NSObject {
     ///是否买一赠一
     var isGiveOne: Bool = false
     
+    ///是否是买一赠一赠送的菜品
+    var isGive: Bool = false
+    
     ///cell的高度
     var dish_H: CGFloat = 0
     
     
     
     
-    func updateModel(json: JSON) {
+    func updateModel(json: JSON, isConfirm: Bool) {
         self.count = json["buyNum"].intValue
         self.listImg = json["imageUrl"].stringValue
         self.name_C = json["dishesName"].stringValue
@@ -106,7 +109,7 @@ class OrderDishModel: NSObject {
         let h1 = self.name_C.getTextHeigh(BFONT(14), S_W - 195)
         let h2 = self.des_C.getTextHeigh(SFONT(11), S_W - 195)
         
-        if isGiveOne {
+        if isGiveOne && isConfirm {
             dish_H = h1 + h2 + 35 + 30 < 75 ? 75 : h1 + h2 + 35 + 30
         } else {
             dish_H = h1 + h2 + 35 < 75 ? 75 : h1 + h2 + 35
@@ -119,7 +122,7 @@ class OrderDishModel: NSObject {
             tArr2.append(model)
         }
         
-        if isGiveOne {
+        if isGiveOne && !isGive {
             //是买1赠1 的菜
             let tag = DishTagsModel()
             tag.tagType = "2"

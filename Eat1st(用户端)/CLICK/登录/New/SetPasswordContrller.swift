@@ -53,7 +53,15 @@ class SetPasswordContrller: BaseViewController, UITextFieldDelegate, SystemAlert
     private let tlab1: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#080808"), BFONT(28), .left)
-        lab.text = "Create a password"
+        lab.text = "Create Password"
+        return lab
+    }()
+    
+    private let tlab2: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#FEC501"), SFONT(14), .left)
+        lab.numberOfLines = 0
+        lab.text = "You need to create a login password so that you can log in with your mobile number and password next time"
         return lab
     }()
     
@@ -140,6 +148,13 @@ class SetPasswordContrller: BaseViewController, UITextFieldDelegate, SystemAlert
         tlab1.snp.makeConstraints {
             $0.left.equalToSuperview().offset(25)
             $0.top.equalToSuperview().offset(statusBarH + R_H(95))
+        }
+        
+        view.addSubview(tlab2)
+        tlab2.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(25)
+            $0.top.equalTo(tlab1.snp.bottom).offset(5)
+            $0.right.equalToSuperview().offset(-25)
         }
 
 
@@ -243,7 +258,7 @@ class SetPasswordContrller: BaseViewController, UITextFieldDelegate, SystemAlert
     
     @objc private func clickBackAction() {
         //返回 需要给提示 返回代表放弃设置支付密码 且放弃登陆操作
-        showSystemChooseAlert("Tips", "Account requires a password, return will not be able to log in.", "return", "Go on") { [unowned self] in
+        showSystemChooseAlert("Tips", "You need to create a password for the next login using the mobile number and password.", "return", "Go on") { [unowned self] in
             UserDefaults.standard.removeObject(forKey: "token")
             dismiss(animated: true)
         }

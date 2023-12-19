@@ -243,10 +243,10 @@ typealias VoidStringBlock = (_ str: String) -> ()
 //MARK: - 网络
 let HTTPTOOl = HttpTool.shared
 
-let ISONLINE: Bool = false
+let ISONLINE: Bool = true
 
 //2 为正式的测试
-let ENV: String = "1"
+let ENV: String = "2"
 
 //"https://api.foodo2o.com/"
 //"http://api.moneycheers.net/"
@@ -254,7 +254,7 @@ let ENV: String = "1"
 
 let V2URL: String = ISONLINE ? "https://api.foodo2o.com/" : "http://api.moneycheers.net/"
 
-let VERID: String = "59"
+let VERID: String = "60"
 
 let SERVICE_Email: String = "service@eat1st.co.uk"
 

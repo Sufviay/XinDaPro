@@ -20,7 +20,6 @@
 		E305E93F26E1C2A100AAB580 /* OrderDishModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E305E93E26E1C2A100AAB580 /* OrderDishModel.swift */; };
 		E305E94126E1C5CC00AAB580 /* EvaluateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E305E94026E1C5CC00AAB580 /* EvaluateController.swift */; };
 		E30E72BB26B923C1001919AD /* MenuTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30E72BA26B923C1001919AD /* MenuTypeCell.swift */; };
-		E30E72BD26B923DA001919AD /* MenuGoodsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30E72BC26B923DA001919AD /* MenuGoodsCell.swift */; };
 		E30E72BF26B92EBC001919AD /* MeunHeadToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30E72BE26B92EBC001919AD /* MeunHeadToolView.swift */; };
 		E30E72C126BA6778001919AD /* CountSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30E72C026BA6778001919AD /* CountSelectView.swift */; };
 		E30E72C326BA716B001919AD /* StoreIntroduceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30E72C226BA716B001919AD /* StoreIntroduceController.swift */; };
@@ -61,6 +60,7 @@
 		E32A39E9275F3113004C63D7 /* LBXScanWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A39E2275F3113004C63D7 /* LBXScanWrapper.swift */; };
 		E32A39EB275F3154004C63D7 /* CodeScan.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E32A39EA275F3154004C63D7 /* CodeScan.bundle */; };
 		E32A39ED275F31B8004C63D7 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A39EC275F31B8004C63D7 /* ScanViewController.swift */; };
+		E32B48912B3155D200B0F64C /* OrderDetailGoodsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32B48902B3155D200B0F64C /* OrderDetailGoodsCell.swift */; };
 		E337296E28B9B5C800A06AB7 /* FirstAllStoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E337296D28B9B5C800A06AB7 /* FirstAllStoreCell.swift */; };
 		E337297228BA0AF100A06AB7 /* FirstHeadToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E337297128BA0AF100A06AB7 /* FirstHeadToolView.swift */; };
 		E33C188C299F6A2600D4D4E3 /* MealSelectSizeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33C188B299F6A2600D4D4E3 /* MealSelectSizeController.swift */; };
@@ -348,7 +348,6 @@
 		E305E93E26E1C2A100AAB580 /* OrderDishModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDishModel.swift; sourceTree = "<group>"; };
 		E305E94026E1C5CC00AAB580 /* EvaluateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluateController.swift; sourceTree = "<group>"; };
 		E30E72BA26B923C1001919AD /* MenuTypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTypeCell.swift; sourceTree = "<group>"; };
-		E30E72BC26B923DA001919AD /* MenuGoodsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuGoodsCell.swift; sourceTree = "<group>"; };
 		E30E72BE26B92EBC001919AD /* MeunHeadToolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeunHeadToolView.swift; sourceTree = "<group>"; };
 		E30E72C026BA6778001919AD /* CountSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountSelectView.swift; sourceTree = "<group>"; };
 		E30E72C226BA716B001919AD /* StoreIntroduceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreIntroduceController.swift; sourceTree = "<group>"; };
@@ -389,6 +388,7 @@
 		E32A39E2275F3113004C63D7 /* LBXScanWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBXScanWrapper.swift; sourceTree = "<group>"; };
 		E32A39EA275F3154004C63D7 /* CodeScan.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CodeScan.bundle; sourceTree = "<group>"; };
 		E32A39EC275F31B8004C63D7 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
+		E32B48902B3155D200B0F64C /* OrderDetailGoodsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailGoodsCell.swift; sourceTree = "<group>"; };
 		E337296D28B9B5C800A06AB7 /* FirstAllStoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstAllStoreCell.swift; sourceTree = "<group>"; };
 		E337297128BA0AF100A06AB7 /* FirstHeadToolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstHeadToolView.swift; sourceTree = "<group>"; };
 		E33C188B299F6A2600D4D4E3 /* MealSelectSizeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealSelectSizeController.swift; sourceTree = "<group>"; };
@@ -1331,7 +1331,6 @@
 				E33C188F299F7CD700D4D4E3 /* MenuComboDishCell.swift */,
 				E36D169928767EDC003CE4BE /* ClassifySectionHeader.swift */,
 				E30E72BA26B923C1001919AD /* MenuTypeCell.swift */,
-				E30E72BC26B923DA001919AD /* MenuGoodsCell.swift */,
 				E3F4A9D02B234F7000494E39 /* MenuDishesCell.swift */,
 				E3A30498299CDEBC0023DCC1 /* MenuMealGoodsCell.swift */,
 				E38BF4C2288FDCEF0048F2EA /* MenuGoodsCell_Big.swift */,
@@ -1343,6 +1342,7 @@
 				E30E72C826BAB228001919AD /* StoreIntroduceTimeCell.swift */,
 				E3C7F8B326BE5199006BF56E /* OrderSelectTagCell.swift */,
 				E3C7F8B526BE6482006BF56E /* OrderStoreInfoCell.swift */,
+				E32B48902B3155D200B0F64C /* OrderDetailGoodsCell.swift */,
 				E3C7F8B726BE6C69006BF56E /* OrderGoodsCell.swift */,
 				E3C7F8B926BE77C8006BF56E /* OrderShowMoreCell.swift */,
 				E3C7F8BB26BE7F23006BF56E /* OrderInputCell.swift */,
@@ -1799,6 +1799,7 @@
 				E32539BA276C8C1100EC0C84 /* HaveButtonOrderCell.swift in Sources */,
 				E3CB077D27E1DDAA002CA110 /* StoreFirstHeadCell.swift in Sources */,
 				E3949AAA26AE4E6900160C75 /* SDPhotoBrowser.m in Sources */,
+				E32B48912B3155D200B0F64C /* OrderDetailGoodsCell.swift in Sources */,
 				E33C189829A4ACCA00D4D4E3 /* OrderCouponDishCell.swift in Sources */,
 				E316D63E2A36F7D200619E67 /* ScanOrderController.swift in Sources */,
 				E32A39E9275F3113004C63D7 /* LBXScanWrapper.swift in Sources */,
@@ -1908,7 +1909,6 @@
 				E305E44B287975230074735F /* DeleteAccountAlert.swift in Sources */,
 				E39BF39C26AFF6F8009E6330 /* SearchAddressTableCell.swift in Sources */,
 				E39BF3B326B27590009E6330 /* LocationAlertView.swift in Sources */,
-				E30E72BD26B923DA001919AD /* MenuGoodsCell.swift in Sources */,
 				E33C1890299F7CD700D4D4E3 /* MenuComboDishCell.swift in Sources */,
 				E3406B8926CF808900915ADA /* MenuModel.swift in Sources */,
 				E34929E126D9E0870014F40E /* CreateModel.swift in Sources */,
@@ -2260,7 +2260,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.59;
+				MARKETING_VERSION = 1.0.60;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Foodo2o-User";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2295,7 +2295,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.59;
+				MARKETING_VERSION = 1.0.60;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Foodo2o-User";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = user_dis;

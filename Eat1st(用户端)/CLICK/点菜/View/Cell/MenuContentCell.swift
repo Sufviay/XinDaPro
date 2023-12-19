@@ -81,8 +81,8 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
         
         
         tableView.register(ClassifySectionHeader.self, forHeaderFooterViewReuseIdentifier: "ClassifySectionHeader")
-        tableView.register(MenuGoodsNoSizeCell.self, forCellReuseIdentifier: "MenuGoodsNoSizeCell")
-        tableView.register(MenuGoodsSizeCell.self, forCellReuseIdentifier: "MenuGoodsSizeCell")
+//        tableView.register(MenuGoodsNoSizeCell.self, forCellReuseIdentifier: "MenuGoodsNoSizeCell")
+//        tableView.register(MenuGoodsSizeCell.self, forCellReuseIdentifier: "MenuGoodsSizeCell")
         tableView.register(MenuDishesCell.self, forCellReuseIdentifier: "MenuDishesCell")
         
         //tableView.register(Big_MenuGoodsNoSizeCell.self, forCellReuseIdentifier: "Big_MenuGoodsNoSizeCell")
