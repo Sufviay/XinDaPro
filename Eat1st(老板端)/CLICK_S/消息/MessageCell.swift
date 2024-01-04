@@ -136,7 +136,7 @@ class MessageCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSource
         }
     
         if section == 9 {
-            if dataModel.cashCouponPrice == 0 {
+            if dataModel.couponPrice == 0 {
                 return 0
             }
         }
@@ -173,7 +173,7 @@ class MessageCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSource
         }
         
         if section == 15 {
-            if dataModel.operateType == "5" || dataModel.operateType == "6" {
+            if dataModel.operateType == "6" || dataModel.operateType == "7" {
                 return 0
             }
         }
@@ -183,7 +183,12 @@ class MessageCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if indexPath.section == 0 {
-            return 75
+        
+            if dataModel.orderID == "0" {
+                return 60
+            } else {
+                return 75
+            }
         }
         
         if indexPath.section == 15 {
@@ -251,27 +256,27 @@ class MessageCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSource
             }
             
             if indexPath.section == 9 {
-                cell.setCellData(titStr: "Credit coupon", money: D_2_STR(dataModel.cashCouponPrice), isHide: false)
+                cell.setCellData(titStr: "Credit coupon", money: "£" + D_2_STR(dataModel.couponPrice), isHide: false)
             }
             
             if indexPath.section == 10 {
-                cell.setCellData(titStr: dataModel.couponNo, money: "", isHide: true)
+                cell.setCellData(titStr:  "Number", money:  dataModel.couponNo, isHide: false)
             }
             
             if indexPath.section == 11 {
-                cell.setCellData(titStr: "Cash", money: D_2_STR(dataModel.cashPrice), isHide: false)
+                cell.setCellData(titStr: "Cash", money: "£" + D_2_STR(dataModel.cashPrice), isHide: false)
             }
             
             if indexPath.section == 12 {
-                cell.setCellData(titStr: "Pos", money: D_2_STR(dataModel.posPrice), isHide: false)
+                cell.setCellData(titStr: "Pos", money: "£" + D_2_STR(dataModel.posPrice), isHide: false)
             }
             
             if indexPath.section == 13 {
-                cell.setCellData(titStr: "Cash tips", money: D_2_STR(dataModel.tipCashPrice), isHide: false)
+                cell.setCellData(titStr: "Cash tips", money: "£" + D_2_STR(dataModel.tipCashPrice), isHide: false)
             }
             
             if indexPath.section == 14 {
-                cell.setCellData(titStr: "Pos tips", money: D_2_STR(dataModel.tipPosPrice), isHide: false)
+                cell.setCellData(titStr: "Pos tips", money: "£" + D_2_STR(dataModel.tipPosPrice), isHide: false)
             }
             
             return cell
@@ -387,16 +392,24 @@ class MessageHearderCell: BaseTableViewCell {
             //修改订单
             titLab.text = "Changed order"
         }
+        
         if model.operateType == "4" {
             //打折订单
             titLab.text = "Discounted order"
         }
+        
+        
         if model.operateType == "5" {
+            //修改支付方式
+            titLab.text = "Changed payment method"
+        }
+
+        if model.operateType == "6" {
             //预付
             titLab.text = "Credit"
         }
         
-        if model.operateType == "6" {
+        if model.operateType == "7" {
             //删除预付
             titLab.text = "Delete credit"
         }
@@ -446,7 +459,7 @@ class MessageLineCell: BaseTableViewCell {
         moneyLab.isHidden = isHide
         
         titLab.text = titStr
-        moneyLab.text = "£\(money)"
+        moneyLab.text = money 
     }
     
 }

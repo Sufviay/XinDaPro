@@ -76,6 +76,16 @@ class ReportModel: NSObject {
     ///堂食订单数
     var dineOrderNum: Int = 0
     
+    ///现金小费数量
+    var tipCashNum: Int = 0
+    ///Pos小费数量
+    var tipPosNum: Int = 0
+    ///优惠数量
+    var discountNum: Int = 0
+    ///现金优惠券数量
+    var cashCouponNum: Int = 0
+    
+    
     
     
 
@@ -124,6 +134,11 @@ class ReportModel: NSObject {
     var tipCashPrice: Double = 0
     ///pos小费
     var tipPosPrice: Double = 0
+    ///现金优惠券金额
+    var cashCouponPrice: Double = 0
+    
+    
+    
     
     
     //MARK: - 拒接订单
@@ -199,6 +214,12 @@ class ReportModel: NSObject {
         self.coOrderNum = json["collectionNum"].intValue
         self.dineOrderNum = json["dineInNum"].intValue
         
+        self.tipCashNum = json["tipCashNum"].intValue
+        self.tipPosNum = json["tipPosNum"].intValue
+        self.discountNum = json["noPayNum"].intValue
+        self.cashCouponNum = json["cashCouponNum"].intValue
+        
+        
         self.orderNum_All = json["allNum"].intValue
         
         
@@ -225,6 +246,8 @@ class ReportModel: NSObject {
         self.tipCashPrice = json["tipCashPrice"].doubleValue
         self.tipPosPrice = json["tipPosPrice"].doubleValue
         self.discountPrice = json["noPayPrice"].doubleValue
+        self.cashCouponPrice = json["cashCouponPrice"].doubleValue
+        
         
         
         //拒接

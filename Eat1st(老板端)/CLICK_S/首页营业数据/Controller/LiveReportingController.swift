@@ -85,6 +85,7 @@ class LiveReportingController: UIViewController, UITableViewDelegate, UITableVie
         tableView.register(StatisticalFeeCell.self, forCellReuseIdentifier: "StatisticalFeeCell")
         tableView.register(StatisticalRefundHeaderCell.self, forCellReuseIdentifier: "StatisticalRefundHeaderCell")
         tableView.register(StatisticalRefundCell.self, forCellReuseIdentifier: "StatisticalRefundCell")
+        tableView.register(StatisticalFeeNumCell.self, forCellReuseIdentifier: "StatisticalFeeNumCell")
         return tableView
     }()
     
@@ -139,17 +140,25 @@ class LiveReportingController: UIViewController, UITableViewDelegate, UITableVie
             }
         }
         
-        if section == 5 || section == 7 || section == 8 || section == 9 {
-             
+        
+        if section == 5 {
             if showOrNot[section - 5] {
-                return 2
+                return 3
             }
         }
+        
         
         
         if section == 6 {
             if showOrNot[section - 5] {
                 return 3
+            }
+        }
+
+        if section == 7 || section == 8 || section == 9 {
+             
+            if showOrNot[section - 5] {
+                return 2
             }
         }
         
@@ -187,11 +196,16 @@ class LiveReportingController: UIViewController, UITableViewDelegate, UITableVie
             if indexPath.row == 1 {
                 return 240
             }
-            if indexPath.row == 2 {
+            
+            if indexPath.section == 5 && indexPath.row == 2 {
+                return 170
+            }
+            
+            if indexPath.section == 6 && indexPath.row == 2 {
                 return 240
             }
         }
-       
+        
         if indexPath.section == 7 {
             if indexPath.row == 0 {
                 return 55
@@ -283,7 +297,13 @@ class LiveReportingController: UIViewController, UITableViewDelegate, UITableVie
                 return cell
             }
             
-            if indexPath.row == 2 {
+            if indexPath.section == 5 && indexPath.row == 2 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "StatisticalFeeNumCell") as! StatisticalFeeNumCell
+                cell.setCellData(model: dataModel)
+                return cell
+            }
+            
+            if indexPath.section == 6 && indexPath.row == 2 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "StatisticalFeeCell") as! StatisticalFeeCell
                 cell.setCellData(model: dataModel)
                 return cell

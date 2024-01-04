@@ -114,7 +114,7 @@ class MessageController: HeadBaseViewController, UITableViewDelegate, UITableVie
         
 
         let model = dataArr[indexPath.row]
-        if model.operateType != "5" || model.operateType != "6" {
+        if model.operateType != "6" && model.operateType != "7" {
 //            ///合并订单
 //            let mergeVC = MergeOrderController()
 //            mergeVC.mergeID = model.orderID
@@ -192,7 +192,7 @@ import SwiftyJSON
 class MessageModel: NSObject {
     
     var orderID: String = ""
-    ///操作类型（1拒接订单，2取消订单，3修改订单，4订单折扣， 5保存预付，6删除预付）
+    ///操作类型（1拒接订单，2取消订单，3修改订单，4订单折扣，5修改支付方式，6保存预付，7删除预付）
     var operateType: String = ""
 //    ///订单是否合并（1否，2是），若orderId未合并订单编码，否则为订单编码
 //    var mergeType: String = ""
@@ -206,7 +206,7 @@ class MessageModel: NSObject {
     var advanceType: String = ""
     
     ///现金优惠券
-    var cashCouponPrice: Double = 0
+    var couponPrice: Double = 0
     
     ///现金预缴金额
     var cashPrice: Double = 0
@@ -281,7 +281,7 @@ class MessageModel: NSObject {
         
         advanceType = json["advanceType"].stringValue
         
-        cashCouponPrice = json["cashCouponPrice"].doubleValue
+        couponPrice = json["couponPrice"].doubleValue
         
         cashPrice = json["cashPrice"].doubleValue
         
@@ -343,7 +343,7 @@ class MessageModel: NSObject {
         
         var t_h: CGFloat = 0
         
-        let tarr = [discountPrice, cashCouponPrice, cashPrice, posPrice, tipCashPrice, tipPosPrice]
+        let tarr = [discountPrice, couponPrice, cashPrice, posPrice, tipCashPrice, tipPosPrice]
         
         let count = tarr.filter { $0 != 0 }.count
         
@@ -382,7 +382,7 @@ class MessageModel: NSObject {
         }
         
         
-        if operateType == "5" || operateType == "6" {
+        if operateType == "6" || operateType == "7" {
             t_h += 10
         } else {
             t_h += 40

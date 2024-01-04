@@ -40,6 +40,11 @@ class StatisticalFeeCell: BaseTableViewCell {
         return view
     }()
 
+    private let line6: UIView = {
+        let view = UIView()
+        view.backgroundColor = HCOLOR("#EEEEEE")
+        return view
+    }()
 
     
     
@@ -89,7 +94,7 @@ class StatisticalFeeCell: BaseTableViewCell {
     
     private let dine_ser_img: UIImageView = {
         let img = UIImageView()
-        img.image = LOIMG("ser_fee")
+        img.image = LOIMG("fee")
         img.isHidden = false
         return img
     }()
@@ -112,29 +117,27 @@ class StatisticalFeeCell: BaseTableViewCell {
         return lab
     }()
 
-
-    private let bag_img: UIImageView = {
+    
+    private let coup_img: UIImageView = {
         let img = UIImageView()
-        img.image = LOIMG("bag_fee")
+        img.image = LOIMG("fee")
         return img
     }()
     
-    
-    private let bag_lab: UILabel = {
+    private let coup_lab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#ADADAD"), BFONT(11), .left)
-        lab.text = "Bag fee"
+        lab.text = "Credit coupon"
         return lab
     }()
     
-    
-
-    private let bag_money: UILabel = {
+    private let coup_money: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("333333"), BFONT(18), .center)
-        lab.text = "£ 198.40"
+        lab.text = "£0"
         return lab
     }()
+    
 
     
     
@@ -200,6 +203,31 @@ class StatisticalFeeCell: BaseTableViewCell {
     
 
     private let tipPos_money: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("333333"), BFONT(18), .center)
+        lab.text = "£ 198.40"
+        return lab
+    }()
+
+    
+    
+    private let bag_img: UIImageView = {
+        let img = UIImageView()
+        img.image = LOIMG("bag_fee")
+        return img
+    }()
+
+
+    private let bag_lab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#ADADAD"), BFONT(11), .left)
+        lab.text = "Bag fee"
+        return lab
+    }()
+
+
+
+    private let bag_money: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("333333"), BFONT(18), .center)
         lab.text = "£ 198.40"
@@ -288,24 +316,24 @@ class StatisticalFeeCell: BaseTableViewCell {
         
         
         
-        contentView.addSubview(bag_img)
-        bag_img.snp.makeConstraints {
+        contentView.addSubview(coup_img)
+        coup_img.snp.makeConstraints {
             $0.centerX.equalTo(de_img)
             $0.top.equalToSuperview().offset(90)
         }
 
 
-        contentView.addSubview(bag_lab)
-        bag_lab.snp.makeConstraints {
+        contentView.addSubview(coup_lab)
+        coup_lab.snp.makeConstraints {
             $0.top.equalToSuperview().offset(115)
-            $0.centerX.equalTo(bag_img)
+            $0.centerX.equalTo(coup_img)
         }
 
 
-        contentView.addSubview(bag_money)
-        bag_money.snp.makeConstraints {
-            $0.centerX.equalTo(bag_img)
-            $0.top.equalTo(bag_lab.snp.bottom).offset(5)
+        contentView.addSubview(coup_money)
+        coup_money.snp.makeConstraints {
+            $0.centerX.equalTo(coup_img)
+            $0.top.equalTo(coup_lab.snp.bottom).offset(5)
         }
         
         
@@ -314,12 +342,12 @@ class StatisticalFeeCell: BaseTableViewCell {
         contentView.addSubview(tipCash_img)
         tipCash_img.snp.makeConstraints {
             $0.centerX.equalTo(or_ser_img)
-            $0.centerY.equalTo(bag_img)
+            $0.centerY.equalTo(coup_img)
         }
         
         contentView.addSubview(tipCash_lab)
         tipCash_lab.snp.makeConstraints {
-            $0.centerY.equalTo(bag_lab)
+            $0.centerY.equalTo(coup_lab)
             $0.centerX.equalTo(tipCash_img)
         }
 
@@ -333,21 +361,34 @@ class StatisticalFeeCell: BaseTableViewCell {
         contentView.addSubview(tipPos_img)
         tipPos_img.snp.makeConstraints {
             $0.centerX.equalTo(dine_ser_img)
-            $0.centerY.equalTo(bag_img)
+            $0.centerY.equalTo(coup_img)
         }
 
         contentView.addSubview(tipPos_lab)
         tipPos_lab.snp.makeConstraints {
-            $0.centerY.equalTo(bag_lab)
+            $0.centerY.equalTo(coup_lab)
             $0.centerX.equalTo(tipPos_img)
         }
 
         contentView.addSubview(tipPos_money)
         tipPos_money.snp.makeConstraints {
             $0.centerX.equalTo(tipPos_img)
-            $0.centerY.equalTo(bag_money)
+            $0.centerY.equalTo(coup_money)
         }
         
+        
+        contentView.addSubview(line3)
+        line3.snp.makeConstraints {
+            $0.centerX.size.equalTo(line1)
+            $0.centerY.equalTo(coup_lab)
+        }
+        
+        contentView.addSubview(line4)
+        line4.snp.makeConstraints {
+            $0.centerX.size.equalTo(line2)
+            $0.centerY.equalTo(line3)
+        }
+
                 
         contentView.addSubview(dis_img)
         dis_img.snp.makeConstraints {
@@ -366,24 +407,34 @@ class StatisticalFeeCell: BaseTableViewCell {
             $0.centerX.equalTo(dis_img)
             $0.top.equalTo(dis_lab.snp.bottom).offset(5)
         }
-
         
-
-        contentView.addSubview(line3)
-        line3.snp.makeConstraints {
-            $0.centerX.size.equalTo(line1)
-            $0.centerY.equalTo(bag_lab)
+        contentView.addSubview(bag_img)
+        bag_img.snp.makeConstraints {
+            $0.centerX.equalTo(or_ser_img)
+            $0.centerY.equalTo(dis_img)
         }
         
-        contentView.addSubview(line4)
-        line4.snp.makeConstraints {
-            $0.centerX.size.equalTo(line2)
-            $0.centerY.equalTo(line3)
+        contentView.addSubview(bag_lab)
+        bag_lab.snp.makeConstraints {
+            $0.centerY.equalTo(dis_lab)
+            $0.centerX.equalTo(bag_img)
         }
 
+        contentView.addSubview(bag_money)
+        bag_money.snp.makeConstraints {
+            $0.centerX.equalTo(bag_img)
+            $0.top.equalTo(bag_lab.snp.bottom).offset(5)
+        }
 
         contentView.addSubview(line5)
         line5.snp.makeConstraints {
+            $0.centerX.size.equalTo(line1)
+            $0.centerY.equalTo(dis_lab)
+        }
+        
+
+        contentView.addSubview(line6)
+        line6.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
             $0.right.equalToSuperview().offset(-20)
             $0.bottom.equalToSuperview()
@@ -398,6 +449,7 @@ class StatisticalFeeCell: BaseTableViewCell {
         self.or_ser_money.text = "£\(D_2_STR(model.platServiceFee))"
         self.dine_ser_money.text = "£\(D_2_STR(model.dineServiceFee))"
         self.bag_money.text = "£\(D_2_STR(model.packFee))"
+        self.coup_money.text = "£\(D_2_STR(model.cashCouponPrice))"
         self.dis_money.text = "£\(D_2_STR(model.discountPrice))"
         self.tipCash_money.text = "£\(D_2_STR(model.tipCashPrice))"
         self.tipPos_money.text = "£\(D_2_STR(model.tipPosPrice))"
