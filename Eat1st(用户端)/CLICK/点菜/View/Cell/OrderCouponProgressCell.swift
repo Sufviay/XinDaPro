@@ -146,16 +146,18 @@ class OrderCouponProgressCell: BaseTableViewCell {
         
         proLab.text = "\(model.giveCouponHaveNum)/\(model.giveCouponReachNum)"
         
-        let scaleStr = D_2_STR(Double(model.giveCouponHaveNum)/Double(model.giveCouponReachNum))
+        let scaleValue = Double(model.giveCouponHaveNum)/Double(model.giveCouponReachNum)
+        
+        let scaleStr = D_2_STR(scaleValue)
         
         
         scaleLab.text = "\(D_2_STR(((Double(scaleStr) ?? 0) * 100)))%"
         
         couponNameLab.text = "For every order greater than £\(model.giveCouponOrderPrice),\nyou will receive a £\(model.giveCouponPrice) coupon"
-                
+        
         proImg.snp.remakeConstraints {
             $0.left.top.bottom.equalToSuperview()
-            $0.width.equalToSuperview().multipliedBy((Double(model.giveCouponHaveNum)/Double(model.giveCouponReachNum)))
+            $0.width.equalToSuperview().multipliedBy((scaleValue > 1 ? 1 : scaleValue))
         }
         
         if model.giveCouponHaveNum == 0 {

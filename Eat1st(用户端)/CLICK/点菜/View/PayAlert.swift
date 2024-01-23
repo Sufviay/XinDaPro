@@ -12,7 +12,7 @@ class PayAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
     
     var clickPayBlock: VoidBlock?
 
-    ///是否可以现金付款或是否可以在线付款 1现金 2卡  3都行 4不需要
+    ///是否可以现金付款或是否可以在线付款 1现金 2卡  3或99都行 4不需要
     var paymentSupport: String = ""
 
     ///1 现金  2 卡

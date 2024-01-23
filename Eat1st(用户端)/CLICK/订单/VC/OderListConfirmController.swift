@@ -195,11 +195,11 @@ class OderListConfirmController: BaseViewController, UITableViewDelegate, UITabl
     private func showPayAlert() {
         ///弹出支付弹窗
         
-        if dataModel.type == "3" {
-            payAlert.paymentSupport = "2"
-        } else {
+//        if dataModel.type == "3" {
+//            payAlert.paymentSupport = "2"
+//        } else {
             payAlert.paymentSupport = dataModel.storePayType
-        }
+//        }
         payAlert.deductionAmount = dataModel.walletPrice
         payAlert.payPrice = dataModel.payPrice
         payAlert.subtotal = dataModel.actualFee
@@ -403,7 +403,7 @@ extension OderListConfirmController {
 
             if dataModel.type == "1" {
                 //配送
-                return 230 + h
+                return 270 + h
             }
             if dataModel.type == "2" {
                 return 190 + h
@@ -481,8 +481,10 @@ extension OderListConfirmController {
 
             if dataModel.type == "1" {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OrderListInputCell") as! OrderListInputCell
+                
 
-                cell.setCellData(name: dataModel.recipient, phone: dataModel.recipientPhone, address: dataModel.recipientAddress, time: dataModel.hopeTime, minTime: minTime, maxTime: maxTime, ydMsg: dataModel.reserveMsg)
+                let addressStr = "\(dataModel.postCode) \(dataModel.recipientAddress)"
+                cell.setCellData(name: dataModel.recipient, phone: dataModel.recipientPhone, address: addressStr, doorNum: dataModel.houseNo, time: dataModel.hopeTime, minTime: minTime, maxTime: maxTime, ydMsg: dataModel.reserveMsg)
                 return cell
             }
             if dataModel.type == "2" {

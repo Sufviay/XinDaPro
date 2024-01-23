@@ -75,6 +75,13 @@ class OrderModel: NSObject {
     var postCode: String = ""
     ///地址
     var address: String = ""
+    ///门牌号
+    var houseNo: String = ""
+    
+    ///拼接的详细地址信息
+    var addressStr: String = ""
+    var hAnda_Address: String = ""
+    
     ///列表内容高度
     var content_H: CGFloat = 0
 
@@ -171,11 +178,12 @@ class OrderModel: NSObject {
 //        self.deliveryFee = json["deliveryPrice"].doubleValue
 //        self.payPrice = json["payPrice"].doubleValue
         self.address = json["addressResult"]["address"].stringValue
+        self.houseNo = json["addressResult"]["houseNo"].stringValue
         self.postCode = json["addressResult"]["postCode"].stringValue
         self.startTime = json["hopeTimeResult"]["startTime"].stringValue
         self.endTime = json["hopeTimeResult"]["endTime"].stringValue
 
-        self.content_H = self.address == "" ? 105 : self.address.getTextHeigh(SFONT(13), S_W - 205) + 90
+        
 
         
         
@@ -228,10 +236,47 @@ class OrderModel: NSObject {
         self.fullGiftDish.nameStr = json["fullGiftResult"]["dishesName"].stringValue
         self.fullGiftDish.listImg = json["fullGiftResult"]["imageUrl"].stringValue
 
-
-        let addressStr = self.postCode + "\n" + self.address
-        address_H = self.address == "" ? 0 : addressStr.getTextHeigh(SFONT(14), S_W - 60) + 60
-        remark_H = self.remarks == "" ? 0 : self.remarks.getTextHeigh(SFONT(13), S_W - 110) + 10
+        
+        if postCode != "" {
+            addressStr = postCode
+            
+            if houseNo != "" {
+                addressStr += "\n\(houseNo)"
+            }
+            if address != "" {
+                addressStr += "\n\(address)"
+            }
+            
+        } else {
+            if houseNo != "" {
+                addressStr += houseNo
+            }
+            if address != "" {
+                addressStr += "\n\(address)"
+            }
+        }
+        
+        
+        
+        address_H = addressStr == "" ? 0 : addressStr.getTextHeigh(SFONT(14), S_W - 60) + 60
+        remark_H = remarks == "" ? 0 : remarks.getTextHeigh(SFONT(13), S_W - 110) + 10
+        
+        
+        
+        if houseNo == "" {
+            if address != "" {
+                hAnda_Address = address
+            }
+        } else {
+            if address != "" {
+                hAnda_Address = houseNo + "\n" + address
+            } else {
+                hAnda_Address = houseNo
+            }
+        }
+        
+        content_H = hAnda_Address == "" ? 105 : hAnda_Address.getTextHeigh(SFONT(13), S_W - 205) + 90
+        
         
         if discountMsg == "" {
             self.discountMsg_H = 0

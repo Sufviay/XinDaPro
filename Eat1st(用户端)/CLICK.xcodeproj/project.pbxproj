@@ -141,6 +141,7 @@
 		E38BF4C9289154250048F2EA /* OrderDetailMoneyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38BF4C8289154240048F2EA /* OrderDetailMoneyCell.swift */; };
 		E39147CE282E534000E9D37C /* OrderDetailButCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39147CD282E534000E9D37C /* OrderDetailButCell.swift */; };
 		E391E6E027686E11008BBD82 /* CustomImgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E391E6DF27686E11008BBD82 /* CustomImgeView.swift */; };
+		E39375102B49410D00BF87F8 /* OrderDetailRefundCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E393750F2B49410D00BF87F8 /* OrderDetailRefundCell.swift */; };
 		E3949A9B26AE4D2600160C75 /* ProjectHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3949A9A26AE4D2600160C75 /* ProjectHeader.swift */; };
 		E3949AAA26AE4E6900160C75 /* SDPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = E3949AA426AE4E6900160C75 /* SDPhotoBrowser.m */; };
 		E3949AAB26AE4E6900160C75 /* SDWaitingView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3949AA526AE4E6900160C75 /* SDWaitingView.m */; };
@@ -477,6 +478,7 @@
 		E38BF4C8289154240048F2EA /* OrderDetailMoneyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailMoneyCell.swift; sourceTree = "<group>"; };
 		E39147CD282E534000E9D37C /* OrderDetailButCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailButCell.swift; sourceTree = "<group>"; };
 		E391E6DF27686E11008BBD82 /* CustomImgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImgeView.swift; sourceTree = "<group>"; };
+		E393750F2B49410D00BF87F8 /* OrderDetailRefundCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailRefundCell.swift; sourceTree = "<group>"; };
 		E3949A9A26AE4D2600160C75 /* ProjectHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectHeader.swift; sourceTree = "<group>"; };
 		E3949A9C26AE4D5700160C75 /* CLICK-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CLICK-Bridging-Header.h"; sourceTree = "<group>"; };
 		E3949AA326AE4E6900160C75 /* SDPhotoBrowserConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowserConfig.h; sourceTree = "<group>"; };
@@ -845,6 +847,7 @@
 				E3BEFEB1282BE7780050D1E6 /* OrderDetailStatusCell.swift */,
 				E38BF4C8289154240048F2EA /* OrderDetailMoneyCell.swift */,
 				E3DEBD3B28E5523C00CE328E /* OrderDetailLuckyDrawCell.swift */,
+				E393750F2B49410D00BF87F8 /* OrderDetailRefundCell.swift */,
 				E3BEFEB3282D14550050D1E6 /* RoundedCornersCell.swift */,
 				E3C3A3732832A5C9009A728A /* OrderTSImageCell.swift */,
 				E3C3A3752832AE71009A728A /* OrderTSContentCell.swift */,
@@ -1864,6 +1867,7 @@
 				E39BF3A626B12967009E6330 /* StoreTableCell.swift in Sources */,
 				E3CB077F27E1E2F9002CA110 /* StoreMidInfoCell.swift in Sources */,
 				E33F6EBD26D649B800A3E009 /* ReviewsModel.swift in Sources */,
+				E39375102B49410D00BF87F8 /* OrderDetailRefundCell.swift in Sources */,
 				E30E72BB26B923C1001919AD /* MenuTypeCell.swift in Sources */,
 				E31790D328C5CE21007BA6B9 /* TimeDayAlert.swift in Sources */,
 				E33C189629A3260600D4D4E3 /* CartCell.swift in Sources */,
@@ -2260,7 +2264,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.60;
+				MARKETING_VERSION = 1.0.61;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Foodo2o-User";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2295,7 +2299,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.60;
+				MARKETING_VERSION = 1.0.61;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Foodo2o-User";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = user_dis;

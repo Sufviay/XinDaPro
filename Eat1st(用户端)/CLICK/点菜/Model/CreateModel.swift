@@ -18,7 +18,7 @@ class CreateOrderModel: HandyJSON {
     ///收货人姓名
     var recipient: String = ""
     ///收货人地址 拼接好的 
-    var recipientAddress: String =  ""
+    //var recipientAddress: String =  ""
     
     ///地址
     var address: String = ""

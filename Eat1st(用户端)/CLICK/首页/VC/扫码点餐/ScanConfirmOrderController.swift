@@ -350,7 +350,7 @@ class ScanConfirmOrderController: BaseViewController, UITableViewDelegate, UITab
         } else {
             //创建订单
             self.submitModel.recipientPostcode = ""
-            self.submitModel.recipientAddress = ""
+            //self.submitModel.recipientAddress = ""
             self.submitModel.address = ""
             self.submitModel.doorNum = ""
             self.submitModel.recipientLat = ""
@@ -774,9 +774,8 @@ extension ScanConfirmOrderController {
         payAlert.buyType = "3"
         self.payAlert.alertReloadData()
         self.payAlert.appearAction()
-
     }
-
+    
 }
 
 

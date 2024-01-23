@@ -223,7 +223,7 @@ class OrderChoosePayWayCell: BaseTableViewCell {
             
         }
         
-        if status == "3" {
+        if status == "3" || status == "99" {
             ///都可以
             self.cashBut.isEnabled = true
             self.cardBut.isEnabled = true

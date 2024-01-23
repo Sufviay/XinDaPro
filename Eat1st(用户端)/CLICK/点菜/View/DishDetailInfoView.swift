@@ -246,8 +246,7 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
             $0.edges.equalToSuperview()
         }
         
-    
-        
+
         
         backView.addSubview(selectView)
         selectView.snp.makeConstraints {

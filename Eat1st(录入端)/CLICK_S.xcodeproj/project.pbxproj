@@ -63,7 +63,6 @@
 		E3386CAB2791739600CBD42C /* voice_order_pay_succeed.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E3386CAA2791739600CBD42C /* voice_order_pay_succeed.mp3 */; };
 		E3386CAD27917BA800CBD42C /* 收到红包.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E3386CAC27917BA800CBD42C /* 收到红包.mp3 */; };
 		E37C18C32A0BAA4700D7C39D /* DiscountSelectDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37C18C22A0BAA4700D7C39D /* DiscountSelectDateView.swift */; };
-		E398A28E277B0187002A1D24 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E398A28D277B0187002A1D24 /* GoogleService-Info.plist */; };
 		E3B642242A1B3A5500B7530A /* JustEatsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B642232A1B3A5500B7530A /* JustEatsController.swift */; };
 		E3B642262A1B457800B7530A /* HeaderInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B642252A1B457800B7530A /* HeaderInfoView.swift */; };
 		E3B642282A1B653400B7530A /* DataInPutCell_H.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B642272A1B653400B7530A /* DataInPutCell_H.swift */; };
@@ -175,7 +174,6 @@
 		E3386CAA2791739600CBD42C /* voice_order_pay_succeed.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voice_order_pay_succeed.mp3; sourceTree = "<group>"; };
 		E3386CAC27917BA800CBD42C /* 收到红包.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "收到红包.mp3"; sourceTree = "<group>"; };
 		E37C18C22A0BAA4700D7C39D /* DiscountSelectDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountSelectDateView.swift; sourceTree = "<group>"; };
-		E398A28D277B0187002A1D24 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E3B642232A1B3A5500B7530A /* JustEatsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JustEatsController.swift; sourceTree = "<group>"; };
 		E3B642252A1B457800B7530A /* HeaderInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderInfoView.swift; sourceTree = "<group>"; };
 		E3B642272A1B653400B7530A /* DataInPutCell_H.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataInPutCell_H.swift; sourceTree = "<group>"; };
@@ -262,7 +260,6 @@
 		E305E87826DF0EC700AAB580 /* CLICK_S */ = {
 			isa = PBXGroup;
 			children = (
-				E398A28D277B0187002A1D24 /* GoogleService-Info.plist */,
 				E310507E26E864B900C223C1 /* CLICK_S.entitlements */,
 				E305E8A926DF125C00AAB580 /* CLICK_S-Bridging-Header.h */,
 				E305E90326DF14E700AAB580 /* 登录 */,
@@ -649,7 +646,6 @@
 				E305E8F526DF133D00AAB580 /* HUD_MB.bundle in Resources */,
 				E305E88626DF0EC800AAB580 /* LaunchScreen.storyboard in Resources */,
 				E3386CAB2791739600CBD42C /* voice_order_pay_succeed.mp3 in Resources */,
-				E398A28E277B0187002A1D24 /* GoogleService-Info.plist in Resources */,
 				E305E88326DF0EC800AAB580 /* Assets.xcassets in Resources */,
 				E305E88126DF0EC700AAB580 /* Main.storyboard in Resources */,
 			);
@@ -1021,7 +1017,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = CLICK_S/CLICK_S.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1;
+				CURRENT_PROJECT_VERSION = 1.2;
 				DEVELOPMENT_TEAM = 2CRFF5W24M;
 				INFOPLIST_FILE = CLICK_S/Other/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Data Upload";
@@ -1051,7 +1047,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.1;
+				CURRENT_PROJECT_VERSION = 1.2;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 2CRFF5W24M;
 				INFOPLIST_FILE = CLICK_S/Other/Info.plist;

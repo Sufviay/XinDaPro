@@ -263,8 +263,8 @@ class ReportModel: NSObject {
         self.unMachOrderNum = json["unBusinessNum"].intValue
         self.unDeOrderNum = json["unDeliveryNum"].intValue
         self.unCoOrderNum = json["unCollectionNum"].intValue
-        //self.unDineOrderNum = json[""]
-        self.unOrderNum_All = unDeOrderNum + unCoOrderNum
+        self.unDineOrderNum = json["unDineInNum"].intValue
+        self.unOrderNum_All = unDeOrderNum + unCoOrderNum + unDineOrderNum
         
         
         //未成功的订单金额数据
@@ -273,9 +273,10 @@ class ReportModel: NSObject {
         self.unAppOrderSum = json["unAppPrice"].doubleValue
         self.unMachOrderSum = json["unBusinessPrice"].doubleValue
         self.unCoOrderSum = json["unCollectionPrice"].doubleValue
+        self.unDineOrderSum = json["unDineInPrice"].doubleValue
         self.unDeOrderSum = json["unDeliveryPrice"].doubleValue
         
-        self.unOrderSum_All = unDeOrderSum + unCoOrderSum
+        self.unOrderSum_All = unDeOrderSum + unCoOrderSum + unDineOrderSum
     }
     
 }

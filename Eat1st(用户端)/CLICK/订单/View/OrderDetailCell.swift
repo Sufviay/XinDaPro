@@ -15,6 +15,8 @@ class DetailOneCell: BaseTableViewCell {
         view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W - 20, height: 40), byRoundingCorners: [.topLeft, .topRight], radii: 10)
         return view
     }()
+
+    
     
     let titLab: UILabel = {
         let lab = UILabel()

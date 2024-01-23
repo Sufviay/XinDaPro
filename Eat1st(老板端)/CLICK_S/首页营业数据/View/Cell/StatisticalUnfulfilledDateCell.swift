@@ -117,7 +117,7 @@ class StatisticalUnfulfilledDateCell: BaseTableViewCell {
     private let dineImg: UIImageView = {
         let img = UIImageView()
         img.image = LOIMG("tj_ts")
-        img.isHidden = true
+        //img.isHidden = true
         return img
     }()
     
@@ -125,7 +125,7 @@ class StatisticalUnfulfilledDateCell: BaseTableViewCell {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#ADADAD"), BFONT(11), .center)
         lab.text = "Dine-in"
-        lab.isHidden = true
+        //lab.isHidden = true
         return lab
     }()
     
@@ -133,7 +133,7 @@ class StatisticalUnfulfilledDateCell: BaseTableViewCell {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#333333"), BFONT(18), .center)
         lab.text = "0"
-        lab.isHidden = true
+        //lab.isHidden = true
         return lab
     }()
     
@@ -392,6 +392,7 @@ class StatisticalUnfulfilledDateCell: BaseTableViewCell {
             self.coNumLab.text = "\(model.unCoOrderNum)"
             self.appNumLab.text = "\(model.unAppOrderNum)"
             self.machNumLab.text = "\(model.unMachOrderNum)"
+            self.dineNumLab.text = "\(model.unDineOrderNum)"
             
         }
         
@@ -404,6 +405,7 @@ class StatisticalUnfulfilledDateCell: BaseTableViewCell {
             self.coNumLab.text = "£\(D_2_STR(model.unCoOrderSum))"
             self.appNumLab.text = "£\(D_2_STR(model.unAppOrderSum))"
             self.machNumLab.text = "£\(D_2_STR(model.unMachOrderSum))"
+            self.dineNumLab.text = "£\(D_2_STR(model.unDineOrderSum))"
             
         }
     }

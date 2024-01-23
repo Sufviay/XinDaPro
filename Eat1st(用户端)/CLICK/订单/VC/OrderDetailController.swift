@@ -68,6 +68,8 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
         tableView.register(OrderDetailLuckyDrawCell.self, forCellReuseIdentifier: "OrderDetailLuckyDrawCell")
         tableView.register(OrderCouponDishCell.self, forCellReuseIdentifier: "OrderCouponDishCell")
         
+        tableView.register(OrderDetailRefundCell.self, forCellReuseIdentifier: "OrderDetailRefundCell")
+        
         return tableView
     }()
     
@@ -108,7 +110,7 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
             
             self.dataModel.updateModel(json: json["data"])
             
-            self.sectionNum = 30
+            self.sectionNum = 31
             
             //获取配送员地理位置
             if self.dataModel.status == .delivery_ing {
@@ -455,6 +457,14 @@ extension OrderDetailController {
             }
         }
         
+        if section == 30 {
+            if dataModel.refundStatusId != "1" {
+                return 1
+            } else {
+                return 0
+            }
+        }
+        
         let msg = dataModel.msgArr[section - 14]
         if msg == "" {
             return 0
@@ -541,11 +551,13 @@ extension OrderDetailController {
         }
         
         if indexPath.section == 16 {
-            let h = dataModel.recipientAddress.getTextHeigh(SFONT(14), S_W - 160) + 30
+            //地址
+            let h = dataModel.msgArr[2].getTextHeigh(SFONT(14), S_W - 160) + 30
             return h
         }
         
         if indexPath.section == 18 {
+            //备注
             let h = dataModel.remark.getTextHeigh(SFONT(14), S_W - 160) + 30
             return h
         }
@@ -607,6 +619,10 @@ extension OrderDetailController {
         
         if indexPath.section == 29 {
             return 30
+        }
+        
+        if indexPath.section == 30 {
+            return 160
         }
         
     
@@ -844,6 +860,15 @@ extension OrderDetailController {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderTSDealCell") as! OrderTSDealCell
             cell.setCellData(model: dataModel)
             return cell
+        }
+        
+        
+        if indexPath.section == 30 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "OrderDetailRefundCell") as! OrderDetailRefundCell
+            cell.setCellData(model: dataModel)
+            return cell
+ 
+            
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "OrderDetailMsgCell") as! OrderDetailMsgCell

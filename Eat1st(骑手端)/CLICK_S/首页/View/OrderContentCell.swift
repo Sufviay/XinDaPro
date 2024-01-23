@@ -179,7 +179,7 @@ class OrderContentCell: BaseTableViewCell {
         
         self.orderLab.text = "#" + model.orderNum        
         self.postCodeLab.text = model.postCode
-        self.addressLab.text = model.address
+        self.addressLab.text = model.hAnda_Address
 
     }
     

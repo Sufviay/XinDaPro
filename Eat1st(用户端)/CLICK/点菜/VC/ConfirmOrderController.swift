@@ -499,15 +499,16 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
             if type == "2" {
                 //自取订单
                 self.submitModel.recipientPostcode = ""
-                self.submitModel.recipientAddress = ""
+                //self.submitModel.recipientAddress = ""
                 self.submitModel.address = ""
                 self.submitModel.doorNum = ""
                 self.submitModel.recipientLat = ""
                 self.submitModel.recipientLng = ""
-            } else {
-                //外卖订单
-                self.submitModel.recipientAddress = submitModel.doorNum + "\n" + submitModel.address
             }
+//            else {
+//                //外卖订单
+//                //self.submitModel.recipientAddress = submitModel.doorNum + "\n" + submitModel.address
+//            }
 
             HTTPTOOl.createOrder(model: self.submitModel).subscribe(onNext: { [unowned self] (json) in
                 ///刷新点餐页面

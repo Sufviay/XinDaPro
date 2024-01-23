@@ -178,6 +178,15 @@ class HaveButtonOrderCell: BaseTableViewCell, UICollectionViewDelegate, UICollec
         return but
     }()
     
+    //再来一单按钮
+    private let t_buyAgainBut: UIButton = {
+        let but = UIButton()
+        but.setCommentStyle(.zero, "Order it again ", .white, SFONT(14), MAINCOLOR)
+        but.layer.cornerRadius = 5
+        return but
+    }()
+
+    
 
     override func setViews() {
         self.contentView.backgroundColor = .white
@@ -307,6 +316,16 @@ class HaveButtonOrderCell: BaseTableViewCell, UICollectionViewDelegate, UICollec
             
         }
         
+        contentView.addSubview(t_buyAgainBut)
+        t_buyAgainBut.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 120, height: 30))
+            $0.right.equalToSuperview().offset(-10)
+            //$0.right.equalToSuperview().offset(-120)
+            $0.bottom.equalToSuperview().offset(-20)
+            
+        }
+
+        
         contentView.addSubview(evaluationBut)
         evaluationBut.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 100, height: 30))
@@ -330,6 +349,7 @@ class HaveButtonOrderCell: BaseTableViewCell, UICollectionViewDelegate, UICollec
         t_cancelBut.addTarget(self, action: #selector(clickCancelAction), for: .touchUpInside)
         payBut.addTarget(self, action: #selector(clickPayAction), for: .touchUpInside)
         buyAgainBut.addTarget(self, action: #selector(clickBuyAgainAction), for: .touchUpInside)
+        t_buyAgainBut.addTarget(self, action: #selector(clickBuyAgainAction), for: .touchUpInside)
     }
     
     
@@ -411,7 +431,7 @@ class HaveButtonOrderCell: BaseTableViewCell, UICollectionViewDelegate, UICollec
             self.evaluationBut.isHidden = true
             self.confirmBut.isHidden = true
             self.buyAgainBut.isHidden = true
-            
+            t_buyAgainBut.isHidden = true
         }
         
         if model.status == .pay_ing {
@@ -422,6 +442,7 @@ class HaveButtonOrderCell: BaseTableViewCell, UICollectionViewDelegate, UICollec
             self.evaluationBut.isHidden = true
             self.confirmBut.isHidden = true
             self.buyAgainBut.isHidden = true
+            t_buyAgainBut.isHidden = true
         }
 
         
@@ -433,6 +454,7 @@ class HaveButtonOrderCell: BaseTableViewCell, UICollectionViewDelegate, UICollec
             self.evaluationBut.isHidden = true
             self.confirmBut.isHidden = true
             self.buyAgainBut.isHidden = true
+            t_buyAgainBut.isHidden = true
         }
         
 //        if model.status == .cooked && model.type == "2" {
@@ -460,19 +482,25 @@ class HaveButtonOrderCell: BaseTableViewCell, UICollectionViewDelegate, UICollec
             self.payBut.isHidden = true
             self.t_cancelBut.isHidden = true
             self.confirmBut.isHidden = true
-            self.buyAgainBut.isHidden = false
             
             if model.type == "3" {
                 self.buyAgainBut.isHidden = true
+                t_buyAgainBut.isHidden = true
             } else {
                 self.buyAgainBut.isHidden = false
+                t_buyAgainBut.isHidden = false
             }
 
             if model.plaintStatus == "1" && model.evaluateStatus == "1" {
                 //完成的订单 当 未投诉  未评价 展示评价按钮
                 self.evaluationBut.isHidden = false
+                buyAgainBut.isHidden = false
+                t_buyAgainBut.isHidden = true
             } else {
                 self.evaluationBut.isHidden = true
+                buyAgainBut.isHidden = true
+                t_buyAgainBut.isHidden = false
+                
             }
 
         }

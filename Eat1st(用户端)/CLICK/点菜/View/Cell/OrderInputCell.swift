@@ -402,6 +402,12 @@ class OrderListInputCell: BaseTableViewCell {
         return img
     }()
     
+    private let doorImg: UIImageView = {
+        let img = UIImageView()
+        img.image = LOIMG("order_doorNum")
+        return img
+    }()
+
     
     private let timeImg: UIImageView = {
         let img = UIImageView()
@@ -438,6 +444,17 @@ class OrderListInputCell: BaseTableViewCell {
         tf.isUserInteractionEnabled = false
         return tf
     }()
+    
+    
+    private lazy var doorTF: UITextField = {
+        let tf = UITextField()
+        tf.attributedPlaceholder = NSAttributedString.init(string:"House number", attributes: [NSAttributedString.Key.foregroundColor:UIColor.lightGray])
+        tf.font = SFONT(14)
+        tf.textColor = FONTCOLOR
+        tf.isUserInteractionEnabled = false
+        return tf
+    }()
+    
     
     private lazy var timeTF: UITextField = {
         let tf = UITextField()
@@ -518,12 +535,18 @@ class OrderListInputCell: BaseTableViewCell {
             $0.top.equalTo(phoneImg.snp.bottom).offset(25)
         }
         
+        backView.addSubview(doorImg)
+        doorImg.snp.makeConstraints {
+            $0.left.size.equalTo(nameImg)
+            $0.top.equalTo(localImg.snp.bottom).offset(25)
+        }
         
         backView.addSubview(timeImg)
         timeImg.snp.makeConstraints {
             $0.left.size.equalTo(nameImg)
-            $0.top.equalTo(localImg.snp.bottom).offset(25)
+            $0.top.equalTo(doorImg.snp.bottom).offset(25)
         }
+
     
         backView.addSubview(nameInputTF)
         nameInputTF.snp.makeConstraints {
@@ -538,7 +561,7 @@ class OrderListInputCell: BaseTableViewCell {
             $0.left.equalTo(nameInputTF)
             $0.centerY.equalTo(localImg)
             $0.height.equalTo(nameInputTF)
-            $0.right.equalToSuperview().offset(-80)
+            $0.right.equalToSuperview().offset(-50)
         }
         
         backView.addSubview(phoneTF)
@@ -546,6 +569,13 @@ class OrderListInputCell: BaseTableViewCell {
             $0.left.size.equalTo(nameInputTF)
             $0.centerY.equalTo(phoneImg)
         }
+        
+        backView.addSubview(doorTF)
+        doorTF.snp.makeConstraints {
+            $0.centerY.equalTo(doorImg)
+            $0.left.size.equalTo(nameInputTF)
+        }
+        
         
         backView.addSubview(timeTF)
         timeTF.snp.makeConstraints {
@@ -586,12 +616,12 @@ class OrderListInputCell: BaseTableViewCell {
     }
     
     
-    func setCellData(name: String, phone: String, address: String, time: String, minTime: String, maxTime: String, ydMsg: String) {
+    func setCellData(name: String, phone: String, address: String, doorNum: String, time: String, minTime: String, maxTime: String, ydMsg: String) {
         self.nameInputTF.text = name
         self.phoneTF.text = phone
         self.addressInputTF.text = address
         self.timeTF.text = time
-
+        self.doorTF.text = doorNum
 
         
         if ydMsg == "" {

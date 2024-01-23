@@ -18,6 +18,7 @@ class AddressModel: NSObject {
     var address: String = ""
     var id: String = ""
     var phone: String = ""
+    /// 房号 详细地址
     var detail: String = ""
     ///是否是默认地址
     var isDefault: Bool = false
@@ -31,7 +32,7 @@ class AddressModel: NSObject {
         self.id = json["addressId"].stringValue
         self.overRange = json["deliverType"].stringValue == "2" ? true : false
         self.isDefault = json["defaultAddr"].stringValue == "2" ? true : false
-        self.detail = json["detail"].stringValue
+        self.detail = json["houseNo"].stringValue
 
         self.lat = json["lat"].stringValue
         self.lng = json["lng"].stringValue

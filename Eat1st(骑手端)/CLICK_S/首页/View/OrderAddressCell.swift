@@ -79,7 +79,7 @@ class OrderAddressCell: BaseTableViewCell {
     
     func setCellData(model: OrderModel) {
         self.disLab.text = "Distance:  " +  D_2_STR(model.distance) + "miles"
-        self.addressLab.text = model.postCode + "\n" + model.address
+        self.addressLab.text = model.addressStr//model.postCode + "\n" + model.address
         
         self.lat = model.lat
         self.lng = model.lng

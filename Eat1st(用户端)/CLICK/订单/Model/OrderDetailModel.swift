@@ -17,6 +17,8 @@ class OrderDetailModel: NSObject {
     var recipientPhone: String = ""
     ///地址
     var recipientAddress: String = ""
+    ///门牌号
+    var houseNo: String = ""
     
     ///收货人经纬度
     var recipientLat: String = ""
@@ -158,7 +160,7 @@ class OrderDetailModel: NSObject {
     var deliveryLat: String = ""
     var deliveryLng: String = ""
     
-    ///店铺支持的支付方式
+    ///店铺支持的支付方式 1现金、2卡、99全部支持
     var storePayType: String = ""
     ///预计送达时间
     var startTime: String = ""
@@ -184,6 +186,26 @@ class OrderDetailModel: NSObject {
     var discountMsg_H: CGFloat = 0
     var confirmMoney_H: CGFloat = 0
     var detailMoney_H: CGFloat = 0
+    
+    //退款相关
+    
+    ///订单退款状态编码（1无退款，2退款中，3退款成功，4退款失败）
+    var refundStatusId: String = ""
+    ///订单退款状态名称
+    var refundStatusName: String = ""
+    
+    ///退款类型名称
+    var refundTypeName: String = ""
+    ///退款方式
+    var refundFlowName: String = ""
+    ///退款金额
+    var cardPrice: Double = 0
+    var posPrice: Double = 0
+    var cashPrice: Double = 0
+    
+    ///退款时间
+    var refundCreateTime: String = ""
+    
     
     
 
@@ -217,6 +239,7 @@ class OrderDetailModel: NSObject {
         self.recipientLng = json["addressResult"]["lng"].stringValue
         self.recipientLat = json["addressResult"]["lat"].stringValue
         self.postCode = json["addressResult"]["postCode"].stringValue
+        self.houseNo = json["addressResult"]["houseNo"].stringValue
         self.takeTime = json["addressResult"]["takeTime"].stringValue
 
         self.createTime = json["createTime"].stringValue
@@ -282,6 +305,36 @@ class OrderDetailModel: NSObject {
         
         self.prizeStatus = json["prizeStatus"].stringValue == "1" ? false : true
         self.prizeDrawStatus = json["prizeDrawStatus"].stringValue == "1" ? false : true
+        
+        
+        
+//        ///订单退款状态编码（1无退款，2退款中，3退款成功，4退款失败）
+//        var refundStatusId: String = ""
+//        ///订单退款状态名称
+//        var refundStatusName: String = ""
+//
+//        ///退款类型名称
+//        var refundTypeName: String = ""
+//        ///退款方式
+//        var refundFlowName: String = ""
+//        ///退款金额
+//        var cardPrice: Double = 0
+//        var posPrice: Double = 0
+//        var cashPrice: Double = 0
+//
+//        ///退款时间
+//        var refundCreateTime: String = ""
+        
+        self.refundCreateTime = json["refundResult"]["createTime"].stringValue
+        self.refundFlowName = json["refundResult"]["refundFlowName"].stringValue
+        self.refundTypeName = json["refundResult"]["refundTypeName"].stringValue
+        self.cardPrice = json["refundResult"]["cardPrice"].doubleValue
+        self.posPrice = json["refundResult"]["posPrice"].doubleValue
+        self.cashPrice = json["refundResult"]["cashPrice"].doubleValue
+        
+        self.refundStatusName = json["refundStatusName"].stringValue
+        self.refundStatusId = json["refundStatusId"].stringValue
+        
        
         
         
@@ -314,17 +367,37 @@ class OrderDetailModel: NSObject {
         
         
         var addressStr = ""
-        if postCode == "" && recipientAddress == "" {
-            addressStr = ""
-        }
-        if postCode == "" && recipientAddress != "" {
-            addressStr = recipientAddress
+        
+        if postCode != "" {
+            addressStr = postCode
+            
+            if houseNo != "" {
+                addressStr += "\n\(houseNo)"
+            }
+            if recipientAddress != "" {
+                addressStr += "\n\(recipientAddress)"
+            }
+            
+        } else {
+            if houseNo != "" {
+                addressStr += houseNo
+            }
+            if recipientAddress != "" {
+                addressStr += "\n\(recipientAddress)"
+            }
         }
         
-        if postCode != "" && recipientAddress != "" {
-            addressStr = postCode + "\n" + recipientAddress
-        }
-         
+//        if postCode == "" && recipientAddress == "" && houseNo == "" {
+//            addressStr = ""
+//        }
+//        if postCode == "" && recipientAddress != "" {
+//            addressStr = recipientAddress
+//        }
+//
+//        if postCode != "" && recipientAddress != "" {
+//            addressStr = postCode + "\n" + recipientAddress
+//        }
+//
         
         self.msgArr = [recipient, recipientPhone, addressStr, takeTime, remark, createTime, payWay, ""]
 

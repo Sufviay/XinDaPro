@@ -490,11 +490,11 @@ extension ApiManager: TargetType {
         case .getAddressList(let storeID, let type, let page):
             dic = ["storeId": storeID, "listType": type, "pageIndex": page]
         case .editeAddress(let address, let lat, let lng, let phone, let postCode, let receiver, let id, let detail, let defaultOrNot):
-            dic = ["address": address, "addressId": id, "detail": detail, "lat": lat, "lng": lng, "phone": phone, "postcode": postCode, "name": receiver, "defaultAddr": defaultOrNot]
+            dic = ["address": address, "addressId": id, "houseNo": detail, "lat": lat, "lng": lng, "phone": phone, "postcode": postCode, "name": receiver, "defaultAddr": defaultOrNot]
         case .deleteAddress(let id):
             dic = ["addressId": id]
         case .creatOrder(let submitModel):
-            dic = ["couponId": submitModel.couponId, "deliveryType": submitModel.type, "payType": submitModel.paymentMethod, "remark": submitModel.remark, "storeId": submitModel.storeId, "orderAddress": ["address": submitModel.recipientAddress, "name": submitModel.recipient, "phone": submitModel.recipientPhone, "takeTime": submitModel.hopeTime, "lat": submitModel.recipientLat, "lng": submitModel.recipientLng, "postCode": submitModel.recipientPostcode], "deskId": submitModel.deskId, "couponUserDishesId": submitModel.couponUserDishesId, "giftDishesId": submitModel.giftDishesId]
+            dic = ["couponId": submitModel.couponId, "deliveryType": submitModel.type, "payType": submitModel.paymentMethod, "remark": submitModel.remark, "storeId": submitModel.storeId, "orderAddress": ["address": submitModel.address, "houseNo": submitModel.doorNum, "name": submitModel.recipient, "phone": submitModel.recipientPhone, "takeTime": submitModel.hopeTime, "lat": submitModel.recipientLat, "lng": submitModel.recipientLng, "postCode": submitModel.recipientPostcode], "deskId": submitModel.deskId, "couponUserDishesId": submitModel.couponUserDishesId, "giftDishesId": submitModel.giftDishesId]
         case .orderpay(let orderID, let payType):
             dic = ["orderId": orderID, "payType": payType]
         case .getOrderList(let page):
