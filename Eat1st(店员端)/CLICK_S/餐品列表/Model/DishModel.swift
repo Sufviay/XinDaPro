@@ -56,6 +56,8 @@ class DishModel: NSObject {
         dishesCode = json["dishesCode"].stringValue
         dishesNameHk = json["dishesNameHk"].stringValue
         dishesNameEn = json["dishesNameEn"].stringValue
+//        dishesNameHk = HTMLSTR(json["dishesNameHk"].stringValue)
+//        dishesNameEn = HTMLSTR(json["dishesNameEn"].stringValue)
         classifyId = json["classifyId"].stringValue
         price = json["price"].doubleValue
         dishesType = json["dishesType"].stringValue
@@ -75,8 +77,8 @@ class DishModel: NSObject {
     func updateDetailModel(json: JSON) {
         dishesId = json["dishesId"].stringValue
         dishesCode = json["dishesCode"].stringValue
-        dishesNameHk = json["dishesNameHk"].stringValue
-        dishesNameEn = json["dishesNameEn"].stringValue
+        dishesNameHk = HTMLSTR(json["dishesNameHk"].stringValue)
+        dishesNameEn = HTMLSTR(json["dishesNameEn"].stringValue)
         classifyId = json["classifyId"].stringValue
         price = json["price"].doubleValue
         dishesType = json["dishesType"].stringValue
@@ -134,8 +136,8 @@ class SpecModel: NSObject {
     
     func updateModel(json: JSON) {
         specId = json["specId"].stringValue
-        specNameHk = json["specNameHk"].stringValue
-        specNameEn = json["specNameEn"].stringValue
+        specNameHk = HTMLSTR(json["specNameHk"].stringValue)
+        specNameEn = HTMLSTR(json["specNameEn"].stringValue)
         required = json["required"].stringValue
         multiple = json["multiple"].stringValue
         
@@ -172,8 +174,8 @@ class OptionModel: NSObject {
     
     func updateModel(json: JSON) {
         optionId = json["optionId"].stringValue
-        optionNameHk = json["optionNameHk"].stringValue
-        optionNameEn = json["optionNameEn"].stringValue
+        optionNameHk = HTMLSTR(json["optionNameHk"].stringValue)
+        optionNameEn = HTMLSTR(json["optionNameEn"].stringValue)
         price = json["price"].doubleValue
         
         let name_H = optionNameEn.getTextHeigh(BFONT(13), S_W - 60 - 105) + optionNameHk.getTextHeigh(SFONT(11), S_W - 60 - 105)
@@ -202,8 +204,8 @@ class ComboModel: NSObject {
     
     func updateModel(json: JSON) {
         comboId = json["comboId"].stringValue
-        comboNameHk = json["comboNameHk"].stringValue
-        comboNameEn = json["comboNameEn"].stringValue
+        comboNameHk = HTMLSTR(json["comboNameHk"].stringValue)
+        comboNameEn = HTMLSTR(json["comboNameEn"].stringValue)
         
         let tH = comboNameEn.getTextHeigh(BFONT(12), S_W - 30 - 15 - 135) + comboNameHk.getTextHeigh(SFONT(11), S_W - 30 - 15 - 135)
     
@@ -240,8 +242,8 @@ class ComboDishesModel: NSObject {
     
     func updateModel(json: JSON) {
         dishesComboRelId = json["dishesComboRelId"].stringValue
-        dishesNameHk = json["dishesNameHk"].stringValue
-        dishesNameEn = json["dishesNameEn"].stringValue
+        dishesNameHk = HTMLSTR(json["dishesNameHk"].stringValue)
+        dishesNameEn = HTMLSTR(json["dishesNameEn"].stringValue)
         imageUrl = json["imageUrl"].stringValue
         
         

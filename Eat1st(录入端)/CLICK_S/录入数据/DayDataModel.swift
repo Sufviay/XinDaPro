@@ -25,6 +25,14 @@ class DayDataModel: HandyJSON {
     ///其他支出
     var otherCashOut: String = ""
     
+    ///兼職支出
+    var partTime: String = ""
+    ///預付支出
+    var prePaid: String = ""
+    ///剩餘
+    var reMain: String = ""
+    
+    
     ///图片列表
     var imagesList: [String] = []
     

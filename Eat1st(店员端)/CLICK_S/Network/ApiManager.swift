@@ -16,6 +16,8 @@ enum ApiManager {
     case loginAction(user: String, pw: String)
     ///登出
     case logOutAction
+    ///检查App版本
+    case checkAppVer
     ///获取餐桌列表
     case getDeskList
     ///获取菜品列表
@@ -59,6 +61,8 @@ extension ApiManager: TargetType {
             return "api/waiter/login"
         case .logOutAction:
             return "api/waiter/logout"
+        case .checkAppVer:
+            return "api/waiter/version/checkVersion"
         case .getDeskList:
             return "api/waiter/desk/getDeskList"
         case .getDishesList(deskID: _):
@@ -100,6 +104,8 @@ extension ApiManager: TargetType {
         var dic: [String: Any] = [:]
         switch self {
             
+        case .checkAppVer:
+            dic = ["sysType": "2", "verId": UserDefaults.standard.verID!]
         case .loginAction(let user, let pw):
             dic = ["password": pw, "account": user]
         case .logOutAction:

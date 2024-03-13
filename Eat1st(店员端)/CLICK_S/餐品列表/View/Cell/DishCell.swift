@@ -125,8 +125,8 @@ class DishCell: BaseTableViewCell {
             giveOneImg.isHidden = true
         }
         
-        nameLab1.text = model.dishesNameEn
-        nameLab2.text = model.dishesNameHk
+        nameLab1.text = HTMLSTR(model.dishesNameEn)
+        nameLab2.text = HTMLSTR(model.dishesNameHk)
         
         moneyLab.text = "£\(D_2_STR(model.price))"
         

@@ -38,6 +38,10 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
     
     
     
+    ///是否有未完成的订单
+    private var haveUnCompleteOrder: Bool = false
+    private var uncompleteCount: Int = 0
+    private var uncompleteID: String = ""
     
     ///是否有优惠券可使用
     private var haveCoupon: Bool = false
@@ -104,7 +108,7 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
         tableView.register(FirstAllStoreCell.self, forCellReuseIdentifier: "FirstAllStoreCell")
         tableView.register(FirstHaveCouponCell.self, forCellReuseIdentifier: "FirstHaveCouponCell")
         tableView.register(FirstHavePrizeDrawCell.self, forCellReuseIdentifier: "FirstHavePrizeDrawCell")
-        
+        tableView.register(FirstUncompleteOrderCell.self, forCellReuseIdentifier: "FirstUncompleteOrderCell")
         return tableView
     }()
     
@@ -169,6 +173,8 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
         checkHaveCoupon_Net()
         ///是否有未抽奖的订单
         checkHavePrizeDraw_Net()
+        ///是否有未完成的订单
+        checkHaveUncompleteOrder_Net()
         ///更新积分
         getJiFen_Net()
     }
@@ -235,6 +241,7 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
         table.mj_header = MJRefreshNormalHeader() { [unowned self] in
             self.checkHavePrizeDraw_Net()
             self.checkHaveCoupon_Net()
+            checkHaveUncompleteOrder_Net()
             self.loadData_Net()
         }
         
@@ -378,6 +385,7 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
         self.checkHaveCoupon_Net()
         self.checkMessage_Net()
         self.checkHavePrizeDraw_Net()
+        checkHaveUncompleteOrder_Net()
         self.getJiFen_Net()
         self.showMessage_Net()
     }
@@ -389,13 +397,21 @@ extension FirstController {
     
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 5
+        return 6
     }
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == 0 {
+            if haveUnCompleteOrder {
+                return 1
+            } else {
+                return 0
+            }
+        }
+        
+        if section == 1 {
             if haveCoupon {
                 return 1
             } else {
@@ -404,7 +420,7 @@ extension FirstController {
             
         }
         
-        if section == 1 {
+        if section == 2 {
             if havePrize {
                 return 1
             } else {
@@ -412,10 +428,10 @@ extension FirstController {
             }
         }
         
-        else if section == 2 {
+        else if section == 3 {
             return 1
         }
-        else if section == 3 {
+        else if section == 4 {
             return nearestArr.count
         }
         else {
@@ -428,18 +444,23 @@ extension FirstController {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
         if indexPath.section == 0 {
+            return SET_H(90, 356) + 10
+        }
+        
+        if indexPath.section == 1 {
             return SET_H(110, 350) + 10
         }
         
-        else if indexPath.section == 1 {
+        else if indexPath.section == 2 {
             return SET_H(70, 353) + 10
         }
         
-        else if indexPath.section == 2 {
+        else if indexPath.section == 3 {
             return (UserDefaults.standard.address ?? "").getTextHeigh(SFONT(11), S_W - 150) + 33 + 15 + 10
         }
-        else if indexPath.section == 3 {
+        else if indexPath.section == 4 {
             
             //根据店铺图片大小来显示高度
             let imgUrl = nearestArr[indexPath.row].coverImg
@@ -461,17 +482,23 @@ extension FirstController {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "FirstUncompleteOrderCell") as! FirstUncompleteOrderCell
+            return cell
+        }
+        
+        
+        if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "FirstHaveCouponCell") as! FirstHaveCouponCell
             cell.setCellData()
             return cell
         }
         
-        else if indexPath.section == 1 {
+        else if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "FirstHavePrizeDrawCell") as! FirstHavePrizeDrawCell
             return cell
         }
         
-        else if indexPath.section == 2 {
+        else if indexPath.section == 3 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "FirstSearchTableCell") as! FirstSearchTableCell
             cell.setCellData(addressStr: UserDefaults.standard.address ?? "", postCode: UserDefaults.standard.postCode ?? "")
             cell.clickBlock = { [unowned self] (type) in
@@ -494,7 +521,7 @@ extension FirstController {
             return cell
             
         }
-        else if indexPath.section == 3 {
+        else if indexPath.section == 4 {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "StoreTableCell") as! StoreTableCell
             cell.setCellData(model: nearestArr[indexPath.row])
@@ -544,21 +571,31 @@ extension FirstController {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        
         if indexPath.section == 0 {
+//            if uncompleteCount == 1 {
+//                //进入订单详情
+//            } else {
+                //订单列表
+                let listVC = OrderListController()
+                self.navigationController?.pushViewController(listVC, animated: true)
+//            }
+        }
+        
+        
+        if indexPath.section == 1 {
             //进入优惠券列表
             let couponVC = CouponListController()
             self.navigationController?.pushViewController(couponVC, animated: true)
         }
         
-        if indexPath.section == 1 {
+        if indexPath.section == 2 {
             //订单列表
             let listVC = OrderListController()
             self.navigationController?.pushViewController(listVC, animated: true)
         }
         
         
-        if indexPath.section == 3 {
+        if indexPath.section == 4 {
             //店铺菜单
             let nextVC = StoreMenuOrderController()
             nextVC.storeID = nearestArr[indexPath.row].storeID
@@ -592,7 +629,8 @@ extension FirstController {
                         model.isFirstDiscount = false
                     }
                 }
-                self.table.reloadSections([3], with: .none)
+                table.reloadData()
+                //self.table.reloadSections([3], with: .none)
             }).disposed(by: self.bag)
         }
     }
@@ -703,8 +741,8 @@ extension FirstController {
                 } else {
                     self.haveCoupon = true
                 }
-                //self.table.reloadData()
-                self.table.reloadSections([0], with: .none)
+                self.table.reloadData()
+                //self.table.reloadSections([0], with: .none)
                     
             }, onError: {[unowned self] _ in
                 self.haveCoupon = false
@@ -726,14 +764,37 @@ extension FirstController {
                 } else {
                     self.havePrize = false
                 }
-                //self.table.reloadData()
-                self.table.reloadSections([1], with: .none)
+                self.table.reloadData()
+                //self.table.reloadSections([1], with: .none)
             }, onError: { [unowned self] _ in
                 self.havePrize = false
             }).disposed(by: self.bag)
 
         } else {
             havePrize = false
+        }
+    }
+    
+    
+    //检查是否有未完成的订单
+    func checkHaveUncompleteOrder_Net() {
+        
+        if UserDefaults.standard.isLogin {
+            HTTPTOOl.getUnCompleteOrderCount().subscribe(onNext: {[unowned self] (json) in
+                uncompleteCount = json["data"]["num"].intValue
+                uncompleteID = json["data"]["orderId"].stringValue
+                if json["data"]["num"].intValue != 0 {
+                    self.haveUnCompleteOrder = true
+                } else {
+                    self.haveUnCompleteOrder = false
+                }
+                self.table.reloadData()
+                //self.table.reloadSections([1], with: .none)
+            }, onError: { [unowned self] _ in
+                self.haveUnCompleteOrder = false
+            }).disposed(by: self.bag)
+        } else {
+            haveUnCompleteOrder = false
         }
     }
     

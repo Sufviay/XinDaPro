@@ -108,7 +108,7 @@ class DataInPutCell_H: BaseTableViewCell, UITextFieldDelegate {
             self.inputTF.isEnabled = true
         }
         
-        if titStr == "Goods(£)" || titStr == "Other(£)" {
+        if titStr == "Goods(£)" || titStr == "Other(£)" || titStr == "Part Time(£)" || titStr == "Pre Paid(£)" || titStr == "Remain(£)" {
             self.s_lab.isHidden = true
         } else {
             self.s_lab.isHidden = false

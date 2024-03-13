@@ -44,6 +44,7 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
         tableView.dataSource = self
         tableView.contentInsetAdjustmentBehavior = .never
         tableView.bounces = false
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 90, right: 0)
         
         tableView.register(OrderDetailStatusCell.self, forCellReuseIdentifier: "OrderDetailStatusCell")
         tableView.register(OrderDetailMapCell.self, forCellReuseIdentifier: "OrderDetailMapCell")
@@ -74,6 +75,30 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
     }()
     
     
+    private let callBut: UIButton = {
+        let but = UIButton()
+        but.isHidden = true
+        but.setImage(LOIMG("call_b"), for: .normal)
+        return but
+    }()
+    
+    private let callLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(.white, BFONT(15), .center)
+        lab.text = "Call waiter"
+        return lab
+    }()
+    
+    private let callImg: UIImageView = {
+        let img = UIImageView()
+        img.image = LOIMG("call")
+        return img
+    }()
+    
+    
+    
+    
+    
     override func setViews() {
         view.backgroundColor = HCOLOR("#F7F7F7")
         setUpUI()
@@ -99,8 +124,34 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             $0.top.equalTo(naviBar.snp.bottom)
         }
+        
+        
+        view.addSubview(callBut)
+        callBut.snp.makeConstraints {
+            $0.left.right.bottom.equalTo(mainTable)
+            $0.height.equalTo(75)
+        }
+    
+        callBut.addSubview(callLab)
+        callLab.snp.makeConstraints {
+            $0.centerY.equalToSuperview().offset(-3)
+            $0.centerX.equalToSuperview().offset(10)
+        }
+        
+        callBut.addSubview(callImg)
+        callImg.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 18, height: 18))
+            $0.centerY.equalTo(callLab)
+            $0.right.equalTo(callLab.snp.left).offset(-10)
+        }
+        
+        callBut.addTarget(self, action: #selector(clickCallAction), for: .touchUpInside)
     }
     
+    
+    @objc private func clickCallAction() {
+        callWaiter_Net()
+    }
 
     //MARK: - 网络请求
     func loadData_Net() {
@@ -111,6 +162,20 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
             self.dataModel.updateModel(json: json["data"])
             
             self.sectionNum = 31
+            
+            
+            //是否显示呼叫服务员
+            if dataModel.type == "3" {
+                if dataModel.status == .pay_success || dataModel.status == .takeOrder || dataModel.status == .cooked || dataModel.status == .paiDan || dataModel.status == .delivery_ing {
+                    callBut.isHidden = false
+                } else {
+                    callBut.isHidden = true
+                }
+                
+            } else {
+                callBut.isHidden = true
+            }
+            
             
             //获取配送员地理位置
             if self.dataModel.status == .delivery_ing {
@@ -150,13 +215,23 @@ class OrderDetailController: BaseViewController, UITableViewDelegate, UITableVie
         }).disposed(by: self.bag)
     }
     
+    //呼叫服务员
+    private func callWaiter_Net() {
+        HUD_MB.loading("", onView: view)
+        HTTPTOOl.callWaiter(orderID: orderID).subscribe(onNext: { [unowned self] (json) in
+            HUD_MB.showSuccess("Call successful", onView: view)
+        }, onError: { [unowned self] (error) in
+            HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
+        }).disposed(by: bag)
+    }
+    
     
     
     //刷新骑手位置
     private func refreshRiderLocationData() {
-        HTTPTOOl.getCurrentPSLocation(orderID: self.dataModel.orderID).subscribe(onNext: {[unowned self] (json1) in
-            self.dataModel.deliveryLat = json1["data"]["lat"].stringValue
-            self.dataModel.deliveryLng = json1["data"]["lng"].stringValue
+        HTTPTOOl.getCurrentPSLocation(orderID: self.dataModel.orderID).subscribe(onNext: {[unowned self] (json) in
+            self.dataModel.deliveryLat = json["data"]["lat"].stringValue
+            self.dataModel.deliveryLng = json["data"]["lng"].stringValue
             self.mainTable.reloadData()
         }, onError: { (error) in  }).disposed(by: self.bag)
     }

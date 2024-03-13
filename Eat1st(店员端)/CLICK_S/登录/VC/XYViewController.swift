@@ -29,7 +29,7 @@ class XYViewController: BaseViewController, WKUIDelegate, WKNavigationDelegate {
     
     override func setNavi() {
         self.naviBar.headerTitle = titStr
-        self.naviBar.leftImg = LOIMG("nav_back")
+        self.naviBar.leftImg = LOIMG("nav_back_w")
         self.naviBar.rightBut.isHidden = true
         
         progressView.frame = CGRect(x: 0, y: statusBarH + 44, width: S_W, height: 2)

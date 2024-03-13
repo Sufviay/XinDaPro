@@ -38,9 +38,9 @@ class OrderDishModel: NSObject {
     
 
     func updateModel(json: JSON) {
-        nameCn = json["nameCn"].stringValue
-        nameHk = json["nameHk"].stringValue
-        nameEn = json["nameEn"].stringValue
+        nameCn = HTMLSTR(json["nameCn"].stringValue)
+        nameHk = HTMLSTR(json["nameHk"].stringValue)
+        nameEn = HTMLSTR(json["nameEn"].stringValue)
         price = json["price"].doubleValue
         buyNum = json["buyNum"].intValue
         giveOne = json["giveOne"].stringValue
@@ -113,9 +113,9 @@ class OrderDishSelectItemModel: NSObject {
     
     
     func updateModel(json: JSON, type: String) {
-        nameCn = json["nameCn"].stringValue
-        nameHk = json["nameHk"].stringValue
-        nameEn = json["nameEn"].stringValue
+        nameCn = HTMLSTR(json["nameCn"].stringValue)
+        nameHk = HTMLSTR(json["nameHk"].stringValue)
+        nameEn = HTMLSTR(json["nameEn"].stringValue)
         price = json["price"].doubleValue
         buyNum = json["buyNum"].intValue
         itemType = type

@@ -29,8 +29,8 @@ class AttachModel: NSObject {
         attachId = json["attachId"].stringValue
         attachCode = json["attachCode"].stringValue
         classifyId = json["classifyId"].stringValue
-        nameHk = json["nameHk"].stringValue
-        nameEn = json["nameEn"].stringValue
+        nameHk = HTMLSTR(json["nameHk"].stringValue)
+        nameEn = HTMLSTR(json["nameEn"].stringValue)
         price = json["price"].doubleValue
         
         let th = nameEn.getTextHeigh(BFONT(13), S_W - 30 - 15 - 75 - 10 - 15) + nameHk.getTextHeigh(SFONT(11), S_W - 30 - 15 - 75 - 10 - 15)
@@ -60,8 +60,8 @@ class AttachClassifyModel: NSObject {
     
     func updateModel(json: JSON) {
         classifyId = json["classifyId"].stringValue
-        nameHk = json["nameHk"].stringValue
-        nameEn = json["nameEn"].stringValue
+        nameHk = HTMLSTR(json["nameHk"].stringValue)
+        nameEn = HTMLSTR(json["nameEn"].stringValue)
         
         let th = nameEn.getTextHeigh(BFONT(13), 55) + nameHk.getTextHeigh(SFONT(11), 55)
         

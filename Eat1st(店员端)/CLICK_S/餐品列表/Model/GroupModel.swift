@@ -31,9 +31,9 @@ class GroupModel: NSObject {
        
         groupId = json["groupId"].stringValue
         parentId = json["parentId"].stringValue
-        nameCn = json["nameCn"].stringValue
-        nameHk = json["nameHk"].stringValue
-        nameEn = json["nameEn"].stringValue
+        nameCn = HTMLSTR(json["nameCn"].stringValue)
+        nameHk = HTMLSTR(json["nameHk"].stringValue)
+        nameEn = HTMLSTR(json["nameEn"].stringValue)
         searchType = json["searchType"].stringValue
         //isClassifty = false
     }
@@ -41,8 +41,8 @@ class GroupModel: NSObject {
     func updateWithClassifty(json: JSON) {
         classifyId = json["classify"].stringValue
         groupId = json["classify"].stringValue
-        nameEn = json["classifyNameEn"].stringValue
-        nameHk = json["classifyNameHk"].stringValue
+        nameEn = HTMLSTR(json["classifyNameEn"].stringValue)
+        nameHk = HTMLSTR(json["classifyNameHk"].stringValue)
     }
     
 

@@ -208,6 +208,11 @@ let D_2_STR: (Double) -> String = { num in
 
 
 
+let HTMLSTR: (String) -> String = { jsonStr in
+    return String(htmlEncodedString: jsonStr) ?? ""
+}
+
+
 //MARK: - 关于字体
 
 ///设置字体值
@@ -243,7 +248,7 @@ let HTTPTOOl = HttpTool.shared
 //"http://api.moneycheers.net/"
 //"https://api.foodo2o.com/"
 
-let ISONLINE: Bool = false
+let ISONLINE: Bool = true
 
 let VERID: String = "1"
 var BASEURL: String = ISONLINE ? "https://api.foodo2o.com/" : "http://api.moneycheers.net/"

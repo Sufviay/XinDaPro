@@ -14,7 +14,7 @@ class LoginBottomView: UIView {
     
     private let tlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("999999"), SFONT(11), .left)
+        lab.setCommentStyle(HCOLOR("FFFFFF"), SFONT(11), .left)
         lab.text = "By continuing,you are indicating that you accept our "
         return lab
     }()
@@ -27,7 +27,7 @@ class LoginBottomView: UIView {
     
     private let tlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("999999"), SFONT(11), .left)
+        lab.setCommentStyle(HCOLOR("FFFFFF"), SFONT(11), .left)
         lab.text = "and "
         return lab
     }()

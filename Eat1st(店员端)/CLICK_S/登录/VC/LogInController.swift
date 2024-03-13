@@ -197,6 +197,14 @@ class LogInController: BaseViewController {
             $0.top.equalTo(view2.snp.bottom).offset(75)
             $0.height.equalTo(50)
         }
+        
+        view.addSubview(b_biew)
+        b_biew.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(40)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-10)
+            $0.width.equalTo(280)
+        }
 
         loginBut.addTarget(self, action: #selector(clickLogInAction), for: .touchUpInside)
     }

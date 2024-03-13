@@ -72,6 +72,12 @@ class HttpTool {
         }
     }
     
+    
+    //MARK: - 检查更新
+    func checkAppVer() -> Observable<JSON> {
+        let response = rxApiManager(api: .checkAppVer)
+        return Observable<JSON>.create(response)
+    }
 
     
     //MARK: - 登录

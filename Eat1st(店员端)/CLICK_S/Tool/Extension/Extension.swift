@@ -141,6 +141,28 @@ extension UIView {
 //MARK: - 关于String
 extension String {
     
+    
+    //处理转义
+    init?(htmlEncodedString: String) {
+
+        guard let data = htmlEncodedString.data(using: .utf8) else {
+            return nil
+        }
+
+        let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
+            .documentType: NSAttributedString.DocumentType.html,
+            .characterEncoding: String.Encoding.utf8.rawValue
+        ]
+
+        guard let attributedString = try? NSAttributedString(data: data, options: options, documentAttributes: nil) else {
+            return nil
+        }
+
+        self.init(attributedString.string)
+
+    }
+    
+    
     ///字符串 长度
     var length: Int {
         return self.count

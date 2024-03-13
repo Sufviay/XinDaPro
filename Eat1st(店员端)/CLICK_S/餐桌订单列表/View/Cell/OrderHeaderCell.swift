@@ -122,11 +122,11 @@ class OrderHeaderCell: BaseTableViewCell {
         
         if model.status == "8" {
             //支付成功
-            statusLab.text = "支付成功"
+            statusLab.text = "已下單"
         }
         if model.status == "9" {
             //已接单
-            statusLab.text = "已接单"
+            statusLab.text = "已接單"
         }
         if model.status == "10" {
             //已出餐
@@ -134,7 +134,7 @@ class OrderHeaderCell: BaseTableViewCell {
         }
         if model.status == "12" {
             //配送中
-            statusLab.text = "待结算"
+            statusLab.text = "待結算"
         }
         
     }

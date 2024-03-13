@@ -181,7 +181,10 @@ enum ApiManager {
     case loginPWD(countryCode: String, phone: String, pwd: String)
     ///找回密码
     case findPWD(countryCode: String, phone: String, smsID: String, smsCode: String, pwd: String)
-    
+    ///获取未完成订单的数量
+    case getUnCompleteOrderCount
+    ///呼叫服务员
+    case callWaiter(orderID: String)
     
     
 
@@ -395,7 +398,10 @@ extension ApiManager: TargetType {
             return "api/user/login/findPwd"
         case .loginPWD(countryCode: _, phone: _, pwd: _):
             return "api/user/login/loginPwd"
-            
+        case .getUnCompleteOrderCount:
+            return "api/user/order/getUnCompleteOrderCount"
+        case .callWaiter(orderID: _):
+            return "api/user/order/doCallOrderSettle"
             
             
             
@@ -616,6 +622,10 @@ extension ApiManager: TargetType {
             dic = ["countryCode": countryCode, "phone": phone, "code": smsCode, "smsId": smsID, "password": pwd]
         case .loginPWD(let countryCode, let phone, let pwd):
             dic = ["countryCode": countryCode, "phone": phone, "password": pwd]  
+        case .getUnCompleteOrderCount:
+            dic = [:]
+        case .callWaiter(let orderID):
+            dic = ["orderId": orderID]
             
             
 

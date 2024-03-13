@@ -34,8 +34,8 @@ class CashOutController: HeadBaseViewController, UITableViewDelegate, UITableVie
     ///上传的图片
     private var picImgArr: [UIImage] = []
 
-    private let name1Arr = ["Driver(£)", "Goods(£)", "Other(£)"]
-    private let name2Arr = ["司機", "商品", "其他"]
+    private let name1Arr = ["Driver(£)", "Part Time(£)", "Goods(£)", "Other(£)", "Pre Paid(£)", "Remain(£)"]
+    private let name2Arr = ["司機", "兼職", "商品", "其他", "預付", "剩餘"]
 
     private lazy var headView: HeaderInfoView = {
         let view = HeaderInfoView()
@@ -67,7 +67,7 @@ class CashOutController: HeadBaseViewController, UITableViewDelegate, UITableVie
         tableView.separatorStyle = .none
         //回弹效果
         tableView.bounces = false
-        tableView.isScrollEnabled = false
+        //tableView.isScrollEnabled = true
         tableView.showsVerticalScrollIndicator =  false
         tableView.estimatedRowHeight = 0
         tableView.estimatedSectionFooterHeight = 0
@@ -192,6 +192,15 @@ class CashOutController: HeadBaseViewController, UITableViewDelegate, UITableVie
         if self.dataModel.otherCashOut == "" {
             self.dataModel.otherCashOut = "0"
         }
+        if self.dataModel.partTime == "" {
+            self.dataModel.partTime = "0"
+        }
+        if self.dataModel.prePaid == "" {
+            self.dataModel.prePaid = "0"
+        }
+        if self.dataModel.reMain == "" {
+            self.dataModel.reMain = "0"
+        }
 
         HTTPTOOl.doSaveAction(model: dataModel).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
@@ -224,12 +233,12 @@ extension CashOutController {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        return 4
+        return 7
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
-        if indexPath.row == 3 {
+        if indexPath.row == 6 {
             let w = (S_W - 80) / 5
 
             if picImgArr.count > 4 {
@@ -246,7 +255,7 @@ extension CashOutController {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        if indexPath.row == 3 {
+        if indexPath.row == 6 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DataUploadImgCell") as! DataUploadImgCell
             cell.setCellData(picArr: picImgArr)
 
@@ -266,10 +275,20 @@ extension CashOutController {
             content = dataModel.driverCashOut
         }
         if indexPath.row == 1 {
+            content = dataModel.partTime
+        }
+        
+        if indexPath.row == 2 {
             content = dataModel.goodsCashOut
         }
-        if indexPath.row == 2 {
+        if indexPath.row == 3 {
             content = dataModel.otherCashOut
+        }
+        if indexPath.row == 4 {
+            content = dataModel.prePaid
+        }
+        if indexPath.row == 5 {
+            content = dataModel.reMain
         }
 
         cell.setCellData(name1: name1Arr[indexPath.row], name2: name2Arr[indexPath.row], content: content)
@@ -279,10 +298,19 @@ extension CashOutController {
                 self.dataModel.driverCashOut = msg
             }
             if indexPath.row == 1 {
-                self.dataModel.goodsCashOut = msg
+                self.dataModel.partTime = msg
             }
             if indexPath.row == 2 {
+                self.dataModel.goodsCashOut = msg
+            }
+            if indexPath.row == 3 {
                 self.dataModel.otherCashOut = msg
+            }
+            if indexPath.row == 4 {
+                self.dataModel.prePaid = msg
+            }
+            if indexPath.row == 5 {
+                self.dataModel.reMain = msg
             }
         }
 

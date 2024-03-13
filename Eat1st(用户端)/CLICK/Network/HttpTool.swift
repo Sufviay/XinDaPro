@@ -648,6 +648,19 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
         return Observable<JSON>.create(response)
     }
     
+    //MARK: - 获取未完成的订单数
+    func getUnCompleteOrderCount() -> Observable<JSON> {
+        let response = rxApiManager(api: .getUnCompleteOrderCount)
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 呼叫服务员
+    func callWaiter(orderID: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .callWaiter(orderID: orderID))
+        return Observable<JSON>.create(response)
+    }
+    
+    
     
     
     

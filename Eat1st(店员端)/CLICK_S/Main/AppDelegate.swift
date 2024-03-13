@@ -20,11 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private let bag = DisposeBag()
     
     
-//    //版本提示框
-//    private lazy var versonAlert: VersionAlert = {
-//        let alert = VersionAlert()
-//        return alert
-//    }()
+    //版本提示框
+    private lazy var versonAlert: VersionAlert = {
+        let alert = VersionAlert()
+        return alert
+    }()
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
             
         //MARK: - 检查版本
-        //checkVerson_Net()
+        checkVerson_Net()
         return true
     }
     
@@ -48,6 +48,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //checkVerson_Net()
     }
 
+    
+    func checkVerson_Net() {
+        //检查版本
+        HTTPTOOl.checkAppVer().subscribe(onNext: { [unowned self] (json) in
+            if json["data"]["verId"].stringValue != "" {
+                versonAlert.appUrlStr = json["data"]["url"].stringValue
+                versonAlert.isMust = json["data"]["updateType"].stringValue == "1" ? true : false
+                versonAlert.showAction()
+            }
+        }, onError: { (error) in
+        }).disposed(by: self.bag)
+    }
+    
 }
 
 

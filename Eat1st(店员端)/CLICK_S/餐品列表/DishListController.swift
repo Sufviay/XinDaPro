@@ -352,6 +352,7 @@ extension DishListController {
     private func loadData_Net() {
         HUD_MB.loading("", onView: view)
         HTTPTOOl.getDishesList(deskID: deskID).subscribe(onNext: { [unowned self] (json) in
+            
             HUD_MB.dissmiss(onView: view)
             
             var tArr: [DishModel] = []
@@ -367,9 +368,10 @@ extension DishListController {
             } else {
                 noDataView.removeFromSuperview()
             }
+            table.reloadData()
             //筛选框赋值
             sxView.allDishes = allDataArr
-            table.reloadData()
+            
         
         }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
