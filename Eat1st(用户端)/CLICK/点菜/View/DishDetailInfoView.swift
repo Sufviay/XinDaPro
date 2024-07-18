@@ -141,6 +141,7 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
     }()
     
     
+    
     private let giveOneBackView: UIView = {
         let view = UIView()
         view.backgroundColor = HCOLOR("#FFD645").withAlphaComponent(0.12)
@@ -170,12 +171,26 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
     }()
 
     
+    private let vipImg: UIImageView = {
+        let img = UIImageView()
+        img.image = LOIMG("vipimg")
+        return img
+    }()
+    
+    
+    private let vipPriceLab: UILabel = {
+        let lab = UILabel()
+        lab.textColor = HCOLOR("56370B")
+        lab.textAlignment = .right
+        lab.font = UIFont(name: "Helvetica-BoldOblique", size: 9)
+        return lab
+    }()
+
     
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .clear
-        
         
         self.addSubview(headImg)
         headImg.snp.makeConstraints {
@@ -208,18 +223,34 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
             $0.right.equalToSuperview().offset(-20)
         }
         
+        
+        backView.addSubview(vipImg)
+        vipImg.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(10)
+            $0.top.equalTo(collection.snp.bottom).offset(5)
+            $0.height.equalTo(17)
+            $0.width.equalTo(87)
+        }
+        
+        vipImg.addSubview(vipPriceLab)
+        vipPriceLab.snp.makeConstraints {
+            $0.bottom.equalToSuperview().offset(0)
+            $0.height.equalTo(13)
+            $0.right.equalToSuperview().offset(-7)
+        }
     
         backView.addSubview(tlab)
         tlab.snp.makeConstraints {
             $0.left.equalToSuperview().offset(10)
-            $0.top.equalTo(collection.snp.bottom).offset(7)
+            $0.top.equalTo(collection.snp.bottom).offset(30)
         }
     
         
         backView.addSubview(moneyLab)
         moneyLab.snp.makeConstraints {
             $0.left.equalTo(tlab.snp.right).offset(5)
-            $0.top.equalTo(collection.snp.bottom).offset(5)
+            $0.bottom.equalTo(tlab.snp.bottom).offset(2)
+            //$0.top.equalTo(collection.snp.bottom).offset(28)
         }
         
         backView.addSubview(disMoneyLab)
@@ -315,7 +346,7 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
     
     
     
-    func setCellData(model: DishModel, selectCount: Int, canBuy: Bool)  {
+    func setCellData(model: DishModel, selectCount: Int, canBuy: Bool, isVip: Bool)  {
        
         if canBuy {
             selectView.isHidden = false
@@ -333,38 +364,116 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
         }
         
         if model.specification.count == 0 {
-            self.tlab.text = ""
+            self.tlab.text = "f"
+            tlab.isHidden = true
         } else {
             self.tlab.text = "from"
+            tlab.isHidden = false
         }
         
         if model.detailImgArr.count != 0 {
             self.headImg.setImage(imageStr: model.detailImgArr[0])
         }
         
-        self.nameLab.text = model.name_E
+        self.nameLab.text = model.name
         self.desLab.text = model.des
         self.selectView.count = selectCount
         self.gmyLab.text = "Allergen: " +  model.allergen
         
-        if model.discountType == "2" {
-            self.moneyLab.text = "£" + D_2_STR(model.discountPrice)
-            self.disMoneyLab.text = "£" + D_2_STR(model.price)
-            self.discountScaleLab.text = "\(model.discountSale)%OFF"
-            self.disMoneyLab.isHidden = false
-            self.disBackImg.isHidden = false
+        self.tagArr = model.tagList//.filter{ $0.tagImg != "" }
+        self.collection.reloadData()
+        
+        
+        
+        
+        if model.isHaveVipPrice {
+            
+//            if isVip {
+//                disBackImg.isHidden = true
+//                discountScaleLab.text = ""
+//                
+//                disMoneyLab.isHidden = false
+//                disMoneyLab.text = "£" + D_2_STR(model.price)
+//                
+//                vipImg.isHidden = true
+//                vipPriceLab.text = ""
+//                
+//                moneyLab.text = "£" + D_2_STR(model.vipPrice)
+//                
+//                tlab.snp.remakeConstraints {
+//                    $0.left.equalToSuperview().offset(10)
+//                    $0.top.equalTo(collection.snp.bottom).offset(7)
+//                }
+//                
+//            } else {
+                vipImg.isHidden = false
+                vipPriceLab.text = "£" + D_2_STR(model.vipPrice)
+                
+                if model.discountType == "2" {
+                    self.moneyLab.text = "£" + D_2_STR(model.discountPrice)
+                    self.disMoneyLab.text = "£" + D_2_STR(model.price)
+                    self.discountScaleLab.text = "\(model.discountSale)%OFF"
+                    self.disMoneyLab.isHidden = false
+                    self.disBackImg.isHidden = false
+                    
+                } else {
+                    self.moneyLab.text = "£" + D_2_STR(model.price)
+                    self.disMoneyLab.text = ""
+                    self.discountScaleLab.text = ""
+                    self.disMoneyLab.isHidden = true
+                    self.disBackImg.isHidden = true
+                }
+
+                tlab.snp.remakeConstraints {
+                    $0.left.equalToSuperview().offset(10)
+                    $0.top.equalTo(collection.snp.bottom).offset(25)
+                }
+//            }
             
         } else {
-            self.moneyLab.text = "£" + D_2_STR(model.price)
-            self.disMoneyLab.text = ""
-            self.discountScaleLab.text = ""
-            self.disMoneyLab.isHidden = true
-            self.disBackImg.isHidden = true
+            
+            vipImg.isHidden = true
+            vipPriceLab.text = ""
+            
+            
+            if model.discountType == "2" {
+                self.moneyLab.text = "£" + D_2_STR(model.discountPrice)
+                self.disMoneyLab.text = "£" + D_2_STR(model.price)
+                self.discountScaleLab.text = "\(model.discountSale)%OFF"
+                self.disMoneyLab.isHidden = false
+                self.disBackImg.isHidden = false
+                
+            } else {
+                self.moneyLab.text = "£" + D_2_STR(model.price)
+                self.disMoneyLab.text = ""
+                self.discountScaleLab.text = ""
+                self.disMoneyLab.isHidden = true
+                self.disBackImg.isHidden = true
+            }
+
+            tlab.snp.remakeConstraints {
+                $0.left.equalToSuperview().offset(10)
+                $0.top.equalTo(collection.snp.bottom).offset(5)
+            }
 
         }
         
-        self.tagArr = model.tagList//.filter{ $0.tagImg != "" }
-        self.collection.reloadData()
+//        
+//        
+//        if model.discountType == "2" {
+//            self.moneyLab.text = "£" + D_2_STR(model.discountPrice)
+//            self.disMoneyLab.text = "£" + D_2_STR(model.price)
+//            self.discountScaleLab.text = "\(model.discountSale)%OFF"
+//            self.disMoneyLab.isHidden = false
+//            self.disBackImg.isHidden = false
+//            
+//        } else {
+//            self.moneyLab.text = "£" + D_2_STR(model.price)
+//            self.disMoneyLab.text = ""
+//            self.discountScaleLab.text = ""
+//            self.disMoneyLab.isHidden = true
+//            self.disBackImg.isHidden = true
+//        }
 
     }
    
@@ -415,17 +524,17 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
             let textW = tag.tagName.getTextWidth(SFONT(11), 14)
                     
             if tag.tagImg == "" {
-                return CGSize(width: textW, height: 14)
+                return CGSize(width: textW + 6, height: 14)
             } else {
                 //从缓存中查找图片
                 let img = SDImageCache.shared.imageFromCache(forKey: tag.tagImg)
 
                 if img == nil {
-                    return CGSize(width: textW, height: 14)
+                    return CGSize(width: textW + 6, height: 14)
                 }
                 //根据图片计算宽度
                 let img_W = (img!.size.width * 14) / img!.size.height
-                return  CGSize(width: img_W + textW + 2 , height: 14)
+                return  CGSize(width: img_W + textW + 2 + 6, height: 14)
             }
         }
         

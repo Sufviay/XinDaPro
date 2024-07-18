@@ -197,43 +197,42 @@ class MenuDishEditeController: HeadBaseViewController, UITableViewDelegate, UITa
     
     func numberOfSections(in tableView: UITableView) -> Int {
         
-        return 22
+        return 24 //22
         
     }
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if section == 21 {
+        if section == 23 {
             return dataModel.specList.count
         }
         
-        if section == 20 {
+        if section == 22 {
             if !isAdd {
                 return 0
             }
         }
         
-        if section == 8 || section == 9 || section == 10 || section == 11 {
+        if section == 8 || section == 9 || section == 10 || section == 11 || section == 13 {
             if !isAdd {
                 return 0
             }
         }
         
         return 1
-        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if indexPath.section == 21 {
+        if indexPath.section == 23 {
             return dataModel.specList[indexPath.row].spe_H
         }
         
         if indexPath.section == 0 || indexPath.section == 1 || indexPath.section == 2 || indexPath.section == 3 {
             return 80
         }
-        if indexPath.section == 4 || indexPath.section == 5 || indexPath.section == 6 || indexPath.section == 13 || indexPath.section == 14 || indexPath.section == 15 {
+        if indexPath.section == 4 || indexPath.section == 5 || indexPath.section == 6 || indexPath.section == 15 || indexPath.section == 16 || indexPath.section == 17 {
             return 115
         }
         if indexPath.section == 7 {
@@ -247,26 +246,28 @@ class MenuDishEditeController: HeadBaseViewController, UITableViewDelegate, UITa
         if indexPath.section == 8 {
             return 90
         }
-        if indexPath.section == 9 {
+
+        if indexPath.section == 9 || indexPath.section == 10 {
+            return 80
+        }
+        
+        if indexPath.section == 11 || indexPath.section == 12 || indexPath.section == 13 {
             return 90
         }
 
-        if indexPath.section == 10 || indexPath.section == 11 {
+        if indexPath.section == 14 {
             return 80
         }
-        if indexPath.section == 12 {
-            return 80
-        }
-        if indexPath.section == 16 {
+        if indexPath.section == 18 {
             return 90
         }
-        if indexPath.section == 17 {
+        if indexPath.section == 19 {
             return 90
         }
-        if indexPath.section == 18 || indexPath.section == 19 {
+        if indexPath.section == 20 || indexPath.section == 21 {
             return 135
         }
-        if indexPath.section == 20 {
+        if indexPath.section == 22 {
             return 110
         }
         
@@ -310,7 +311,7 @@ class MenuDishEditeController: HeadBaseViewController, UITableViewDelegate, UITa
             return cell
         }
         
-        if indexPath.section == 4 || indexPath.section == 5 || indexPath.section == 6 || indexPath.section == 13 || indexPath.section == 14 || indexPath.section == 15 {
+        if indexPath.section == 4 || indexPath.section == 5 || indexPath.section == 6 || indexPath.section == 15 || indexPath.section == 16 || indexPath.section == 17 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeTextViewCell") as! DishEditeTextViewCell
             if indexPath.section == 4 {
                 cell.setCellData(titStr: "Simplified Chinese description", msgStr: dataModel.remarkCn, isMust: false)
@@ -322,13 +323,13 @@ class MenuDishEditeController: HeadBaseViewController, UITableViewDelegate, UITa
                 cell.setCellData(titStr: "English description", msgStr: dataModel.remarkEn, isMust: false)
             }
             
-            if indexPath.section == 13 {
+            if indexPath.section == 15 {
                 cell.setCellData(titStr: "Simplified Chinese allergen", msgStr: dataModel.allergenCn, isMust: true)
             }
-            if indexPath.section == 14 {
+            if indexPath.section == 16 {
                 cell.setCellData(titStr: "Traditional Chinese allergen", msgStr: dataModel.allergenHk, isMust: true)
             }
-            if indexPath.section == 15 {
+            if indexPath.section == 17 {
                 cell.setCellData(titStr: "English allergen", msgStr: dataModel.allergenEn, isMust: true)
             }
             
@@ -342,13 +343,13 @@ class MenuDishEditeController: HeadBaseViewController, UITableViewDelegate, UITa
                 if indexPath.section == 6 {
                     self.dataModel.remarkEn = text
                 }
-                if indexPath.section == 13 {
+                if indexPath.section == 15 {
                     self.dataModel.allergenCn = text
                 }
-                if indexPath.section == 14 {
+                if indexPath.section == 16 {
                     self.dataModel.allergenHk = text
                 }
-                if indexPath.section == 15 {
+                if indexPath.section == 17 {
                     self.dataModel.allergenEn = text
                 }
             }
@@ -381,7 +382,28 @@ class MenuDishEditeController: HeadBaseViewController, UITableViewDelegate, UITa
         }
         
     
-        if indexPath.section == 9 {
+        if indexPath.section == 9 || indexPath.section == 10 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditePriceInPutCell") as! DishEditePriceInPutCell
+            if indexPath.section == 9 {
+                cell.setCellData(money: dataModel.deliPrice, titStr: "Delivery Price")
+            }
+            if indexPath.section == 10 {
+                cell.setCellData(money: dataModel.dinePrice, titStr: "Dine-in Price")
+            }
+            
+            cell.editeEndBlock = { [unowned self] (text) in
+                
+                if indexPath.section == 9 {
+                    dataModel.deliPrice = text
+                }
+                if indexPath.section == 10 {
+                    dataModel.dinePrice = text
+                }
+            }
+            return cell
+        }
+        
+        if indexPath.section == 11 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell") as! DishEditeChooseCell
             cell.setCellData(titStr: "Buffet or not", l_str: "Not", r_Str: "Buffet", statusID: dataModel.buffetType)
         
@@ -392,27 +414,35 @@ class MenuDishEditeController: HeadBaseViewController, UITableViewDelegate, UITa
             }
             return cell
         }
-        if indexPath.section == 10 || indexPath.section == 11 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditePriceInPutCell") as! DishEditePriceInPutCell
-            if indexPath.section == 10 {
-                cell.setCellData(money: dataModel.deliPrice, titStr: "Delivery Price")
-            }
-            if indexPath.section == 11 {
-                cell.setCellData(money: dataModel.dinePrice, titStr: "Dine-in Price")
-            }
+
+        if indexPath.section == 12 {
             
-            cell.editeEndBlock = { [unowned self] (text) in
-                
-                if indexPath.section == 10 {
-                    dataModel.deliPrice = text
-                }
-                if indexPath.section == 11 {
-                    dataModel.dinePrice = text
-                }
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell") as! DishEditeChooseCell
+            cell.setCellData(titStr: "Dishes kind", l_str: "Food", r_Str: "Drink", statusID: dataModel.dishesKind)
+        
+            cell.selectBlock = { [unowned self] (status) in
+            
+                dataModel.dishesKind = status
+                table.reloadData()
             }
             return cell
         }
-        if indexPath.section == 12 {
+        
+        if indexPath.section == 13 {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell") as! DishEditeChooseCell
+            cell.setCellData(titStr: "Special offer", l_str: "Disable", r_Str: "Enalbe", statusID: dataModel.baleType)
+        
+            cell.selectBlock = { [unowned self] (status) in
+            
+                dataModel.baleType = status
+                table.reloadData()
+            }
+            return cell
+        }
+
+        
+        if indexPath.section == 14 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeClassifyCell") as! DishEditeClassifyCell
             let str = PJCUtil.getCurrentLanguage() == "en_GB" ? dataModel.classifyNameEn : dataModel.classifyNameHk
             cell.setCellData(c_msg: str)
@@ -426,7 +456,7 @@ class MenuDishEditeController: HeadBaseViewController, UITableViewDelegate, UITa
             return cell
         }
         
-        if indexPath.section == 16 {
+        if indexPath.section == 18 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell") as! DishEditeChooseCell
                 cell.setCellData(titStr: "Status", l_str: "On the menu", r_Str: "Off menu", statusID: dataModel.statusId)
             
@@ -440,7 +470,7 @@ class MenuDishEditeController: HeadBaseViewController, UITableViewDelegate, UITa
 
         }
 
-        if indexPath.section == 17 {
+        if indexPath.section == 19 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeTagCell") as! DishEditeTagCell
             cell.setCellData(modelArr: dataModel.tagList)
             
@@ -459,7 +489,7 @@ class MenuDishEditeController: HeadBaseViewController, UITableViewDelegate, UITa
             return cell
         }
         
-        if indexPath.section == 18 {
+        if indexPath.section == 20 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeImageCell") as! DishEditeImageCell
             cell.setCellData(titStr: "Dish picture", imgUrl: dataModel.showListUrl, picImage: up_DishPic)
     
@@ -473,7 +503,7 @@ class MenuDishEditeController: HeadBaseViewController, UITableViewDelegate, UITa
             return cell
         }
         
-        if indexPath.section == 19 {
+        if indexPath.section == 21 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeImageDetailCell") as! DishEditeImageDetailCell
             cell.setCellData(titStr: "Dish Detail picture", imgUrl: dataModel.showDetailUrl, picImage: up_DishDetailPic)
             
@@ -485,13 +515,13 @@ class MenuDishEditeController: HeadBaseViewController, UITableViewDelegate, UITa
             return cell
         }
         
-        if indexPath.section == 20 {
+        if indexPath.section == 22 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailAddSpecCell") as! DishDetailAddSpecCell
             return cell
         }
 
 
-        if indexPath.section == 21 {
+        if indexPath.section == 23 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailSpecInfoCell") as! DishDetailSpecInfoCell
             cell.setCellData(model: dataModel.specList[indexPath.row], idx: indexPath.row + 1)
             
@@ -525,7 +555,7 @@ class MenuDishEditeController: HeadBaseViewController, UITableViewDelegate, UITa
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 20 {
+        if indexPath.section == 22 {
             ///添加规格
             let nextVC = MenuDishAddSpecController()
             nextVC.isAdd = true
@@ -563,102 +593,70 @@ extension MenuDishEditeController {
     //保存
     func saveAction_Net() {
        
-        ///校验信息
-        if dataModel.nameCn == "" {
-            HUD_MB.showWarnig("Please fill in the simplified Chinese name of the dish!", onView: self.view)
-            return
-        }
-        
-        if dataModel.nameHk == "" {
-            HUD_MB.showWarnig("Please fill in the traditional Chinese name of the dish!", onView: self.view)
-            return
-        }
-        
-        if dataModel.nameEn == "" {
-            HUD_MB.showWarnig("Please fill in the English name of the dish!", onView: self.view)
-            return
-        }
-        
-        if dataModel.dishesCode == "" {
-            HUD_MB.showWarnig("Please fill in the serial number of the dish!", onView: self.view)
-            return
-        }
-        
-        if dataModel.limitBuy == "2" {
-            if dataModel.limitNum == 0 {
-                HUD_MB.showWarnig("Place fill in the remaining quantity in stock!", onView: self.view)
-                return
-
-            }
-        }
-        
-        
-//        if dataModel.sellType == "" {
-//            HUD_MB.showWarnig("Please select the type of dishes sold!", onView: self.view)
+//        ///校验信息
+//        if dataModel.nameCn == "" {
+//            HUD_MB.showWarnig("Please fill in the simplified Chinese name of the dish!", onView: self.view)
 //            return
 //        }
+//        
+//        if dataModel.nameHk == "" {
+//            HUD_MB.showWarnig("Please fill in the traditional Chinese name of the dish!", onView: self.view)
+//            return
+//        }
+//        
+//        if dataModel.nameEn == "" {
+//            HUD_MB.showWarnig("Please fill in the English name of the dish!", onView: self.view)
+//            return
+//        }
+//        
+//        if dataModel.dishesCode == "" {
+//            HUD_MB.showWarnig("Please fill in the serial number of the dish!", onView: self.view)
+//            return
+//        }
+//        
+//        if dataModel.limitBuy == "2" {
+//            if dataModel.limitNum == 0 {
+//                HUD_MB.showWarnig("Place fill in the remaining quantity in stock!", onView: self.view)
+//                return
 //
-        
-//        if dataModel.sellType == "3" {
-//            if dataModel.deliPrice == "0" || dataModel.deliPrice == "" {
-//                HUD_MB.showWarnig("Please fill in the delivery price of the dishes!", onView: self.view)
-//                return
-//            }
-//            if dataModel.dinePrice == "0" || dataModel.dinePrice == "" {
-//                HUD_MB.showWarnig("Please fill in the price of the dishes!", onView: self.view)
-//                return
 //            }
 //        }
 //        
-//        if dataModel.sellType == "1" {
-//            if dataModel.deliPrice == "0" || dataModel.deliPrice == "" {
-//                HUD_MB.showWarnig("Please fill in the delivery price of the dishes!", onView: self.view)
-//                return
-//            }
+//        if dataModel.classifyId == 0 {
+//            HUD_MB.showWarnig("Please fill in the food category!", onView: self.view)
+//            return
 //        }
-//        if dataModel.sellType == "2" {
-//            if dataModel.dinePrice == "0" || dataModel.dinePrice == "" {
-//                HUD_MB.showWarnig("Please fill in the price of the dishes!", onView: self.view)
-//                return
-//            }
-//
+//        
+//        if dataModel.allergenCn == "" {
+//            HUD_MB.showWarnig("Please fill in the allergen in Simplified Chinese!", onView: self.view)
+//            return
 //        }
-        
-        if dataModel.classifyId == 0 {
-            HUD_MB.showWarnig("Please fill in the food category!", onView: self.view)
-            return
-        }
-        
-        if dataModel.allergenCn == "" {
-            HUD_MB.showWarnig("Please fill in the allergen in Simplified Chinese!", onView: self.view)
-            return
-        }
-        
-        if dataModel.allergenHk == "" {
-            HUD_MB.showWarnig("Please fill in the allergen in traditional Chinese!", onView: self.view)
-            return
-        }
-        
-        if dataModel.allergenEn == "" {
-            HUD_MB.showWarnig("Please fill in the allergen in English!", onView: self.view)
-            return
-        }
-        
-        if dataModel.statusId == "" {
-            HUD_MB.showWarnig("Please select the available status of the dish!", onView: self.view)
-            return
-        }
-        
-        
-        if dataModel.showListUrl == "" && self.dataModel.listUrl == "" {
-            HUD_MB.showWarnig("Please upload pictures of dishes!", onView: self.view)
-            return
-        }
-        
-        if dataModel.showDetailUrl == "" && self.dataModel.detailUrl == "" {
-            HUD_MB.showWarnig("Please upload pictures of dishes!", onView: self.view)
-            return
-        }
+//        
+//        if dataModel.allergenHk == "" {
+//            HUD_MB.showWarnig("Please fill in the allergen in traditional Chinese!", onView: self.view)
+//            return
+//        }
+//        
+//        if dataModel.allergenEn == "" {
+//            HUD_MB.showWarnig("Please fill in the allergen in English!", onView: self.view)
+//            return
+//        }
+//        
+//        if dataModel.statusId == "" {
+//            HUD_MB.showWarnig("Please select the available status of the dish!", onView: self.view)
+//            return
+//        }
+//        
+//        
+//        if dataModel.showListUrl == "" && self.dataModel.listUrl == "" {
+//            HUD_MB.showWarnig("Please upload pictures of dishes!", onView: self.view)
+//            return
+//        }
+//        
+//        if dataModel.showDetailUrl == "" && self.dataModel.detailUrl == "" {
+//            HUD_MB.showWarnig("Please upload pictures of dishes!", onView: self.view)
+//            return
+//        }
         
         HUD_MB.loading("", onView: view)
         if isAdd {

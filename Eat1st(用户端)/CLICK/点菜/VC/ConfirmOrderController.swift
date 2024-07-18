@@ -256,7 +256,7 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
     }
     
     deinit {
-        //NotificationCenter.default.removeObserver(self, name: NSNotification.Name("wallet"), object: nil)
+        
     }
     
     
@@ -561,9 +561,11 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
 
                     config.customer = .init(id: customerId, ephemeralKeySecret: customerEphemeralKeySecret)
 
-                    DispatchQueue.main.async {
+                    //DispatchQueue.main.async {
 
                         self.paymentSheet = PaymentSheet(paymentIntentClientSecret: paymentIntentClientSecret, configuration: config)
+                    
+                        
                         self.paymentSheet?.present(from: self, completion: { [unowned self]  paymentResult in
                             switch paymentResult {
                             case .completed:
@@ -579,7 +581,7 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
                               print("Payment failed: \n\(error.localizedDescription)")
                             }
                         })
-                    }
+                    //}
                 }
 
                 if stripeType == "2" {
@@ -1005,7 +1007,7 @@ extension ConfirmOrderController {
     ///弹出支付框
     private func popUpPayAlert() {
         payAlert.paymentSupport = cartModel.paymentSupport
-        payAlert.deductionAmount = cartModel.deductionAmount
+        //payAlert.deductionAmount = cartModel.deductionAmount
         payAlert.payPrice = cartModel.payPrice
         payAlert.subtotal = cartModel.subFee
         payAlert.total = cartModel.orderPrice
@@ -1016,6 +1018,7 @@ extension ConfirmOrderController {
         payAlert.dishesDiscountAmount = cartModel.dishesDiscountAmount
         payAlert.couponAmount = cartModel.couponAmount
         payAlert.packPrice = cartModel.packPrice
+        payAlert.rechargePrice = cartModel.rechargePrice
         payAlert.buyType = type
         self.payAlert.alertReloadData()
         self.payAlert.appearAction()

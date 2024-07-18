@@ -232,12 +232,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
           //推送来了 刷新订单列表 刷新
           NotificationCenter.default.post(name: NSNotification.Name("orderList"), object: nil)
       }
+//      if type as? String == "2" {
+//          //活动 刷新钱包
+//          NotificationCenter.default.post(name: NSNotification.Name("wallet"), object: nil)
+//      }
+//      
       if type as? String == "2" {
-          //活动 刷新钱包
-          NotificationCenter.default.post(name: NSNotification.Name("wallet"), object: nil)
-      }
-      
-      if type as? String == "3" {
           //系统消息
           NotificationCenter.default.post(name: NSNotification.Name("message"), object: nil)
       }

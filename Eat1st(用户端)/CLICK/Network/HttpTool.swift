@@ -63,10 +63,8 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
                             //字典转json字符串
                             let jsonStr = PJCUtil.convertDictionaryToString(dict: dic)
                             //统一处理转义符号
-                        
                             let deJsonStr = String(htmlEncodedString: jsonStr)
                         
-
                             if deJsonStr == nil {
                                 print("+++++++++++++++++出错了")
                                 return
@@ -187,8 +185,8 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
 //    }
 
     //MARK: - 店铺首页数据
-    func Store_MainPageData(storeID: String, type: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .Store_mainPageData(storeID: storeID, type: type))
+    func Store_MainPageData(storeID: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .Store_mainPageData(storeID: storeID))
         return Observable<JSON>.create(response)
     }
     
@@ -223,8 +221,8 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
     }
     
     //MARK: - 获取菜品详情
-    func loadDishesDetail(dishesID: String, deskID: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .loadDishedDetail(dishesId: dishesID, deskId: deskID))
+    func loadDishesDetail(dishesID: String, deskID: String, deliveryType: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .loadDishedDetail(dishesId: dishesID, deskId: deskID, deliveryType: deliveryType))
         return Observable<JSON>.create(response)
     }
     
@@ -446,8 +444,8 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
     }
     
     //MARK: - 获取分类及菜品列表
-    func getClassifyAndDishesList(storeID: String, deskID: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .getClassifyAndDishesList(storeID: storeID, deskId: deskID))
+    func getClassifyAndDishesList(storeID: String, deliveryType: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getClassifyAndDishesList(storeID: storeID, deliveryType: deliveryType))
         return Observable<JSON>.create(response)
     }
     
@@ -514,8 +512,8 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
     }
     
     //MARK: - 更新用户信息
-    func updateUserInfo(name: String, email: String, birthday: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .updateUserInfo(name: name, email: email, birthday: birthday))
+    func updateUserInfo(name: String, email: String, birthday: String, phone: String, areaCode: String, postCode: String, type: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .updateUserInfo(name: name, email: email, birthday: birthday, phone: phone, postCode: postCode, areaCode: areaCode, type: type))
         return Observable<JSON>.create(response)
     }
     
@@ -637,8 +635,8 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
     }
     
     //MARK: - 找回密码
-    func findPWD(countryCode: String, phone: String, smsCode: String, smsID: String, pwd: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .findPWD(countryCode: countryCode, phone: phone, smsID: smsID, smsCode: smsCode, pwd: pwd))
+    func findPWD(countryCode: String, phone: String, smsCode: String, email: String, pwd: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .findPWD(countryCode: countryCode, phone: phone, email: email, smsCode: smsCode, pwd: pwd))
         return Observable<JSON>.create(response)
     }
     
@@ -659,6 +657,130 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
         let response = rxApiManager(api: .callWaiter(orderID: orderID))
         return Observable<JSON>.create(response)
     }
+    
+    
+    //MARK: - 获取堂食分类
+    func getDineInClassifyList(storeID: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getDineInClassifyList(storeID: storeID))
+        return Observable<JSON>.create(response)
+    }
+
+    
+    //MARK: - 获取堂食分类的菜品
+    func getDineInDishesList(classifyID: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getDineInDishesList(classifyID: classifyID))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 呼叫服务员
+    func callWaiterByDesk(deskID: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .callWaiterByDesk(deskID: deskID))
+        return Observable<JSON>.create(response)
+    }
+    
+    
+    //MARK: - 获取可预约的时间
+    func getCanOccpuyTimeList(id: String, date: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getStoreCanOccupyTimeList(id: id, date: date))
+        return Observable<JSON>.create(response)
+    }
+    
+    
+    //MARK: - 获取用户预约列表
+    func getUserOccupyList(page: Int) -> Observable<JSON> {
+        let response = rxApiManager(api: .getUserOccupyList(page: String(page)))
+        return Observable<JSON>.create(response)
+    }
+    
+    
+    //MARK: - 预约
+    func doUserOccupy(model: OccupyModel) -> Observable<JSON> {
+        let response = rxApiManager(api: .doUserOccupy(model: model))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 取消预约
+    func doCancelOccupy(id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .doCancelOccupy(id: id))
+        return Observable<JSON>.create(response)
+    }
+    
+    
+    //MARK: - 获取店铺当前的营业状态
+    func getStoreStatus(id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getStoreStatus(id: id))
+        return Observable<JSON>.create(response)
+    }
+    
+    
+    //MARK: - 获取餐桌信息
+    func getDeskDetail(id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getDeskDetail(id: id))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 邮箱登录
+    func loginEmail(email: String, pwd: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .loginEmail(email: email, pwd: pwd))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 邮箱发送验证码
+    func emailSendCode(email: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .emailSendCode(email: email))
+        return Observable<JSON>.create(response)
+    }
+   
+    //MARK: - 邮箱注册
+    func emailRegister(email: String, pwd: String, code: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .emailRegister(email: email, pwd: pwd, code: code))
+        return Observable<JSON>.create(response)
+    }
+    
+    
+    //MARK: - 获取用户充值金额
+    func getUserRechargeAmount(storeID: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getUserRechargeAmount(storeID: storeID))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 获取充值金额的消费明细
+    func getUserRechargeDetail(page: Int, type: String, storeID: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getUserRechargeDetail(page: String(page), storeID: storeID, type: type))
+        return Observable<JSON>.create(response)
+    }
+    
+    
+    //MARK: - 堂食下单
+    func createOrder_dine(model: CreateOrderModel) -> Observable<JSON> {
+        let response = rxApiManager(api: .creatOrder_dine(submitModel: model))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 堂食确认订单信息
+    func loadConfirmOrderDetail_dine(deskID: String, storeID: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .loadConfirmOrderDetail_dine(deskID: deskID, storeID: storeID))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 获取用户VIP
+    func getUserVip(storeID: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getUserVip(id: storeID))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 获取用户付款二维码Token
+    func getUserPayToken() -> Observable<JSON> {
+        let response = rxApiManager(api: .getUserPayToken)
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 获取分享ID
+    func getShareIDAndList(page: Int) -> Observable<JSON> {
+        let response = rxApiManager(api: .getShareIDAndList(page: String(page)))
+        return Observable<JSON>.create(response)
+    }
+    
     
     
     

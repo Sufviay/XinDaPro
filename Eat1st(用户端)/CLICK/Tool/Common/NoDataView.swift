@@ -107,38 +107,18 @@ class NOStoreView: UIView {
     let titlab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(FONTCOLOR, BFONT(16), .center)
-        lab.text = "This page has no data"
+        lab.text = "NO RESTAURANT NEARBY"
         return lab
     }()
 
-//    private let nolab: UILabel = {
-//        let lab = UILabel()
-//        lab.setCommentStyle(MAINCOLOR, BFONT(14), .center)
-//        lab.text = "No more shops"
-//        return lab
-//    }()
-    
-    private let allBut: UIButton = {
+    private let addressBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "All Shops", .white, BFONT(14), MAINCOLOR)
+        but.setCommentStyle(.zero, "CHANGE ADDRESS", .white, BFONT(14), MAINCOLOR)
         but.layer.cornerRadius = 10
         return but
     }()
     
-    ///1
-    var isAll: Bool = true {
-        didSet {
-            if isAll {
-                self.allBut.isHidden = true
-                //self.nolab.isHidden = false
-            } else {
-                self.allBut.isHidden = false
-                //self.nolab.isHidden = true
-            }
-        }
-    }
-    
-    
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -157,22 +137,17 @@ class NOStoreView: UIView {
             $0.top.equalTo(picImg.snp.bottom).offset(20)
         }
         
-        self.addSubview(allBut)
-        allBut.snp.makeConstraints {
+        self.addSubview(addressBut)
+        addressBut.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
             $0.right.equalToSuperview().offset(-20)
             $0.height.equalTo(45)
             $0.top.equalTo(picImg.snp.bottom).offset(100)
         }
         
-//        self.addSubview(nolab)
-//        nolab.snp.makeConstraints {
-//            $0.centerX.equalTo(picImg)
-//            $0.top.equalTo(picImg.snp.bottom).offset(100)
-//        }
         
         
-        allBut.addTarget(self, action: #selector(clickAllAction), for: .touchUpInside)
+        addressBut.addTarget(self, action: #selector(clickAllAction), for: .touchUpInside)
         
     }
     

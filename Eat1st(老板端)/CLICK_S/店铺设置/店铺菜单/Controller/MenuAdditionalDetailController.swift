@@ -110,7 +110,7 @@ class MenuAdditionalDetailController: HeadBaseViewController, UITableViewDelegat
     
     //MARK: - Delegete
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 5
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -119,11 +119,11 @@ class MenuAdditionalDetailController: HeadBaseViewController, UITableViewDelegat
             let h2 = dishModel.dishName2.getTextHeigh(SFONT(15), S_W - 120)
             return 25 + 15 + h1 + h2
         }
-        if indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 4 {
+        if indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 3 {
             return 66
         }
         
-        if indexPath.row == 3 {
+        if indexPath.row == 4 {
             let h = dishModel.classifyStr.getTextHeigh(SFONT(14), S_W - 80)
             return h + 50
         }
@@ -147,7 +147,7 @@ class MenuAdditionalDetailController: HeadBaseViewController, UITableViewDelegat
             return cell
         }
         
-        if indexPath.row == 1 || indexPath.row == 2  || indexPath.row == 3 {
+        if indexPath.row == 1 || indexPath.row == 2  || indexPath.row == 3 || indexPath.row == 4 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
             if indexPath.row == 1 {
                 cell.setCellData(titStr: "Serial number", msgStr: dishModel.attachCode)
@@ -155,7 +155,18 @@ class MenuAdditionalDetailController: HeadBaseViewController, UITableViewDelegat
             if indexPath.row == 2 {
                 cell.setCellData(titStr: "Price", msgStr: "£ \(dishModel.price)")
             }
+            
             if indexPath.row == 3 {
+                var msg = ""
+                if dishModel.dishesKind == "1" {
+                    msg = "Food"
+                } else {
+                    msg = "Drink"
+                }
+                cell.setCellData(titStr: "Dishes kind", msgStr: msg)
+            }
+            
+            if indexPath.row == 4 {
                 cell.setCellData(titStr: "Category", msgStr: dishModel.classifyStr)
             }
             return cell

@@ -10,7 +10,9 @@ import UIKit
 class MenuDiscountCell: BaseTableViewCell, SystemAlertProtocol {
     
     
-    var clickBlock: VoidBlock?
+    var clickRedeemBlock: VoidBlock?
+    
+    var clickOccupyBlock: VoidBlock?
     
     private let discountImg: UIImageView = {
         let img = UIImageView()
@@ -53,6 +55,30 @@ class MenuDiscountCell: BaseTableViewCell, SystemAlertProtocol {
         return lab
     }()
     
+    private let occupyImg: UIImageView = {
+        let img = UIImageView()
+        img.image = LOIMG("yuyue")
+        img.isUserInteractionEnabled = true
+        return img
+    }()
+    
+    private let occNextImg: UIImageView = {
+        let img = UIImageView()
+        img.image = LOIMG("occNext")
+        return img
+    }()
+    
+    private let occLab: UILabel = {
+        let lab = UILabel()
+        lab.font = UIFont.init(name: "Helvetica-Bold", size: 10)
+        lab.textColor = HCOLOR("FFFFFF")
+        lab.text = "Booking"
+        return lab
+    }()
+    
+    
+    
+    
 //    private let xlBut: UIButton = {
 //        let but = UIButton()
 //        but.setImage(LOIMG("discount_xl"), for: .normal)
@@ -83,7 +109,7 @@ class MenuDiscountCell: BaseTableViewCell, SystemAlertProtocol {
         firstImg.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 80, height: 18))
             $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview().offset(95)
+            $0.left.equalToSuperview().offset(85)
         }
         
         firstImg.addSubview(scaleLab)
@@ -93,13 +119,33 @@ class MenuDiscountCell: BaseTableViewCell, SystemAlertProtocol {
             
         }
         
-
+        
+        contentView.addSubview(occupyImg)
+        occupyImg.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 85, height: 33))
+            $0.centerY.equalToSuperview()
+            $0.right.equalToSuperview().offset(-5)
+        }
+        
+        occupyImg.addSubview(occNextImg)
+        occNextImg.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 5, height: 8))
+            $0.centerY.equalToSuperview().offset(0)
+            $0.right.equalToSuperview().offset(-8)
+        }
+        
+        occupyImg.addSubview(occLab)
+        occLab.snp.makeConstraints {
+            $0.centerY.equalTo(occNextImg)
+            $0.right.equalTo(occNextImg.snp.left).offset(-5)
+        }
+        
         
         contentView.addSubview(exchangeImg)
         exchangeImg.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
-            $0.right.equalToSuperview().offset(-10)
-            $0.width.equalTo(105)
+            $0.right.equalTo(occupyImg.snp.left).offset(-5)
+            $0.width.equalTo(85)
         }
         
         
@@ -107,18 +153,22 @@ class MenuDiscountCell: BaseTableViewCell, SystemAlertProtocol {
         nextImg.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 5, height: 8))
             $0.centerY.equalToSuperview()
-            $0.right.equalToSuperview().offset(-10)
+            $0.right.equalToSuperview().offset(-5)
         }
         
         exchangeImg.addSubview(exchangeLab)
         exchangeLab.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview().offset(33)
+            $0.right.equalTo(nextImg.snp.left).offset(-3)
         }
         
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(clickTapAction))
-        self.exchangeImg.addGestureRecognizer(tap)
+        let redeemTap = UITapGestureRecognizer(target: self, action: #selector(clickRedeemAction))
+        exchangeImg.addGestureRecognizer(redeemTap)
+        
+        let occupyTap = UITapGestureRecognizer(target: self, action: #selector(clickOccupyAction))
+        occupyImg.addGestureRecognizer(occupyTap)
+        
         
         
 //        contentView.addSubview(xlBut)
@@ -160,8 +210,12 @@ class MenuDiscountCell: BaseTableViewCell, SystemAlertProtocol {
 
     
     
-    @objc func clickTapAction() {
-        self.clickBlock?("")
+    @objc private func clickRedeemAction() {
+        clickRedeemBlock?("")
+    }
+    
+    @objc private func clickOccupyAction() {
+        clickOccupyBlock?("")
     }
     
     
@@ -188,7 +242,7 @@ class MenuDiscountCell: BaseTableViewCell, SystemAlertProtocol {
                     
                     self.firstImg.snp.remakeConstraints {
                         $0.size.equalTo(CGSize(width: 80, height: 18))
-                        $0.left.equalToSuperview().offset(90)
+                        $0.left.equalToSuperview().offset(85)
                         $0.centerY.equalToSuperview()
                     }
                 } else {
@@ -205,7 +259,7 @@ class MenuDiscountCell: BaseTableViewCell, SystemAlertProtocol {
                         
                         self.firstImg.snp.remakeConstraints {
                             $0.size.equalTo(CGSize(width: 80, height: 18))
-                            $0.left.equalToSuperview().offset(90)
+                            $0.left.equalToSuperview().offset(85)
                             $0.centerY.equalToSuperview()
 
                         }
@@ -222,7 +276,7 @@ class MenuDiscountCell: BaseTableViewCell, SystemAlertProtocol {
                         
                         self.firstImg.snp.remakeConstraints {
                             $0.size.equalTo(CGSize(width: 80, height: 18))
-                            $0.left.equalToSuperview().offset(90)
+                            $0.left.equalToSuperview().offset(85)
                             $0.centerY.equalToSuperview()
 
                         }
@@ -245,7 +299,7 @@ class MenuDiscountCell: BaseTableViewCell, SystemAlertProtocol {
                 
                 self.firstImg.snp.remakeConstraints {
                     $0.size.equalTo(CGSize(width: 80, height: 18))
-                    $0.left.equalToSuperview().offset(90)
+                    $0.left.equalToSuperview().offset(85)
                     $0.centerY.equalToSuperview()
                 }
             }
@@ -267,7 +321,7 @@ class MenuDiscountCell: BaseTableViewCell, SystemAlertProtocol {
                     
                     self.firstImg.snp.remakeConstraints {
                         $0.size.equalTo(CGSize(width: 80, height: 18))
-                        $0.left.equalToSuperview().offset(90)
+                        $0.left.equalToSuperview().offset(85)
                         $0.centerY.equalToSuperview()
                     }
                     
@@ -299,7 +353,7 @@ class MenuDiscountCell: BaseTableViewCell, SystemAlertProtocol {
                         
                         self.firstImg.snp.remakeConstraints {
                             $0.size.equalTo(CGSize(width: 80, height: 18))
-                            $0.left.equalToSuperview().offset(90)
+                            $0.left.equalToSuperview().offset(85)
                             $0.centerY.equalToSuperview()
                         }
                     }
@@ -317,14 +371,10 @@ class MenuDiscountCell: BaseTableViewCell, SystemAlertProtocol {
                 
                 self.firstImg.snp.remakeConstraints {
                     $0.size.equalTo(CGSize(width: 80, height: 18))
-                    $0.left.equalToSuperview().offset(90)
+                    $0.left.equalToSuperview().offset(85)
                     $0.centerY.equalToSuperview()
                 }
             }
-            
-            
         }
-        
     }
-    
 }

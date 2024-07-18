@@ -18,15 +18,18 @@ class CartView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
     //进入菜品详情
     var detailBlock: VoidIntBlock?
     
+    //编辑菜品价格
+    var editPriceBlock: VoidBlock?
     
-    private var H: CGFloat = S_H - R_H(170)
+    
+    private var H: CGFloat = S_H - 200
     
     var dataModel = CartModel()
     
     private let backView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: S_H - R_H(170)), byRoundingCorners: [.topLeft, .topRight], radii: 20)
+        view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: S_H - 200), byRoundingCorners: [.topLeft, .topRight], radii: 20)
         return view
     }()
 
@@ -47,7 +50,7 @@ class CartView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
     
     private let jiaoqiBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Course Divider", HCOLOR("#080808"), BFONT(11), HCOLOR("#FEC501"))
+        but.setCommentStyle(.zero, "Course Divider/叫起", HCOLOR("#080808"), BFONT(11), HCOLOR("#FEC501"))
         but.layer.cornerRadius = 7
         return but
     }()
@@ -79,7 +82,7 @@ class CartView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
         
         self.isHidden = true
         self.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        self.frame = S_BS
+        
         
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction))
@@ -172,12 +175,7 @@ class CartView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
     func updateData() {
         table.reloadData()
     }
-    
-//    func updateData(f_d_price: String, ser_price: String) {
-//        F_D_totalMoney.text = "£\(f_d_price)"
-//        serviceMoney.text = "£\(ser_price)"
-//    }
-    
+
     
     func appearAction() {
         //做动画
@@ -225,6 +223,26 @@ class CartView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
     }
     
     
+    ///iPad旋转更新Frame
+    func updateFrame() {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            H = UIScreen.main.bounds.height - 200
+            
+            backView.cornerWithRect(rect: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: H), byRoundingCorners: [.topRight, .topLeft], radii: 20)
+            
+            self.backView.snp.remakeConstraints {
+                $0.left.right.equalToSuperview()
+                $0.height.equalTo(H)
+                if isHidden {
+                    $0.bottom.equalToSuperview().offset(H)
+                } else {
+                    $0.bottom.equalToSuperview().offset(0)
+                }
+            }
+        }
+        
+    }
+
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return dataModel.dishesList.count + 1
@@ -290,6 +308,12 @@ class CartView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
                     detailBlock?(indexPath.section - 1)
                 }
     
+                cell.editPriceBlock = { [unowned self] (price) in
+                    let money: Double = Double(price) ?? 0
+                    dataModel.dishesList[indexPath.section - 1].price = money
+                    editPriceBlock?("")
+                }
+                
                 return cell
             } else {
                 

@@ -41,11 +41,11 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>When you need to change your profile picture information, you need access to the camera to provide photos</string>
+	<string>When you need to verify user QR code or barcode information, you need to access camera resources</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>When you need to change the profile picture information, you need to access the album permission to provide the photo</string>
+	<string>When you need to verify the user's QR code or barcode information, you need to access the album resources</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>When you need to change the profile picture information, you need to access the album permission to provide the photo</string>
+	<string>When you need to verify the user's QR code or barcode information, you need to access the album resources</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UISceneConfigurations</key>
@@ -63,16 +63,18 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 </dict>
 </plist>

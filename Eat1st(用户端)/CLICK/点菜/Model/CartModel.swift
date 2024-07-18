@@ -18,7 +18,7 @@ class ConfirmOrderCartModel: NSObject {
     var storePhone: String = ""
     
     ///店铺ID
-    var storeID: String = ""
+    //var storeID: String = ""
     
     ///繁忙类型 1繁忙 2不繁忙
     var busyType: String = ""
@@ -85,11 +85,11 @@ class ConfirmOrderCartModel: NSObject {
     var orderPrice: Double = 0
     ///包装费
     var packPrice: Double = 0
-    
+    ///余额支付金额
+    var rechargePrice: Double = 0
 
     
-    //    ///购物车实际支付金额
-    //    var total: Double = 0
+    
 
     
     ///赠送优惠券需达到的订单数
@@ -141,7 +141,7 @@ class ConfirmOrderCartModel: NSObject {
         self.deliveryType = json["deliveryType"].stringValue
         self.deliveryMsg = json["deliveryMsg"].stringValue
         self.storeName = json["storeName"].stringValue
-        self.storeID = json["storeId"].stringValue
+        //self.storeID = json["storeId"].stringValue
         self.storePhone = json["phone"].stringValue
         self.lat = json["lat"].stringValue
         self.lng = json["lng"].stringValue
@@ -157,6 +157,7 @@ class ConfirmOrderCartModel: NSObject {
         self.couponAmount = json["couponAmount"].doubleValue
         
         self.packPrice = json["packPrice"].doubleValue
+        self.rechargePrice = json["rechargePrice"].doubleValue
         
         
         self.giveCouponReachNum = json["fiveGiveCouponResult"]["reachNum"].intValue
@@ -201,10 +202,10 @@ class ConfirmOrderCartModel: NSObject {
         
         if type == "1" {
             //外卖
-            let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, serviceFee].filter { $0 != 0 }
+            let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, serviceFee, rechargePrice].filter { $0 != 0 }
             self.confirmMoney_H = 3 * 30 +  CGFloat(arr.count) * 30 + discountMsg_H + 20
         } else {
-            let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, serviceFee, deliverFee].filter { $0 != 0 }
+            let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, serviceFee, deliverFee, rechargePrice].filter { $0 != 0 }
             self.confirmMoney_H = 2 * 30 +  CGFloat(arr.count) * 30 + discountMsg_H + 20
         }
  

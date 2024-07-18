@@ -66,8 +66,8 @@ extension UIColor {
         UIGraphicsEndImageContext()
         return image!
     }
-
 }
+
 
 
 //MARK: - 关于UILable的拓展方法
@@ -86,6 +86,14 @@ extension UILabel {
 }
 
 
+
+enum ZGJButtonImageEdgeInsetsStyle {
+    case top /// image在上，label在下
+    case left /// image在左，label在右
+    case bottom /// image在下，label在上
+    case right /// image在右，label在左
+}
+
 //MARK: - 关于按钮
 extension UIButton {
     
@@ -97,6 +105,51 @@ extension UIButton {
         self.titleLabel?.font = strFont
         self.backgroundColor = backColor
     }
+    
+    
+    func imagePosition(at style: ZGJButtonImageEdgeInsetsStyle, space: CGFloat) {
+         guard let imageV = imageView else { return }
+         guard let titleL = titleLabel else { return }
+         //获取图像的宽和高
+         let imageWidth = imageV.frame.size.width
+         let imageHeight = imageV.frame.size.height
+         //获取文字的宽和高
+        let labelWidth  = titleL.intrinsicContentSize.width
+         let labelHeight = titleL.intrinsicContentSize.height
+         
+        var imageEdgeInsets = UIEdgeInsets.zero
+        var labelEdgeInsets = UIEdgeInsets.zero
+         //UIButton同时有图像和文字的正常状态---左图像右文字，间距为0
+         switch style {
+         case .left:
+             //正常状态--只不过加了个间距
+             imageEdgeInsets = UIEdgeInsets(top: 0, left: -space * 0.5, bottom: 0, right: space * 0.5)
+             labelEdgeInsets = UIEdgeInsets(top: 0, left: space * 0.5, bottom: 0, right: -space * 0.5)
+         case .right:
+             //切换位置--左文字右图像
+             //图像：UIEdgeInsets的left是相对于UIButton的左边移动了labelWidth + space * 0.5，right相对于label的左边移动了-labelWidth - space * 0.5
+             imageEdgeInsets = UIEdgeInsets(top: 0, left: labelWidth + space * 0.5, bottom: 0, right: -labelWidth - space * 0.5)
+             labelEdgeInsets = UIEdgeInsets(top: 0, left: -imageWidth - space * 0.5, bottom: 0, right: imageWidth + space * 0.5)
+         case .top:
+             //切换位置--上图像下文字
+             /**图像的中心位置向右移动了labelWidth * 0.5，向上移动了-imageHeight * 0.5 - space * 0.5
+              *文字的中心位置向左移动了imageWidth * 0.5，向下移动了labelHeight*0.5+space*0.5
+             */
+             imageEdgeInsets = UIEdgeInsets(top: -imageHeight * 0.5 - space * 0.5, left: labelWidth * 0.5, bottom: imageHeight * 0.5 + space * 0.5, right: -labelWidth * 0.5)
+             labelEdgeInsets = UIEdgeInsets(top: labelHeight * 0.5 + space * 0.5, left: -imageWidth * 0.5, bottom: -labelHeight * 0.5 - space * 0.5, right: imageWidth * 0.5)
+         case .bottom:
+             //切换位置--下图像上文字
+             /**图像的中心位置向右移动了labelWidth * 0.5，向下移动了imageHeight * 0.5 + space * 0.5
+              *文字的中心位置向左移动了imageWidth * 0.5，向上移动了labelHeight*0.5+space*0.5
+              */
+             imageEdgeInsets = UIEdgeInsets(top: imageHeight * 0.5 + space * 0.5, left: labelWidth * 0.5, bottom: -imageHeight * 0.5 - space * 0.5, right: -labelWidth * 0.5)
+             labelEdgeInsets = UIEdgeInsets(top: -labelHeight * 0.5 - space * 0.5, left: -imageWidth * 0.5, bottom: labelHeight * 0.5 + space * 0.5, right: imageWidth * 0.5)
+         }
+         self.titleEdgeInsets = labelEdgeInsets
+         self.imageEdgeInsets = imageEdgeInsets
+     }
+
+    
 }
 
 //MARK: - 关于View
@@ -372,6 +425,7 @@ public struct Keys {
     static let verID: String = "verID"
     
     static let isLogin = "isLogin"
+    static let isAgree = "isAgree"
     static let token = "token"
     static let userID = "userID"
     static let userName = "name"
@@ -422,6 +476,17 @@ extension UserDefaults {
         }
         get {
             return bool(forKey: Keys.isLogin)
+        }
+    }
+
+    
+    ///是否同意了法律条文
+    var isAgree: Bool {
+        set {
+            set(newValue, forKey: Keys.isAgree)
+        }
+        get {
+            return bool(forKey: Keys.isAgree)
         }
     }
 

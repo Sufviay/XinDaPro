@@ -32,14 +32,30 @@ enum ApiManager {
     case getAttachClassifyList
     ///获取附加列表
     case getAttachList
+    
+    ///获取附加菜品和附加分类
+    case getAttachAndAttachClassify
+    
     ///店员下单计算
     case doCalOrder(deskID: String, dishesArr: [CartDishModel])
     ///创建订单
-    case doCreateOrder(deskID: String, dishesArr: [CartDishModel])
+    case doCreateOrder(deskID: String, dishesArr: [CartDishModel], adultNum: Int, childNum: Int)
     ///获取餐桌的订单列表
     case getDeskOrderList(deskID: String)
     ///获取餐桌订单的菜品列表
     case getDeskOrderDishesList(orderID: String)
+    
+    ///获取店铺列表
+    case getStoreList
+    ///获取店铺的店员
+    case getWaiterList(id: String)
+    
+    ///获取订单详情
+    case getOrderDetail(orderID: String)
+    ///删除订单菜品
+    case deleteOrderDishes(orderDishesID: String, pwd: String)
+    ///获取用户信息及会员信息
+    case getUserByToken(token: String)
     
     
     
@@ -70,21 +86,33 @@ extension ApiManager: TargetType {
         case .getDishesClassifyList:
             return "api/waiter/dishes/getClassifyList"
         case .getDishesGroupList:
-            return "api/waiter/dishes/group/getGroupList"
+            return "api/waiter/dishes/group/getGroupAndClassifyList"
         case .getDishesDetail(dishID: _, deskID: _):
             return "api/waiter/dishes/getDishesDetail"
         case .getAttachList:
             return "api/waiter/dishes/attach/getAttachList"
         case .getAttachClassifyList:
             return "api/waiter/dishes/attach/getAttachClassifyList"
+        case .getAttachAndAttachClassify:
+            return "api/waiter/dishes/attach/getAttachAndClassifyList"
         case .doCalOrder(deskID: _, dishesArr: _):
             return "api/waiter/order/calOrder"
-        case .doCreateOrder(deskID: _, dishesArr: _):
+        case .doCreateOrder(deskID: _, dishesArr: _, adultNum: _, childNum: _):
             return "api/waiter/order/createOrder"
         case .getDeskOrderList(deskID: _):
             return "api/waiter/desk/getDeskOrderList"
         case .getDeskOrderDishesList(orderID: _):
             return "api/waiter/desk/getDeskOrderDishesList"
+        case .getStoreList:
+            return "api/waiter/store/getStoreList"
+        case .getWaiterList(id: _):
+            return "api/waiter/user/getWaiterList"
+        case .getOrderDetail(orderID: _):
+            return "api/waiter/order/getOrderDetail"
+        case .deleteOrderDishes(orderDishesID: _, pwd: _):
+            return "api/waiter/order/doDelOrderDishes"
+        case .getUserByToken(token: _):
+            return "api/waiter/user/getUserByToken"
             
 
         }
@@ -124,7 +152,9 @@ extension ApiManager: TargetType {
             dic = [:]
         case .getAttachClassifyList:
             dic = [:]
-        case .doCreateOrder(let deskID, let dishesArr):
+        case .getAttachAndAttachClassify:
+            dic = [:]
+        case .doCreateOrder(let deskID, let dishesArr, let adultNum, let childNum):
             
             var dicArr: [[String: Any]] = []
             
@@ -164,11 +194,11 @@ extension ApiManager: TargetType {
                 }
                 
                 
-                let dishDic: [String: Any] = ["dishesId": model.dishesId, "buyNum": model.buyNum, "printSort": "\(printSort)", "itemList": itemArr, "attachList": attachArr]
+                let dishDic: [String: Any] = ["dishesId": model.dishesId, "buyNum": model.buyNum, "printSort": "\(printSort)", "itemList": itemArr, "attachList": attachArr, "dishesPrice": D_2_STR(model.price)]
                 dicArr.append(dishDic)
             }
             
-            dic = ["deskId": deskID, "dishesList": dicArr]
+            dic = ["deskId": deskID, "dishesList": dicArr, "childNum": childNum, "adultNum": adultNum]
             
         case .doCalOrder(let deskID, let dishesArr):
             
@@ -200,7 +230,7 @@ extension ApiManager: TargetType {
                     }
                 }
                 
-                let dishDic: [String: Any] = ["dishesId": model.dishesId, "buyNum": model.buyNum, "printSort": "\(printSort)", "itemList": itemArr, "attachList": attachArr]
+                let dishDic: [String: Any] = ["dishesId": model.dishesId, "buyNum": model.buyNum, "printSort": "\(printSort)", "itemList": itemArr, "attachList": attachArr, "dishesPrice": D_2_STR(model.price)]
                 dicArr.append(dishDic)
             }
             
@@ -210,8 +240,16 @@ extension ApiManager: TargetType {
             dic = ["deskId": deskID]
         case .getDeskOrderDishesList(let orderID):
             dic = ["orderId": orderID]
-            
-
+        case .getStoreList:
+            dic = [:]
+        case .getWaiterList(let id):
+            dic = ["storeId": id]
+        case .getOrderDetail(let orderID):
+            dic = ["orderId": orderID]
+        case .deleteOrderDishes(let orderDishesID, let pwd):
+            dic = ["orderDishesId": orderDishesID, "pwd": pwd]
+        case .getUserByToken(let token):
+            dic = ["token": token]
         }
         print("参数：\(dic)")
         

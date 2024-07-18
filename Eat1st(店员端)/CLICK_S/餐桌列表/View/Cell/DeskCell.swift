@@ -60,20 +60,48 @@ class DeskCell: UICollectionViewCell {
         return lab
     }()
     
-    private let totallab: UILabel = {
+    private let perBackview: UIView = {
+        let view = UIView()
+        view.backgroundColor = HCOLOR("#FFF7EC")
+        view.layer.cornerRadius = 2
+        return view
+    }()
+    
+    private let perImg: UIImageView = {
+        let img = UIImageView()
+        img.image = LOIMG("person")
+        return img
+    }()
+    
+    private let perNum: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.white, BFONT(14), .left)
-        lab.text = "TOTAL"
+        lab.setCommentStyle(MAINCOLOR, BFONT(14), .left)
+        lab.text = "13"
         return lab
     }()
     
-    private let totalMoney: UILabel = {
+    private let perLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.white, BFONT(17), .left)
-        lab.text = "£130"
+        lab.setCommentStyle(MAINCOLOR, BFONT(9), .left)
+        lab.text = "People"
         return lab
     }()
+
     
+//    private let totallab: UILabel = {
+//        let lab = UILabel()
+//        lab.setCommentStyle(.white, BFONT(14), .left)
+//        lab.text = "TOTAL"
+//        return lab
+//    }()
+//    
+//    private let totalMoney: UILabel = {
+//        let lab = UILabel()
+//        lab.setCommentStyle(.white, BFONT(17), .left)
+//        lab.text = "£130"
+//        return lab
+//    }()
+//    
     
     private let creditlab: UILabel = {
         let lab = UILabel()
@@ -137,14 +165,40 @@ class DeskCell: UICollectionViewCell {
 
         t_view.addSubview(desklab)
         desklab.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(20)
-            $0.top.equalToSuperview().offset(30)
+            $0.left.equalToSuperview().offset(10)
+            $0.top.equalToSuperview().offset(15)
         }
         
         t_view.addSubview(deskNum)
         deskNum.snp.makeConstraints {
             $0.bottom.equalTo(desklab).offset(2)
             $0.left.equalTo(desklab.snp.right).offset(10)
+        }
+        
+        t_view.addSubview(perBackview)
+        perBackview.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 80, height: 17))
+            $0.left.equalToSuperview().offset(10)
+            $0.top.equalTo(desklab.snp.bottom).offset(10)
+        }
+        
+        perBackview.addSubview(perImg)
+        perImg.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalToSuperview().offset(2)
+            $0.size.equalTo(CGSize(width: 13, height: 13))
+        }
+        
+        perBackview.addSubview(perNum)
+        perNum.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalTo(perImg.snp.right).offset(5)
+        }
+        
+        perBackview.addSubview(perLab)
+        perLab.snp.makeConstraints {
+            $0.bottom.equalTo(perNum).offset(-2)
+            $0.left.equalTo(perNum.snp.right).offset(1)
         }
         
 //        t_view.addSubview(totallab)
@@ -155,8 +209,8 @@ class DeskCell: UICollectionViewCell {
         
         t_view.addSubview(creditlab)
         creditlab.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(R_W(155))
-            $0.centerY.equalTo(desklab)
+            $0.left.equalTo(desklab)
+            $0.top.equalTo(perBackview.snp.bottom).offset(5)
         }
         
 //        t_view.addSubview(totalMoney)
@@ -168,12 +222,12 @@ class DeskCell: UICollectionViewCell {
         t_view.addSubview(creditMoney)
         creditMoney.snp.makeConstraints {
             $0.bottom.equalTo(creditlab).offset(2)
-            $0.left.equalTo(creditlab.snp.right).offset(20)
+            $0.left.equalTo(creditlab.snp.right).offset(10)
         }
         
         b_view.addSubview(b_lab)
         b_lab.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(20)
+            $0.left.equalToSuperview().offset(10)
             $0.top.equalToSuperview().offset(10)
         }
         
@@ -195,6 +249,7 @@ class DeskCell: UICollectionViewCell {
         deskNum.text = model.deskName
         creditMoney.text = "£\(D_2_STR(model.advancePrice))"
         b_num.text = String(model.workNum + model.settleNum)
+        perNum.text = String(model.dinersNum)
         
         
         if model.deskStatus == .Empty {

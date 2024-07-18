@@ -17,7 +17,7 @@ class TimeDayAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDele
     private let monthArr: [String] = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
     
     ///日
-    private var dayCount: Int = DateTool.getDaysBy(year: Int(Date().getYearStrArr(yearCount: 5)[0])!, month: 1)
+    private var dayCount: Int = DateTool.getDaysBy(month: 1)
     
 
     private let backView: UIView = {
@@ -47,12 +47,12 @@ class TimeDayAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDele
         return view
     }()
 
-    private let yearLab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(.white, BFONT(14), .center)
-        lab.text = "Year"
-        return lab
-    }()
+//    private let yearLab: UILabel = {
+//        let lab = UILabel()
+//        lab.setCommentStyle(.white, BFONT(14), .center)
+//        lab.text = "Year"
+//        return lab
+//    }()
     
     private let monthLab: UILabel = {
         let lab = UILabel()
@@ -112,23 +112,24 @@ class TimeDayAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDele
             $0.height.equalTo(45)
         }
         
-        backView.addSubview(yearLab)
-        yearLab.snp.makeConstraints {
-            $0.left.top.equalToSuperview()
-            $0.height.equalTo(45)
-            $0.width.equalTo(100)
-        }
-        
+//        backView.addSubview(yearLab)
+//        yearLab.snp.makeConstraints {
+//            $0.left.top.equalToSuperview()
+//            $0.height.equalTo(45)
+//            $0.width.equalTo(100)
+//        }
+//        
         backView.addSubview(monthLab)
         monthLab.snp.makeConstraints {
-            $0.width.height.top.equalTo(yearLab)
-            $0.left.equalTo(yearLab.snp.right)
+            $0.width.equalTo(150)
+            $0.height.equalTo(45)
+            $0.left.top.equalToSuperview()
         }
         
         
         backView.addSubview(dayLab)
         dayLab.snp.makeConstraints {
-            $0.width.height.top.equalTo(yearLab)
+            $0.width.height.top.equalTo(monthLab)
             $0.left.equalTo(monthLab.snp.right)
         }
 
@@ -157,13 +158,13 @@ class TimeDayAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDele
     }
     
     @objc private func clickOKAction()  {
-        let year = yearArr[timePickerView.selectedRow(inComponent: 0)]
-        let month = monthArr[timePickerView.selectedRow(inComponent: 1)]
+        //let year = yearArr[timePickerView.selectedRow(inComponent: 0)]
+        let month = monthArr[timePickerView.selectedRow(inComponent: 0)]
         var day: String = ""
-        if timePickerView.selectedRow(inComponent: 2) + 1 < 10 {
-            day = "0" + String(timePickerView.selectedRow(inComponent: 2) + 1)
+        if timePickerView.selectedRow(inComponent: 1) + 1 < 10 {
+            day = "0" + String(timePickerView.selectedRow(inComponent: 1) + 1)
         } else {
-            day = String(timePickerView.selectedRow(inComponent: 2) + 1)
+            day = String(timePickerView.selectedRow(inComponent: 1) + 1)
         }
         let showStr = "\(month)-\(day)"
         self.selectBlock?([showStr, showStr, ""])
@@ -185,7 +186,7 @@ class TimeDayAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDele
 
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 3
+        return 2
     }
     
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
@@ -193,10 +194,10 @@ class TimeDayAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDele
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+//        if component == 0 {
+//            return  yearArr.count
+//        }
         if component == 0 {
-            return yearArr.count
-        }
-        if component == 1 {
             return 12
         }
         return dayCount
@@ -213,13 +214,13 @@ class TimeDayAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDele
             pickerLabel?.textAlignment = .center
         }
         
+//        if component == 0 {
+//            pickerLabel?.text = yearArr[row]
+//        }
         if component == 0 {
-            pickerLabel?.text = yearArr[row]
-        }
-        if component == 1 {
             pickerLabel?.text = monthArr[row]
         }
-        if component == 2 {
+        if component == 1 {
             if row + 1 < 10 {
                 pickerLabel?.text = "0" + String(row + 1)
             } else {
@@ -232,21 +233,19 @@ class TimeDayAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDele
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
 
-        if component == 0 {
-            let year = Int(yearArr[row]) ?? 0
-            let month = pickerView.selectedRow(inComponent: 1) + 1
-            self.dayCount = DateTool.getDaysBy(year: year, month: month)
-            pickerView.reloadComponent(2)
-        }
+//        if component == 0 {
+//            let year = Int(yearArr[row]) ?? 0
+//            let month = pickerView.selectedRow(inComponent: 1) + 1
+//            self.dayCount = DateTool.getDaysBy(year: year, month: month)
+//            pickerView.reloadComponent(2)
+//        }
 
-        if component == 1 {
+        if component == 0 {
             let year = Int(yearArr[pickerView.selectedRow(inComponent: 0)]) ?? 0
             let month = row + 1
-            self.dayCount = DateTool.getDaysBy(year: year, month: month)
-            pickerView.reloadComponent(2)
+            self.dayCount = DateTool.getDaysBy(month: month)
+            pickerView.reloadComponent(1)
 
         }
-
     }
-
 }

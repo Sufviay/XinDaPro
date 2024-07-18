@@ -45,6 +45,10 @@ import Foundation
     static var name: String {
         STPLocalizedString("Name", "Label for Name field on form")
     }
+    
+    static var full_name: String {
+        STPLocalizedString("Full name", "Label for Full name field on form")
+    }
 
     static var given_name: String {
         STPLocalizedString("First", "Label for first (given) name field")
@@ -66,8 +70,22 @@ import Foundation
         STPLocalizedString("Your email is invalid.", "Error message when email is invalid")
     }
     
+    static var billing_same_as_shipping: String {
+        STPLocalizedString("Billing address is same as shipping", "Label for a checkbox that makes customers billing address same as their shipping address")
+    }
+    
+    // MARK: - Phone number
+    
     static var phone: String {
         STPLocalizedString("Phone", "Caption for Phone field on address form")
+    }
+    
+    static var incomplete_phone_number: String {
+        STPLocalizedString("Incomplete phone number", "Error description for incomplete phone number")
+    }
+    
+    static var invalid_phone_number: String {
+        STPLocalizedString("Unable to parse phone number", "Error string when we can't parse a phone number")
     }
 
     static var optional_field: String {
@@ -234,6 +252,10 @@ import Foundation
     }
 
     // MARK: - Control strings
+    static var error: String {
+        return STPLocalizedString("Error", "Text for error labels")
+    }
+
     static var cancel: String {
         STPLocalizedString("Cancel", "Button title to cancel action in an alert")
     }
@@ -255,5 +277,15 @@ import Foundation
             "Use rotor to access links",
             "Accessibility hint indicating to use the accessibility rotor to open links. The word 'rotor' should be localized to match Apple's language here: https://support.apple.com/HT204783"
         )
+    }
+    
+    // MARK: UPI
+    
+    static var upi_id: String {
+        STPLocalizedString("UPI ID", "Label for UPI ID number field on form")
+    }
+    
+    static var invalid_upi_id: String {
+        STPLocalizedString("Invalid UPI ID", "Error message when UPI ID is invalid")
     }
 }

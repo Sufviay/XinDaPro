@@ -14,8 +14,13 @@ class OrderHeaderCell: BaseTableViewCell {
     private let backView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W - 20, height: 75), byRoundingCorners: [.topLeft, .topRight], radii: 15)
         return view
+    }()
+    
+    private let orderByLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(FONTCOLOR, BFONT(15), .left)
+        return lab
     }()
     
     private let dayNumLab: UILabel = {
@@ -75,10 +80,16 @@ class OrderHeaderCell: BaseTableViewCell {
             $0.bottom.top.equalToSuperview()
         }
         
+        backView.addSubview(orderByLab)
+        orderByLab.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(15)
+            $0.top.equalToSuperview().offset(15)
+        }
+        
         backView.addSubview(dayNumLab)
         dayNumLab.snp.makeConstraints {
             $0.left.equalToSuperview().offset(15)
-            $0.top.equalToSuperview().offset(10)
+            $0.top.equalTo(orderByLab.snp.bottom).offset(10)
         }
         
         backView.addSubview(orderIDLab)
@@ -113,8 +124,22 @@ class OrderHeaderCell: BaseTableViewCell {
         }
     }
     
-    
+        
     func setCellData(model: OrderModel) {
+        
+        backView.cornerWithRect(rect: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 20, height: 100), byRoundingCorners: [.topLeft, .topRight], radii: 15)
+        
+        
+        if model.isSelf {
+            orderByLab.text = "Order by Myself"
+        } else {
+            if model.orderAccount == "" {
+                orderByLab.text = "Order by Customer"
+            } else {
+                orderByLab.text = "Order by \(model.orderAccount)"
+            }
+        }
+        
         dayNumLab.text = "#\(model.orderDayNum)"
         orderIDLab.text = "#\(model.orderId)"
         timeLab.text = model.createTime

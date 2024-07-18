@@ -19,7 +19,7 @@ class MenuBottomToolView: UIView {
     
     private let confirmBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Checkout", MAINCOLOR, BFONT(17), .white)
+        but.setCommentStyle(.zero, "Confirm", MAINCOLOR, BFONT(17), .white)
         but.layer.cornerRadius = 20
         return but
     }()
@@ -179,7 +179,7 @@ class MenuBottomToolView: UIView {
     
     
     
-    func setValue(dishMoney: String, buyCount: Int, discountType: String, discountMoney: String, deliveryFee: String, minOrder: String, type: String) {
+    func setValue(dishMoney: String, buyCount: Int, discountType: String, discountMoney: String, minOrder: String, type: String) {
 
         ///type:  3是，4菜品金额小于等于0，5菜品金额小于店铺最低配送金额），6关店（不在营业时间呗) 7菜品不可用  8 没有菜  9未登录
         

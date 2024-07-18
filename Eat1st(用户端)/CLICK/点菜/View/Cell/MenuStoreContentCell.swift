@@ -57,6 +57,7 @@ class MenuStoreContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
         tableView.register(MenuStoreInfoCell.self, forCellReuseIdentifier: "MenuStoreInfoCell")
         tableView.register(MenuDiscountCell.self, forCellReuseIdentifier: "MenuDiscountCell")
         tableView.register(MenuSelectCell.self, forCellReuseIdentifier: "MenuSelectCell")
+        tableView.register(MenuVipCell.self, forCellReuseIdentifier: "MenuVipCell")
         return tableView
     }()
 
@@ -82,13 +83,19 @@ class MenuStoreContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
     
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == 1 {
             if !storeInfo.isHaveDiscountBar {
+                return 0
+            }
+        }
+        
+        if section == 2 {
+            if !storeInfo.isVip {
                 return 0
             }
         }
@@ -106,6 +113,10 @@ class MenuStoreContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
         }
         
         if indexPath.section == 2 {
+            return SET_H(50, 345) + 10
+        }
+        
+        if indexPath.section == 3 {
             return 50
         }
         
@@ -124,7 +135,7 @@ class MenuStoreContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
             let cell = tableView.dequeueReusableCell(withIdentifier: "MenuDiscountCell") as! MenuDiscountCell
             cell.setCellData(model: storeInfo)
             
-            cell.clickBlock = { [unowned self] (_) in
+            cell.clickRedeemBlock = { [unowned self] (_) in
                 if PJCUtil.checkLoginStatus() {
                     //MARK: - 积分兑换优惠券
                     let nextVC = ExchangeJiFenController()
@@ -133,12 +144,28 @@ class MenuStoreContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
                     PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
                 }
             }
-
+            
+            cell.clickOccupyBlock = { [unowned self] (_) in
+                if PJCUtil.checkLoginStatus() {
+                    //MARK: - 预约
+                    let nextVC = OccupyController()
+                    nextVC.storeID = storeInfo.storeID
+                    nextVC.storeName = storeInfo.name
+                    nextVC.storeDes = storeInfo.des
+                    PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
+                }
+            }
             
             return cell
         }
         
         if indexPath.section == 2 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "MenuVipCell") as! MenuVipCell
+            cell.setCellData(model: storeInfo, canClick: true)
+            return cell
+        }
+        
+        if indexPath.section == 3 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MenuSelectCell") as! MenuSelectCell
             cell.setData(model: timeInfo, selectWay: buyType)
             
@@ -155,7 +182,7 @@ class MenuStoreContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
         
     }
     
-
+    
     
     func setCellData(model: StoreInfoModel, timeModel: OpenTimeModel, buyType: String) {
         self.storeInfo = model

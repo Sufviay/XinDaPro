@@ -16,6 +16,12 @@ class MenuCartView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UI
     
     var storeID: String = ""
     
+    var isVip: Bool = false {
+        didSet {
+            table.reloadData()
+        }
+    }
+    
     var cartDataArr: [CartDishModel] = [] {
         didSet {
             
@@ -211,7 +217,7 @@ extension MenuCartView {
         
         let model = cartDataArr[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "MenuCartGoodsCell") as! MenuCartGoodsCell
-        cell.setCellData(model: model)
+        cell.setCellData(model: model, isVip: isVip)
         
         cell.clickCountBlock = { [unowned self] (par) in
             let count = par as! Int

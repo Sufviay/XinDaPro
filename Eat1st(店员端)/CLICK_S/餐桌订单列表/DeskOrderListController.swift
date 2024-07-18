@@ -22,10 +22,8 @@ class DeskOrderListController: BaseViewController, UITableViewDelegate, UITableV
         didSet {
             if deskStatus == .Settlement || deskStatus == .Settlement {
                 addBut.isEnabled = false
-                addBut.backgroundColor = HCOLOR("#FEC501").withAlphaComponent(0.5)
             } else {
                 addBut.isEnabled = true
-                addBut.backgroundColor = HCOLOR("#FEC501")
             }
         }
     }
@@ -34,18 +32,9 @@ class DeskOrderListController: BaseViewController, UITableViewDelegate, UITableV
     private var dataArr: [OrderModel] = []
     
     
-    
-
-    private let b_view: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: bottomBarH + 70), byRoundingCorners: [.topLeft, .topRight ], radii: 10)
-        return view
-    }()
-    
     private let addBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "ADD", HCOLOR("#000000"), BFONT(17), HCOLOR("#FEC501"))
+        but.setCommentStyle(.zero, "Add", .black, BFONT(16), MAINCOLOR)
         but.layer.cornerRadius = 10
         return but
     }()
@@ -69,6 +58,19 @@ class DeskOrderListController: BaseViewController, UITableViewDelegate, UITableV
     }()
     
     
+    private var deleteSection: Int = 0
+    private var deleteID: String = ""
+    
+    private lazy var pwdAlert: PasswordAlert = {
+        let view = PasswordAlert()
+        
+        view.pwdBlock = { [unowned self] (pwd) in
+            deleteDished_Net(id: deleteID, pwd: pwd, section: deleteSection)
+        }
+        
+        return view
+    }()
+    
 
     override func setNavi() {
         naviBar.leftImg = LOIMG("nav_back_w")
@@ -80,30 +82,25 @@ class DeskOrderListController: BaseViewController, UITableViewDelegate, UITableV
     override func setViews() {
         setUpUI()
         loadData_Net()
+        addNotification()
     }
     
     private func setUpUI() {
         view.backgroundColor = HCOLOR("#F4F3F8")
         
-        view.addSubview(b_view)
-        b_view.snp.makeConstraints {
-            $0.left.right.bottom.equalToSuperview()
-            $0.height.equalTo(70 + bottomBarH)
-        }
-        
-        b_view.addSubview(addBut)
+        view.addSubview(addBut)
         addBut.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(40)
-            $0.right.equalToSuperview().offset(-40)
-            $0.height.equalTo(40)
-            $0.top.equalToSuperview().offset(15)
+            $0.height.equalTo(50)
+            $0.left.equalToSuperview().offset(20)
+            $0.right.equalToSuperview().offset(-20)
+            $0.bottom.equalTo(-bottomBarH - 15)
         }
         
-        
+
         view.addSubview(table)
         table.snp.makeConstraints {
             $0.left.right.equalToSuperview()
-            $0.bottom.equalTo(b_view.snp.top)
+            $0.bottom.equalTo(addBut.snp.top).offset(-10)
             $0.top.equalTo(naviBar.snp.bottom).offset(15)
         }
         
@@ -125,6 +122,61 @@ class DeskOrderListController: BaseViewController, UITableViewDelegate, UITableV
         nextVC.deskID = deskID
         navigationController?.pushViewController(nextVC, animated: true)
     }
+    
+    
+    deinit {
+        print("\(self.classForCoder) 销毁")
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+        UIDevice.current.endGeneratingDeviceOrientationNotifications()
+        
+    }
+    
+
+    private func addNotification() {
+        
+        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+        NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: UIDevice.orientationDidChangeNotification, object: nil)
+        
+    }
+    
+    
+    @objc private func orientationDidChange() {
+        
+        switch UIDevice.current.orientation {
+        case .unknown:
+            print("未知")
+        case .portrait:
+            print("竖屏")
+            orientationDidChangeUpdate()
+        case .portraitUpsideDown:
+            print("颠倒竖屏")
+            orientationDidChangeUpdate()
+        case .landscapeLeft:
+            print("左旋转 横屏")
+            orientationDidChangeUpdate()
+        case .landscapeRight:
+            print("右旋转 横屏")
+            orientationDidChangeUpdate()
+        case .faceUp:
+            print("屏幕朝上")
+        case .faceDown:
+            print("屏幕朝下")
+        default:
+            break
+        }
+        
+    }
+    
+    func orientationDidChangeUpdate() {
+        
+        DispatchQueue.main.async {
+            print("----------W:\(UIScreen.main.bounds.width)\n----------H:\(UIScreen.main.bounds.height)")
+            self.table.reloadData()
+        }
+    }
+    
+    
+    
 
 }
 
@@ -140,7 +192,7 @@ extension DeskOrderListController {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
-            return 75
+            return 100
         }
         
         if indexPath.row == dataArr[indexPath.section].dishesArr.count + 1 {
@@ -168,13 +220,21 @@ extension DeskOrderListController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "OrderDishCell") as! OrderDishCell
         cell.setCellData(model: dataArr[indexPath.section].dishesArr[indexPath.row - 1])
+        
+        
+        cell.deleteBlock = { [unowned self] (id) in
+            deleteSection = indexPath.section
+            deleteID = id
+            pwdAlert.appearAction()
+        }
+        
         return cell
     }
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if indexPath.row == dataArr[indexPath.section].dishesArr.count + 1 {
+        if indexPath.row == dataArr[indexPath.section].dishesArr.count + 1 || indexPath.row == 0 {
                     
             //点击展开或者关闭
             if dataArr[indexPath.section].isShow {
@@ -185,11 +245,15 @@ extension DeskOrderListController {
             } else {
                 //展开
                 dataArr[indexPath.section].isShow = true
-                loadDishesData_Net(orderID: dataArr[indexPath.section].orderId, section: indexPath.section)
+                loadDishesData_Net(section: indexPath.section)
             }
             
         }
     }
+    
+    
+    
+    
 }
 
 
@@ -216,22 +280,66 @@ extension DeskOrderListController {
     }
     
     
-    private func loadDishesData_Net(orderID: String, section: Int) {
+    private func loadDishesData_Net(section: Int) {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.getDeskOrderDishesList(orderID: orderID).subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.getOrderDetail(orderID: dataArr[section].orderId).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: view)
             
-            var tarr: [OrderDishModel] = []
+            var danPinArr: [OrderDishModel] = []
+            var taocanArr: [OrderDishModel] = []
+            
             for jsondata in json["data"]["dishesList"].arrayValue {
                 let model = OrderDishModel()
                 model.updateModel(json: jsondata)
-                tarr.append(model)
+                
+                if model.baleSort == "0" {
+                    danPinArr.append(model)
+                } else {
+                    //套餐
+                    //如果套餐数组中不存在相同的 baleSort 就创建一个 OrderDishModel
+                    //如果存在 当作赠品 可删除
+                    let arr = taocanArr.filter { $0.baleSort == model.baleSort }
+                    if arr.count == 0 {
+                        let newModel = OrderDishModel()
+                        newModel.baleSort = model.baleSort
+                        newModel.nameEn = json["data"]["baleNameEn"].stringValue
+                        newModel.nameHk = json["data"]["baleNameHk"].stringValue
+                        newModel.price = json["data"]["baleDishesPrice"].doubleValue
+                        newModel.buyNum = 1
+                        let attModel = OrderDishSelectItemModel()
+                        attModel.updateModelByTaoCan(model: model)
+                        newModel.attachList.append(attModel)
+                        newModel.updateTaoCanModel_Hight()
+                        taocanArr.append(newModel)
+                        
+                        
+                    } else {
+                        
+                        let attModel = OrderDishSelectItemModel()
+                        attModel.updateModelByTaoCan(model: model)
+                        arr.first?.attachList.append(attModel)
+                        arr.first?.updateTaoCanModel_Hight()
+                    }
+                }
             }
-            dataArr[section].dishesArr = tarr
+
+            dataArr[section].dishesArr = danPinArr + taocanArr
             table.reloadData()
         }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
         }).disposed(by: bag)
     }
+    
+    
+    //删除菜品
+    private func deleteDished_Net(id: String, pwd: String, section: Int) {
+        HUD_MB.loading("", onView: view)
+        HTTPTOOl.deleteOrderDishes(orderDishesID: id, pwd: pwd).subscribe(onNext: { [unowned self] (json) in
+            loadDishesData_Net(section: section)
+        }, onError: { [unowned self] (error) in
+            HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
+        }).disposed(by: bag)
+    }
+    
     
 }

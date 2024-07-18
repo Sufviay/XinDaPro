@@ -8,12 +8,7 @@
 /***
  
  首页页面梳理：
- 
- 
  根据地理位置显示店铺列表，
- 
- 
- 
  */
 
 
@@ -30,12 +25,8 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
     ///分页
     private var page: Int = 1
     
-    
-    ///是否显示全部店铺
-    private var isShowAll: Bool = false
-    ///是否显示全部的按钮
-    private var isShowAllBut: Bool = false
-    
+    ///是否有数据
+    private var isHaveData: Bool = true
     
     
     ///是否有未完成的订单
@@ -105,26 +96,13 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
         tableView.register(FirstSearchTableCell.self, forCellReuseIdentifier: "FirstSearchTableCell")
         tableView.register(StoreTableCell.self, forCellReuseIdentifier: "StoreTableCell")
         tableView.register(FirstStoreFLCell.self, forCellReuseIdentifier: "FirstStoreFLCell")
-        tableView.register(FirstAllStoreCell.self, forCellReuseIdentifier: "FirstAllStoreCell")
+        tableView.register(FirstNoDataCell.self, forCellReuseIdentifier: "FirstNoDataCell")
         tableView.register(FirstHaveCouponCell.self, forCellReuseIdentifier: "FirstHaveCouponCell")
         tableView.register(FirstHavePrizeDrawCell.self, forCellReuseIdentifier: "FirstHavePrizeDrawCell")
         tableView.register(FirstUncompleteOrderCell.self, forCellReuseIdentifier: "FirstUncompleteOrderCell")
         return tableView
     }()
     
-    
-    
-    //空数据
-    private lazy var noDataView: NOStoreView = {
-        let view = NOStoreView()
-    
-        view.clickBlock = { [unowned self] (_) in
-            self.isShowAll = true
-            self.loadData_Net()
-        }
-        
-        return view
-    }()
 
     
     //消息提示框
@@ -133,9 +111,12 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
         return alert
     }()
     
+    
+    ///2024 7-6 首页积分隐藏
     ///积分
     private let jifenView: JiFenView = {
         let view = JiFenView()
+        view.isHidden = true
         return view
     }()
     
@@ -176,7 +157,7 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
         ///是否有未完成的订单
         checkHaveUncompleteOrder_Net()
         ///更新积分
-        getJiFen_Net()
+        //getJiFen_Net()
     }
     
     
@@ -250,10 +231,13 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
         }
     }
 
-    
+    //MARK: - 会员
+    private func clickMembership() {
+        
+    }
     
     //MARK: - 扫一扫
-    private func clickSaoYiSaoAction() {
+    private func clickSaoYiSaoAction(storeID: String) {
         //绑定店铺
         
         if PJCUtil.checkLoginStatus() {
@@ -262,6 +246,17 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
             style.animationImage = UIImage(named: "CodeScan.bundle/qrcode_scan_light_green")
             style.colorAngle = MAINCOLOR
             scanVC.scanStyle = style
+//            if storeID == "" {
+//                scanVC.isClickStore = false
+//            } else {
+//                scanVC.isClickStore = true
+//            }
+//            
+//            scanVC.clickWaiMaiBlock = { [unowned self] (_) in
+//                let nextVC = StoreMenuOrderController()
+//                nextVC.storeID = storeID
+//                self.navigationController?.pushViewController(nextVC, animated: true)
+//            }
             
             
             ///https://share.eat1st.co.uk/store/detail/?storeId=1558386586135650305&deskId=1111111111
@@ -310,10 +305,15 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
                             HUD_MB.loading("", onView: view)
                             HTTPTOOl.checkDesk(storeID: storeID, deskID: deskID).subscribe(onNext: { [unowned self] json in
                                 HUD_MB.dissmiss(onView: self.view)
-                                let orderVC = ScanOrderController()
-                                orderVC.deskID = deskID
-                                orderVC.storeID = storeID
-                                self.navigationController?.pushViewController(orderVC, animated: true)
+                                
+                                let dineInVC = DineInFirstController()
+                                dineInVC.deskID = deskID
+                                dineInVC.storeID = storeID
+                                
+//                                let orderVC = ScanOrderController()
+//                                orderVC.deskID = deskID
+//                                orderVC.storeID = storeID
+                                self.navigationController?.pushViewController(dineInVC, animated: true)
                                 
                             }, onError: { [unowned self] error in
                                 HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
@@ -356,6 +356,10 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
                 self.loadData_Net()
             }
             self.navigationController?.pushViewController(nextVC, animated: true)
+        } notAllow: { [unowned self] in
+            HUD_MB.showWarnig("The location service is not enabled. Enable the location service in system Settings", onView: view)
+        } error: { [unowned self] _ in
+            HUD_MB.showError("Failed to obtain the location information. Check the network.", onView: view)
         }
     }
     
@@ -386,7 +390,7 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
         self.checkMessage_Net()
         self.checkHavePrizeDraw_Net()
         checkHaveUncompleteOrder_Net()
-        self.getJiFen_Net()
+        //self.getJiFen_Net()
         self.showMessage_Net()
     }
 
@@ -428,19 +432,24 @@ extension FirstController {
             }
         }
         
-        else if section == 3 {
+        if section == 3 {
             return 1
         }
-        else if section == 4 {
+        
+        if section == 4 {
             return nearestArr.count
         }
-        else {
-            if isShowAllBut {
-                return 1
-            } else {
+        
+        if section == 5 {
+            if isHaveData {
                 return 0
+            } else {
+                return 1
             }
         }
+        
+        return 0
+        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -453,14 +462,15 @@ extension FirstController {
             return SET_H(110, 350) + 10
         }
         
-        else if indexPath.section == 2 {
+        if indexPath.section == 2 {
             return SET_H(70, 353) + 10
         }
         
-        else if indexPath.section == 3 {
-            return (UserDefaults.standard.address ?? "").getTextHeigh(SFONT(11), S_W - 150) + 33 + 15 + 10
+        if indexPath.section == 3 {
+                        
+            return (UserDefaults.standard.address ?? "").getTextHeigh(SFONT(11), S_W - 235) + 33 + 15 + 10
         }
-        else if indexPath.section == 4 {
+        if indexPath.section == 4 {
             
             //根据店铺图片大小来显示高度
             let imgUrl = nearestArr[indexPath.row].coverImg
@@ -473,9 +483,13 @@ extension FirstController {
             //根据图片计算高度
             return img!.size.height * (S_W - 20) / img!.size.width + 105 + 15
             
-        } else {
-            return 100
         }
+        
+        if indexPath.section == 5 {
+            return 350
+        }
+        
+        return 0
         
     }
     
@@ -493,12 +507,12 @@ extension FirstController {
             return cell
         }
         
-        else if indexPath.section == 2 {
+        if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "FirstHavePrizeDrawCell") as! FirstHavePrizeDrawCell
             return cell
         }
         
-        else if indexPath.section == 3 {
+        if indexPath.section == 3 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "FirstSearchTableCell") as! FirstSearchTableCell
             cell.setCellData(addressStr: UserDefaults.standard.address ?? "", postCode: UserDefaults.standard.postCode ?? "")
             cell.clickBlock = { [unowned self] (type) in
@@ -514,14 +528,30 @@ extension FirstController {
                 
                 if type == "scan" {
                     //MARK: - 扫一扫
-                    
-                    self.clickSaoYiSaoAction()
+                    self.clickSaoYiSaoAction(storeID: "")
+                }
+                
+                if type == "vip" {
+                    //MARK: - vip
+                    if PJCUtil.checkLoginStatus() {
+                        
+                        if UserDefaults.standard.isAgree {
+                            let nextVC = PayCodeController()
+                            navigationController?.pushViewController(nextVC, animated: true)
+                        } else {
+                            //弹出法律条文页面
+                            let webVC = AgreeTermsController()
+                            webVC.titStr = "APP Terms and Conditions"
+                            webVC.webUrl = TCURL
+                            self.present(webVC, animated: true, completion: nil)
+                        }
+                    }
                 }
             }
             return cell
             
         }
-        else if indexPath.section == 4 {
+        if indexPath.section == 4 {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "StoreTableCell") as! StoreTableCell
             cell.setCellData(model: nearestArr[indexPath.row])
@@ -539,14 +569,19 @@ extension FirstController {
             return cell
             
         }
-        else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "FirstAllStoreCell") as! FirstAllStoreCell
+        if indexPath.section == 5 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "FirstNoDataCell") as! FirstNoDataCell
+            
             cell.clickBlock = { [unowned self] (_) in
-                self.isShowAll = true
-                self.loadData_Net()
+                //更换地址
+                clickSearchAction()
             }
             return cell
         }
+        
+        let cell = UITableViewCell()
+        return cell
+
     }
     
     //下载图片
@@ -597,15 +632,52 @@ extension FirstController {
         
         if indexPath.section == 4 {
             //店铺菜单
-            let nextVC = StoreMenuOrderController()
-            nextVC.storeID = nearestArr[indexPath.row].storeID
-            self.navigationController?.pushViewController(nextVC, animated: true)
-
+            getStoreStatus_Net(id: nearestArr[indexPath.row].storeID)
         }
         
     }
     
     //MARK: - 网络请求
+    
+    
+    //获取店铺当前的营业状态
+    private func getStoreStatus_Net(id: String) {
+        HUD_MB.loading("", onView: view)
+        HTTPTOOl.getStoreStatus(id: id).subscribe(onNext: { [unowned self] (json) in
+            HUD_MB.dissmiss(onView: self.view)
+            
+            ///返回的status == 3的时候，跳转扫码，1，2的时候正常进菜单
+            
+            let arr = json["data"].arrayValue.filter { $0["saleType"].stringValue == "3" }
+            
+            
+            if arr.count != 0 {
+                
+                //判断是否登录
+                if PJCUtil.checkLoginStatus() {
+                    //进入店铺首页
+                    let nextVC = StoreMainController()
+                    nextVC.storeID = id
+                    nextVC.isClickList = true
+                    nextVC.saleTypeArr = json["data"].arrayValue.map { $0["saleType"].stringValue }
+                    self.navigationController?.pushViewController(nextVC, animated: true)
+                }
+
+            } else {
+                let nextVC = StoreMenuOrderController()
+                nextVC.storeID = id
+                self.navigationController?.pushViewController(nextVC, animated: true)
+            }
+                        
+        }, onError: { [unowned self] (error) in
+            HUD_MB.dissmiss(onView: view)
+            let nextVC = StoreMenuOrderController()
+            nextVC.storeID = id
+            self.navigationController?.pushViewController(nextVC, animated: true)
+            //HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
+        }).disposed(by: bag)
+    }
+    
     
     //获取首单优惠的店铺
     private func loadStoreListFirstDiscount_Net() {
@@ -630,7 +702,6 @@ extension FirstController {
                     }
                 }
                 table.reloadData()
-                //self.table.reloadSections([3], with: .none)
             }).disposed(by: self.bag)
         }
     }
@@ -641,9 +712,8 @@ extension FirstController {
     private func loadData_Net() {
         HUD_MB.loading("", onView: view)
         
-        let isAll = isShowAll ? "1" : "2"
         
-        HTTPTOOl.storeList_Nearby(tag: "", lat: UserDefaults.standard.local_lat!, lng: UserDefaults.standard.local_lng!, allStore: isAll, page: 1).subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.storeList_Nearby(tag: "", lat: UserDefaults.standard.local_lat!, lng: UserDefaults.standard.local_lng!, allStore: "", page: 1).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
             self.page = 2
             //热门的店铺
@@ -654,37 +724,16 @@ extension FirstController {
                 n_Arr.append(model)
             }
             self.nearestArr = n_Arr
-    
-            //处理页面
-            if self.nearestArr.count == 0 {
-                //没有数据
-                self.isShowAllBut = false
-                self.noDataView.isAll = self.isShowAll
-                let h = (UserDefaults.standard.address ?? "").getTextHeigh(SFONT(11), S_W - 150) + 33 + 15 + 10
-                self.noDataView.frame = CGRect(x: 0, y: h, width: self.table.frame.width, height: self.table.frame.height - h)
-    
-                self.table.addSubview(self.noDataView)
-                self.table.mj_footer?.endRefreshingWithNoMoreData()
-            } else if self.nearestArr.count < 10 {
-                //已经加载完毕了
-                if !self.isShowAll {
-                    self.isShowAllBut = true
-                } else {
-                    self.isShowAllBut = false
-                }
-                self.noDataView.removeFromSuperview()
-                self.table.mj_footer?.endRefreshingWithNoMoreData()
-                
+            
+            if nearestArr.count == 0 {
+                isHaveData = false
             } else {
-                //可以继续加载
-                self.isShowAllBut = false
-                self.noDataView.removeFromSuperview()
-                self.table.mj_footer?.resetNoMoreData()
+                isHaveData = true
             }
-
+            
             self.table.reloadData()
             self.table.mj_header?.endRefreshing()
-            
+            self.table.mj_footer?.resetNoMoreData()
             self.loadStoreListFirstDiscount_Net()
     
         }, onError: { [unowned self] (error) in
@@ -696,33 +745,31 @@ extension FirstController {
     
     private func loadMoreData_Net() {
     
-        let isAll = isShowAll ? "1" : "2"
         
-        HTTPTOOl.storeList_Nearby(tag: "", lat: UserDefaults.standard.local_lat!, lng: UserDefaults.standard.local_lng!, allStore: isAll, page: self.page).subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.storeList_Nearby(tag: "", lat: UserDefaults.standard.local_lat!, lng: UserDefaults.standard.local_lng!, allStore: "", page: self.page).subscribe(onNext: { [unowned self] (json) in
             
-            for jsonData in json["data"].arrayValue {
-                let model = StoreInfoModel()
-                model.updateModel(json: jsonData)
-                if self.firstDiscountStoreIDArr.contains(model.storeID) {
-                    model.isFirstDiscount = true
-                } else {
-                    model.isFirstDiscount = false
-                }
-                
-                self.nearestArr.append(model)
-            }
+
             
             //处理页面
-            if json["data"].arrayValue.count < 10 {
-                if !self.isShowAll {
-                    self.isShowAllBut = true
-                }
+            if json["data"].arrayValue.count == 0 {
                 self.table.mj_footer?.endRefreshingWithNoMoreData()
             } else {
                 self.page += 1
+                for jsonData in json["data"].arrayValue {
+                    let model = StoreInfoModel()
+                    model.updateModel(json: jsonData)
+                    if self.firstDiscountStoreIDArr.contains(model.storeID) {
+                        model.isFirstDiscount = true
+                    } else {
+                        model.isFirstDiscount = false
+                    }
+                    
+                    self.nearestArr.append(model)
+                }
+                self.table.reloadData()
                 self.table.mj_footer?.endRefreshing()
             }
-            self.table.reloadData()
+            
             
         }, onError: {[unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)

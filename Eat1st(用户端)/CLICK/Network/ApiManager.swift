@@ -23,28 +23,22 @@ enum ApiManager {
     case bindingStoreOrNot
     ///绑定店铺
     case bindingStroreAction(storeID: String)
-//    ///获取首页绑定的店铺
-//    case SY_BindingStoreList(lat: String, lng: String)
-//    ///获取首页热门店铺
-//    case SY_hotStoreList(lat: String, lng: String)
-//    ///获取首页距离最近的店铺
-//    case SY_NearByStoreList(lat: String, lng: String)
     ///获取店铺首页数据
-    case Store_mainPageData(storeID: String, type: String)
+    case Store_mainPageData(storeID: String)
     ///获取店铺标签（用于店铺筛选）
     case getStoreFiltrateTags
     ///店铺菜品分类
     case getDishesClassify(storeID: String)
     ///分类下的菜品
     case getClassifyDishes(classifyID: String, storeID: String, keyword: String)
-    ///添加购物车
+    ///添加购物车  type 去掉了
     case addShoppingCart(dishesID: String, buyNum: String, type: String, optionList: [[String: String]], deskID: String)
     ///修改购物车数量
     case updateCartNum(buyNum: String, cartID: String)
     ///获取已添加购物车的菜品列表
     case getAddedCartDishes(storeID: String, psType: String)
     ///获取菜品详情
-    case loadDishedDetail(dishesId: String, deskId: String)
+    case loadDishedDetail(dishesId: String, deskId: String, deliveryType: String)
     ///店铺列表——绑定
     case storeList_binding(tag: String, lat: String, lng: String, page: String)
     ///店铺列表——热门
@@ -117,7 +111,7 @@ enum ApiManager {
     ///检查App版本
     case CheckAppVer
     ///获取分类及菜品列表
-    case getClassifyAndDishesList(storeID: String, deskId: String)
+    case getClassifyAndDishesList(storeID: String, deliveryType: String)
     ///清空购物车
     case emptyCart(storeID: String)
     ///账户删除
@@ -139,7 +133,7 @@ enum ApiManager {
     ///更新订单状态
     case refreshOrderStatus(id: String)
     ///更新用户信息
-    case updateUserInfo(name: String, email: String, birthday: String)
+    case updateUserInfo(name: String, email: String, birthday: String, phone: String, postCode: String, areaCode: String, type: String)
     ///获取用户信息
     case getUserInfo
     ///获取我的优惠券列表
@@ -180,15 +174,54 @@ enum ApiManager {
     ///密码登录
     case loginPWD(countryCode: String, phone: String, pwd: String)
     ///找回密码
-    case findPWD(countryCode: String, phone: String, smsID: String, smsCode: String, pwd: String)
+    case findPWD(countryCode: String, phone: String, email: String, smsCode: String, pwd: String)
     ///获取未完成订单的数量
     case getUnCompleteOrderCount
     ///呼叫服务员
     case callWaiter(orderID: String)
+    ///获取堂食分类列表
+    case getDineInClassifyList(storeID: String)
+    ///获取堂食菜品列表
+    case getDineInDishesList(classifyID: String)
+    ///呼叫服务员
+    case callWaiterByDesk(deskID: String)
+    ///获取店铺预定时间列表
+    case getStoreCanOccupyTimeList(id: String, date: String)
+    ///获取用户预订的列表
+    case getUserOccupyList(page: String)
+    ///用户预订
+    case doUserOccupy(model: OccupyModel)
+    ///取消预定
+    case doCancelOccupy(id: String)
+    ///获取店铺状态
+    case getStoreStatus(id: String)
+    ///获取餐桌信息
+    case getDeskDetail(id: String)
+    ///邮箱登录
+    case loginEmail(email: String, pwd: String)
+    ///邮箱注册
+    case emailRegister(email: String, pwd: String, code: String)
+    ///邮箱发送验证码
+    case emailSendCode(email: String)
+    ///获取用户充值金额
+    case getUserRechargeAmount(storeID: String)
+    ///获取充值金额消费明细
+    case getUserRechargeDetail(page: String, storeID: String, type: String)
+    ///堂食确认订单信息
+    case loadConfirmOrderDetail_dine(deskID: String, storeID: String)
+    ///堂食下单
+    case creatOrder_dine(submitModel: CreateOrderModel)
+    ///获取用户vip
+    case getUserVip(id: String)
+    ///获取用户的付款二维码Token
+    case getUserPayToken
+    ///获取分享ID
+    case getShareIDAndList(page: String)
     
     
 
-
+    
+    
     
     
     
@@ -243,14 +276,7 @@ extension ApiManager: TargetType {
             return "api/user/getUserBindStoreId"
         case .bindingStroreAction(storeID: _):
             return "api/user/bindStore"
-            
-//        case .SY_BindingStoreList(lat: _, lng: _):
-//            return "api/user/home/getBindStoreList"
-//        case .SY_hotStoreList(lat: _, lng: _):
-//            return "api/user/home/getHotStoreList"
-//        case .SY_NearByStoreList(lat: _, lng: _):
-//            return "api/user/home/getNearStoreList"
-        case .Store_mainPageData(storeID: _, type: _):
+        case .Store_mainPageData(storeID: _):
             return "api/user/store/getStoreDetail"
         case .getStoreFiltrateTags:
             return "api/user/store/getTagList"
@@ -262,7 +288,7 @@ extension ApiManager: TargetType {
             return "api/user/cart/getAddedCartDishesList"
         case .addShoppingCart(dishesID: _, buyNum: _, type: _, optionList: _, deskID: _):
             return "api/user/cart/addCart"
-        case .loadDishedDetail(dishesId: _, deskId: _):
+        case .loadDishedDetail(dishesId: _, deskId: _, deliveryType: _):
             return "api/user/dishes/getDishesDetail"
         case .storeList_binding(tag: _, lat: _, lng: _, page: _):
             return "api/user/store/getBindStoreList"
@@ -334,7 +360,7 @@ extension ApiManager: TargetType {
             return "api/user/login/logout"
         case .CheckAppVer:
             return "api/user/version/checkVersion"
-        case .getClassifyAndDishesList(storeID: _, deskId: _):
+        case .getClassifyAndDishesList(storeID: _, deliveryType: _):
             return "api/user/dishes/getDishesClassifyList"
         case .emptyCart(storeID: _):
             return "api/user/cart/doClearCart"
@@ -356,8 +382,8 @@ extension ApiManager: TargetType {
             return "api/user/cart/delDishes"
         case .refreshOrderStatus(id: _):
             return "api/user/order/getOrderStatus"
-        case .updateUserInfo(name: _, email: _, birthday: _):
-            return "api/user/update"
+        case .updateUserInfo(name: _, email: _, birthday: _, phone: _, postCode: _, areaCode: _, type: _):
+            return "api/user/doUpdateUserInfo"
         case .getUserInfo:
             return "api/user/getUserInfo"
         case .getMyCouponList:
@@ -394,16 +420,52 @@ extension ApiManager: TargetType {
             return "api/user/doSetLoginPwd"
         case .doUpdatePWD(oldPwd: _, newPwd: _):
             return "api/user/doUpdatePwd"
-        case .findPWD(countryCode: _, phone: _, smsID: _, smsCode: _, pwd: _):
-            return "api/user/login/findPwd"
+        case .findPWD(countryCode: _, phone: _, email: _, smsCode: _, pwd: _):
+            return "api/user/login/email/findPwd"
         case .loginPWD(countryCode: _, phone: _, pwd: _):
             return "api/user/login/loginPwd"
         case .getUnCompleteOrderCount:
             return "api/user/order/getUnCompleteOrderCount"
         case .callWaiter(orderID: _):
             return "api/user/order/doCallOrderSettle"
-            
-            
+        case .getDineInClassifyList(storeID: _):
+            return "api/user/dishes/dine/getDineClassifyList"
+        case .getDineInDishesList(classifyID: _):
+            return "api/user/dishes/dine/getDineDishesList"
+        case .callWaiterByDesk(deskID: _):
+            return "api/user/desk/doCallByDesk"
+        case .getStoreCanOccupyTimeList(id: _, date: _):
+            return "api/user/desk/reserve/getStoreReserveList"
+        case .getUserOccupyList(page: _):
+            return "api/user/desk/reserve/getUserReserveList"
+        case .doUserOccupy(model: _):
+            return "api/user/desk/reserve/doUserReserve"
+        case .doCancelOccupy(id: _):
+            return "api/user/desk/reserve/doUserCancelReserve"
+        case .getStoreStatus(id: _):
+            return "api/user/store/getStoreSaleTypeList"
+        case .getDeskDetail(id: _):
+            return "api/user/desk/getDeskDetail"
+        case .loginEmail(email: _, pwd: _):
+            return "api/user/login/email/loginEmail"
+        case .emailRegister(email: _, pwd: _, code: _):
+            return "api/user/login/email/register"
+        case .emailSendCode(email: _):
+            return "api/user/login/email/sendCode"
+        case .getUserRechargeAmount(storeID: _):
+            return "api/user/recharge/getUserRechargeAmount"
+        case .getUserRechargeDetail(page: _, storeID: _, type: _):
+            return "api/user/recharge/getUserRechargeOrConsumeDetail"
+        case .loadConfirmOrderDetail_dine(deskID: _, storeID: _):
+            return "api/user/order/dine/calOrder"
+        case .creatOrder_dine(submitModel: _):
+            return "api/user/order/dine/createOrder"
+        case .getUserVip(id: _):
+            return "api/user/getUserVipType"
+        case .getUserPayToken:
+            return "api/user/getUserToken"
+        case .getShareIDAndList(page: _):
+            return "api/user/share/getShareIdAndShareList"
             
             
       
@@ -455,14 +517,8 @@ extension ApiManager: TargetType {
             dic = [:]
         case .bindingStroreAction(let storeID):
             dic = ["storeId": storeID]
-//        case .SY_BindingStoreList(let lat, let lng):
-//            dic = ["lat": lat, "lng": lng]
-//        case .SY_hotStoreList(let lat, let lng):
-//            dic = ["lat": lat, "lng": lng]
-//        case .SY_NearByStoreList(let lat, let lng):
-//            dic = ["lat": lat, "lng": lng]
-        case .Store_mainPageData(let storeID, let type):
-            dic = ["storeId": storeID, "type": type]
+        case .Store_mainPageData(let storeID):
+            dic = ["storeId": storeID]
         case .getStoreFiltrateTags:
             dic = [:]
         case .getDishesClassify(let storeID):
@@ -473,8 +529,8 @@ extension ApiManager: TargetType {
             dic = ["buyNum": buyNum, "dishesId": dishesID, "type": type, "optionList": optionList, "deskId": deskID]
         case .getAddedCartDishes(let storeID, let psType):
             dic = ["storeId": storeID, "deliveryType": psType]
-        case .loadDishedDetail(let dishesId, let deskId):
-            dic = ["dishesId": dishesId, "deskId": deskId]
+        case .loadDishedDetail(let dishesId, let deskId, let deliveryType):
+            dic = ["dishesId": dishesId, "deskId": deskId, "deliveryType": deliveryType]
         case .storeList_binding(let tag, let lat, let lng, let page):
             dic = ["lat": lat, "lng": lng, "pageIndex": page, "tagId": tag]
         case .storeList_hot(let tag, let lat, let lng, let page):
@@ -482,6 +538,7 @@ extension ApiManager: TargetType {
             
         case .storeList_nearby(let tag, let lat, let lng, let page, let allStore):
             ///env = 2  是生产环境下的测试
+            ///3.13去掉allStore
             dic = ["lat": lat, "lng": lng, "pageIndex": page, "tagId": tag, "allStore": allStore, "env": ENV]
         case .updateCartNum(let buyNum, let cartID):
             dic = ["buyNum": buyNum, "carId": cartID]
@@ -558,8 +615,8 @@ extension ApiManager: TargetType {
             dic = [:]
         case .CheckAppVer:
             dic = ["sysType": "2", "verId": UserDefaults.standard.verID!]
-        case .getClassifyAndDishesList(let storeID, let deskId):
-            dic = ["storeId": storeID, "deskId": deskId]
+        case .getClassifyAndDishesList(let storeID, let deliveryType):
+            dic = ["storeId": storeID, "deliveryType": deliveryType]
         case .emptyCart(let storeID):
             dic = ["storeId": storeID]
         case .deleteAccountApply:
@@ -580,8 +637,8 @@ extension ApiManager: TargetType {
             dic = ["carId": id]
         case .refreshOrderStatus(let id):
             dic = ["orderId": id]
-        case .updateUserInfo(let name, let email, let birthday):
-            dic = ["name": name, "email": email, "birthday": birthday]
+        case .updateUserInfo(let name, let email, let birthday, let phone, let postCode, let areaCode, let type):
+            dic = ["name": name, "email": email, "birthday": birthday, "phone": phone, "areaCode": areaCode, "type": type, "postCode": postCode]
         case .getUserInfo:
             dic = [:]
         case .getMyCouponList:
@@ -618,20 +675,62 @@ extension ApiManager: TargetType {
             dic = ["password": pwd]
         case .doUpdatePWD(let oldPwd, let newPwd):
             dic = ["oldPassword": oldPwd, "newPassword": newPwd]
-        case .findPWD(let countryCode, let phone, let smsID, let smsCode, let pwd):
-            dic = ["countryCode": countryCode, "phone": phone, "code": smsCode, "smsId": smsID, "password": pwd]
+        case .findPWD(let countryCode, let phone, let email, let smsCode, let pwd):
+            dic = ["areaCode": countryCode, "phone": phone, "code": smsCode, "email": email, "password": pwd]
         case .loginPWD(let countryCode, let phone, let pwd):
-            dic = ["countryCode": countryCode, "phone": phone, "password": pwd]  
+            dic = ["areaCode": countryCode, "phone": phone, "password": pwd]
         case .getUnCompleteOrderCount:
             dic = [:]
         case .callWaiter(let orderID):
             dic = ["orderId": orderID]
+        case .getDineInClassifyList(let storeID):
+            dic = ["storeId": storeID]
+        case .getDineInDishesList(let classifyID):
+            dic = ["dineClassifyId": classifyID]
+        case .callWaiterByDesk(let deskID):
+            dic = ["deskId": deskID]
+        case .getStoreCanOccupyTimeList(let id, let date):
+            dic = ["storeId": id, "date": date]
+        case .getUserOccupyList(let page):
+            dic = ["pageIndex": page]
+        case .doUserOccupy(let model):
+            dic = model.toJSON()!
+        case .doCancelOccupy(let id):
+            dic = ["userReserveId": id]
+        case .getStoreStatus(let id):
+            dic = ["storeId": id]
+        case .getDeskDetail(let id):
+            dic = ["deskId": id]
+        case .loginEmail(let email, let pwd):
+            dic = ["email": email, "password": pwd]
+        case .emailSendCode(let email):
+            dic = ["email":email]
+        case .emailRegister(let email, let pwd, let code):
+            dic = ["email": email, "password": pwd, "code": code]
+        case .getUserRechargeAmount(let storeID):
+            dic = ["storeId": storeID]
+        case .getUserRechargeDetail(let page, let storeID, let type):
+            dic = ["detailType": type, "storeId": storeID, "pageIndex": page]
+        case .loadConfirmOrderDetail_dine(let deskID, let storeID):
+            dic = ["deskId": deskID, "storeId": storeID]
+        case .creatOrder_dine(let submitModel):
+            dic = ["remark": submitModel.remark, "storeId": submitModel.storeId, "deskId": submitModel.deskId]
+        case .getUserVip(let id):
+            dic = ["storeId": id]
+        case .getUserPayToken:
+            dic = [:]
+        case .getShareIDAndList(let page):
+            dic = ["pageIndex": page]
+            
+            
+        
+        
+            
             
             
 
             
             
-
             
             
         case .getFirstPageData(let lat, let lng):
@@ -647,6 +746,8 @@ extension ApiManager: TargetType {
             dic = ["couponId": couponid, "isDelivery": way, "storeId": storeID]
         case .storeInfo(let storeID):
             dic = ["storeId": storeID]
+            
+            
             
         }
         

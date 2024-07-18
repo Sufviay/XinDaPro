@@ -9,6 +9,8 @@ import UIKit
 
 class OrderDishAttatchItemCell: BaseTableViewCell {
 
+    var clickDeleteBlock: VoidBlock?
+    
     private let backView: UIView = {
         let view = UIView()
         view.backgroundColor = HCOLOR("#F4F6F9")
@@ -39,6 +41,12 @@ class OrderDishAttatchItemCell: BaseTableViewCell {
         return lab
     }()
     
+    private let deleteBut: UIButton = {
+        let but = UIButton()
+        but.setImage(LOIMG("clear"), for: .normal)
+        return but
+    }()
+
     
     override func setViews() {
         
@@ -71,8 +79,21 @@ class OrderDishAttatchItemCell: BaseTableViewCell {
         }
         
         
+        backView.addSubview(deleteBut)
+        deleteBut.snp.makeConstraints {
+            $0.right.top.bottom.equalToSuperview()
+            $0.width.equalTo(60)
+            
+        }
+        
+        deleteBut.addTarget(self, action: #selector(clickDeleteAction), for: .touchUpInside)
     }
     
+    
+    
+    @objc private func clickDeleteAction() {
+        clickDeleteBlock?("")
+    }
     
     func setCellData(model: OrderDishSelectItemModel) {
         namelab1.text = model.nameEn
@@ -80,9 +101,12 @@ class OrderDishAttatchItemCell: BaseTableViewCell {
         
         moneylab.text = "£\(D_2_STR(model.price))"
         
+        if model.id == "" {
+            moneylab.isHidden = false
+            deleteBut.isHidden = true
+        } else {
+            moneylab.isHidden = true
+            deleteBut.isHidden = false
+        }
     }
-
-
-    
-
 }

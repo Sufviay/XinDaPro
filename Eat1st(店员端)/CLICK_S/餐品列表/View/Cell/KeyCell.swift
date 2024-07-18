@@ -21,7 +21,7 @@ class KeyCell: UICollectionViewCell {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), BFONT(11), .center)
+        lab.setCommentStyle(HCOLOR("#666666"), BFONT(15), .center)
         return lab
     }()
     
@@ -33,7 +33,7 @@ class KeyCell: UICollectionViewCell {
     
     private let backLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), BFONT(6), .center)
+        lab.setCommentStyle(HCOLOR("#666666"), BFONT(10), .center)
         lab.text = "Back"
         return lab
     }()
@@ -58,14 +58,14 @@ class KeyCell: UICollectionViewCell {
         backView.addSubview(backImg)
         backImg.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 6, height: 5))
-            $0.centerY.equalToSuperview()
-            $0.centerX.equalToSuperview().offset(-8)
+            $0.centerY.equalToSuperview().offset(-5)
+            $0.centerX.equalToSuperview()
         }
         
         backView.addSubview(backLab)
         backLab.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.left.equalTo(backImg.snp.right).offset(0)
+            $0.centerY.equalToSuperview().offset(5)
+            $0.centerX.equalToSuperview()
         }
         
         

@@ -7,10 +7,12 @@
 
 import UIKit
 
-class CartDishInfoCell: BaseTableViewCell {
+class CartDishInfoCell: BaseTableViewCell, UITextFieldDelegate {
 
     
     var clickDeleteBlock: VoidBlock?
+    
+    var editPriceBlock: VoidStringBlock?
     
     private let deleteBut: UIButton = {
         let but = UIButton()
@@ -19,12 +21,32 @@ class CartDishInfoCell: BaseTableViewCell {
         return but
     }()
     
+    
+    
     private let moneyLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#DF1936"), BFONT(11), .right)
-        lab.text = "£3.95"
+        lab.setCommentStyle(HCOLOR("#DF1936"), BFONT(12), .right)
+        lab.text = "£"
         return lab
     }()
+    
+    
+    private lazy var moneyInput: UITextField = {
+        let tf = UITextField()
+        tf.font = BFONT(15)
+        tf.textColor = HCOLOR("DF1936")
+        tf.textAlignment = .center
+        tf.delegate = self
+        return tf
+    }()
+    
+    private let line: UIView = {
+        let view = UIView()
+        view.backgroundColor = MAINCOLOR
+        return view
+    }()
+    
+    
     
     private let countLab: UILabel = {
         let lab = UILabel()
@@ -80,16 +102,30 @@ class CartDishInfoCell: BaseTableViewCell {
             $0.top.equalToSuperview().offset(35)
         }
         
+        contentView.addSubview(moneyInput)
+        moneyInput.snp.makeConstraints {
+            $0.right.equalToSuperview().offset(-90)
+            $0.top.equalToSuperview().offset(20)
+            $0.height.equalTo(30)
+            $0.width.equalTo(50)
+        }
+        
+        moneyInput.addSubview(line)
+        line.snp.makeConstraints {
+            $0.left.right.bottom.equalToSuperview()
+            $0.height.equalTo(1)
+        }
+        
         contentView.addSubview(moneyLab)
         moneyLab.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(30)
-            $0.right.equalToSuperview().offset(-90)
+            $0.centerY.equalTo(moneyInput)
+            $0.right.equalTo(moneyInput.snp.left).offset(-3)
         }
         
         contentView.addSubview(countLab)
         countLab.snp.makeConstraints {
             $0.right.equalTo(moneyLab)
-            $0.top.equalTo(moneyLab.snp.bottom).offset(2)
+            $0.top.equalTo(moneyInput.snp.bottom).offset(5)
         }
         
         contentView.addSubview(dishIDLab)
@@ -128,12 +164,43 @@ class CartDishInfoCell: BaseTableViewCell {
     }
     
     
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        editPriceBlock?(textField.text ?? "")
+    }
+    
+    
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        
+        let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+        
+    // 只允许输入数字和两位小数
+        let expression =  "^[0-9]*((\\.|,)[0-9]{0,2})?$"
+        
+    // let expression = "^[0-9]*([0-9])?$" 只允许输入纯数字
+    // let expression = "^[A-Za-z0-9]+$" //允许输入数字和字母
+        let regex = try!  NSRegularExpression(pattern: expression, options: .allowCommentsAndWhitespace)
+        let numberOfMatches =  regex.numberOfMatches(in: newString, options:.reportProgress,    range:NSMakeRange(0, newString.count))
+        if  numberOfMatches == 0 {
+             print("请输入数字")
+             return false
+        }
+        
+        
+      return true
+        
+    }
+    
+
+    
+    
     func setCellData(model: CartDishModel) {
         dishIDLab.text = model.dishesCode
         nameLab1.text = model.nameEn
         nameLab2.text = model.nameHk
         
-        moneyLab.text = "£\(D_2_STR(model.price))"
+        moneyInput.text = D_2_STR(model.price)
         countLab.text = "x\(model.buyNum)"
         
         giveOneImg.isHidden = !model.isGiveOne

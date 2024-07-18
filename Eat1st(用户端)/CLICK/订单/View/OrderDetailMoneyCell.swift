@@ -11,8 +11,8 @@ class OrderDetailMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
     
     private var dataModel = OrderDetailModel()
     
-    private let titStrArr: [String] = ["Subtotal", "Delivery fee", "Service charge", "Bag fee", "Dishes discount", "Coupon", "Discount", "", "Total", "Wallet", "Payment"]
-    private var moneyArr: [Double] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    private let titStrArr: [String] = ["Food and drink total", "Delivery charge", "Service charge", "Bag fee", "Dishes discount", "Coupon", "Store discount", "", "Checkout discount", "Total", "Wallet", "Wallet Spent", "Payment"]
+    private var moneyArr: [Double] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     
     private let backView: UIView = {
         let view = UIView()
@@ -92,7 +92,7 @@ class OrderDetailMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
             }
         }
         
-        if section == 2 || section == 3 || section == 4 || section == 5 || section == 6 || section == 9 {
+        if section == 2 || section == 3 || section == 4 || section == 5 || section == 6 || section == 10 || section == 8 || section == 11 {
             if moneyArr[section] == 0 {
                 return 0
             } else {
@@ -128,7 +128,7 @@ class OrderDetailMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
     func setCellData(model: OrderDetailModel) {
 
         dataModel = model
-        moneyArr = [model.actualFee, model.deliveryFee, model.serviceFee, model.packPrice, model.dishesDiscountAmount, model.couponAmount, model.discountAmount, 0, model.orderPrice, model.walletPrice, model.payPrice]
+        moneyArr = [model.actualFee, model.deliveryFee, model.serviceFee, model.packPrice, model.dishesDiscountAmount, model.couponAmount, model.discountAmount, 0, model.noPaidPrice, model.orderPrice, model.walletPrice, model.rechargePrice, model.payPrice]
         self.table.reloadData()
     }
     

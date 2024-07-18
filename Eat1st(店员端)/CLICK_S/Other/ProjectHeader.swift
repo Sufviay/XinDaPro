@@ -49,6 +49,17 @@ let statusBarH = UIApplication.shared.statusBarFrame.size.height
 ///底部状态栏的高度
 let bottomBarH: CGFloat = UIApplication.shared.delegate?.window?!.safeAreaInsets.bottom ?? 0
 
+
+let NAV_H: () -> CGFloat = {
+    if UIDevice.current.userInterfaceIdiom == .pad {
+        return 80
+    } else {
+        return 44
+    }
+}
+
+
+
 ///判断放大模式
 let IS_BIG: Bool = S_W == 320 ? true : false  //放大模式
 
@@ -225,6 +236,30 @@ let BFONT: (CGFloat) -> UIFont = { fontnum in
     return UIFont.boldSystemFont(ofSize: fontnum)
 }
 
+
+///设置字体值
+let SETFONT: (CGFloat) -> UIFont  = { fontnum in
+    
+    if UIDevice.current.userInterfaceIdiom == .pad {
+        return UIFont.systemFont(ofSize: fontnum + 2)
+    } else {
+        return UIFont.systemFont(ofSize: fontnum)
+    }
+}
+    
+    
+
+///设置字体值（加粗）
+let SETFONT_B: (CGFloat) -> UIFont = { fontnum in
+    if UIDevice.current.userInterfaceIdiom == .pad {
+        return UIFont.boldSystemFont(ofSize: fontnum + 2)
+    }
+    return UIFont.boldSystemFont(ofSize: fontnum)
+}
+
+
+
+
 //MARK: - 关于图片
 ///设置本地图片（必须设置否则崩溃 ！）
 let LOIMG: (String) -> UIImage = { (name) in
@@ -250,6 +285,6 @@ let HTTPTOOl = HttpTool.shared
 
 let ISONLINE: Bool = true
 
-let VERID: String = "1"
+let VERID: String = "7"
 var BASEURL: String = ISONLINE ? "https://api.foodo2o.com/" : "http://api.moneycheers.net/"
 

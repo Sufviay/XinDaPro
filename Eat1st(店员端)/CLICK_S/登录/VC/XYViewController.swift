@@ -16,12 +16,12 @@ class XYViewController: BaseViewController, WKUIDelegate, WKNavigationDelegate {
     var webUrl = ""
     var titStr = ""
     
-    let progressView: UIProgressView = {
-        let progress = UIProgressView()
-        progress.progressTintColor = MAINCOLOR
-        progress.trackTintColor = .clear
-        return progress
-    }()
+//    let progressView: UIProgressView = {
+//        let progress = UIProgressView()
+//        progress.progressTintColor = MAINCOLOR
+//        progress.trackTintColor = .clear
+//        return progress
+//    }()
 
     override func setViews() {
         configWeb()
@@ -32,12 +32,12 @@ class XYViewController: BaseViewController, WKUIDelegate, WKNavigationDelegate {
         self.naviBar.leftImg = LOIMG("nav_back_w")
         self.naviBar.rightBut.isHidden = true
         
-        progressView.frame = CGRect(x: 0, y: statusBarH + 44, width: S_W, height: 2)
-        progressView.isHidden = true
-        
-        UIView.animate(withDuration: 1) {
-            self.progressView.progress = 0.0
-        }
+//        progressView.frame = CGRect(x: 0, y: statusBarH + 44, width: S_W, height: 2)
+//        progressView.isHidden = true
+//        
+//        UIView.animate(withDuration: 1) {
+//            self.progressView.progress = 0.0
+//        }
 
     }
     
@@ -63,7 +63,7 @@ class XYViewController: BaseViewController, WKUIDelegate, WKNavigationDelegate {
         webView?.navigationDelegate = self
         print(webUrl)
         //监听网页加载进度
-        webView?.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
+        //webView?.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
         
         guard let url = URL(string: webUrl) else {
             return
@@ -72,7 +72,7 @@ class XYViewController: BaseViewController, WKUIDelegate, WKNavigationDelegate {
         let request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 5)
         webView?.load(request)
         self.view.addSubview(webView!)
-        self.view.addSubview(progressView)
+        //self.view.addSubview(progressView)
         
         webView?.snp.makeConstraints {
             $0.top.equalTo(naviBar.snp.bottom)
@@ -84,22 +84,22 @@ class XYViewController: BaseViewController, WKUIDelegate, WKNavigationDelegate {
     
     
     //监控网页加载进程
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == "estimatedProgress" {
-            progressView.isHidden = false
-            self.progressView.setProgress( Float((self.webView?.estimatedProgress)!), animated: true)
-            
-            if CGFloat((webView?.estimatedProgress)!) >= 1.0 {
-                self.progressView.isHidden = true
-                self.progressView.setProgress(0, animated: false)
-            }
-        }
-    }
+//    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+//        if keyPath == "estimatedProgress" {
+//            progressView.isHidden = false
+//            self.progressView.setProgress( Float((self.webView?.estimatedProgress)!), animated: true)
+//            
+//            if CGFloat((webView?.estimatedProgress)!) >= 1.0 {
+//                self.progressView.isHidden = true
+//                self.progressView.setProgress(0, animated: false)
+//            }
+//        }
+//    }
 
     
 
     deinit {
-        webView?.removeObserver(self, forKeyPath: "estimatedProgress")
+        //webView?.removeObserver(self, forKeyPath: "estimatedProgress")
     }
 
     override func didReceiveMemoryWarning() {

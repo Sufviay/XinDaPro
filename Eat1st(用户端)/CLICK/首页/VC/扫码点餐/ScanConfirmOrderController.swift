@@ -285,17 +285,17 @@ class ScanConfirmOrderController: BaseViewController, UITableViewDelegate, UITab
         HUD_MB.loading("", onView: view)
         
         ///cal
-        HTTPTOOl.loadConfirmOrderDetail(storeID: storeID, buyWay: "3", lat: "", lng: "", couponID: selectCoupon.couponId, postCode: "", couponUserDishesId: selectCoupon.selCouponUserDishesId).subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.loadConfirmOrderDetail_dine(deskID: deskID, storeID: storeID).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
                         
             self.cartModel.updateModel(json: json["data"], type: "3")
             ///更新选择的赠送菜品
-            giftDishesId = cartModel.updateGiftDishesID(selectGiftID: giftDishesId)
+            //giftDishesId = cartModel.updateGiftDishesID(selectGiftID: giftDishesId)
 
             self.sectionNum = 12
             self.mainTable.reloadData()
             
-            self.loadCouponStatus(price: D_2_STR(self.cartModel.subFee - self.cartModel.dishesDiscountAmount))
+            //self.loadCouponStatus(price: D_2_STR(self.cartModel.subFee - self.cartModel.dishesDiscountAmount))
 
         }, onError: { [unowned self] (error) in
             
@@ -317,25 +317,27 @@ class ScanConfirmOrderController: BaseViewController, UITableViewDelegate, UITab
     
     private func clickConfirmAction() {
         
-        if cartModel.deliveryType == "5" {
-            self.showSystemAlert("Tip", cartModel.deliveryMsg, "Sure")
-            return
-        }
+//        if cartModel.deliveryType == "5" {
+//            self.showSystemAlert("Tip", cartModel.deliveryMsg, "Sure")
+//            return
+//        }
+//        
+//        if cartModel.canChooseFullGift && giftDishesId == "" {
+//            HUD_MB.showWarnig("Please choose free dishes!", onView: self.view)
+//            return
+//        }
+//        
+//        if cartModel.isHaveCanUseCoupon && selectCoupon.couponId == "" {
+//            //是否有可用优惠券且有没有选择优惠券
+//            couponAlert.appearAction()
+//            return
+//        }
         
-        if cartModel.canChooseFullGift && giftDishesId == "" {
-            HUD_MB.showWarnig("Please choose free dishes!", onView: self.view)
-            return
-        }
         
-        if cartModel.isHaveCanUseCoupon && selectCoupon.couponId == "" {
-            //是否有可用优惠券且有没有选择优惠券
-            couponAlert.appearAction()
-            return
-        }
-        
+        createOrder_Net()
         
         ///弹出支付弹窗
-        popUpPayAlert()
+        //popUpPayAlert()
 
     }
     
@@ -343,11 +345,11 @@ class ScanConfirmOrderController: BaseViewController, UITableViewDelegate, UITab
     ///创建订单
     private func createOrder_Net() {
 
-        HUD_MB.loading("", onView: PJCUtil.getWindowView())
+        HUD_MB.loading("", onView: view)
         
-        if payOrderID != "" {
-            self.orderPay_Net()
-        } else {
+//        if payOrderID != "" {
+//            self.orderPay_Net()
+//        } else {
             //创建订单
             self.submitModel.recipientPostcode = ""
             //self.submitModel.recipientAddress = ""
@@ -357,94 +359,93 @@ class ScanConfirmOrderController: BaseViewController, UITableViewDelegate, UITab
             self.submitModel.recipientLng = ""
             self.submitModel.type = "3"
 
-            HTTPTOOl.createOrder(model: self.submitModel).subscribe(onNext: { [unowned self] (json) in
+            HTTPTOOl.createOrder_dine(model: self.submitModel).subscribe(onNext: { [unowned self] (json) in
                 ///刷新点餐页面
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "pageRefresh"), object: nil)
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "SearchRefresh"), object: nil)
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "cartRefresh"), object: nil)
                 self.isCanEidte = false
                 self.mainTable.reloadData()
                 ///获取订单ID
                 self.payOrderID = json["data"]["orderId"].stringValue
-                self.orderPay_Net()
+                HUD_MB.dissmiss(onView: view)
+                jumpDetailVC(isCanWheel: false)
+
 
             }, onError: { [unowned self] (error) in
-                HUD_MB.showError(ErrorTool.errorMessage(error), onView: PJCUtil.getWindowView())
+                HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
             }).disposed(by: self.bag)
 
-        }
+//        }
     }
     
     
     
     
-    private func orderPay_Net() {
-        
-        if cartModel.paymentSupport == "4" {
-            HUD_MB.dissmiss(onView: PJCUtil.getWindowView())
-            payAlert.disAppearAction()
-            jumpDetailVC(isCanWheel: false)
-        } else {
-            HTTPTOOl.orderPay(orderID: payOrderID, payType: payWay).subscribe(onNext: { [unowned self] (json)
-                in
-                
-                HUD_MB.dissmiss(onView: PJCUtil.getWindowView())
-                self.payAlert.disAppearAction()
-                
-                ///1需要stripe支付，2不需要
-                let stripeType = json["data"]["stripeType"].stringValue
-                
-                if stripeType == "1" {
-                    //调起支付
-                    
-                    STPAPIClient.shared.publishableKey = json["data"]["publicKey"].stringValue
-
-                    let customerId = json["data"]["customerId"].stringValue
-                    let customerEphemeralKeySecret = json["data"]["ephemeralKey"].stringValue
-                    let paymentIntentClientSecret = json["data"]["clientSecret"].stringValue
-
-                    var config = PaymentSheet.Configuration()
-                    //config.merchantDisplayName = "Test"
-
-                    config.customer = .init(id: customerId, ephemeralKeySecret: customerEphemeralKeySecret)
-
-                    DispatchQueue.main.async {
-
-                        self.paymentSheet = PaymentSheet(paymentIntentClientSecret: paymentIntentClientSecret, configuration: config)
-                        self.paymentSheet?.present(from: self, completion: {  [unowned self] paymentResult in
-                            switch paymentResult {
-                            case .completed:
-                                //跳转到订单详情页面
-                                self.jumpDetailVC(isCanWheel: true)
-                                
-                            case .canceled:
-                                self.cancelPay_Net()
-                                HUD_MB.showWarnig("Canceled!", onView: PJCUtil.getWindowView())
-                              print("Canceled!")
-                            case .failed(let error):
-                                HUD_MB.showWarnig("Payment failed: \n\(error.localizedDescription)", onView: PJCUtil.getWindowView())
-                              print("Payment failed: \n\(error.localizedDescription)")
-                            }
-                        })
-                    }
-                }
-
-                if stripeType == "2" {
-                    //跳转到订单详情页面
-                    self.jumpDetailVC(isCanWheel: false)
-                }
-            }, onError: { [unowned self] (error) in
-                HUD_MB.showError(ErrorTool.errorMessage(error), onView: PJCUtil.getWindowView())
-                
-            }).disposed(by: self.bag)
-
-        }
-    }
+//    private func orderPay_Net() {
+//
+//        if cartModel.paymentSupport == "4" {
+//            HUD_MB.dissmiss(onView: view)
+//            payAlert.disAppearAction()
+//            jumpDetailVC(isCanWheel: false)
+//        } else {
+//            HTTPTOOl.orderPay(orderID: payOrderID, payType: payWay).subscribe(onNext: { [unowned self] (json)
+//                in
+//                
+//                HUD_MB.dissmiss(onView: PJCUtil.getWindowView())
+//                self.payAlert.disAppearAction()
+//                
+//                ///1需要stripe支付，2不需要
+//                let stripeType = json["data"]["stripeType"].stringValue
+//                
+//                if stripeType == "1" {
+//                    //调起支付
+//                    
+//                    STPAPIClient.shared.publishableKey = json["data"]["publicKey"].stringValue
+//
+//                    let customerId = json["data"]["customerId"].stringValue
+//                    let customerEphemeralKeySecret = json["data"]["ephemeralKey"].stringValue
+//                    let paymentIntentClientSecret = json["data"]["clientSecret"].stringValue
+//
+//                    var config = PaymentSheet.Configuration()
+//                    //config.merchantDisplayName = "Test"
+//
+//                    config.customer = .init(id: customerId, ephemeralKeySecret: customerEphemeralKeySecret)
+//
+//                    DispatchQueue.main.async {
+//
+//                        self.paymentSheet = PaymentSheet(paymentIntentClientSecret: paymentIntentClientSecret, configuration: config)
+//                        self.paymentSheet?.present(from: self, completion: {  [unowned self] paymentResult in
+//                            switch paymentResult {
+//                            case .completed:
+//                                //跳转到订单详情页面
+//                                self.jumpDetailVC(isCanWheel: true)
+//                                
+//                            case .canceled:
+//                                self.cancelPay_Net()
+//                                HUD_MB.showWarnig("Canceled!", onView: PJCUtil.getWindowView())
+//                              print("Canceled!")
+//                            case .failed(let error):
+//                                HUD_MB.showWarnig("Payment failed: \n\(error.localizedDescription)", onView: PJCUtil.getWindowView())
+//                              print("Payment failed: \n\(error.localizedDescription)")
+//                            }
+//                        })
+//                    }
+//                }
+//
+//                if stripeType == "2" {
+//                    //跳转到订单详情页面
+//                    self.jumpDetailVC(isCanWheel: false)
+//                }
+//            }, onError: { [unowned self] (error) in
+//                HUD_MB.showError(ErrorTool.errorMessage(error), onView: PJCUtil.getWindowView())
+//                
+//            }).disposed(by: self.bag)
+//
+//        }
+//    }
     
     
     private func jumpDetailVC(isCanWheel: Bool) {
-        if UserDefaults.standard.local_lat ?? "" != "" {
-            UserDefaults.standard.receiver = self.submitModel.recipient
-            UserDefaults.standard.phone = self.submitModel.recipientPhone
-        }
         //跳转到订单详情页面
         var vcs: [UIViewController] = self.navigationController!.viewControllers
         vcs.removeLast()
@@ -551,6 +552,10 @@ extension ScanConfirmOrderController {
             } else {
                 return 1
             }
+        }
+        
+        if section == 8 {
+            return 0
         }
 
         
@@ -760,7 +765,7 @@ extension ScanConfirmOrderController {
     ///弹出支付框
     private func popUpPayAlert() {
         payAlert.paymentSupport = cartModel.paymentSupport
-        payAlert.deductionAmount = cartModel.deductionAmount
+        //payAlert.deductionAmount = cartModel.deductionAmount
         payAlert.payPrice = cartModel.payPrice
         payAlert.subtotal = cartModel.subFee
         payAlert.total = cartModel.orderPrice
@@ -771,15 +776,12 @@ extension ScanConfirmOrderController {
         payAlert.dishesDiscountAmount = cartModel.dishesDiscountAmount
         payAlert.couponAmount = cartModel.couponAmount
         payAlert.packPrice = cartModel.packPrice
+        payAlert.packPrice = cartModel.rechargePrice
         payAlert.buyType = "3"
         self.payAlert.alertReloadData()
         self.payAlert.appearAction()
     }
-    
 }
-
-
-
 
 
 

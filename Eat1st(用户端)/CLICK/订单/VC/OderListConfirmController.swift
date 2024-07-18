@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import Stripe
+import SwiftyJSON
 
 
 class OderListConfirmController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
@@ -192,29 +193,36 @@ class OderListConfirmController: BaseViewController, UITableViewDelegate, UITabl
 
     
     
-    private func showPayAlert() {
+    private func showPayAlert(json: JSON) {
         ///弹出支付弹窗
         
-//        if dataModel.type == "3" {
-//            payAlert.paymentSupport = "2"
-//        } else {
-            payAlert.paymentSupport = dataModel.storePayType
-//        }
-        payAlert.deductionAmount = dataModel.walletPrice
-        payAlert.payPrice = dataModel.payPrice
-        payAlert.subtotal = dataModel.actualFee
-        payAlert.total = dataModel.orderPrice
-        payAlert.deliveryPrice = dataModel.deliveryFee
-        payAlert.servicePrice = dataModel.serviceFee
-        payAlert.discountScale = dataModel.discountScale
-        payAlert.discountAmount = dataModel.discountAmount
-        payAlert.dishesDiscountAmount = dataModel.dishesDiscountAmount
-        payAlert.couponAmount = dataModel.couponAmount
+        payAlert.paymentSupport = json["data"]["payType"].stringValue //dataModel.storePayType
+        payAlert.payPrice = json["data"]["payAmount"].doubleValue //dataModel.payPrice
+        payAlert.subtotal = json["data"]["dishesPrice"].doubleValue  //dataModel.actualFee
+        payAlert.deliveryPrice = json["data"]["deliveryPrice"].doubleValue //dataModel.deliveryFee
+        payAlert.servicePrice = json["data"]["servicePrice"].doubleValue // dataModel.serviceFee
+        payAlert.discountScale = json["data"]["discountScale"].stringValue //dataModel.discountScale
+        payAlert.discountAmount = json["data"]["discountAmount"].doubleValue  //dataModel.discountAmount
+        payAlert.dishesDiscountAmount = json["data"]["dishesDiscountAmount"].doubleValue //dataModel.dishesDiscountAmount
+        payAlert.couponAmount = json["data"]["couponAmount"].doubleValue //dataModel.couponAmount
+        payAlert.rechargePrice = json["data"]["rechargePrice"].doubleValue
         payAlert.buyType = dataModel.type
         self.payAlert.alertReloadData()
         self.payAlert.appearAction()
     }
 
+    
+    //MARK: - 获取订单金额明细
+    private func loadOrderAmountDetail_Net() {
+        HUD_MB.loading("", onView: view)
+        HTTPTOOl.getWalletAndOrder(orderID: orderID).subscribe(onNext: { [unowned self] (json) in
+            HUD_MB.dissmiss(onView: view)
+            showPayAlert(json: json)
+        }, onError: { [unowned self] (error) in
+            HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
+        }).disposed(by: bag)
+    }
+    
 
     private func orderPay_Net() {
         
@@ -511,7 +519,7 @@ extension OderListConfirmController {
 
             cell.setCellData(titStr: "Confirm An Order")
             cell.clickPayBlock = { [unowned self] (_) in
-                self.showPayAlert()
+                loadOrderAmountDetail_Net()
             }
             return cell
         }

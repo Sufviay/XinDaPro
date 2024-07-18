@@ -40,6 +40,8 @@ class DeskModel: NSObject {
     var settleType: String = ""
     ///预付金额
     var advancePrice: Double = 0
+    ///容纳人数
+    var dinersNum: Int = 0
     
     ///餐桌状态
     var deskStatus: DeskStatus = .Empty
@@ -53,6 +55,7 @@ class DeskModel: NSObject {
         occupyType = json["occupyType"].stringValue
         settleType = json["settleType"].stringValue
         advancePrice = json["advancePrice"].doubleValue
+        dinersNum = json["dinersNum"].intValue
         
         
         if workNum + settleNum == 0 {

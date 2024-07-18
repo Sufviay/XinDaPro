@@ -39,6 +39,8 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>FirebaseMessagingAutoInitEnabled</key>
+	<false/>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -54,7 +56,7 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>When you complain, you need to access the camera to collect pictures</string>
+	<string>When it is necessary to identify the QR code of the store information and make online complaints about the service, the App needs to access your camera.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>You need to access the user's geographic location to display suitable takeout outlets</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -62,9 +64,9 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>You need to access the user's geographic location to display suitable takeout outlets</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Complaints need to visit the album for picture collection</string>
+	<string>When it is necessary to identify the QR code of the store information and make online complaints about the service, the App needs to access your photo album.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Complaints need to visit the album for picture collection</string>
+	<string>When it is necessary to identify the QR code of the store information and make online complaints about the service, the App needs to access your photo album.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

@@ -285,8 +285,8 @@ class OrderGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionV
 
     func setOrderCellData(model: OrderDishModel) {
         self.goodsImg.sd_setImage(with: URL(string: model.listImg), placeholderImage: HOLDIMG)
-        self.nameLab.text = model.name_E
-        self.desLab.text = model.des_E
+        self.nameLab.text = model.name_C
+        self.desLab.text = model.des_C
         self.countLab.text = "x\(model.count)"
         self.tagArr = model.tagList//.filter{ $0.tagImg != "" }
         
@@ -375,17 +375,17 @@ class OrderGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionV
             let textW = tagArr[indexPath.item].tagName.getTextWidth(SFONT(11), 14)
                     
             if tagArr[indexPath.item].tagImg == "" {
-                return CGSize(width: textW, height: 14)
+                return CGSize(width: textW + 6, height: 14)
             } else {
                 //从缓存中查找图片
                 let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
 
                 if img == nil {
-                    return CGSize(width: textW, height: 14)
+                    return CGSize(width: textW + 6, height: 14)
                 }
                 //根据图片计算宽度
                 let img_W = (img!.size.width * 14) / img!.size.height
-                return  CGSize(width: img_W + textW + 2 , height: 14)
+                return  CGSize(width: img_W + textW + 2 + 6, height: 14)
             }
         }
         
@@ -794,17 +794,17 @@ class OrderConfirmGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UIColl
             let textW = tagArr[indexPath.item].tagName.getTextWidth(SFONT(11), 14)
                     
             if tagArr[indexPath.item].tagImg == "" {
-                return CGSize(width: textW, height: 14)
+                return CGSize(width: textW + 6, height: 14)
             } else {
                 //从缓存中查找图片
                 let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
 
                 if img == nil {
-                    return CGSize(width: textW, height: 14)
+                    return CGSize(width: textW + 6, height: 14)
                 }
                 //根据图片计算宽度
                 let img_W = (img!.size.width * 14) / img!.size.height
-                return  CGSize(width: img_W + textW + 2 , height: 14)
+                return  CGSize(width: img_W + textW + 2 + 6, height: 14)
             }
         }
         

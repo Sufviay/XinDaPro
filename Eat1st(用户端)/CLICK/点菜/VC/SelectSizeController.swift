@@ -13,6 +13,9 @@ import RxSwift
 class SelectSizeController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
     private let bag = DisposeBag()
     
+    var isVip: Bool = false
+    ///配送类型（1外卖，2自取，3堂食）
+    var deType: String = ""
     
     var isSearchVC: Bool = false
     
@@ -26,6 +29,8 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
     var dishCount: Int = 1
     
     var deskID: String = ""
+    
+
     
     private var info_H: CGFloat = 0
     
@@ -60,7 +65,8 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
         
         view.countBlock = { [unowned self] (count) in
             self.dishCount = count as! Int
-            self.b_view.moneyLab.text = self.manager.selectedComboDishMoney(dishModel: self.dishModel, count: count as! Int)
+        
+            self.b_view.moneyLab.text = manager.selectedSizeDishMoney(dishModel: self.dishModel, selectIdxArr: selecIdxArr, count: self.dishCount, isVip: isVip)
         }
         return view
     }()
@@ -122,7 +128,8 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
             $0.bottom.equalTo(b_view.snp.top)
         }
         
-        t_view.setCellData(model: dishModel, selectCount: dishCount, canBuy: canBuy)
+        t_view.setCellData(model: dishModel, selectCount: dishCount, canBuy: canBuy, isVip: isVip)
+        
         mainTable.addSubview(t_view)
         t_view.snp.makeConstraints {
             $0.left.equalToSuperview()
@@ -208,25 +215,29 @@ class SelectSizeController: BaseViewController, UITableViewDelegate, UITableView
     ///获取菜品详情
     private func loadDishedDetail_Net() {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.loadDishesDetail(dishesID: dishesID, deskID: deskID).subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.loadDishesDetail(dishesID: dishesID, deskID: deskID, deliveryType: deType).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
             
             let model = DishModel()
             model.updateModel(json: json["data"])
             self.dishModel = model
             
-            b_view.moneyLab.text =  manager.selectedComboDishMoney(dishModel: dishModel, count: dishCount)
+            b_view.moneyLab.text =  manager.selectedComboDishMoney(dishModel: dishModel, count: dishCount, isVip: isVip)
             
             //计算菜品详情视图的高度
             let str = "Allergen: " + self.dishModel.allergen
             let g_h = str.getTextHeigh(BFONT(13), S_W - 130)
             let d_h = self.dishModel.des.getTextHeigh(SFONT(13), S_W - 120)
-            let n_h = self.dishModel.name_C.getTextHeigh(BFONT(17), S_W - 50)
+            let n_h = self.dishModel.name.getTextHeigh(BFONT(17), S_W - 50)
             
             if canBuy && model.isGiveOne {
                 info_H = (R_W(375) * (9/16)) + g_h + d_h + n_h + 50 + 30
             } else {
                 info_H = (R_W(375) * (9/16)) + g_h + d_h + n_h + 50
+            }
+            
+            if dishModel.isHaveVipPrice {
+                info_H += 25
             }
             
             mainTable.contentInset = UIEdgeInsets(top: self.info_H, left: 0, bottom: 0, right: 0)
@@ -262,7 +273,7 @@ extension SelectSizeController {
         
         cell.selectBlock = { [unowned self] (idxArr) in
             self.selecIdxArr[indexPath.row] = idxArr as! [Int]
-            self.b_view.moneyLab.text = manager.selectedSizeDishMoney(dishModel: self.dishModel, selectIdxArr: selecIdxArr, count: self.dishCount)
+            self.b_view.moneyLab.text = manager.selectedSizeDishMoney(dishModel: self.dishModel, selectIdxArr: selecIdxArr, count: self.dishCount, isVip: isVip)
         }
         
         return cell

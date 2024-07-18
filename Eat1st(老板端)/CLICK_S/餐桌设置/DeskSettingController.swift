@@ -124,7 +124,7 @@ class DeskSettingController: HeadBaseViewController, UITableViewDelegate, UITabl
 
     
     @objc private func clickAddAction() {
-        editAlert.setData(id: "", name: "")
+        editAlert.setData(id: "", name: "", num: "")
         editAlert.appearAction()
     }
     
@@ -136,7 +136,7 @@ extension DeskSettingController {
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return dataArr[indexPath.row].deskName.getTextHeigh(BFONT(17), S_W - 100) + 40 + 20
+        return dataArr[indexPath.row].deskName.getTextHeigh(BFONT(17), S_W - 100) + 40 + 50
     }
     
     
@@ -157,7 +157,7 @@ extension DeskSettingController {
             
             if type as! String == "edit" {
                 //编辑
-                editAlert.setData(id: dataArr[indexPath.row].deskId, name: dataArr[indexPath.row].deskName)
+                editAlert.setData(id: dataArr[indexPath.row].deskId, name: dataArr[indexPath.row].deskName, num: dataArr[indexPath.row].dinersNum)
                 editAlert.appearAction()
             }
             

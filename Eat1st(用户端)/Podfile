@@ -40,7 +40,7 @@ target 'CLICK' do
 
   # Pods for CLICK
 
-   pod 'Stripe'
+  pod 'Stripe'
   
   
   

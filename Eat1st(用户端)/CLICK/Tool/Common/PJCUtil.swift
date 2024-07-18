@@ -71,7 +71,7 @@ class PJCUtil: NSObject {
     static func wishSeed(str: String) {
         let pas = UIPasteboard.general
         pas.string = str
-        HUD_MB.showSuccess("已复制", onView: PJCUtil.getWindowView())
+        HUD_MB.showSuccess("Copied", onView: PJCUtil.getWindowView())
     }
     
     //MARK: - 获取Windwo层

@@ -657,14 +657,14 @@ class HttpTool {
     }
     
     //MARK: - 添加餐桌
-    func addDesk(name: String, remark: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .addDesk(name: name, remark: remark))
+    func addDesk(name: String, remark: String, num: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .addDesk(name: name, remark: remark, num: num))
         return Observable<JSON>.create(response)
     }
     
     //MARK: - 编辑餐桌
-    func editDesk(id: String, name: String, remark: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .editDesk(id: id, name: name, remark: remark))
+    func editDesk(id: String, name: String, remark: String, num: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .editDesk(id: id, name: name, remark: remark, num: num))
         return Observable<JSON>.create(response)
     }
     
@@ -681,14 +681,14 @@ class HttpTool {
     }
     
     //MARK: - 添加打印机
-    func addPrinter(name: String, ip: String, printNum: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .addPrinter(name: name, ip: ip, printNum: printNum))
+    func addPrinter(name: String, ip: String, printNum: String, splitType: String, printType: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .addPrinter(name: name, ip: ip, printNum: printNum, splitType: splitType, printType:  printType))
         return Observable<JSON>.create(response)
     }
     
     //MARK: - 编辑打印机
-    func editPrinter(id: String, name: String, ip: String, printNum: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .editePrinter(id: id, name: name, ip: ip, printNum: printNum))
+    func editPrinter(id: String, name: String, ip: String, printNum: String, splitType: String, printType: String, status: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .editePrinter(id: id, name: name, ip: ip, printNum: printNum, splitType: splitType, printType:  printType, status: status))
         return Observable<JSON>.create(response)
     }
     
@@ -712,7 +712,12 @@ class HttpTool {
     }
     
     
-    
+    //MARK: - 设置套餐菜品
+    func doBaleType(id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .doBaleType(id: id))
+        return Observable<JSON>.create(response)
+                        
+    }
     
     
     

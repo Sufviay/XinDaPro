@@ -273,7 +273,11 @@ extension OrderDetailController {
                 way = "Pos"
             } else if dataModel.paymentMethod == "4" {
                 way = "Cash&Pos"
-            }  else {
+            } else if dataModel.paymentMethod == "5" {
+                way = "WX"
+            } else if dataModel.paymentMethod == "6" {
+                way = "Wallet Spent"
+            } else {
                 way = "No choice yet"
             }
             

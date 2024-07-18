@@ -13,6 +13,8 @@ class CalendarView: BaseAlertView, UIGestureRecognizerDelegate, FSCalendarDelega
     
     var clickDateBlock: VoidStringBlock?
     
+    var maxCount: Int = 0
+    
     private var dateStr: String = ""
     
 
@@ -25,13 +27,19 @@ class CalendarView: BaseAlertView, UIGestureRecognizerDelegate, FSCalendarDelega
     
     private let sureBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Confirm", HCOLOR("333333"), BFONT(14), .clear)
+        but.setCommentStyle(.zero, "Confirm", .black, BFONT(13), MAINCOLOR)
+        but.clipsToBounds = true
+        but.layer.cornerRadius = 10
         return but
     }()
     
     private let cancelBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Cancel", HCOLOR("333333"), BFONT(14), .clear)
+        but.setCommentStyle(.zero, "Cancel", MAINCOLOR, BFONT(13), .clear)
+        but.clipsToBounds = true
+        but.layer.cornerRadius = 10
+        but.layer.borderColor = MAINCOLOR.cgColor
+        but.layer.borderWidth = 2
         return but
     }()
     
@@ -42,12 +50,16 @@ class CalendarView: BaseAlertView, UIGestureRecognizerDelegate, FSCalendarDelega
         
         calendar.appearance.todayColor = HCOLOR("999999")
         //calendar.appearance.headerDateFormat = "yyyy年MM月"
-        calendar.appearance.headerTitleFont = BFONT(18)
-        calendar.appearance.headerTitleColor = HCOLOR("333333")
-        calendar.appearance.weekdayTextColor = HCOLOR("#465DFD")
-        calendar.appearance.weekdayFont = BFONT(14)
+        calendar.appearance.headerTitleFont = BFONT(15)
+        calendar.appearance.headerTitleColor = .black
+        calendar.appearance.weekdayTextColor = HCOLOR("#B2B4C3")
+        calendar.appearance.weekdayFont = BFONT(13)
         calendar.appearance.headerMinimumDissolvedAlpha = 0
-        calendar.appearance.selectionColor = HCOLOR("#465DFD")
+        calendar.appearance.selectionColor = MAINCOLOR
+        calendar.appearance.titleFont = BFONT(15)
+        calendar.appearance.titleSelectionColor = .white
+        calendar.appearance.titleDefaultColor = .black
+        calendar.appearance.titlePlaceholderColor = HCOLOR("#B2B4C3")
         
         calendar.delegate = self
         calendar.dataSource = self
@@ -60,7 +72,7 @@ class CalendarView: BaseAlertView, UIGestureRecognizerDelegate, FSCalendarDelega
         calendar.layer.cornerRadius = 5
         
         calendar.allowsSelection = true
-        calendar.allowsMultipleSelection = true
+        calendar.allowsMultipleSelection = false
 
         
         return calendar
@@ -82,16 +94,17 @@ class CalendarView: BaseAlertView, UIGestureRecognizerDelegate, FSCalendarDelega
         
         backView.addSubview(sureBut)
         sureBut.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(10)
-            $0.right.equalToSuperview().offset(-15)
-            $0.size.equalTo(CGSize(width: 60, height: 40))
+            $0.left.equalTo(backView.snp.centerX).offset(10)
+            $0.right.equalToSuperview().offset(-20)
+            $0.bottom.equalToSuperview().offset(-20)
+            $0.height.equalTo(40)
         }
         
         
         backView.addSubview(cancelBut)
         cancelBut.snp.makeConstraints {
             $0.size.centerY.equalTo(sureBut)
-            $0.left.equalToSuperview().offset(15)
+            $0.left.equalToSuperview().offset(20)
             
         }
         
@@ -99,8 +112,8 @@ class CalendarView: BaseAlertView, UIGestureRecognizerDelegate, FSCalendarDelega
         calendar.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
             $0.right.equalToSuperview().offset(-20)
-            $0.top.equalToSuperview().offset(40)
-            $0.bottom.equalToSuperview().offset(-30)
+            $0.top.equalToSuperview().offset(10)
+            $0.bottom.equalTo(cancelBut.snp.top).offset(-20)
         }
         
         
@@ -129,11 +142,11 @@ class CalendarView: BaseAlertView, UIGestureRecognizerDelegate, FSCalendarDelega
     
     override func appearAction() {
         
-        self.dateStr = ""
-        for date in calendar.selectedDates {
-            //取消选中状态
-            calendar.deselect(date)
-        }
+//        self.dateStr = ""
+//        for date in calendar.selectedDates {
+//            //取消选中状态
+//            calendar.deselect(date)
+//        }
         super.appearAction()
     }
     
@@ -185,17 +198,22 @@ class CalendarView: BaseAlertView, UIGestureRecognizerDelegate, FSCalendarDelega
 
     
     
-    func calendar(_ calendar: FSCalendar, titleFor date: Date) -> String? {
+    
+//    func calendar(_ calendar: FSCalendar, titleFor date: Date) -> String? {
 //        let dateStr = date.getString("yyyy-MM-dd")
 //        let currentStr = Date().getString("yyyy-MM-dd")
 //        if dateStr == currentStr {
 //            return ""
 //        }
-        return nil
-    }
-    
+//        return nil
+//    }
+//    
     
     func maximumDate(for calendar: FSCalendar) -> Date {
+        return Date().getSomeOneDateWith(day: Double(maxCount))
+    }
+    
+    func minimumDate(for calendar: FSCalendar) -> Date {
         return Date()
     }
 

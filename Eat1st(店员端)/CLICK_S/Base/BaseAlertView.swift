@@ -14,7 +14,6 @@ class BaseAlertView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.frame = S_BS
         //设置背景透明 不影响子视图
         self.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         self.isUserInteractionEnabled = true
@@ -30,8 +29,16 @@ class BaseAlertView: UIView {
     
     
     private func addWindow() {
+
         PJCUtil.getWindowView().addSubview(self)
+        
+        self.snp.remakeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
     }
+    
+    
     
     func appearAction() {
         addWindow()

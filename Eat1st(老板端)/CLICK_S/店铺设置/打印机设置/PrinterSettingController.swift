@@ -112,13 +112,13 @@ class PrinterSettingController: HeadBaseViewController, UITableViewDelegate, UIT
 
     
     @objc private func clickAddAction() {
-        editAlert.setData(name: "", ip: "", id: "", copy: "")
+        editAlert.setData(model: PrinterModel())
         editAlert.appearAction()
     }
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 95
+        return 180
     }
     
 
@@ -140,7 +140,7 @@ class PrinterSettingController: HeadBaseViewController, UITableViewDelegate, UIT
             
             if type as! String == "edit" {
                 //编辑
-                editAlert.setData(name: dataArr[indexPath.row].name, ip: dataArr[indexPath.row].ip, id: dataArr[indexPath.row].printerId, copy: dataArr[indexPath.row].printNum)
+                editAlert.setData(model: dataArr[indexPath.row])
                 editAlert.appearAction()
             }
             

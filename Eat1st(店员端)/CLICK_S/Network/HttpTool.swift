@@ -136,6 +136,13 @@ class HttpTool {
     }
     
     
+    //MARK: - 获取附加菜品和附加分类
+    func getAttchAndAttachClassify() -> Observable<JSON> {
+        let response = rxApiManager(api: .getAttachAndAttachClassify)
+        return Observable<JSON>.create(response)
+    }
+    
+    
     //MARK: - 店员下单计算价格
     func doCalOrder(deskID: String, dishesArr: [CartDishModel]) -> Observable<JSON> {
         let response = rxApiManager(api: .doCalOrder(deskID: deskID, dishesArr: dishesArr))
@@ -143,8 +150,8 @@ class HttpTool {
     }
     
     //MARK: - 下单
-    func doCreateOrder(deskID: String, dishesArr: [CartDishModel]) -> Observable<JSON> {
-        let response = rxApiManager(api: .doCreateOrder(deskID: deskID, dishesArr: dishesArr))
+    func doCreateOrder(deskID: String, dishesArr: [CartDishModel], adultNum: Int, childNum: Int) -> Observable<JSON> {
+        let response = rxApiManager(api: .doCreateOrder(deskID: deskID, dishesArr: dishesArr, adultNum: adultNum, childNum: childNum))
         return Observable<JSON>.create(response)
     }
     
@@ -160,9 +167,36 @@ class HttpTool {
         return Observable<JSON>.create(response)
     }
 
+    //MARK: - 获取店铺列表
+    func getStoreList() -> Observable<JSON> {
+        let response = rxApiManager(api: .getStoreList)
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 获取店员列表
+    func getWaiterList(id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getWaiterList(id: id))
+        return Observable<JSON>.create(response)
+    }
     
     
+    //MARK: - 获取订单详情
+    func getOrderDetail(orderID: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getOrderDetail(orderID: orderID))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 删除订单菜品
+    func deleteOrderDishes(orderDishesID: String, pwd: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .deleteOrderDishes(orderDishesID: orderDishesID, pwd: pwd))
+        return Observable<JSON>.create(response)
+    }
 
+    //MARK: - 获取用户信息及会员信息
+    func getUserByToken(token: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getUserByToken(token: token))
+        return Observable<JSON>.create(response)
+    }
     
     
     

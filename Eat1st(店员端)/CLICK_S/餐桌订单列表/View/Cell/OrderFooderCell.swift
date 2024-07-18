@@ -12,15 +12,13 @@ class OrderFooderCell: BaseTableViewCell {
     private let backView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W - 20, height: 30), byRoundingCorners: [.bottomLeft, .bottomRight], radii: 15)
         return view
     }()
 
     
     private let line: UIView = {
         let view = UIView()
-        view.frame.size = CGSize(width: S_W - 50, height: 0.5)
-        view.drawDashLine(strokeColor: HCOLOR("#D8D8D8"), lineWidth: 0.5, lineLength: 5, lineSpacing: 5)
+        view.backgroundColor = HCOLOR("#D8D8D8")
         return view
     }()
 
@@ -59,6 +57,8 @@ class OrderFooderCell: BaseTableViewCell {
     
     
     func setCellData(isShow: Bool) {
+        
+        backView.cornerWithRect(rect: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 20, height: 30), byRoundingCorners: [.bottomLeft, .bottomRight], radii: 15)
         if isShow {
             xlImg.image = LOIMG("sq")
         } else {

@@ -93,6 +93,9 @@ class DishModel: NSObject {
     ///菜品是否买一赠一
     var isGiveOne: Bool = false
     
+    ///菜品是否为点心套餐菜品 1否 2是
+    var baleType: String = ""
+    
     
     ///菜品描述英文
     var des_En: String = ""
@@ -161,6 +164,7 @@ class DishModel: NSObject {
         self.discountType = json["discountType"].stringValue
         self.buffetType = json["buffetType"].stringValue
         self.isGiveOne = json["giveOne"].stringValue == "1" ? false : true
+        self.baleType = json["baleType"].stringValue
         
         let deliPrice = json["deliPrice"].doubleValue
         let dinePrice = json["dinePrice"].doubleValue

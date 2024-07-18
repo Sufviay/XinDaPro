@@ -39,6 +39,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         //MARK: - 检查版本
         checkVerson_Net()
+        
+        print("----------W:\(UIScreen.main.bounds.width)\n----------H:\(UIScreen.main.bounds.height)")
+        
         return true
     }
     
@@ -58,6 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 versonAlert.showAction()
             }
         }, onError: { (error) in
+            print(ErrorTool.errorMessage(error))
         }).disposed(by: self.bag)
     }
     

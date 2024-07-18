@@ -121,7 +121,7 @@ class MenuDishDetailController: HeadBaseViewController, UITableViewDelegate, UIT
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 15
+            return 18 //15
         }
         
         return dishModel.specList.count
@@ -136,7 +136,7 @@ class MenuDishDetailController: HeadBaseViewController, UITableViewDelegate, UIT
                 return 25 + 15 + h1 + h2
                 
             }
-            if indexPath.row == 1 || indexPath.row == 3 || indexPath.row == 4 || indexPath.row == 5 || indexPath.row == 6 || indexPath.row == 7 ||  indexPath.row == 10 {
+            if indexPath.row == 1 || indexPath.row == 3 || indexPath.row == 4 || indexPath.row == 5 || indexPath.row == 6 || indexPath.row == 7 || indexPath.row == 8 || indexPath.row == 9 || indexPath.row == 10 || indexPath.row == 13 {
                 return 66
             }
             
@@ -144,28 +144,28 @@ class MenuDishDetailController: HeadBaseViewController, UITableViewDelegate, UIT
                 let h = dishModel.desStr.getTextHeigh(SFONT(14), S_W - 80)
                 return h + 50
             }
-            if indexPath.row == 8 {
+            if indexPath.row == 11 {
                 let h = dishModel.classifyStr.getTextHeigh(SFONT(14), S_W - 80)
                 return h + 50
             }
-            if indexPath.row == 9 {
+            if indexPath.row == 12 {
                 let h = dishModel.allergenStr.getTextHeigh(SFONT(14), S_W - 80)
                 return h + 50
             }
             
-            if indexPath.row == 11 {
+            if indexPath.row == 14 {
                 let h = dishModel.tagsStr.getTextHeigh(SFONT(14), S_W - 80)
                 return h + 50
             }
             
-            if indexPath.row == 12 {
+            if indexPath.row == 15 {
                 return 110
             }
             
-            if indexPath.row == 13 {
+            if indexPath.row == 16 {
                 return 135
             }
-            if indexPath.row == 14 {
+            if indexPath.row == 17 {
                 return 110
             }
             
@@ -254,21 +254,59 @@ class MenuDishDetailController: HeadBaseViewController, UITableViewDelegate, UIT
                 cell.setCellData(model: dishModel, type: "2")
                 return cell
             }
-
             
             if indexPath.row == 8 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
-                cell.setCellData(titStr: "Category", msgStr: dishModel.classifyStr)
+                var msg = ""
+                if dishModel.giveOne == "1" {
+                    msg = "Disable"
+                } else {
+                    msg = "Enable"
+                }
+                cell.setCellData(titStr: "Buy one get one free", msgStr: msg)
                 return cell
             }
             
             if indexPath.row == 9 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
+                var msg = ""
+                if dishModel.dishesKind == "1" {
+                    msg = "Food"
+                } else {
+                    msg = "Drink"
+                }
+                cell.setCellData(titStr: "Dishes kind", msgStr: msg)
+                return cell
+
+            }
+            
+            if indexPath.row == 10 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
+                var msg = ""
+                if dishModel.baleType == "1" {
+                    msg = "Disable"
+                } else {
+                    msg = "Enable"
+                }
+                cell.setCellData(titStr: "Special offer", msgStr: msg)
+                return cell
+
+            }
+
+            
+            if indexPath.row == 11 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
+                cell.setCellData(titStr: "Category", msgStr: dishModel.classifyStr)
+                return cell
+            }
+            
+            if indexPath.row == 12 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
                 cell.setCellData(titStr: "Allergen", msgStr: dishModel.allergenStr)
                 return cell
             }
             
-            if indexPath.row == 10 {
+            if indexPath.row == 13 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
                 var msg = ""
                 if dishModel.statusId == "1" {
@@ -280,24 +318,24 @@ class MenuDishDetailController: HeadBaseViewController, UITableViewDelegate, UIT
                 return cell
             }
             
-            if indexPath.row == 11 {
+            if indexPath.row == 14 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
                 cell.setCellData(titStr: "Tags", msgStr: dishModel.tagsStr)
                 return cell
             }
 
-            if indexPath.row == 12 {
+            if indexPath.row == 15 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishListPictureCell") as! DishListPictureCell
                 cell.setCellData(titStr: "Dish picture", picUrl: dishModel.showListUrl)
                 return cell
             }
             
-            if indexPath.row == 13 {
+            if indexPath.row == 16 {
                 let cell = table.dequeueReusableCell(withIdentifier: "DishDetailPictureCell") as! DishDetailPictureCell
                 cell.setCellData(picUrl: dishModel.showDetailUrl)
                 return cell
             }
-            if indexPath.row == 14 {
+            if indexPath.row == 17 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailAddSpecCell") as! DishDetailAddSpecCell
                 return cell
             }

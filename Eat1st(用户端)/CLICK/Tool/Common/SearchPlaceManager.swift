@@ -19,12 +19,16 @@ class PlaceModel: NSObject {
 }
 
 
-class SearchPlaceManager: NSObject, GMSAutocompleteViewControllerDelegate, CLLocationManagerDelegate {
+class SearchPlaceManager: NSObject, GMSAutocompleteViewControllerDelegate, CLLocationManagerDelegate, SystemAlertProtocol {
 
     
     private var searchSuccessBlock: ((PlaceModel) -> Void)?
     
     private var locationSuccessBlock: (([PlaceModel]) -> Void)?
+    
+    private var loactionErrorBlock: ((PlaceModel) -> Void)?
+    
+    private var notAllowBlock: (() -> Void)?
     
     static let shared = SearchPlaceManager.init()
     
@@ -32,6 +36,8 @@ class SearchPlaceManager: NSObject, GMSAutocompleteViewControllerDelegate, CLLoc
     private var placesClient = GMSPlacesClient.shared()
     
     lazy var locationManager = CLLocationManager()
+    
+    private var isDone: Bool = false
 
     
     ///开始搜索
@@ -62,9 +68,13 @@ class SearchPlaceManager: NSObject, GMSAutocompleteViewControllerDelegate, CLLoc
     
     
     ///开始定位
-    func doLocationCurrentPlace(success: @escaping ([PlaceModel]) -> Void) {
+    func doLocationCurrentPlace(success: @escaping ([PlaceModel]) -> Void, notAllow: @escaping () -> Void,  error: @escaping (PlaceModel) -> Void) {
         self.locationSuccessBlock = success
+        self.notAllowBlock = notAllow
+        loactionErrorBlock = error
         
+        
+        isDone = false
         
         ///获取当前定位
         // 判断设备是否开启定位服务
@@ -77,7 +87,8 @@ class SearchPlaceManager: NSObject, GMSAutocompleteViewControllerDelegate, CLLoc
             return
         }
         if status.rawValue == 2 {
-            HUD_MB.showWarnig("The location service is not enabled!\nGo to Settings to enable services", onView: PJCUtil.getWindowView())
+            notAllowBlock?()
+//            showSystemAlert("The location service is not enabled", "Go to [Settings]>>[Privacy]>>[Location Services]>> Turn on the switch and allow Eat1st to use location services", "OK")
             return
         }
 
@@ -95,47 +106,45 @@ class SearchPlaceManager: NSObject, GMSAutocompleteViewControllerDelegate, CLLoc
         
         placesClient.findPlaceLikelihoodsFromCurrentLocation(withPlaceFields: placeFields) { [unowned self] (placeLikehoods, error) in
             
-            if error != nil {
-                HUD_MB.dissmiss(onView: PJCUtil.getWindowView())
-                print("错误：\(error?.localizedDescription ?? "")")
-                return
-            }
-            
-            
-            
-            guard let place = placeLikehoods?.first?.place else {
-                HUD_MB.dissmiss(onView: PJCUtil.getWindowView())
-                return
-            }
-            HUD_MB.dissmiss(onView: PJCUtil.getWindowView())
+            if !isDone {
+                
+                isDone = true
+                
+                if error != nil {
+                    HUD_MB.dissmiss(onView: PJCUtil.getWindowView())
 
-            var tArr: [PlaceModel] = []
-            
-            for item in placeLikehoods! {
-                let model = PlaceModel()
-                model.address = item.place.formattedAddress ?? ""
-                model.placeID = item.place.placeID ?? ""
-                model.placeName = item.place.name ?? ""
-                model.lat = String(place.coordinate.latitude)
-                model.lng = String(place.coordinate.longitude)
-                tArr.append(model)
-            }
-            
-        
-//            UserDefaults.standard.local_lat = String(place.coordinate.latitude)
-//            UserDefaults.standard.local_lng = String(place.coordinate.longitude)
-//            UserDefaults.standard.address = place.formattedAddress!
+                    print("错误：\(error?.localizedDescription ?? "")")
+                    //出现错误就给一个默认的定位信息
+                    
+                    let model = PlaceModel()
+                    model.postCode = "MK5 8HL"
+                    model.lat = "52.0217645"
+                    model.lng = "-0.7716848"
+                    model.address = "Roebuck Way, Knowlhill, Milton Keynes MK5 8HL, UK"
+                    loactionErrorBlock?(model)
+                    return
+                }
+                
+                guard let place = placeLikehoods?.first?.place else {
+                    HUD_MB.dissmiss(onView: PJCUtil.getWindowView())
+                    return
+                }
+                HUD_MB.dissmiss(onView: PJCUtil.getWindowView())
 
-            self.locationSuccessBlock?(tArr)
-    
-            //print(place.placeID)
-            
-//            let placeID = place.placeID!
-//
-//            let placeFields1: GMSPlaceField = [.addressComponents, GMSPlaceField.types]
-//            placesClient.fetchPlace(fromPlaceID: placeID, placeFields: placeFields1, sessionToken: nil) { place, error in
-//
-//            }
+                var tArr: [PlaceModel] = []
+                
+                for item in placeLikehoods! {
+                    let model = PlaceModel()
+                    model.address = item.place.formattedAddress ?? ""
+                    model.placeID = item.place.placeID ?? ""
+                    model.placeName = item.place.name ?? ""
+                    model.lat = String(place.coordinate.latitude)
+                    model.lng = String(place.coordinate.longitude)
+                    tArr.append(model)
+                }
+                
+                self.locationSuccessBlock?(tArr)
+            }
         }
     }
 
@@ -171,7 +180,15 @@ class SearchPlaceManager: NSObject, GMSAutocompleteViewControllerDelegate, CLLoc
         print("------\(status.rawValue)")
         ///0 未选择。 2 拒绝
         if status.rawValue != 0 && status.rawValue != 2  {
-            //self.getLocalAction()
+            
+            //print("aaaaa")
+            self.getLocalAction()
+        }
+        
+        if status.rawValue == 2 {
+            notAllowBlock?()
+            
+           // showSystemAlert("The location service is not enabled", "We need location information to serve you better\nGo to [Settings]>>[Privacy]>>[Location Services]>> Turn on the switch and allow Eat1st to use location services", "OK")
         }
     }
 }

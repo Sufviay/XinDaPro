@@ -11,30 +11,28 @@ class PayAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
 
     
     var clickPayBlock: VoidBlock?
-
-    ///是否可以现金付款或是否可以在线付款 1现金 2卡  3或99都行 4不需要
-    var paymentSupport: String = ""
-
-    ///1 现金  2 卡
+    ///1 现金  2 卡  已选择的支付方式。
     private var payWay: String = ""
+
+
     
     private var H: CGFloat = bottomBarH + 550
     
-//    ///钱包金额
-//    var walletAmount: Double = 0
+    ///是否可以现金付款或是否可以在线付款 1现金 2卡  3或99都行 4不需要
+    var paymentSupport: String = ""
     ///配送金额
     var deliveryPrice: Double = 0
-    ///菜的价格
+    ///菜的价格 商品实际金额
     var subtotal: Double = 0
     ///订单金额 除去折扣  不除钱包
     var total: Double = 0
     ///支付金额
     var payPrice: Double = 0
     ///抵扣金额
-    var deductionAmount: Double = 0
+    //var deductionAmount: Double = 0
     ///服务费
     var servicePrice: Double = 0
-    ///折扣金额
+    ///店铺的折扣金额
     var discountAmount: Double = 0
     ///菜品的优惠金额
     var dishesDiscountAmount: Double = 0
@@ -46,10 +44,10 @@ class PayAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
     
     ///包装费用
     var packPrice: Double = 0
-    
     ///购买方式 1外卖 2自取 3堂食
     var buyType: String = ""
-
+    ///余额支付金额
+    var rechargePrice: Double = 0
     
     
     private let titLab: UILabel = {
@@ -208,7 +206,7 @@ class PayAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == 2 {
-            if paymentSupport == "4" {
+            if paymentSupport == "4" || paymentSupport == "" {
                 return 0
             }
         }
@@ -220,19 +218,19 @@ class PayAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
             
             if buyType == "1" {
                 //外卖
-                let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, servicePrice].filter { $0 != 0 }
-                return 3 * 35 + CGFloat(arr.count) * 35 + 20
+                let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, servicePrice, total].filter { $0 != 0 }
+                return 2 * 35 + CGFloat(arr.count) * 35 + 20
                 
             } else {
-                let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, servicePrice, deliveryPrice].filter { $0 != 0 }
-                return 2 * 35 + CGFloat(arr.count) * 35 + 20
+                let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, servicePrice, total, deliveryPrice].filter { $0 != 0 }
+                return 1 * 35 + CGFloat(arr.count) * 35 + 20
             }
 
         }
         
         if indexPath.section == 1 {
             
-            if deductionAmount == 0 {
+            if rechargePrice == 0 {
                 return 35 + 20
             } else {
                 return 70 + 20
@@ -259,7 +257,7 @@ class PayAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
         
         if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PayAlertPayCell") as! PayAlertPayCell
-            cell.setCellData(money: [deductionAmount, payPrice])
+            cell.setCellData(money: [rechargePrice, payPrice])
             return cell
         }
         
@@ -277,14 +275,19 @@ class PayAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
         
         if indexPath.section == 3 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderPayButCell") as! OrderPayButCell
+            
+            if paymentSupport == "4" || paymentSupport == "" {
+                cell.setCellData(titStr: "Confirm")
+            } else {
+                cell.setCellData(titStr: "Pay")
+            }
+            
             cell.clickPayBlock = { [unowned self] (_) in
                 print("支付")
-                
-                if paymentSupport != "4" && payWay == "" {
+                if paymentSupport != "4" && paymentSupport != "" && payWay == "" {
                     HUD_MB.showWarnig("Please select payment method!", onView: self)
                     return
                 }
-                
                 self.clickPayBlock?(payWay)
 
             }

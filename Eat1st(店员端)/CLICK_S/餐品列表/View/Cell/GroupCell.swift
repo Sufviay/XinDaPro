@@ -20,13 +20,13 @@ class GroupCell: UICollectionViewCell {
     
     private let enLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#707773"), BFONT(9), .center)
+        lab.setCommentStyle(HCOLOR("#707773"), BFONT(15), .center)
         return lab
     }()
     
     private let cnLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#707773"), BFONT(9), .center)
+        lab.setCommentStyle(HCOLOR("#707773"), BFONT(15), .center)
         return lab
     }()
     
@@ -46,13 +46,13 @@ class GroupCell: UICollectionViewCell {
         backView.addSubview(enLab)
         enLab.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(5)
+            $0.top.equalToSuperview().offset(13)
         }
         
         backView.addSubview(cnLab)
         cnLab.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(enLab.snp.bottom).offset(1)
+            $0.top.equalTo(enLab.snp.bottom)
         }
         
     }
@@ -62,9 +62,9 @@ class GroupCell: UICollectionViewCell {
     }
     
     
-    func setCellData(model: GroupModel, isSelect: Bool) {
-        enLab.text = model.nameEn
-        cnLab.text = model.nameHk
+    func setCellData(model: ClassifyModel, isSelect: Bool) {
+        enLab.text = model.classifyNameEn
+        cnLab.text = model.classifyNameHk
         
         if isSelect {
             backView.backgroundColor = HCOLOR("#FF7F35")

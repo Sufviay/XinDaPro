@@ -32,11 +32,16 @@ class MenuOrderManager: NSObject {
     
     
     ///计算菜品选择规格后的价格
-    func selectedSizeDishMoney(dishModel: DishModel, selectIdxArr: [[Int]], count: Int) -> String {
+    func selectedSizeDishMoney(dishModel: DishModel, selectIdxArr: [[Int]], count: Int, isVip: Bool) -> String {
         
+        var orPrice: Double = 0
         
-        
-        var orPrice: Double = dishModel.discountType == "2" ? Double(dishModel.discountPrice) : Double(dishModel.price)
+//        if isVip && dishModel.isHaveVipPrice {
+//            orPrice = dishModel.vipPrice
+//        } else {
+            orPrice = dishModel.discountType == "2" ? Double(dishModel.discountPrice) : Double(dishModel.price)
+//        }
+
         
         for (idx, model) in dishModel.specification.enumerated() {
             
@@ -112,14 +117,18 @@ class MenuOrderManager: NSObject {
     
     
     ///计算套餐菜品选择后的价格
-    func selectedComboDishMoney(dishModel: DishModel, count: Int) -> String {
+    func selectedComboDishMoney(dishModel: DishModel, count: Int, isVip: Bool) -> String {
         
-        let orPrice: Double = dishModel.discountType == "2" ? Double(dishModel.discountPrice) : Double(dishModel.price)
+        var orPrice: Double = 0
         
+//        if isVip && dishModel.isHaveVipPrice {
+//            orPrice = dishModel.vipPrice
+//        } else {
+            orPrice = dishModel.discountType == "2" ? Double(dishModel.discountPrice) : Double(dishModel.price)
+//        }
+                
         let price = orPrice * Double(count)
-        
         return D_2_STR(price)
-
     }
     
     

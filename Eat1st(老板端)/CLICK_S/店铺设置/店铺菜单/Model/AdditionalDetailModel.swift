@@ -32,6 +32,8 @@ class AdditionalDetailModel: HandyJSON {
     var dishName1: String = ""
     var dishName2: String = ""
     var classifyStr: String = ""
+    /// 菜品种类（1食物，2饮料）
+    var dishesKind: String = ""
     
     required init() { }
     

@@ -8,10 +8,7 @@
 import UIKit
 
 class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSource {
-    
-    
-    var deskID: String = ""
-    
+        
     var isSelect: Bool = false
     
     ///弹出购物车
@@ -29,14 +26,16 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
     ///当前菜品是否可以购买
     private var canBuy: Bool = false
     
-//    ///当前选中的分类下标
-//    private var curSel_Idx: Int = 0
-    
     //是否可以滑动
-    var canSroll: Bool = false
+    private var canSroll: Bool = false
     
     ///适配放大模式
     private var isBig: Bool = (S_W - 230) < 140
+    
+    ///是否是vip
+    private var isVip: Bool = false
+    ///配送类型 1外卖，2自取，3堂食
+    private var deType: String = ""
 
     
     private lazy var l_table: UITableView = {
@@ -188,7 +187,8 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
                     let nextVC = SelectSizeController()
                     nextVC.dishesID = model.dishID
                     nextVC.canBuy = self.canBuy
-                    nextVC.deskID = self.deskID
+                    nextVC.isVip = isVip
+                    nextVC.deType = deType
                     PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
                 }
                 if model.dishesType == "2" {
@@ -196,7 +196,8 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
                     let nextVC = MealSelectSizeController()
                     nextVC.dishesID = model.dishID
                     nextVC.canBuy = self.canBuy
-                    nextVC.deskID = self.deskID
+                    nextVC.isVip = isVip
+                    nextVC.deType = deType
                     PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
                 }
             }
@@ -281,26 +282,12 @@ class MenuContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSo
     
 
     
-    func setCellData(model: MenuModel, deskID: String) {
+    func setCellData(model: MenuModel, isHaveVip: Bool) {
         self.dishData = model
-        self.deskID = deskID
+        canBuy = model.canBuy
+        isVip = isHaveVip
+        deType = model.buyType
         
-        if dishData.openTimeArr.count == 0 {
-            canBuy = false
-        } else {
-
-            let timeModel = dishData.openTimeArr[dishData.curTimeIdx]
-            if timeModel.nowType == "1" {
-                //当前时间不在时间段内
-                canBuy = false
-            } else {
-                if timeModel.deliverStatus == "2" && timeModel.collectStatus == "2" {
-                    canBuy = false
-                } else {
-                    canBuy = true
-                }
-            }
-        }
         
         if dishData.isChangeSelectTime {
             //滑动到最最顶部
@@ -357,7 +344,8 @@ extension MenuContentCell {
                     let nextVC = SelectSizeController()
                     nextVC.dishesID = model.dishID
                     nextVC.canBuy = canBuy
-                    nextVC.deskID = deskID
+                    nextVC.isVip = isVip
+                    nextVC.deType = deType
                     //如果不是规格规格商品 且已添加到购物车中 需将数量带到下一页面
                     if !model.isSelect && model.cart.count != 0 {
                         nextVC.cartID = model.cart[0].cartID
@@ -372,7 +360,8 @@ extension MenuContentCell {
                 let nextVC = MealSelectSizeController()
                 nextVC.dishesID = model.dishID
                 nextVC.canBuy = canBuy
-                nextVC.deskID = deskID
+                nextVC.isVip = isVip
+                nextVC.deType = deType
                 PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
             }
         }

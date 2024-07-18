@@ -15,12 +15,11 @@ class FirstSideToolView: UIView, UIGestureRecognizerDelegate, SystemAlertProtoco
     private let backView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: R_W(320), height: S_H), byRoundingCorners: [.topRight, .bottomRight], radii: 20)
         return view
     }()
 
     
-    private let W = R_W(320)
+    private var W = (UIScreen.main.bounds.width / 2) + 100
     
     
     private let headerImg: UIImageView = {
@@ -44,7 +43,7 @@ class FirstSideToolView: UIView, UIGestureRecognizerDelegate, SystemAlertProtoco
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#666666"), BFONT(13), .left)
         lab.lineBreakMode = .byTruncatingTail
-        lab.text = "Number:\(UserDefaults.standard.userID ?? "")"
+        lab.text = "\(UserDefaults.standard.accountNum ?? "")"
         return lab
     }()
     
@@ -91,7 +90,6 @@ class FirstSideToolView: UIView, UIGestureRecognizerDelegate, SystemAlertProtoco
     private func setUpUI() {
         //设置背景透明 不影响子视图
         self.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        self.frame = S_BS
         self.isUserInteractionEnabled = true
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction))
@@ -102,6 +100,9 @@ class FirstSideToolView: UIView, UIGestureRecognizerDelegate, SystemAlertProtoco
         let leftRe = UISwipeGestureRecognizer.init(target: self, action: #selector(tapAction))
         leftRe.direction = .left
         self.backView.addGestureRecognizer(leftRe)
+        
+        
+        backView.cornerWithRect(rect: CGRect(x: 0, y: 0, width: W, height: UIScreen.main.bounds.height), byRoundingCorners: [.topRight, .bottomRight], radii: 20)
         
         self.addSubview(backView)
         backView.snp.makeConstraints {
@@ -203,6 +204,10 @@ class FirstSideToolView: UIView, UIGestureRecognizerDelegate, SystemAlertProtoco
     
     private func addWindow() {
         PJCUtil.getWindowView().addSubview(self)
+        self.snp.remakeConstraints {
+            $0.edges.equalToSuperview()
+        }
+
         self.layoutIfNeeded()
         UIView.animate(withDuration: 0.3) {
             self.backView.snp.remakeConstraints {
@@ -241,5 +246,23 @@ class FirstSideToolView: UIView, UIGestureRecognizerDelegate, SystemAlertProtoco
         return true
     }
     
-
+    
+    
+    func updateFrame() {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            W = (UIScreen.main.bounds.width / 2) + 100
+                        
+            backView.cornerWithRect(rect: CGRect(x: 0, y: 0, width: W, height: UIScreen.main.bounds.height), byRoundingCorners: [.topRight, .bottomRight], radii: 20)
+            
+            backView.snp.remakeConstraints {
+                $0.top.bottom.equalToSuperview()
+                $0.width.equalTo(W)
+                if (self.superview != nil) {
+                    $0.left.equalToSuperview().offset(0)
+                } else {
+                    $0.left.equalToSuperview().offset(-W)
+                }
+            }
+        }
+    }
 }

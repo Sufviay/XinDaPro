@@ -143,7 +143,7 @@ class StoreInfoModel: NSObject {
     
     
     ///是否显示折扣栏
-    var isHaveDiscountBar: Bool = false
+    var isHaveDiscountBar: Bool = true
     
     ///店铺基本信息栏的高度(包括店铺名称，店铺描述，店铺评分，评价，起送费，配送费)
     var storeInfo_H: CGFloat = 0
@@ -164,6 +164,12 @@ class StoreInfoModel: NSObject {
     
     ///当前店铺是卖午餐 还是晚餐 （2午餐 3晚餐）
     var storeSellLunchOrDinner: String = ""
+    
+    
+    ///是否是会员用户（1否， 2是）
+    var isVip: Bool = false
+    
+    var vipAmount: String = "0"
 
     
     
@@ -198,32 +204,6 @@ class StoreInfoModel: NSObject {
         self.storeAddress = json["address"].stringValue
         
         
-//        var tArr: [JTFeeModel] = []
-//        for jsonData in json["deliveryFeeList"].arrayValue {
-//            let model = JTFeeModel()
-//            model.updateModel(json: jsonData)
-//            tArr.append(model)
-//        }
-//
-//        self.feeList = tArr
-//
-//        self.deStatus = json["openTypeResult"]["deliveryStatus"].stringValue
-//        self.coStatus = json["openTypeResult"]["collectionStatus"].stringValue
-        
-//        var tArr2: [DaySetTimeModel] = []
-//        for jsondata in json["openTimeList"].arrayValue {
-//            let model = DaySetTimeModel()
-//            model.updateModel(json: jsondata)
-//            tArr2.append(model)
-//        }
-//        self.timeArr = tArr2
-        
-        
-//        self.coMin = json["collectionMin"].stringValue
-//        self.coMax = json["collectionMax"].stringValue
-//        self.deMin = json["deliveryMin"].stringValue
-//        self.deMax = json["deliveryMax"].stringValue
-        
         
         self.discountMsg = json["discountMsg"].stringValue
         self.discountImgUrl = json["discountImageUrl"].stringValue
@@ -253,37 +233,7 @@ class StoreInfoModel: NSObject {
         }
         
                 
-        
-        if self.isDiscount {
-            self.isHaveDiscountBar = true
-        } else {
-            if self.firstDiscountIsOpen {
 
-                if self.isFirstDiscount == nil {
-                    if self.isOpenJiFen {
-                        self.isHaveDiscountBar = true
-                    } else {
-                        self.isHaveDiscountBar = false
-                    }
-                } else {
-                    if self.isFirstDiscount! {
-                        self.isHaveDiscountBar = true
-                    } else {
-                        if self.isOpenJiFen {
-                            self.isHaveDiscountBar = true
-                        } else {
-                            self.isHaveDiscountBar = false
-                        }
-                    }
-                }
-            } else {
-                if self.isOpenJiFen {
-                    self.isHaveDiscountBar = true
-                } else {
-                    self.isHaveDiscountBar = false
-                }
-            }
-        }
         
         
         ///计算基信息栏的高度
@@ -291,14 +241,16 @@ class StoreInfoModel: NSObject {
         let tag_h = tags.getTextHeigh(SFONT(13), MENU_STORE_TAGS_W)
         self.storeInfo_H = name_h + tag_h + 20 + 75
         self.scanStoreInfo_H = (name_h + tag_h + 50) > 80 ? (name_h + tag_h + 50) : 80
-
-        if isHaveDiscountBar {
-            self.storeContent_H = storeInfo_H + 15 + 28 + 50
-            self.scanContent_H = scanStoreInfo_H + 15 + 40
-        } else {
-            self.storeContent_H = storeInfo_H + 15 + 50
-            self.scanContent_H = scanStoreInfo_H + 25
-        }
+        
+                    
+        ///优惠栏固定显示
+        self.storeContent_H = storeInfo_H + 15 + 30 + 50  //95
+        //self.scanContent_H = scanStoreInfo_H + 15 + 40   //55
+    //
+    //        self.storeContent_H = storeInfo_H + 15 + 50  //65
+        self.scanContent_H = scanStoreInfo_H + 25  //25
+        
+        
         
         ///处理营业时间
         
@@ -353,4 +305,60 @@ class StoreInfoModel: NSObject {
             }
         }
     }
+    
+    
+    func updateStoreInfo_H() {
+        
+        
+//        if self.isDiscount {
+//            self.isHaveDiscountBar = true
+//        } else {
+//            if self.firstDiscountIsOpen {
+//
+//                if self.isFirstDiscount == nil {
+//                    if self.isOpenJiFen {
+//                        self.isHaveDiscountBar = true
+//                    } else {
+//                        self.isHaveDiscountBar = false
+//                    }
+//                } else {
+//                    if self.isFirstDiscount! {
+//                        self.isHaveDiscountBar = true
+//                    } else {
+//                        if self.isOpenJiFen {
+//                            self.isHaveDiscountBar = true
+//                        } else {
+//                            self.isHaveDiscountBar = false
+//                        }
+//                    }
+//                }
+//            } else {
+//                if self.isOpenJiFen {
+//                    self.isHaveDiscountBar = true
+//                } else {
+//                    self.isHaveDiscountBar = false
+//                }
+//            }
+//        }
+        
+//        
+//        if isHaveDiscountBar {
+//            self.storeContent_H = storeInfo_H + 15 + 30 + 50  //95
+//            //self.scanContent_H = scanStoreInfo_H + 15 + 40   //55
+//        } else {
+//            self.storeContent_H = storeInfo_H + 15 + 50  //65
+//            //self.scanContent_H = scanStoreInfo_H + 25  //25
+//        }
+        
+        if isVip {
+            self.storeContent_H = storeInfo_H + 15 + 30 + 50 + SET_H(50, 345) + 10  //95
+            self.scanContent_H = scanStoreInfo_H + 25 + SET_H(50, 345) + 10
+            //self.scanContent_H = scanStoreInfo_H + 15 + 40   //55
+        } else {
+            self.storeContent_H = storeInfo_H + 15 + 30 + 50   //95
+            self.scanContent_H = scanStoreInfo_H + 25
+        }
+        
+    }
+    
 }

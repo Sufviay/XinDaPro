@@ -24,12 +24,15 @@ class DishDetailView: BaseAlertView, UITableViewDelegate, UITableViewDataSource 
     //编辑购物车
     var editBlock: VoidBlock?
     
+    //购物车进来的
     var isEdit: Bool = false
     
     ///当是编辑状态时有值
     var cartSelectItemArr: [CartDishItemModel] = []
     var cartAttachArr: [CartDishItemModel] = []
     var cartEditIdx: Int = 0
+    var cartDishPrice: Double = 0
+    
 
     ///菜品附加
     var attachDataArr: [AttachClassifyModel] = []
@@ -109,7 +112,7 @@ class DishDetailView: BaseAlertView, UITableViewDelegate, UITableViewDataSource 
             $0.left.equalToSuperview().offset(15)
             $0.right.equalToSuperview().offset(-15)
             $0.bottom.equalToSuperview().offset(-bottomBarH - 50)
-            $0.top.equalToSuperview().offset(bottomBarH + 30)
+            $0.top.equalToSuperview().offset(statusBarH + 30)
         }
         
         backView.addSubview(addBut)
@@ -317,6 +320,10 @@ class DishDetailView: BaseAlertView, UITableViewDelegate, UITableViewDataSource 
                 buyNum = count
             }
             
+            cell.priceBlock = { [unowned self] (p_str) in
+                detailModel.price = Double(p_str) ?? 0
+            }
+            
             return cell
         }
         if indexPath.section == 2 {
@@ -384,9 +391,20 @@ extension DishDetailView {
             }
             
             
-            if isEdit {
-                getSelectIdxArr()
+            //根据菜品的dishesKind匹配附加的dishesKind
+            for model in attachDataArr {
+                model.attachList = model.attachList.filter { $0.dishesKind == detailModel.dishesKind }
             }
+            
+            attachDataArr = attachDataArr.filter { $0.attachList.count != 0 }
+
+            
+            if isEdit {
+                
+                getSelectIdxArr()
+                detailModel.price = cartDishPrice
+            }
+            
 
             sectionNum = 6
             table.reloadData()

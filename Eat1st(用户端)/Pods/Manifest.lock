@@ -118,20 +118,20 @@ PODS:
     - SDWebImage/Core (= 5.11.1)
   - SDWebImage/Core (5.11.1)
   - SnapKit (5.0.1)
-  - Stripe (22.5.1):
-    - Stripe/Stripe3DS2 (= 22.5.1)
-    - StripeApplePay (= 22.5.1)
-    - StripeCore (= 22.5.1)
-    - StripeUICore (= 22.5.1)
-  - Stripe/Stripe3DS2 (22.5.1):
-    - StripeApplePay (= 22.5.1)
-    - StripeCore (= 22.5.1)
-    - StripeUICore (= 22.5.1)
-  - StripeApplePay (22.5.1):
-    - StripeCore (= 22.5.1)
-  - StripeCore (22.5.1)
-  - StripeUICore (22.5.1):
-    - StripeCore (= 22.5.1)
+  - Stripe (22.8.4):
+    - Stripe/Stripe3DS2 (= 22.8.4)
+    - StripeApplePay (= 22.8.4)
+    - StripeCore (= 22.8.4)
+    - StripeUICore (= 22.8.4)
+  - Stripe/Stripe3DS2 (22.8.4):
+    - StripeApplePay (= 22.8.4)
+    - StripeCore (= 22.8.4)
+    - StripeUICore (= 22.8.4)
+  - StripeApplePay (22.8.4):
+    - StripeCore (= 22.8.4)
+  - StripeCore (22.8.4)
+  - StripeUICore (22.8.4):
+    - StripeCore (= 22.8.4)
   - SwiftyJSON (5.0.1)
 
 DEPENDENCIES:
@@ -233,12 +233,12 @@ SPEC CHECKSUMS:
   RxSwift: 1e2e1f9570186967f617e49128ed26ccf1bafc8e
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
-  Stripe: 2b2decd03146e08a350960966d41f3028c2eac29
-  StripeApplePay: b14f06ac6fc24b56704c1e598149ed0cc45e166f
-  StripeCore: 4833738f2ca4336712f279f3c2867a0a7eb67c93
-  StripeUICore: 08c1efbd7e3c54ee7fa74334a37a1d4c08ba944d
+  Stripe: 59f6659e8ea413def19c97c57e23f5ec6ea48cf8
+  StripeApplePay: 6e9aebd3d248464836e9fbdaef6e5fb1817d56a6
+  StripeCore: 193f27552fb98108ebfe0df11651fe5f38948305
+  StripeUICore: 6a5bbea0164d63bd91000f001903e7901859e1a4
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
 
-PODFILE CHECKSUM: ed65285dfdcb2688150e4b9a7207287f6c39d00d
+PODFILE CHECKSUM: 83c65c3c4ed01cb4e221f9a3f2b290cc340970cc
 
 COCOAPODS: 1.11.3

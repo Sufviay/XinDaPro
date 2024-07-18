@@ -117,7 +117,8 @@ class CustomNaviBar: UIView {
         self.addSubview(titLab)
         titLab.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview().offset(-13)
+            $0.bottom.equalToSuperview()
+            $0.height.equalTo(NAV_H())
         }
         
         self.addSubview(leftBut)
@@ -176,7 +177,7 @@ class BaseViewController: UIViewController {
         view.addSubview(naviBar)
         naviBar.snp.makeConstraints {
             $0.top.right.left.equalToSuperview()
-            $0.height.equalTo(statusBarH + 44)
+            $0.height.equalTo(statusBarH + NAV_H())
         }
         setViews()
     }

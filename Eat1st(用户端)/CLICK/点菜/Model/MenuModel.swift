@@ -58,20 +58,40 @@ class CartDataModel: NSObject {
 
 //MARK: - 构建页面的数据Model
 class MenuModel: NSObject {
-    
-    ///总的菜品数据
+        
+    ///总的菜品分类数据
     var allDataArr:[ClassiftyModel] = []
+    ///所有的菜
+    var allDishArr: [DishModel] = []
+    
     
     ///营业时间列表
     var openTimeArr: [OpenTimeModel] = []
         
-    ///当前的时间段
+    ///当前的时间段 不需要跟着选择而改变
     var curentTime = OpenTimeModel()
     
     ///当前时间段的位置下标
     var curTimeIdx: Int = 1000 {
         didSet {
-            pageDataArr = openTimeArr[curTimeIdx].dataArr
+            
+            let timeModel = openTimeArr[curTimeIdx]
+            if timeModel.nowType == "1" {
+                //当前时间不在时间段内
+                canBuy = false
+            } else {
+                if timeModel.deliverStatus == "2" && timeModel.collectStatus == "2" {
+                    canBuy = false
+                } else {
+                    canBuy = true
+                }
+            }
+            
+            if !isDineIn {
+                pageDataArr = timeModel.dataArr
+            } else {
+                pageDishesArr = timeModel.dishesArr
+            }
         }
     }
     
@@ -84,13 +104,96 @@ class MenuModel: NSObject {
     ///页面展示的菜品数据  根据点击时间段的变化 来改变菜品数据
     var pageDataArr: [ClassiftyModel] = []
     
-    ///初始店铺的购买状态 1外卖 2自取 ""为关店状态
+    var pageDishesArr: [DishModel] = []
+    
+    ///初始店铺的购买状态 1外卖 2自取 ""为关店状态。不需要跟着选择而改变
     var buyType: String = ""
 
+    ///切换时间段时菜品是否可以购买
+    var canBuy: Bool = true
     
+    ///是否是堂食数据
+    var isDineIn: Bool = false
 
+    
+    
+    
+    
+    ///更新堂食点餐的菜单数据
+    func updateDineInModel(json: JSON) {
+        isDineIn = true
+        
+        ///菜品列表
+        var d_arr: [DishModel] = []
+        for d_json in json["data"]["dishesList"].arrayValue {
+            let model = DishModel()
+            model.updateModel(json: d_json)
+            d_arr.append(model)
+        }
+        allDishArr = d_arr
+        
+        ///时间段列表数据
+        var timeArr: [OpenTimeModel] = []
+        for jsonData in json["data"]["openTimeList"].arrayValue {
+            let model = OpenTimeModel()
+            model.updateModel(json: jsonData)
+            timeArr.append(model)
+        }
+        openTimeArr = timeArr
+
+
+        ///当前时间所在的时间段
+        if (openTimeArr.filter { $0.nowType == "2" }).count != 0 {
+            self.curentTime = (openTimeArr.filter { $0.nowType == "2" })[0]
+        }
+        
+        /**
+         根据菜品编码和营业时间编码的关系整理菜品
+         */
+
+        //便利每个菜品
+        for d_model in d_arr {
+            ///遍历时间段关系
+            for jsonData in json["data"]["timeDishesList"].arrayValue {
+                
+                //时间关系里的菜品ID
+                let dishID = jsonData["dishesId"].stringValue
+
+                ///如果时间段里的菜品ID 与 菜品列表的ID 相匹配 就把菜品插入到相应的时间段下
+                if d_model.dishID == dishID {
+                    
+                    //时间段ID
+                    let timeID = jsonData["storeTimeId"].stringValue
+
+                    //根据时间段ID 找到时间段
+                    for openModel in openTimeArr {
+                        if openModel.storeTimeId == timeID {
+                            //将菜品放入相对应的分类下
+                            openModel.dishesArr.append(d_model)
+                        }
+                    }
+                }
+            }
+        }
+        
+        ///获取默认显示
+        if openTimeArr.count != 0 {
+            for (idx, model) in openTimeArr.enumerated() {
+                if model.defaultShow == "2" {
+                    self.curTimeIdx = idx
+                }
+            }
+        } else {
+            self.pageDishesArr = d_arr
+        }
+        
+    }
+    
+    
+    ///更新在线点餐的菜单数据
     func updateModel(json: JSON) {
         
+        isDineIn = false
         
         ///分类列表
         var c_arr: [ClassiftyModel] = []
@@ -124,6 +227,8 @@ class MenuModel: NSObject {
             }
         }
         
+        
+        
         /**
          将菜品插入该有的分类中去
          */
@@ -137,6 +242,8 @@ class MenuModel: NSObject {
             }
         }
         
+        
+        self.allDishArr = d_arr
         ///处理后的菜品总数据
         self.allDataArr = c_arr.filter{ $0.dishArr.count != 0 }
 
@@ -259,6 +366,7 @@ class MenuModel: NSObject {
                 }
             }
         } else {
+            canBuy = false
             self.pageDataArr = allDataArr
         }
     }
@@ -268,38 +376,39 @@ class MenuModel: NSObject {
     func dealWithMenuDishesByCartData(cart_arr: [CartDishModel]) {
         
         //清空以选择的
-        for c_model in self.allDataArr {
-            for d_model in c_model.dishArr {
-                d_model.sel_Num = 0
-                d_model.cart.removeAll()
-            }
+//        for c_model in self.allDataArr {
+//            for d_model in c_model.dishArr {
+//                d_model.sel_Num = 0
+//                d_model.cart.removeAll()
+//            }
+//        }
+        
+        for d_model in allDishArr {
+            d_model.sel_Num = 0
+            d_model.cart.removeAll()
         }
         
         
         
         //遍历购物车中的菜品
         for cart_model in cart_arr {
-//            if cart_model.dishesType == "2" {
-//                //套餐
-//                //将购物车插入到菜品中
-//                for d_model in menuModel.lunchDataArr {
+
+            for d_model in allDishArr {
+                if cart_model.dishID == d_model.dishID {
+                    d_model.cart.append(cart_model)
+                    d_model.sel_Num += cart_model.cartCount
+                }
+            }
+            
+            
+//            for c_model in self.allDataArr {
+//                for d_model in c_model.dishArr {
 //                    if cart_model.dishID == d_model.dishID {
 //                        d_model.cart.append(cart_model)
 //                        d_model.sel_Num += cart_model.cartCount
 //                    }
 //                }
-//
-//            } else {
-                //单品
-                for c_model in self.allDataArr {
-                    for d_model in c_model.dishArr {
-                        if cart_model.dishID == d_model.dishID {
-                            d_model.cart.append(cart_model)
-                            d_model.sel_Num += cart_model.cartCount
-                        }
-                    }
-                    
-                }
+//                
 //            }
         }
         
@@ -338,6 +447,7 @@ class OpenTimeModel: NSObject {
     ///营业时间关联的菜品
     var dataArr: [ClassiftyModel] = []
     
+    var dishesArr: [DishModel] = []
     
     
     func updateModel(json: JSON) {
@@ -389,10 +499,14 @@ class DishModel: NSObject {
     var belongClassiftyID: String = ""
     ///id
     var dishID: String = ""
+    
+    ///菜名字
+    var name: String = ""
+    
     ///菜名中文
-    var name_C: String = ""
+    var name_CN: String = ""
     ///菜名英文
-    var name_E: String = ""
+    var name_EN: String = ""
     ///1启用 2禁用 3超库存
     var isOn: String = ""
     ///禁用文字
@@ -430,9 +544,11 @@ class DishModel: NSObject {
                 if sel_Num == 0 {
                     self.dish_H = (name_H + des_H + 90) > 130 ? (name_H + des_H + 90) : 130
                     self.dish_H_S = (name_H_Search + des_H_Search + 90) > 130 ? (name_H_Search + des_H_Search + 90) : 130
+                    self.dish_H_Dine = (nameCN_H + nameEN_H + des_H_Search  + 92 ) > 130 ? (nameCN_H + nameEN_H + des_H_Search + 92) : 130
                 } else {
                     self.dish_H = (name_H + des_H + 90 + 30) > 130 ? (name_H + des_H + 90 + 30) : 130
                     self.dish_H_S = (name_H_Search + des_H_Search + 90 + 30) > 130 ? (name_H_Search + des_H_Search + 90 + 30) : 130
+                    self.dish_H_Dine = (nameCN_H + nameEN_H + des_H_Search  + 92  + 30) > 130 ? (nameCN_H + nameEN_H + des_H_Search + 92 + 30) : 130
                 }
             }
         }
@@ -444,14 +560,33 @@ class DishModel: NSObject {
     var name_H_Search: CGFloat = 0
     var des_H_Search: CGFloat = 0
     
+    
+    var nameCN_H: CGFloat = 0
+    var nameEN_H: CGFloat = 0
+    
+    
     ///商品高度
     var dish_H: CGFloat = 0
     
     ///搜索页面商品高度
     var dish_H_S: CGFloat = 0
     
+    ///堂食点餐商品高度
+    var dish_H_Dine: CGFloat = 0
+    
+    
     ///菜品的分类 （1单品 2套餐）
     var dishesType: String = ""
+    
+    ///vipType （1无，2有）
+    var isHaveVipPrice: Bool = false
+    
+    ///vip价格
+    var vipPrice: Double = 0
+    
+    
+   // 特殊套餐是为了做满5个点心的需求 套餐菜品（1否，2是）[...]
+    var baleType: String = ""
     
     
     
@@ -488,8 +623,9 @@ class DishModel: NSObject {
         
                 
         self.dishID = json["dishesId"].stringValue
-        self.name_C = PJCUtil.dealHtmlZhuanYiString(contentStr: json["dishesName"].stringValue)
-        self.name_E = PJCUtil.dealHtmlZhuanYiString(contentStr: json["dishesName"].stringValue)
+        self.name = PJCUtil.dealHtmlZhuanYiString(contentStr: json["dishesName"].stringValue)
+        self.name_CN = PJCUtil.dealHtmlZhuanYiString(contentStr: json["dishesNameHk"].stringValue)
+        self.name_EN = PJCUtil.dealHtmlZhuanYiString(contentStr: json["dishesNameEn"].stringValue)
         self.des = PJCUtil.dealHtmlZhuanYiString(contentStr: json["remark"].stringValue)
         self.price = json["price"].doubleValue
         self.sales = json["sales"].stringValue
@@ -504,6 +640,10 @@ class DishModel: NSObject {
         self.discountPrice = json["discountPrice"].doubleValue
         self.discountType = json["discountType"].stringValue
         self.dishesType = json["dishesType"].stringValue
+        
+        isHaveVipPrice = json["vipType"].stringValue == "2" ? true : false
+        vipPrice = json["vipPrice"].doubleValue
+        
         
         if price - discountPrice > 0 {
             let ts = (price - discountPrice) / price * 100
@@ -534,16 +674,20 @@ class DishModel: NSObject {
         self.tagList = tarr1
         
 
-        //单品
-        name_H = self.name_C.getTextHeigh(BFONT(17), S_W - 235)
-        name_H_Search = self.name_C.getTextHeigh(BFONT(17), S_W - 145)
+        name_H = self.name.getTextHeigh(BFONT(17), S_W - 235)
+        name_H_Search = self.name.getTextHeigh(BFONT(17), S_W - 145)
+        
+        nameCN_H = name_CN.getTextHeigh(BFONT(17), S_W - 145)
+        nameEN_H = name_EN.getTextHeigh(BFONT(15), S_W - 145)
+        
         des_H = self.des.getTextHeigh(SFONT(11), S_W - 235) > 25 ? 25 : self.des.getTextHeigh(SFONT(11), S_W - 235)
         des_H_Search = self.des.getTextHeigh(SFONT(11), S_W - 145) > 25 ? 25 : self.des.getTextHeigh(SFONT(11), S_W - 145)
         
         
+        
         self.dish_H = (name_H + des_H + 90) > 130 ? (name_H + des_H + 90) : 130
         self.dish_H_S = (name_H_Search + des_H_Search + 90) > 130 ? (name_H_Search + des_H_Search + 90) : 130
-        
+        self.dish_H_Dine = (nameCN_H + nameEN_H + des_H_Search  + 92 ) > 130 ? (nameCN_H + nameEN_H + des_H_Search + 92) : 130
         
 //        if (S_W - 230) > 140 {
 //            //非放大模式
@@ -752,7 +896,7 @@ class CartDishModel: NSObject {
     
     ///数量
     var cartCount: Int = 0
-    ///菜的原价
+    ///菜的实际价格
     var fee: Double = 0
     ///购物车选择的规格选项
     var cartOptionArr: [DishOptionModel] = []
@@ -794,6 +938,13 @@ class CartDishModel: NSObject {
     var discountType: String = ""
     ///优惠百分比
     var discountSale: String = ""
+    
+    ///vipType （1无，2有）
+    var isHaveVipPrice: Bool = false
+    
+    ///vip价格
+    var vipPrice: Double = 0
+
 
     
     
@@ -810,7 +961,8 @@ class CartDishModel: NSObject {
         self.dishesType = json["dishesType"].stringValue
         self.isOn = json["statusId"].stringValue
         self.isGiveOne = json["giveOne"].stringValue == "1" ? false : true
-        
+        isHaveVipPrice = json["vipType"].stringValue == "2" ? true : false
+        vipPrice = json["vipPrice"].doubleValue
         
         
         
@@ -859,9 +1011,9 @@ class CartDishModel: NSObject {
         
         
         if isGiveOne {
-            cart_dish_H = (n_h + d_h + 90 + 30) > 130 ? (n_h + d_h + 90 + 30) : 130
+            cart_dish_H = (n_h + d_h + 95 + 30) > 130 ? (n_h + d_h + 95 + 30) : 130
         } else {
-            cart_dish_H = (n_h + d_h + 90) > 130 ? (n_h + d_h + 90) : 130
+            cart_dish_H = (n_h + d_h + 95) > 130 ? (n_h + d_h + 95) : 130
         }
         
     }
@@ -965,7 +1117,6 @@ class CartDishModel: NSObject {
         giftDish_H = (dishName.getTextHeigh(BFONT(14), S_W - 195) + 20) > 75 ? (dishName.getTextHeigh(BFONT(14), S_W - 195) + 20) : 75
                 
     }
-
     
 }
 

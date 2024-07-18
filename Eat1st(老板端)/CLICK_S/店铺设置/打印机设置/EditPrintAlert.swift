@@ -15,21 +15,33 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate {
     var savedBlock: VoidBlock?
     
     
-    private var printNum: String = "" {
-        didSet {
-            if printNum == "1" {
-                img1.image = LOIMG("spec_sel")
-                img2.image = LOIMG("spec_unsel")
-            }
-            else if printNum == "2" {
-                img1.image = LOIMG("spec_unsel")
-                img2.image = LOIMG("spec_sel")
-            } else {
-                img1.image = LOIMG("spec_unsel")
-                img2.image = LOIMG("spec_unsel")
-            }
-        }
-    }
+    private var printNum: String = ""
+    ///打印机类型（1热敏，2针式, 3标签）
+    private var printerType: String = ""
+    ///打印机状态
+    private var status: String = ""
+    ///打印机名称
+    private var printerName: String = ""
+    ///是否分开打印 1否，2是
+    private var splitType: String = ""
+    ///打印机IP
+    private var printerIP: String = ""
+    
+//    {
+//        didSet {
+//            if printNum == "1" {
+//                img1.image = LOIMG("spec_sel")
+//                img2.image = LOIMG("spec_unsel")
+//            }
+//            else if printNum == "2" {
+//                img1.image = LOIMG("spec_unsel")
+//                img2.image = LOIMG("spec_sel")
+//            } else {
+//                img1.image = LOIMG("spec_unsel")
+//                img2.image = LOIMG("spec_unsel")
+//            }
+//        }
+//    }
     
     private var printerID: String = "" {
         didSet {
@@ -41,12 +53,15 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate {
         }
     }
     
-    private var H: CGFloat = bottomBarH + 440
+    
+    
+    
+    private var H: CGFloat = bottomBarH + 610
 
     private let backView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: bottomBarH + 440), byRoundingCorners: [.topLeft, .topRight], radii: 20)
+        view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: bottomBarH + 610), byRoundingCorners: [.topLeft, .topRight], radii: 20)
         return view
     }()
     
@@ -63,11 +78,12 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate {
         but.layer.cornerRadius = 14
         return but
     }()
+
     
     private let titlab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("333333"), BFONT(18), .left)
-        lab.text = "Printer Edit"
+        lab.text = ""
         return lab
     }()
     
@@ -80,124 +96,57 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate {
     }()
     
     
-    private let namelab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(17), .left)
-        lab.text = "Printer name"
-        return lab
-    }()
     
-    private let iplab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(17), .left)
-        lab.text = "Printer IP"
-        return lab
-    }()
-    
-    private let copieslab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(17), .left)
-        lab.text = "Printe copies"
-        return lab
-    }()
-    
-    private let sLab1: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), SFONT(16), .left)
-        lab.text = "*"
-        return lab
-    }()
-
-    
-    private let sLab2: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), SFONT(16), .left)
-        lab.text = "*"
-        return lab
-    }()
-    
-    private let sLab3: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), SFONT(16), .left)
-        lab.text = "*"
-        return lab
-    }()
-
-    
-    
-    private let tfBack1: UIView = {
-        let view = UIView()
-        view.backgroundColor = HCOLOR("#8F92A1").withAlphaComponent(0.06)
-        view.layer.cornerRadius = 7
+    private lazy var nameView: InputView = {
+        let view = InputView()
+        view.setStyle(titStr: "Printer name", holderStr: "")
+        view.editBlock = { [unowned self] (str) in
+            printerName = str
+        }
         return view
     }()
     
-    private let tfBack2: UIView = {
-        let view = UIView()
-        view.backgroundColor = HCOLOR("#8F92A1").withAlphaComponent(0.06)
-        view.layer.cornerRadius = 7
+    private lazy var ipView: InputView = {
+        let view = InputView()
+        view.setStyle(titStr: "Printer IP", holderStr: "")
+        view.editBlock = { [unowned self] (str) in
+            printerIP = str
+        }
+        return view
+    }()
+    
+    private lazy var copyView: SelectBut = {
+        let view = SelectBut()
+        view.setStyle(titStr: "Print copies", l_Str: "Print one copy", r_Str: "Print two copies")
+        view.clickBlock = { [unowned self] (str) in
+            printNum = str
+        }
         return view
     }()
     
     
-    private let nameTF: UITextField = {
-        let tf = UITextField()
-        tf.textColor = FONTCOLOR
-        tf.font = SFONT(15)
-        return tf
-    }()
-    
-    
-    private let ipTF: UITextField = {
-        let tf = UITextField()
-        tf.textColor = FONTCOLOR
-        tf.font = SFONT(15)
-        return tf
-    }()
-    
-    
-    private let oneBut: UIButton = {
-        let but = UIButton()
-        but.backgroundColor = .clear
-        return but
-    }()
-    
-    private let twoBut: UIButton = {
-        let but = UIButton()
-        but.backgroundColor = .clear
-        return but
-    }()
-    
-    
-    private let img1: UIImageView = {
-        let img = UIImageView()
-        img.image = LOIMG("spec_unsel")
-        return img
-    }()
-    
-    private let img2: UIImageView = {
-        let img = UIImageView()
-        img.image = LOIMG("spec_unsel")
-        return img
+    private lazy var printTypeView: SelectBut = {
+        let view = SelectBut()
+        view.setStyle(titStr: "Whether to print separately", l_Str: "YES", r_Str: "NO")
+        view.clickBlock = { [unowned self] (str) in
+            if str == "1" {
+                splitType = "2"
+            } else {
+                splitType = "1"
+            }
+        }
+        return view
     }()
 
-    
-    private let oneLab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(14), .left)
-        lab.text = "Print one copy"
-        return lab
+    private lazy var printerTypeView: SelectBut_3 = {
+        let view = SelectBut_3()
+        view.setStyle(titStr: "Printer type", str1: "Thermal printer", str2: "Dot matrix printer", str3: "Label printer")
+        view.clickBlock = { [unowned self] (str) in
+            printerType = str
+        }
+        return view
     }()
-    
-    private let twoLab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(14), .left)
-        lab.text = "Print two copies"
-        return lab
-    }()
-    
-    
-    
+
     
 
     override init(frame: CGRect) {
@@ -233,7 +182,7 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate {
         saveBut.snp.makeConstraints {
             $0.left.equalToSuperview().offset(40)
             $0.right.equalToSuperview().offset(-40)
-            $0.bottom.equalToSuperview().offset(-bottomBarH - 40)
+            $0.bottom.equalToSuperview().offset(-bottomBarH - 15)
             $0.height.equalTo(50)
         }
         
@@ -250,123 +199,42 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate {
             $0.top.equalTo(titlab.snp.bottom).offset(7)
         }
         
-        backView.addSubview(namelab)
-        namelab.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(20)
-            $0.top.equalTo(line.snp.bottom).offset(30)
-        }
         
-        backView.addSubview(sLab1)
-        sLab1.snp.makeConstraints {
-            $0.centerY.equalTo(namelab)
-            $0.left.equalTo(namelab.snp.right)
+        backView.addSubview(nameView)
+        nameView.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(70)
+            $0.top.equalTo(line.snp.bottom).offset(25)
         }
         
         
-        backView.addSubview(iplab)
-        iplab.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(20)
-            $0.top.equalTo(line.snp.bottom).offset(110)
+        backView.addSubview(ipView)
+        ipView.snp.makeConstraints {
+            $0.left.right.height.equalTo(nameView)
+            $0.top.equalTo(nameView.snp.bottom).offset(15)
         }
         
-        backView.addSubview(sLab2)
-        sLab2.snp.makeConstraints {
-            $0.centerY.equalTo(iplab)
-            $0.left.equalTo(iplab.snp.right)
-        }
-
-        
-        backView.addSubview(copieslab)
-        copieslab.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(20)
-            $0.top.equalTo(line.snp.bottom).offset(190)
+        backView.addSubview(copyView)
+        copyView.snp.makeConstraints {
+            $0.left.right.height.equalTo(nameView)
+            $0.top.equalTo(ipView.snp.bottom).offset(15)
         }
         
-        backView.addSubview(sLab3)
-        sLab3.snp.makeConstraints {
-            $0.centerY.equalTo(copieslab)
-            $0.left.equalTo(copieslab.snp.right)
+        backView.addSubview(printTypeView)
+        printTypeView.snp.makeConstraints {
+            $0.left.right.height.equalTo(nameView)
+            $0.top.equalTo(copyView.snp.bottom).offset(15)
         }
         
-        
-        backView.addSubview(tfBack1)
-        tfBack1.snp.makeConstraints {
-            $0.height.equalTo(35)
-            $0.left.equalToSuperview().offset(20)
-            $0.right.equalToSuperview().offset(-20)
-            $0.top.equalTo(namelab.snp.bottom).offset(5)
+        backView.addSubview(printerTypeView)
+        printerTypeView.snp.makeConstraints {
+            $0.left.right.equalTo(nameView)
+            $0.height.equalTo(105)
+            $0.top.equalTo(printTypeView.snp.bottom).offset(15)
         }
-        
-        tfBack1.addSubview(nameTF)
-        nameTF.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(15)
-            $0.right.equalToSuperview().offset(-15)
-            $0.top.bottom.equalToSuperview()
-        }
-        
-        backView.addSubview(tfBack2)
-        tfBack2.snp.makeConstraints {
-            $0.height.equalTo(35)
-            $0.left.equalToSuperview().offset(20)
-            $0.right.equalToSuperview().offset(-20)
-            $0.top.equalTo(iplab.snp.bottom).offset(5)
-        }
-        
-        tfBack2.addSubview(ipTF)
-        ipTF.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(15)
-            $0.right.equalToSuperview().offset(-15)
-            $0.top.bottom.equalToSuperview()
-        }
-        
-        
-        backView.addSubview(oneBut)
-        oneBut.snp.makeConstraints {
-            $0.left.equalToSuperview()
-            $0.top.equalTo(copieslab.snp.bottom).offset(5)
-            $0.width.equalTo(S_W / 2)
-            $0.height.equalTo(40)
-        }
-        
-        backView.addSubview(twoBut)
-        twoBut.snp.makeConstraints {
-            $0.right.equalToSuperview()
-            $0.height.width.top.equalTo(oneBut)
-        }
-        
-        
-        oneBut.addSubview(img1)
-        img1.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(20)
-            $0.centerY.equalToSuperview()
-        }
-        
-        oneBut.addSubview(oneLab)
-        oneLab.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview().offset(40)
-        }
-
-        
-        twoBut.addSubview(img2)
-        img2.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(20)
-            $0.centerY.equalToSuperview()
-        }
-        
-        twoBut.addSubview(twoLab)
-        twoLab.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview().offset(40)
-        }
-
-        
-        
-        self.closeBut.addTarget(self, action: #selector(clickCloseAction), for: .touchUpInside)
-        self.saveBut.addTarget(self, action: #selector(clickSaveAction), for: .touchUpInside)
-        oneBut.addTarget(self, action: #selector(clickOneAction), for: .touchUpInside)
-        twoBut.addTarget(self, action: #selector(clickTwoAction), for: .touchUpInside)
-        
+              
+        closeBut.addTarget(self, action: #selector(clickCloseAction), for: .touchUpInside)
+        saveBut.addTarget(self, action: #selector(clickSaveAction), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -376,36 +244,14 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate {
     
     @objc private func clickCloseAction() {
         self.disAppearAction()
-
      }
-    
-    
-    
-    @objc private func clickOneAction() {
-        if printNum == "1" {
-            printNum = ""
-        } else {
-            printNum = "1"
-        }
-    }
-    
-    
-    @objc private func clickTwoAction() {
         
-        if printNum == "2" {
-            printNum = ""
-        } else {
-            printNum = "2"
-        }
-    }
-    
     @objc private func clickSaveAction() {
-        if nameTF.text != "" && ipTF.text != "" && printNum != "" {
-            if printerID == "" {
-                add_Net()
-            } else {
-                edite_Net()
-            }
+
+        if printerID == "" {
+            add_Net()
+        } else {
+            edite_Net()
         }
     }
     
@@ -481,7 +327,7 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate {
         let height = keyboardRec?.size.height ?? 0
         
         self.backView.snp.updateConstraints {
-            $0.bottom.equalToSuperview().offset(-(height - 115 - 70))
+            $0.bottom.equalToSuperview().offset(-(height - 115 - 200))
         }
     }
     
@@ -492,11 +338,30 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate {
     }
     
     
-    func setData(name: String, ip: String, id: String, copy: String) {
-        printerID = id
-        nameTF.text = name
-        ipTF.text = ip
-        printNum = copy
+    func setData(model: PrinterModel) {
+        printerID = model.printerId
+        status = model.status
+        printerName = model.name
+        printerIP = model.ip
+        printNum = model.printNum
+        printerType = model.printType
+        splitType = model.splitType
+        
+        nameView.inputTF.text = model.name
+        ipView.inputTF.text = model.ip
+        copyView.selectIdx = model.printNum
+        printerTypeView.selectIdx = model.printType
+        
+        var type: String = ""
+        if model.splitType == "2" {
+            type = "1"
+        }
+        if model.splitType == "1" {
+            type = "2"
+        }
+        
+        printTypeView.selectIdx = type
+        
     }
 
     
@@ -504,7 +369,7 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate {
     //MARK: - 网络请求
     private func add_Net() {
         HUD_MB.loading("", onView: backView)
-        HTTPTOOl.addPrinter(name: nameTF.text!, ip: ipTF.text!, printNum: printNum).subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.addPrinter(name: printerName, ip: printerIP, printNum: printNum, splitType: splitType, printType: printerType).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: backView)
             savedBlock?("")
             disAppearAction()
@@ -516,7 +381,7 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate {
     
     private func edite_Net() {
         HUD_MB.loading("", onView: backView)
-        HTTPTOOl.editPrinter(id: printerID, name: nameTF.text!, ip: ipTF.text!, printNum: printNum).subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.editPrinter(id: printerID, name: printerName, ip: printerIP, printNum: printNum, splitType: splitType, printType: printerType, status: status).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: backView)
             savedBlock?("")
             disAppearAction()

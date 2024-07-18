@@ -12,6 +12,7 @@ class CartDishCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSourc
     
     var deleteBlock: VoidBlock?
     var detailBlock: VoidBlock?
+    var editPriceBlock: VoidStringBlock?
 
     private var dataModel = CartDishModel()
     
@@ -101,6 +102,10 @@ class CartDishCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSourc
             cell.clickDeleteBlock = { [unowned self] (_) in
                 deleteBlock?("")
             }
+            cell.editPriceBlock = { [unowned self] (price) in
+                editPriceBlock?(price)
+            }
+            
             cell.setCellData(model: dataModel)
             return cell
         }

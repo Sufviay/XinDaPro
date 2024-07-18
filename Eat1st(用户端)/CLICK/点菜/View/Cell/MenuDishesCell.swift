@@ -424,17 +424,17 @@ class MenuDishesCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionV
             let textW = tagArr[indexPath.item].tagName.getTextWidth(SFONT(11), 14)
                     
             if tagArr[indexPath.item].tagImg == "" {
-                return CGSize(width: textW, height: 14)
+                return CGSize(width: textW + 6, height: 14)
             } else {
                 //从缓存中查找图片
                 let img = SDImageCache.shared.imageFromCache(forKey: tagArr[indexPath.item].tagImg)
 
                 if img == nil {
-                    return CGSize(width: textW, height: 14)
+                    return CGSize(width: textW + 6, height: 14)
                 }
                 //根据图片计算宽度
                 let img_W = (img!.size.width * 14) / img!.size.height
-                return  CGSize(width: img_W + textW + 2 , height: 14)
+                return  CGSize(width: img_W + textW + 2 + 6, height: 14)
             }
         }
         
@@ -544,7 +544,7 @@ class MenuDishesCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionV
         self.newImg.isHidden = !model.isNew
         
         self.goodsImg.sd_setImage(with: URL(string: model.listImg), placeholderImage: HOLDIMG)
-        self.nameLab.text = model.name_E
+        self.nameLab.text = model.name
         self.desLab.text = model.des
         
         
@@ -571,20 +571,35 @@ class DishTagCell: UICollectionViewCell {
         return lab
     }()
     
+    private let backView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 2
+        return view
+    }()
+    
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        contentView.addSubview(nameLab)
+        //contentView.backgroundColor = .white
+        
+        contentView.addSubview(backView)
+        backView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        backView.addSubview(nameLab)
         nameLab.snp.makeConstraints {
-            $0.right.equalToSuperview()
+            $0.right.equalToSuperview().offset(-3)
             $0.top.bottom.equalToSuperview()
         }
 
         
-        contentView.addSubview(sImg)
+        backView.addSubview(sImg)
         sImg.snp.makeConstraints {
-            $0.top.bottom.left.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
+            $0.left.equalToSuperview().offset(3)
         }
         
     }
@@ -600,7 +615,8 @@ class DishTagCell: UICollectionViewCell {
             
             let img_w = (img!.size.width * 14) / img!.size.height
             sImg.snp.remakeConstraints {
-                $0.top.bottom.left.equalToSuperview()
+                $0.left.equalToSuperview().offset(3)
+                $0.top.bottom.equalToSuperview()
                 $0.width.equalTo(img_w)
             }
         }
@@ -634,7 +650,7 @@ class BuyOneGiveOneTagCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+                
         contentView.addSubview(backImg)
         backImg.snp.makeConstraints {
             $0.edges.equalToSuperview()

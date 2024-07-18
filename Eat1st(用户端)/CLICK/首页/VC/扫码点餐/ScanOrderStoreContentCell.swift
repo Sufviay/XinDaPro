@@ -108,12 +108,23 @@ class ScanOrderStoreContentCell: BaseTableViewCell, UITableViewDelegate, UITable
             let cell = tableView.dequeueReusableCell(withIdentifier: "MenuDiscountCell") as! MenuDiscountCell
             cell.setCellData(model: storeInfo)
             
-            cell.clickBlock = { [unowned self] (_) in
+            cell.clickRedeemBlock = { [unowned self] (_) in
                 if PJCUtil.checkLoginStatus() {
                     //MARK: - 积分兑换优惠券
                     let nextVC = ExchangeJiFenController()
                     nextVC.storeID = storeInfo.storeID
                     nextVC.storeName = storeInfo.name
+                    PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
+                }
+            }
+            
+            cell.clickOccupyBlock = { [unowned self] (_) in
+                if PJCUtil.checkLoginStatus() {
+                    //MARK: - 预约
+                    let nextVC = OccupyController()
+                    nextVC.storeID = storeInfo.storeID
+                    nextVC.storeName = storeInfo.name
+                    nextVC.storeDes = storeInfo.des
                     PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
                 }
             }

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -130,6 +130,9 @@
 		E366ADE5284740E000295039 /* StatisticalBottomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E366ADE4284740E000295039 /* StatisticalBottomCell.swift */; };
 		E366ADE82847547400295039 /* ReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E366ADE72847547400295039 /* ReportModel.swift */; };
 		E36A956B284798610037E4E6 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36A956A284798610037E4E6 /* CalendarView.swift */; };
+		E36B20142C1BE09B000839BE /* SelectBut.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B20132C1BE09B000839BE /* SelectBut.swift */; };
+		E36B20162C1BE4FD000839BE /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B20152C1BE4FD000839BE /* InputView.swift */; };
+		E36B20182C1D72E2000839BE /* EditeBaleTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B20172C1D72E2000839BE /* EditeBaleTypeView.swift */; };
 		E371542728B32C360077315D /* StatisticalOrderNumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E371542628B32C360077315D /* StatisticalOrderNumCell.swift */; };
 		E372C65D28A501AB0046DC55 /* EditeKuCunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E372C65C28A501AB0046DC55 /* EditeKuCunView.swift */; };
 		E372C65F28A5E5F80046DC55 /* DishKuCunEditeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E372C65E28A5E5F80046DC55 /* DishKuCunEditeCell.swift */; };
@@ -376,6 +379,9 @@
 		E366ADE4284740E000295039 /* StatisticalBottomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticalBottomCell.swift; sourceTree = "<group>"; };
 		E366ADE72847547400295039 /* ReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportModel.swift; sourceTree = "<group>"; };
 		E36A956A284798610037E4E6 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		E36B20132C1BE09B000839BE /* SelectBut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectBut.swift; sourceTree = "<group>"; };
+		E36B20152C1BE4FD000839BE /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
+		E36B20172C1D72E2000839BE /* EditeBaleTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditeBaleTypeView.swift; sourceTree = "<group>"; };
 		E371542628B32C360077315D /* StatisticalOrderNumCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticalOrderNumCell.swift; sourceTree = "<group>"; };
 		E372C65C28A501AB0046DC55 /* EditeKuCunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditeKuCunView.swift; sourceTree = "<group>"; };
 		E372C65E28A5E5F80046DC55 /* DishKuCunEditeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishKuCunEditeCell.swift; sourceTree = "<group>"; };
@@ -750,6 +756,8 @@
 				E326D9F92ADFBF440060C0BE /* PrinterInfoCell.swift */,
 				E326D9FB2ADFC4020060C0BE /* PrinterModel.swift */,
 				E326D9FD2ADFC91B0060C0BE /* EditPrintAlert.swift */,
+				E36B20132C1BE09B000839BE /* SelectBut.swift */,
+				E36B20152C1BE4FD000839BE /* InputView.swift */,
 			);
 			path = "打印机设置";
 			sourceTree = "<group>";
@@ -1089,6 +1097,7 @@
 				E3F829E12861B327005E5FAB /* EditeClassifyView.swift */,
 				E372C65C28A501AB0046DC55 /* EditeKuCunView.swift */,
 				E32B488C2B2803C600B0F64C /* EditeFreeOneView.swift */,
+				E36B20172C1D72E2000839BE /* EditeBaleTypeView.swift */,
 				E326BC222AAF06A800E138CF /* EditPriceView.swift */,
 				E31790D628CA2DE3007BA6B9 /* EditDiscountView.swift */,
 				E37C18C22A0BAA4700D7C39D /* DiscountSelectDateView.swift */,
@@ -1648,6 +1657,7 @@
 				E3F82A062865658D005E5FAB /* DishEditeTagCell.swift in Sources */,
 				E305E8FA26DF133D00AAB580 /* PJCUtil.swift in Sources */,
 				E36570C02A9DD22C0020BD35 /* ComplaintsDealRefundCell.swift in Sources */,
+				E36B20142C1BE09B000839BE /* SelectBut.swift in Sources */,
 				E337296C28B64FE100A06AB7 /* StatisticalUnfulfilledDateCell.swift in Sources */,
 				E3F82A0028654DC6005E5FAB /* MenuDishEditeController.swift in Sources */,
 				E3AFB4C32856DA63005847AE /* MenuItemBottonCell.swift in Sources */,
@@ -1690,6 +1700,7 @@
 				E3F829FC28644C83005E5FAB /* DishDetailSpecNameCell.swift in Sources */,
 				E305E8E526DF133D00AAB580 /* LTCollectionFlowLayout.swift in Sources */,
 				E34C881D293B40C200A24F4D /* StatisticalFeeCell.swift in Sources */,
+				E36B20162C1BE4FD000839BE /* InputView.swift in Sources */,
 				E305E8EF26DF133D00AAB580 /* Extension.swift in Sources */,
 				E37C18C52A1A426300D7C39D /* MenuDishComboDetailController.swift in Sources */,
 				E3F829DE28619172005E5FAB /* MenuDishCell.swift in Sources */,
@@ -1765,6 +1776,7 @@
 				E305E8BB26DF133000AAB580 /* GestureTableView.swift in Sources */,
 				E34E6E082A84CFB200DBC2A5 /* MessageController.swift in Sources */,
 				E305E8FF26DF134900AAB580 /* ApiManager.swift in Sources */,
+				E36B20182C1D72E2000839BE /* EditeBaleTypeView.swift in Sources */,
 				E326D9FA2ADFBF440060C0BE /* PrinterInfoCell.swift in Sources */,
 				E3DF13AF2844C0B8007FCC11 /* StatisticalDataCell.swift in Sources */,
 				E36570BA2A9C811D0020BD35 /* ComplaintsReplyController.swift in Sources */,
@@ -1986,7 +1998,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.31;
+				MARKETING_VERSION = 1.0.33;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app-Boss";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "CLICK_S/CLICK_S-Bridging-Header.h";
@@ -2016,7 +2028,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.31;
+				MARKETING_VERSION = 1.0.33;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app-Boss";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = boss_dis;

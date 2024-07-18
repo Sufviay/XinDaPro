@@ -7,8 +7,10 @@
 
 import UIKit
 import GooglePlaces
+import CoreLocation
 
-class LocationController: BaseViewController, CLLocationManagerDelegate {
+
+class LocationController: BaseViewController {
 
 
     private let backImg: UIImageView = {
@@ -69,7 +71,8 @@ class LocationController: BaseViewController, CLLocationManagerDelegate {
     private let titLab: UILabel = {
         let lab = UILabel()
         lab.numberOfLines = 0
-        let tempStr = "Let us use your location to show you\ngreat food places nearby"
+        let tempStr = "Please turn on location service to\nget information about nearby stores"
+                    //"Let us use your location to show you\ngreat food places nearby"
         lab.attributedText = tempStr.attributedString(font: SFONT(15), textColor: FONTCOLOR, lineSpaceing: 10, wordSpaceing: 0)
         lab.textAlignment = .center
         return lab
@@ -78,15 +81,27 @@ class LocationController: BaseViewController, CLLocationManagerDelegate {
     
     private let useLocationBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Use my location", .white, SFONT(15), MAINCOLOR)
+        but.setCommentStyle(.zero, "Continue", .white, SFONT(15), MAINCOLOR)
         but.layer.cornerRadius = 45 / 2
         return but
     }()
     
     private let usePostCodeBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "No Thanks, use a postcode", HCOLOR("#144DDE"), SFONT(14), .clear)
+        but.isHidden = true
+        but.setCommentStyle(.zero, "Manual selection", HCOLOR("#144DDE"), SFONT(14), .clear)
         return but
+    }()
+    
+    
+    private lazy var notAllowAlert: LocationAlert = {
+        let view = LocationAlert()
+        
+        view.clickShouDongBlock = { [unowned self] (_) in
+            clickPostCodeAction()
+        }
+        
+        return view
     }()
     
     
@@ -96,7 +111,6 @@ class LocationController: BaseViewController, CLLocationManagerDelegate {
     
     override func setViews() {
         setUpUI()
-        
         
     }
     
@@ -195,7 +209,7 @@ class LocationController: BaseViewController, CLLocationManagerDelegate {
     
     
     @objc private func clickLocationAction() {
-
+        
         //定位
         SearchPlaceManager.shared.doLocationCurrentPlace { [unowned self] (placeArr) in
             DispatchQueue.main.async {
@@ -204,14 +218,30 @@ class LocationController: BaseViewController, CLLocationManagerDelegate {
                 nextVC.placeArr = placeArr
                 
                 nextVC.selectedBlock = { [unowned self] (_) in
-                    
                     self.navigationController?.setViewControllers([FirstController()], animated: true)
-
                 }
                 
                 self.navigationController?.pushViewController(nextVC, animated: true)
             }
+        } notAllow: { [unowned self] in
+            
+            notAllowAlert.appearAction()
+            
+            print("aaaaaaaaaaa")
+        } error: { [unowned self] (model) in
+            
+            HUD_MB.showError("Failed to obtain the location information. Check the network. The default address will be used.", onView: view)
+            
+            UserDefaults.standard.address = model.address
+            UserDefaults.standard.postCode = model.postCode
+            UserDefaults.standard.local_lng = model.lng
+            UserDefaults.standard.local_lat = model.lat
+            DispatchQueue.main.after(time: .now() + 1.5, block: {
+                self.navigationController?.setViewControllers([FirstController()], animated: true)
+            })
         }
+        
+
     }
 
  
@@ -230,4 +260,5 @@ class LocationController: BaseViewController, CLLocationManagerDelegate {
             }
         }
     }
+
 }

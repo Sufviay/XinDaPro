@@ -18,6 +18,10 @@ class PrinterModel: NSObject {
     ///启用禁用状态 1启用 2禁用
     var status: String = ""
     var remark: String = ""
+    ///打印机类型（1热敏，2针式）
+    var printType: String = ""
+    ///分开打印（1否，2是）
+    var splitType: String = ""
     
     func updateModel(json: JSON) {
         
@@ -27,6 +31,9 @@ class PrinterModel: NSObject {
         printNum = json["printNum"].stringValue
         status = json["status"].stringValue
         remark = json["remark"].stringValue
+        
+        splitType = json["splitType"].stringValue
+        printType = json["printType"].stringValue
         
     }
     

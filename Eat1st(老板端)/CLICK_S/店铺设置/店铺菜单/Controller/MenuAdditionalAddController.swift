@@ -61,6 +61,7 @@ class MenuAdditionalAddController: HeadBaseViewController, UITableViewDelegate, 
         tableView.register(DishEditePriceInPutCell.self, forCellReuseIdentifier: "DishEditePriceInPutCell")
         tableView.register(PriceDesCell.self, forCellReuseIdentifier: "PriceDesCell")
         tableView.register(DishEditeClassifyCell.self, forCellReuseIdentifier: "DishEditeClassifyCell")
+        tableView.register(DishEditeChooseCell.self, forCellReuseIdentifier: "DishEditeChooseCell")
 
         return tableView
         
@@ -154,7 +155,7 @@ class MenuAdditionalAddController: HeadBaseViewController, UITableViewDelegate, 
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 7
+        return 8
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -165,11 +166,16 @@ class MenuAdditionalAddController: HeadBaseViewController, UITableViewDelegate, 
         if indexPath.row == 4 {
             return 80
         }
-        if indexPath.row == 5 {
-            return 55
+        
+        if indexPath.row ==  5 {
+            return 90
         }
         
         if indexPath.row == 6 {
+            return 55
+        }
+        
+        if indexPath.row == 7 {
             return 80
         }
         
@@ -222,11 +228,21 @@ class MenuAdditionalAddController: HeadBaseViewController, UITableViewDelegate, 
         }
         
         if indexPath.row == 5 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PriceDesCell") as! PriceDesCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell") as! DishEditeChooseCell
+            cell.setCellData(titStr: "Dishes kind", l_str: "Food", r_Str: "Drink", statusID: dataModel.dishesKind)
+            cell.selectBlock = { [unowned self] (status) in
+                dataModel.dishesKind = status
+                tableView.reloadData()
+            }
             return cell
         }
         
         if indexPath.row == 6 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PriceDesCell") as! PriceDesCell
+            return cell
+        }
+        
+        if indexPath.row == 7 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeClassifyCell") as! DishEditeClassifyCell
             let str = PJCUtil.getCurrentLanguage() == "en_GB" ? dataModel.classifyNameEn : dataModel.classifyNameHk
             cell.setCellData(c_msg: str)

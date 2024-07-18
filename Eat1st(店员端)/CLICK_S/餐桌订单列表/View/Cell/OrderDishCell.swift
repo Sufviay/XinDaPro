@@ -10,6 +10,8 @@ import UIKit
 class OrderDishCell: BaseTableViewCell, UITableViewDataSource, UITableViewDelegate {
 
     
+    var deleteBlock: VoidStringBlock?
+    
     private var dataModel = OrderDishModel()
     
     private lazy var table: UITableView = {
@@ -17,7 +19,7 @@ class OrderDishCell: BaseTableViewCell, UITableViewDataSource, UITableViewDelega
         tableView.backgroundColor = .white
         //去掉单元格的线
         tableView.separatorStyle = .none
-        tableView.showsVerticalScrollIndicator =  false
+        tableView.isScrollEnabled = false
         tableView.estimatedRowHeight = 0
         tableView.estimatedSectionFooterHeight = 0
         tableView.estimatedSectionHeaderHeight = 0
@@ -100,6 +102,12 @@ class OrderDishCell: BaseTableViewCell, UITableViewDataSource, UITableViewDelega
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderDishInfoCell") as! OrderDishInfoCell
             cell.setCellData(model: dataModel)
+            
+            cell.clickDeleteBlock = { [unowned self] _ in
+                //删除
+                deleteBlock?(dataModel.orderDishesId)
+            }
+            
             return cell
         }
         if indexPath.section == 1 {
@@ -115,6 +123,11 @@ class OrderDishCell: BaseTableViewCell, UITableViewDataSource, UITableViewDelega
         if indexPath.section == 3 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderDishAttatchItemCell") as! OrderDishAttatchItemCell
             cell.setCellData(model: dataModel.attachList[indexPath.row])
+            
+            cell.clickDeleteBlock = { [unowned self] _ in
+                //删除
+                deleteBlock?(dataModel.attachList[indexPath.row].id)
+            }
             return cell
         }
         

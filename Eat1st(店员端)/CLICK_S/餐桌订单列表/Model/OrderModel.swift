@@ -16,7 +16,7 @@ class OrderModel: NSObject {
     ///订单渠道（1用户下单、2商家赠送、3商家下单）[...]
     var orderType: String = ""
     /// 支付方式（-1未选择，1现金，2卡，3POS，4现金&POS）[...]
-    var payType: String = ""
+    //var payType: String = ""
     ///订单状态（8支付成功,9已接单,10已出餐,12配送中）[...]
     var status: String = ""
     ///订单支付金额[...]
@@ -27,7 +27,10 @@ class OrderModel: NSObject {
     var createTime: String = ""
     ///支付时间[...]
     var payTime: String = ""
-    
+    ///是否自己下的订单 1否 2是
+    var isSelf: Bool = false
+    ///下单账号
+    var orderAccount: String = ""
 
     
     var isShow: Bool = false
@@ -39,12 +42,16 @@ class OrderModel: NSObject {
         orderId = json["orderId"].stringValue
         orderDayNum = json["orderDayNum"].stringValue
         orderType = json["orderType"].stringValue
-        payType = json["payType"].stringValue
+        //payType = json["payType"].stringValue
         status = json["status"].stringValue
         payPrice = json["payPrice"].doubleValue
         orderPrice = json["orderPrice"].doubleValue
         createTime = json["createTime"].stringValue
         payTime = json["payTime"].stringValue
+        
+        orderAccount = json["orderAccount"].stringValue
+        isSelf = json["self"].stringValue == "1" ? false : true
+        
         
     }
     

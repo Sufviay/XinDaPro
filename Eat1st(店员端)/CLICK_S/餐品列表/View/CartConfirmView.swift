@@ -61,7 +61,7 @@ class CartConfirmView: UIView {
         
         backgroundColor = .white
         
-        cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: bottomBarH + 65), byRoundingCorners: [.topLeft, .topRight], radii: 20)
+//        cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: bottomBarH + 65), byRoundingCorners: [.topLeft, .topRight], radii: 20)
         
 
         addSubview(confirmBut)

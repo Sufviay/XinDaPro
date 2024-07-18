@@ -9,6 +9,9 @@ import UIKit
 
 class DishCell: BaseTableViewCell {
 
+    
+    var clickDetailBlock: VoidBlock?
+    
     private let backView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -42,14 +45,14 @@ class DishCell: BaseTableViewCell {
     
     private let moneyLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#DF1936"), BFONT(15), .right)
+        lab.setCommentStyle(HCOLOR("#DF1936"), BFONT(17), .right)
         lab.text = "£123.95"
         return lab
     }()
     
     private let nameLab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#000000"), BFONT(15), .left)
+        lab.setCommentStyle(HCOLOR("#000000"), BFONT(17), .left)
         lab.numberOfLines = 0
         lab.text = "Spring Rolls - Chicken"
         return lab
@@ -58,11 +61,23 @@ class DishCell: BaseTableViewCell {
     
     private let nameLab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#888888"), SFONT(15), .left)
+        lab.setCommentStyle(HCOLOR("#888888"), SFONT(17), .left)
         lab.numberOfLines = 0
         lab.text = "雞肉春卷"
         return lab
     }()
+    
+    
+    private let detailBut: UIButton = {
+        let but = UIButton()
+        but.setCommentStyle(.zero, "Show Detail", .black, BFONT(12), MAINCOLOR)
+        but.clipsToBounds = true
+        but.layer.cornerRadius = 7
+        return but
+    }()
+    
+    
+    
     
     
     
@@ -89,9 +104,9 @@ class DishCell: BaseTableViewCell {
         
         backView.addSubview(giveOneImg)
         giveOneImg.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 87, height: 15))
+            $0.size.equalTo(CGSize(width: 87, height: 16))
             $0.left.equalToSuperview().offset(83)
-            $0.centerY.equalTo(dishIDLab)
+            $0.top.equalToSuperview().offset(15)
         }
         
         backView.addSubview(moneyLab)
@@ -103,17 +118,29 @@ class DishCell: BaseTableViewCell {
         backView.addSubview(nameLab1)
         nameLab1.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
-            $0.top.equalToSuperview().offset(35)
+            $0.top.equalToSuperview().offset(40)
             $0.right.equalToSuperview().offset(-100)
         }
         
         backView.addSubview(nameLab2)
         nameLab2.snp.makeConstraints {
             $0.left.right.equalTo(nameLab1)
-            $0.top.equalTo(nameLab1.snp.bottom).offset(3)
+            $0.top.equalTo(nameLab1.snp.bottom).offset(2)
         }
-
         
+        backView.addSubview(detailBut)
+        detailBut.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 105, height: 30))
+            $0.right.equalToSuperview().offset(-15)
+            $0.bottom.equalToSuperview().offset(-12)
+        }
+        
+        detailBut.addTarget(self, action: #selector(clickDetailBut), for: .touchUpInside)
+        
+    }
+    
+    @objc private func clickDetailBut() {
+        clickDetailBlock?("")
     }
     
     
@@ -124,6 +151,7 @@ class DishCell: BaseTableViewCell {
         } else {
             giveOneImg.isHidden = true
         }
+        
         
         nameLab1.text = HTMLSTR(model.dishesNameEn)
         nameLab2.text = HTMLSTR(model.dishesNameHk)

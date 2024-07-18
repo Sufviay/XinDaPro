@@ -11,6 +11,10 @@ class StoreFirstPageButCell: BaseTableViewCell {
 
     private var dataModel = StoreInfoModel()
     
+    private var isDine: Bool = false
+    
+    var clickBlock: VoidStringBlock?
+    
     private let plCountLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("999999"), SFONT(13), .left)
@@ -43,6 +47,17 @@ class StoreFirstPageButCell: BaseTableViewCell {
         return but
     }()
     
+    
+    private let bookingBut: UIButton = {
+        let but = UIButton()
+        but.backgroundColor = HCOLOR("#F5F5F5")
+        //but.setCommentStyle(.zero, "Orders", .white, BFONT(14), MAINCOLOR)
+        but.layer.cornerRadius = 10
+        but.isHidden = true
+        return but
+    }()
+
+    
     private let deImg: UIImageView = {
         let img = UIImageView()
         img.image = LOIMG("store_wm")
@@ -52,7 +67,7 @@ class StoreFirstPageButCell: BaseTableViewCell {
     private let deLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("333333"), BFONT(15), .center)
-        lab.text = "Delivery".localized
+        lab.text = "Delivery"
         return lab
     }()
     
@@ -83,6 +98,20 @@ class StoreFirstPageButCell: BaseTableViewCell {
         return lab
     }()
     
+    
+    private let bookingImg: UIImageView = {
+        let img = UIImageView()
+        img.image = LOIMG("book")
+        return img
+    }()
+    
+    private let bookingLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("333333"), BFONT(15), .center)
+        lab.text = "Booking"
+        return lab
+    }()
+    
 
     
     override func setViews() {
@@ -90,27 +119,35 @@ class StoreFirstPageButCell: BaseTableViewCell {
         
         contentView.addSubview(deBut)
         deBut.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(25)
+            $0.left.equalToSuperview().offset(R_W(25))
             $0.height.equalTo(105)
-            $0.top.equalToSuperview().offset(15)
-            $0.right.equalTo(contentView.snp.centerX).offset(-10)
+            $0.top.equalToSuperview().offset(10)
+            $0.right.equalTo(contentView.snp.centerX).offset(-5)
         }
         
         contentView.addSubview(coBut)
         coBut.snp.makeConstraints {
-            $0.right.equalToSuperview().offset(-25)
+            $0.right.equalToSuperview().offset(-R_W(25))
             $0.height.equalTo(100)
             $0.top.equalTo(deBut)
-            $0.left.equalTo(contentView.snp.centerX).offset(10)
+            $0.left.equalTo(contentView.snp.centerX).offset(5)
         }
 
         
         contentView.addSubview(orderBut)
         orderBut.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(25)
-            $0.right.equalToSuperview().offset(-25)
+            $0.left.equalToSuperview().offset(R_W(25))
+            $0.right.equalToSuperview().offset(-R_W(25))
             $0.height.equalTo(55)
-            $0.top.equalTo(coBut.snp.bottom).offset(20)
+            $0.top.equalTo(coBut.snp.bottom).offset(10)
+        }
+        
+        
+        contentView.addSubview(bookingBut)
+        bookingBut.snp.makeConstraints {
+            $0.size.equalTo(orderBut)
+            $0.top.equalTo(orderBut.snp.bottom).offset(10)
+            $0.centerX.equalToSuperview()
         }
 
 
@@ -154,11 +191,25 @@ class StoreFirstPageButCell: BaseTableViewCell {
             $0.left.equalTo(orderImg.snp.right).offset(10)
         }
         
+        
+        bookingBut.addSubview(bookingImg)
+        bookingImg.snp.makeConstraints {
+            $0.right.equalTo(bookingBut.snp.centerX).offset(-20)
+            $0.size.equalTo(CGSize(width: 30, height: 30))
+            $0.centerY.equalToSuperview()
+        }
+
+        bookingBut.addSubview(bookingLab)
+        bookingLab.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalTo(bookingImg.snp.right).offset(10)
+        }
+        
 
         orderBut.addTarget(self, action: #selector(clickOrderAction), for: .touchUpInside)
         deBut.addTarget(self, action: #selector(clickDeAction), for: .touchUpInside)
         coBut.addTarget(self, action: #selector(clickCoAction), for: .touchUpInside)
-
+        //bookingBut.addTarget(self, action: #selector(clickBookingAction), for: .touchUpInside)
     }
     
     
@@ -179,12 +230,61 @@ class StoreFirstPageButCell: BaseTableViewCell {
     }
     
     @objc private func clickOrderAction()  {
-        let nextVC =  OrderListController()
-        PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
+        if isDine {
+            clickBlock?("dinein")
+        } else {
+            clickBlock?("order")
+        }    
     }
     
-    func setCellData(data: StoreInfoModel) {
+    
+//    @objc private func clickBookingAction() {
+//        //预定
+//        let nextVC = OccupyController()
+//        nextVC.storeID = dataModel.storeID
+//        nextVC.storeName = dataModel.name
+//        nextVC.storeDes = dataModel.des
+//        PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
+//        
+//    }
+    
+    func setCellData(data: StoreInfoModel, isDinein : Bool, typeArr: [String]) {
+        
+        ///1外卖，2自取，3堂食
         self.dataModel = data
+        isDine = isDinein
+        if isDinein {
+            orderLab.text = "Dine-in"
+            //bookingBut.isHidden = false
+        } else {
+            orderLab.text = "Orders"
+            //bookingBut.isHidden = true
+        }
+        
+        if typeArr.contains("1") {
+            //可以外卖
+            deBut.isUserInteractionEnabled = true
+            deImg.image = LOIMG("store_wm")
+            deLab.textColor = HCOLOR("333333")
+        } else {
+            //不可外卖
+            deBut.isUserInteractionEnabled = false
+            deImg.image = LOIMG("store_wm_nusel")
+            deLab.textColor = HCOLOR("999999")
+        }
+        
+        if typeArr.contains("2") {
+            //可以自取
+            coBut.isUserInteractionEnabled = true
+            coImg.image = LOIMG("store_zq")
+            coLab.textColor = HCOLOR("333333")
+        } else {
+            //不可自取
+            coBut.isUserInteractionEnabled = false
+            coImg.image = LOIMG("store_zq_nusel")
+            coLab.textColor = HCOLOR("999999")
+        }
+        
     }
     
 

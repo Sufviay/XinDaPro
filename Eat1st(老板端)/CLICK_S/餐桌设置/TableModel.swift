@@ -16,10 +16,14 @@ class TableModel: NSObject {
     ///餐桌状态（1启用，2禁用）
     var status: String = ""
     
+    var dinersNum: String = ""
+    
     func updateModel(json: JSON) {
         deskId = json["deskId"].stringValue
         deskName = json["deskName"].stringValue
         status = json["status"].stringValue
+        
+        dinersNum = json["dinersNum"].stringValue
     }
     
 }

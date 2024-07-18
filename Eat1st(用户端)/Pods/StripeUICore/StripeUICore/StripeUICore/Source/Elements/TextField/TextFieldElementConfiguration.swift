@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+@_spi(STP) import StripeCore
 
 /**
  Contains the business logic for a TextField.
@@ -21,7 +22,6 @@ import UIKit
      Defaults to `label`
      */
     var accessibilityLabel: String { get }
-    var placeholderShouldFloat: Bool { get }
     var shouldShowClearButton: Bool { get }
     var disallowedCharacters: CharacterSet { get }
     /**
@@ -75,7 +75,7 @@ import UIKit
     /**
      Convenience method that creates a TextFieldElement using this Configuration
     */
-    func makeElement() -> TextFieldElement
+    func makeElement(theme: ElementsUITheme) -> TextFieldElement
 }
 
 // MARK: - Default implementation
@@ -96,11 +96,7 @@ public extension TextFieldElementConfiguration {
     var defaultValue: String? {
         return nil
     }
-    
-    var placeholderShouldFloat: Bool {
-        return true
-    }
-    
+
     // Hide clear button by default
     var shouldShowClearButton: Bool {
         return false
@@ -115,7 +111,7 @@ public extension TextFieldElementConfiguration {
     }
     
     func validate(text: String, isOptional: Bool) -> TextFieldElement.ValidationState {
-        if text.isEmpty {
+        if text.stp_stringByRemovingCharacters(from: .whitespacesAndNewlines).isEmpty {
             return isOptional ? .valid : .invalid(TextFieldElement.Error.empty)
         }
         return .valid
@@ -133,7 +129,7 @@ public extension TextFieldElementConfiguration {
         return nil
     }
     
-    func makeElement() -> TextFieldElement {
-       return TextFieldElement(configuration: self)
+    func makeElement(theme: ElementsUITheme) -> TextFieldElement {
+        return TextFieldElement(configuration: self, theme: theme)
     }
 }

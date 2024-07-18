@@ -26,9 +26,7 @@ class StoreMenuOrderController: BaseViewController, UITableViewDataSource, UITab
     
     ///购物车的数据模型
     private var cartModel = CartDataModel()
-    //private var cart_dataModelArr: [CartDishModel] = []
-    
-    
+        
     ///tableview是否可以滑动
     private var canScroll: Bool = true
     
@@ -136,6 +134,7 @@ class StoreMenuOrderController: BaseViewController, UITableViewDataSource, UITab
     
         
     override func setNavi() {
+        getJiFen_Net()
     }
     
     override func setViews() {
@@ -184,7 +183,6 @@ class StoreMenuOrderController: BaseViewController, UITableViewDataSource, UITab
     
     deinit {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("cartRefresh"), object: nil)
-//        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("wallet"), object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("login"), object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("botTable"), object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("classify"), object: nil)
@@ -250,7 +248,8 @@ extension StoreMenuOrderController {
                 self.mainTable.reloadSections([0], with: .none)
                 if UserDefaults.standard.isLogin {
                     HUD_MB.loading("", onView: view)
-                    self.loadCartData_Net()
+                    loadCartData_Net()
+                    //loadData_Net()
                 }
             }
             
@@ -264,7 +263,6 @@ extension StoreMenuOrderController {
                 self.menuInfo.curTimeIdx = idx as! Int
                 self.menuInfo.classifyIdx = 0
                 self.menuInfo.isChangeSelectTime = true
-                //self.menuInfo.pageDataArr = self.menuInfo.openTimeArr[idx as! Int].dataArr
                 ///刷新午餐晚餐的列表
                 self.mainTable.reloadData()
                 
@@ -278,7 +276,7 @@ extension StoreMenuOrderController {
 
         if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MenuContentCell") as! MenuContentCell
-            cell.setCellData(model: menuInfo, deskID: "")
+            cell.setCellData(model: menuInfo, isHaveVip: storeInfo.isVip)
             
             //弹出购物车
             cell.showCartBlock = { [unowned self] (_) in
@@ -315,29 +313,50 @@ extension StoreMenuOrderController {
 
 extension StoreMenuOrderController {
     
-    //MARK: - 请求是否有首单优惠
-    private func loadStoreDetailFirstDiscount_Net() {
+    
+    //获取积分
+    private func getJiFen_Net() {
         if UserDefaults.standard.isLogin {
-            HTTPTOOl.getStoreDetailFirstDiscount(storeID: storeID).subscribe(onNext: { [unowned self] json in
-                self.storeInfo.isFirstDiscount = json["data"]["firstType"].stringValue == "2" ? true : false
-                self.mainTable.reloadSections([1], with: .none)
-
+            HTTPTOOl.getJiFenCount().subscribe(onNext: {[unowned self] (json) in
+                //积分
+                let jfStr = json["data"]["pointsNum"].stringValue
+                headerView.setData(amount: jfStr)
+            }, onError: {[unowned self] _ in
+                headerView.setData(amount: "0")
             }).disposed(by: self.bag)
+        } else {
+            headerView.setData(amount: "0")
         }
+    }
 
+
+    //MARK: - 请求是否有首单优惠和用户的Vip
+    private func loadFirstDiscountAndVip_Net() {
+        if UserDefaults.standard.isLogin {
+            HTTPTOOl.getUserVip(storeID: storeID).subscribe(onNext: { [unowned self] (json1) in
+                storeInfo.isVip = json1["data"]["vipType"].stringValue == "2" ? true: false
+                storeInfo.vipAmount = D_2_STR(json1["data"]["amount"].doubleValue) 
+                cartView.isVip = storeInfo.isVip
+                HTTPTOOl.getStoreDetailFirstDiscount(storeID: storeID).subscribe(onNext: { [unowned self] json1 in
+                    storeInfo.isFirstDiscount = json1["data"]["firstType"].stringValue == "2" ? true : false
+                    storeInfo.updateStoreInfo_H()
+                    mainTable.reloadData()
+                }).disposed(by: self.bag)
+            }).disposed(by: bag)
+        }
     }
     
     
     //MARK: - 请求店铺详情
     private func loadStoreDetail_Net() {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.Store_MainPageData(storeID: storeID, type: "").subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.Store_MainPageData(storeID: storeID).subscribe(onNext: { [unowned self] (json) in
             
             self.storeInfo.updateModel(json: json["data"])
+            //是否有首单优惠
+            self.loadFirstDiscountAndVip_Net()
             //请求菜品信息
             self.loadData_Net()
-            //是否有首单优惠
-            self.loadStoreDetailFirstDiscount_Net()
 
         }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
@@ -350,7 +369,7 @@ extension StoreMenuOrderController {
     private func loadData_Net() {
         
         ///获取所有分类和所有菜品
-        HTTPTOOl.getClassifyAndDishesList(storeID: storeID, deskID: "").subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.getClassifyAndDishesList(storeID: storeID, deliveryType: "").subscribe(onNext: { [unowned self] (json) in
 
             ///初始化菜单页面的数据
             self.menuInfo.updateModel(json: json)
@@ -361,7 +380,7 @@ extension StoreMenuOrderController {
                 self.loadCartData_Net()
             } else {
                 
-                self.b_view.setValue(dishMoney: "0", buyCount: 0, discountType: "2", discountMoney: "0", deliveryFee: "0", minOrder: D_2_STR(self.storeInfo.minOrder), type: "9")
+                self.b_view.setValue(dishMoney: "0", buyCount: 0, discountType: "2", discountMoney: "0", minOrder: D_2_STR(self.storeInfo.minOrder), type: "9")
                 self.b_view.isHidden = false
                 self.mainTable.isHidden = false
                 HUD_MB.dissmiss(onView: self.view)
@@ -389,7 +408,7 @@ extension StoreMenuOrderController {
             self.menuInfo.dealWithMenuDishesByCartData(cart_arr: self.cartModel.dishesList)
                         
             ///更新底部购物车栏
-            self.b_view.setValue(dishMoney: D_2_STR(self.cartModel.allPrice), buyCount: self.cartModel.dishesNum, discountType: self.cartModel.discountType, discountMoney: D_2_STR(self.cartModel.discountAmount), deliveryFee: D_2_STR(self.storeInfo.minDelivery), minOrder: D_2_STR(self.storeInfo.minOrder), type: self.cartModel.deliveryType)
+            self.b_view.setValue(dishMoney: D_2_STR(self.cartModel.allPrice), buyCount: self.cartModel.dishesNum, discountType: self.cartModel.discountType, discountMoney: D_2_STR(self.cartModel.discountAmount), minOrder: D_2_STR(self.storeInfo.minOrder), type: self.cartModel.deliveryType)
 
             self.b_view.isHidden = false
             self.mainTable.isHidden = false
@@ -465,7 +484,7 @@ extension StoreMenuOrderController {
             ///赋值购物车弹窗
             cartView.cartDataArr = self.cartModel.dishesList
             ///更新底部购物车栏
-            b_view.setValue(dishMoney: D_2_STR(self.cartModel.allPrice), buyCount: self.cartModel.dishesNum, discountType: self.cartModel.discountType, discountMoney: D_2_STR(self.cartModel.discountAmount), deliveryFee: D_2_STR(self.storeInfo.minDelivery), minOrder: D_2_STR(self.storeInfo.minOrder), type: self.cartModel.deliveryType)
+            b_view.setValue(dishMoney: D_2_STR(self.cartModel.allPrice), buyCount: self.cartModel.dishesNum, discountType: self.cartModel.discountType, discountMoney: D_2_STR(self.cartModel.discountAmount), minOrder: D_2_STR(self.storeInfo.minOrder), type: self.cartModel.deliveryType)
             
         } else {
             loadCartData_Net()

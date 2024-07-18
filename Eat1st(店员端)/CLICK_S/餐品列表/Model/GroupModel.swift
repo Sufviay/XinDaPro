@@ -24,8 +24,14 @@ class GroupModel: NSObject {
     ///查询类型（1菜品，2分类），一级时返回null[...]
     var searchType: String = ""
     
-    ///是否是分类分组
-    //var isClassifty: Bool = false
+    //子分组 当开启了二级分类时需要处理
+    var sub_Group: [GroupModel] = []
+    
+    //分组关联的分类ID数据 searchType == "1"时才有值，且当searchType == "1" 且 关联分类为空时，要对全部进行筛选
+    var relClassifyArr: [String] = []
+    
+    //是否时二级分类
+    var isSecond: Bool = false
     
     func updateWithGroup(json: JSON) {
        
@@ -38,11 +44,12 @@ class GroupModel: NSObject {
         //isClassifty = false
     }
     
-    func updateWithClassifty(json: JSON) {
-        classifyId = json["classify"].stringValue
-        groupId = json["classify"].stringValue
-        nameEn = HTMLSTR(json["classifyNameEn"].stringValue)
-        nameHk = HTMLSTR(json["classifyNameHk"].stringValue)
+    func updateWithClassifty(model: ClassifyModel) {
+        classifyId = model.classify
+        groupId = model.classify
+        nameEn = HTMLSTR(model.classifyNameEn)
+        nameHk = HTMLSTR(model.classifyNameHk)
+    
     }
     
 

@@ -14,7 +14,7 @@ class TableEditAlert: UIView, UIGestureRecognizerDelegate {
     
     private let bag = DisposeBag()
 
-    private var H: CGFloat = bottomBarH + 255
+    private var H: CGFloat = bottomBarH + 320
     
     private var deskID: String = ""
     
@@ -22,7 +22,7 @@ class TableEditAlert: UIView, UIGestureRecognizerDelegate {
     private let backView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: bottomBarH + 255), byRoundingCorners: [.topLeft, .topRight], radii: 20)
+        view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: bottomBarH + 320), byRoundingCorners: [.topLeft, .topRight], radii: 20)
         return view
     }()
     
@@ -50,21 +50,21 @@ class TableEditAlert: UIView, UIGestureRecognizerDelegate {
     }()
     
     
-    private let tLab: UILabel = {
+    private let tLab1: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("000000"), BFONT(16), .left)
         lab.text = "Table name"
         return lab
     }()
     
-    private let sLab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), SFONT(14), .left)
-        lab.text = "*"
-        return lab
-    }()
+//    private let sLab: UILabel = {
+//        let lab = UILabel()
+//        lab.setCommentStyle(HCOLOR("#465DFD"), SFONT(14), .left)
+//        lab.text = "*"
+//        return lab
+//    }()
     
-    private let tfBackView: UIView = {
+    private let nameBackView: UIView = {
         let view = UIView()
         view.backgroundColor = HCOLOR("#8F92A1").withAlphaComponent(0.06)
         view.layer.cornerRadius = 10
@@ -72,7 +72,7 @@ class TableEditAlert: UIView, UIGestureRecognizerDelegate {
     }()
 
     
-    private let inputTF: UITextField = {
+    private let nameTF: UITextField = {
         let tf = UITextField()
         tf.textColor = FONTCOLOR
         tf.font = SFONT(14)
@@ -80,6 +80,31 @@ class TableEditAlert: UIView, UIGestureRecognizerDelegate {
         return tf
     }()
     
+    
+    private let tLab2: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("000000"), BFONT(16), .left)
+        lab.text = "Number of table seats"
+        return lab
+    }()
+
+    
+    private let numBackView: UIView = {
+        let view = UIView()
+        view.backgroundColor = HCOLOR("#8F92A1").withAlphaComponent(0.06)
+        view.layer.cornerRadius = 10
+        return view
+    }()
+
+    
+    private let numTF: UITextField = {
+        let tf = UITextField()
+        tf.textColor = FONTCOLOR
+        tf.font = SFONT(14)
+        tf.placeholder = ""
+        tf.keyboardType = .numberPad
+        return tf
+    }()
     
     
     private let confirmBut: UIButton = {
@@ -140,29 +165,53 @@ class TableEditAlert: UIView, UIGestureRecognizerDelegate {
             $0.bottom.equalToSuperview().offset(-bottomBarH - 10)
         }
         
-        backView.addSubview(tLab)
-        tLab.snp.makeConstraints {
+        backView.addSubview(tLab1)
+        tLab1.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
             $0.top.equalTo(line.snp.bottom).offset(25)
         }
         
-        backView.addSubview(sLab)
-        sLab.snp.makeConstraints {
-            $0.centerY.equalTo(tLab)
-            $0.left.equalTo(tLab.snp.right).offset(1)
-        }
+//        backView.addSubview(sLab)
+//        sLab.snp.makeConstraints {
+//            $0.centerY.equalTo(tLab)
+//            $0.left.equalTo(tLab.snp.right).offset(1)
+//        }
         
-        backView.addSubview(tfBackView)
-        tfBackView.snp.makeConstraints {
+        backView.addSubview(nameBackView)
+        nameBackView.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
             $0.right.equalToSuperview().offset(-20)
             $0.height.equalTo(40)
-            $0.top.equalTo(tLab.snp.bottom).offset(10)
+            $0.top.equalTo(tLab1.snp.bottom).offset(10)
             
         }
         
-        tfBackView.addSubview(inputTF)
-        inputTF.snp.makeConstraints {
+        nameBackView.addSubview(nameTF)
+        nameTF.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(20)
+            $0.right.equalToSuperview().offset(-20)
+            $0.top.bottom.equalToSuperview()
+        }
+        
+        
+        backView.addSubview(tLab2)
+        tLab2.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(20)
+            $0.top.equalTo(nameBackView.snp.bottom).offset(15)
+        }
+        
+        
+        backView.addSubview(numBackView)
+        numBackView.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(20)
+            $0.right.equalToSuperview().offset(-20)
+            $0.height.equalTo(40)
+            $0.top.equalTo(tLab2.snp.bottom).offset(10)
+            
+        }
+        
+        numBackView.addSubview(numTF)
+        numTF.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
             $0.right.equalToSuperview().offset(-20)
             $0.top.bottom.equalToSuperview()
@@ -183,8 +232,9 @@ class TableEditAlert: UIView, UIGestureRecognizerDelegate {
     }
     
     
-    func setData(id: String, name: String) {
-        inputTF.text = name
+    func setData(id: String, name: String, num: String) {
+        nameTF.text = name
+        numTF.text = num
         deskID = id
     }
     
@@ -231,7 +281,7 @@ class TableEditAlert: UIView, UIGestureRecognizerDelegate {
     
     @objc func clickConfirmAction() {
 
-        if inputTF.text ?? "" != "" {
+        if nameTF.text ?? "" != "" && numTF.text ?? "" != "" {
             if deskID == "" {
                 addAction_Net()
             } else {
@@ -292,7 +342,7 @@ class TableEditAlert: UIView, UIGestureRecognizerDelegate {
     
     private func addAction_Net() {
         HUD_MB.loading("", onView: self)
-        HTTPTOOl.addDesk(name: inputTF.text ?? "", remark: "").subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.addDesk(name: nameTF.text!, remark: "", num: numTF.text!).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: self)
             savedBlock?("")
             disAppearAction()
@@ -305,7 +355,7 @@ class TableEditAlert: UIView, UIGestureRecognizerDelegate {
     
     private func updateAction_Net() {
         HUD_MB.loading("", onView: self)
-        HTTPTOOl.editDesk(id: deskID, name: inputTF.text ?? "" , remark: "").subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.editDesk(id: deskID, name: nameTF.text! , remark: "", num: numTF.text!).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: self)
             savedBlock?("")
             disAppearAction()

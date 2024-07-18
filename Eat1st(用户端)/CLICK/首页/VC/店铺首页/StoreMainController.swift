@@ -18,26 +18,70 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
     ///店铺信息
     private var dataModel = StoreInfoModel()
     
-//    ///是否是扫一扫进来的
-//    var isScan: Bool = false
+    ///是否是点击店铺列表进入的
+    var isClickList: Bool = false
+    
+    ///售卖类型 1外卖，2自取，3堂食
+    var saleTypeArr: [String] = []
+    
+    private var sectionNum: Int = 0
+    
+    
+    ///自定义的导航栏
+    private lazy var headerBar: DineInNavBarView = {
+        let view = DineInNavBarView()
+        view.backBut.backgroundColor = .black.withAlphaComponent(0.4)
+        view.backBut.layer.cornerRadius = 7
 
-    var type: String = ""
-    
-    
-    private let homeBut: UIButton = {
-        let but = UIButton()
-        but.setImage(LOIMG("nav_cbl_w"), for: .normal)
-        but.backgroundColor = .black.withAlphaComponent(0.4)
-        but.layer.cornerRadius = 7
-        return but
+        view.backBut.snp.remakeConstraints {
+            $0.size.equalTo(CGSize(width: 30, height: 30))
+            $0.top.equalToSuperview().offset(statusBarH + 7)
+            $0.left.equalToSuperview().offset(10)
+        }
+        
+        view.setData(isHavePay: false)
+        
+        if isClickList {
+            view.backBut.setImage(LOIMG("nav_back_w"), for: .normal)
+        } else {
+            view.backBut.setImage(LOIMG("nav_cbl_w"), for: .normal)
+        }
+        
+        view.backBlock = { [unowned self] _ in
+            
+            if isClickList {
+                navigationController?.popViewController(animated: true)
+            } else {
+                sideBar.appearAction()
+            }
+        }
+                
+        view.amountBlock = { [unowned self] _ in
+            let amountVC = RechargeDetailController()
+            amountVC.storeID = storeID
+            amountVC.storeName = dataModel.name
+            navigationController?.pushViewController(amountVC, animated: true)
+        }
+        
+        view.payBlock = { [unowned self] _ in
+            
+            if UserDefaults.standard.isAgree {
+                let payVC = PayCodeController()
+                payVC.storeID = storeID
+                navigationController?.pushViewController(payVC, animated: true)
+            } else {
+                //弹出法律条文页面
+                let webVC = AgreeTermsController()
+                webVC.titStr = "APP Terms and Conditions"
+                webVC.webUrl = TCURL
+                webVC.storeID = storeID
+                self.present(webVC, animated: true, completion: nil)
+            }
+        }
+        
+        return view
     }()
     
-    
-    ///钱包
-//    private let walletView: WalletView = {
-//        let view = WalletView()
-//        return view
-//    }()
     
     ///侧滑栏
     private lazy var sideBar: FirstSideToolView = {
@@ -65,8 +109,9 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
         tableView.contentInsetAdjustmentBehavior = .never
         tableView.register(StoreFirstHeadCell.self, forCellReuseIdentifier: "StoreFirstHeadCell")
         tableView.register(StoreMidInfoCell.self, forCellReuseIdentifier: "StoreMidInfoCell")
-        tableView.register(StoreDesCell.self, forCellReuseIdentifier: "StoreDesCell")
+        tableView.register(MenuVipCell.self, forCellReuseIdentifier: "MenuVipCell")
         tableView.register(StoreFirstPageButCell.self, forCellReuseIdentifier: "StoreFirstPageButCell")
+        tableView.register(StoreMainVipButCell.self, forCellReuseIdentifier: "StoreMainVipButCell")
         return tableView
     }()
 
@@ -75,7 +120,7 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
         
         view.backgroundColor = .white
         setUpUI()
-        addNotificationCenter()
+        //addNotificationCenter()
         loadData_Net()
     }
     
@@ -84,28 +129,32 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
     }
     
     override func didAppear() {
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        if isClickList {
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        } else {
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        }
     }
     
     
     
     private func setUpUI() {
         
+        naviBar.isHidden = true
+        
         
         view.addSubview(table)
         table.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.left.right.top.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-bottomBarH)
         }
         
-        view.addSubview(homeBut)
-        homeBut.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 30, height: 30))
-            $0.top.equalToSuperview().offset(statusBarH + 7)
-            $0.left.equalToSuperview().offset(10)
+        view.addSubview(headerBar)
+        headerBar.snp.makeConstraints {
+            $0.left.right.top.equalToSuperview()
+            $0.height.equalTo(statusBarH + 44)
         }
 
-        homeBut.addTarget(self, action: #selector(clickCBLAction), for: .touchUpInside)
-        //view.addSubview(walletView)
     }
     
     
@@ -116,16 +165,21 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
     
     
     private func loadData_Net() {
-        
         HUD_MB.loading("", onView: view)
-        
-        HTTPTOOl.Store_MainPageData(storeID: storeID, type: type).subscribe(onNext: { (json) in
-            HUD_MB.dissmiss(onView: self.view)
-            self.dataModel.updateModel(json: json["data"])
-            //self.bindingAction_Net()
-            self.table.reloadData()
-                        
-        }, onError: { (error) in
+        HTTPTOOl.Store_MainPageData(storeID: storeID).subscribe(onNext: { [unowned self] (json) in
+            
+            dataModel.updateModel(json: json["data"])
+            sectionNum = 5
+            //获取充值信息
+            HTTPTOOl.getUserVip(storeID: storeID).subscribe(onNext: { [unowned self] (json2) in
+                HUD_MB.dissmiss(onView: view)
+                dataModel.isVip = json2["data"]["vipType"].stringValue == "2" ? true: false
+                dataModel.vipAmount = D_2_STR(json2["data"]["amount"].doubleValue)
+                table.reloadData()
+            }, onError: { [unowned self] (error) in
+                HUD_MB.showMessage(ErrorTool.errorMessage(error), self.view)
+            }).disposed(by: bag)
+        }, onError: { [unowned self] (error) in
             HUD_MB.showMessage(ErrorTool.errorMessage(error), self.view)
         }).disposed(by: self.bag)
     }
@@ -133,96 +187,122 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
     
     
     
-    
-//    private func bindingAction_Net() {
-//        //进行店铺绑定
-//        HTTPTOOl.bindingStore(storeID: dataModel.storeID).subscribe(onNext: { (json) in
-//        }, onError: { (error) in
-//            HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
-//        }).disposed(by: self.bag)
-//    }
-    
-    
-    
-//    @objc func getWalletMoney_Net() {
-//        HTTPTOOl.getWalletAmount().subscribe(onNext: { (json) in
-//
-//            let moneyStr = "£" + json["data"]["amount"].stringValue
-//            self.walletView.setData(money: moneyStr)
-//            let w = moneyStr.getTextWidth(SFONT(11), 23) > 15 ? moneyStr.getTextWidth(SFONT(11), 23) : 15
-//
-//
-//
-//            self.walletView.snp.makeConstraints {
-//                $0.top.equalToSuperview().offset(statusBarH + 2)
-//                $0.right.equalToSuperview().offset(-20)
-//                $0.size.equalTo(CGSize(width: w + 50, height: 32))
-//            }
-//
-//            self.walletView.isHidden = false
-//
-//        }, onError: { (error) in
-//            HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
-//        }).disposed(by: self.bag)
-//    }
-    
-    
-    //MARK: - 注册通知中心
-    private func addNotificationCenter() {
-        //NotificationCenter.default.addObserver(self, selector: #selector(walletRefresh), name: NSNotification.Name(rawValue: "wallet"), object: nil)
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sectionNum
     }
     
-    deinit {
-        //NotificationCenter.default.removeObserver(self, name: NSNotification.Name("wallet"), object: nil)
-    }
-    
-    @objc func walletRefresh() {
-        //getWalletMoney_Net()
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if section == 2 {
+            if !dataModel.isVip {
+                return 0
+            }
+        }
+        
+        return 1
     }
 
     
     
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 0 {
-            return SET_H(265, 375)
+        if indexPath.section == 0 {
+            return SET_H(220, 375)
         }
-        if indexPath.row == 1 {
+        if indexPath.section == 1 {
             return R_H(200)
         }
-        if indexPath.row == 2 {
-            let str = "Store introduction:\n" + self.dataModel.des
-            return str.getTextHeigh(SFONT(12), S_W - 60) + 50
+        if indexPath.section == 2 {
+            return SET_H(50, 345) + 10
         }
-        if indexPath.row == 3 {
+        
+        if indexPath.section == 3 {
+            return 95
+        }
+        
+        if indexPath.section == 4 {
             return 220
         }
         return 100
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
-    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
+        if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "StoreFirstHeadCell") as! StoreFirstHeadCell
             cell.setCellData(imgStr: self.dataModel.coverImg)
             return cell
         }
-        if indexPath.row == 1 {
+        if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "StoreMidInfoCell") as! StoreMidInfoCell
             cell.setCellData(model: self.dataModel)
             return cell
         }
-        if indexPath.row == 2 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "StoreDesCell") as! StoreDesCell
-            cell.setCellData(desLab: "Store introduction:\n" + self.dataModel.des)
+        if indexPath.section == 2 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "MenuVipCell") as! MenuVipCell
+            cell.setCellData(model: dataModel, canClick: false)
             return cell
         }
-        if indexPath.row == 3 {
+        if indexPath.section == 3 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "StoreMainVipButCell") as! StoreMainVipButCell
+            cell.setCellData(amount: dataModel.vipAmount)
+            
+            cell.clickBlock = { [unowned self] (type) in
+                if type == "code" {
+                    //付款码
+                    if UserDefaults.standard.isAgree {
+                        let payVC = PayCodeController()
+                        payVC.storeID = storeID
+                        navigationController?.pushViewController(payVC, animated: true)
+                    } else {
+                        //弹出法律条文页面
+                        let webVC = AgreeTermsController()
+                        webVC.titStr = "APP Terms and Conditions"
+                        webVC.webUrl = TCURL
+                        webVC.storeID = storeID
+                        self.present(webVC, animated: true, completion: nil)
+                    }
+                }
+                
+                if type == "book" {
+                    let nextVC = OccupyController()
+                    nextVC.storeID = dataModel.storeID
+                    nextVC.storeName = dataModel.name
+                    nextVC.storeDes = dataModel.des
+                    navigationController?.pushViewController(nextVC, animated: true)
+                }
+                
+                if type == "record" {
+                    let amountVC = RechargeDetailController()
+                    amountVC.storeID = dataModel.storeID
+                    amountVC.storeName = dataModel.name
+                    navigationController?.pushViewController(amountVC, animated: true)
+                }
+                
+                if type == "share" {
+                    let nextVC = ShareController()
+                    navigationController?.pushViewController(nextVC, animated: true)
+                }
+            }
+            
+            return cell
+        }
+        if indexPath.section == 4 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "StoreFirstPageButCell") as! StoreFirstPageButCell
-            cell.setCellData(data: dataModel)
+            cell.setCellData(data: dataModel, isDinein: isClickList, typeArr: saleTypeArr)
+            
+            cell.clickBlock = { [unowned self] (type) in
+                if type == "order" {
+                    let nextVC =  OrderListController()
+                    navigationController?.pushViewController(nextVC, animated: true)
+                }
+                
+                if type == "dinein" {
+                    //打开扫一扫
+                    clickSaoYiSaoAction(storeID: storeID)
+                }
+                
+            }
+            
             return cell
         }
         
@@ -230,5 +310,96 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
         return cell
     }
 
+    
+    
+    //MARK: - 扫一扫
+    private func clickSaoYiSaoAction(storeID: String) {
+        //绑定店铺
+        
+        if PJCUtil.checkLoginStatus() {
+            let scanVC = ScanViewController()
+            var style = LBXScanViewStyle()
+            style.animationImage = UIImage(named: "CodeScan.bundle/qrcode_scan_light_green")
+            style.colorAngle = MAINCOLOR
+            scanVC.scanStyle = style
+//            if storeID == "" {
+//                scanVC.isClickStore = false
+//            } else {
+//                scanVC.isClickStore = true
+//            }
+//
+            scanVC.clickWaiMaiBlock = { [unowned self] (_) in
+                let nextVC = StoreMenuOrderController()
+                nextVC.storeID = storeID
+                self.navigationController?.pushViewController(nextVC, animated: true)
+            }
+            
+            
+            ///https://share.eat1st.co.uk/store/detail/?storeId=1558386586135650305&deskId=1111111111
+
+            
+            scanVC.scanFinshBlock = { [unowned self] (str) in
+                
+                print("---------------------\(str)")
+                
+                let scanStr = str as! String
+                if scanStr != "" {
+                    
+                    var storeID = ""
+                    var deskID = ""
+                    
+                    let arr1 = scanStr.components(separatedBy: "?")
+
+                    let str1 = arr1.last ?? ""
+
+                    if str1 != "" {
+
+                        let arr2 = str1.components(separatedBy: "&")
+
+                        for tStr in arr2 {
+
+                            let arr3 = tStr.components(separatedBy: "=")
+                            if arr3.first ?? "" == "storeId" {
+                                storeID = arr3.last ?? ""
+                            }
+                            if arr3.first ?? "" == "deskId" {
+                                deskID = arr3.last ?? ""
+                            }
+                        }
+                        
+                        if deskID == "" && storeID != "" {
+                            //店铺宣传
+                            //进入店铺主页
+                            let nextVC = StoreMainController()
+                            nextVC.storeID = storeID
+                            self.navigationController?.pushViewController(nextVC, animated: true)
+                        }
+                        
+                        if deskID != "" && storeID != "" {
+                            //扫码点餐
+                            //验证桌号
+                            HUD_MB.loading("", onView: view)
+                            HTTPTOOl.checkDesk(storeID: storeID, deskID: deskID).subscribe(onNext: { [unowned self] json in
+                                HUD_MB.dissmiss(onView: self.view)
+                                
+                                let dineInVC = DineInFirstController()
+                                dineInVC.deskID = deskID
+                                dineInVC.storeID = storeID
+                                self.navigationController?.pushViewController(dineInVC, animated: true)
+                                
+                            }, onError: { [unowned self] error in
+                                HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
+                            }).disposed(by: self.bag)
+                        }
+
+                    }
+                }
+            }
+            scanVC.modalPresentationStyle = .fullScreen
+            self.present(scanVC, animated: true, completion: nil)
+        }
+    }
+
+    
 }
 

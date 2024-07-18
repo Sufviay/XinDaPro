@@ -21,7 +21,7 @@ class OrderDishModel: NSObject {
     ///购买数量[...]
     var buyNum: Int = 0
     ///是否买一赠一（1否，2是）[...]
-    var giveOne: String = ""
+    var giveOne: String = "1"
     ///菜品图片[...]
     var imageUrl: String = ""
     ///选项列表[...]
@@ -36,15 +36,23 @@ class OrderDishModel: NSObject {
     
     var name_H: CGFloat = 0
     
+    ///0单点 大于0的为套餐
+    var baleSort: String = ""
+    ///订单菜品ID
+    var orderDishesId: String = ""
+    
+    
 
     func updateModel(json: JSON) {
         nameCn = HTMLSTR(json["nameCn"].stringValue)
         nameHk = HTMLSTR(json["nameHk"].stringValue)
         nameEn = HTMLSTR(json["nameEn"].stringValue)
-        price = json["price"].doubleValue
+        price = json["dishesPrice"].doubleValue
         buyNum = json["buyNum"].intValue
         giveOne = json["giveOne"].stringValue
         imageUrl = json["imageUrl"].stringValue
+        baleSort = json["baleSort"].stringValue
+        orderDishesId = json["orderDishesId"].stringValue
         
         var tarr1: [OrderDishSelectItemModel] = []
         var o_h: CGFloat = 0
@@ -79,8 +87,8 @@ class OrderDishModel: NSObject {
         attachList = tarr3
         
         
-        let n_h = nameEn.getTextHeigh(BFONT(12), S_W - 165) + nameHk.getTextHeigh(SFONT(13),  S_W - 165)
-        name_H = (n_h + 20) > 55 ? (n_h + 20) : 55
+        let n_h = nameEn.getTextHeigh(BFONT(15), S_W - 165) + nameHk.getTextHeigh(SFONT(14),  S_W - 165)
+        name_H = (n_h + 30) > 65 ? (n_h + 30) : 65
         
         
         if giveOne == "2" {
@@ -88,7 +96,23 @@ class OrderDishModel: NSObject {
         } else {
             cell_H = name_H + o_h + c_h + a_h
         }
+    }
+    
+    
+    func updateTaoCanModel_Hight() {
         
+        let n_h = nameEn.getTextHeigh(BFONT(15), S_W - 165) + nameHk.getTextHeigh(SFONT(14),  S_W - 165)
+        name_H = (n_h + 30) > 65 ? (n_h + 30) : 65
+
+        var a_h: CGFloat = 0
+        for model in attachList {
+            a_h += model.cell_H
+            if giveOne == "2" {
+                cell_H = name_H + a_h + 45
+            } else {
+                cell_H = name_H + a_h
+            }
+        }
     }
     
 }
@@ -111,6 +135,9 @@ class OrderDishSelectItemModel: NSObject {
     
     var cell_H: CGFloat = 0
     
+    //删除菜品时用到
+    var id: String = ""
+    
     
     func updateModel(json: JSON, type: String) {
         nameCn = HTMLSTR(json["nameCn"].stringValue)
@@ -128,5 +155,16 @@ class OrderDishSelectItemModel: NSObject {
             let n_h = nameEn.getTextHeigh(BFONT(10), S_W - 220) + nameHk.getTextHeigh(SFONT(10), S_W - 220)
             cell_H = (n_h + 15) > 45 ? (n_h + 15) : 45
         }
+    }
+    
+    
+    func updateModelByTaoCan(model: OrderDishModel) {
+        nameHk = model.nameHk
+        nameEn = model.nameEn
+        price = model.price
+        id = model.orderDishesId
+        
+        let n_h = nameEn.getTextHeigh(BFONT(10), S_W - 220) + nameHk.getTextHeigh(SFONT(10), S_W - 220)
+        cell_H = (n_h + 15) > 45 ? (n_h + 15) : 45
     }
 }

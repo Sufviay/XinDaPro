@@ -8,7 +8,7 @@
 import UIKit
 
 class TableInfoCell: BaseTableViewCell {
-
+    
     
     var clickMoreBlock: VoidBlock?
     
@@ -38,9 +38,17 @@ class TableInfoCell: BaseTableViewCell {
         return lab
     }()
     
-    private let remarkLab: UILabel = {
+    
+    private let numberImg: UIImageView = {
+        let img = UIImageView()
+        img.image = LOIMG("number")
+        return img
+    }()
+    
+    
+    private let numberLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(13), .left)
+        lab.setCommentStyle(HCOLOR("#FEC501"), BFONT(14), .left)
         lab.numberOfLines = 0
         return lab
     }()
@@ -78,9 +86,23 @@ class TableInfoCell: BaseTableViewCell {
             $0.right.equalToSuperview().offset(-80)
         }
         
+        
+        contentView.addSubview(numberImg)
+        numberImg.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 13, height: 15))
+            $0.left.equalToSuperview().offset(20)
+            $0.top.equalTo(nameLab.snp.bottom).offset(10)
+        }
+        
+        contentView.addSubview(numberLab)
+        numberLab.snp.makeConstraints {
+            $0.left.equalTo(numberImg.snp.right).offset(5)
+            $0.centerY.equalTo(numberImg)
+        }
+        
         contentView.addSubview(statusLab)
         statusLab.snp.makeConstraints {
-            $0.top.equalTo(nameLab.snp.bottom).offset(15)
+            $0.top.equalTo(numberImg.snp.bottom).offset(10)
             $0.left.equalToSuperview().offset(20)
     
         }
@@ -123,6 +145,7 @@ class TableInfoCell: BaseTableViewCell {
     func setCellData(model: TableModel) {
         editeAlert.status = model.status
         nameLab.text = model.deskName
+        numberLab.text = model.dinersNum
         if model.status == "1" {
             //启用
             statusLab.textColor = HCOLOR("#2AD389")

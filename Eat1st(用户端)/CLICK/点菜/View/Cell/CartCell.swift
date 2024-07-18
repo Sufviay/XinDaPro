@@ -143,6 +143,21 @@ class MenuCartGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollecti
     }()
     
     
+    private let vipImg: UIImageView = {
+        let img = UIImageView()
+        img.image = LOIMG("vipimg")
+        return img
+    }()
+    
+    
+    private let vipPriceLab: UILabel = {
+        let lab = UILabel()
+        lab.textColor = HCOLOR("56370B")
+        lab.textAlignment = .right
+        lab.font = UIFont(name: "Helvetica-BoldOblique", size: 9)
+        return lab
+    }()
+
 
     override func setViews() {
         contentView.backgroundColor = .white
@@ -195,12 +210,28 @@ class MenuCartGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollecti
             $0.top.equalTo(desLab.snp.bottom).offset(5)
             $0.right.equalToSuperview().offset(-20)
         }
-    
         
+        
+        contentView.addSubview(vipImg)
+        vipImg.snp.makeConstraints {
+            $0.left.equalTo(desLab)
+            $0.top.equalTo(desLab.snp.bottom).offset(26)
+            $0.height.equalTo(17)
+            $0.width.equalTo(87)
+        }
+        
+        vipImg.addSubview(vipPriceLab)
+        vipPriceLab.snp.makeConstraints {
+            $0.bottom.equalToSuperview().offset(0)
+            $0.height.equalTo(13)
+            $0.right.equalToSuperview().offset(-7)
+        }
+        
+    
         contentView.addSubview(s_lab)
         s_lab.snp.makeConstraints {
             $0.left.equalTo(nameLab)
-            $0.top.equalTo(desLab.snp.bottom).offset(40)
+            $0.top.equalTo(desLab.snp.bottom).offset(45)
         }
         
         contentView.addSubview(moneyLab)
@@ -255,7 +286,7 @@ class MenuCartGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollecti
         deleteBut.addTarget(self, action: #selector(clickDeleteAction), for: .touchUpInside)
     }
     
-    func setCellData(model: CartDishModel)  {
+    func setCellData(model: CartDishModel, isVip: Bool)  {
         
         
         if model.isOn == "1" || model.isOn == "4" {
@@ -287,9 +318,29 @@ class MenuCartGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollecti
             giveOneBackView.isHidden = true
         }
         
+        moneyLab.text = D_2_STR(model.fee)
+        
+        if model.isHaveVipPrice {
+            vipImg.isHidden = false
+            vipPriceLab.text = "£" + D_2_STR(model.vipPrice)
+        } else {
+            vipImg.isHidden = true
+            vipPriceLab.text = ""
+        }
+        
+//        if isVip {
+//            if model.isHaveVipPrice {
+//                moneyLab.text = D_2_STR(model.vipPrice)
+//            } else {
+//                moneyLab.text = D_2_STR(model.fee)
+//            }
+//        } else {
+//            moneyLab.text = D_2_STR(model.fee)
+//        }
+        
         freeCountLab.text = "x\(model.cartCount)"
         selectView.count = model.cartCount
-        self.moneyLab.text = D_2_STR(model.fee)
+        
         self.goodsImg.sd_setImage(with: URL(string: model.dishImg), placeholderImage: HOLDIMG)
         self.nameLab.text = model.dishName
         self.desLab.text = model.selectOptionStr
@@ -352,17 +403,17 @@ class MenuCartGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollecti
             let textW = tag.tagName.getTextWidth(SFONT(11), 14)
                     
             if tag.tagImg == "" {
-                return CGSize(width: textW, height: 14)
+                return CGSize(width: textW + 6, height: 14)
             } else {
                 //从缓存中查找图片
                 let img = SDImageCache.shared.imageFromCache(forKey: tag.tagImg)
 
                 if img == nil {
-                    return CGSize(width: textW, height: 14)
+                    return CGSize(width: textW + 6, height: 14)
                 }
                 //根据图片计算宽度
                 let img_W = (img!.size.width * 14) / img!.size.height
-                return  CGSize(width: img_W + textW + 2 , height: 14)
+                return  CGSize(width: img_W + textW + 2 + 6, height: 14)
             }
         }
         

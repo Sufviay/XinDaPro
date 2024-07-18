@@ -8,7 +8,25 @@
 import UIKit
 import SwiftyJSON
 
-class DishModel: NSObject {
+
+class DishDisplayModel {
+    
+    var isShow: Bool = false
+    var classifyName: String = ""
+    var dishesArr: [DishModel] = []
+    
+    func copy() -> DishDisplayModel {
+        
+        let model = DishDisplayModel()
+        model.classifyName = classifyName
+        model.dishesArr = dishesArr.map { $0 }
+        model.isShow = isShow
+        return model
+    }
+
+}
+
+class DishModel {
 
     ///菜品编码
     var dishesId: String = ""
@@ -20,10 +38,22 @@ class DishModel: NSObject {
     var dishesNameEn: String = ""
     ///菜品分类编码
     var classifyId: String = ""
+    ///菜品种类（1食物，2饮料）
+    var dishesKind: String = ""
+
+    
+    ///菜品所属分类id一级的数组 当菜品启用二级分类时需要进行处理
+    var F_classifyIds: [String] = []
+    ///菜品所属分类id二级的数组 当菜品启用二级分类时需要进行处理
+    var S_classifyIds: [String] = []
+    
     /// 菜品价格
     var price: Double = 0
     ///菜品类型（1单品，2套餐）
     var dishesType: String = ""
+    ///点心套餐（1否 2是）
+    var baleType: String = ""
+    
     ///是否有规格（1是，2否）
     var haveSpec: String = ""
     ///是否热门（1是，2否）
@@ -43,7 +73,7 @@ class DishModel: NSObject {
     
     
     ///Cell高度
-    var dish_H: CGFloat = 0
+    var dish_H: CGFloat = 145
     
     
     var detail_Name_H: CGFloat = 0
@@ -61,16 +91,17 @@ class DishModel: NSObject {
         classifyId = json["classifyId"].stringValue
         price = json["price"].doubleValue
         dishesType = json["dishesType"].stringValue
+        baleType = json["baleType"].stringValue
         haveSpec = json["haveSpec"].stringValue
         hot = json["hot"].stringValue
         giveOne = json["giveOne"].stringValue
+        dishesKind = json["dishesKind"].stringValue
         
         
-        let h1 = dishesNameEn.getTextHeigh(BFONT(15), S_W - 160)
-        let h2 = dishesNameHk.getTextHeigh(SFONT(15), S_W - 160)
+        let h1 = dishesNameEn.getTextHeigh(BFONT(17), S_W - 160)
+        let h2 = dishesNameHk.getTextHeigh(SFONT(17), S_W - 160)
         
-        dish_H = (h1 + h2 + 63) > 100 ? (h1 + h2 + 63) : 100
-        
+        dish_H =  (h1 + h2 + 112) > 145 ? (h1 + h2 + 112) : 145
     }
     
     
@@ -84,6 +115,7 @@ class DishModel: NSObject {
         dishesType = json["dishesType"].stringValue
         allergen = json["allergen"].stringValue
         giveOne = json["giveOne"].stringValue
+        dishesKind = json["dishesKind"].stringValue
         
         var sArr: [SpecModel] = []
         for jsondata in json["specList"].arrayValue {

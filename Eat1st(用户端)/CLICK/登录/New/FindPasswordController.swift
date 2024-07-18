@@ -18,16 +18,22 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
         }
     }
     
-    var countryCode: String = ""
+    //var countryCode: String = ""
     var areaCode: String = "" {
         didSet {
-            areaNumLab.text = areaCode
+            areaNumLab.text = "+\(areaCode)"
         }
     }
     
     var phoneNum: String = "" {
         didSet {
             numberTF.text = phoneNum
+        }
+    }
+    
+    var email: String = "" {
+        didSet {
+            emailTF.text = email
         }
     }
     
@@ -73,7 +79,7 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#FEC501"), SFONT(14), .left)
         lab.numberOfLines = 0
-        lab.text = "Please verify the mobile phone number and reset the password, so that you can log in with the mobile phone number and new password next time"
+        lab.text = "Please verify Email address and reset password, sothat you can log in with this Email address and newpassword next time."
         return lab
     }()
 
@@ -104,6 +110,13 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
         return view
     }()
     
+    private let line5: UIView = {
+        let view = UIView()
+        view.backgroundColor = HCOLOR("#EEEEEE")
+        return view
+    }()
+
+    
     
     private let nextBut: UIButton = {
         let but = UIButton()
@@ -117,11 +130,23 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
     private lazy var numberTF: UITextField = {
         let tf = UITextField()
         tf.font = BFONT(14)
-        tf.placeholder = "Please enter the phone number"
+        tf.placeholder = "Registered phone number(optional)"
         tf.keyboardType = .numberPad
         tf.textColor = HCOLOR("#333333")
         return tf
     }()
+    
+    
+    
+    private lazy var emailTF: UITextField = {
+        let tf = UITextField()
+        tf.font = BFONT(14)
+        tf.placeholder = "Please enter email addressl"
+        tf.keyboardType = .emailAddress
+        tf.textColor = HCOLOR("#333333")
+        return tf
+    }()
+    
     
     private let areaBut: UIButton = {
         let but = UIButton()
@@ -144,7 +169,7 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
     }()
     
     
-    private let line5: UIView = {
+    private let line6: UIView = {
         let view = UIView()
         view.backgroundColor = MAINCOLOR
         return view
@@ -159,7 +184,7 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
     private lazy var codeTF: UITextField = {
         let tf = UITextField()
         tf.font = BFONT(14)
-        tf.placeholder = "Enter your Verification code"
+        tf.placeholder = "Please enter verification code"
         tf.keyboardType = .numberPad
         tf.textColor = HCOLOR("#333333")
         tf.textContentType = .oneTimeCode
@@ -170,7 +195,7 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
         let tf = UITextField()
         tf.isSecureTextEntry = true
         tf.font = BFONT(14)
-        tf.placeholder = "New password"
+        tf.placeholder = "Please enter password"
         tf.textColor = HCOLOR("#333333")
         tf.delegate = self
         return tf
@@ -181,7 +206,7 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
         let tf = UITextField()
         tf.isSecureTextEntry = true
         tf.font = BFONT(14)
-        tf.placeholder = "Re-enter Password"
+        tf.placeholder = "Please enter password again"
         tf.textColor = HCOLOR("#333333")
         tf.delegate = self
         return tf
@@ -205,10 +230,7 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
         let alert = AreaAlert()
         
         alert.clickCountryBlock = { [unowned self] (model) in
-            areaNumLab.text = (model as! CountryModel).areaCode
             areaCode = (model as! CountryModel).areaCode
-            countryCode = (model as! CountryModel).countryCode
-            
         }
         
         return alert
@@ -249,7 +271,7 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
             $0.left.equalToSuperview().offset(25)
             $0.right.equalToSuperview().offset(-25)
             $0.height.equalTo(0.5)
-            $0.top.equalToSuperview().offset(statusBarH + R_H(240))
+            $0.top.equalTo(tlab2.snp.bottom).offset(65)
         }
         
         
@@ -270,6 +292,13 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
             $0.left.right.height.equalTo(line1)
             $0.top.equalTo(line3.snp.bottom).offset(50)
         }
+        
+        view.addSubview(line5)
+        line5.snp.makeConstraints {
+            $0.left.right.height.equalTo(line1)
+            $0.top.equalTo(line4.snp.bottom).offset(50)
+        }
+
         
         view.addSubview(numberTF)
         numberTF.snp.makeConstraints {
@@ -301,16 +330,23 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
             $0.right.equalToSuperview().offset(-10)
         }
         
+        view.addSubview(emailTF)
+        emailTF.snp.makeConstraints {
+            $0.left.right.equalTo(line2)
+            $0.bottom.equalTo(line2.snp.top)
+            $0.height.equalTo(numberTF)
+        }
+        
         
         view.addSubview(sendCodeBut)
         sendCodeBut.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 65, height: 40))
-            $0.bottom.equalTo(line2.snp.top)
-            $0.right.equalTo(line2)
+            $0.bottom.equalTo(line3.snp.top)
+            $0.right.equalTo(line3)
         }
         
-        view.addSubview(line5)
-        line5.snp.makeConstraints {
+        view.addSubview(line6)
+        line6.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 1, height: 13))
             $0.centerY.equalTo(sendCodeBut)
             $0.right.equalTo(sendCodeBut.snp.left)
@@ -322,38 +358,38 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
         view.addSubview(codeTF)
         codeTF.snp.makeConstraints {
             $0.height.equalTo(numberTF)
-            $0.left.equalTo(line2)
-            $0.bottom.equalTo(line2.snp.top)
-            $0.right.equalTo(line5.snp.left).offset(-10)
+            $0.left.equalTo(line3)
+            $0.bottom.equalTo(line3.snp.top)
+            $0.right.equalTo(line6.snp.left).offset(-10)
         }
         
         view.addSubview(hideBut1)
         hideBut1.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 50, height: 40))
-            $0.bottom.equalTo(line3.snp.top)
+            $0.bottom.equalTo(line4.snp.top)
             $0.right.equalToSuperview().offset(-15)
         }
         
         view.addSubview(hideBut2)
         hideBut2.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 50, height: 40))
-            $0.bottom.equalTo(line4.snp.top)
+            $0.bottom.equalTo(line5.snp.top)
             $0.right.equalToSuperview().offset(-15)
         }
         
         view.addSubview(pwTF)
         pwTF.snp.makeConstraints {
             $0.height.equalTo(numberTF)
-            $0.left.equalTo(line3)
-            $0.bottom.equalTo(line3.snp.top)
+            $0.left.equalTo(line4)
+            $0.bottom.equalTo(line4.snp.top)
             $0.right.equalTo(hideBut1.snp.left).offset(-5)
         }
         
         view.addSubview(rePWTF)
         rePWTF.snp.makeConstraints {
             $0.height.equalTo(numberTF)
-            $0.left.equalTo(line4)
-            $0.bottom.equalTo(line4.snp.top)
+            $0.left.equalTo(line5)
+            $0.bottom.equalTo(line5.snp.top)
             $0.right.equalTo(hideBut2.snp.left).offset(-5)
         }
         
@@ -363,13 +399,13 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
             $0.left.equalToSuperview().offset(25)
             $0.right.equalToSuperview().offset(-25)
             $0.height.equalTo(42)
-            $0.top.equalTo(line4.snp.bottom).offset(50)
+            $0.top.equalTo(line5.snp.bottom).offset(50)
         }
         
         
         pwTF.rx.text.orEmpty.asObservable().subscribe(onNext: { [unowned self] str in
             
-            if str != "" && rePWTF.text ?? "" != "" && numberTF.text ?? "" != "" && codeTF.text ?? "" != "" {
+            if str != "" && rePWTF.text ?? "" != "" && codeTF.text ?? "" != "" && emailTF.text ?? "" != "" {
                 nextBut.isEnabled = true
                 nextBut.backgroundColor = MAINCOLOR
             } else {
@@ -385,7 +421,7 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
         }).disposed(by: bag)
         
         rePWTF.rx.text.orEmpty.asObservable().subscribe(onNext: { [unowned self] str in
-            if str != "" && pwTF.text ?? "" != "" && numberTF.text ?? "" != "" && codeTF.text ?? "" != "" {
+            if str != "" && pwTF.text ?? "" != "" && codeTF.text ?? "" != "" && emailTF.text ?? "" != "" {
                 nextBut.isEnabled = true
                 nextBut.backgroundColor = MAINCOLOR
             } else {
@@ -401,8 +437,31 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
         }).disposed(by: bag)
         
         
-        numberTF.rx.text.orEmpty.asObservable().subscribe(onNext: { [unowned self] str in
+//        numberTF.rx.text.orEmpty.asObservable().subscribe(onNext: { [unowned self] str in
+//        
+//            if str != "" && rePWTF.text ?? "" != "" && pwTF.text ?? "" != "" && codeTF.text ?? "" != "" && emailTF.text ?? "" != "" {
+//                nextBut.isEnabled = true
+//                nextBut.backgroundColor = MAINCOLOR
+//            } else {
+//                nextBut.isEnabled = false
+//                nextBut.backgroundColor = HCOLOR("EBEBEB")
+//            }
+//                        
+//        }).disposed(by: bag)
         
+        codeTF.rx.text.orEmpty.asObservable().subscribe(onNext: { [unowned self] str in
+            if str != "" && rePWTF.text ?? "" != "" &&  pwTF.text ?? "" != "" && emailTF.text ?? "" != "" {
+                nextBut.isEnabled = true
+                nextBut.backgroundColor = MAINCOLOR
+            } else {
+                nextBut.isEnabled = false
+                nextBut.backgroundColor = HCOLOR("EBEBEB")
+            }
+
+        }).disposed(by: bag)
+        
+
+        emailTF.rx.text.orEmpty.asObservable().subscribe(onNext: { [unowned self] str in
             if str != "" && rePWTF.text ?? "" != "" && pwTF.text ?? "" != "" && codeTF.text ?? "" != "" {
                 nextBut.isEnabled = true
                 nextBut.backgroundColor = MAINCOLOR
@@ -410,20 +469,10 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
                 nextBut.isEnabled = false
                 nextBut.backgroundColor = HCOLOR("EBEBEB")
             }
-                        
+
         }).disposed(by: bag)
+
         
-        codeTF.rx.text.orEmpty.asObservable().subscribe(onNext: { [unowned self] str in
-            if str != "" && rePWTF.text ?? "" != "" && numberTF.text ?? "" != "" && pwTF.text ?? "" != "" {
-                nextBut.isEnabled = true
-                nextBut.backgroundColor = MAINCOLOR
-            } else {
-                nextBut.isEnabled = false
-                nextBut.backgroundColor = HCOLOR("EBEBEB")
-            }
-
-        }).disposed(by: bag)
-
 
         
         areaBut.addTarget(self, action: #selector(clickAreaAction(sender:)), for: .touchUpInside)
@@ -449,8 +498,8 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
 
     @objc private func clickSendCodeAction() {
         
-        if numberTF.text ?? "" != "" {
-            sendSMS_Net()
+        if emailTF.text ?? "" != "" {
+            sendCode_Net()
         }
     }
     
@@ -465,12 +514,7 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
 
     
     @objc private func clickNextAction() {
-        
-        if smsID == "" {
-            HUD_MB.showWarnig("Verification code error.", onView: view)
-            return
-        }
-        
+                
         if (pwTF.text ?? "").length < 6 {
             HUD_MB.showWarnig("The password cannot be less than 6 characters.", onView: view)
             return
@@ -496,13 +540,12 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
     
     
     //MARK: - 网络请求
-    private func sendSMS_Net() {
+    private func sendCode_Net() {
         sendCodeBut.isEnabled = false
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.sendSMSCode(countryCode: countryCode, phone: numberTF.text!, type: "3").subscribe(onNext: { [weak self] (json) in
+        HTTPTOOl.emailSendCode(email: emailTF.text!).subscribe(onNext: { [weak self] (json) in
                         
             HUD_MB.showSuccess("The verification code has been sent.", onView: self!.view)
-            self?.smsID = json["data"]["smsId"].stringValue
             
             var s = 60
             let codeTimer = DispatchSource.makeTimerSource(queue:DispatchQueue.global())
@@ -532,65 +575,18 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
     
     private func findPWD_Net() {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.findPWD(countryCode: countryCode, phone: numberTF.text!, smsCode: codeTF.text!, smsID: smsID, pwd: pwTF.text!.md5Encrypt()).subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.findPWD(countryCode: areaCode, phone: numberTF.text!, smsCode: codeTF.text!, email: emailTF.text!, pwd: pwTF.text!.md5Encrypt()).subscribe(onNext: { [unowned self] (json) in
             //成功后进行登录
             HUD_MB.showSuccess("Success", onView: view)
-            UserDefaults.standard.token = json["data"]["token"].stringValue
-            UserDefaults.standard.isLogin = true
-            UserDefaults.standard.userPhone = numberTF.text!
-            NotificationCenter.default.post(name: NSNotification.Name("login"), object: nil)
-            
+
             DispatchQueue.main.after(time: .now() + 1) { [unowned self] in
-                dismiss(animated: true)
+                navigationController?.popToRootViewController(animated: true)
             }
-            
-            //获取用户信息
-            HTTPTOOl.getUserInfo().subscribe(onNext: { (json) in
-                UserDefaults.standard.userName = json["data"]["name"].stringValue
-                UserDefaults.standard.userEmail = json["data"]["email"].stringValue
-                
-            }).disposed(by: bag)
-            
-            //上传tsToken
-            let tsToken = UserDefaults.standard.tsToken ?? ""
-
-            if tsToken != "" {
-                HTTPTOOl.updateTSToken(token: tsToken).subscribe(onNext: { (json) in
-                    print("推送注册成功")
-                }, onError: { (error) in
-                    print("推送注册失败")
-                }).disposed(by: bag)
-            }
-
-            //上传语言
-            HTTPTOOl.setLanguage().subscribe(onNext: { (json) in
-                print("语言设置成功")
-            }, onError: {_ in
-                
-            }).disposed(by: self.bag)
-            
-            
+                        
         }, onError: { [unowned self] (error) in
-            
-            if error as! NetworkError == .errorCode11 {
-                HUD_MB.dissmiss(onView: view)
-                //手机号不存在引导用户注册
-                showSystemChooseAlert("Tips", "This mobile phone number has no password, please use the mobile phone verification code to log in.", "Go", "Cancel") { [unowned self] in
-                    let nextVC = PhoneLoginController()
-                    nextVC.areaCode = areaCode
-                    nextVC.countryCode = countryCode
-                    nextVC.countryList = countryList
-                    nextVC.phoneNum = numberTF.text ?? ""
-                    navigationController?.pushViewController(nextVC, animated: true)
-                }
-
-                
-            } else {
-                HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
-            }
+            HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
         }).disposed(by: bag)
-        
-    }
+        }
     
     
     deinit {

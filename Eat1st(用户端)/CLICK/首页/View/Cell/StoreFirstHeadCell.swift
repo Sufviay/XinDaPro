@@ -12,6 +12,8 @@ class StoreFirstHeadCell: BaseTableViewCell {
     
     private var headImg: CustomImgeView = {
         let img = CustomImgeView()
+        img.clipsToBounds = true
+        img.contentMode = .scaleAspectFit
         return img
     }()
 

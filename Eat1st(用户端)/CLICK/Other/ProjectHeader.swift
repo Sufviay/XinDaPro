@@ -243,7 +243,7 @@ typealias VoidStringBlock = (_ str: String) -> ()
 //MARK: - 网络
 let HTTPTOOl = HttpTool.shared
 
-let ISONLINE: Bool = true
+let ISONLINE: Bool = false
 
 //2 为正式的测试
 let ENV: String = "1"
@@ -254,14 +254,21 @@ let ENV: String = "1"
 
 let V2URL: String = ISONLINE ? "https://api.foodo2o.com/" : "http://api.moneycheers.net/"
 
-let VERID: String = "63"
+let VERID: String = "81"
 
 let SERVICE_Email: String = "service@eat1st.co.uk"
 
 //V2URL + "prize/index.html"
 
-let wheelURL: String = ISONLINE ? "\(V2URL)prize/index.html" : "http://prize.moneycheers.net/index.html"
+let wheelURL: String = V2URL + "prize/index.html" //ISONLINE ? "\(V2URL)prize/index.html" : "http://prize.moneycheers.net/index.html"
 
+///法律页面
+let TCURL: String = "\(V2URL)low/index.html"
+
+///分享
+let SHAREURL: (String) -> String = { (id) in
+    return "\(V2URL)share/index.html?shareId=\(id)"
+}
 
 
 

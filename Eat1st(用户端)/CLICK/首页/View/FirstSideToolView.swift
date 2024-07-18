@@ -23,10 +23,10 @@ class FirstSideToolView: UIView, UIGestureRecognizerDelegate, UITableViewDelegat
     
     var logOutBlock: VoidBlock?
     //"side_share", "side_feedback", "side_about"
-    private let imgStrArr: [String] = ["side_home", "side_orders", "side_address", "side_jf", "side_yhq", "side_wallet", "side_msg", "side_help", "side_logout"]
+    private let imgStrArr: [String] = ["side_home", "side_orders", "side_address", "side_jf", "side_yhq", "side_wallet", "side_msg", "side_yuding" ,"side_help", "side_share", "side_logout"]
 
     //"Share", "Feedback", "About",
-    private let titStrArr: [String] = ["Home", "Your orders", "Address book", "Point", "Coupon", "Wallet", "Message", "Help",  "Logout"]
+    private let titStrArr: [String] = ["Home", "Your orders", "Address book", "Point", "Coupon", "Wallet", "Message", "Reservations", "Help", "Share", "Logout"]
 
     private let backView: UIView = {
         let view = UIView()
@@ -305,6 +305,15 @@ extension FirstSideToolView {
                 return 0
             }
         }
+        
+        if section == 5 {
+            return 0
+        }
+        
+        if section == 9 {
+            return 1
+        }
+        
         return 1
     }
     
@@ -357,6 +366,12 @@ extension FirstSideToolView {
             PJCUtil.currentVC()?.navigationController?.pushViewController(addressVC, animated: true)
         }
         
+        if indexPath.section == 3 {
+            //积分
+            let nextVC = JiFenDetailController()
+            PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
+        }
+        
         if indexPath.section == 4 {
             //优惠券
             let couponVC = CouponListController()
@@ -371,28 +386,34 @@ extension FirstSideToolView {
             PJCUtil.currentVC()?.navigationController?.pushViewController(walletVC, animated: true)
         }
         
-        
-        if indexPath.section == 7 {
-            //帮助
-            self.disAppearAction()
-            let nextVC = FAQController()
-            PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
-
-        }
-        
         if indexPath.section == 6 {
             //点击消息
             let nextVC = MessageListController()
             PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
         }
         
-        if indexPath.section == 3 {
-            //积分
-            let nextVC = JiFenDetailController()
+        if indexPath.section == 7 {
+            //预约
+            let nextVC = OccupyListController()
+            PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
+        }
+
+        
+        if indexPath.section == 8 {
+            //帮助
+            let nextVC = FAQController()
+            PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
+
+        }
+        
+        if indexPath.section == 9 {
+            //分享
+            let nextVC = ShareController()
             PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
         }
         
-        if indexPath.section == 8 {
+        
+        if indexPath.section == 10 {
             //退出
             self.disAppearAction()
             self.showSystemChooseAlert("Alert", "Log Out or Not", "YES", "NO") {

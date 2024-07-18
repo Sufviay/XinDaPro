@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CountSelectView: UIView {
+class CountSelectView: UIView, CAAnimationDelegate {
     
     var countBlock: VoidBlock?
     
@@ -99,13 +99,17 @@ class CountSelectView: UIView {
     @objc private func clickJiaAction() {
         
         if PJCUtil.checkLoginStatus() {
+            let rec = self.convert(jiaBut.frame, to: PJCUtil.getWindowView())
+        
             if maxCount == 0 {
                 self.count += 1
                 self.countBlock?(count)
+                addAnimation(rect: rec)
             } else {
                 if self.count < maxCount {
                     self.count += 1
                     self.countBlock?(count)
+                    addAnimation(rect: rec)
                 }
             }
 
@@ -126,11 +130,75 @@ class CountSelectView: UIView {
             }
         }
     }
+    
+    
+    lazy var viewArray: [UIView] = {
+        let viewArray: [UIView] = []
+        return viewArray
+    }()
+    
+
+    
+    func addAnimation(rect: CGRect) {
+        
+        autoreleasepool{
+            let squr = UIView()
+            squr.backgroundColor = UIColor.red
+            squr.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
+            squr.layer.cornerRadius = 25/2
+            squr.layer.masksToBounds = true
+            PJCUtil.getWindowView().addSubview(squr)
+            //self.view.insertSubview(squr, aboveSubview: self.tableview)
+            self.viewArray.append(squr)
+            
+        }
+        let lastSquar = self.viewArray.last
+        let path =  CGMutablePath()
+        let beginPoint = CGPoint(x: rect.origin.x + rect.size.width / 2, y: rect.origin.y + rect.size.height / 2)
+        
+        path.move(to: beginPoint)
+                
+        path.addQuadCurve(to:CGPoint(x: 70, y: S_H - bottomBarH - 60),  control: CGPoint(x: 150, y: rect.origin.y))
+        
+        //获取贝塞尔曲线的路径
+        let animationPath = CAKeyframeAnimation.init(keyPath: "position")
+        animationPath.path = path
+        animationPath.rotationMode = CAAnimationRotationMode.rotateAuto
+        
+        //缩小图片到0
+        let scale:CABasicAnimation = CABasicAnimation()
+        scale.keyPath = "transform.scale"
+        scale.toValue = 0.3
+        
+        //组合动画
+        let animationGroup:CAAnimationGroup = CAAnimationGroup()
+        animationGroup.animations = [animationPath,scale];
+        animationGroup.duration = 0.2;
+        animationGroup.fillMode = CAMediaTimingFillMode.forwards;
+        animationGroup.isRemovedOnCompletion = false
+        animationGroup.delegate = self
+        lastSquar!.layer.add(animationGroup, forKey:
+            nil)
+    }
+
+    
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        let redview = self.viewArray.first
+        redview?.isHidden = true
+        self.viewArray.remove(at: 0)
+        
+    }
+
+    
+    
 }
 
 
 
-class CountSelect_NoC_View: UIView {
+
+
+///请求成功后 在加数量
+class CountSelect_NoC_View: UIView, CAAnimationDelegate {
     
     var countBlock: VoidBlock?
     
@@ -221,6 +289,10 @@ class CountSelect_NoC_View: UIView {
         if PJCUtil.checkLoginStatus() {
             let dic: [String: Any] = ["type": "+", "num": count + 1]
             self.countBlock?(dic)
+            
+            let rec = self.convert(jiaBut.frame, to: PJCUtil.getWindowView())
+            addAnimation(rect: rec)
+            
         }
     
     }
@@ -231,6 +303,64 @@ class CountSelect_NoC_View: UIView {
             self.countBlock?(dic)
         }
     }
+    
+    lazy var viewArray: [UIView] = {
+        let viewArray: [UIView] = []
+        return viewArray
+    }()
+    
+    
+    func addAnimation(rect: CGRect) {
+        
+        autoreleasepool{
+            let squr = UIView()
+            squr.backgroundColor = UIColor.red
+            squr.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
+            squr.layer.cornerRadius = 25/2
+            squr.layer.masksToBounds = true
+            PJCUtil.getWindowView().addSubview(squr)
+            //self.view.insertSubview(squr, aboveSubview: self.tableview)
+            self.viewArray.append(squr)
+            
+        }
+        let lastSquar = self.viewArray.last
+        let path =  CGMutablePath()
+        let beginPoint = CGPoint(x: rect.origin.x + rect.size.width / 2, y: rect.origin.y + rect.size.height / 2)
+        
+        path.move(to: beginPoint)
+                
+        path.addQuadCurve(to:CGPoint(x: 70, y: S_H - bottomBarH - 60),  control: CGPoint(x: 150, y: rect.origin.y))
+        
+        //获取贝塞尔曲线的路径
+        let animationPath = CAKeyframeAnimation.init(keyPath: "position")
+        animationPath.path = path
+        animationPath.rotationMode = CAAnimationRotationMode.rotateAuto
+        
+        //缩小图片到0
+        let scale:CABasicAnimation = CABasicAnimation()
+        scale.keyPath = "transform.scale"
+        scale.toValue = 0.3
+        
+        //组合动画
+        let animationGroup:CAAnimationGroup = CAAnimationGroup()
+        animationGroup.animations = [animationPath,scale];
+        animationGroup.duration = 0.2;
+        animationGroup.fillMode = CAMediaTimingFillMode.forwards;
+        animationGroup.isRemovedOnCompletion = false
+        animationGroup.delegate = self
+        lastSquar!.layer.add(animationGroup, forKey:
+            nil)
+    }
+
+    
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        let redview = self.viewArray.first
+        redview?.isHidden = true
+        self.viewArray.remove(at: 0)
+        
+    }
+
+    
     
     
 }

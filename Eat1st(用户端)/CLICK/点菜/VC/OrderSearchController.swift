@@ -198,7 +198,7 @@ class OrderSearchController: BaseViewController, UITableViewDelegate, UITableVie
         self.naviBar.isHidden = true
         setUpUI()
         addNotificationCenter()
-        b_view.setValue(dishMoney: D_2_STR(self.cartModel.allPrice), buyCount: self.cartModel.dishesNum, discountType: self.cartModel.discountType, discountMoney: D_2_STR(self.cartModel.discountAmount), deliveryFee: D_2_STR(self.storeInfo.minDelivery), minOrder: D_2_STR(self.storeInfo.minOrder), type: self.cartModel.deliveryType)
+        b_view.setValue(dishMoney: D_2_STR(self.cartModel.allPrice), buyCount: self.cartModel.dishesNum, discountType: self.cartModel.discountType, discountMoney: D_2_STR(self.cartModel.discountAmount), minOrder: D_2_STR(self.storeInfo.minOrder), type: self.cartModel.deliveryType)
     }
     
     
@@ -298,7 +298,7 @@ class OrderSearchController: BaseViewController, UITableViewDelegate, UITableVie
             let searchStr = searchTF.text!
             searchResultArr.removeAll()
             for model in dataArr {
-                if model.name_C.contains(searchStr) {
+                if model.name.contains(searchStr) {
                     
                     ///去掉重复的
                     if (searchResultArr.filter { $0.dishID == model.dishID }.count == 0) {
@@ -376,6 +376,8 @@ extension OrderSearchController {
                 nextVC.canBuy = self.canBuy
                 nextVC.deskID = self.deskID
                 nextVC.isSearchVC = true
+                nextVC.isVip = storeInfo.isVip
+                nextVC.deType = menuInfo.buyType
                 PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
             }
             if model.dishesType == "2" {
@@ -385,6 +387,9 @@ extension OrderSearchController {
                 nextVC.canBuy = self.canBuy
                 nextVC.deskID = self.deskID
                 nextVC.isSearchVC = true
+                nextVC.isVip = storeInfo.isVip
+                nextVC.deType = menuInfo.buyType
+
                 PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
             }
         }
@@ -418,6 +423,9 @@ extension OrderSearchController {
                 nextVC.canBuy = canBuy
                 nextVC.deskID = deskID
                 nextVC.isSearchVC = true
+                nextVC.isVip = storeInfo.isVip
+                nextVC.deType = menuInfo.buyType
+
                 //如果不是规格规格商品 且已添加到购物车中 需将数量带到下一页面
                 if !model.isSelect && model.cart.count != 0 {
                     nextVC.cartID = model.cart[0].cartID
@@ -434,6 +442,8 @@ extension OrderSearchController {
             nextVC.canBuy = canBuy
             nextVC.deskID = deskID
             nextVC.isSearchVC = true
+            nextVC.isVip = storeInfo.isVip
+            nextVC.deType = menuInfo.buyType
             PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
         }
 
@@ -456,6 +466,7 @@ extension OrderSearchController {
         }).disposed(by: self.bag)
     }
     
+    
     //MARK: - 修改购物车
     private func updateCart_Net(cartID: String, buyNum: Int) {
         HUD_MB.loading("", onView: view)
@@ -466,7 +477,6 @@ extension OrderSearchController {
         }).disposed(by: self.bag)
     }
 
-    
     
     //MARK: - 已添加购物车的菜品
     func loadCartData_Net() {
@@ -490,7 +500,7 @@ extension OrderSearchController {
             self.menuInfo.dealWithMenuDishesByCartData(cart_arr: self.cartModel.dishesList)
                         
             ///更新底部购物车栏
-            self.b_view.setValue(dishMoney: D_2_STR(self.cartModel.allPrice), buyCount: self.cartModel.dishesNum, discountType: self.cartModel.discountType, discountMoney: D_2_STR(self.cartModel.discountAmount), deliveryFee: D_2_STR(self.storeInfo.minDelivery), minOrder: D_2_STR(self.storeInfo.minOrder), type: self.cartModel.deliveryType)
+            self.b_view.setValue(dishMoney: D_2_STR(self.cartModel.allPrice), buyCount: self.cartModel.dishesNum, discountType: self.cartModel.discountType, discountMoney: D_2_STR(self.cartModel.discountAmount), minOrder: D_2_STR(self.storeInfo.minOrder), type: self.cartModel.deliveryType)
             //发送通知 点菜页面刷新数据
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "cartRefresh"), object: "1")
             HUD_MB.dissmiss(onView: self.view)

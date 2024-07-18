@@ -15,7 +15,7 @@ class MenuDishMoreFourAlert: UIView, UIGestureRecognizerDelegate {
     var tap_H: CGFloat = 0 {
         didSet {
             self.backView.snp.remakeConstraints {
-                $0.size.equalTo(CGSize(width: 150, height: 220))
+                $0.size.equalTo(CGSize(width: 150, height: 250))
                 $0.right.equalToSuperview().offset(-15)
                 $0.top.equalToSuperview().offset(tap_H + 20)
             }
@@ -26,7 +26,7 @@ class MenuDishMoreFourAlert: UIView, UIGestureRecognizerDelegate {
         let view = UIImageView()
         view.image = LOIMG("dish_more_alert")
         view.isUserInteractionEnabled = true
-        view.frame.size = CGSize(width: 150, height: 180)
+        //view.frame.size = CGSize(width: 150, height: 210)
         return view
     }()
     
@@ -60,6 +60,12 @@ class MenuDishMoreFourAlert: UIView, UIGestureRecognizerDelegate {
         return view
     }()
 
+    
+    private let line6: UIView = {
+        let view = UIView()
+        view.backgroundColor = HCOLOR("#EEEEEE")
+        return view
+    }()
 
     
     
@@ -94,6 +100,12 @@ class MenuDishMoreFourAlert: UIView, UIGestureRecognizerDelegate {
     }()
     
     private let giveOneBut: UIButton = {
+        let but = UIButton()
+        but.backgroundColor = .clear
+        return but
+    }()
+    
+    private let baleTypeBut: UIButton = {
         let but = UIButton()
         but.backgroundColor = .clear
         return but
@@ -133,6 +145,13 @@ class MenuDishMoreFourAlert: UIView, UIGestureRecognizerDelegate {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#080808"), BFONT(11), .left)
         lab.text = "Edit one free"
+        return lab
+    }()
+    
+    private let baleTypeLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#080808"), BFONT(11), .left)
+        lab.text = "Edit special offer"
         return lab
     }()
 
@@ -196,6 +215,14 @@ class MenuDishMoreFourAlert: UIView, UIGestureRecognizerDelegate {
             $0.left.right.height.equalTo(line1)
             $0.top.equalTo(line4.snp.bottom).offset(30)
         }
+        
+        backView.addSubview(line6)
+        line6.snp.makeConstraints {
+            $0.left.right.height.equalTo(line1)
+            $0.top.equalTo(line5.snp.bottom).offset(30)
+        }
+
+        
 
         backView.addSubview(editeBut)
         editeBut.snp.makeConstraints {
@@ -235,14 +262,22 @@ class MenuDishMoreFourAlert: UIView, UIGestureRecognizerDelegate {
             $0.top.equalTo(line4.snp.bottom)
             $0.height.equalTo(30)
         }
-
         
+        backView.addSubview(baleTypeBut)
+        baleTypeBut.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(10)
+            $0.right.equalToSuperview().offset(-10)
+            $0.top.equalTo(line5.snp.bottom)
+            $0.height.equalTo(30)
+        }
+
+
 
         backView.addSubview(deleteBut)
         deleteBut.snp.makeConstraints {
             $0.left.equalToSuperview().offset(10)
             $0.right.equalToSuperview().offset(-10)
-            $0.top.equalTo(line5.snp.bottom)
+            $0.top.equalTo(line6.snp.bottom)
             $0.height.equalTo(30)
         }
 
@@ -283,6 +318,13 @@ class MenuDishMoreFourAlert: UIView, UIGestureRecognizerDelegate {
             $0.centerY.equalToSuperview().offset(-2)
         }
 
+        
+        baleTypeBut.addSubview(baleTypeLab)
+        baleTypeLab.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(10)
+            $0.centerY.equalToSuperview().offset(-2)
+        }
+
 
 
         deleteBut.addTarget(self, action: #selector(clickDeleteAction), for: .touchUpInside)
@@ -291,6 +333,7 @@ class MenuDishMoreFourAlert: UIView, UIGestureRecognizerDelegate {
         discountBut.addTarget(self, action: #selector(clickDiscountAction), for: .touchUpInside)
         priceBut.addTarget(self, action: #selector(clickPriceAction), for: .touchUpInside)
         giveOneBut.addTarget(self, action: #selector(clickGiveOneAction), for: .touchUpInside)
+        baleTypeBut.addTarget(self, action: #selector(clickBaletypeAction), for: .touchUpInside)
     }
     
     
@@ -323,6 +366,12 @@ class MenuDishMoreFourAlert: UIView, UIGestureRecognizerDelegate {
 
     @objc private func clickDiscountAction() {
         self.clickBlock?("yh")
+        self.disAppearAction()
+    }
+
+    
+    @objc private func clickBaletypeAction() {
+        self.clickBlock?("bale")
         self.disAppearAction()
     }
 

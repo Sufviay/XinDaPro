@@ -8,6 +8,13 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import SwiftyJSON
+
+enum LoginMode {
+    case PHONE
+    case EMAIL
+}
+
 
 class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProtocol {
     
@@ -15,14 +22,12 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
     
     private var countryList: [CountryModel] = []
     
-    private var countryCode: String = ""
+    //private var countryCode: String = ""
     private var areaCode: String = "" {
         didSet {
-            areaNumLab.text = areaCode
+            areaNumLab.text = "+\(areaCode)"
         }
     }
-    
-    
     
     private var pwHide: Bool = true {
         didSet {
@@ -34,6 +39,9 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
             pwTF.isSecureTextEntry = pwHide
         }
     }
+    
+    private var loginWay: LoginMode = .EMAIL
+
     
     private let headImg: UIImageView = {
         let img = UIImageView()
@@ -49,11 +57,19 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
         return img
     }()
     
+    private let yellowView: UIView = {
+        let view = UIView()
+        view.backgroundColor = MAINCOLOR
+        view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: 75), byRoundingCorners: [.topLeft, .topRight], radii: 17)
+        return view
+    }()
+    
+    
     
     private let backView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: (S_H - SET_H(220, 375)) + 25), byRoundingCorners: [.topLeft, .topRight], radii: 24)
+        //view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: (S_H - SET_H(220, 375)) - 30), byRoundingCorners: [.topLeft, .topRight], radii: 15)
         return view
     }()
     
@@ -64,19 +80,72 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
     }()
     
     
-    private let tlab: UILabel = {
+    private let leftBut: UIButton = {
+        let but = UIButton()
+        but.backgroundColor = .clear
+        return but
+    }()
+    
+
+    private let rightBut: UIButton = {
+        let but = UIButton()
+        but.backgroundColor = .clear
+        return but
+    }()
+
+    
+    private let leftImg: UIImageView = {
+        let img = UIImageView()
+        img.backgroundColor = .clear
+        let m = LOIMG("left")
+        m.resizableImage(withCapInsets: UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30), resizingMode: .stretch)
+        img.image = m
+        return img
+    }()
+    
+    private let rightImg: UIImageView = {
+        let img = UIImageView()
+        img.backgroundColor = .clear
+        let m = LOIMG("right")
+        m.resizableImage(withCapInsets: UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30), resizingMode: .stretch)
+        img.image = m
+        img.isHidden = true
+        return img
+    }()
+
+    private let emailLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(22), .left)
-        lab.text = "PHONE NUMBER"
+        lab.setCommentStyle(FONTCOLOR, BFONT(20), .center)
+        lab.text = "EMAIL"
         return lab
     }()
     
-    private let line1: UIView = {
+    
+    private let e_line: UIView = {
         let view = UIView()
-        view.backgroundColor = MAINCOLOR
+        view.backgroundColor = MAINCOLOR.withAlphaComponent(0.8)
         view.layer.cornerRadius = 2
         return view
     }()
+    
+
+    
+    
+    private let phoneLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(.white, BFONT(15), .center)
+        lab.text = "PHONE NUMBER"
+        return lab
+    }()
+
+    private let p_line: UIView = {
+        let view = UIView()
+        view.backgroundColor = MAINCOLOR.withAlphaComponent(0.8)
+        view.layer.cornerRadius = 2
+        view.isHidden = true
+        return view
+    }()
+    
     
     
     
@@ -92,6 +161,7 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
     private let areaBut: UIButton = {
         let but = UIButton()
         but.backgroundColor = .clear
+        but.isHidden = true
         return but
     }()
     
@@ -99,8 +169,7 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
     private lazy var numberTF: UITextField = {
         let tf = UITextField()
         tf.font = BFONT(14)
-        tf.placeholder = "Please enter the phone number"
-        tf.keyboardType = .numberPad
+        tf.placeholder = "Please enter email address"
         tf.textColor = HCOLOR("#333333")
         return tf
     }()
@@ -116,7 +185,7 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
         let tf = UITextField()
         tf.isSecureTextEntry = true
         tf.font = BFONT(14)
-        tf.placeholder = "Please enter your password"
+        tf.placeholder = "Please enter password"
         tf.textColor = HCOLOR("#333333")
         tf.delegate = self
         return tf
@@ -161,7 +230,7 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
     private let forgetLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(MAINCOLOR, SFONT(11), .center)
-        lab.text = "Forgot Password ?"
+        lab.text = "Forgot Password?"
         return lab
     }()
     
@@ -176,7 +245,7 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
     private let otherLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#999999"), BFONT(10), .center)
-        lab.text = "Other"
+        lab.text = "Sign up"
         return lab
     }()
     
@@ -227,38 +296,21 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
     private let phoneBut: UIButton = {
         let but = UIButton()
         but.setImage(LOIMG("login_phone"), for: .normal)
+        //but.isHidden = true
         return but
     }()
 
-    
-    private let faceBut: UIButton = {
+    private let emailBut: UIButton = {
         let but = UIButton()
-        but.setImage(LOIMG("facebook"), for: .normal)
+        but.setImage(LOIMG("log_email"), for: .normal)
         return but
     }()
-    
-    
-    private let googleBut: UIButton = {
-        let but = UIButton()
-        but.setImage(LOIMG("google"), for: .normal)
-        return but
-    }()
-    
-    private let twitterBut: UIButton = {
-        let but = UIButton()
-        but.setImage(LOIMG("twitter"), for: .normal)
-        return but
-    }()
-    
     
     private lazy var areaAlert: AreaAlert = {
         let alert = AreaAlert()
         
         alert.clickCountryBlock = { [unowned self] (model) in
-            areaNumLab.text = (model as! CountryModel).areaCode
             areaCode = (model as! CountryModel).areaCode
-            countryCode = (model as! CountryModel).countryCode
-            
         }
         
         return alert
@@ -268,6 +320,7 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
     
     override func setViews() {
         setUpUI()
+        addButAction()
         loadCountryList_Net()
     }
     
@@ -290,68 +343,126 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
         }
         
         
+        
+        view.addSubview(yellowView)
+        yellowView.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(75)
+            $0.top.equalToSuperview().offset((SET_H(220, 375) - 25))
+        }
+        
         view.addSubview(backView)
         backView.snp.makeConstraints {
             $0.left.right.bottom.equalToSuperview()
-            $0.height.equalTo((S_H - SET_H(220, 375)) + 25)
+            $0.height.equalTo((S_H - SET_H(220, 375)) - 30)
         }
         
+        view.addSubview(leftBut)
+        leftBut.snp.makeConstraints {
+            $0.left.equalToSuperview()
+            $0.top.equalTo(yellowView.snp.top)
+            $0.bottom.equalTo(backView.snp.top)
+            $0.width.equalTo(S_W / 2)
+        }
+        
+        view.addSubview(rightBut)
+        rightBut.snp.makeConstraints {
+            $0.right.equalToSuperview()
+            $0.top.equalTo(yellowView.snp.top)
+            $0.bottom.equalTo(backView.snp.top)
+            $0.width.equalTo(S_W / 2)
+        }
+        
+        view.addSubview(leftImg)
+        leftImg.snp.makeConstraints {
+            $0.left.top.equalTo(leftBut)
+            $0.width.equalTo(R_W(235))
+            $0.bottom.equalTo(backView.snp.top).offset(1)
+        }
+        
+        view.addSubview(rightImg)
+        rightImg.snp.makeConstraints {
+            $0.right.top.equalTo(rightBut)
+            $0.width.equalTo(R_W(235))
+            $0.bottom.equalTo(backView.snp.top).offset(1)
+        }
+
+        view.addSubview(emailLab)
+        emailLab.snp.makeConstraints {
+            $0.center.equalTo(leftBut)
+        }
+        
+        view.addSubview(phoneLab)
+        phoneLab.snp.makeConstraints {
+            $0.center.equalTo(rightBut)
+        }
+        
+        view.addSubview(e_line)
+        e_line.snp.makeConstraints {
+            $0.left.right.equalTo(emailLab)
+            $0.height.equalTo(4)
+            $0.bottom.equalTo(emailLab).offset(-2)
+        }
+        
+        view.addSubview(p_line)
+        p_line.snp.makeConstraints {
+            $0.left.right.equalTo(phoneLab)
+            $0.height.equalTo(4)
+            $0.bottom.equalTo(phoneLab).offset(-2)
+        }
+        
+
         
         view.addSubview(welcomeImg)
         welcomeImg.snp.makeConstraints {
             $0.left.equalToSuperview().offset(25)
-            $0.bottom.equalTo(backView.snp.top).offset(-R_H(35))
+            $0.bottom.equalTo(yellowView.snp.top).offset(-R_H(35))
             $0.size.equalTo(CGSize(width: R_W(250), height: SET_H(26, 250)))
         }
 
-        
-        backView.addSubview(tlab)
-        tlab.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(30)
-            $0.top.equalToSuperview().offset(R_H(40))
-        }
-        
-        tlab.addSubview(line1)
-        line1.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-            $0.bottom.equalToSuperview()
-            $0.height.equalTo(4)
-        }
-        
+
         
         backView.addSubview(nextBut)
         nextBut.snp.makeConstraints {
             $0.left.equalToSuperview().offset(30)
             $0.right.equalToSuperview().offset(-30)
-            $0.top.equalToSuperview().offset(R_H(250))
+            $0.top.equalToSuperview().offset(R_H(190))
             $0.height.equalTo(42)
-        }
-        
-        
-        backView.addSubview(numberTF)
-        numberTF.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(95)
-            $0.right.equalToSuperview().offset(-28)
-            $0.height.equalTo(40)
-            $0.top.equalToSuperview().offset(R_H(100))
         }
         
         
         backView.addSubview(line2)
         line2.snp.makeConstraints {
-            $0.left.right.equalTo(numberTF)
-            $0.height.equalTo(0.5)
-            $0.top.equalTo(numberTF.snp.bottom)
-        }
-        
-        
-        backView.addSubview(line3)
-        line3.snp.makeConstraints {
             $0.left.equalToSuperview().offset(25)
             $0.right.equalToSuperview().offset(-25)
             $0.height.equalTo(0.5)
+            $0.top.equalToSuperview().offset(R_H(65))
+        }
+        
+        backView.addSubview(line3)
+        line3.snp.makeConstraints {
+            $0.left.right.height.equalTo(line2)
             $0.top.equalTo(line2.snp.bottom).offset(55)
         }
+
+        backView.addSubview(numberTF)
+        numberTF.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(25)
+            $0.right.equalToSuperview().offset(-25)
+            $0.height.equalTo(40)
+            $0.bottom.equalTo(line2.snp.top)
+        }
+        
+        
+        backView.addSubview(areaBut)
+        areaBut.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(10)
+            $0.height.equalTo(60)
+            $0.width.equalTo(75)
+            $0.centerY.equalTo(numberTF)
+        }
+
+
         
         backView.addSubview(hideBut)
         hideBut.snp.makeConstraints {
@@ -370,13 +481,8 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
         }
         
         
-        backView.addSubview(areaBut)
-        areaBut.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(10)
-            $0.right.equalTo(numberTF.snp.left).offset(-10)
-            $0.height.equalTo(60)
-            $0.centerY.equalTo(numberTF)
-        }
+        
+        
         
         areaBut.addSubview(areaNumLab)
         areaNumLab.snp.makeConstraints {
@@ -437,32 +543,12 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
             $0.left.equalTo(otherLab.snp.right).offset(15)
         }
         
-        backView.addSubview(phoneBut)
-        phoneBut.snp.makeConstraints {
+        backView.addSubview(emailBut)
+        emailBut.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 30, height: 30))
             $0.centerX.equalToSuperview()
             $0.top.equalTo(otherLab.snp.bottom).offset(20)
         }
-
-//        backView.addSubview(googleBut)
-//        googleBut.snp.makeConstraints {
-//            $0.size.equalTo(CGSize(width: 30, height: 30))
-//            $0.centerX.equalToSuperview()
-//            $0.top.equalTo(otherLab.snp.bottom).offset(20)
-//        }
-//
-//        backView.addSubview(faceBut)
-//        faceBut.snp.makeConstraints {
-//            $0.size.centerY.equalTo(googleBut)
-//            $0.right.equalTo(googleBut.snp.left).offset(-40)
-//        }
-//
-//        backView.addSubview(twitterBut)
-//        twitterBut.snp.makeConstraints {
-//            $0.size.centerY.equalTo(googleBut)
-//            $0.left.equalTo(googleBut.snp.right).offset(40)
-//        }
-//
         
         numberTF.rx.text.orEmpty.asObservable().subscribe(onNext: { [unowned self] str in
             
@@ -492,18 +578,39 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
 
         }).disposed(by: bag)
         
-        
-        faceBut.addTarget(self, action: #selector(clickFaceAction), for: .touchUpInside)
-        googleBut.addTarget(self, action: #selector(clickGoogleAction), for: .touchUpInside)
-        twitterBut.addTarget(self, action: #selector(clickTwitterAction), for: .touchUpInside)
+    }
+    
+    
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        //不能输入空格
+        if string == " " {
+            return false
+        }
+        return true
+    }
+    
+}
+
+
+
+extension LogInController {
+    
+    
+    private func addButAction() {
         areaBut.addTarget(self, action: #selector(clickAreaAction(sender:)), for: .touchUpInside)
         nextBut.addTarget(self, action: #selector(clickNextAction), for: .touchUpInside)
         backBut.addTarget(self, action: #selector(clickBackAction), for: .touchUpInside)
         hideBut.addTarget(self, action: #selector(clickHideAction), for: .touchUpInside)
         forgetBut.addTarget(self, action: #selector(clickForgetAction), for: .touchUpInside)
         phoneBut.addTarget(self, action: #selector(clickPhoneAction), for: .touchUpInside)
-        
+        emailBut.addTarget(self, action: #selector(clickEmailAction), for: .touchUpInside)
+        leftBut.addTarget(self, action: #selector(clickLeftAction), for: .touchUpInside)
+        rightBut.addTarget(self, action: #selector(clickRightAction), for: .touchUpInside)
+
     }
+    
+    
     
     @objc private func clickBackAction() {
         self.dismiss(animated: true)
@@ -518,9 +625,13 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
         //忘记密码
         let nextVC = FindPasswordController()
         nextVC.areaCode = areaCode
-        nextVC.countryCode = countryCode
+        //nextVC.countryCode = countryCode
         nextVC.countryList = countryList
-        nextVC.phoneNum = numberTF.text ?? ""
+        if loginWay == .EMAIL {
+            nextVC.email = numberTF.text ?? ""
+        } else {
+            nextVC.phoneNum = numberTF.text ?? ""
+        }
         navigationController?.pushViewController(nextVC, animated: true)
     }
     
@@ -528,7 +639,7 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
         //手机验证码登陆
         let nextVC = PhoneLoginController()
         nextVC.areaCode = areaCode
-        nextVC.countryCode = countryCode
+        //nextVC.countryCode = countryCode
         nextVC.countryList = countryList
         nextVC.phoneNum = numberTF.text ?? ""
         navigationController?.pushViewController(nextVC, animated: true)
@@ -536,16 +647,26 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
     
     
     
-    @objc private func clickFaceAction() {
-        
+    @objc private func clickLeftAction() {
+        if loginWay != .EMAIL {
+            setEmailUI()
+        }
     }
     
-    @objc private func clickGoogleAction() {
-        
+    @objc private func clickRightAction() {
+        if loginWay != .PHONE {
+            setPhoneUI()
+        }
+
     }
     
-    @objc private func clickTwitterAction() {
-        
+    @objc private func clickEmailAction() {
+        //手机验证码登陆
+        let nextVC = EmailRegisterController()
+        if loginWay == .EMAIL {
+            nextVC.email = numberTF.text ?? ""
+        }
+        navigationController?.pushViewController(nextVC, animated: true)
     }
 
     
@@ -562,95 +683,184 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
             HUD_MB.showWarnig("The password cannot be less than 6 characters.", onView: view)
             return
         }
-        loginPWD_Net()
-    }
-
-    
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        //不能输入空格
-        if string == " " {
-            return false
+        if loginWay == .EMAIL {
+            loginEmail_Net()
+        } else {
+            loginPhone_Net()
         }
-        return true
     }
     
+    
+    
+    private func setEmailUI() {
+        loginWay = .EMAIL
+        leftImg.isHidden = false
+        rightImg.isHidden = true
+        e_line.isHidden = false
+        p_line.isHidden = true
+        
+        phoneLab.font = BFONT(15)
+        phoneLab.textColor = .white
+        emailLab.font = BFONT(20)
+        emailLab.textColor = FONTCOLOR
+        
+        numberTF.text = ""
+        
+        
+        areaBut.isHidden = true
+        numberTF.keyboardType = .emailAddress
+        numberTF.placeholder = "Please enter email address"
+        numberTF.snp.remakeConstraints {
+            $0.left.equalToSuperview().offset(25)
+            $0.right.equalToSuperview().offset(-25)
+            $0.height.equalTo(40)
+            $0.bottom.equalTo(line2.snp.top)
+        }
+        
+        
+    }
+    
+    
+    private func setPhoneUI() {
+        loginWay = .PHONE
+        leftImg.isHidden = true
+        rightImg.isHidden = false
+        e_line.isHidden = true
+        p_line.isHidden = false
+        
+        emailLab.font = BFONT(15)
+        emailLab.textColor = .white
+        phoneLab.font = BFONT(20)
+        phoneLab.textColor = FONTCOLOR
+        
+        numberTF.text = ""
+        
+        areaBut.isHidden = false
+        numberTF.keyboardType = .numberPad
+        numberTF.placeholder = "Please enter phone number"
+        numberTF.snp.remakeConstraints {
+            $0.left.equalToSuperview().offset(95)
+            $0.right.equalToSuperview().offset(-25)
+            $0.height.equalTo(40)
+            $0.bottom.equalTo(line2.snp.top)
+        }
+    }
+}
+
+
+extension LogInController {
     
     //MARK: - 网络请求
-    private func loginPWD_Net() {
+    //邮箱登录
+    private func loginEmail_Net() {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.loginPWD(countryCode: countryCode, phone: numberTF.text!, pwd: pwTF.text!.md5Encrypt()).subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.loginEmail(email: numberTF.text!, pwd: pwTF.text!.md5Encrypt()).subscribe(onNext: { [unowned self] (json) in
             
+            if json["data"]["infoType"].stringValue == "2" {
+                //填写过用户信息 直接登录了
+                loginInfoSave(json: json)
+                getUserInfo_Net()
+                loginSet_Net()
+            } else {
+                HUD_MB.showSuccess("Success", onView: view)
+                //没有填写过
+                UserDefaults.standard.token = json["data"]["token"].stringValue
+                DispatchQueue.main.after(time: .now() + 1) { [unowned self] in
+                    let infoVC = PersonalInfoController()
+                    infoVC.isCanEdite = true
+                    navigationController?.pushViewController(infoVC, animated: true)
+                }
+            }       
+        }, onError: { [unowned self] (error) in
+            HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
+        }).disposed(by: bag)
+        
+    }
+    
+    //手机登录
+    private func loginPhone_Net() {
+        HUD_MB.loading("", onView: view)
+        HTTPTOOl.loginPWD(countryCode: areaCode, phone: numberTF.text!, pwd: pwTF.text!.md5Encrypt()).subscribe(onNext: { [unowned self] (json) in
+            
+            if json["data"]["infoType"].stringValue == "2" {
+                //填写过用户信息 直接登录了
+                loginInfoSave(json: json)
+                getUserInfo_Net()
+                loginSet_Net()
+            } else {
+                HUD_MB.showSuccess("Success", onView: view)
+                //没有填写过
+                UserDefaults.standard.token = json["data"]["token"].stringValue
+                DispatchQueue.main.after(time: .now() + 1) { [unowned self] in
+                    let infoVC = PersonalInfoController()
+                    infoVC.isCanEdite = true
+                    navigationController?.pushViewController(infoVC, animated: true)
+                }
+            }
+            
+        }, onError: { [unowned self] (error) in
+            HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
+        }).disposed(by: bag)
+    }
+    
+    
+    //获取用户信息
+    private func getUserInfo_Net() {
+        //获取用户信息
+        HTTPTOOl.getUserInfo().subscribe(onNext: { [unowned self] (json) in
             HUD_MB.showSuccess("Success", onView: view)
-            UserDefaults.standard.token = json["data"]["token"].stringValue
-            UserDefaults.standard.isLogin = true
-            UserDefaults.standard.userPhone = numberTF.text!
-            NotificationCenter.default.post(name: NSNotification.Name("login"), object: nil)
+            UserDefaults.standard.userName = json["data"]["name"].stringValue
+            if json["data"]["loginType"].stringValue == "2" {
+                //手机
+                UserDefaults.standard.removeObject(forKey: Keys.userEmail)
+                UserDefaults.standard.userPhone = json["data"]["phone"].stringValue
+            }
+            if json["data"]["loginType"].stringValue == "3" {
+                //邮箱
+                UserDefaults.standard.removeObject(forKey: Keys.userPhone)
+                UserDefaults.standard.userEmail = json["data"]["email"].stringValue
+            }
             
             DispatchQueue.main.after(time: .now() + 1) { [unowned self] in
                 dismiss(animated: true)
             }
-            
-            //获取用户信息
-            HTTPTOOl.getUserInfo().subscribe(onNext: { (json) in
-                UserDefaults.standard.userName = json["data"]["name"].stringValue
-                UserDefaults.standard.userEmail = json["data"]["email"].stringValue
-                
-            }).disposed(by: bag)
-            
-            //上传tsToken
-            let tsToken = UserDefaults.standard.tsToken ?? ""
-
-            if tsToken != "" {
-                HTTPTOOl.updateTSToken(token: tsToken).subscribe(onNext: { (json) in
-                    print("推送注册成功")
-                }, onError: { (error) in
-                    print("推送注册失败")
-                }).disposed(by: bag)
-            }
-
-            //上传语言
-            HTTPTOOl.setLanguage().subscribe(onNext: { (json) in
-                print("语言设置成功")
-            }, onError: {_ in
-                
-            }).disposed(by: self.bag)
-            
         }, onError: { [unowned self] (error) in
-            
-            if (error as! NetworkError) == .errorCode11 || (error as! NetworkError) == .errorCode12 {
-                
-                HUD_MB.dissmiss(onView: view)
-                var msg = ""
-                
-                if error as! NetworkError == .errorCode11 {
-                    msg = "This mobile phone number has no password, please use the mobile phone verification code to log in."
-                }
-                if error as! NetworkError == .errorCode12 {
-                    msg = "This mobile phone number has no password, please use the mobile phone verification code to log in."
-                }
-                
-                //跳到手机验证码页面进行登录
-                showSystemChooseAlert("Tips", msg, "Go", "Cancel") { [unowned self] in
-                    let nextVC = PhoneLoginController()
-                    nextVC.areaCode = areaCode
-                    nextVC.countryCode = countryCode
-                    nextVC.countryList = countryList
-                    nextVC.phoneNum = numberTF.text ?? ""
-                    navigationController?.pushViewController(nextVC, animated: true)
-                }
-                
-            } else {
-                HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
-            }
-            
+            HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
         }).disposed(by: bag)
+
     }
     
+    //登录设置
+    private func loginSet_Net() {
+        //上传tsToken
+        let tsToken = UserDefaults.standard.tsToken ?? ""
 
+        if tsToken != "" {
+            HTTPTOOl.updateTSToken(token: tsToken).subscribe(onNext: { (json) in
+                print("推送注册成功")
+            }, onError: { (error) in
+                print("推送注册失败")
+            }).disposed(by: bag)
+        }
+
+        //上传语言
+        HTTPTOOl.setLanguage().subscribe(onNext: { (json) in
+            print("语言设置成功")
+        }, onError: {_ in
+            print("语言设置失败")
+        }).disposed(by: self.bag)
+
+    }
+    
+    //登录信息存储
+    private func loginInfoSave(json: JSON) {
+        UserDefaults.standard.token = json["data"]["token"].stringValue
+        UserDefaults.standard.isLogin = true
+        NotificationCenter.default.post(name: NSNotification.Name("login"), object: nil)
+    }
     
     
-    func loadCountryList_Net() {
+    private func loadCountryList_Net() {
         
         HUD_MB.loading("", onView: view)
         HTTPTOOl.getCountryList().subscribe(onNext: { [unowned self] (json) in
@@ -666,30 +876,30 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
             countryList = tarr
             areaAlert.dataArr = countryList
 
-            //获取当前国家Code
-            if let curCode = (Locale.current as NSLocale).object(forKey: .countryCode) as? String {
+            if let curCode = Locale.current.regionCode {
                 print(curCode)
                 
                 let arr = countryList.filter { $0.countryCode == curCode }
                 
                 if arr.count == 0 {
-                    countryCode = countryList.first?.countryCode ?? ""
                     areaCode = countryList.first?.areaCode ?? ""
                 } else {
-                    countryCode = arr.first?.countryCode ?? ""
                     areaCode = arr.first?.areaCode ?? ""
                 }
                 
             } else {
-                countryCode = countryList.first?.countryCode ?? ""
                 areaCode = countryList.first?.areaCode ?? ""
             }
             
         }, onError: { [unowned self] (error) in
-            countryCode = "GB"
-            areaCode = "+44"
+            areaCode = "44"
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
         }).disposed(by: bag)
     }
 
+    
 }
+
+
+
+

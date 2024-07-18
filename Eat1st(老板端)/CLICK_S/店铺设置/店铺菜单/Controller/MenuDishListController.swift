@@ -94,6 +94,12 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
         return view
     }()
 
+    //设置点心套餐
+    private lazy var baleView: EditeBaleTypeView = {
+        let view = EditeBaleTypeView()
+        return view
+    }()
+
     
     
     private lazy var table: UITableView = {
@@ -283,6 +289,12 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
                 giveView.appearAction()
             }
             
+            if par == "bale" {
+                //设置点心套餐
+                let model = self.dishArr[indexPath.row]
+                baleView.setAlertData(type: model.baleType, dishId: model.id)
+                baleView.appearAction()
+            }
         }
         
         return cell
