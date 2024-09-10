@@ -79,7 +79,7 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#FEC501"), SFONT(14), .left)
         lab.numberOfLines = 0
-        lab.text = "Please verify Email address and reset password, sothat you can log in with this Email address and newpassword next time."
+        lab.text = "Please verify Email address and reset password, so that you can log in with this Email address and new password next time."
         return lab
     }()
 
@@ -264,7 +264,13 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
             $0.top.equalTo(tlab1.snp.bottom).offset(5)
             $0.right.equalToSuperview().offset(-25)
         }
-
+        
+        
+        line1.isHidden = true
+        numberTF.isHidden = true
+        areaBut.isHidden = true
+        
+        
         
         view.addSubview(line1)
         line1.snp.makeConstraints {
@@ -277,8 +283,8 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
         
         view.addSubview(line2)
         line2.snp.makeConstraints {
+            $0.top.equalTo(tlab2.snp.bottom).offset(65)
             $0.left.right.height.equalTo(line1)
-            $0.top.equalTo(line1.snp.bottom).offset(50)
         }
         
         view.addSubview(line3)
@@ -334,7 +340,7 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
         emailTF.snp.makeConstraints {
             $0.left.right.equalTo(line2)
             $0.bottom.equalTo(line2.snp.top)
-            $0.height.equalTo(numberTF)
+            $0.height.equalTo(40)
         }
         
         
@@ -586,7 +592,7 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
         }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
         }).disposed(by: bag)
-        }
+    }
     
     
     deinit {

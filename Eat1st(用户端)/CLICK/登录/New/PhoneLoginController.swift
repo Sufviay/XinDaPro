@@ -298,7 +298,7 @@ class PhoneLoginController: BaseViewController, UITextFieldDelegate {
     
     private func sendSMS_Net() {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.sendSMSCode(countryCode: countryCode, phone: inputTF.text!, type: "1").subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.sendSMSCode(countryCode: countryCode, phone: inputTF.text!, type: "1", picCode: "", valCode: "").subscribe(onNext: { [unowned self] (json) in
             
             HUD_MB.dissmiss(onView: view)
 

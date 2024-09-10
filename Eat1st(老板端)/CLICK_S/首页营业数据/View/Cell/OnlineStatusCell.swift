@@ -174,12 +174,13 @@ class LiveRepotingCell: BaseTableViewCell {
     func setCellData(titStr: String) {
         self.titlab.text = titStr
         
-        if titStr == "Live Reporting" {
+        if titStr == "Live Reporting" || titStr == "Sales" {
             line.image = GRADIENTCOLOR(HCOLOR("#FFC65E"), HCOLOR("#FF8E12"), CGSize(width: 70, height: 3))
         }
-        if titStr == "Real time order" {
+        if titStr == "Real time order" || titStr == "Expenditure" {
             line.image = GRADIENTCOLOR(HCOLOR("#2C6BF8"), HCOLOR("#6B12CC"), CGSize(width: 70, height: 3))
         }
+        
     }
     
 }

@@ -254,7 +254,7 @@ let ENV: String = "1"
 
 let V2URL: String = ISONLINE ? "https://api.foodo2o.com/" : "http://api.moneycheers.net/"
 
-let VERID: String = "81"
+let VERID: String = "84"
 
 let SERVICE_Email: String = "service@eat1st.co.uk"
 
@@ -269,6 +269,5 @@ let TCURL: String = "\(V2URL)low/index.html"
 let SHAREURL: (String) -> String = { (id) in
     return "\(V2URL)share/index.html?shareId=\(id)"
 }
-
 
 

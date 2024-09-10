@@ -50,7 +50,7 @@ class FiltrateSelectTagView: BaseAlertView, UIGestureRecognizerDelegate, UITable
         
         self.addSubview(backView)
         backView.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 100, height: 250))
+            $0.size.equalTo(CGSize(width: 200, height: 250))
             $0.centerX.equalToSuperview()
             $0.centerY.equalToSuperview().offset(-30)
         }

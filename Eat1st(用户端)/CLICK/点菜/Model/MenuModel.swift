@@ -216,14 +216,16 @@ class MenuModel: NSObject {
             
             for tagModel in model.tagList {
                 //如果标签分类中不存在就添加进去
-                if (tag_C_Arr.filter { $0.flName_C == tagModel.tagName }).count == 0 {
-                    let model = ClassiftyModel()
-                    model.isOn = true
-                    model.flName_E = tagModel.tagName
-                    model.flName_C = tagModel.tagName
-                    tag_C_Arr.append(model)
-                }
                 
+                if tagModel.tagType != "2" {
+                    if (tag_C_Arr.filter { $0.flName_C == tagModel.tagName }).count == 0 {
+                        let model = ClassiftyModel()
+                        model.isOn = true
+                        model.flName_E = tagModel.tagName
+                        model.flName_C = tagModel.tagName
+                        tag_C_Arr.append(model)
+                    }
+                }
             }
         }
         
@@ -255,14 +257,22 @@ class MenuModel: NSObject {
         for jsonData in json["data"]["openTimeList"].arrayValue {
             let model = OpenTimeModel()
             model.updateModel(json: jsonData)
-            
             var tc_arr: [ClassiftyModel] = []
             for c_json in json["data"]["classifyList"].arrayValue {
                 let model = ClassiftyModel()
                 model.updateModel(json: c_json)
                 tc_arr.append(model)
             }
-            model.dataArr = tc_arr + tag_C_Arr
+            
+            var arr: [ClassiftyModel] = []
+            for cmodel in tag_C_Arr {
+                let model = ClassiftyModel()
+                model.isOn = true
+                model.flName_E = cmodel.flName_E
+                model.flName_C = cmodel.flName_C
+                arr.append(model)
+            }
+            model.dataArr = tc_arr + arr //tag_C_Arr
             tArr1.append(model)
         }
         self.openTimeArr = tArr1
@@ -718,7 +728,7 @@ class DishModel: NSObject {
 }
 
 //MARK: - 分类模型
-class ClassiftyModel {
+class ClassiftyModel: NSObject {
     
     var flName_C: String = ""
     var flName_E: String = ""

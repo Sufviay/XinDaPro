@@ -608,9 +608,9 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
     }
     
         
-    //MARK: - 发送短信 1验证码登录，2注册，3找回密码
-    func sendSMSCode(countryCode: String, phone: String, type: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .sendSMSCode(countryCode: countryCode, phone: phone, type: type))
+    //MARK: - 发送短信 1注册，2找回密码
+    func sendSMSCode(countryCode: String, phone: String, type: String, picCode: String, valCode: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .sendSMSCode(countryCode: countryCode, phone: phone, type: type, picCode: picCode, valCode: valCode))
         return Observable<JSON>.create(response)
     }
     
@@ -732,8 +732,8 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
     }
    
     //MARK: - 邮箱注册
-    func emailRegister(email: String, pwd: String, code: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .emailRegister(email: email, pwd: pwd, code: code))
+    func emailRegister(email: String, pwd: String, code: String, reCode: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .emailRegister(email: email, pwd: pwd, code: code, reCode: reCode))
         return Observable<JSON>.create(response)
     }
     
@@ -781,7 +781,24 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
         return Observable<JSON>.create(response)
     }
     
+    //MARK: - 手机号注册
+    func registerWithPhone(phone: String, countryCode: String, smsCode: String, smsID: String, pw: String, reCode: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .registerWithPhone(countryCode: countryCode, phone: phone, smsID: smsID, smsCode: smsCode, pw: pw, reCode: reCode))
+        return Observable<JSON>.create(response)
+    }
     
+    //MARK: - 获取图片验证码
+    func getLoginPictureCode() -> Observable<JSON> {
+        let response = rxApiManager(api: .getLoginPictureCode)
+        return Observable<JSON>.create(response)
+    }
+    
+    
+    //MARK: - 找回密码手机号
+    func findPWD_phone(code: String, countryCode: String, phone: String, smsID: String, pw: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .findPWD_phone(code: code, countryCode: countryCode, phone: phone, smsID: smsID, pw: pw))
+        return Observable<JSON>.create(response)
+    }
     
     
     

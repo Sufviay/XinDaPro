@@ -215,6 +215,12 @@ enum ApiManager {
     case doGiveOne(id: String)
     ///设置菜品是否为点心套餐菜品
     case doBaleType(id: String)
+    ///获取店铺收入
+    case getStoreInCost(dateType: String, start: String, end: String)
+    ///获取店铺支出
+    case getStoreOutCost
+    
+    
     
     
     
@@ -524,7 +530,10 @@ extension ApiManager: TargetType {
             return "api/boss/dishes/doGiveOne"
         case .doBaleType(id: _):
             return "api/boss/dishes/doBaleType"
-            
+        case .getStoreInCost(dateType: _, start: _, end: _):
+            return "api/boss/store/cost/getStoreInCost"
+        case .getStoreOutCost:
+            return "api/boss/store/cost/getStoreOutCost"
             
             
             
@@ -831,6 +840,10 @@ extension ApiManager: TargetType {
             
         case .doBaleType(let id):
             dic = ["dishesId": id]
+        case .getStoreInCost(let dateType, let start, let end):
+            dic = ["type": dateType, "start": start, "end": end]
+        case .getStoreOutCost:
+            dic = [:]
             
             
             

@@ -164,7 +164,7 @@ enum ApiManager {
     ///获取国家列表
     case getCountryList
     ///发送验证码
-    case sendSMSCode(countryCode: String, phone: String, type: String)
+    case sendSMSCode(countryCode: String, phone: String, type: String, picCode: String, valCode: String)
     ///手机登陆
     case loginPhone(countryCode: String, phone: String, smsID: String, smsCode: String)
     ///设置密码
@@ -200,7 +200,7 @@ enum ApiManager {
     ///邮箱登录
     case loginEmail(email: String, pwd: String)
     ///邮箱注册
-    case emailRegister(email: String, pwd: String, code: String)
+    case emailRegister(email: String, pwd: String, code: String, reCode: String)
     ///邮箱发送验证码
     case emailSendCode(email: String)
     ///获取用户充值金额
@@ -217,6 +217,13 @@ enum ApiManager {
     case getUserPayToken
     ///获取分享ID
     case getShareIDAndList(page: String)
+    ///获取图片验证码
+    case getLoginPictureCode
+    ///手机号注册
+    case registerWithPhone(countryCode: String, phone: String, smsID: String, smsCode: String, pw: String, reCode: String)
+    ///手机号忘记密码
+    case findPWD_phone(code: String, countryCode: String, phone: String, smsID: String, pw: String)
+    
     
     
 
@@ -412,7 +419,7 @@ extension ApiManager: TargetType {
             return "api/user/desk/checkDesk"
         case .getCountryList:
             return "api/user/login/getSmsCountryList"
-        case .sendSMSCode(countryCode: _, phone: _, type: _):
+        case .sendSMSCode(countryCode: _, phone: _, type: _, picCode: _, valCode: _):
             return "api/user/login/getSmsCode"
         case .loginPhone(countryCode: _, phone: _, smsID: _, smsCode: _):
             return "api/user/login/loginPhone"
@@ -448,7 +455,7 @@ extension ApiManager: TargetType {
             return "api/user/desk/getDeskDetail"
         case .loginEmail(email: _, pwd: _):
             return "api/user/login/email/loginEmail"
-        case .emailRegister(email: _, pwd: _, code: _):
+        case .emailRegister(email: _, pwd: _, code: _, reCode: _):
             return "api/user/login/email/register"
         case .emailSendCode(email: _):
             return "api/user/login/email/sendCode"
@@ -466,7 +473,12 @@ extension ApiManager: TargetType {
             return "api/user/getUserToken"
         case .getShareIDAndList(page: _):
             return "api/user/share/getShareIdAndShareList"
-            
+        case .getLoginPictureCode:
+            return "api/user/login/code"
+        case .registerWithPhone(countryCode: _, phone: _, smsID: _, smsCode: _,  pw: _, reCode: _):
+            return "api/user/login/register"
+        case .findPWD_phone(code: _, countryCode: _, phone: _, smsID: _, pw: _):
+            return "api/user/login/findPwd"
             
       
             
@@ -489,15 +501,19 @@ extension ApiManager: TargetType {
             return "app/store/detail"
             
 
-            
-            
-
+        
         }
     }
     
     var method: Moya.Method {
-            
-        return .post
+          
+        
+        switch self {
+        case .getLoginPictureCode:
+            return .get
+        default:
+            return .post
+        }
     }
     
     var sampleData: Data {
@@ -667,8 +683,8 @@ extension ApiManager: TargetType {
             dic = ["deskId": deskID, "storeId": storeID]
         case .getCountryList:
             dic = [:]
-        case .sendSMSCode(let countryCode, let phone, let type):
-            dic = ["countryCode": countryCode, "phone": phone, "useType": type]
+        case .sendSMSCode(let countryCode, let phone, let type, let picCode, let valCode):
+            dic = ["countryCode": countryCode, "phone": phone, "useType": type, "code": picCode, "valCode": valCode]
         case .loginPhone(let countryCode, let phone, let smsID, let smsCode):
             dic = ["countryCode": countryCode, "phone": phone, "code": smsCode, "smsId": smsID]
         case .setLoginPWD(let pwd):
@@ -705,8 +721,8 @@ extension ApiManager: TargetType {
             dic = ["email": email, "password": pwd]
         case .emailSendCode(let email):
             dic = ["email":email]
-        case .emailRegister(let email, let pwd, let code):
-            dic = ["email": email, "password": pwd, "code": code]
+        case .emailRegister(let email, let pwd, let code, let reCode):
+            dic = ["email": email, "password": pwd, "code": code, "convertCode": reCode]
         case .getUserRechargeAmount(let storeID):
             dic = ["storeId": storeID]
         case .getUserRechargeDetail(let page, let storeID, let type):
@@ -721,7 +737,12 @@ extension ApiManager: TargetType {
             dic = [:]
         case .getShareIDAndList(let page):
             dic = ["pageIndex": page]
-            
+        case .getLoginPictureCode:
+            return .requestPlain
+        case .registerWithPhone(let countryCode, let phone, let smsID, let smsCode, let pw, let reCode):
+            dic = ["code": smsCode, "convertCode": reCode, "countryCode": countryCode, "password": pw, "phone": phone, "smsId": smsID]
+        case .findPWD_phone(let code, let countryCode, let phone, let smsID, let pw):
+            dic = ["code": code, "countryCode": countryCode, "password": pw, "phone": phone, "smsId": smsID]
             
         
         
@@ -755,6 +776,7 @@ extension ApiManager: TargetType {
     
         return .requestParameters(parameters: dic, encoding: JSONEncoding.default)
 
+        //JSONEncoding.default
     }
 
     
@@ -787,21 +809,22 @@ extension ApiManager: TargetType {
         let deviceID = MYVendorToll.getIDFV() ?? ""
         print(deviceID)
         
-        let baseDic = ["Accept": "application/json",
-                       "token-user": token,
-                       "token": token,
-                       "verId": UserDefaults.standard.verID ?? "0",
-                       "verCode": "v\(curAppVer)",
-                       "sysType": "02",
-                       "sysModel": systemtype,
-                       "sysVer": systemVer,
-                       "lang": curLanguage,
-                       "deviceId": deviceID,
-                       "deviceType": "apple",
-                       "sysLang": Locale.preferredLanguages.first ?? ""
+        var baseDic: [String: String] = [:]
+        
+            baseDic = ["Accept": "application/json",
+                        "token-user": token,
+                        "token": token,
+                        "verId": UserDefaults.standard.verID ?? "0",
+                        "verCode": "v\(curAppVer)",
+                        "sysType": "02",
+                        "sysModel": systemtype,
+                        "sysVer": systemVer,
+                        "lang": curLanguage,
+                        "deviceId": deviceID,
+                        "deviceType": "apple",
+                        "sysLang": Locale.preferredLanguages.first ?? ""
                         ]
         print(baseDic)
-        
         return baseDic
     }
 }

@@ -170,7 +170,9 @@ class StoreInfoModel: NSObject {
     var isVip: Bool = false
     
     var vipAmount: String = "0"
-
+    
+    ///是否有注册首冲五折优惠券（1否，2是）
+    var isRegDiscount: Bool = false
     
     
 
@@ -213,6 +215,8 @@ class StoreInfoModel: NSObject {
         self.firstDiscountIsOpen = json["haveFirstDiscount"].stringValue == "2" ? true : false
         self.firstDiscountScale = json["firstDiscountScale"].stringValue
         self.isOpenJiFen = json["pointsStatus"].stringValue == "2" ? true : false
+        
+        self.isRegDiscount = json["regDiscountType"].stringValue == "2" ? true: false
         
         
         if minOrder == 0 {

@@ -61,6 +61,9 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
             if str as! String == "month" {
                 self.dataType = "3"
             }
+            
+            dateStr = ""
+            endDateStr = ""
 
         }
         
@@ -267,6 +270,11 @@ extension MenuItemsController {
     //MARK: - 网络请求
     private func loadData_Net() {
         HUD_MB.loading("", onView: view)
+        
+        if dateStr == "" {
+            HUD_MB.showWarnig("Please select a date", onView: view)
+            return
+        }
         
         HTTPTOOl.getDishesReportingData(type: dataType, day: dateStr, endDay: endDateStr).subscribe(onNext: { (json) in
             HUD_MB.dissmiss(onView: self.view)

@@ -205,6 +205,7 @@ class OderListConfirmController: BaseViewController, UITableViewDelegate, UITabl
         payAlert.discountAmount = json["data"]["discountAmount"].doubleValue  //dataModel.discountAmount
         payAlert.dishesDiscountAmount = json["data"]["dishesDiscountAmount"].doubleValue //dataModel.dishesDiscountAmount
         payAlert.couponAmount = json["data"]["couponAmount"].doubleValue //dataModel.couponAmount
+        payAlert.packPrice = json["data"]["packPrice"].doubleValue
         payAlert.rechargePrice = json["data"]["rechargePrice"].doubleValue
         payAlert.buyType = dataModel.type
         self.payAlert.alertReloadData()

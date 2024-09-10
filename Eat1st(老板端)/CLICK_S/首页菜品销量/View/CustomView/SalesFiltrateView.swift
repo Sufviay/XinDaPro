@@ -67,7 +67,9 @@ class SalesFiltrateView: UIView {
         view.selectBlock = { [unowned self] (str) in
             self.typeLab.text = str as? String
             self.type = str as! String
+            timeLab.text = ""
             self.selectTypeBlock?(str)
+            
         }
         return view
     }()

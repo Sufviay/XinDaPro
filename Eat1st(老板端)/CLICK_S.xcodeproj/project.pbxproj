@@ -106,6 +106,12 @@
 		E34E6E412A8F60BD00DBC2A5 /* ComplaintsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34E6E402A8F60BD00DBC2A5 /* ComplaintsModel.swift */; };
 		E34E6E432A90937300DBC2A5 /* ReviewsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34E6E422A90937300DBC2A5 /* ReviewsModel.swift */; };
 		E3509F15277C37D80012CF3E /* TimeDayAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3509F14277C37D80012CF3E /* TimeDayAlert.swift */; };
+		E35268962C61FA3A007A847F /* StoreRevenueController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35268952C61FA3A007A847F /* StoreRevenueController.swift */; };
+		E35268982C621339007A847F /* StoreTotalAmountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35268972C621339007A847F /* StoreTotalAmountCell.swift */; };
+		E352689A2C630E9C007A847F /* StoreAmountChartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35268992C630E9C007A847F /* StoreAmountChartCell.swift */; };
+		E352689C2C634FF7007A847F /* StoreAmountDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E352689B2C634FF7007A847F /* StoreAmountDataCell.swift */; };
+		E352689E2C635AD5007A847F /* StoreInOrOutCostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E352689D2C635AD5007A847F /* StoreInOrOutCostModel.swift */; };
+		E35268A02C637213007A847F /* StoreOutChartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E352689F2C637213007A847F /* StoreOutChartCell.swift */; };
 		E364A84A2AA0779A00190DC9 /* DetailUserInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E364A8492AA0779A00190DC9 /* DetailUserInfoCell.swift */; };
 		E364A84C2AA07B2F00190DC9 /* DetailAddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E364A84B2AA07B2F00190DC9 /* DetailAddressCell.swift */; };
 		E364A84E2AA07E9200190DC9 /* DetailMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E364A84D2AA07E9200190DC9 /* DetailMessageCell.swift */; };
@@ -355,6 +361,12 @@
 		E34E6E402A8F60BD00DBC2A5 /* ComplaintsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplaintsModel.swift; sourceTree = "<group>"; };
 		E34E6E422A90937300DBC2A5 /* ReviewsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsModel.swift; sourceTree = "<group>"; };
 		E3509F14277C37D80012CF3E /* TimeDayAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeDayAlert.swift; sourceTree = "<group>"; };
+		E35268952C61FA3A007A847F /* StoreRevenueController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreRevenueController.swift; sourceTree = "<group>"; };
+		E35268972C621339007A847F /* StoreTotalAmountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreTotalAmountCell.swift; sourceTree = "<group>"; };
+		E35268992C630E9C007A847F /* StoreAmountChartCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreAmountChartCell.swift; sourceTree = "<group>"; };
+		E352689B2C634FF7007A847F /* StoreAmountDataCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreAmountDataCell.swift; sourceTree = "<group>"; };
+		E352689D2C635AD5007A847F /* StoreInOrOutCostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreInOrOutCostModel.swift; sourceTree = "<group>"; };
+		E352689F2C637213007A847F /* StoreOutChartCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreOutChartCell.swift; sourceTree = "<group>"; };
 		E364A8492AA0779A00190DC9 /* DetailUserInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailUserInfoCell.swift; sourceTree = "<group>"; };
 		E364A84B2AA07B2F00190DC9 /* DetailAddressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAddressCell.swift; sourceTree = "<group>"; };
 		E364A84D2AA07E9200190DC9 /* DetailMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMessageCell.swift; sourceTree = "<group>"; };
@@ -546,6 +558,7 @@
 				E34E6E062A84CF8400DBC2A5 /* 消息 */,
 				E37C18A129F6614C00D7C39D /* 店铺设置 */,
 				E37C188F29F655F000D7C39D /* 老板首页 */,
+				E35268942C61F328007A847F /* 首页店铺收支 */,
 				E37C189429F657CB00D7C39D /* 首页营业数据 */,
 				E37C189A29F65D9800D7C39D /* 首页菜品销量 */,
 				E305E90326DF14E700AAB580 /* 登录 */,
@@ -825,6 +838,19 @@
 				E34E6E422A90937300DBC2A5 /* ReviewsModel.swift */,
 			);
 			path = "评论";
+			sourceTree = "<group>";
+		};
+		E35268942C61F328007A847F /* 首页店铺收支 */ = {
+			isa = PBXGroup;
+			children = (
+				E35268952C61FA3A007A847F /* StoreRevenueController.swift */,
+				E35268972C621339007A847F /* StoreTotalAmountCell.swift */,
+				E35268992C630E9C007A847F /* StoreAmountChartCell.swift */,
+				E352689F2C637213007A847F /* StoreOutChartCell.swift */,
+				E352689B2C634FF7007A847F /* StoreAmountDataCell.swift */,
+				E352689D2C635AD5007A847F /* StoreInOrOutCostModel.swift */,
+			);
+			path = "首页店铺收支";
 			sourceTree = "<group>";
 		};
 		E364A8552AA1745D00190DC9 /* 餐桌设置 */ = {
@@ -1627,11 +1653,13 @@
 				E316889229F55E2300318307 /* StoreTimeDetailController.swift in Sources */,
 				E3F82A2D28741E7D005E5FAB /* VersionAlert.swift in Sources */,
 				E364A85B2AA1847F00190DC9 /* TableModel.swift in Sources */,
+				E352689A2C630E9C007A847F /* StoreAmountChartCell.swift in Sources */,
 				E3F829E42861C445005E5FAB /* MenuDishDetailController.swift in Sources */,
 				E3F82A1428698DC5005E5FAB /* MenuAdditionalAddController.swift in Sources */,
 				E34E6E252A8DF0B800DBC2A5 /* ComPlaintsNameCell.swift in Sources */,
 				E3F82A18286AC7A2005E5FAB /* MenuGiftAddController.swift in Sources */,
 				E36570CC2A9F13750020BD35 /* DishesShowCell.swift in Sources */,
+				E352689E2C635AD5007A847F /* StoreInOrOutCostModel.swift in Sources */,
 				E3F829FE286450FB005E5FAB /* DishDetailSpecInfoCell.swift in Sources */,
 				E3F829EC2864190D005E5FAB /* DishDetailPictureCell.swift in Sources */,
 				E3B1CFA128509ECF0044D69F /* RestaurantSettingController.swift in Sources */,
@@ -1685,6 +1713,7 @@
 				E316889429F569ED00318307 /* OpeningTimeDetailCell.swift in Sources */,
 				E305E90A26DF158400AAB580 /* LoginBottomView.swift in Sources */,
 				E3DF139A2843B8EF007FCC11 /* HeadBaseViewController.swift in Sources */,
+				E35268A02C637213007A847F /* StoreOutChartCell.swift in Sources */,
 				E36570C62A9EDC1C0020BD35 /* ComplaintsDishesAlert.swift in Sources */,
 				E337297828C193B000A06AB7 /* MonthSalesModel.swift in Sources */,
 				E326BC232AAF06A800E138CF /* EditPriceView.swift in Sources */,
@@ -1744,6 +1773,7 @@
 				E36570C42A9DE90B0020BD35 /* OrderDishModel.swift in Sources */,
 				E31C2C762A2092FB007B6DC2 /* ComboNameCell.swift in Sources */,
 				E305E90226DF146E00AAB580 /* MainNaviController.swift in Sources */,
+				E352689C2C634FF7007A847F /* StoreAmountDataCell.swift in Sources */,
 				E326D9F82ADFB7340060C0BE /* PrinterSettingController.swift in Sources */,
 				E305E8EB26DF133D00AAB580 /* LTPageView.swift in Sources */,
 				E305E8ED26DF133D00AAB580 /* LTScrollExtension.swift in Sources */,
@@ -1786,7 +1816,9 @@
 				E3AFB4C12856D6F4005847AE /* MenuItemMoreCell.swift in Sources */,
 				E305E8F126DF133D00AAB580 /* SDWaitingView.m in Sources */,
 				E3D83D89277AEA8400615D4E /* TimeMonthAlert.swift in Sources */,
+				E35268982C621339007A847F /* StoreTotalAmountCell.swift in Sources */,
 				E3F829FA28643C30005E5FAB /* DishEditeChooseCell.swift in Sources */,
+				E35268962C61FA3A007A847F /* StoreRevenueController.swift in Sources */,
 				E3F829EE28642E98005E5FAB /* DishListPictureCell.swift in Sources */,
 				E36570C82A9EE1A40020BD35 /* DishesSelectCell.swift in Sources */,
 				E364A8592AA1801D00190DC9 /* TableInfoCell.swift in Sources */,
@@ -1998,7 +2030,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.33;
+				MARKETING_VERSION = 1.0.34;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app-Boss";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "CLICK_S/CLICK_S-Bridging-Header.h";
@@ -2028,11 +2060,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.33;
+				MARKETING_VERSION = 1.0.34;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app-Boss";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = boss_dis;
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = bossdis;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = BossDis;
 				SWIFT_OBJC_BRIDGING_HEADER = "CLICK_S/CLICK_S-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

@@ -22,7 +22,8 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
     
     private var countryList: [CountryModel] = []
     
-    //private var countryCode: String = ""
+    private var countryCode: String = ""
+    
     private var areaCode: String = "" {
         didSet {
             areaNumLab.text = "+\(areaCode)"
@@ -308,11 +309,10 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
     
     private lazy var areaAlert: AreaAlert = {
         let alert = AreaAlert()
-        
         alert.clickCountryBlock = { [unowned self] (model) in
             areaCode = (model as! CountryModel).areaCode
+            countryCode = (model as! CountryModel).countryCode
         }
-        
         return alert
     }()
     
@@ -546,9 +546,17 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
         backView.addSubview(emailBut)
         emailBut.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 30, height: 30))
-            $0.centerX.equalToSuperview()
+            $0.right.equalTo(backView.snp.centerX).offset(-10)
             $0.top.equalTo(otherLab.snp.bottom).offset(20)
         }
+        
+        backView.addSubview(phoneBut)
+        phoneBut.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 30, height: 30))
+            $0.centerY.equalTo(emailBut)
+            $0.left.equalTo(backView.snp.centerX).offset(10)
+        }
+        
         
         numberTF.rx.text.orEmpty.asObservable().subscribe(onNext: { [unowned self] str in
             
@@ -623,25 +631,36 @@ extension LogInController {
     
     @objc private func clickForgetAction() {
         //忘记密码
-        let nextVC = FindPasswordController()
-        nextVC.areaCode = areaCode
-        //nextVC.countryCode = countryCode
-        nextVC.countryList = countryList
+        
         if loginWay == .EMAIL {
+            let nextVC = FindPasswordController()
+            nextVC.areaCode = areaCode
+            //nextVC.countryCode = countryCode
+            nextVC.countryList = countryList
             nextVC.email = numberTF.text ?? ""
+//            if loginWay == .EMAIL {
+//                nextVC.email = numberTF.text ?? ""
+//            } else {
+//                nextVC.phoneNum = numberTF.text ?? ""
+//            }
+            navigationController?.pushViewController(nextVC, animated: true)
         } else {
+            let nextVC = FindPasswordPhoneController()
+            nextVC.areaCode = areaCode
+            nextVC.countryCode = countryCode
+            nextVC.countryList = countryList
             nextVC.phoneNum = numberTF.text ?? ""
+            navigationController?.pushViewController(nextVC, animated: true)
         }
-        navigationController?.pushViewController(nextVC, animated: true)
+        
     }
     
     @objc private func clickPhoneAction() {
-        //手机验证码登陆
-        let nextVC = PhoneLoginController()
+        //手机验证码注册
+        let nextVC = PhoneRegisterController()
         nextVC.areaCode = areaCode
-        //nextVC.countryCode = countryCode
+        nextVC.countryCode = countryCode
         nextVC.countryList = countryList
-        nextVC.phoneNum = numberTF.text ?? ""
         navigationController?.pushViewController(nextVC, animated: true)
     }
     
@@ -883,16 +902,20 @@ extension LogInController {
                 
                 if arr.count == 0 {
                     areaCode = countryList.first?.areaCode ?? ""
+                    countryCode = countryList.first?.countryCode ?? ""
                 } else {
                     areaCode = arr.first?.areaCode ?? ""
+                    countryCode = arr.first?.countryCode ?? ""
                 }
                 
             } else {
                 areaCode = countryList.first?.areaCode ?? ""
+                countryCode = countryList.first?.countryCode ?? ""
             }
             
         }, onError: { [unowned self] (error) in
             areaCode = "44"
+            countryCode = "GB"
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
         }).disposed(by: bag)
     }

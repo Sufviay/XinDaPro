@@ -229,7 +229,7 @@ class LoginVeriCodeController: BaseViewController {
     
     private func sendSMS_Net() {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.sendSMSCode(countryCode: countryCode, phone: phoneNum, type: "1").subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.sendSMSCode(countryCode: countryCode, phone: phoneNum, type: "1", picCode: "", valCode: "").subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: view)
             smsID = json["data"]["smsId"].stringValue
         }, onError: { [unowned self] (error) in

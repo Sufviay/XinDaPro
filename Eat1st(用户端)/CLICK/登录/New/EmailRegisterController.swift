@@ -48,7 +48,7 @@ class EmailRegisterController: BaseViewController, UITextFieldDelegate {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#FEC501"), SFONT(14), .left)
         lab.numberOfLines = 0
-        lab.text = "Please verify Email address and set Password, sothat you can log in with this Email address andPassword next time."
+        lab.text = "Please verify Email address and set Password, so that you can log in with this Email address and Password next time."
         return lab
     }()
     
@@ -87,8 +87,16 @@ class EmailRegisterController: BaseViewController, UITextFieldDelegate {
         view.backgroundColor = HCOLOR("#EEEEEE")
         return view
     }()
-
+    
+    
     private let line4: UIView = {
+        let view = UIView()
+        view.backgroundColor = HCOLOR("#EEEEEE")
+        return view
+    }()
+
+
+    private let line5: UIView = {
         let view = UIView()
         view.backgroundColor = MAINCOLOR
         return view
@@ -128,6 +136,17 @@ class EmailRegisterController: BaseViewController, UITextFieldDelegate {
         tf.delegate = self
         return tf
     }()
+    
+    
+    private lazy var redeemCodeTF: UITextField = {
+        let tf = UITextField()
+        tf.font = BFONT(14)
+        tf.placeholder = "Redeem code (optional)"
+        tf.textColor = HCOLOR("#333333")
+        tf.delegate = self
+        return tf
+    }()
+    
     
     
     private let hideBut: UIButton = {
@@ -221,13 +240,18 @@ class EmailRegisterController: BaseViewController, UITextFieldDelegate {
             $0.top.equalTo(line2.snp.bottom).offset(50)
         }
 
+        view.addSubview(line4)
+        line4.snp.makeConstraints {
+            $0.left.right.height.equalTo(line1)
+            $0.top.equalTo(line3.snp.bottom).offset(50)
+        }
 
-        
+    
         view.addSubview(nextBut)
         nextBut.snp.makeConstraints {
             $0.left.equalToSuperview().offset(30)
             $0.right.equalToSuperview().offset(-30)
-            $0.top.equalTo(line3.snp.bottom).offset(45)
+            $0.top.equalTo(line4.snp.bottom).offset(45)
             $0.height.equalTo(42)
         }
         
@@ -246,8 +270,9 @@ class EmailRegisterController: BaseViewController, UITextFieldDelegate {
             $0.right.equalTo(line2)
         }
         
-        view.addSubview(line4)
-        line4.snp.makeConstraints {
+        
+        view.addSubview(line5)
+        line5.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 1, height: 13))
             $0.centerY.equalTo(sendCodeBut)
             $0.right.equalTo(sendCodeBut.snp.left)
@@ -261,7 +286,7 @@ class EmailRegisterController: BaseViewController, UITextFieldDelegate {
             $0.height.equalTo(emailTF)
             $0.left.equalTo(line2)
             $0.bottom.equalTo(line2.snp.top)
-            $0.right.equalTo(line4.snp.left).offset(-10)
+            $0.right.equalTo(line5.snp.left).offset(-10)
         }
         
         view.addSubview(hideBut)
@@ -278,6 +303,14 @@ class EmailRegisterController: BaseViewController, UITextFieldDelegate {
             $0.bottom.equalTo(line3.snp.top)
             $0.right.equalTo(hideBut.snp.left).offset(-5)
         }
+        
+        view.addSubview(redeemCodeTF)
+        redeemCodeTF.snp.makeConstraints {
+            $0.height.equalTo(emailTF)
+            $0.left.right.equalTo(line4)
+            $0.bottom.equalTo(line4.snp.top)
+        }
+
         
         
         view.addSubview(xyView)
@@ -405,7 +438,7 @@ class EmailRegisterController: BaseViewController, UITextFieldDelegate {
     //注册
     private func register_Net() {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.emailRegister(email: emailTF.text ?? "", pwd: (pwTF.text ?? "").md5Encrypt(), code: codeTF.text ?? "").subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.emailRegister(email: emailTF.text ?? "", pwd: (pwTF.text ?? "").md5Encrypt(), code: codeTF.text ?? "", reCode: redeemCodeTF.text ?? "").subscribe(onNext: { [unowned self] (json) in
             HUD_MB.showSuccess("Success", onView: view)
             DispatchQueue.main.after(time: .now() + 1) { [unowned self] in
                 navigationController?.popToRootViewController(animated: true)

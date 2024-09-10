@@ -44,7 +44,7 @@ class MenuVipCell: BaseTableViewCell {
     private let amountLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#6B4419"), BFONT(14), .right)
-        lab.text = "1000"
+        lab.text = "1000.41"
         return lab
     }()
     

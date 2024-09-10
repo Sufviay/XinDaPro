@@ -1008,9 +1008,9 @@ extension ConfirmOrderController {
     private func popUpPayAlert() {
         payAlert.paymentSupport = cartModel.paymentSupport
         //payAlert.deductionAmount = cartModel.deductionAmount
-        payAlert.payPrice = cartModel.payPrice
+        payAlert.payPrice = cartModel.payPrice - cartModel.rechargePrice
         payAlert.subtotal = cartModel.subFee
-        payAlert.total = cartModel.orderPrice
+        payAlert.total = cartModel.orderPrice - cartModel.rechargePrice
         payAlert.deliveryPrice = cartModel.deliverFee
         payAlert.servicePrice = cartModel.serviceFee
         payAlert.discountScale = cartModel.discountScale

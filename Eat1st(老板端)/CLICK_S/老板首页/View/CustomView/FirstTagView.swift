@@ -10,7 +10,7 @@ import UIKit
 class FirstTagView: UIView, UICollectionViewDelegate, UICollectionViewDataSource {
 
 
-    private var tagArr: [String] = ["Live Reporting", "Menu items"]
+    private var tagArr: [String] = ["Store revenue", "Live Reporting", "Menu items"]
     //, "Customer analysis"
 
     var selectIdx: Int = 0 {
@@ -29,7 +29,7 @@ class FirstTagView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.itemSize = CGSize(width: S_W / 2, height: 50)
+        layout.itemSize = CGSize(width: S_W / 3, height: 50)
         
         let coll = UICollectionView(frame: .zero, collectionViewLayout: layout)
         coll.bounces = false

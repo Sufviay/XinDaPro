@@ -424,6 +424,19 @@ class PJCUtil: NSObject {
         return Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
     }
     
+    
+    static func generateRandomString(length: Int = 32) -> String {
+        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        var randomString: String = ""
+        for _ in 0..<length {
+            let randomValue = arc4random_uniform(UInt32(letters.count)) // 生成随机数
+            let randomIndex = letters.index(letters.startIndex, offsetBy: Int(randomValue)) // 转换为字符串索引
+            randomString += String(letters[randomIndex]) // 将随机字符添加到字符串中
+        }
+        return randomString
+    }
+
+    
 }
 
 

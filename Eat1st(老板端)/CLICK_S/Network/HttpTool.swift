@@ -720,6 +720,18 @@ class HttpTool {
     }
     
     
+    //MARK: - 获取店铺收入
+    func getStoreInCost(dateType: String, start: String, end: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getStoreInCost(dateType: dateType, start: start, end: end))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 获取店铺支出
+    func getStoreOutCost() -> Observable<JSON> {
+        let response = rxApiManager(api: .getStoreOutCost)
+        return Observable<JSON>.create(response)
+    }
+    
     
     
     

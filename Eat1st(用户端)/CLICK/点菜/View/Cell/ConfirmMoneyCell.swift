@@ -145,7 +145,7 @@ class ConfirmMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataS
         dis_H = model.discountMsg_H
         disScale = model.discountScale
 
-        moneyArr = [model.subFee, model.deliverFee, model.serviceFee, model.packPrice, model.dishesDiscountAmount, model.couponAmount, model.discountAmount, 0, model.rechargePrice, model.orderPrice]
+        moneyArr = [model.subFee, model.deliverFee, model.serviceFee, model.packPrice, model.dishesDiscountAmount, model.couponAmount, model.discountAmount, 0, model.rechargePrice, (model.orderPrice -  model.rechargePrice)]
         self.table.reloadData()
     }
     

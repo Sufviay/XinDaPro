@@ -128,7 +128,7 @@ class OrderDetailMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
     func setCellData(model: OrderDetailModel) {
 
         dataModel = model
-        moneyArr = [model.actualFee, model.deliveryFee, model.serviceFee, model.packPrice, model.dishesDiscountAmount, model.couponAmount, model.discountAmount, 0, model.noPaidPrice, model.orderPrice, model.walletPrice, model.rechargePrice, model.payPrice]
+        moneyArr = [model.actualFee, model.deliveryFee, model.serviceFee, model.packPrice, model.dishesDiscountAmount, model.couponAmount, model.discountAmount, 0, model.noPaidPrice, model.orderPrice, model.walletPrice, model.rechargePrice, model.payPrice - model.rechargePrice]
         self.table.reloadData()
     }
     

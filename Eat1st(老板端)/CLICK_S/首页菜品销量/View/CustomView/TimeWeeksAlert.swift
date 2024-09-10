@@ -12,7 +12,7 @@ class TimeWeeksAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
     var selectBlock: VoidBlock?
     
     ///年数组
-    private let yearArr: [String] = Date().getYearStrArr(yearCount: 1)
+    private let yearArr: [String] = Date().getYearStrArr(yearCount: 3)
     ///当前年的周数组
     private var weekCount: Int = DateTool.getWeekCountBy(year: DateTool.getDateComponents(date: Date()).year!)
     

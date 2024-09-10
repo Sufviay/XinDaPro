@@ -112,6 +112,7 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
         tableView.register(MenuVipCell.self, forCellReuseIdentifier: "MenuVipCell")
         tableView.register(StoreFirstPageButCell.self, forCellReuseIdentifier: "StoreFirstPageButCell")
         tableView.register(StoreMainVipButCell.self, forCellReuseIdentifier: "StoreMainVipButCell")
+        tableView.register(StoreDiscountCell.self, forCellReuseIdentifier: "StoreDiscountCell")
         return tableView
     }()
 
@@ -121,10 +122,11 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
         view.backgroundColor = .white
         setUpUI()
         //addNotificationCenter()
-        loadData_Net()
+        
     }
     
     override func setNavi() {
+        loadData_Net()
         //getWalletMoney_Net()
     }
     
@@ -169,7 +171,7 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
         HTTPTOOl.Store_MainPageData(storeID: storeID).subscribe(onNext: { [unowned self] (json) in
             
             dataModel.updateModel(json: json["data"])
-            sectionNum = 5
+            sectionNum = 6
             //获取充值信息
             HTTPTOOl.getUserVip(storeID: storeID).subscribe(onNext: { [unowned self] (json2) in
                 HUD_MB.dissmiss(onView: view)
@@ -193,8 +195,14 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if section == 2 {
+        if section == 3 {
             if !dataModel.isVip {
+                return 0
+            }
+        }
+        
+        if section == 2 {
+            if !dataModel.isRegDiscount {
                 return 0
             }
         }
@@ -209,17 +217,22 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
             return SET_H(220, 375)
         }
         if indexPath.section == 1 {
-            return R_H(200)
+            return 110
         }
+        
         if indexPath.section == 2 {
-            return SET_H(50, 345) + 10
+            return 75
         }
         
         if indexPath.section == 3 {
-            return 95
+            return SET_H(50, 345) + 10
         }
         
         if indexPath.section == 4 {
+            return 95
+        }
+        
+        if indexPath.section == 5 {
             return 220
         }
         return 100
@@ -237,12 +250,18 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
             cell.setCellData(model: self.dataModel)
             return cell
         }
+        
         if indexPath.section == 2 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "StoreDiscountCell", for: indexPath)
+            return cell
+        }
+        
+        if indexPath.section == 3 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MenuVipCell") as! MenuVipCell
             cell.setCellData(model: dataModel, canClick: false)
             return cell
         }
-        if indexPath.section == 3 {
+        if indexPath.section == 4 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "StoreMainVipButCell") as! StoreMainVipButCell
             cell.setCellData(amount: dataModel.vipAmount)
             
@@ -286,7 +305,7 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
             
             return cell
         }
-        if indexPath.section == 4 {
+        if indexPath.section == 5 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "StoreFirstPageButCell") as! StoreFirstPageButCell
             cell.setCellData(data: dataModel, isDinein: isClickList, typeArr: saleTypeArr)
             
@@ -310,6 +329,24 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
         return cell
     }
 
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 2 {
+            //展示充值码
+            if UserDefaults.standard.isAgree {
+                let payVC = PayCodeController()
+                payVC.storeID = storeID
+                navigationController?.pushViewController(payVC, animated: true)
+            } else {
+                //弹出法律条文页面
+                let webVC = AgreeTermsController()
+                webVC.titStr = "APP Terms and Conditions"
+                webVC.webUrl = TCURL
+                webVC.storeID = storeID
+                self.present(webVC, animated: true, completion: nil)
+            }
+        }
+    }
     
     
     //MARK: - 扫一扫

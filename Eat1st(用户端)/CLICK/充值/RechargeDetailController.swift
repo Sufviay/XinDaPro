@@ -146,11 +146,18 @@ class RechargeDetailController: BaseViewController, UITableViewDelegate, UITable
     override func setNavi() {
         naviBar.headerTitle = storeName
         naviBar.leftImg = LOIMG("nav_back")
-        naviBar.rightBut.isHidden = true
+        naviBar.rightImg = LOIMG("liwu")
     }
     
     override func clickLeftButAction() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    
+    override func clickRightButAction() {
+        //兑换礼品券页面
+        let nextVC = RedeemGiftController()
+        navigationController?.pushViewController(nextVC, animated: true)
     }
 
     

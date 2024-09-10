@@ -115,6 +115,8 @@
 		E350DCE22BB29F1F00A29434 /* DineInTimeTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E350DCE12BB29F1F00A29434 /* DineInTimeTabView.swift */; };
 		E350DCE42BB40ABD00A29434 /* DineInStoreInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E350DCE32BB40ABD00A29434 /* DineInStoreInfoView.swift */; };
 		E350DCE62BB418DD00A29434 /* DineInBottomToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E350DCE52BB418DD00A29434 /* DineInBottomToolView.swift */; };
+		E35268A22C6C9A0F007A847F /* PhoneRegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35268A12C6C9A0F007A847F /* PhoneRegisterController.swift */; };
+		E35268A42C6DE1E9007A847F /* FindPasswordPhoneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35268A32C6DE1E9007A847F /* FindPasswordPhoneController.swift */; };
 		E357460426AE621F00BC3763 /* LoginBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E357460326AE621F00BC3763 /* LoginBottomView.swift */; };
 		E357460826AE6DF000BC3763 /* ForgetPWController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E357460726AE6DF000BC3763 /* ForgetPWController.swift */; };
 		E357460B26AE8A7800BC3763 /* FirstController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E357460A26AE8A7800BC3763 /* FirstController.swift */; };
@@ -228,12 +230,19 @@
 		E3A949652C391E1E00C6C9EB /* ShareNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A949642C391E1E00C6C9EB /* ShareNameCell.swift */; };
 		E3A949672C39262700C6C9EB /* ShareRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A949662C39262700C6C9EB /* ShareRecordModel.swift */; };
 		E3A949692C3FB81500C6C9EB /* RechargeRemarkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A949682C3FB81500C6C9EB /* RechargeRemarkCell.swift */; };
+		E3A9496B2C4A50FC00C6C9EB /* StoreTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A9496A2C4A50FC00C6C9EB /* StoreTagCell.swift */; };
+		E3A9496D2C4A5F7F00C6C9EB /* StoreDiscountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A9496C2C4A5F7F00C6C9EB /* StoreDiscountCell.swift */; };
 		E3AA87A42806766B00DC793B /* FirstStoreFLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AA87A32806766B00DC793B /* FirstStoreFLCell.swift */; };
 		E3AD362327F8039100AA121F /* ReviewStarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AD362227F8039100AA121F /* ReviewStarView.swift */; };
 		E3AD362527F803A300AA121F /* ReviewStarTFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AD362427F803A300AA121F /* ReviewStarTFView.swift */; };
 		E3AD363127FC600B00AA121F /* StoreReviewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AD363027FC600B00AA121F /* StoreReviewsCell.swift */; };
 		E3AD363327FC6CA300AA121F /* StoreReplyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AD363227FC6CA300AA121F /* StoreReplyCell.swift */; };
 		E3AD363527FD3D9300AA121F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E3AD363427FD3D9300AA121F /* GoogleService-Info.plist */; };
+		E3AE4F502C883B870041C57A /* RedeemGiftController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AE4F4F2C883B870041C57A /* RedeemGiftController.swift */; };
+		E3AE4F522C8997DC0041C57A /* GiftRedeemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AE4F512C8997DC0041C57A /* GiftRedeemCell.swift */; };
+		E3AE4F542C8A95BE0041C57A /* GiftRedeemTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AE4F532C8A95BE0041C57A /* GiftRedeemTagView.swift */; };
+		E3AE4F562C8E8B420041C57A /* GiftBuiedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AE4F552C8E8B420041C57A /* GiftBuiedCell.swift */; };
+		E3AE4F582C8E9E110041C57A /* GiftShareAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AE4F572C8E9E110041C57A /* GiftShareAlert.swift */; };
 		E3B056852C03273E0005D15C /* DineInMenuDishCell_C.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B056842C03273E0005D15C /* DineInMenuDishCell_C.swift */; };
 		E3B1CF9B284F34A70044D69F /* AfterSalesMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B1CF9A284F34A70044D69F /* AfterSalesMessageCell.swift */; };
 		E3B1CF9D284F476D0044D69F /* AfterSalesTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B1CF9C284F476D0044D69F /* AfterSalesTitleCell.swift */; };
@@ -494,6 +503,8 @@
 		E350DCE12BB29F1F00A29434 /* DineInTimeTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DineInTimeTabView.swift; sourceTree = "<group>"; };
 		E350DCE32BB40ABD00A29434 /* DineInStoreInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DineInStoreInfoView.swift; sourceTree = "<group>"; };
 		E350DCE52BB418DD00A29434 /* DineInBottomToolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DineInBottomToolView.swift; sourceTree = "<group>"; };
+		E35268A12C6C9A0F007A847F /* PhoneRegisterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneRegisterController.swift; sourceTree = "<group>"; };
+		E35268A32C6DE1E9007A847F /* FindPasswordPhoneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordPhoneController.swift; sourceTree = "<group>"; };
 		E357460326AE621F00BC3763 /* LoginBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginBottomView.swift; sourceTree = "<group>"; };
 		E357460726AE6DF000BC3763 /* ForgetPWController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetPWController.swift; sourceTree = "<group>"; };
 		E357460A26AE8A7800BC3763 /* FirstController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstController.swift; sourceTree = "<group>"; };
@@ -614,12 +625,19 @@
 		E3A949642C391E1E00C6C9EB /* ShareNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareNameCell.swift; sourceTree = "<group>"; };
 		E3A949662C39262700C6C9EB /* ShareRecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareRecordModel.swift; sourceTree = "<group>"; };
 		E3A949682C3FB81500C6C9EB /* RechargeRemarkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RechargeRemarkCell.swift; sourceTree = "<group>"; };
+		E3A9496A2C4A50FC00C6C9EB /* StoreTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreTagCell.swift; sourceTree = "<group>"; };
+		E3A9496C2C4A5F7F00C6C9EB /* StoreDiscountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreDiscountCell.swift; sourceTree = "<group>"; };
 		E3AA87A32806766B00DC793B /* FirstStoreFLCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstStoreFLCell.swift; sourceTree = "<group>"; };
 		E3AD362227F8039100AA121F /* ReviewStarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewStarView.swift; sourceTree = "<group>"; };
 		E3AD362427F803A300AA121F /* ReviewStarTFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewStarTFView.swift; sourceTree = "<group>"; };
 		E3AD363027FC600B00AA121F /* StoreReviewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreReviewsCell.swift; sourceTree = "<group>"; };
 		E3AD363227FC6CA300AA121F /* StoreReplyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreReplyCell.swift; sourceTree = "<group>"; };
 		E3AD363427FD3D9300AA121F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E3AE4F4F2C883B870041C57A /* RedeemGiftController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedeemGiftController.swift; sourceTree = "<group>"; };
+		E3AE4F512C8997DC0041C57A /* GiftRedeemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftRedeemCell.swift; sourceTree = "<group>"; };
+		E3AE4F532C8A95BE0041C57A /* GiftRedeemTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftRedeemTagView.swift; sourceTree = "<group>"; };
+		E3AE4F552C8E8B420041C57A /* GiftBuiedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftBuiedCell.swift; sourceTree = "<group>"; };
+		E3AE4F572C8E9E110041C57A /* GiftShareAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftShareAlert.swift; sourceTree = "<group>"; };
 		E3B056842C03273E0005D15C /* DineInMenuDishCell_C.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DineInMenuDishCell_C.swift; sourceTree = "<group>"; };
 		E3B1CF9A284F34A70044D69F /* AfterSalesMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterSalesMessageCell.swift; sourceTree = "<group>"; };
 		E3B1CF9C284F476D0044D69F /* AfterSalesTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterSalesTitleCell.swift; sourceTree = "<group>"; };
@@ -835,6 +853,9 @@
 			children = (
 				E321ABDE2760E45C000CF43E /* StoreMainController.swift */,
 				E3A949592C37FD3E00C6C9EB /* StoreMainVipButCell.swift */,
+				E3CB077E27E1E2F9002CA110 /* StoreMidInfoCell.swift */,
+				E3A9496A2C4A50FC00C6C9EB /* StoreTagCell.swift */,
+				E3A9496C2C4A5F7F00C6C9EB /* StoreDiscountCell.swift */,
 			);
 			path = "店铺首页";
 			sourceTree = "<group>";
@@ -854,7 +875,9 @@
 			children = (
 				E326D9F42AC2BF410060C0BE /* LogInController.swift */,
 				E37C3C1F2BEA1EDB00A7528F /* EmailRegisterController.swift */,
+				E35268A12C6C9A0F007A847F /* PhoneRegisterController.swift */,
 				E3F4A9CE2B23010400494E39 /* FindPasswordController.swift */,
+				E35268A32C6DE1E9007A847F /* FindPasswordPhoneController.swift */,
 				E3B2D75F2B215918003847C4 /* PhoneLoginController.swift */,
 				E326DA112AE9397D0060C0BE /* LoginVeriCodeController.swift */,
 				E3F4A9CA2B22A49C00494E39 /* SetPasswordContrller.swift */,
@@ -1005,6 +1028,7 @@
 				E37D4E6F26E74F3300D497FF /* CLICK.entitlements */,
 				E37D4E6C26E74CA600D497FF /* CLICKDebug.entitlements */,
 				E3949A9C26AE4D5700160C75 /* CLICK-Bridging-Header.h */,
+				E3AE4F4E2C8829F10041C57A /* 礼品券 */,
 				E3A9495B2C390E7B00C6C9EB /* 分享 */,
 				E38FF55D2BF4C41000B42444 /* 充值 */,
 				E3CA8CBD2BC3F42E00AF0772 /* 预约 */,
@@ -1194,7 +1218,6 @@
 				E39BF3A526B12967009E6330 /* StoreTableCell.swift */,
 				E3469C76279FC9C400F7828D /* WalletDetailCell.swift */,
 				E3CB077C27E1DDAA002CA110 /* StoreFirstHeadCell.swift */,
-				E3CB077E27E1E2F9002CA110 /* StoreMidInfoCell.swift */,
 				E3CB078027E1EF4C002CA110 /* StoreDesCell.swift */,
 				E3CB078227E1F2DA002CA110 /* StoreFirstPageButCell.swift */,
 				E38BF4B8288E45010048F2EA /* MessageListCell.swift */,
@@ -1502,6 +1525,18 @@
 				E3A949662C39262700C6C9EB /* ShareRecordModel.swift */,
 			);
 			path = "分享";
+			sourceTree = "<group>";
+		};
+		E3AE4F4E2C8829F10041C57A /* 礼品券 */ = {
+			isa = PBXGroup;
+			children = (
+				E3AE4F4F2C883B870041C57A /* RedeemGiftController.swift */,
+				E3AE4F512C8997DC0041C57A /* GiftRedeemCell.swift */,
+				E3AE4F552C8E8B420041C57A /* GiftBuiedCell.swift */,
+				E3AE4F532C8A95BE0041C57A /* GiftRedeemTagView.swift */,
+				E3AE4F572C8E9E110041C57A /* GiftShareAlert.swift */,
+			);
+			path = "礼品券";
 			sourceTree = "<group>";
 		};
 		E3B3B13728603DDD007CCED4 /* DeviceID */ = {
@@ -1976,10 +2011,12 @@
 			files = (
 				E3B3FCE127C36E4800B479B7 /* GKPhoto.m in Sources */,
 				E3C3A3762832AE71009A728A /* OrderTSContentCell.swift in Sources */,
+				E3A9496D2C4A5F7F00C6C9EB /* StoreDiscountCell.swift in Sources */,
 				E33C1892299F81AF00D4D4E3 /* DishDetailInfoView.swift in Sources */,
 				E36D169A28767EDC003CE4BE /* ClassifySectionHeader.swift in Sources */,
 				E3F82A312875214F005E5FAB /* MenuNavBarView.swift in Sources */,
 				E32539BA276C8C1100EC0C84 /* HaveButtonOrderCell.swift in Sources */,
+				E3AE4F522C8997DC0041C57A /* GiftRedeemCell.swift in Sources */,
 				E3CB077D27E1DDAA002CA110 /* StoreFirstHeadCell.swift in Sources */,
 				E3949AAA26AE4E6900160C75 /* SDPhotoBrowser.m in Sources */,
 				E32B48912B3155D200B0F64C /* OrderDetailGoodsCell.swift in Sources */,
@@ -2056,6 +2093,7 @@
 				E3A45B21287EA864005024B3 /* SuggestListController.swift in Sources */,
 				E337296E28B9B5C800A06AB7 /* FirstAllStoreCell.swift in Sources */,
 				E39BF3A626B12967009E6330 /* StoreTableCell.swift in Sources */,
+				E3AE4F582C8E9E110041C57A /* GiftShareAlert.swift in Sources */,
 				E3CB077F27E1E2F9002CA110 /* StoreMidInfoCell.swift in Sources */,
 				E33F6EBD26D649B800A3E009 /* ReviewsModel.swift in Sources */,
 				E3CA8CC92BC53CF000AF0772 /* OccupyLabCell.swift in Sources */,
@@ -2069,6 +2107,7 @@
 				E326DA0A2AE65A920060C0BE /* CouponListCell.swift in Sources */,
 				E3949AC026AE4EAE00160C75 /* LTAdvancedManager.swift in Sources */,
 				E39BF38F26AFA8B0009E6330 /* FirstActivityTableCell.swift in Sources */,
+				E3AE4F562C8E8B420041C57A /* GiftBuiedCell.swift in Sources */,
 				E30E72C926BAB228001919AD /* StoreIntroduceTimeCell.swift in Sources */,
 				E34929E326DA02D90014F40E /* OrderChoosePayWayCell.swift in Sources */,
 				E38FF5652BF6F4D200B42444 /* DineInMenuDiscountCell.swift in Sources */,
@@ -2085,6 +2124,7 @@
 				E3469C79279FD18D00F7828D /* PayAlert.swift in Sources */,
 				E3C7F8B626BE6482006BF56E /* OrderStoreInfoCell.swift in Sources */,
 				E36E9AA226CA06D000483736 /* HttpTool.swift in Sources */,
+				E35268A22C6C9A0F007A847F /* PhoneRegisterController.swift in Sources */,
 				E39BF3AE26B25077009E6330 /* StoreSearchController.swift in Sources */,
 				E39BF3BA26B784EB009E6330 /* GestureTableView.swift in Sources */,
 				E32539B8276C8BB000EC0C84 /* NoButtonOrderCell.swift in Sources */,
@@ -2096,6 +2136,8 @@
 				E326DA122AE9397D0060C0BE /* LoginVeriCodeController.swift in Sources */,
 				E36E9A9F26C7C92400483736 /* SizeHeaderCell.swift in Sources */,
 				E3469C75279E7D8800F7828D /* WalletController.swift in Sources */,
+				E3A9496B2C4A50FC00C6C9EB /* StoreTagCell.swift in Sources */,
+				E3AE4F502C883B870041C57A /* RedeemGiftController.swift in Sources */,
 				E39BF39126AFB154009E6330 /* FirstCouponsTableCell.swift in Sources */,
 				E305E93526E0D90600AAB580 /* OrderDetailCell.swift in Sources */,
 				E305E94126E1C5CC00AAB580 /* EvaluateController.swift in Sources */,
@@ -2190,6 +2232,7 @@
 				E39BF3A426B120CF009E6330 /* StoreSXToolView.swift in Sources */,
 				E3C3A3742832A5C9009A728A /* OrderTSImageCell.swift in Sources */,
 				E326DA0C2AE6783E0060C0BE /* SelectCouponListCell.swift in Sources */,
+				E3AE4F542C8A95BE0041C57A /* GiftRedeemTagView.swift in Sources */,
 				E3B3FCE527C36E4800B479B7 /* GKPhotoView.m in Sources */,
 				E3949AAC26AE4E6900160C75 /* SDBrowserImageView.m in Sources */,
 				E3A949582C367E2600C6C9EB /* AgreeTermsController.swift in Sources */,
@@ -2221,6 +2264,7 @@
 				E3949AC126AE4EAE00160C75 /* LTLayout.swift in Sources */,
 				E36E9A9D26C7A43400483736 /* SelectSizeController.swift in Sources */,
 				E3AA87A42806766B00DC793B /* FirstStoreFLCell.swift in Sources */,
+				E35268A42C6DE1E9007A847F /* FindPasswordPhoneController.swift in Sources */,
 				E3469C77279FC9C400F7828D /* WalletDetailCell.swift in Sources */,
 				E3DEBD3C28E5523C00CE328E /* OrderDetailLuckyDrawCell.swift in Sources */,
 				E340F9442BA2D52A00952E1C /* DineInFirstController.swift in Sources */,
@@ -2488,7 +2532,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.81;
+				MARKETING_VERSION = 1.0.84;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Foodo2o-User";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2523,11 +2567,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.81;
+				MARKETING_VERSION = 1.0.84;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Foodo2o-User";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = user_dis;
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = userDis;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = UserDis;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

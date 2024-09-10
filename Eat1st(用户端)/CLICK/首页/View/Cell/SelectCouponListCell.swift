@@ -124,7 +124,7 @@ class SelectCouponListCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
             
             let isSelect = dataModel.dishesList[indexPath.row].couponUserDishesId == selectCouponModel.selCouponUserDishesId ? true : false
             
-            cell.setCouponCellData(model: dataModel.dishesList[indexPath.row], canChoose: true, isSelected: isSelect)
+            cell.setCouponCellData(model: dataModel.dishesList[indexPath.row], canChoose: (dataModel.status == "1" ? true : false), isSelected: isSelect)
             return cell
         }
         
@@ -150,14 +150,16 @@ class SelectCouponListCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
             
             let dishModel = dataModel.dishesList[indexPath.row]
             
-            if dishModel.couponUserDishesId == selectCouponModel.selCouponUserDishesId {
-                //取消选中
-                clickCouponDishBlock?(["", ""])
-            } else {
-                //选中
-                clickCouponDishBlock?([dishModel.dishName, dishModel.couponUserDishesId])
+            if dataModel.status == "1" {
+                if dishModel.couponUserDishesId == selectCouponModel.selCouponUserDishesId {
+                    //取消选中
+                    clickCouponDishBlock?(["", ""])
+                } else {
+                    //选中
+                    clickCouponDishBlock?([dishModel.dishName, dishModel.couponUserDishesId])
+                }
+
             }
-            
         }
     }
     

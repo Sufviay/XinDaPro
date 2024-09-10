@@ -67,7 +67,7 @@ class BossFirstController: HeadBaseViewController {
     
     lazy var pageView: LTPageView = {
         let H: CGFloat = S_H - bottomBarH - statusBarH - 50 - 80
-        let pageView = LTPageView(frame: CGRect(x: 0, y: statusBarH + 130, width: S_W, height: H), currentViewController: self, viewControllers: viewControllers, titles: ["", ""], layout: layout)
+        let pageView = LTPageView(frame: CGRect(x: 0, y: statusBarH + 130, width: S_W, height: H), currentViewController: self, viewControllers: viewControllers, titles: ["", "", ""], layout: layout)
         pageView.backgroundColor = .white
         
         pageView.didSelectIndexBlock = { [unowned self] (_, idx) in
@@ -119,7 +119,7 @@ class BossFirstController: HeadBaseViewController {
             $0.top.equalTo(tagView.snp.bottom)
         }
         
-        viewControllers = [LiveReportingController(), MenuItemsController()]
+        viewControllers = [StoreRevenueController(), LiveReportingController(), MenuItemsController()]
         view.addSubview(pageView)
 
         
