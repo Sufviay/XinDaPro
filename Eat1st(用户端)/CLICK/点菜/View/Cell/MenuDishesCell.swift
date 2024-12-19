@@ -35,6 +35,16 @@ class MenuDishesCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionV
         return img
     }()
     
+    private let vatView: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(FONTCOLOR, BFONT(10), .center)
+        lab.text = "VAT"
+        lab.backgroundColor = MAINCOLOR
+        lab.clipsToBounds = true
+        lab.layer.cornerRadius = 5
+        return lab
+    }()
+    
     
 
     private let nameLab: UILabel = {
@@ -155,12 +165,25 @@ class MenuDishesCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionV
     }()
     
     
-    private let newImg: UIImageView = {
+    private let limitImg: UIImageView = {
         let img = UIImageView()
-        img.image = LOIMG("NEW")
+        img.image = LOIMG("limit")
         return img
     }()
-
+    
+    private let limitLabImg: UIImageView = {
+        let img = UIImageView()
+        img.image = LOIMG("limitLab")
+        return img
+    }()
+    
+    private let limitNum: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(.white, BFONT(10), .center)
+        lab.text = "100"
+        return lab
+    }()
+    
     
     private let giveOneBackView: UIView = {
         let view = UIView()
@@ -228,15 +251,35 @@ class MenuDishesCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionV
             $0.left.equalToSuperview().offset(5)
             $0.top.bottom.equalToSuperview()
         }
-
-        contentView.addSubview(newImg)
-        newImg.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 30, height: 30))
-            $0.left.equalTo(goodsImg.snp.left).offset(-5)
-            $0.top.equalTo(goodsImg.snp.top).offset(-5)
-            
+        
+        goodsImg.addSubview(vatView)
+        vatView.snp.makeConstraints {
+            $0.bottom.equalToSuperview().offset(-5)
+            $0.size.equalTo(CGSize(width: 30, height: 15))
+            $0.right.equalToSuperview().offset(-2)
         }
 
+        contentView.addSubview(limitImg)
+        limitImg.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 35, height: 35))
+            $0.left.equalTo(goodsImg.snp.left).offset(-5)
+            $0.top.equalTo(goodsImg.snp.top).offset(-8)
+        }
+        
+        limitImg.addSubview(limitLabImg)
+        limitLabImg.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview().offset(8)
+            $0.size.equalTo(CGSize(width: 25, height: 11))
+        }
+
+        
+        limitImg.addSubview(limitNum)
+        limitNum.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(limitLabImg.snp.bottom)
+        }
+        
         
         contentView.addSubview(nameLab)
         nameLab.snp.makeConstraints {
@@ -483,6 +526,14 @@ class MenuDishesCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionV
             giveOneBackView.isHidden = true
         }
         
+        if model.vatType == "1" {
+            vatView.isHidden = true
+        }
+        if model.vatType == "2" {
+            vatView.isHidden = false
+        }
+        
+        
         if !canBuy {
             self.un_lab.text = "Unavailable"
             self.unUseImg.isHidden = false
@@ -540,8 +591,14 @@ class MenuDishesCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionV
             self.discountLab.text = ""
         }
 
-        //设置收否新品
-        self.newImg.isHidden = !model.isNew
+        //是否是限购
+        if model.dishesLimitType == "2" {
+            self.limitImg.isHidden = false
+        } else {
+            self.limitImg.isHidden = true
+        }
+        
+        limitNum.text = String(model.dishesLimitNum)
         
         self.goodsImg.sd_setImage(with: URL(string: model.listImg), placeholderImage: HOLDIMG)
         self.nameLab.text = model.name

@@ -122,6 +122,16 @@
 		E357460B26AE8A7800BC3763 /* FirstController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E357460A26AE8A7800BC3763 /* FirstController.swift */; };
 		E357461026AE92FE00BC3763 /* FirstSideToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E357460F26AE92FE00BC3763 /* FirstSideToolView.swift */; };
 		E357461326AEA76C00BC3763 /* FirstSideToolViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E357461226AEA76C00BC3763 /* FirstSideToolViewCell.swift */; };
+		E358C43C2C92C4F6007E1551 /* GiftVoucherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E358C43B2C92C4F6007E1551 /* GiftVoucherModel.swift */; };
+		E358C4452C943418007E1551 /* PresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E358C43F2C943418007E1551 /* PresentationController.swift */; };
+		E358C4462C943418007E1551 /* TransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E358C4402C943418007E1551 /* TransitionAnimator.swift */; };
+		E358C4472C943418007E1551 /* TransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E358C4412C943418007E1551 /* TransitioningDelegate.swift */; };
+		E358C4482C943418007E1551 /* UIViewController+ZCXPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E358C4422C943418007E1551 /* UIViewController+ZCXPopup.swift */; };
+		E358C4492C943418007E1551 /* ZCXPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E358C4432C943418007E1551 /* ZCXPopup.swift */; };
+		E358C44B2C95220A007E1551 /* GiftTakeAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E358C44A2C95220A007E1551 /* GiftTakeAlertController.swift */; };
+		E358C44D2C953A02007E1551 /* GiftTakeSuccessAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E358C44C2C953A02007E1551 /* GiftTakeSuccessAlert.swift */; };
+		E358C44F2CA2AC16007E1551 /* ShowGiftAlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E358C44E2CA2AC16007E1551 /* ShowGiftAlertManager.swift */; };
+		E358C4512CA3DBD7007E1551 /* GiftBeTakenAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E358C4502CA3DBD7007E1551 /* GiftBeTakenAlert.swift */; };
 		E35EEFA12BFB975E00FD6BDE /* DineInMenuDishCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35EEFA02BFB975E00FD6BDE /* DineInMenuDishCell.swift */; };
 		E363C15F28DC445C00C29C48 /* CouponContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E363C15E28DC445C00C29C48 /* CouponContentCell.swift */; };
 		E363C16128DC637D00C29C48 /* CouponModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E363C16028DC637D00C29C48 /* CouponModel.swift */; };
@@ -290,7 +300,6 @@
 		E3C7F8BA26BE77C8006BF56E /* OrderShowMoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C7F8B926BE77C8006BF56E /* OrderShowMoreCell.swift */; };
 		E3C7F8BC26BE7F23006BF56E /* OrderInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C7F8BB26BE7F23006BF56E /* OrderInputCell.swift */; };
 		E3C7F8BE26C0FA95006BF56E /* OrderCouponsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C7F8BD26C0FA95006BF56E /* OrderCouponsCell.swift */; };
-		E3C7F8C026C20D1C006BF56E /* OrderpayMoneyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C7F8BF26C20D1C006BF56E /* OrderpayMoneyCell.swift */; };
 		E3C7F8C226C21137006BF56E /* OrderRemarkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C7F8C126C21137006BF56E /* OrderRemarkCell.swift */; };
 		E3C7F8C626C22301006BF56E /* OrderPayButCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C7F8C526C22301006BF56E /* OrderPayButCell.swift */; };
 		E3CA8CC02BC51B2200AF0772 /* OccupyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CA8CBF2BC51B2200AF0772 /* OccupyController.swift */; };
@@ -510,6 +519,16 @@
 		E357460A26AE8A7800BC3763 /* FirstController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstController.swift; sourceTree = "<group>"; };
 		E357460F26AE92FE00BC3763 /* FirstSideToolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstSideToolView.swift; sourceTree = "<group>"; };
 		E357461226AEA76C00BC3763 /* FirstSideToolViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FirstSideToolViewCell.swift; path = "CLICK/首页/View/FirstSideToolViewCell.swift"; sourceTree = SOURCE_ROOT; };
+		E358C43B2C92C4F6007E1551 /* GiftVoucherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftVoucherModel.swift; sourceTree = "<group>"; };
+		E358C43F2C943418007E1551 /* PresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationController.swift; sourceTree = "<group>"; };
+		E358C4402C943418007E1551 /* TransitionAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionAnimator.swift; sourceTree = "<group>"; };
+		E358C4412C943418007E1551 /* TransitioningDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitioningDelegate.swift; sourceTree = "<group>"; };
+		E358C4422C943418007E1551 /* UIViewController+ZCXPopup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+ZCXPopup.swift"; sourceTree = "<group>"; };
+		E358C4432C943418007E1551 /* ZCXPopup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZCXPopup.swift; sourceTree = "<group>"; };
+		E358C44A2C95220A007E1551 /* GiftTakeAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftTakeAlertController.swift; sourceTree = "<group>"; };
+		E358C44C2C953A02007E1551 /* GiftTakeSuccessAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftTakeSuccessAlert.swift; sourceTree = "<group>"; };
+		E358C44E2CA2AC16007E1551 /* ShowGiftAlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowGiftAlertManager.swift; sourceTree = "<group>"; };
+		E358C4502CA3DBD7007E1551 /* GiftBeTakenAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftBeTakenAlert.swift; sourceTree = "<group>"; };
 		E35EEFA02BFB975E00FD6BDE /* DineInMenuDishCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DineInMenuDishCell.swift; sourceTree = "<group>"; };
 		E363C15E28DC445C00C29C48 /* CouponContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponContentCell.swift; sourceTree = "<group>"; };
 		E363C16028DC637D00C29C48 /* CouponModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponModel.swift; sourceTree = "<group>"; };
@@ -702,7 +721,6 @@
 		E3C7F8B926BE77C8006BF56E /* OrderShowMoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderShowMoreCell.swift; sourceTree = "<group>"; };
 		E3C7F8BB26BE7F23006BF56E /* OrderInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderInputCell.swift; sourceTree = "<group>"; };
 		E3C7F8BD26C0FA95006BF56E /* OrderCouponsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCouponsCell.swift; sourceTree = "<group>"; };
-		E3C7F8BF26C20D1C006BF56E /* OrderpayMoneyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderpayMoneyCell.swift; sourceTree = "<group>"; };
 		E3C7F8C126C21137006BF56E /* OrderRemarkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderRemarkCell.swift; sourceTree = "<group>"; };
 		E3C7F8C526C22301006BF56E /* OrderPayButCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderPayButCell.swift; sourceTree = "<group>"; };
 		E3CA8CBF2BC51B2200AF0772 /* OccupyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OccupyController.swift; sourceTree = "<group>"; };
@@ -1109,6 +1127,7 @@
 		E35077BF26ABECCA00D4E3DC /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				E358C4442C943418007E1551 /* ZCXPopup */,
 				E3B3B13728603DDD007CCED4 /* DeviceID */,
 				E3C7CFD9280A8D2A00992CDE /* XYPhotoBrower */,
 				E3B3FCBB27C36E4800B479B7 /* RichText */,
@@ -1230,6 +1249,18 @@
 				E3CCD1E02944211600381FF4 /* JiFenExchangeCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		E358C4442C943418007E1551 /* ZCXPopup */ = {
+			isa = PBXGroup;
+			children = (
+				E358C43F2C943418007E1551 /* PresentationController.swift */,
+				E358C4402C943418007E1551 /* TransitionAnimator.swift */,
+				E358C4412C943418007E1551 /* TransitioningDelegate.swift */,
+				E358C4422C943418007E1551 /* UIViewController+ZCXPopup.swift */,
+				E358C4432C943418007E1551 /* ZCXPopup.swift */,
+			);
+			path = ZCXPopup;
 			sourceTree = "<group>";
 		};
 		E38BF4B5288E3C640048F2EA /* 消息 */ = {
@@ -1497,7 +1528,6 @@
 				E34929E426DA1DB00014F40E /* OrderInputZQCell.swift */,
 				E3C7F8BD26C0FA95006BF56E /* OrderCouponsCell.swift */,
 				E33C189729A4ACCA00D4D4E3 /* OrderCouponDishCell.swift */,
-				E3C7F8BF26C20D1C006BF56E /* OrderpayMoneyCell.swift */,
 				E3C7F8C126C21137006BF56E /* OrderRemarkCell.swift */,
 				E3C7F8C526C22301006BF56E /* OrderPayButCell.swift */,
 				E34929E226DA02D90014F40E /* OrderChoosePayWayCell.swift */,
@@ -1535,6 +1565,11 @@
 				E3AE4F552C8E8B420041C57A /* GiftBuiedCell.swift */,
 				E3AE4F532C8A95BE0041C57A /* GiftRedeemTagView.swift */,
 				E3AE4F572C8E9E110041C57A /* GiftShareAlert.swift */,
+				E358C43B2C92C4F6007E1551 /* GiftVoucherModel.swift */,
+				E358C44A2C95220A007E1551 /* GiftTakeAlertController.swift */,
+				E358C4502CA3DBD7007E1551 /* GiftBeTakenAlert.swift */,
+				E358C44C2C953A02007E1551 /* GiftTakeSuccessAlert.swift */,
+				E358C44E2CA2AC16007E1551 /* ShowGiftAlertManager.swift */,
 			);
 			path = "礼品券";
 			sourceTree = "<group>";
@@ -2110,6 +2145,8 @@
 				E3AE4F562C8E8B420041C57A /* GiftBuiedCell.swift in Sources */,
 				E30E72C926BAB228001919AD /* StoreIntroduceTimeCell.swift in Sources */,
 				E34929E326DA02D90014F40E /* OrderChoosePayWayCell.swift in Sources */,
+				E358C4512CA3DBD7007E1551 /* GiftBeTakenAlert.swift in Sources */,
+				E358C44F2CA2AC16007E1551 /* ShowGiftAlertManager.swift in Sources */,
 				E38FF5652BF6F4D200B42444 /* DineInMenuDiscountCell.swift in Sources */,
 				E39BF3A226B11EE4009E6330 /* StoreListController.swift in Sources */,
 				E3B2D7602B215918003847C4 /* PhoneLoginController.swift in Sources */,
@@ -2138,6 +2175,7 @@
 				E3469C75279E7D8800F7828D /* WalletController.swift in Sources */,
 				E3A9496B2C4A50FC00C6C9EB /* StoreTagCell.swift in Sources */,
 				E3AE4F502C883B870041C57A /* RedeemGiftController.swift in Sources */,
+				E358C4482C943418007E1551 /* UIViewController+ZCXPopup.swift in Sources */,
 				E39BF39126AFB154009E6330 /* FirstCouponsTableCell.swift in Sources */,
 				E305E93526E0D90600AAB580 /* OrderDetailCell.swift in Sources */,
 				E305E94126E1C5CC00AAB580 /* EvaluateController.swift in Sources */,
@@ -2153,6 +2191,7 @@
 				E3B3FCDA27C36E4800B479B7 /* HXQButton.swift in Sources */,
 				E305E44B287975230074735F /* DeleteAccountAlert.swift in Sources */,
 				E39BF39C26AFF6F8009E6330 /* SearchAddressTableCell.swift in Sources */,
+				E358C4492C943418007E1551 /* ZCXPopup.swift in Sources */,
 				E39BF3B326B27590009E6330 /* LocationAlertView.swift in Sources */,
 				E33C1890299F7CD700D4D4E3 /* MenuComboDishCell.swift in Sources */,
 				E3406B8926CF808900915ADA /* MenuModel.swift in Sources */,
@@ -2194,6 +2233,7 @@
 				E32A39E8275F3113004C63D7 /* LBXPermissions.swift in Sources */,
 				E31EF59C2A58ED3800E88670 /* OrderSearchController.swift in Sources */,
 				E373803A2A394D1F0008A67C /* ScanOrderStoreContentCell.swift in Sources */,
+				E358C44B2C95220A007E1551 /* GiftTakeAlertController.swift in Sources */,
 				E38BF4B4288E2F3E0048F2EA /* SystemMsgView.swift in Sources */,
 				E3BEFEB0282BA9DE0050D1E6 /* OrderDetailMapCell.swift in Sources */,
 				E3949AC726AE4EAE00160C75 /* LTTableView.swift in Sources */,
@@ -2228,6 +2268,7 @@
 				E34929E526DA1DB00014F40E /* OrderInputZQCell.swift in Sources */,
 				E3B1CF9F2850495C0044D69F /* AfterSalesDetailReasonCell.swift in Sources */,
 				E3406B8F26D0DA4F00915ADA /* SizeAllergenCell.swift in Sources */,
+				E358C44D2C953A02007E1551 /* GiftTakeSuccessAlert.swift in Sources */,
 				E32539B3276C3FE000EC0C84 /* AddressAlertView.swift in Sources */,
 				E39BF3A426B120CF009E6330 /* StoreSXToolView.swift in Sources */,
 				E3C3A3742832A5C9009A728A /* OrderTSImageCell.swift in Sources */,
@@ -2244,6 +2285,7 @@
 				E39BF3B526B276AC009E6330 /* ReminLogInAlert.swift in Sources */,
 				E3B3FCDC27C36E4800B479B7 /* UIImage+FastKit.swift in Sources */,
 				E3BEFEB4282D14550050D1E6 /* RoundedCornersCell.swift in Sources */,
+				E358C4472C943418007E1551 /* TransitioningDelegate.swift in Sources */,
 				E3C7CFEE2811269500992CDE /* LocalizationTool.swift in Sources */,
 				E36D1698287561CE003CE4BE /* MenuSelectCell.swift in Sources */,
 				E3DE48B42770AC0900F3DCCD /* OrderRejectCell.swift in Sources */,
@@ -2277,6 +2319,7 @@
 				E3B3FCE427C36E4800B479B7 /* UIImage+GKDecoder.m in Sources */,
 				E38BF4B7288E3C840048F2EA /* MessageListController.swift in Sources */,
 				E350778D26ABEC9600D4E3DC /* AppDelegate.swift in Sources */,
+				E358C43C2C92C4F6007E1551 /* GiftVoucherModel.swift in Sources */,
 				E30E72C526BA8CEB001919AD /* StoreIntroduceHeaderCell.swift in Sources */,
 				E3C7F8BE26C0FA95006BF56E /* OrderCouponsCell.swift in Sources */,
 				E3949ADF26AE4F1A00160C75 /* Extension.swift in Sources */,
@@ -2286,6 +2329,7 @@
 				E350DCE22BB29F1F00A29434 /* DineInTimeTabView.swift in Sources */,
 				E3F82A3328755E71005E5FAB /* MenuDiscountCell.swift in Sources */,
 				E3A9495F2C3913E500C6C9EB /* ShareLinkCell.swift in Sources */,
+				E358C4452C943418007E1551 /* PresentationController.swift in Sources */,
 				E3F4A9CD2B22E4A200494E39 /* ResetPasswordController.swift in Sources */,
 				E3812D9D2BA19DB900AA97A3 /* FirstNoDataCell.swift in Sources */,
 				E39147CE282E534000E9D37C /* OrderDetailButCell.swift in Sources */,
@@ -2311,8 +2355,8 @@
 				E3949ADA26AE4F0800160C75 /* PJCUtil.swift in Sources */,
 				E3A30499299CDEBC0023DCC1 /* MenuMealGoodsCell.swift in Sources */,
 				E3DEBD4E28F2991D00CE328E /* FirstHavePrizeDrawCell.swift in Sources */,
+				E358C4462C943418007E1551 /* TransitionAnimator.swift in Sources */,
 				E32A39ED275F31B8004C63D7 /* ScanViewController.swift in Sources */,
-				E3C7F8C026C20D1C006BF56E /* OrderpayMoneyCell.swift in Sources */,
 				E39BF3B126B26E28009E6330 /* LocationController.swift in Sources */,
 				E3949ABD26AE4EAE00160C75 /* LTSimpleManager.swift in Sources */,
 				E3F4A9CF2B23010400494E39 /* FindPasswordController.swift in Sources */,
@@ -2523,7 +2567,7 @@
 				CODE_SIGN_ENTITLEMENTS = CLICK/CLICKDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0;
+				CURRENT_PROJECT_VERSION = 1.1;
 				DEVELOPMENT_TEAM = 2CRFF5W24M;
 				INFOPLIST_FILE = CLICK/Other/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Eat1st;
@@ -2532,13 +2576,14 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.84;
+				MARKETING_VERSION = 1.0.93;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Foodo2o-User";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "CLICK/CLICK-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -2557,7 +2602,7 @@
 				CODE_SIGN_ENTITLEMENTS = CLICK/CLICK.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.0;
+				CURRENT_PROJECT_VERSION = 1.1;
 				DEVELOPMENT_TEAM = 2CRFF5W24M;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 2CRFF5W24M;
 				INFOPLIST_FILE = CLICK/Other/Info.plist;
@@ -2567,7 +2612,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.84;
+				MARKETING_VERSION = 1.0.93;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Foodo2o-User";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = user_dis;
@@ -2575,6 +2620,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "CLICK/CLICK-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2598,6 +2644,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.newProject.CLICKTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CLICK.app/CLICK";
@@ -2621,6 +2671,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.newProject.CLICKTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CLICK.app/CLICK";
@@ -2642,6 +2696,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.newProject.CLICKUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = CLICK;
@@ -2663,6 +2721,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.newProject.CLICKUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = CLICK;

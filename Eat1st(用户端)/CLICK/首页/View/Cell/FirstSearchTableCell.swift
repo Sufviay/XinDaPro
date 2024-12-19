@@ -70,6 +70,7 @@ class FirstSearchTableCell: BaseTableViewCell {
         but.iconLab.text = "MEMBERSHIP"
         but.iconLab.font = BFONT(7)
         but.iconLab.textAlignment = .center
+        but.isHidden = true
         return but
     }()
 
@@ -83,7 +84,7 @@ class FirstSearchTableCell: BaseTableViewCell {
         contentView.addSubview(searchBut)
         searchBut.snp.makeConstraints {
             $0.left.equalToSuperview().offset(10)
-            $0.right.equalToSuperview().offset(-135)
+            $0.right.equalToSuperview().offset(-75)
             $0.top.equalToSuperview().offset(15)
             $0.bottom.equalToSuperview().offset(-10)
         }
@@ -127,21 +128,23 @@ class FirstSearchTableCell: BaseTableViewCell {
         }
         
         
-        contentView.addSubview(vipBut)
-        vipBut.snp.makeConstraints {
-            $0.centerY.equalTo(searchBut)
-            $0.width.equalTo(55)
-            $0.height.equalTo(38)
-            $0.right.equalToSuperview().offset(-10)
-        }
+//        contentView.addSubview(vipBut)
+//        vipBut.snp.makeConstraints {
+//            $0.centerY.equalTo(searchBut)
+//            $0.width.equalTo(55)
+//            $0.height.equalTo(38)
+//            $0.right.equalToSuperview().offset(-10)
+//        }
 
     
         contentView.addSubview(scanBut)
         scanBut.snp.makeConstraints {
             $0.centerY.equalTo(searchBut)
             $0.height.equalTo(38)
-            $0.right.equalTo(vipBut.snp.left).offset(-5)
+            //$0.right.equalTo(vipBut.snp.left).offset(-5)
             $0.width.equalTo(55)
+            $0.right.equalToSuperview().offset(-10)
+            
         }
 
 
@@ -205,6 +208,7 @@ class FirstCustomBut: UIButton {
     
     let iconLab: UILabel = {
         let lab = UILabel()
+        lab.textColor = FONTCOLOR
         return lab
     }()
     

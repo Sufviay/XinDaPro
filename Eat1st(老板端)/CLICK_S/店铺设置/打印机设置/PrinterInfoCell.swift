@@ -11,8 +11,8 @@ class PrinterInfoCell: BaseTableViewCell {
 
     var clickMoreBlock: VoidBlock?
     
-    private lazy var editeAlert: TableMoreAlert = {
-        let alert = TableMoreAlert()
+    private lazy var editeAlert: PrinterMoreAlert = {
+        let alert = PrinterMoreAlert()
         
         alert.clickBlock = { [unowned self] (type) in
             clickMoreBlock?(type)
@@ -175,7 +175,8 @@ class PrinterInfoCell: BaseTableViewCell {
     
     
     func setCellData(model: PrinterModel) {
-        editeAlert.status = model.status
+        editeAlert.openStatus = model.status
+        editeAlert.mainStatus = model.printMain
         
         if model.status == "1" {
             //启用

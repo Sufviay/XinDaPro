@@ -11,8 +11,8 @@ class OrderDetailMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
     
     private var dataModel = OrderDetailModel()
     
-    private let titStrArr: [String] = ["Food and drink total", "Delivery charge", "Service charge", "Bag fee", "Dishes discount", "Coupon", "Store discount", "", "Checkout discount", "Total", "Wallet", "Wallet Spent", "Payment"]
-    private var moneyArr: [Double] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    private let titStrArr: [String] = ["Food and drink total", "VAT","Delivery charge", "Service charge", "Bag fee", "Dishes discount", "Coupon", "Store discount", "", "Checkout discount", "Total", "Wallet", "Wallet Spent", "Payment"]
+    private var moneyArr: [Double] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     
     private let backView: UIView = {
         let view = UIView()
@@ -72,7 +72,7 @@ class OrderDetailMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if section == 7 {
+        if section == 8 {
             if dataModel.discountMsg == "" {
                 return 0
             } else {
@@ -80,7 +80,7 @@ class OrderDetailMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
             }
         }
         
-        if section == 1 {
+        if section == 2 {
             if dataModel.type == "1" {
                 return 1
             } else {
@@ -92,7 +92,7 @@ class OrderDetailMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
             }
         }
         
-        if section == 2 || section == 3 || section == 4 || section == 5 || section == 6 || section == 10 || section == 8 || section == 11 {
+        if section == 3 || section == 4 || section == 5 || section == 6 || section == 7 || section == 11 || section == 9 || section == 12 {
             if moneyArr[section] == 0 {
                 return 0
             } else {
@@ -104,7 +104,7 @@ class OrderDetailMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if indexPath.section == 7 {
+        if indexPath.section == 8 {
             return dataModel.discountMsg_H
         }
         
@@ -113,7 +113,7 @@ class OrderDetailMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.section == 7 {
+        if indexPath.section == 8 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DiscountMsgCell") as! DiscountMsgCell
             cell.setCellData(discountMsg: dataModel.discountMsg)
             return cell
@@ -128,7 +128,7 @@ class OrderDetailMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
     func setCellData(model: OrderDetailModel) {
 
         dataModel = model
-        moneyArr = [model.actualFee, model.deliveryFee, model.serviceFee, model.packPrice, model.dishesDiscountAmount, model.couponAmount, model.discountAmount, 0, model.noPaidPrice, model.orderPrice, model.walletPrice, model.rechargePrice, model.payPrice - model.rechargePrice]
+        moneyArr = [model.actualFee, model.vatAmount, model.deliveryFee, model.serviceFee, model.packPrice, model.dishesDiscountAmount, model.couponAmount, model.discountAmount, 0, model.noPaidPrice, model.orderPrice, model.walletPrice, model.rechargePrice, model.payPrice]
         self.table.reloadData()
     }
     

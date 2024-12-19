@@ -131,9 +131,16 @@ class PJCUtil: NSObject {
             alert.clickBlock = { (_) in
                 //FirebaseLoginManager.shared.doLogin {}
                 
-                let nav = UINavigationController(rootViewController: LogInController())
-                nav.modalPresentationStyle = .fullScreen
-                PJCUtil.currentVC()?.present(nav, animated: true)
+                if let rootVC = PJCUtil.currentVC()?.navigationController?.viewControllers.first {
+                    if rootVC.isKind(of: LogInController.self) {
+                        //已经是在登录了
+                        return
+                    } else {
+                        let nav = UINavigationController(rootViewController: LogInController())
+                        nav.modalPresentationStyle = .fullScreen
+                        PJCUtil.currentVC()?.present(nav, animated: true)
+                    }
+                }
             }
             alert.appearAction()
             return false
@@ -378,6 +385,33 @@ class PJCUtil: NSObject {
             UIApplication.shared.openURL(url!)
         }
     }
+    
+    //跳转浏览器
+    static func goBrowser(url: String) {
+    
+        var goUrl: URL!
+        
+        if UserDefaults.standard.isLogin  {
+            goUrl = URL(string: "\(url)?token=\((UserDefaults.standard.token ?? ""))")
+        } else {
+            goUrl = URL(string: url)
+        }
+        
+        print(goUrl)
+        
+        //检查是否可以打开Safari
+        if UIApplication.shared.canOpenURL(goUrl) {
+            if #available(iOS 10, *) {
+                UIApplication.shared.open(goUrl, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(goUrl)
+            }      
+        } else {
+            HUD_MB.showWarnig("Unable to open Safari！", onView: PJCUtil.getWindowView())
+        }
+        
+    }
+    
     
     //显示位置
     static func showLoacl(lat: Double, lng: Double) {

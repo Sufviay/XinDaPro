@@ -97,6 +97,8 @@ class OrderDetailModel: NSObject {
     
     ///余额支付金额
     var rechargePrice: Double = 0
+    ///含税金额
+    var vatAmount: Double = 0
     
     
     
@@ -213,6 +215,8 @@ class OrderDetailModel: NSObject {
     ///退款时间
     var refundCreateTime: String = ""
     
+    ///超市取货时间
+    var marketDate: String = ""
     
 
 
@@ -262,6 +266,7 @@ class OrderDetailModel: NSObject {
         self.paymentMethod = json["payType"].stringValue
         self.noPaidPrice = json["settleResult"]["noPaidPrice"].doubleValue
         self.rechargePrice = json["rechargePrice"].doubleValue
+        self.vatAmount = json["vatPrice"].doubleValue
         
         
         self.reserveMsg = json["reserveMsg"].stringValue
@@ -307,6 +312,7 @@ class OrderDetailModel: NSObject {
         
         self.refundStatusName = json["refundStatusName"].stringValue
         self.refundStatusId = json["refundStatusId"].stringValue
+        self.marketDate = json["marketDate"].stringValue
         
        
         
@@ -462,17 +468,17 @@ class OrderDetailModel: NSObject {
         
         
         if type == "1" {
-            let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, serviceFee, rechargePrice].filter { $0 != 0 }
+            let arr = [packPrice, vatAmount, dishesDiscountAmount, couponAmount, discountAmount, serviceFee, rechargePrice].filter { $0 != 0 }
             self.confirmMoney_H = 3 * 30 + CGFloat(arr.count) * 30 + discountMsg_H + 20
             
-            let arr1 = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, walletPrice, serviceFee, noPaidPrice, rechargePrice].filter { $0 != 0 }
+            let arr1 = [packPrice, vatAmount, dishesDiscountAmount, couponAmount, discountAmount, walletPrice, serviceFee, noPaidPrice, rechargePrice].filter { $0 != 0 }
             self.detailMoney_H = 4 * 35 + CGFloat(arr1.count) * 35 + discountMsg_H + 20
             
         } else {
-            let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, serviceFee, deliveryFee, rechargePrice].filter { $0 != 0 }
+            let arr = [packPrice, vatAmount, dishesDiscountAmount, couponAmount, discountAmount, serviceFee, deliveryFee, rechargePrice].filter { $0 != 0 }
             self.confirmMoney_H = 2 * 30 + CGFloat(arr.count) * 30 + discountMsg_H + 20
             
-            let arr1 = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, walletPrice, serviceFee, deliveryFee, noPaidPrice, rechargePrice].filter { $0 != 0 }
+            let arr1 = [packPrice, vatAmount, dishesDiscountAmount, couponAmount, discountAmount, walletPrice, serviceFee, deliveryFee, noPaidPrice, rechargePrice].filter { $0 != 0 }
             self.detailMoney_H = 3 * 35 + CGFloat(arr1.count) * 35 + discountMsg_H + 20
         }
         

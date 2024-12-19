@@ -13,6 +13,10 @@ class CreateOrderModel: HandyJSON {
     var couponId: String = ""
     ///期望送货时间
     var hopeTime: String = ""
+    ///超市的期望送货时间
+    var reserveDate: String = ""
+    
+    
     ///现金付款或在线付款(1：现金、2 卡)
     var paymentMethod: String = ""
     ///收货人姓名

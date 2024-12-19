@@ -87,7 +87,9 @@ class ConfirmOrderCartModel: NSObject {
     var packPrice: Double = 0
     ///余额支付金额
     var rechargePrice: Double = 0
-
+    ///税的金额
+    var vatAmount: Double = 0
+    
     
     
 
@@ -118,6 +120,12 @@ class ConfirmOrderCartModel: NSObject {
     var dishArr: [CartDishModel] = []
     ///优惠券菜品
     var couponDish = CartDishModel()
+    
+    ///店铺种类（1外卖店，2超市）
+    var storeKind: String = ""
+    ///超市预约时间
+    var reserveDateList: [String] = []
+    
     
     
     
@@ -158,6 +166,22 @@ class ConfirmOrderCartModel: NSObject {
         
         self.packPrice = json["packPrice"].doubleValue
         self.rechargePrice = json["rechargePrice"].doubleValue
+        self.storeKind = json["storeKind"].stringValue
+        
+        
+        if type == "3" {
+            self.vatAmount = json["vatPirce"].doubleValue
+        } else {
+            self.vatAmount = json["vatAmount"].doubleValue
+        }
+        
+        
+    
+        var timeArr: [String] = []
+        for jsondata in json["reserveDateList"].arrayValue {
+            timeArr.append(jsondata["date"].stringValue)
+        }
+        self.reserveDateList = timeArr
         
         
         self.giveCouponReachNum = json["fiveGiveCouponResult"]["reachNum"].intValue
@@ -202,10 +226,10 @@ class ConfirmOrderCartModel: NSObject {
         
         if type == "1" {
             //外卖
-            let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, serviceFee, rechargePrice].filter { $0 != 0 }
+            let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, serviceFee, rechargePrice, vatAmount].filter { $0 != 0 }
             self.confirmMoney_H = 3 * 30 +  CGFloat(arr.count) * 30 + discountMsg_H + 20
         } else {
-            let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, serviceFee, deliverFee, rechargePrice].filter { $0 != 0 }
+            let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, serviceFee, deliverFee, rechargePrice, vatAmount].filter { $0 != 0 }
             self.confirmMoney_H = 2 * 30 +  CGFloat(arr.count) * 30 + discountMsg_H + 20
         }
  

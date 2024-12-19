@@ -22,6 +22,8 @@ class PrinterModel: NSObject {
     var printType: String = ""
     ///分开打印（1否，2是）
     var splitType: String = ""
+    ///是否是主打印机 主打印机（1否，2是）
+    var printMain: String = ""
     
     func updateModel(json: JSON) {
         
@@ -34,6 +36,7 @@ class PrinterModel: NSObject {
         
         splitType = json["splitType"].stringValue
         printType = json["printType"].stringValue
+        printMain = json["printMain"].stringValue
         
     }
     

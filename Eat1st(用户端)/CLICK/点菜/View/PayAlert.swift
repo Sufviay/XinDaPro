@@ -48,6 +48,8 @@ class PayAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
     var buyType: String = ""
     ///余额支付金额
     var rechargePrice: Double = 0
+    ///税钱金额
+    var vatAmount: Double = 0
     
     
     private let titLab: UILabel = {
@@ -218,11 +220,11 @@ class PayAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
             
             if buyType == "1" {
                 //外卖
-                let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, servicePrice, total].filter { $0 != 0 }
+                let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, servicePrice, vatAmount].filter { $0 != 0 }
                 return 2 * 35 + CGFloat(arr.count) * 35 + 20
                 
             } else {
-                let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, servicePrice, total, deliveryPrice].filter { $0 != 0 }
+                let arr = [packPrice, dishesDiscountAmount, couponAmount, discountAmount, servicePrice, deliveryPrice, vatAmount].filter { $0 != 0 }
                 return 1 * 35 + CGFloat(arr.count) * 35 + 20
             }
 
@@ -250,7 +252,7 @@ class PayAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITabl
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PayAlertMoneyCell") as! PayAlertMoneyCell
         
-            cell.setCellData(money: [subtotal, deliveryPrice, servicePrice, packPrice, dishesDiscountAmount, couponAmount, discountAmount, total], scale: discountScale, buyType: buyType)
+            cell.setCellData(money: [subtotal, vatAmount,deliveryPrice, servicePrice, packPrice, dishesDiscountAmount, couponAmount, discountAmount], scale: discountScale, buyType: buyType)
             
             return cell
         }

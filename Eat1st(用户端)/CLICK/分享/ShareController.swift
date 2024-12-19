@@ -22,6 +22,7 @@ class ShareController: BaseViewController, UITableViewDelegate, UITableViewDataS
 
     ///分享URL
     private var shareUrl: String = ""
+    private var shareImg: UIImage?
     
     private var sectionNum: Int = 0
     
@@ -143,7 +144,7 @@ class ShareController: BaseViewController, UITableViewDelegate, UITableViewDataS
 
         if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ShareLinkCell") as! ShareLinkCell
-            cell.setCellData(url: shareUrl)
+            cell.setCellData(url: shareUrl, img: shareImg!)
             return cell
         }
         
@@ -176,6 +177,7 @@ class ShareController: BaseViewController, UITableViewDelegate, UITableViewDataS
             page = 2
             sectionNum = 5
             shareUrl = SHAREURL(json["data"]["shareId"].stringValue)
+            shareImg = LBXScanWrapper.createCode(codeType: "CIQRCodeGenerator", codeString: shareUrl, size: CGSize(width: 210, height: 210), qrColor: .black, bkColor: .clear)
             var tarr: [ShareRecordModel] = []
             for jsonData in json["data"]["shareList"].arrayValue {
                 let model = ShareRecordModel()

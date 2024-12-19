@@ -30,6 +30,8 @@ class OccupyListModel: NSObject {
     ///预定状态（1待确认，2店家拒绝，3取消预定，4预定成功）[...]
     var reserveStatus: String = ""
     
+    var email: String = ""
+    
     
 
     func updateModel(json: JSON) {
@@ -42,6 +44,7 @@ class OccupyListModel: NSObject {
         reserveTime = json["reserveTime"].stringValue
         reserveNum = json["reserveNum"].stringValue
         reserveStatus = json["reserveStatus"].stringValue
+        email = json["email"].stringValue
         
     }
     

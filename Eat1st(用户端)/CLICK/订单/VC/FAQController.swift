@@ -77,6 +77,7 @@ class FAQController: BaseViewController, UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
+        
         if indexPath.row == dataArr.count {
             let h = "Suggestion / Need more help?".getTextHeigh(BFONT(15), S_W - 40)
             return h + 30
@@ -111,12 +112,29 @@ class FAQController: BaseViewController, UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if indexPath.row == dataArr.count + 1 {
+        if indexPath.row == 0 {
+            let webVC = ServiceController()
+            webVC.titStr = "Privacy Policy"
+            webVC.webUrl = "http://deal.foodo2o.com/privacy_policy.html"
+            self.present(webVC, animated: true, completion: nil)
+
+        }
+        
+        else if indexPath.row == 1 {
+            let webVC = ServiceController()
+            webVC.titStr = "Terms and Conditions"
+            webVC.webUrl = "http://deal.foodo2o.com/terms_of_service.html"
+            self.present(webVC, animated: true, completion: nil)
+        }
+
+        
+        else if indexPath.row == dataArr.count + 1 {
             //售后
             let nextVC = AfterSalesController()
             nextVC.orderID = self.orderID
             self.navigationController?.pushViewController(nextVC, animated: true)
         }
+        
         else if indexPath.row == dataArr.count {
             //意见建议
             let nextVC = SuggestionController()

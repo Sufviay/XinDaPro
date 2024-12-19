@@ -117,7 +117,7 @@ class OrderDetailRefundCell: BaseTableViewCell {
         tlab1.text = model.refundTypeName
         tlab2.text = "Refund method - \(model.refundFlowName)"
         
-        var money = ""
+        var money = "0"
         
         if model.cashPrice != 0 {
             money += "Cash £\(D_2_STR(model.cashPrice)) "

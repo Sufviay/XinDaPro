@@ -105,7 +105,7 @@ class ResetPasswordController: BaseViewController, UITextFieldDelegate {
         let tf = UITextField()
         tf.isSecureTextEntry = true
         tf.font = BFONT(14)
-        tf.placeholder = "Old password"
+        tf.setPlaceholder("Old password", color: HCOLOR("#BBBBBB"))
         tf.textColor = HCOLOR("#333333")
         tf.delegate = self
         return tf
@@ -116,7 +116,7 @@ class ResetPasswordController: BaseViewController, UITextFieldDelegate {
         let tf = UITextField()
         tf.isSecureTextEntry = true
         tf.font = BFONT(14)
-        tf.placeholder = "New password"
+        tf.setPlaceholder("New password", color: HCOLOR("#BBBBBB"))
         tf.textColor = HCOLOR("#333333")
         tf.delegate = self
         return tf
@@ -127,7 +127,7 @@ class ResetPasswordController: BaseViewController, UITextFieldDelegate {
         let tf = UITextField()
         tf.isSecureTextEntry = true
         tf.font = BFONT(14)
-        tf.placeholder = "Re-enter Password"
+        tf.setPlaceholder("Re-enter Password", color: HCOLOR("#BBBBBB"))
         tf.textColor = HCOLOR("#333333")
         tf.delegate = self
         return tf

@@ -30,7 +30,7 @@ class DineInOrderController: BaseViewController, UICollectionViewDelegate, UICol
     private var menuInfo = MenuModel()
     
     ///菜品模型
-    private var dataArr: [DishModel] = []
+    //private var dataArr: [DishModel] = []
     
     ///购物车的数据模型
     var cartModel = CartDataModel()

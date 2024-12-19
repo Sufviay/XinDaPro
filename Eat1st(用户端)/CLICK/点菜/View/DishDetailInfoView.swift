@@ -56,6 +56,14 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
         return lab
     }()
     
+    private let vatLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(FONTCOLOR, SFONT(13), .left)
+        lab.text = ""
+        return lab
+    }()
+    
+    
     private let disMoneyLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#999999"), SFONT(11), .left)
@@ -253,10 +261,16 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
             //$0.top.equalTo(collection.snp.bottom).offset(28)
         }
         
+        backView.addSubview(vatLab)
+        vatLab.snp.makeConstraints {
+            $0.centerY.equalTo(moneyLab)
+            $0.left.equalTo(moneyLab.snp.right).offset(3)
+        }
+        
         backView.addSubview(disMoneyLab)
         disMoneyLab.snp.makeConstraints {
             $0.centerY.equalTo(moneyLab)
-            $0.left.equalTo(moneyLab.snp.right).offset(5)
+            $0.left.equalTo(vatLab.snp.right).offset(5)
         }
         
         disMoneyLab.addSubview(disLine)
@@ -383,7 +397,12 @@ class DishDetailInfoView: UIView, UICollectionViewDelegate, UICollectionViewData
         self.tagArr = model.tagList//.filter{ $0.tagImg != "" }
         self.collection.reloadData()
         
-        
+        if model.vatType == "1" {
+            vatLab.text = ""
+        }
+        if model.vatType == "2" {
+            vatLab.text = "+VAT"
+        }
         
         
         if model.isHaveVipPrice {

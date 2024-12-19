@@ -120,7 +120,7 @@ class FindPasswordPhoneController: BaseViewController, UITextFieldDelegate {
     private lazy var numberTF: UITextField = {
         let tf = UITextField()
         tf.font = BFONT(14)
-        tf.placeholder = "Please enter phone number"
+        tf.setPlaceholder("Please enter phone number", color: HCOLOR("#BBBBBB"))
         tf.keyboardType = .numberPad
         tf.textColor = HCOLOR("#333333")
         return tf
@@ -151,7 +151,7 @@ class FindPasswordPhoneController: BaseViewController, UITextFieldDelegate {
     private lazy var picCodeTF: UITextField = {
         let tf = UITextField()
         tf.font = BFONT(14)
-        tf.placeholder = "Please enter code"
+        tf.setPlaceholder("Please enter code", color: HCOLOR("#BBBBBB"))
         tf.textColor = HCOLOR("#333333")
         return tf
     }()
@@ -187,7 +187,7 @@ class FindPasswordPhoneController: BaseViewController, UITextFieldDelegate {
     private lazy var codeTF: UITextField = {
         let tf = UITextField()
         tf.font = BFONT(14)
-        tf.placeholder = "Please enter verification code"
+        tf.setPlaceholder("Please enter verification code", color: HCOLOR("#BBBBBB"))
         tf.keyboardType = .numberPad
         tf.textColor = HCOLOR("#333333")
         tf.textContentType = .oneTimeCode
@@ -198,7 +198,7 @@ class FindPasswordPhoneController: BaseViewController, UITextFieldDelegate {
         let tf = UITextField()
         tf.isSecureTextEntry = true
         tf.font = BFONT(14)
-        tf.placeholder = "Please enter password"
+        tf.setPlaceholder("Please enter password", color: HCOLOR("#BBBBBB"))
         tf.textColor = HCOLOR("#333333")
         tf.delegate = self
         return tf
@@ -209,7 +209,7 @@ class FindPasswordPhoneController: BaseViewController, UITextFieldDelegate {
         let tf = UITextField()
         tf.isSecureTextEntry = true
         tf.font = BFONT(14)
-        tf.placeholder = "Please enter password again"
+        tf.setPlaceholder("Please enter password again", color: HCOLOR("#BBBBBB"))
         tf.textColor = HCOLOR("#333333")
         tf.delegate = self
         return tf

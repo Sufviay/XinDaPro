@@ -50,32 +50,32 @@ class OrderInputZQCell: BaseTableViewCell, UITextFieldDelegate {
     
     private lazy var nameInputTF: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "Name"
         tf.font = SFONT(14)
         tf.textColor = FONTCOLOR
         tf.tag = 1
         tf.delegate = self
+        tf.setPlaceholder("Name", color: HCOLOR("#BBBBBB"))
         return tf
     }()
     
     
     private lazy var phoneTF: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "Phone number"
         tf.font = SFONT(14)
         tf.textColor = FONTCOLOR
         tf.tag = 2
         tf.delegate = self
+        tf.setPlaceholder("Phone number", color: HCOLOR("#BBBBBB"))
         return tf
     }()
     
     
     private lazy var timeTF: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "Expected time"
         tf.font = SFONT(14)
         tf.textColor = FONTCOLOR
         tf.isUserInteractionEnabled = false
+        tf.setPlaceholder("Expected time", color: HCOLOR("#BBBBBB"))
         return tf
     }()
     
@@ -203,10 +203,12 @@ class OrderInputZQCell: BaseTableViewCell, UITextFieldDelegate {
 //    }
     
     
-    func setCellData1(name: String, phone: String, time: String, isCanEidte: Bool,  minTime: String, maxTime: String, ydMsg: String) {
+
+    
+    func setCellData1(name: String, phone: String, hopeTime: String, isCanEidte: Bool,  minTime: String, maxTime: String, ydMsg: String, storeKind: String, reserveDate: String) {
         self.nameInputTF.text = name
         self.phoneTF.text = phone
-        self.timeTF.text = time
+        self.timeTF.text = hopeTime
         
         self.nameInputTF.isEnabled = isCanEidte
         self.phoneTF.isEnabled = isCanEidte
@@ -220,6 +222,15 @@ class OrderInputZQCell: BaseTableViewCell, UITextFieldDelegate {
 //            self.alertLab.isHidden = true
 //        }
 //
+        
+        if storeKind != "2" {
+            labBView.isHidden = false
+            timeTF.text = hopeTime
+        } else {
+            labBView.isHidden = true
+            timeTF.text = reserveDate
+        }
+        
     
         if ydMsg == "" {
             self.alertLab.text = "Estimated time \(minTime)-\(maxTime)"

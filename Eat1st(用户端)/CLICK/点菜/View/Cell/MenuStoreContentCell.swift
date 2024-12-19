@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MenuStoreContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSource {
+class MenuStoreContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSource, SystemAlertProtocol {
     
     
     private var storeInfo = StoreInfoModel()
@@ -18,8 +18,7 @@ class MenuStoreContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
     
     ///购买方式
     var clickBuyTypeBlock: VoidStringBlock?
-    
-    
+        
     
     private let backView: UIView = {
         let view = UIView()
@@ -148,6 +147,10 @@ class MenuStoreContentCell: BaseTableViewCell, UITableViewDelegate, UITableViewD
             cell.clickOccupyBlock = { [unowned self] (_) in
                 if PJCUtil.checkLoginStatus() {
                     //MARK: - 预约
+                    if !storeInfo.isOpenBooking {
+                        showSystemAlert("Alert", "Table booking function turned off", "OK")
+                        return
+                    }
                     let nextVC = OccupyController()
                     nextVC.storeID = storeInfo.storeID
                     nextVC.storeName = storeInfo.name

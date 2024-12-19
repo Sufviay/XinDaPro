@@ -251,16 +251,17 @@ let ENV: String = "1"
 //"https://api.foodo2o.com/"
 //"http://api.moneycheers.net/"
 //"http://192.168.2.148:8800/"
+//"https://api-test.foodo2o.com/"
 
-let V2URL: String = ISONLINE ? "https://api.foodo2o.com/" : "http://api.moneycheers.net/"
+let V2URL: String = ISONLINE ? "https://api.foodo2o.com/" : "https://api-test.foodo2o.com/"
 
-let VERID: String = "84"
+let VERID: String = "93"
 
 let SERVICE_Email: String = "service@eat1st.co.uk"
 
 //V2URL + "prize/index.html"
 
-let wheelURL: String = V2URL + "prize/index.html" //ISONLINE ? "\(V2URL)prize/index.html" : "http://prize.moneycheers.net/index.html"
+let wheelURL: String = V2URL + "prize/index.html"
 
 ///法律页面
 let TCURL: String = "\(V2URL)low/index.html"

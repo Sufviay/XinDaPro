@@ -56,12 +56,12 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate {
     
     
     
-    private var H: CGFloat = bottomBarH + 610
+    private var H: CGFloat = bottomBarH + 650
 
     private let backView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: bottomBarH + 610), byRoundingCorners: [.topLeft, .topRight], radii: 20)
+        view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: bottomBarH + 650), byRoundingCorners: [.topLeft, .topRight], radii: 20)
         return view
     }()
     
@@ -115,9 +115,9 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate {
         return view
     }()
     
-    private lazy var copyView: SelectBut = {
-        let view = SelectBut()
-        view.setStyle(titStr: "Print copies", l_Str: "Print one copy", r_Str: "Print two copies")
+    private lazy var copyView: SelectBut_4 = {
+        let view = SelectBut_4()
+        view.setStyle(titStr: "Print copies", str1: "Print one copy", str2: "Print two copies", str3: "Print three copies", str4: "Print four copies")
         view.clickBlock = { [unowned self] (str) in
             printNum = str
         }
@@ -216,7 +216,8 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate {
         
         backView.addSubview(copyView)
         copyView.snp.makeConstraints {
-            $0.left.right.height.equalTo(nameView)
+            $0.left.right.equalTo(nameView)
+            $0.height.equalTo(105)
             $0.top.equalTo(ipView.snp.bottom).offset(15)
         }
         

@@ -11,7 +11,8 @@ class OccupyPersonInfoCell: BaseTableViewCell, UITextFieldDelegate {
 
     var editNameBlock: VoidStringBlock?
     var editPhoneBlock: VoidStringBlock?
-
+    //var editEmailBlock: VoidStringBlock?
+    
     private let tlab1: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#666666"), BFONT(13), .left)
@@ -26,12 +27,21 @@ class OccupyPersonInfoCell: BaseTableViewCell, UITextFieldDelegate {
         return lab
     }()
     
+//    private let tlab3: UILabel = {
+//        let lab = UILabel()
+//        lab.setCommentStyle(HCOLOR("#666666"), BFONT(13), .left)
+//        lab.text = "Email："
+//        return lab
+//    }()
+
+    
     private lazy var nameTF: UITextField = {
         let tf = UITextField()
         tf.textColor = FONTCOLOR
         tf.font = BFONT(16)
         tf.tag = 1
         tf.delegate = self
+        tf.setPlaceholder("Fill in the name", color: HCOLOR("#BBBBBB"))
         return tf
     }()
     
@@ -40,11 +50,23 @@ class OccupyPersonInfoCell: BaseTableViewCell, UITextFieldDelegate {
         tf.textColor = FONTCOLOR
         tf.font = BFONT(16)
         tf.keyboardType = .numberPad
+        tf.setPlaceholder("Fill in the phone number", color: HCOLOR("#BBBBBB"))
         tf.tag = 2
         tf.delegate = self
         return tf
     }()
     
+    
+//    private lazy var emailTF: UITextField = {
+//        let tf = UITextField()
+//        tf.textColor = FONTCOLOR
+//        tf.font = BFONT(16)
+//        tf.setPlaceholder("Fill in the email", color: HCOLOR("#BBBBBB"))
+//        tf.tag = 3
+//        tf.delegate = self
+//        return tf
+//    }()
+
     
     
     override func setViews() {
@@ -60,6 +82,14 @@ class OccupyPersonInfoCell: BaseTableViewCell, UITextFieldDelegate {
             $0.left.equalToSuperview().offset(20)
             $0.top.equalTo(tlab1.snp.bottom).offset(20)
         }
+        
+//        contentView.addSubview(tlab3)
+//        tlab3.snp.makeConstraints {
+//            $0.left.equalToSuperview().offset(20)
+//            $0.top.equalTo(tlab2.snp.bottom).offset(20)
+//        }
+        
+
         
         contentView.addSubview(nameTF)
         nameTF.snp.makeConstraints {
@@ -77,6 +107,15 @@ class OccupyPersonInfoCell: BaseTableViewCell, UITextFieldDelegate {
             $0.height.equalTo(40)
         }
         
+//        contentView.addSubview(emailTF)
+//        emailTF.snp.makeConstraints {
+//            $0.left.equalToSuperview().offset(130)
+//            $0.centerY.equalTo(tlab3)
+//            $0.right.equalToSuperview().offset(-20)
+//            $0.height.equalTo(40)
+//        }
+
+        
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -86,6 +125,10 @@ class OccupyPersonInfoCell: BaseTableViewCell, UITextFieldDelegate {
         if textField.tag == 2 {
             editPhoneBlock?(textField.text ?? "")
         }
+//        if textField.tag == 3 {
+//            editEmailBlock?(textField.text ?? "")
+//        }
+        
     }
     
     

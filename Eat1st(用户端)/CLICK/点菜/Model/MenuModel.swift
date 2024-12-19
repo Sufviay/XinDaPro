@@ -305,11 +305,17 @@ class MenuModel: NSObject {
          */
         
         
+        var jsonArr: [JSON] = []
+        for jsonData in json["data"]["timeDishesList"].arrayValue {
+            jsonArr.append(jsonData)
+        }
+        
+        
         //便利每个菜品
         for d_model in d_arr {
             
-            ///遍历时间段关系
-            for jsonData in json["data"]["timeDishesList"].arrayValue {
+            //遍历时间段关系
+            for jsonData in jsonArr {
                 
                 //时间关系里的菜品ID
                 let dishID = jsonData["dishesId"].stringValue
@@ -336,33 +342,6 @@ class MenuModel: NSObject {
             }
         }
         
-        
-        
-        
-//        for jsonData in json["data"]["timeDishesList"].arrayValue {
-//            //菜品ID
-//            let dishID = jsonData["dishesId"].stringValue
-//            ///根据菜品ID找到菜品model
-//            if (d_arr.filter { $0.dishID == dishID }).count != 0 {
-//                let d_model = (d_arr.filter { $0.dishID == dishID })[0]
-//                
-//                //时间段ID
-//                let timeID = jsonData["storeTimeId"].stringValue
-//                //根据时间段ID 找到时间段
-//                for openModel in openTimeArr {
-//                    if openModel.storeTimeId == timeID {
-//                        //将菜品放入相对应的分类下
-//                        for c_model in openModel.dataArr {
-//                            //分类ID相同加入 或者 标签跟分类名相同加入
-//                            if d_model.belongClassiftyID == c_model.flID || (d_model.tagList.filter { $0.tagName == c_model.flName_C }).count != 0  {
-//                                c_model.dishArr.append(d_model)
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-
         //去除时间列表中无菜品的空分类
         for openModel in openTimeArr {
             openModel.dataArr = openModel.dataArr.filter { $0.dishArr.count != 0 }
@@ -380,6 +359,10 @@ class MenuModel: NSObject {
             self.pageDataArr = allDataArr
         }
     }
+    
+    
+    
+    
     
     
     //根据购物车数据对菜品进行赋值
@@ -537,10 +520,18 @@ class DishModel: NSObject {
     var discountSale: String = ""
     
     ///是否是新品 没有了
-    var isNew: Bool = false
+    //var isNew: Bool = false
     
     ///是否买一赠一
     var isGiveOne: Bool = false
+    
+    ///是否限购 1否 2是
+    var dishesLimitType: String = ""
+    ///限购数量
+    var dishesLimitNum: Int = 0
+    ///是否含税 1否 2 是
+    var vatType: String = ""
+    
     
     ///描述
     var des: String = ""
@@ -598,7 +589,7 @@ class DishModel: NSObject {
    // 特殊套餐是为了做满5个点心的需求 套餐菜品（1否，2是）[...]
     var baleType: String = ""
     
-    
+        
     
 ///以上点餐列表页面使用
     
@@ -646,6 +637,12 @@ class DishModel: NSObject {
         self.unAlbleMsg = json["statusMsg"].stringValue
         self.belongClassiftyID = json["classifyId"].stringValue
         self.isGiveOne = json["giveOne"].stringValue == "1" ? false : true
+        
+        
+        self.dishesLimitNum = json["dishesLimitNum"].intValue
+        self.dishesLimitType = json["dishesLimitType"].stringValue
+        
+        self.vatType = json["vatType"].stringValue
         
         self.discountPrice = json["discountPrice"].doubleValue
         self.discountType = json["discountType"].stringValue
@@ -954,6 +951,9 @@ class CartDishModel: NSObject {
     
     ///vip价格
     var vipPrice: Double = 0
+    
+    ///是否含税 1 否。2是
+    var vatType: String = ""
 
 
     
@@ -973,6 +973,8 @@ class CartDishModel: NSObject {
         self.isGiveOne = json["giveOne"].stringValue == "1" ? false : true
         isHaveVipPrice = json["vipType"].stringValue == "2" ? true : false
         vipPrice = json["vipPrice"].doubleValue
+        
+        vatType = json["vatType"].stringValue
         
         
         

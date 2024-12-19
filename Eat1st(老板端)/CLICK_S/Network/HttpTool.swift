@@ -732,8 +732,69 @@ class HttpTool {
         return Observable<JSON>.create(response)
     }
     
+    //MARK: - 设置是否为主打印
+    func doMainPrinter(id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .doMainPrinter(id: id))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 获取用户预约列表
+    func getUserBookingList(page: Int, type: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getUserBookingList(page: String(page), type: type))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 添加预约
+    func addBooking(model: AddBookingModel) -> Observable<JSON> {
+        let response = rxApiManager(api: .addBooking(model: model))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 获取店铺预约时间
+    func getStoreBookingTime(date: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getStoreBookingTime(date: date))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 确认预约      预定结果（2拒绝预定，4预定成功
+    func doConfirmBooking(id: String, type: String, deskID: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .doConfirmBooking(id: id, type: type, deskID: deskID))
+        return Observable<JSON>.create(response)
+    }
     
     
+    //MARK: - 取消预约
+    func doCancelBooking(id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .doCancelBooking(id: id))
+        return Observable<JSON>.create(response)
+    }
+
+    //MARK: - 表格页面预约数据
+    func getBookingDataInCharts(date: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getBookingDataInCharts(date: date))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 获取店铺是否可预定
+    func getStoreBookingStatus() -> Observable<JSON> {
+        let response = rxApiManager(api: .getStoreBookingStatus)
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 恢复拒绝或者取消的预定
+    func doReconfimBooking(id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .doReconfirm(id: id))
+        return Observable<JSON>.create(response)
+    }
+    
+    
+    //MARK: - 预约进店
+    
+    func doCheckinBooking(id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .doBookingCheckin(id: id))
+        return Observable<JSON>.create(response)
+    }
+
     
 
     

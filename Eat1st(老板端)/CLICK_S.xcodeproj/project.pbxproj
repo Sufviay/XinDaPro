@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		1DD29FE1F06243CA8ACA2D4B /* Pods_CLICK_S_CLICK_SUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 242305B9C53FE1834B84891B /* Pods_CLICK_S_CLICK_SUITests.framework */; };
 		265706CB0BD4919A2BE1ACE8 /* Pods_CLICK_S.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36C376C62B40E001B326F421 /* Pods_CLICK_S.framework */; };
+		E30460B02CF0AED400DFC5BB /* TableSelectAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30460AF2CF0AED400DFC5BB /* TableSelectAlert.swift */; };
+		E30460B22CF0B62E00DFC5BB /* BookingDeatilAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30460B12CF0B62E00DFC5BB /* BookingDeatilAlert.swift */; };
 		E305E87A26DF0EC700AAB580 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E305E87926DF0EC700AAB580 /* AppDelegate.swift */; };
 		E305E88126DF0EC700AAB580 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E305E87F26DF0EC700AAB580 /* Main.storyboard */; };
 		E305E88326DF0EC800AAB580 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E305E88226DF0EC800AAB580 /* Assets.xcassets */; };
@@ -51,6 +53,8 @@
 		E305E94526E1F0A500AAB580 /* StoreTimeSettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E305E94426E1F0A500AAB580 /* StoreTimeSettingController.swift */; };
 		E305E94D26E20F4E00AAB580 /* TimeSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E305E94C26E20F4E00AAB580 /* TimeSelectView.swift */; };
 		E30B46B326F1DB3500FB9B2B /* SearchPlaceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30B46B226F1DB3500FB9B2B /* SearchPlaceManager.swift */; };
+		E31582E82CEEC868009D532B /* StoreBookingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31582E72CEEC868009D532B /* StoreBookingController.swift */; };
+		E31582EA2CEEC937009D532B /* BookingTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31582E92CEEC937009D532B /* BookingTagView.swift */; };
 		E316888429F380CE00318307 /* OpeningHoursModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E316888329F380CE00318307 /* OpeningHoursModel.swift */; };
 		E316888629F387F700318307 /* OpeningHoursCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E316888529F387F700318307 /* OpeningHoursCell.swift */; };
 		E316888829F3AFD800318307 /* StoreTimeListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E316888729F3AFD800318307 /* StoreTimeListController.swift */; };
@@ -112,6 +116,7 @@
 		E352689C2C634FF7007A847F /* StoreAmountDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E352689B2C634FF7007A847F /* StoreAmountDataCell.swift */; };
 		E352689E2C635AD5007A847F /* StoreInOrOutCostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E352689D2C635AD5007A847F /* StoreInOrOutCostModel.swift */; };
 		E35268A02C637213007A847F /* StoreOutChartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E352689F2C637213007A847F /* StoreOutChartCell.swift */; };
+		E358C4532CC89259007E1551 /* PrinterMoreAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E358C4522CC89259007E1551 /* PrinterMoreAlert.swift */; };
 		E364A84A2AA0779A00190DC9 /* DetailUserInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E364A8492AA0779A00190DC9 /* DetailUserInfoCell.swift */; };
 		E364A84C2AA07B2F00190DC9 /* DetailAddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E364A84B2AA07B2F00190DC9 /* DetailAddressCell.swift */; };
 		E364A84E2AA07E9200190DC9 /* DetailMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E364A84D2AA07E9200190DC9 /* DetailMessageCell.swift */; };
@@ -150,6 +155,10 @@
 		E398A28E277B0187002A1D24 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E398A28D277B0187002A1D24 /* GoogleService-Info.plist */; };
 		E39A1A1028605A9700FF29A6 /* AddClassifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39A1A0F28605A9700FF29A6 /* AddClassifyView.swift */; };
 		E39B5EB927C0CE7900276432 /* InPutAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39B5EB827C0CE7900276432 /* InPutAlert.swift */; };
+		E3A4076A2CEED8CB0055C05D /* BookingListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A407692CEED8CB0055C05D /* BookingListController.swift */; };
+		E3A4076C2CEED8DB0055C05D /* BookingScheController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A4076B2CEED8DB0055C05D /* BookingScheController.swift */; };
+		E3A4076E2CEF001F0055C05D /* ListTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A4076D2CEF001F0055C05D /* ListTagView.swift */; };
+		E3A407702CEF09F80055C05D /* BookingListContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A4076F2CEF09F80055C05D /* BookingListContentCell.swift */; };
 		E3AFB4B7285431EC005847AE /* ChangeDistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AFB4B6285431EC005847AE /* ChangeDistanceController.swift */; };
 		E3AFB4B928543842005847AE /* DistanceChargeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AFB4B828543842005847AE /* DistanceChargeCell.swift */; };
 		E3AFB4BD285449CB005847AE /* DeliveryFeeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AFB4BC285449CB005847AE /* DeliveryFeeModel.swift */; };
@@ -170,6 +179,18 @@
 		E3B3B12E285DBB94007CCED4 /* MenuListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B3B12D285DBB94007CCED4 /* MenuListController.swift */; };
 		E3B3B130285DBD50007CCED4 /* MenuTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B3B12F285DBD50007CCED4 /* MenuTagView.swift */; };
 		E3B3B132285DC210007CCED4 /* MenuListClassifyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B3B131285DC210007CCED4 /* MenuListClassifyCell.swift */; };
+		E3B9B66E2CEF12BB00AEF22C /* BookingContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B9B66D2CEF12BB00AEF22C /* BookingContentModel.swift */; };
+		E3B9B6702CEF160800AEF22C /* BookingListButCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B9B66F2CEF160800AEF22C /* BookingListButCell.swift */; };
+		E3B9B6722CEF207800AEF22C /* AddBookingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B9B6712CEF207800AEF22C /* AddBookingController.swift */; };
+		E3B9B6752CEF274000AEF22C /* AddBookingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B9B6742CEF274000AEF22C /* AddBookingModel.swift */; };
+		E3B9B6772CEF2FDA00AEF22C /* SelecItemAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B9B6762CEF2FDA00AEF22C /* SelecItemAlert.swift */; };
+		E3B9B6792CF02AB900AEF22C /* BookingTimeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B9B6782CF02AB900AEF22C /* BookingTimeModel.swift */; };
+		E3B9B67B2CF0336000AEF22C /* BookingTimeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B9B67A2CF0336000AEF22C /* BookingTimeCell.swift */; };
+		E3B9B67D2CF06FD100AEF22C /* DateSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B9B67C2CF06FD100AEF22C /* DateSelectView.swift */; };
+		E3B9B67F2CF0743800AEF22C /* DateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B9B67E2CF0743800AEF22C /* DateModel.swift */; };
+		E3B9B6812CF086BF00AEF22C /* ChartBackTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B9B6802CF086BF00AEF22C /* ChartBackTableCell.swift */; };
+		E3B9B6832CF089EA00AEF22C /* BookChartDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B9B6822CF089EA00AEF22C /* BookChartDataModel.swift */; };
+		E3B9B6852CF09B1200AEF22C /* ChartTimeCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B9B6842CF09B1200AEF22C /* ChartTimeCollectionCell.swift */; };
 		E3D83D852779BEF200615D4E /* TimeWeeksAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D83D842779BEF200615D4E /* TimeWeeksAlert.swift */; };
 		E3D83D87277AE6F000615D4E /* TimeYearAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D83D86277AE6F000615D4E /* TimeYearAlert.swift */; };
 		E3D83D89277AEA8400615D4E /* TimeMonthAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D83D88277AEA8400615D4E /* TimeMonthAlert.swift */; };
@@ -252,6 +273,8 @@
 		4C038725FD9DCE8E059D3B33 /* Pods-CLICK_S-CLICK_SUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CLICK_S-CLICK_SUITests.release.xcconfig"; path = "Target Support Files/Pods-CLICK_S-CLICK_SUITests/Pods-CLICK_S-CLICK_SUITests.release.xcconfig"; sourceTree = "<group>"; };
 		56954390178E1F9A4C21C34C /* Pods-CLICK_S-CLICK_SUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CLICK_S-CLICK_SUITests.debug.xcconfig"; path = "Target Support Files/Pods-CLICK_S-CLICK_SUITests/Pods-CLICK_S-CLICK_SUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		AF373789880E7E18294C3EC8 /* Pods-CLICK_STests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CLICK_STests.debug.xcconfig"; path = "Target Support Files/Pods-CLICK_STests/Pods-CLICK_STests.debug.xcconfig"; sourceTree = "<group>"; };
+		E30460AF2CF0AED400DFC5BB /* TableSelectAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSelectAlert.swift; sourceTree = "<group>"; };
+		E30460B12CF0B62E00DFC5BB /* BookingDeatilAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingDeatilAlert.swift; sourceTree = "<group>"; };
 		E305E87626DF0EC700AAB580 /* CLICK_S.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CLICK_S.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E305E87926DF0EC700AAB580 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E305E88026DF0EC700AAB580 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -306,6 +329,8 @@
 		E305E94C26E20F4E00AAB580 /* TimeSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSelectView.swift; sourceTree = "<group>"; };
 		E30B46B226F1DB3500FB9B2B /* SearchPlaceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchPlaceManager.swift; sourceTree = "<group>"; };
 		E310507E26E864B900C223C1 /* CLICK_S.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CLICK_S.entitlements; sourceTree = "<group>"; };
+		E31582E72CEEC868009D532B /* StoreBookingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreBookingController.swift; sourceTree = "<group>"; };
+		E31582E92CEEC937009D532B /* BookingTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingTagView.swift; sourceTree = "<group>"; };
 		E316888329F380CE00318307 /* OpeningHoursModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpeningHoursModel.swift; sourceTree = "<group>"; };
 		E316888529F387F700318307 /* OpeningHoursCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpeningHoursCell.swift; sourceTree = "<group>"; };
 		E316888729F3AFD800318307 /* StoreTimeListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreTimeListController.swift; sourceTree = "<group>"; };
@@ -367,6 +392,7 @@
 		E352689B2C634FF7007A847F /* StoreAmountDataCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreAmountDataCell.swift; sourceTree = "<group>"; };
 		E352689D2C635AD5007A847F /* StoreInOrOutCostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreInOrOutCostModel.swift; sourceTree = "<group>"; };
 		E352689F2C637213007A847F /* StoreOutChartCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreOutChartCell.swift; sourceTree = "<group>"; };
+		E358C4522CC89259007E1551 /* PrinterMoreAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterMoreAlert.swift; sourceTree = "<group>"; };
 		E364A8492AA0779A00190DC9 /* DetailUserInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailUserInfoCell.swift; sourceTree = "<group>"; };
 		E364A84B2AA07B2F00190DC9 /* DetailAddressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAddressCell.swift; sourceTree = "<group>"; };
 		E364A84D2AA07E9200190DC9 /* DetailMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMessageCell.swift; sourceTree = "<group>"; };
@@ -405,6 +431,10 @@
 		E398A28D277B0187002A1D24 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E39A1A0F28605A9700FF29A6 /* AddClassifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClassifyView.swift; sourceTree = "<group>"; };
 		E39B5EB827C0CE7900276432 /* InPutAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InPutAlert.swift; sourceTree = "<group>"; };
+		E3A407692CEED8CB0055C05D /* BookingListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingListController.swift; sourceTree = "<group>"; };
+		E3A4076B2CEED8DB0055C05D /* BookingScheController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingScheController.swift; sourceTree = "<group>"; };
+		E3A4076D2CEF001F0055C05D /* ListTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTagView.swift; sourceTree = "<group>"; };
+		E3A4076F2CEF09F80055C05D /* BookingListContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingListContentCell.swift; sourceTree = "<group>"; };
 		E3AFB4B6285431EC005847AE /* ChangeDistanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeDistanceController.swift; sourceTree = "<group>"; };
 		E3AFB4B828543842005847AE /* DistanceChargeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceChargeCell.swift; sourceTree = "<group>"; };
 		E3AFB4BC285449CB005847AE /* DeliveryFeeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryFeeModel.swift; sourceTree = "<group>"; };
@@ -425,6 +455,18 @@
 		E3B3B12D285DBB94007CCED4 /* MenuListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuListController.swift; sourceTree = "<group>"; };
 		E3B3B12F285DBD50007CCED4 /* MenuTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTagView.swift; sourceTree = "<group>"; };
 		E3B3B131285DC210007CCED4 /* MenuListClassifyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuListClassifyCell.swift; sourceTree = "<group>"; };
+		E3B9B66D2CEF12BB00AEF22C /* BookingContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingContentModel.swift; sourceTree = "<group>"; };
+		E3B9B66F2CEF160800AEF22C /* BookingListButCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingListButCell.swift; sourceTree = "<group>"; };
+		E3B9B6712CEF207800AEF22C /* AddBookingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookingController.swift; sourceTree = "<group>"; };
+		E3B9B6742CEF274000AEF22C /* AddBookingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookingModel.swift; sourceTree = "<group>"; };
+		E3B9B6762CEF2FDA00AEF22C /* SelecItemAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelecItemAlert.swift; sourceTree = "<group>"; };
+		E3B9B6782CF02AB900AEF22C /* BookingTimeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingTimeModel.swift; sourceTree = "<group>"; };
+		E3B9B67A2CF0336000AEF22C /* BookingTimeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingTimeCell.swift; sourceTree = "<group>"; };
+		E3B9B67C2CF06FD100AEF22C /* DateSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectView.swift; sourceTree = "<group>"; };
+		E3B9B67E2CF0743800AEF22C /* DateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateModel.swift; sourceTree = "<group>"; };
+		E3B9B6802CF086BF00AEF22C /* ChartBackTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartBackTableCell.swift; sourceTree = "<group>"; };
+		E3B9B6822CF089EA00AEF22C /* BookChartDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookChartDataModel.swift; sourceTree = "<group>"; };
+		E3B9B6842CF09B1200AEF22C /* ChartTimeCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTimeCollectionCell.swift; sourceTree = "<group>"; };
 		E3D83D842779BEF200615D4E /* TimeWeeksAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeWeeksAlert.swift; sourceTree = "<group>"; };
 		E3D83D86277AE6F000615D4E /* TimeYearAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeYearAlert.swift; sourceTree = "<group>"; };
 		E3D83D88277AEA8400615D4E /* TimeMonthAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeMonthAlert.swift; sourceTree = "<group>"; };
@@ -523,6 +565,54 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E30460B32CF0BAB500DFC5BB /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				E31582E72CEEC868009D532B /* StoreBookingController.swift */,
+				E3A407692CEED8CB0055C05D /* BookingListController.swift */,
+				E3A4076B2CEED8DB0055C05D /* BookingScheController.swift */,
+				E3B9B6712CEF207800AEF22C /* AddBookingController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		E30460B42CF161AC00DFC5BB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E3B9B6822CF089EA00AEF22C /* BookChartDataModel.swift */,
+				E3B9B67E2CF0743800AEF22C /* DateModel.swift */,
+				E3B9B66D2CEF12BB00AEF22C /* BookingContentModel.swift */,
+				E3B9B6782CF02AB900AEF22C /* BookingTimeModel.swift */,
+				E3B9B6742CEF274000AEF22C /* AddBookingModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E30460B52CF161D600DFC5BB /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				E3B9B6842CF09B1200AEF22C /* ChartTimeCollectionCell.swift */,
+				E3B9B6802CF086BF00AEF22C /* ChartBackTableCell.swift */,
+				E3B9B67A2CF0336000AEF22C /* BookingTimeCell.swift */,
+				E3B9B66F2CEF160800AEF22C /* BookingListButCell.swift */,
+				E3A4076F2CEF09F80055C05D /* BookingListContentCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		E30460B62CF161FF00DFC5BB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E31582E92CEEC937009D532B /* BookingTagView.swift */,
+				E3A4076D2CEF001F0055C05D /* ListTagView.swift */,
+				E3B9B6762CEF2FDA00AEF22C /* SelecItemAlert.swift */,
+				E3B9B67C2CF06FD100AEF22C /* DateSelectView.swift */,
+				E30460AF2CF0AED400DFC5BB /* TableSelectAlert.swift */,
+				E30460B12CF0B62E00DFC5BB /* BookingDeatilAlert.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		E305E86D26DF0EC700AAB580 = {
 			isa = PBXGroup;
 			children = (
@@ -561,6 +651,7 @@
 				E35268942C61F328007A847F /* 首页店铺收支 */,
 				E37C189429F657CB00D7C39D /* 首页营业数据 */,
 				E37C189A29F65D9800D7C39D /* 首页菜品销量 */,
+				E31582E62CEEC80E009D532B /* 首页预定 */,
 				E305E90326DF14E700AAB580 /* 登录 */,
 				E305E8FC26DF134800AAB580 /* Network */,
 				E305E8BD26DF133D00AAB580 /* Tool */,
@@ -762,6 +853,17 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		E31582E62CEEC80E009D532B /* 首页预定 */ = {
+			isa = PBXGroup;
+			children = (
+				E30460B52CF161D600DFC5BB /* Cell */,
+				E30460B42CF161AC00DFC5BB /* Model */,
+				E30460B32CF0BAB500DFC5BB /* Controller */,
+				E30460B62CF161FF00DFC5BB /* View */,
+			);
+			path = "首页预定";
+			sourceTree = "<group>";
+		};
 		E326D9F62ADFB7020060C0BE /* 打印机设置 */ = {
 			isa = PBXGroup;
 			children = (
@@ -771,6 +873,7 @@
 				E326D9FD2ADFC91B0060C0BE /* EditPrintAlert.swift */,
 				E36B20132C1BE09B000839BE /* SelectBut.swift */,
 				E36B20152C1BE4FD000839BE /* InputView.swift */,
+				E358C4522CC89259007E1551 /* PrinterMoreAlert.swift */,
 			);
 			path = "打印机设置";
 			sourceTree = "<group>";
@@ -1646,9 +1749,12 @@
 				E3B1CFBB28538CA70044D69F /* DishesNoDataView.swift in Sources */,
 				E305E8F226DF133D00AAB580 /* SDBrowserImageView.m in Sources */,
 				E305E8E726DF133D00AAB580 /* LTAdvancedManager.swift in Sources */,
+				E3A407702CEF09F80055C05D /* BookingListContentCell.swift in Sources */,
 				E364A84A2AA0779A00190DC9 /* DetailUserInfoCell.swift in Sources */,
 				E316888C29F3CAFC00318307 /* AddStoreTimeController.swift in Sources */,
 				E34E6E2B2A8DFE6700DBC2A5 /* ComplaintsContentCell.swift in Sources */,
+				E3B9B6852CF09B1200AEF22C /* ChartTimeCollectionCell.swift in Sources */,
+				E3B9B6702CEF160800AEF22C /* BookingListButCell.swift in Sources */,
 				E305E8E926DF133D00AAB580 /* LTTableViewProtocal.swift in Sources */,
 				E316889229F55E2300318307 /* StoreTimeDetailController.swift in Sources */,
 				E3F82A2D28741E7D005E5FAB /* VersionAlert.swift in Sources */,
@@ -1656,9 +1762,11 @@
 				E352689A2C630E9C007A847F /* StoreAmountChartCell.swift in Sources */,
 				E3F829E42861C445005E5FAB /* MenuDishDetailController.swift in Sources */,
 				E3F82A1428698DC5005E5FAB /* MenuAdditionalAddController.swift in Sources */,
+				E30460B02CF0AED400DFC5BB /* TableSelectAlert.swift in Sources */,
 				E34E6E252A8DF0B800DBC2A5 /* ComPlaintsNameCell.swift in Sources */,
 				E3F82A18286AC7A2005E5FAB /* MenuGiftAddController.swift in Sources */,
 				E36570CC2A9F13750020BD35 /* DishesShowCell.swift in Sources */,
+				E30460B22CF0B62E00DFC5BB /* BookingDeatilAlert.swift in Sources */,
 				E352689E2C635AD5007A847F /* StoreInOrOutCostModel.swift in Sources */,
 				E3F829FE286450FB005E5FAB /* DishDetailSpecInfoCell.swift in Sources */,
 				E3F829EC2864190D005E5FAB /* DishDetailPictureCell.swift in Sources */,
@@ -1669,7 +1777,9 @@
 				E326D9FE2ADFC91B0060C0BE /* EditPrintAlert.swift in Sources */,
 				E3386CA92791558400CBD42C /* XYViewController.swift in Sources */,
 				E305E8F426DF133D00AAB580 /* HUDManager_MB.swift in Sources */,
+				E3B9B67F2CF0743800AEF22C /* DateModel.swift in Sources */,
 				E3F829E828631BA2005E5FAB /* DishDetailModel.swift in Sources */,
+				E3B9B67D2CF06FD100AEF22C /* DateSelectView.swift in Sources */,
 				E36570BE2A9CA3C70020BD35 /* ComplaintsRefundAlert.swift in Sources */,
 				E34E6E432A90937300DBC2A5 /* ReviewsModel.swift in Sources */,
 				E3DE48C22779B40B00F3DCCD /* FiltrateSelectTagView.swift in Sources */,
@@ -1685,10 +1795,12 @@
 				E3F82A062865658D005E5FAB /* DishEditeTagCell.swift in Sources */,
 				E305E8FA26DF133D00AAB580 /* PJCUtil.swift in Sources */,
 				E36570C02A9DD22C0020BD35 /* ComplaintsDealRefundCell.swift in Sources */,
+				E3A4076A2CEED8CB0055C05D /* BookingListController.swift in Sources */,
 				E36B20142C1BE09B000839BE /* SelectBut.swift in Sources */,
 				E337296C28B64FE100A06AB7 /* StatisticalUnfulfilledDateCell.swift in Sources */,
 				E3F82A0028654DC6005E5FAB /* MenuDishEditeController.swift in Sources */,
 				E3AFB4C32856DA63005847AE /* MenuItemBottonCell.swift in Sources */,
+				E3B9B6772CEF2FDA00AEF22C /* SelecItemAlert.swift in Sources */,
 				E364A84E2AA07E9200190DC9 /* DetailMessageCell.swift in Sources */,
 				E34E6E2F2A8E020400DBC2A5 /* ComplaintsButtonCell.swift in Sources */,
 				E305E94D26E20F4E00AAB580 /* TimeSelectView.swift in Sources */,
@@ -1730,6 +1842,7 @@
 				E305E8E526DF133D00AAB580 /* LTCollectionFlowLayout.swift in Sources */,
 				E34C881D293B40C200A24F4D /* StatisticalFeeCell.swift in Sources */,
 				E36B20162C1BE4FD000839BE /* InputView.swift in Sources */,
+				E3A4076E2CEF001F0055C05D /* ListTagView.swift in Sources */,
 				E305E8EF26DF133D00AAB580 /* Extension.swift in Sources */,
 				E37C18C52A1A426300D7C39D /* MenuDishComboDetailController.swift in Sources */,
 				E3F829DE28619172005E5FAB /* MenuDishCell.swift in Sources */,
@@ -1752,19 +1865,24 @@
 				E305E8BC26DF133000AAB580 /* BaseAlertView.swift in Sources */,
 				E305E8EA26DF133D00AAB580 /* LTPageTitleView.swift in Sources */,
 				E34E6E132A8A0BAD00DBC2A5 /* CancelReasonCell.swift in Sources */,
+				E3B9B6832CF089EA00AEF22C /* BookChartDataModel.swift in Sources */,
 				E34E6E232A8DBF9700DBC2A5 /* ComplaintsCell.swift in Sources */,
 				E3F82A272873DAC2005E5FAB /* CropImageController.swift in Sources */,
 				E34E6E112A89F9C700DBC2A5 /* DetailStatusCell.swift in Sources */,
 				E372C65F28A5E5F80046DC55 /* DishKuCunEditeCell.swift in Sources */,
 				E3F829F82864393A005E5FAB /* DishEditeInPutCell.swift in Sources */,
+				E31582EA2CEEC937009D532B /* BookingTagView.swift in Sources */,
 				E3F829DC28617749005E5FAB /* MenuDishSearchView.swift in Sources */,
 				E364A8572AA177E500190DC9 /* DeskSettingController.swift in Sources */,
 				E3509F15277C37D80012CF3E /* TimeDayAlert.swift in Sources */,
+				E3B9B6752CEF274000AEF22C /* AddBookingModel.swift in Sources */,
 				E3B3B12A285D7CA6007CCED4 /* DishesSpecItemCell.swift in Sources */,
 				E34E6E0A2A85DBDA00DBC2A5 /* MergeOrderController.swift in Sources */,
 				E3DF139C2843BDBF007FCC11 /* BossFirstController.swift in Sources */,
 				E372C65D28A501AB0046DC55 /* EditeKuCunView.swift in Sources */,
+				E3B9B6792CF02AB900AEF22C /* BookingTimeModel.swift in Sources */,
 				E34E6E0D2A87609200DBC2A5 /* OrderDetailController.swift in Sources */,
+				E31582E82CEEC868009D532B /* StoreBookingController.swift in Sources */,
 				E3B1CFB52852E7E40044D69F /* DishesItemCell.swift in Sources */,
 				E305E8BA26DF133000AAB580 /* BaseTableViewCell.swift in Sources */,
 				E36570CA2A9EE7550020BD35 /* CountSelectView.swift in Sources */,
@@ -1777,6 +1895,7 @@
 				E326D9F82ADFB7340060C0BE /* PrinterSettingController.swift in Sources */,
 				E305E8EB26DF133D00AAB580 /* LTPageView.swift in Sources */,
 				E305E8ED26DF133D00AAB580 /* LTScrollExtension.swift in Sources */,
+				E3B9B6722CEF207800AEF22C /* AddBookingController.swift in Sources */,
 				E3F152892B3A640E00A8A199 /* StatisticalFeeNumCell.swift in Sources */,
 				E3AFB4B7285431EC005847AE /* ChangeDistanceController.swift in Sources */,
 				E305E90026DF134900AAB580 /* HttpTool.swift in Sources */,
@@ -1795,6 +1914,7 @@
 				E305E94526E1F0A500AAB580 /* StoreTimeSettingController.swift in Sources */,
 				E34E6E372A8F1C2900DBC2A5 /* ReviewsStarView.swift in Sources */,
 				E316889629F5822E00318307 /* StoreTimeBindingDishController.swift in Sources */,
+				E358C4532CC89259007E1551 /* PrinterMoreAlert.swift in Sources */,
 				E39A1A1028605A9700FF29A6 /* AddClassifyView.swift in Sources */,
 				E364A8502AA0818000190DC9 /* OrderDetailModel.swift in Sources */,
 				E3F829EA2864052F005E5FAB /* DishDetailMsgCell.swift in Sources */,
@@ -1813,6 +1933,7 @@
 				E3B3B126285C81EC007CCED4 /* DishesItemContentCell.swift in Sources */,
 				E305E87A26DF0EC700AAB580 /* AppDelegate.swift in Sources */,
 				E305E8F626DF133D00AAB580 /* NoDataView.swift in Sources */,
+				E3B9B66E2CEF12BB00AEF22C /* BookingContentModel.swift in Sources */,
 				E3AFB4C12856D6F4005847AE /* MenuItemMoreCell.swift in Sources */,
 				E305E8F126DF133D00AAB580 /* SDWaitingView.m in Sources */,
 				E3D83D89277AEA8400615D4E /* TimeMonthAlert.swift in Sources */,
@@ -1820,6 +1941,7 @@
 				E3F829FA28643C30005E5FAB /* DishEditeChooseCell.swift in Sources */,
 				E35268962C61FA3A007A847F /* StoreRevenueController.swift in Sources */,
 				E3F829EE28642E98005E5FAB /* DishListPictureCell.swift in Sources */,
+				E3A4076C2CEED8DB0055C05D /* BookingScheController.swift in Sources */,
 				E36570C82A9EE1A40020BD35 /* DishesSelectCell.swift in Sources */,
 				E364A8592AA1801D00190DC9 /* TableInfoCell.swift in Sources */,
 				E37C18C32A0BAA4700D7C39D /* DiscountSelectDateView.swift in Sources */,
@@ -1835,12 +1957,14 @@
 				E364A8522AA08EEB00190DC9 /* DetailTitleCell.swift in Sources */,
 				E326D9FC2ADFC4020060C0BE /* PrinterModel.swift in Sources */,
 				E316888829F3AFD800318307 /* StoreTimeListController.swift in Sources */,
+				E3B9B67B2CF0336000AEF22C /* BookingTimeCell.swift in Sources */,
 				E305E8FB26DF133D00AAB580 /* SearchManager.swift in Sources */,
 				E3F82A0C28659822005E5FAB /* DishSelectClassifyView.swift in Sources */,
 				E34E6E212A8C688700DBC2A5 /* ComplaintsController.swift in Sources */,
 				E3DE48BA27731CDD00F3DCCD /* SalesFiltrateView.swift in Sources */,
 				E31C2C742A2081C3007B6DC2 /* MenuDishComboEditeController.swift in Sources */,
 				E39B5EB927C0CE7900276432 /* InPutAlert.swift in Sources */,
+				E3B9B6812CF086BF00AEF22C /* ChartBackTableCell.swift in Sources */,
 				E3DF13AB2844AB63007FCC11 /* StatisticalHeaderCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2030,9 +2154,13 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.34;
+				MARKETING_VERSION = 1.0.37;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app-Boss";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "CLICK_S/CLICK_S-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -2060,11 +2188,15 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.34;
+				MARKETING_VERSION = 1.0.37;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app-Boss";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = boss_dis;
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = BossDis;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "CLICK_S/CLICK_S-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

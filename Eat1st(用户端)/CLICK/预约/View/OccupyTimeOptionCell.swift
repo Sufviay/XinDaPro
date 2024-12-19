@@ -54,18 +54,31 @@ class OccupyTimeOptionCell: UICollectionViewCell {
     }
     
     
-    func setCellData(model: OccupyTimeModel, isSelect: Bool) {
+    func setCellData(model: OccupyTimeModel, isSelect: Bool, canSel: Bool) {
+        
         timeLab.text = model.reserveTime
-        if isSelect {
-            timeLab.backgroundColor = HCOLOR("#FEF7DF")
-            timeLab.layer.borderWidth = 2
-            selectImg.isHidden = false
+        
+        if canSel {
+            
+            if isSelect {
+                timeLab.backgroundColor = HCOLOR("#FEF7DF")
+                timeLab.layer.borderWidth = 2
+                selectImg.isHidden = false
+                timeLab.textColor = FONTCOLOR
+            } else {
+                timeLab.backgroundColor = HCOLOR("#FAFAFA")
+                timeLab.layer.borderWidth = 0
+                selectImg.isHidden = true
+                timeLab.textColor = FONTCOLOR
+            }
+            
         } else {
             timeLab.backgroundColor = HCOLOR("#FAFAFA")
             timeLab.layer.borderWidth = 0
             selectImg.isHidden = true
-
+            timeLab.textColor = HCOLOR("#E5E5E5")
         }
+        
         
     }
 }

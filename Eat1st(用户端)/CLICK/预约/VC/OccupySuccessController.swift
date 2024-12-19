@@ -18,8 +18,9 @@ class OccupySuccessController: BaseViewController {
     
     private let successLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(17), .center)
-        lab.text = "Successful submission"
+        lab.setCommentStyle(.black, SFONT(14), .center)
+        lab.numberOfLines = 0
+        lab.text = "Thank You for Your Booking Request!\nWe will send you a confirmation email shortly.\n- If your booking is confirmed, the details will be included.\n- If we are fully booked, we will kindly notify you with alternative options.\nPlease check your email, including your spam folder, for updates."
         return lab
     }()
     
@@ -45,7 +46,8 @@ class OccupySuccessController: BaseViewController {
         
         view.addSubview(successLab)
         successLab.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
+            $0.left.equalToSuperview().offset(40)
+            $0.right.equalToSuperview().offset(-40)
             $0.top.equalTo(successImg.snp.bottom).offset(5)
         }
         

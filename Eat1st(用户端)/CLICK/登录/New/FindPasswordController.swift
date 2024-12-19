@@ -130,7 +130,7 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
     private lazy var numberTF: UITextField = {
         let tf = UITextField()
         tf.font = BFONT(14)
-        tf.placeholder = "Registered phone number(optional)"
+        tf.setPlaceholder("Registered phone number(optional)", color: HCOLOR("#BBBBBB"))
         tf.keyboardType = .numberPad
         tf.textColor = HCOLOR("#333333")
         return tf
@@ -141,7 +141,7 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
     private lazy var emailTF: UITextField = {
         let tf = UITextField()
         tf.font = BFONT(14)
-        tf.placeholder = "Please enter email addressl"
+        tf.setPlaceholder("Please enter email", color: HCOLOR("#BBBBBB"))
         tf.keyboardType = .emailAddress
         tf.textColor = HCOLOR("#333333")
         return tf
@@ -184,7 +184,7 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
     private lazy var codeTF: UITextField = {
         let tf = UITextField()
         tf.font = BFONT(14)
-        tf.placeholder = "Please enter verification code"
+        tf.setPlaceholder("Please enter verification code", color: HCOLOR("#BBBBBB"))
         tf.keyboardType = .numberPad
         tf.textColor = HCOLOR("#333333")
         tf.textContentType = .oneTimeCode
@@ -195,7 +195,7 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
         let tf = UITextField()
         tf.isSecureTextEntry = true
         tf.font = BFONT(14)
-        tf.placeholder = "Please enter password"
+        tf.setPlaceholder("Please enter password", color: HCOLOR("#BBBBBB"))
         tf.textColor = HCOLOR("#333333")
         tf.delegate = self
         return tf
@@ -206,7 +206,7 @@ class FindPasswordController: BaseViewController, UITextFieldDelegate, SystemAle
         let tf = UITextField()
         tf.isSecureTextEntry = true
         tf.font = BFONT(14)
-        tf.placeholder = "Please enter password again"
+        tf.setPlaceholder("Please enter password again", color: HCOLOR("#BBBBBB"))
         tf.textColor = HCOLOR("#333333")
         tf.delegate = self
         return tf

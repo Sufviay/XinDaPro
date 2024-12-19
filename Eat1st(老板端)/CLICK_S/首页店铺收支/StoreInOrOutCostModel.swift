@@ -10,7 +10,7 @@ import SwiftyJSON
 
 
 class StoreInOrOutCostModel: NSObject {
-    
+
     ///外卖人数[...]
     var deliNum: Int = 0
     ///堂食数量[...]
@@ -57,6 +57,7 @@ class StoreInOrOutCostModel: NSObject {
     
 
     func updateMode_InCost(json: JSON) {
+
         
         salesPrice = json["salesPrice"].doubleValue
         orderNum = json["orderNum"].intValue

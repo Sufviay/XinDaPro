@@ -54,7 +54,7 @@ class OrderChoosePayWayCell: BaseTableViewCell {
     private let cardlab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(MAINCOLOR, BFONT(14), .center)
-        lab.text = "Pay with Card"
+        lab.text = "Online Payment"
         return lab
     }()
     

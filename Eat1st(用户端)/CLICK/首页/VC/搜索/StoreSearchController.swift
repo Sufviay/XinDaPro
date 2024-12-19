@@ -52,7 +52,7 @@ class StoreSearchController: BaseViewController, UITableViewDelegate, UITableVie
     
     private lazy var searchTF: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "What do you want to search"
+        tf.setPlaceholder("What do you want to search", color: HCOLOR("#BBBBBB"))
         tf.font = SFONT(14)
         tf.textColor = FONTCOLOR
         return tf

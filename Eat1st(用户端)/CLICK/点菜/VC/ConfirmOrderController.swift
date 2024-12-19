@@ -115,7 +115,6 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
         tableView.register(OrderShowMoreCell.self, forCellReuseIdentifier: "OrderShowMoreCell")
         tableView.register(OrderRoundedCornersCell.self, forCellReuseIdentifier: "OrderRoundedCornersCell")
         tableView.register(OrderCouponsCell.self, forCellReuseIdentifier: "OrderCouponsCell")
-        tableView.register(OrderpayMoneyCell.self, forCellReuseIdentifier: "OrderpayMoneyCell")
         tableView.register(OrderRemarkCell.self, forCellReuseIdentifier: "OrderRemarkCell")
         
         tableView.register(ConfirmMoneyCell.self, forCellReuseIdentifier: "ConfirmMoneyCell")
@@ -141,8 +140,15 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
         alert.storeID = self.storeID
         
         alert.clickTimeBlock = { [unowned self] (time) in
-            self.submitModel.hopeTime = time as! String
-            self.getYSDTime_Net()
+            
+            if cartModel.storeKind != "2" {
+                self.submitModel.hopeTime = time as! String
+                self.getYSDTime_Net()
+            } else {
+                self.submitModel.reserveDate = time as! String
+                mainTable.reloadData()
+            }
+            
         }
         return alert
     }()
@@ -393,16 +399,22 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
             
             
             
-            if self.submitModel.hopeTime == "" {
-                if self.cartModel.reserveMsg == "" {
-                    self.submitModel.hopeTime = "ASAP"
-                } else {
-                    self.submitModel.hopeTime = ""
+            
+            if cartModel.storeKind != "2" {
+                if self.submitModel.hopeTime == "" {
+                    if self.cartModel.reserveMsg == "" {
+                        self.submitModel.hopeTime = "ASAP"
+                    } else {
+                        self.submitModel.hopeTime = ""
+                    }
                 }
+                self.getYSDTime_Net()
             }
+             
             self.sectionNum = 12
             self.mainTable.reloadData()
-            self.getYSDTime_Net()
+            
+            
             self.loadCouponStatus(price: D_2_STR(self.cartModel.subFee - self.cartModel.dishesDiscountAmount))
 
         }, onError: { [unowned self] (error) in
@@ -466,10 +478,20 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
             return
         }
         
-        if submitModel.hopeTime == "" {
+        
+        
+        if submitModel.hopeTime == "" && cartModel.storeKind == "1" {
             HUD_MB.showWarnig("Please Enter the expected time!", onView: self.view)
             return
         }
+        
+        
+        if submitModel.reserveDate == "" && cartModel.storeKind == "2" {
+            HUD_MB.showWarnig("Please Enter the expected time!", onView: self.view)
+            return
+        }
+          
+                
         
         if cartModel.canChooseFullGift && giftDishesId == "" {
             HUD_MB.showWarnig("Please choose free dishes!", onView: self.view)
@@ -557,9 +579,13 @@ class ConfirmOrderController: BaseViewController, UITableViewDelegate, UITableVi
                     let paymentIntentClientSecret = json["data"]["clientSecret"].stringValue
 
                     var config = PaymentSheet.Configuration()
-                    //config.merchantDisplayName = "Test"
-
                     config.customer = .init(id: customerId, ephemeralKeySecret: customerEphemeralKeySecret)
+                    config.merchantDisplayName = "Eat1st"
+                    //config.allowsDelayedPaymentMethods = true
+                    //config.applePay = .init(merchantId: "merchant.com.Eat1st", merchantCountryCode: "GB")
+                    
+
+                    
 
                     //DispatchQueue.main.async {
 
@@ -923,7 +949,7 @@ extension ConfirmOrderController {
             
             if type == "2" {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OrderInputZQCell") as! OrderInputZQCell
-                cell.setCellData1(name: submitModel.recipient, phone: submitModel.recipientPhone, time: submitModel.hopeTime, isCanEidte: self.isCanEidte, minTime: minTime, maxTime: maxTime, ydMsg: cartModel.reserveMsg)
+                cell.setCellData1(name: submitModel.recipient, phone: submitModel.recipientPhone, hopeTime: submitModel.hopeTime, isCanEidte: self.isCanEidte, minTime: minTime, maxTime: maxTime, ydMsg: cartModel.reserveMsg, storeKind: cartModel.storeKind, reserveDate: submitModel.reserveDate)
                 
                 cell.editeNameBlock = { [unowned self] (str) in
                     self.submitModel.recipient = str as! String
@@ -986,11 +1012,16 @@ extension ConfirmOrderController {
     private func showTimeAlert() {
         if self.cartModel.reserveMsg == "" {
             self.timeAlert.type = self.type
+            self.timeAlert.stroreKind = cartModel.storeKind
+            if cartModel.storeKind == "2" {
+                timeAlert.setTimeArr(arr: cartModel.reserveDateList)
+            }
             self.timeAlert.appearAction()
         } else {
             self.yy_timeAlert.type = self.type
             self.yy_timeAlert.appearAction()
         }
+        
     }
     
     
@@ -1008,7 +1039,7 @@ extension ConfirmOrderController {
     private func popUpPayAlert() {
         payAlert.paymentSupport = cartModel.paymentSupport
         //payAlert.deductionAmount = cartModel.deductionAmount
-        payAlert.payPrice = cartModel.payPrice - cartModel.rechargePrice
+        payAlert.payPrice = cartModel.payPrice
         payAlert.subtotal = cartModel.subFee
         payAlert.total = cartModel.orderPrice - cartModel.rechargePrice
         payAlert.deliveryPrice = cartModel.deliverFee
@@ -1020,6 +1051,7 @@ extension ConfirmOrderController {
         payAlert.packPrice = cartModel.packPrice
         payAlert.rechargePrice = cartModel.rechargePrice
         payAlert.buyType = type
+        payAlert.vatAmount = cartModel.vatAmount
         self.payAlert.alertReloadData()
         self.payAlert.appearAction()
 

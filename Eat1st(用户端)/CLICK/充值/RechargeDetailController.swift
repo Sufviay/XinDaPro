@@ -18,7 +18,7 @@ class RechargeModel: NSObject {
     var amount: Double = 0
     ///时间[...]
     var createTime: String = ""
-    ///明细类型（1充值，2消费 3退款4平台赠送5平台减扣）[...]
+    ///明细类型（1充值，2消费 3退款4平台赠送5平台减扣6赠送他人7他人赠送）[...]
     var detailType: String = ""
     ///赠送金额（当detailType=1时有值）[...]
     var giftAmount: Double = 0
@@ -136,17 +136,52 @@ class RechargeDetailController: BaseViewController, UITableViewDelegate, UITable
     }()
 
     
+    private let giftBut: UIButton = {
+        let but = UIButton()
+        but.backgroundColor = .clear
+        but.isHidden = true
+        return but
+    }()
+    
+    private let giftBackImg: UIImageView = {
+        let img = UIImageView()
+        img.image = GRADIENTCOLOR(HCOLOR("#FFF7C9"), HCOLOR("#FFEDAA"), CGSize(width: 85, height: 20))
+        //img.isUserInteractionEnabled = false
+        img.clipsToBounds = true
+        img.layer.cornerRadius = 5
+        return img
+    }()
+    
+    private let giftLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#9A5602"), BFONT(8), .right)
+        lab.text = "Gift voucher"
+        return lab
+    }()
+    
+    private let giftImg: UIImageView = {
+        let img = UIImageView()
+        //img.isUserInteractionEnabled = false
+        img.image = LOIMG("liwu")
+        return img
+    }()
+    
+    
+    
+    
+    
     
     
     override func setViews() {
         setUpUI()
-        loadData_Net()
     }
     
     override func setNavi() {
         naviBar.headerTitle = storeName
         naviBar.leftImg = LOIMG("nav_back")
-        naviBar.rightImg = LOIMG("liwu")
+        naviBar.rightBut.isHidden = true
+        loadData_Net()
+        loadCanBuyGiftStatus_Net()
     }
     
     override func clickLeftButAction() {
@@ -154,14 +189,37 @@ class RechargeDetailController: BaseViewController, UITableViewDelegate, UITable
     }
     
     
-    override func clickRightButAction() {
-        //兑换礼品券页面
-        let nextVC = RedeemGiftController()
-        navigationController?.pushViewController(nextVC, animated: true)
-    }
-
     
     private func setUpUI() {
+        
+        
+        naviBar.addSubview(giftBut)
+        giftBut.snp.makeConstraints {
+            $0.height.equalTo(40)
+            $0.bottom.equalToSuperview().offset(-2)
+            $0.right.equalToSuperview().offset(-10)
+            $0.width.equalTo(85)
+        }
+        
+        giftBut.addSubview(giftBackImg)
+        giftBackImg.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.centerY.equalToSuperview().offset(3)
+            $0.height.equalTo(20)
+        }
+        
+        giftBackImg.addSubview(giftLab)
+        giftLab.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.right.equalToSuperview().offset(-5)
+        }
+        
+        giftBut.addSubview(giftImg)
+        giftImg.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 24, height: 24))
+            $0.left.bottom.equalTo(giftBackImg)
+        }
+        
         
         view.addSubview(headImg)
         headImg.snp.makeConstraints {
@@ -212,6 +270,8 @@ class RechargeDetailController: BaseViewController, UITableViewDelegate, UITable
             $0.top.equalTo(line.snp.bottom).offset(10)
         }
         
+        giftBut.addTarget(self, action: #selector(clickGiftAction), for: .touchUpInside)
+        
         table.mj_header = MJRefreshNormalHeader() { [unowned self] in
             loadData_Net()
         }
@@ -220,6 +280,20 @@ class RechargeDetailController: BaseViewController, UITableViewDelegate, UITable
             loadDataMore_Net()
         }
         
+        
+        
+        
+    }
+    
+    
+    @objc private func clickGiftAction() {
+        //兑换礼品券页面
+        let nextVC = RedeemGiftController()
+        nextVC.storeID = storeID
+        nextVC.yueNum = moneyLab.text ?? "0"
+        nextVC.storeName = storeName
+        navigationController?.pushViewController(nextVC, animated: true)
+
     }
     
     
@@ -326,7 +400,26 @@ class RechargeDetailController: BaseViewController, UITableViewDelegate, UITable
         }, onError: {[unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
             table.mj_footer?.endRefreshing()
-        }).disposed(by: self.bag)
+        }).disposed(by: bag)
     }
+    
+    private func loadCanBuyGiftStatus_Net() {
+        HTTPTOOl.isCanBuyGift(storeID: storeID).subscribe(onNext: { [unowned self] (json) in
+            
+            if json["data"]["rechGiftStatus"].stringValue == "2" {
+                //是
+                giftBut.isHidden = false
+            }
+            if json["data"]["rechGiftStatus"].stringValue == "1" {
+                //否
+                giftBut.isHidden = true
+            }
+            
+            
+        }, onError: { [unowned self] (error) in
+            HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
+        }).disposed(by: bag)
+    }
+    
     
 }

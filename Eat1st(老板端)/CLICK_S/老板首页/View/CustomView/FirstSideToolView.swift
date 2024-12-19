@@ -51,7 +51,7 @@ class FirstSideToolView: UIView, UIGestureRecognizerDelegate, UITableViewDelegat
         let lab = UILabel()
         lab.setCommentStyle(.white, BFONT(14), .left)
         lab.lineBreakMode = .byTruncatingTail
-        lab.text = "\(UserDefaults.standard.userName ?? "")(\(UserDefaults.standard.userRole ?? ""))"
+        lab.text = "\(UserDefaults.standard.userName ?? "")"
         return lab
     }()
 

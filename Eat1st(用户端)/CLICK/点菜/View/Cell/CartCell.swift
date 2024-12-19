@@ -31,6 +31,19 @@ class MenuCartGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollecti
         return img
     }()
     
+    
+    private let vatView: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(FONTCOLOR, BFONT(10), .center)
+        lab.text = "VAT"
+        lab.backgroundColor = MAINCOLOR
+        lab.clipsToBounds = true
+        lab.layer.cornerRadius = 5
+        return lab
+    }()
+
+    
+    
     private let tview: UIView = {
         let view = UIView()
         view.backgroundColor = .black.withAlphaComponent(0.6)
@@ -177,6 +190,14 @@ class MenuCartGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollecti
             $0.left.equalToSuperview().offset(20)
         }
         
+        
+        goodsImg.addSubview(vatView)
+        vatView.snp.makeConstraints {
+            $0.bottom.equalToSuperview().offset(-5)
+            $0.size.equalTo(CGSize(width: 30, height: 15))
+            $0.right.equalToSuperview().offset(-2)
+        }
+        
         goodsImg.addSubview(tview)
         tview.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -311,6 +332,13 @@ class MenuCartGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollecti
             
         }
 
+        if model.vatType == "1" {
+            vatView.isHidden = true
+        }
+        if model.vatType == "2" {
+            vatView.isHidden = false
+        }
+        
         
         if model.isGiveOne {
             giveOneBackView.isHidden = false

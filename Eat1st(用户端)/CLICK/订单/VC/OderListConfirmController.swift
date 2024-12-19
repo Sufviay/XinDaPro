@@ -75,9 +75,7 @@ class OderListConfirmController: BaseViewController, UITableViewDelegate, UITabl
         tableView.register(OrderShowMoreCell.self, forCellReuseIdentifier: "OrderShowMoreCell")
         tableView.register(OrderRoundedCornersCell.self, forCellReuseIdentifier: "OrderRoundedCornersCell")
         tableView.register(OrderCouponsCell.self, forCellReuseIdentifier: "OrderCouponsCell")
-        tableView.register(OrderpayMoneyCell.self, forCellReuseIdentifier: "OrderpayMoneyCell")
         tableView.register(OrderRemarkCell.self, forCellReuseIdentifier: "OrderRemarkCell")
-        //tableView.register(OrderTotalMoneyCell.self, forCellReuseIdentifier: "OrderTotalMoneyCell")
         tableView.register(ConfirmMoneyCell.self, forCellReuseIdentifier: "ConfirmMoneyCell")
         tableView.register(OrderPayButCell.self, forCellReuseIdentifier: "OrderPayButCell")
         tableView.register(OrderTagCollectionCell.self, forCellReuseIdentifier: "OrderTagCollectionCell")
@@ -207,6 +205,7 @@ class OderListConfirmController: BaseViewController, UITableViewDelegate, UITabl
         payAlert.couponAmount = json["data"]["couponAmount"].doubleValue //dataModel.couponAmount
         payAlert.packPrice = json["data"]["packPrice"].doubleValue
         payAlert.rechargePrice = json["data"]["rechargePrice"].doubleValue
+        payAlert.vatAmount = dataModel.vatAmount
         payAlert.buyType = dataModel.type
         self.payAlert.alertReloadData()
         self.payAlert.appearAction()
@@ -248,6 +247,10 @@ class OderListConfirmController: BaseViewController, UITableViewDelegate, UITabl
                 //config.merchantDisplayName = "Test"
 
                 config.customer = .init(id: customerId, ephemeralKeySecret: customerEphemeralKeySecret)
+                
+                config.merchantDisplayName = "Eat1st"
+                //config.allowsDelayedPaymentMethods = true
+                //config.applePay = .init(merchantId: "merchant.com.Eat1st", merchantCountryCode: "GB")
 
                 DispatchQueue.main.async {
 
@@ -499,7 +502,7 @@ extension OderListConfirmController {
             if dataModel.type == "2" {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OrderInputZQCell") as! OrderInputZQCell
 
-                cell.setCellData1(name: dataModel.recipient, phone: dataModel.recipientPhone, time: dataModel.hopeTime, isCanEidte: false, minTime: minTime, maxTime: maxTime, ydMsg: dataModel.reserveMsg)
+                cell.setCellData1(name: dataModel.recipient, phone: dataModel.recipientPhone, hopeTime: dataModel.hopeTime, isCanEidte: false, minTime: minTime, maxTime: maxTime, ydMsg: dataModel.reserveMsg, storeKind: "", reserveDate: "")
                 return cell
             }
         }

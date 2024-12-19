@@ -32,6 +32,18 @@ class DineInMenuDishCell_C: CollectionViewCell, UICollectionViewDelegate, UIColl
         return img
     }()
     
+    
+    private let vatView: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(FONTCOLOR, BFONT(10), .center)
+        lab.text = "VAT"
+        lab.backgroundColor = MAINCOLOR
+        lab.clipsToBounds = true
+        lab.layer.cornerRadius = 5
+        return lab
+    }()
+    
+    
     private let nameLab_C: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(FONTCOLOR, BFONT(14), .left)
@@ -147,6 +159,13 @@ class DineInMenuDishCell_C: CollectionViewCell, UICollectionViewDelegate, UIColl
             $0.left.equalToSuperview().offset(5)
             $0.right.equalToSuperview().offset(-5)
             $0.height.equalTo(goodsImg.snp.width)
+        }
+        
+        goodsImg.addSubview(vatView)
+        vatView.snp.makeConstraints {
+            $0.bottom.equalToSuperview().offset(-5)
+            $0.size.equalTo(CGSize(width: 30, height: 15))
+            $0.right.equalToSuperview().offset(-2)
         }
         
         backView.addSubview(nameLab_C)
@@ -353,6 +372,14 @@ class DineInMenuDishCell_C: CollectionViewCell, UICollectionViewDelegate, UIColl
                 self.unUseImg.isHidden = false
                 self.goodsImg.isUserInteractionEnabled = false
             }
+        }
+        
+        
+        if model.vatType == "1" {
+            vatView.isHidden = true
+        }
+        if model.vatType == "2" {
+            vatView.isHidden = false
         }
         
         

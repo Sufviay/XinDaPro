@@ -267,6 +267,9 @@ class LogInController: BaseViewController {
             UserDefaults.standard.token = json["data"]["token"].stringValue
             UserDefaults.standard.accountNum = self.emailTF.text!
             
+
+            
+            
             HTTPTOOl.getInputDataStatus(date: parDate).subscribe(onNext: { [unowned self] (json) in
                 
                 

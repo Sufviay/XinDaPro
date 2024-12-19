@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
+class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewDataSource, SystemAlertProtocol {
 
 
     private let bag = DisposeBag()
@@ -122,11 +122,11 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
         view.backgroundColor = .white
         setUpUI()
         //addNotificationCenter()
-        
     }
     
     override func setNavi() {
         loadData_Net()
+        loadCanBookingStatus_Net()
         //getWalletMoney_Net()
     }
     
@@ -184,6 +184,23 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
         }, onError: { [unowned self] (error) in
             HUD_MB.showMessage(ErrorTool.errorMessage(error), self.view)
         }).disposed(by: self.bag)
+    }
+    
+    
+    private func loadCanBookingStatus_Net() {
+        HTTPTOOl.isCanBooking(storeID: storeID).subscribe(onNext: { [unowned self] (json) in
+            if json["data"]["reserveStatus"].stringValue == "2" {
+                //是
+                dataModel.isOpenBooking = true
+            }
+            if json["data"]["reserveStatus"].stringValue == "1" {
+                //否
+                dataModel.isOpenBooking = false
+            }
+            
+        }, onError: { [unowned self] (error) in
+            HUD_MB.showMessage(ErrorTool.errorMessage(error), self.view)
+        }).disposed(by: bag)
     }
     
     
@@ -271,6 +288,7 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
                     if UserDefaults.standard.isAgree {
                         let payVC = PayCodeController()
                         payVC.storeID = storeID
+                        payVC.storeName = dataModel.name
                         navigationController?.pushViewController(payVC, animated: true)
                     } else {
                         //弹出法律条文页面
@@ -283,11 +301,16 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
                 }
                 
                 if type == "book" {
-                    let nextVC = OccupyController()
-                    nextVC.storeID = dataModel.storeID
-                    nextVC.storeName = dataModel.name
-                    nextVC.storeDes = dataModel.des
-                    navigationController?.pushViewController(nextVC, animated: true)
+                    
+                    if dataModel.isOpenBooking {
+                        let nextVC = OccupyController()
+                        nextVC.storeID = dataModel.storeID
+                        nextVC.storeName = dataModel.name
+                        nextVC.storeDes = dataModel.des
+                        navigationController?.pushViewController(nextVC, animated: true)
+                    } else {
+                        showSystemAlert("Alert", "Table booking function turned off", "OK")
+                    }
                 }
                 
                 if type == "record" {

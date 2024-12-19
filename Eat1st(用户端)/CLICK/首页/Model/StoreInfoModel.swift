@@ -174,6 +174,14 @@ class StoreInfoModel: NSObject {
     ///是否有注册首冲五折优惠券（1否，2是）
     var isRegDiscount: Bool = false
     
+    ///店铺类型 1外卖点 2小超市
+    var storeKind: String = ""
+    
+    ///店铺的Url
+    var storeUrl: String = ""
+    ///店铺是否开启预定
+    var isOpenBooking: Bool = false
+    
     
 
     func updateModel(json: JSON) {
@@ -217,6 +225,10 @@ class StoreInfoModel: NSObject {
         self.isOpenJiFen = json["pointsStatus"].stringValue == "2" ? true : false
         
         self.isRegDiscount = json["regDiscountType"].stringValue == "2" ? true: false
+        
+        self.storeKind = json["storeKind"].stringValue
+        self.storeUrl = json["storeUrl"].stringValue
+        
         
         
         if minOrder == 0 {

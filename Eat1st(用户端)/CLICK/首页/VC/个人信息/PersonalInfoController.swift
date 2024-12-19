@@ -161,7 +161,7 @@ class PersonalInfoController: BaseViewController {
         let tf = UITextField()
         tf.font = SFONT(14)
         tf.textColor = FONTCOLOR
-        tf.placeholder = "Enter the name"
+        tf.setPlaceholder("Enter the name", color: HCOLOR("#BBBBBB"))
         return tf
     }()
     
@@ -169,7 +169,7 @@ class PersonalInfoController: BaseViewController {
         let tf = UITextField()
         tf.font = SFONT(14)
         tf.textColor = FONTCOLOR
-        tf.placeholder = "Enter the phone"
+        tf.setPlaceholder("Enter the phone", color: HCOLOR("#BBBBBB"))
         tf.keyboardType = .numberPad
         return tf
     }()
@@ -179,7 +179,7 @@ class PersonalInfoController: BaseViewController {
         let tf = UITextField()
         tf.font = SFONT(14)
         tf.textColor = FONTCOLOR
-        tf.placeholder = "Enter the E-mail"
+        tf.setPlaceholder("Enter the Email", color: HCOLOR("#BBBBBB"))
         return tf
     }()
     
@@ -187,7 +187,7 @@ class PersonalInfoController: BaseViewController {
         let tf = UITextField()
         tf.font = SFONT(14)
         tf.textColor = FONTCOLOR
-        tf.placeholder = "Enter the postCode"
+        tf.setPlaceholder("Enter the postCode", color: HCOLOR("#BBBBBB"))
         return tf
     }()
 
@@ -211,7 +211,7 @@ class PersonalInfoController: BaseViewController {
         let tf = UITextField()
         tf.font = SFONT(14)
         tf.textColor = FONTCOLOR
-        tf.placeholder = "Enter the birthday"
+        tf.setPlaceholder("Enter the birthday", color: HCOLOR("#BBBBBB"))
         return tf
     }()
     
@@ -781,7 +781,12 @@ class PersonalInfoController: BaseViewController {
                 }
                 
                 DispatchQueue.main.after(time: .now() + 1) { [unowned self] in
-                        self.dismiss(animated: true)
+                    dismiss(animated: true) {
+                        if UserDefaults.standard.giftID ?? "" != "" {
+                            //有可领取的礼品券
+                            ShowGiftAlertManager.instance.showAlert(giftId: UserDefaults.standard.giftID!)
+                        }
+                    }
                 }
                 
                 //上传tsToken

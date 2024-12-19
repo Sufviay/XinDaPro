@@ -44,8 +44,6 @@ class CoreLocationManager: NSObject, CLLocationManagerDelegate, SystemAlertProto
             showSystemAlert("The location service is not enabled", "Go to [Settings]>>[Privacy]>>[Location Services]>> Turn on the switch and allow Eat1st to use location services", "OK")
             return
         }
-
-        
         
     }
     

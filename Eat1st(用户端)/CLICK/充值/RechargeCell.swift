@@ -115,7 +115,7 @@ class RechargeCell: BaseTableViewCell {
             giftLab.text = ""
         }
         
-        if model.detailType == "3" {
+        if model.detailType == "3" || model.detailType == "8" {
             //退款
             nameLab.text = "Refund"
             numberLab.textColor = HCOLOR("#F56D00")
@@ -124,7 +124,22 @@ class RechargeCell: BaseTableViewCell {
             giftLab.text = ""
         }
         
+        if model.detailType == "7" {
+            //他人赠送
+            nameLab.text = "Gift"
+            numberLab.textColor = HCOLOR("#F56D00")
+            numberLab.text = "+\(D_2_STR(model.amount))"
+            giftLab.isHidden = true
+            giftLab.text = ""
+        }
+
+        if model.detailType == "6" {
+            //兑换礼品券
+            nameLab.text = "Exchange"
+            numberLab.textColor = FONTCOLOR
+            numberLab.text = "-\(D_2_STR(model.amount))"
+            giftLab.isHidden = true
+            giftLab.text = ""
+        }
     }
-    
-    
 }

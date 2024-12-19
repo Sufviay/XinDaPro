@@ -6,10 +6,34 @@
 //
 
 import UIKit
+import RxSwift
+import MJRefresh
 
-class RedeemGiftController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
+class RedeemGiftController: BaseViewController, UITableViewDelegate, UITableViewDataSource, SystemAlertProtocol {
 
-
+    private let bag = DisposeBag()
+    
+    var storeID: String = ""
+    var storeName: String = ""
+    
+    var yueNum: String = "" {
+        didSet {
+            numberLab.text = yueNum
+        }
+    }
+    
+    //可购买的
+    private var canBuyArr: [GiftVoucherModel] = []
+    
+    //已购买的
+    private var buiedArr: [GiftVoucherModel] = []
+    
+    ///""全部。1未领取 2已领取
+    private var selectType: String = ""
+    
+    private var page: Int = 1
+    
+    
     private let headerImg: UIImageView = {
         let img = UIImageView()
         img.image = LOIMG("giftheader")
@@ -49,7 +73,7 @@ class RedeemGiftController: BaseViewController, UITableViewDelegate, UITableView
     private let numberLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(FONTCOLOR, BFONT(21), .left)
-        lab.text = "500"
+        lab.text = ""
         return lab
     }()
     
@@ -135,11 +159,21 @@ class RedeemGiftController: BaseViewController, UITableViewDelegate, UITableView
     }()
 
     
-    private let tagView: GiftRedeemTagView = {
+    private lazy var tagView: GiftRedeemTagView = {
         let view = GiftRedeemTagView()
+        view.clickTypeBlock = { [unowned self] (type) in
+            selectType = type
+            loadBuied_Net()
+        }
         return view
     }()
     
+    
+    private lazy var shareAlert: GiftShareAlert = {
+        let view = GiftShareAlert()
+        return view
+    }()
+
     
     private lazy var table2: UITableView = {
         let tableView = UITableView()
@@ -153,20 +187,28 @@ class RedeemGiftController: BaseViewController, UITableViewDelegate, UITableView
         tableView.delegate = self
         tableView.dataSource = self
         tableView.contentInsetAdjustmentBehavior = .never
-        tableView.bounces = false
         
         tableView.tag = 2
         tableView.register(GiftBuiedCell.self, forCellReuseIdentifier: "GiftBuiedCell")
         return tableView
     }()
     
-
-
     
+    private lazy var noDataView: NoDataView = {
+        let view = NoDataView()
+        view.frame = table2.bounds
+        return view
+    }()
+
+
     override func setViews() {
         
         setUpUI()
+        loadCanBuyData_Net()
+        loadBuied_Net()
     }
+    
+    
 
     
     private func setUpUI() {
@@ -290,7 +332,14 @@ class RedeemGiftController: BaseViewController, UITableViewDelegate, UITableView
             
         }
         
-        
+        table2.mj_header = MJRefreshNormalHeader() { [unowned self] in
+            loadBuied_Net()
+        }
+
+        table2.mj_footer = MJRefreshBackNormalFooter() { [unowned self] in
+            loadBuiedMore_Net()
+        }
+
 
         backBut.addTarget(self, action: #selector(clickBackAction), for: .touchUpInside)
     }
@@ -319,22 +368,178 @@ extension RedeemGiftController {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if tableView.tag == 1 {
-            return 2
+            return canBuyArr.count
+        } else {
+            return buiedArr.count
         }
-        
-        return 4
+    
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if tableView.tag == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "GiftRedeemCell") as! GiftRedeemCell
+            cell.setCellData(model: canBuyArr[indexPath.row])
+            
+            cell.redeemBlock = { [unowned self] _ in
+                
+                showSystemChooseAlert_2("Alert", "Please confirm your operation", l_str: "Cancel", r_str: "Confirm") {} r_Action: { [unowned self] in
+                    doBuyGift_Net(id: canBuyArr[indexPath.row].id)
+                }
+            }
+            
             return cell
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "GiftBuiedCell") as! GiftBuiedCell
-        return cell
+        
+        var model = GiftVoucherModel()
+        model = buiedArr[indexPath.row]
+        cell.setCellData(model: model)
 
+        cell.clickShareBlock = { [unowned self] (_) in
+            doShare_Net(model: model)
+        }
+        
+        cell.clickCacnelBlock = { [unowned self] (_) in
+            showSystemChooseAlert_2("Alert", "Please confirm your operation", l_str: "Cancel exchange", r_str: "Think again") {
+                doCancel_Net(model: model)
+            } r_Action: {}
+
+        }
+        
+        return cell
     }
+}
+
+
+extension RedeemGiftController {
+    
+    //MARK: - 网络请求
+    private func loadCanBuyData_Net() {
+        
+        HUD_MB.loading("", onView: view)
+        HTTPTOOl.getCanBuyGiftlevelList().subscribe(onNext: { [unowned self] (json) in
+            HUD_MB.dissmiss(onView: view)
+            var tArr: [GiftVoucherModel] = []
+            for jsondata in json["data"].arrayValue {
+                let model = GiftVoucherModel()
+                model.updateModel(json: jsondata)
+                tArr.append(model)
+            }
+            canBuyArr = tArr
+            table1.reloadData()
+            
+        }, onError: { [unowned self] (error) in
+            HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
+        }).disposed(by: bag)
+        
+    }
+    
+    
+    //获取余额
+    private func getYUE_Net() {
+        HTTPTOOl.getUserRechargeAmount(storeID: storeID).subscribe(onNext: { [unowned self] (json1) in
+            numberLab.text = D_2_STR(json1["data"]["amount"].doubleValue)
+        }).disposed(by: bag)
+    }
+    
+    //购买
+    private func doBuyGift_Net(id: String) {
+        HUD_MB.loading("", onView: view)
+        HTTPTOOl.doBuyGift(id: id, storeID: storeID).subscribe(onNext: { [unowned self] (json) in
+            HUD_MB.showSuccess("Success", onView: view)
+            getYUE_Net()
+            loadBuied_Net()
+        },onError: { [unowned self] (error) in
+            HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
+        }).disposed(by: bag)
+    }
+    
+    //获取已购买的礼品券
+    private func loadBuied_Net() {
+        
+        HTTPTOOl.getBuiedGift(page: 1, storeID: storeID, type: selectType).subscribe(onNext: { [unowned self] (json) in
+            
+            page = 2
+            var tArr: [GiftVoucherModel] = []
+            
+            for jsondata in json["data"].arrayValue {
+                let model = GiftVoucherModel()
+                model.updateModel(json: jsondata)
+                tArr.append(model)
+            }
+            
+            buiedArr = tArr
+            if buiedArr.count == 0 {
+                table2.addSubview(noDataView)
+            } else {
+                noDataView.removeFromSuperview()
+            }
+            table2.reloadData()
+            table2.mj_header?.endRefreshing()
+            table2.mj_footer?.resetNoMoreData()
+            
+        }, onError: { [unowned self] (error) in
+            HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
+            table2.mj_header?.endRefreshing()
+        }).disposed(by: bag)
+        
+    }
+    
+        
+    //获取更多
+    private func loadBuiedMore_Net() {
+        HTTPTOOl.getBuiedGift(page: page, storeID: storeID, type: selectType).subscribe(onNext: {[unowned self] (json) in
+
+            if json["data"].arrayValue.count == 0 {
+                table2.mj_footer?.endRefreshingWithNoMoreData()
+            } else {
+                page += 1
+                for jsonData in json["data"].arrayValue {
+                    let model = GiftVoucherModel()
+                    model.updateModel(json: jsonData)
+                    buiedArr.append(model)
+                }
+                table2.reloadData()
+                table2.mj_footer?.endRefreshing()
+            }
+        }, onError: {[unowned self] (error) in
+            HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
+            table2.mj_footer?.endRefreshing()
+        }).disposed(by: self.bag)
+    }
+    
+    
+    
+    func doShare_Net(model: GiftVoucherModel) {
+        HUD_MB.loading("", onView: view)
+        HTTPTOOl.doShareGift(id: model.rechargeGiftId).subscribe(onNext: { [unowned self] (json) in
+            HUD_MB.dissmiss(onView: view)
+            shareAlert.storeName = storeName
+            shareAlert.timeStr = model.createTime
+            shareAlert.amount = D_2_STR(model.amount)
+            shareAlert.shareUrlStr = json["data"]["url"].stringValue
+            shareAlert.appearAction()
+            
+        }, onError: {[unowned self] (error) in
+            HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
+        }).disposed(by: bag)
+    }
+    
+    
+    func doCancel_Net(model: GiftVoucherModel) {
+        HUD_MB.loading("", onView: view)
+        HTTPTOOl.doCancelGift(id: model.rechargeGiftId).subscribe(onNext: { [unowned self] (json) in
+            HUD_MB.showSuccess("Cancelled", onView: view)
+            getYUE_Net()
+            loadBuied_Net()
+        }, onError: { [unowned self] (error) in
+            HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
+        }).disposed(by: bag)
+    }
+    
+    
+    
     
 }

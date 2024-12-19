@@ -346,6 +346,19 @@ extension String {
         self.init(attributedString.string)
 
     }
+    
+    ///字符串转时间
+    func changeDate(formatter: String) -> Date? {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = formatter
+        
+        if let date = dateFormatter.date(from: self) {
+            return date
+        } else {
+            return nil
+        }
+    }
 
     
     
@@ -383,6 +396,43 @@ extension Date {
         let returnDate = self.addingTimeInterval(timeInterval)
         return returnDate
     }
+    
+    
+    ///获取相对指定日期任意天数的日期
+    func getSomeOneDateWith(count: Int) -> [String] {
+        
+        var tempArr: [String] = []
+        
+        for num in 0..<count {
+            let timeInterval: TimeInterval = Double(num) * 24 * 60 * 60
+            let returnDate = self.addingTimeInterval(timeInterval)
+            tempArr.append(returnDate.getString("yyyy-MM-dd"))
+        }
+        return tempArr
+    }
+
+    
+    ///获取相对指定日期任意天数的日期
+    func getSomeOneDateModelWith(count: Int) -> [DateModel] {
+        
+        var tempArr: [DateModel] = []
+        
+        for num in 0..<count {
+            let timeInterval: TimeInterval = Double(num) * 24 * 60 * 60
+            let returnDate = self.addingTimeInterval(timeInterval)
+            let model = DateModel()
+            model.yearDate = returnDate.getString("yyyy-MM-dd")
+            model.monthDate = returnDate.getString("MM-dd")
+            let calendar = Calendar.current
+            let weekday = calendar.component(.weekday, from: returnDate)
+            let shortWeekday = calendar.shortWeekdaySymbols[weekday - 1]            
+            model.week = shortWeekday
+            tempArr.append(model)
+        }
+        return tempArr
+    }
+
+    
     
     ///获取两个日期相差的天数
     func daysBetweenDate(toDate: Date) -> Int {

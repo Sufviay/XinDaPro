@@ -13,6 +13,8 @@ class OccupyTimeCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionV
     
     private var selectedID: String = ""
     
+    private var reserveNum: Int = 0
+    
     var selectTimeBlock: VoidStringBlock?
 
     private lazy var collection: GestureCollectionView = {
@@ -60,27 +62,56 @@ class OccupyTimeCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OccupyTimeOptionCell", for: indexPath) as! OccupyTimeOptionCell
-        let issel = selectedID == dataArr[indexPath.item].reserveId ? true : false
-        cell.setCellData(model: dataArr[indexPath.item], isSelect: issel)
+        
+        var canSelect: Bool = true
+        var isSel: Bool = false
+        
+        let model = dataArr[indexPath.item]
+        
+        if model.expire {
+            canSelect = false
+        } else {
+            if model.reserveNum < reserveNum {
+                canSelect = false
+            } else {
+                canSelect = true
+                if model.reserveId == selectedID {
+                    isSel = true
+                } else {
+                    isSel = false
+                }
+            }
+        }
+        
+        cell.setCellData(model: model, isSelect: isSel, canSel: canSelect)
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if selectedID == dataArr[indexPath.item].reserveId {
-            selectTimeBlock?("")
-        } else {
-            selectTimeBlock?(dataArr[indexPath.item].reserveId)
+        let model = dataArr[indexPath.item]
+        if !model.expire {
+            if model.reserveNum >= reserveNum {
+                if selectedID == model.reserveId {
+                    selectedID = ""
+                } else {
+                    selectedID = model.reserveId
+                }
+            }
         }
+        collectionView.reloadData()
+        selectTimeBlock?(selectedID)
     }
     
 
     
     
-    func setCellData(arr: [OccupyTimeModel], selID: String) {
+    func setCellData(arr: [OccupyTimeModel], selID: String, inputNum: Int) {
+        
         dataArr = arr
         selectedID = selID
+        reserveNum = inputNum
         collection.reloadData()
     }
     

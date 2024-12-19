@@ -112,11 +112,12 @@ class ShareLinkCell: BaseTableViewCell {
     }
     
     
-    func setCellData(url: String) {
+    func setCellData(url: String, img: UIImage) {
         linkUrlLab.text = url
         urlStr = url
-        let ewImg = LBXScanWrapper.createCode(codeType: "CIQRCodeGenerator", codeString: url, size: CGSize(width: 210, height: 210), qrColor: .black, bkColor: .clear)
-        codeImg.image = ewImg
+//        let ewImg = LBXScanWrapper.createCode(codeType: "CIQRCodeGenerator", codeString: url, size: CGSize(width: 210, height: 210), qrColor: .black, bkColor: .clear)
+//        codeImg.image = ewImg
+        codeImg.image = img
     }
     
     @objc private func clickCopyLinkAction() {

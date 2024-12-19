@@ -244,25 +244,32 @@ class OrderDetailStatusCell: BaseTableViewCell {
         self.numberLab.text = "#" + model.orderNum
         //self.timeLab.text = model.createTime
 
+        
+        if model.storeInfo.storeKind != "2" {
+            
+            self.sdTimeLab.text = "\(model.startTime)-\(model.endTime)"
+            if model.timeOut {
+                self.tlab.textColor = MAINCOLOR
+                self.tlab.text = "Updated time"
+            } else {
+                self.tlab.textColor = HCOLOR("#999999")
+                self.tlab.text = "Estimated time"
+            }
 
-        self.sdTimeLab.text = "\(model.startTime)-\(model.endTime)"
-        if model.timeOut {
-            self.tlab.textColor = MAINCOLOR
-            self.tlab.text = "Updated time"
+
+            if model.startTime == "" {
+                self.sdTimeLab.isHidden = true
+                self.line.isHidden = true
+                self.tlab.isHidden = true
+            } else {
+                self.sdTimeLab.isHidden = false
+                self.line.isHidden = false
+                self.tlab.isHidden = false
+            }
+
         } else {
-            self.tlab.textColor = HCOLOR("#999999")
-            self.tlab.text = "Estimated time"
-        }
-
-
-        if model.startTime == "" {
-            self.sdTimeLab.isHidden = true
-            self.line.isHidden = true
-            self.tlab.isHidden = true
-        } else {
-            self.sdTimeLab.isHidden = false
-            self.line.isHidden = false
-            self.tlab.isHidden = false
+            self.sdTimeLab.text = model.marketDate
+            self.tlab.text = ""
         }
 
 
@@ -400,7 +407,4 @@ class OrderDetailStatusCell: BaseTableViewCell {
             gitImg.image = nil
         }
     }
-
-
-
 }

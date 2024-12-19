@@ -161,6 +161,58 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
       // Messaging.messaging().apnsToken = deviceToken
     }
     
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        
+        let urlStr = String(describing: url)
+        print(urlStr)
+        
+        
+        //获取ID
+        let strArr = urlStr.components(separatedBy: "id=")
+        if strArr.count != 0 {
+            let id = strArr.last!
+            
+            //请求信息
+            if PJCUtil.checkLoginStatus() {
+                //登录了
+                ShowGiftAlertManager.instance.showAlert(giftId: id)
+//                HTTPTOOl.getGiftDetail(id: id).subscribe(onNext: { (json) in
+//                    
+//                    if json["data"]["giftStatus"].stringValue == "1" {
+//                        //未领取
+//                        let alert = GiftTakeAlertController()
+//                        alert.transitioningType = .popup
+//                        alert.giftID = id
+//                        alert.jsonData = json
+//                        PJCUtil.currentVC()?.present(alert, animated: true)
+//                    } else {
+//                        //已领取
+//                    }
+//                    
+//
+//                }, onError: { (error) in
+//                    HUD_MB.showError(ErrorTool.errorMessage(error), onView: PJCUtil.getWindowView())
+//                }).disposed(by: bag)
+
+            } else {
+                //记录可领取状态
+                UserDefaults.standard.giftID = id
+            }
+        }
+        
+        
+        
+        
+
+        
+        
+
+        return true
+    }
+    
+    
+    
 }
 
 
@@ -242,10 +294,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
           NotificationCenter.default.post(name: NSNotification.Name("message"), object: nil)
       }
       
-      
-      
       print("推送来了")
-    
     
   }
 

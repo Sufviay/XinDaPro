@@ -9,6 +9,9 @@ import UIKit
 
 class GiftBuiedCell: BaseTableViewCell {
 
+    
+    var clickShareBlock: VoidBlock?
+    var clickCacnelBlock: VoidBlock?
 
     private let cardImg: UIImageView = {
         let img = UIImageView()
@@ -20,6 +23,7 @@ class GiftBuiedCell: BaseTableViewCell {
         let lab = UILabel()
         lab.setCommentStyle(FONTCOLOR, SFONT(14), .left)
         lab.text = "Gift voucher"
+        lab.lineBreakMode = .byTruncatingTail
         return lab
     }()
     
@@ -52,6 +56,16 @@ class GiftBuiedCell: BaseTableViewCell {
         return but
     }()
     
+    private let cancelBut: UIButton = {
+        let but = UIButton()
+        but.setCommentStyle(.zero, "Cancel exchange", MAINCOLOR, SFONT(8), .clear)
+        but.clipsToBounds = true
+        but.layer.cornerRadius = 5
+        but.layer.borderWidth = 1
+        but.layer.borderColor = MAINCOLOR.cgColor
+        return but
+    }()
+    
     
     private let sLab: UILabel = {
         let lab = UILabel()
@@ -74,10 +88,68 @@ class GiftBuiedCell: BaseTableViewCell {
         return lab
     }()
     
+    private let alreadyView: UIView = {
+        let view = UIView()
+        view.backgroundColor = HCOLOR("00C57B").withAlphaComponent(0.1)
+        view.layer.cornerRadius = 5
+        view.layer.borderWidth = 1
+        view.layer.borderColor = HCOLOR("#00C57B").cgColor
+        return view
+    }()
+    
+    private let alreadyImg: UIImageView = {
+        let img = UIImageView()
+        img.image = LOIMG("gifttake")
+        return img
+    }()
+    
+    private let alreadyLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#00C57B"), SFONT(8), .left)
+        lab.text = "Already receive"
+        return lab
+    }()
+    
+    
     
     
     override func setViews() {
         
+        contentView.addSubview(shareBut)
+        shareBut.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 85, height: 25))
+            $0.top.equalToSuperview().offset(13)
+            $0.right.equalToSuperview().offset(-15)
+        }
+        
+        
+        contentView.addSubview(cancelBut)
+        cancelBut.snp.makeConstraints {
+            $0.size.right.equalTo(shareBut)
+            $0.top.equalTo(shareBut.snp.bottom).offset(4)
+            
+        }
+        
+        contentView.addSubview(alreadyView)
+        alreadyView.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.right.equalToSuperview().offset(-15)
+            $0.size.equalTo(CGSize(width: 85, height: 25))
+        }
+        
+        alreadyView.addSubview(alreadyImg)
+        alreadyImg.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 15, height: 15))
+            $0.centerY.equalToSuperview()
+            $0.left.equalToSuperview().offset(3)
+        }
+        
+        alreadyView.addSubview(alreadyLab)
+        alreadyLab.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalTo(alreadyImg.snp.right).offset(2)
+        }
+
         
         contentView.addSubview(cardImg)
         cardImg.snp.makeConstraints {
@@ -89,7 +161,8 @@ class GiftBuiedCell: BaseTableViewCell {
         contentView.addSubview(tLab)
         tLab.snp.makeConstraints {
             $0.left.equalTo(cardImg.snp.right).offset(15)
-            $0.top.equalTo(cardImg)
+            $0.top.equalTo(cardImg).offset(-3)
+            $0.right.equalTo(shareBut.snp.left).offset(-15)
         }
         
         contentView.addSubview(tImg)
@@ -111,13 +184,7 @@ class GiftBuiedCell: BaseTableViewCell {
             $0.top.equalTo(tImg.snp.bottom).offset(4)
         }
         
-        contentView.addSubview(shareBut)
-        shareBut.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 75, height: 25))
-            $0.centerY.equalToSuperview()
-            $0.right.equalToSuperview().offset(-15)
-        }
-        
+
         
         cardImg.addSubview(sImg)
         sImg.snp.makeConstraints {
@@ -139,15 +206,40 @@ class GiftBuiedCell: BaseTableViewCell {
         }
         
         shareBut.addTarget(self, action: #selector(clickShareAction), for: .touchUpInside)
-
+        cancelBut.addTarget(self, action: #selector(clickCancelAction), for: .touchUpInside)
     }
     
     
     @objc private func clickShareAction() {
-        
+        clickShareBlock?("")
     }
     
     
+    @objc private func clickCancelAction() {
+        clickCacnelBlock?("")
+    }
+    
+    
+    func setCellData(model: GiftVoucherModel) {
+        timeLab.text = model.createTime
+        s_numberLab.text = D_2_STR(model.amount)
+        numberLab.text = D_2_STR(model.amount)
+        
+        
+        if model.giftStatus == "2" {
+            //已领取
+            tLab.text = model.takeName
+            alreadyView.isHidden = false
+            shareBut.isHidden = true
+            cancelBut.isHidden = true
+        } else {
+            tLab.text = "Gift voucher"
+            alreadyView.isHidden = true
+            shareBut.isHidden = false
+            cancelBut.isHidden = false
+        }
+        
+    }
     
 
 }

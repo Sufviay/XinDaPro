@@ -23,7 +23,7 @@ let requestTimeOut = { (endpoint: Endpoint, done: @escaping MoyaProvider<ApiMana
         request.timeoutInterval = 20
         done(.success(request))
     } catch {
-        print("超时了")
+        //print("超时了")
     }
     
 }
@@ -801,12 +801,62 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
     }
     
     
+    //MARK: - 获取可购买的礼品券列表
+    func getCanBuyGiftlevelList() -> Observable<JSON> {
+        let response = rxApiManager(api: .getCanBuyGiftLevelList)
+        return Observable<JSON>.create(response)
+    }
     
     
+    //MARK: - 购买礼品券
+    func doBuyGift(id: String, storeID: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .doBuyGift(id: id, storeID: storeID))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 获取已购买的礼品券
+    func getBuiedGift(page: Int, storeID: String, type: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getBuiedGift(page: String(page), storeID: storeID, type: type))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 分享礼品券
+    func doShareGift(id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .doShareGift(id: id))
+        return Observable<JSON>.create(response)
+    }
     
     
+    //MARK: - 领取优惠券
+    func doTakeGift(id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .doTakeGift(id: id))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 获取优惠券详情
+    func getGiftDetail(id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getGiftDetail(id: id))
+        return Observable<JSON>.create(response)
+    }
     
     
+    //MARK: - 取消兑换的优惠券
+    func doCancelGift(id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .doCancelGift(id: id))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 店铺是否开启兑换礼品券
+    func isCanBuyGift(storeID: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .isCanBuyGift(storeID: storeID))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 店铺是否开启预定
+    func isCanBooking(storeID: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .isCanBooking(storeID: storeID))
+        return Observable<JSON>.create(response)
+    }
     
     
     

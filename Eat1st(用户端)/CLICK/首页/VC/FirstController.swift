@@ -468,7 +468,7 @@ extension FirstController {
         
         if indexPath.section == 3 {
                         
-            return (UserDefaults.standard.address ?? "").getTextHeigh(SFONT(11), S_W - 235) + 33 + 15 + 10
+            return (UserDefaults.standard.address ?? "").getTextHeigh(SFONT(11), S_W - 175) + 33 + 15 + 10
         }
         if indexPath.section == 4 {
             
@@ -632,9 +632,13 @@ extension FirstController {
         
         if indexPath.section == 4 {
             //店铺菜单
-            getStoreStatus_Net(id: nearestArr[indexPath.row].storeID)
+            if nearestArr[indexPath.row].storeUrl != "" {
+                //跳转浏览器
+                PJCUtil.goBrowser(url: nearestArr[indexPath.row].storeUrl)
+            } else {
+                getStoreStatus_Net(id: nearestArr[indexPath.row].storeID)
+            }
         }
-        
     }
     
     //MARK: - 网络请求

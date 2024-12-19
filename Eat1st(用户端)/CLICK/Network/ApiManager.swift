@@ -223,8 +223,28 @@ enum ApiManager {
     case registerWithPhone(countryCode: String, phone: String, smsID: String, smsCode: String, pw: String, reCode: String)
     ///手机号忘记密码
     case findPWD_phone(code: String, countryCode: String, phone: String, smsID: String, pw: String)
+    ///获取可购买的礼券列表
+    case getCanBuyGiftLevelList
+    ///购买礼品券
+    case doBuyGift(id: String, storeID: String)
+    ///获取已购买的礼品券
+    case getBuiedGift(page: String, storeID: String, type: String)
+    ///分享礼品券
+    case doShareGift(id: String)
+    ///领取礼品券
+    case doTakeGift(id: String)
+    ///获取礼品券详情
+    case getGiftDetail(id: String)
+    ///取消兑换的礼品券
+    case doCancelGift(id: String)
+    ///店铺是否可以兑换礼品券
+    case isCanBuyGift(storeID: String)
+    ///店铺是否可预定
+    case isCanBooking(storeID: String)
     
     
+    
+
     
 
     
@@ -479,6 +499,27 @@ extension ApiManager: TargetType {
             return "api/user/login/register"
         case .findPWD_phone(code: _, countryCode: _, phone: _, smsID: _, pw: _):
             return "api/user/login/findPwd"
+        case .getCanBuyGiftLevelList:
+            return "api/user/recharge/gift/getRechGiftLevelList"
+        case .doBuyGift(id: _, storeID: _):
+            return "api/user/recharge/gift/doBuyRechGift"
+        case .getBuiedGift(page: _, storeID: _, type: _):
+            return "api/user/recharge/gift/getBuyRechGiftList"
+        case .doShareGift(id: _):
+            return "api/user/recharge/gift/doShareRechGift"
+        case .doTakeGift(id: _):
+            return "api/user/recharge/gift/doTakeRechGift"
+        case .getGiftDetail(id: _):
+            return "api/user/recharge/gift/detail"
+        case .doCancelGift(id: _):
+            return "api/user/recharge/gift/doDelRechGift"
+        case .isCanBuyGift(storeID: _):
+            return "api/user/recharge/gift/getRechGiftStatus"
+        case .isCanBooking(storeID: _):
+            return "api/user/desk/reserve/getStoreReserveStatus"
+        
+            
+            
             
       
             
@@ -573,7 +614,7 @@ extension ApiManager: TargetType {
         case .deleteAddress(let id):
             dic = ["addressId": id]
         case .creatOrder(let submitModel):
-            dic = ["couponId": submitModel.couponId, "deliveryType": submitModel.type, "payType": submitModel.paymentMethod, "remark": submitModel.remark, "storeId": submitModel.storeId, "orderAddress": ["address": submitModel.address, "houseNo": submitModel.doorNum, "name": submitModel.recipient, "phone": submitModel.recipientPhone, "takeTime": submitModel.hopeTime, "lat": submitModel.recipientLat, "lng": submitModel.recipientLng, "postCode": submitModel.recipientPostcode], "deskId": submitModel.deskId, "couponUserDishesId": submitModel.couponUserDishesId, "giftDishesId": submitModel.giftDishesId]
+            dic = ["couponId": submitModel.couponId, "deliveryType": submitModel.type, "payType": submitModel.paymentMethod, "remark": submitModel.remark, "storeId": submitModel.storeId, "orderAddress": ["address": submitModel.address, "houseNo": submitModel.doorNum, "name": submitModel.recipient, "phone": submitModel.recipientPhone, "takeTime": submitModel.hopeTime, "lat": submitModel.recipientLat, "lng": submitModel.recipientLng, "postCode": submitModel.recipientPostcode], "deskId": submitModel.deskId, "couponUserDishesId": submitModel.couponUserDishesId, "giftDishesId": submitModel.giftDishesId, "reserveDate": submitModel.reserveDate]
         case .orderpay(let orderID, let payType):
             dic = ["orderId": orderID, "payType": payType]
         case .getOrderList(let page):
@@ -743,9 +784,25 @@ extension ApiManager: TargetType {
             dic = ["code": smsCode, "convertCode": reCode, "countryCode": countryCode, "password": pw, "phone": phone, "smsId": smsID]
         case .findPWD_phone(let code, let countryCode, let phone, let smsID, let pw):
             dic = ["code": code, "countryCode": countryCode, "password": pw, "phone": phone, "smsId": smsID]
+        case .getCanBuyGiftLevelList:
+            dic = [:]
+        case .doBuyGift(let id, let storeID):
+            dic = ["id": id, "storeId": storeID]
+        case .getBuiedGift(let page, let storeID, let type):
+            dic = ["pageIndex": page, "storeId": storeID, "giftStatus": type]
+        case .doShareGift(let id):
+            dic = ["rechargeGiftId": id]
+        case .doTakeGift(let id):
+            dic = ["id": id]
+        case .getGiftDetail(let id):
+            dic = ["id": id]
+        case .doCancelGift(let id):
+            dic = ["rechargeGiftId": id]
+        case .isCanBuyGift(let storeID):
+            dic = ["storeId": storeID]
+        case .isCanBooking(let storeID):
+            dic = ["storeId": storeID]
             
-        
-        
             
             
             

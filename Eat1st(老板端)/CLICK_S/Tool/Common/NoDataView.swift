@@ -39,6 +39,9 @@ class NoDataView: UIView {
             $0.top.equalTo(picImg.snp.bottom).offset(20)
         }
         
+        
+        
+        
     }
     
     required init?(coder: NSCoder) {

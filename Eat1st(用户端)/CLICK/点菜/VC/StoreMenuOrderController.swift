@@ -145,8 +145,9 @@ class StoreMenuOrderController: BaseViewController, UITableViewDataSource, UITab
         self.naviBar.isHidden = true
         setUpUI()
         setUpDishesDataView()
-        addNotificationCenter()
         loadStoreDetail_Net()
+        loadCanBookingStatus_Net()
+        addNotificationCenter()
     }
     
     func setUpUI() {
@@ -311,7 +312,29 @@ extension StoreMenuOrderController {
 }
 
 
+
 extension StoreMenuOrderController {
+    
+    //请求是否可预定
+    private func loadCanBookingStatus_Net() {
+        
+        if UserDefaults.standard.isLogin {
+            HTTPTOOl.isCanBooking(storeID: storeID).subscribe(onNext: { [unowned self] (json) in
+                if json["data"]["reserveStatus"].stringValue == "2" {
+                    //是
+                    storeInfo.isOpenBooking = true
+                }
+                if json["data"]["reserveStatus"].stringValue == "1" {
+                    //否
+                    storeInfo.isOpenBooking = false
+                }
+                
+            }, onError: { [unowned self] (error) in
+                HUD_MB.showMessage(ErrorTool.errorMessage(error), self.view)
+            }).disposed(by: bag)
+        }
+    }
+
     
     
     //获取积分
@@ -500,6 +523,7 @@ extension StoreMenuOrderController {
     //登录刷新
     @objc private func loginRefresh() {
         loadStoreDetail_Net()
+        loadCanBookingStatus_Net()
     }
 
     

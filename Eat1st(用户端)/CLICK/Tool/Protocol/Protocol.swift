@@ -109,6 +109,29 @@ extension SystemAlertProtocol where Self: Any {
         }
     }
 
+    func showSystemChooseAlert_2(_ title: String, _ message: String, l_str: String, r_str: String, l_Action: @escaping () -> (), r_Action: @escaping () -> ()) {
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let rAction = UIAlertAction(title: r_str, style: .default) { (_) in
+            alertController.dismiss(animated: true, completion: nil)
+            r_Action()
+        }
+        
+        let lAction = UIAlertAction(title: l_str, style: .default) { (_) in
+            alertController.dismiss(animated: true, completion: nil)
+            l_Action()
+        }
+        alertController.addAction(lAction)
+        alertController.addAction(rAction)
+
+        let vc = PJCUtil.currentVC()
+        if vc != nil {
+            vc!.present(alertController, animated: true, completion: nil)
+        }
+    }
+
+    
+    
     func showSystemChooseAlert(_ title: String, _ message: String, _ l_str: String, _ r_str: String, _ doAction: @escaping () -> (), _ cancelAction: (() -> ())? = nil) {
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)

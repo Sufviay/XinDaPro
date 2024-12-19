@@ -65,7 +65,7 @@ class EvaluateController: BaseViewController, UITextViewDelegate {
         let tf = UITextField()
         tf.textColor = FONTCOLOR
         tf.font = SFONT(14)
-        tf.placeholder = "Name"
+        tf.setPlaceholder("Name", color: HCOLOR("#BBBBBB"))
         tf.text = UserDefaults.standard.userName
         return tf
     }()

@@ -89,7 +89,7 @@ class OrderSearchController: BaseViewController, UITableViewDelegate, UITableVie
     private lazy var searchTF: UITextField = {
         let tf = UITextField()
         tf.textColor = FONTCOLOR
-        tf.placeholder = "Search for dishes"
+        tf.setPlaceholder("Search for dishes", color: HCOLOR("#BBBBBB"))
         tf.font = BFONT(13)
         tf.delegate = self
         return tf

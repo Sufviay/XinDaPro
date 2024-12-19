@@ -14,7 +14,7 @@ class PayAlertMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewData
     
     private var discountScale: String = ""
     
-    private let titStrArr: [String] = ["Food and drink total", "Delivery charge", "Service charge", "Bag fee", "Dishes discount", "Coupon", "Store discount", "Total"]
+    private let titStrArr: [String] = ["Food and drink total", "VAT", "Delivery charge", "Service charge", "Bag fee", "Dishes discount", "Coupon", "Store discount"]
     private var moneyArr: [Double] = [0, 0, 0, 0, 0, 0, 0, 0]
 
     
@@ -75,7 +75,7 @@ class PayAlertMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         
-        if section == 1 {
+        if section == 2 {
             if sellType == "1" {
                 return 1
             } else {
@@ -87,7 +87,7 @@ class PayAlertMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewData
             }
         }
         
-        if section == 2 || section == 3 || section == 4 || section == 5 || section == 6 || section == 7 {
+        if section == 1 || section == 3 || section == 4 || section == 5 || section == 6 || section == 7 {
             if moneyArr[section] == 0 {
                 return 0
             } else {

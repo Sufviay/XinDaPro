@@ -81,6 +81,7 @@ class OccupyController: BaseViewController, UITableViewDelegate, UITableViewData
         
         view.selectBlock = { [unowned self] (num) in
             submitModel.reserveNum = num as! Int
+            submitModel.reserveId = ""
             table.reloadData()
         }
         
@@ -89,7 +90,7 @@ class OccupyController: BaseViewController, UITableViewDelegate, UITableViewData
     
     
     override func setNavi() {
-        naviBar.headerTitle = "Reserve"
+        naviBar.headerTitle = "Booking"
         naviBar.leftImg = LOIMG("nav_back")
         naviBar.rightBut.isHidden = true
     }
@@ -147,6 +148,12 @@ class OccupyController: BaseViewController, UITableViewDelegate, UITableViewData
             return
         }
         
+//        if submitModel.email == "" {
+//            HUD_MB.showWarnig("Please fill in the email.", onView: view)
+//            return
+//
+//        }
+        
         if submitModel.reserveId == "" {
             HUD_MB.showWarnig("Please select time.", onView: view)
             return
@@ -169,7 +176,7 @@ class OccupyController: BaseViewController, UITableViewDelegate, UITableViewData
         }
         
         if indexPath.row == 1 {
-            return 70
+            return 110
         }
         
         if indexPath.row == 2 {
@@ -205,6 +212,10 @@ class OccupyController: BaseViewController, UITableViewDelegate, UITableViewData
             cell.editPhoneBlock = { [unowned self] (str) in
                 submitModel.phone = str
             }
+            
+//            cell.editEmailBlock = { [unowned self] (str) in
+//                submitModel.email = str
+//            }
             return cell
         }
         
@@ -232,10 +243,9 @@ class OccupyController: BaseViewController, UITableViewDelegate, UITableViewData
         
         if indexPath.row == 4 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OccupyTimeCell") as! OccupyTimeCell
-            cell.setCellData(arr: occupyInfo.timeList, selID: submitModel.reserveId)
+            cell.setCellData(arr: occupyInfo.timeList, selID: submitModel.reserveId, inputNum: submitModel.reserveNum)
             cell.selectTimeBlock = { [unowned self] (id) in
                 submitModel.reserveId = id
-                table.reloadData()
             }
             return cell
         }
@@ -257,7 +267,7 @@ extension OccupyController {
         HTTPTOOl.getCanOccpuyTimeList(id: storeID, date: submitModel.date).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: view)
             occupyInfo.updateModel(json: json["data"])
-            
+    
             if submitModel.date == "" {
                 submitModel.date = occupyInfo.localDate
             }

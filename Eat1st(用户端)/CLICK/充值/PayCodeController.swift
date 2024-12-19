@@ -20,6 +20,8 @@ class PayCodeController: BaseViewController {
     
     var storeID: String = ""
     
+    var storeName: String = ""
+    
     private let backView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -35,10 +37,17 @@ class PayCodeController: BaseViewController {
         return view
     }()
     
+    
+    private let yueBut: UIButton = {
+        let but = UIButton()
+        but.backgroundColor = .clear
+        but.isHidden = true
+        return but
+    }()
+    
     private let sImg: UIImageView = {
         let img = UIImageView()
         img.image = LOIMG("jinbi")
-        img.isHidden = true
         return img
     }()
     
@@ -46,7 +55,6 @@ class PayCodeController: BaseViewController {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .right)
         lab.text = ""
-        lab.isHidden = true
         return lab
     }()
     
@@ -60,7 +68,7 @@ class PayCodeController: BaseViewController {
     private let tLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(FONTCOLOR, BFONT(13), .left)
-        lab.text = "Membership"
+        lab.text = "Member"
         return lab
     }()
 
@@ -149,13 +157,20 @@ class PayCodeController: BaseViewController {
             $0.left.equalToSuperview().offset(20)
         }
         
-        headView.addSubview(numberLab)
+        headView.addSubview(yueBut)
+        yueBut.snp.makeConstraints {
+            $0.height.equalToSuperview()
+            $0.top.right.equalToSuperview()
+            $0.left.equalTo(headView.snp.centerX)
+        }
+        
+        yueBut.addSubview(numberLab)
         numberLab.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.right.equalToSuperview().offset(-20)
         }
         
-        headView.addSubview(sImg)
+        yueBut.addSubview(sImg)
         sImg.snp.makeConstraints {
             $0.centerY.equalTo(numberLab)
             $0.right.equalTo(numberLab.snp.left).offset(-2)
@@ -194,8 +209,17 @@ class PayCodeController: BaseViewController {
         }
         
         TCBut.addTarget(self, action: #selector(clickTCAction), for: .touchUpInside)
-        
+        yueBut.addTarget(self, action: #selector(clickYueAction), for: .touchUpInside)
     }
+    
+    
+    @objc private func clickYueAction() {
+        let amountVC = RechargeDetailController()
+        amountVC.storeID = storeID
+        amountVC.storeName = storeName
+        navigationController?.pushViewController(amountVC, animated: true)
+    }
+
     
     
     @objc private func clickTCAction() {
@@ -242,8 +266,8 @@ class PayCodeController: BaseViewController {
             nameLab.text = UserDefaults.standard.userName ?? ""
             
             if storeID != "" {
-                numberLab.isHidden = false
-                sImg.isHidden = false
+                
+                yueBut.isHidden = false
 
                 //请求充值余额
                 HTTPTOOl.getUserRechargeAmount(storeID: storeID).subscribe(onNext: { [unowned self] (json2) in
@@ -254,8 +278,7 @@ class PayCodeController: BaseViewController {
                 }).disposed(by: bag)
             } else {
                 HUD_MB.dissmiss(onView: view)
-                numberLab.isHidden = true
-                sImg.isHidden = true
+                yueBut.isHidden = true
             }
             
             

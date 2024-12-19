@@ -133,6 +133,11 @@ class PrinterSettingController: HeadBaseViewController, UITableViewDelegate, UIT
         
         cell.clickMoreBlock = { [unowned self] (type) in
             
+            if type as! String == "main" {
+                //是否为主打印机
+                doMainPrinter(id: dataArr[indexPath.row].printerId)
+            }
+            
             if type as! String == "open" {
                 //改变状态
                 doStatus_Net(id: dataArr[indexPath.row].printerId)
@@ -197,6 +202,16 @@ extension PrinterSettingController {
     private func doStatus_Net(id: String) {
         HUD_MB.loading("", onView: view)
         HTTPTOOl.doPrinterStatus(id: id).subscribe(onNext: { [unowned self] (json) in
+            loadPrinterList_Net()
+        }, onError: { [unowned self] (error) in
+            HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
+        }).disposed(by: bag)
+    }
+    
+    //设置是否为主打印机
+    private func doMainPrinter(id: String)  {
+        HUD_MB.loading("", onView: view)
+        HTTPTOOl.doMainPrinter(id: id).subscribe(onNext: { [unowned self] (json) in
             loadPrinterList_Net()
         }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)

@@ -20,8 +20,8 @@ class ConfirmMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataS
     private var disMsg: String = ""
     
     
-    private let titStrArr: [String] = ["Food and drink total", "Delivery charge", "Service charge", "Bag fee", "Dishes discount", "Coupon" , "Store discount", "", "Wallet Spent", "Total"]
-    private var moneyArr: [Double] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    private let titStrArr: [String] = ["Food and drink total", "VAT", "Delivery charge", "Service charge", "Bag fee", "Dishes discount", "Coupon" , "Store discount", "", "Wallet Spent", "Total"]
+    private var moneyArr: [Double] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     
     private let backView: UIView = {
         let view = UIView()
@@ -84,7 +84,7 @@ class ConfirmMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataS
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if section == 7 {
+        if section == 8 {
             if disMsg == "" {
                 return 0
             } else {
@@ -92,7 +92,7 @@ class ConfirmMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataS
             }
         }
         
-        if section == 1 {
+        if section == 2 {
             if sellType == "1" {
                 return 1
             } else {
@@ -104,7 +104,7 @@ class ConfirmMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataS
             }
         }
         
-        if section == 2 || section == 3 || section == 4 || section == 5 || section == 6 || section == 8 {
+        if section == 3 || section == 4 || section == 5 || section == 6 || section == 7 || section == 9 {
             if moneyArr[section] == 0 {
                 return 0
             } else {
@@ -117,7 +117,7 @@ class ConfirmMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataS
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if indexPath.section == 7 {
+        if indexPath.section == 8 {
             return dis_H
         }
         
@@ -126,7 +126,7 @@ class ConfirmMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataS
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.section == 7 {
+        if indexPath.section == 8 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DiscountMsgCell") as! DiscountMsgCell
             cell.setCellData(discountMsg: disMsg)
             return cell
@@ -145,7 +145,8 @@ class ConfirmMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataS
         dis_H = model.discountMsg_H
         disScale = model.discountScale
 
-        moneyArr = [model.subFee, model.deliverFee, model.serviceFee, model.packPrice, model.dishesDiscountAmount, model.couponAmount, model.discountAmount, 0, model.rechargePrice, (model.orderPrice -  model.rechargePrice)]
+        moneyArr = [model.subFee, model.vatAmount, model.deliverFee, model.serviceFee, model.packPrice, model.dishesDiscountAmount, model.couponAmount, model.discountAmount, 0, model.rechargePrice, model.payPrice]
+        //(model.orderPrice -  model.rechargePrice)
         self.table.reloadData()
     }
     
@@ -158,7 +159,7 @@ class ConfirmMoneyCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataS
         dis_H = model.discountMsg_H
         disScale = model.discountScale
         
-        moneyArr = [model.actualFee, model.deliveryFee, model.serviceFee, model.packPrice, model.dishesDiscountAmount, model.couponAmount, model.discountAmount, 0, model.rechargePrice, model.orderPrice]
+        moneyArr = [model.actualFee, model.vatAmount, model.deliveryFee, model.serviceFee, model.packPrice, model.dishesDiscountAmount, model.couponAmount, model.discountAmount, 0, model.rechargePrice, model.payPrice]
         self.table.reloadData()
     }
     

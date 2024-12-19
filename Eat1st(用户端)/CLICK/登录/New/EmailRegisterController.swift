@@ -105,7 +105,7 @@ class EmailRegisterController: BaseViewController, UITextFieldDelegate {
     private lazy var emailTF: UITextField = {
         let tf = UITextField()
         tf.font = BFONT(14)
-        tf.placeholder = "Please enter email address"
+        tf.setPlaceholder("Please enter email address", color: HCOLOR("#BBBBBB"))
         tf.keyboardType = .emailAddress
         tf.textColor = HCOLOR("#333333")
         return tf
@@ -121,7 +121,7 @@ class EmailRegisterController: BaseViewController, UITextFieldDelegate {
     private lazy var codeTF: UITextField = {
         let tf = UITextField()
         tf.font = BFONT(14)
-        tf.placeholder = "Please enter verification code"
+        tf.setPlaceholder("Please enter verification code", color: HCOLOR("#BBBBBB"))
         tf.keyboardType = .numberPad
         tf.textColor = HCOLOR("#333333")
         return tf
@@ -131,7 +131,7 @@ class EmailRegisterController: BaseViewController, UITextFieldDelegate {
         let tf = UITextField()
         tf.isSecureTextEntry = true
         tf.font = BFONT(14)
-        tf.placeholder = "Please enter password"
+        tf.setPlaceholder("Please enter password", color: HCOLOR("#BBBBBB"))
         tf.textColor = HCOLOR("#333333")
         tf.delegate = self
         return tf
@@ -141,7 +141,7 @@ class EmailRegisterController: BaseViewController, UITextFieldDelegate {
     private lazy var redeemCodeTF: UITextField = {
         let tf = UITextField()
         tf.font = BFONT(14)
-        tf.placeholder = "Redeem code (optional)"
+        tf.setPlaceholder("Redeem code (optional)", color: HCOLOR("#BBBBBB"))
         tf.textColor = HCOLOR("#333333")
         tf.delegate = self
         return tf

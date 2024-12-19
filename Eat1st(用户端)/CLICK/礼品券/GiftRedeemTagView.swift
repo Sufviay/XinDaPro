@@ -11,7 +11,7 @@ class GiftRedeemTagView: UIView {
 
     
     
-    private var type: String = "1"
+    private var type: String = ""
     
     
     var clickTypeBlock: VoidStringBlock?
@@ -38,7 +38,7 @@ class GiftRedeemTagView: UIView {
     private let lab1: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(FONTCOLOR, BFONT(14), .center)
-        lab.text = "Not In Use"
+        lab.text = "All"
         return lab
     }()
     
@@ -53,7 +53,7 @@ class GiftRedeemTagView: UIView {
     private let lab2: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("666666"), BFONT(12), .center)
-        lab.text = "Not In Use"
+        lab.text = "Already exchanged"
         return lab
     }()
     
@@ -68,7 +68,7 @@ class GiftRedeemTagView: UIView {
     private let lab3: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("666666"), BFONT(12), .center)
-        lab.text = "Not In Use"
+        lab.text = "Already received"
         return lab
     }()
     
@@ -87,19 +87,22 @@ class GiftRedeemTagView: UIView {
         
         backgroundColor = .white
         
-        addSubview(but2)
-        but2.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview()
-            $0.centerX.equalToSuperview()
-            $0.width.equalTo((S_W - 30) / 3)
-        }
         
         addSubview(but1)
         but1.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
             $0.left.equalToSuperview()
-            $0.width.equalTo(but2)
+            $0.width.equalTo((S_W - 30) / 5)
         }
+
+        
+        addSubview(but2)
+        but2.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.left.equalTo(but1.snp.right)
+            $0.width.equalTo(((S_W - 30) * 4 / 5) / 2)
+        }
+        
         
         addSubview(but3)
         but3.snp.makeConstraints {
@@ -126,19 +129,25 @@ class GiftRedeemTagView: UIView {
 
         but1.addSubview(line1)
         line1.snp.makeConstraints {
-            $0.left.right.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.left.equalToSuperview().offset(20)
+            $0.right.equalToSuperview().offset(-20)
             $0.height.equalTo(3)
         }
         
         but2.addSubview(line2)
         line2.snp.makeConstraints {
-            $0.left.right.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.left.equalToSuperview().offset(20)
+            $0.right.equalToSuperview().offset(-20)
             $0.height.equalTo(3)
         }
         
         but3.addSubview(line3)
         line3.snp.makeConstraints {
-            $0.left.right.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.left.equalToSuperview().offset(20)
+            $0.right.equalToSuperview().offset(-20)
             $0.height.equalTo(3)
         }
         
@@ -151,7 +160,7 @@ class GiftRedeemTagView: UIView {
     
     
     @objc private func clickBut1Action() {
-        if type != "1" {
+        if type != "" {
             line1.isHidden = false
             lab1.textColor = FONTCOLOR
             lab1.font = BFONT(14)
@@ -163,14 +172,14 @@ class GiftRedeemTagView: UIView {
             line3.isHidden = true
             lab3.textColor = HCOLOR("666666")
             lab3.font = BFONT(12)
-            type = "1"
-            clickTypeBlock?("1")
+            type = ""
+            clickTypeBlock?("")
         }
     }
     
     @objc private func clickBut2Action() {
         
-        if type != "2" {
+        if type != "1" {
             line2.isHidden = false
             lab2.textColor = FONTCOLOR
             lab2.font = BFONT(14)
@@ -182,15 +191,15 @@ class GiftRedeemTagView: UIView {
             line3.isHidden = true
             lab3.textColor = HCOLOR("666666")
             lab3.font = BFONT(12)
-            type = "2"
-            clickTypeBlock?("2")
+            type = "1"
+            clickTypeBlock?("1")
         }
 
         
     }
     
     @objc private func clickBut3Action() {
-        if type != "3" {
+        if type != "2" {
             line3.isHidden = false
             lab3.textColor = FONTCOLOR
             lab3.font = BFONT(14)
@@ -202,9 +211,9 @@ class GiftRedeemTagView: UIView {
             line1.isHidden = true
             lab1.textColor = HCOLOR("666666")
             lab1.font = BFONT(12)
-            type = "3"
+            type = "2"
             
-            clickTypeBlock?("3")
+            clickTypeBlock?("2")
         }
     }
 

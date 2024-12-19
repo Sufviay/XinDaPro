@@ -109,7 +109,6 @@ class ScanConfirmOrderController: BaseViewController, UITableViewDelegate, UITab
         tableView.register(OrderShowMoreCell.self, forCellReuseIdentifier: "OrderShowMoreCell")
         tableView.register(OrderRoundedCornersCell.self, forCellReuseIdentifier: "OrderRoundedCornersCell")
         tableView.register(OrderCouponsCell.self, forCellReuseIdentifier: "OrderCouponsCell")
-        tableView.register(OrderpayMoneyCell.self, forCellReuseIdentifier: "OrderpayMoneyCell")
         tableView.register(OrderRemarkCell.self, forCellReuseIdentifier: "OrderRemarkCell")
         
         tableView.register(ConfirmMoneyCell.self, forCellReuseIdentifier: "ConfirmMoneyCell")
@@ -477,19 +476,9 @@ class ScanConfirmOrderController: BaseViewController, UITableViewDelegate, UITab
             submitModel.couponId = ""
             submitModel.couponUserDishesId = ""
 
-            HTTPTOOl.loadConfirmOrderDetail(storeID: self.storeID, buyWay: "3", lat: "", lng: "", couponID: self.selectCoupon.couponId, postCode: "", couponUserDishesId: selectCoupon.selCouponUserDishesId).subscribe(onNext: { [unowned self] (json) in
+            HTTPTOOl.loadConfirmOrderDetail_dine(deskID: deskID, storeID: storeID).subscribe(onNext: { [unowned self] (json) in
                 HUD_MB.dissmiss(onView: self.view)
                 self.cartModel.updateModel(json: json["data"], type: "3")
-                ///更新选择的赠送菜品
-                giftDishesId = cartModel.updateGiftDishesID(selectGiftID: giftDishesId)
-
-                if self.cartModel.deliveryType == "4" {
-                    self.showSystemAlert("Tip", json["data"]["deliveryMsg"].stringValue, "Sure")
-                }
-                if self.cartModel.deliveryType == "5" {
-                    //菜品金额不足骑送费用
-                    self.showSystemAlert("Tip", self.cartModel.deliveryMsg, "Sure")
-                }
                 self.mainTable.reloadData()
                 self.loadCouponStatus(price: D_2_STR(self.cartModel.subFee - self.cartModel.dishesDiscountAmount))
             }, onError: {[unowned self] (error) in
@@ -776,7 +765,8 @@ extension ScanConfirmOrderController {
         payAlert.dishesDiscountAmount = cartModel.dishesDiscountAmount
         payAlert.couponAmount = cartModel.couponAmount
         payAlert.packPrice = cartModel.packPrice
-        payAlert.packPrice = cartModel.rechargePrice
+        payAlert.rechargePrice = cartModel.rechargePrice
+        payAlert.vatAmount = cartModel.vatAmount
         payAlert.buyType = "3"
         self.payAlert.alertReloadData()
         self.payAlert.appearAction()

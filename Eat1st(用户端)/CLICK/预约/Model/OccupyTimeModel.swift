@@ -36,10 +36,10 @@ class OccupyInfoModel: NSObject {
         timeList = tarr
         
         if timeList.count != 0 {
-            let line: Int = (timeList.count % 3)
+
+            let line: Int = Int(ceil(Double(timeList.count) / 3))
             time_H = (CGFloat(line) * 40) + (CGFloat(line - 1) * 10) + 40
         }
-    
     }
     
 }
@@ -53,12 +53,15 @@ class OccupyTimeModel: NSObject {
     var reserveTime: String = ""
     ///可预定人数[...]
     var reserveNum: Int = 0
+    ///当前时间是否已过期 1否，2是
+    var expire: Bool = false
     
     
     func updateModel(json: JSON) {
         reserveId = json["reserveId"].stringValue
         reserveTime = json["reserveTime"].stringValue
         reserveNum = json["reserveNum"].intValue
+        expire = json["expire"].stringValue == "2" ? true : false
     }
     
     

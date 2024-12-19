@@ -10,12 +10,13 @@ import UIKit
 class FirstTagView: UIView, UICollectionViewDelegate, UICollectionViewDataSource {
 
 
-    private var tagArr: [String] = ["Store revenue", "Live Reporting", "Menu items"]
+    private var tagArr: [String] = ["Booking", "Store revenue", "Live Reporting", "Menu items"]
     //, "Customer analysis"
 
     var selectIdx: Int = 0 {
         didSet {
             selectTagItemBlock?(selectIdx)
+            collection.contentOffset
             collection.reloadData()
         }
     }

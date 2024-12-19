@@ -1,0 +1,157 @@
+//
+//  ChartBackTableCell.swift
+//  CLICK_S
+//
+//  Created by 肖扬 on 2024/11/22.
+//
+
+import UIKit
+
+class ChartBackTableCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+
+    var clickBlock: VoidBlock?
+
+    private var dataModel = BookChartDataModel()
+    
+    
+    private lazy var table: UITableView = {
+        let tableView = UITableView()
+        tableView.backgroundColor = .clear
+        //去掉单元格的线
+        tableView.separatorStyle = .none
+        //回弹效果
+        tableView.bounces = false
+        tableView.showsVerticalScrollIndicator =  false
+        tableView.estimatedRowHeight = 0
+        tableView.estimatedSectionFooterHeight = 0
+        tableView.estimatedSectionHeaderHeight = 0
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.contentInsetAdjustmentBehavior = .never
+        tableView.register(ChatTableLabCell.self, forCellReuseIdentifier: "ChatTableLabCell")
+        return tableView
+    }()
+    
+    
+    private lazy var collection: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        
+        let coll = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        coll.bounces = false
+        coll.delegate = self
+        coll.dataSource = self
+        coll.backgroundColor = .clear
+        coll.showsHorizontalScrollIndicator = false
+        coll.register(ChartTimeCollectionCell.self, forCellWithReuseIdentifier: "ChartTimeCollectionCell")
+        return coll
+    }()
+    
+    
+
+    override func setViews() {
+        
+        contentView.addSubview(table)
+        table.snp.makeConstraints {
+            $0.top.bottom.left.equalToSuperview()
+            $0.width.equalTo(60)
+        }
+        
+        contentView.addSubview(collection)
+        collection.snp.makeConstraints {
+            $0.top.bottom.right.equalToSuperview()
+            $0.left.equalTo(table.snp.right)
+        }
+    }
+    
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        if indexPath.row == 0 {
+            return 35
+        }
+        
+        return 45
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dataModel.lineCount + 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ChatTableLabCell") as! ChatTableLabCell
+        
+        if indexPath.row == 0 {
+            cell.titLab.text = "NUMBER"
+            cell.titLab.textColor = HCOLOR("#999999")
+        } else {
+            cell.titLab.text = String(indexPath.row)
+            cell.titLab.textColor = FONTCOLOR
+        }
+        return cell
+    }
+    
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let h = CGFloat(dataModel.lineCount) * 45 + 35
+        return CGSize(width: 80, height: h)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return dataModel.timeArr.count
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChartTimeCollectionCell", for: indexPath) as! ChartTimeCollectionCell
+        
+        cell.clickBlock = { [unowned self] (model) in
+            clickBlock?(model)
+        }
+        
+        cell.setCellData(lineCount: dataModel.lineCount, timeModel: dataModel.timeArr[indexPath.item])
+        return cell
+    }
+
+    
+    
+    
+    func setCellData(model: BookChartDataModel) {
+        dataModel = model
+        table.reloadData()
+        collection.reloadData()
+    }
+
+
+}
+
+
+class ChatTableLabCell: BaseTableViewCell {
+    
+    let titLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(FONTCOLOR, BFONT(11), .center)
+        lab.lineBreakMode = .byTruncatingTail
+        lab.numberOfLines = 2
+        return lab
+    }()
+    
+    override func setViews() {
+        
+        contentView.backgroundColor = HCOLOR("#F1F8FF")
+        
+        contentView.addSubview(titLab)
+        titLab.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+}
+
+

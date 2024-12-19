@@ -38,10 +38,10 @@ class DishEditeClassifyCell: BaseTableViewCell {
         return lab
     }()
     
-    private let selectBut: UIButton = {
-        let but = UIButton()
-        but.setImage(LOIMG("sj_show"), for: .normal)
-        return but
+    private let selectImg: UIImageView = {
+        let img = UIImageView()
+        img.image = LOIMG("sj_show")
+        return img
     }()
 
     override func setViews() {
@@ -72,20 +72,27 @@ class DishEditeClassifyCell: BaseTableViewCell {
             $0.centerY.equalToSuperview()
         }
         
-        backView.addSubview(selectBut)
-        selectBut.snp.makeConstraints {
+        backView.addSubview(selectImg)
+        selectImg.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.right.equalToSuperview().offset(-5)
-            $0.size.equalTo(CGSize(width: 40, height: 30))
+            $0.right.equalToSuperview().offset(-20)
+            $0.size.equalTo(CGSize(width: 11, height: 7))
         }
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(clickAction))
+        backView.addGestureRecognizer(tap)
 
-        selectBut.addTarget(self, action: #selector(clickAction), for: .touchUpInside)
     }
     
     func setCellData(c_msg: String) {
         self.msglab.text = c_msg
     }
 
+    func setCellData_nor(titStr: String, msgStr: String) {
+        titlab.text = titStr
+        msglab.text = msgStr
+    }
+    
     
     @objc private func clickAction() {
         selectBlock?("")

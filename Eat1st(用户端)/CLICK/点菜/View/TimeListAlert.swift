@@ -9,13 +9,15 @@ import UIKit
 import RxSwift
 
 class TimeListAlert: BaseAlertView, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource {
+    
+    ///1外卖 2小超市
+    var stroreKind: String = ""
 
     private let bag = DisposeBag()
     
     var clickTimeBlock: VoidBlock?
     
-    
-    private var timeArr: [String] = []
+    var timeArr: [String] = []
     
     var storeID: String = ""
     //1 外卖 2 自取
@@ -72,13 +74,23 @@ class TimeListAlert: BaseAlertView, UIGestureRecognizerDelegate, UITableViewDele
     
     override func appearAction() {
         PJCUtil.getWindowView().addSubview(self)
-        loadData_Net()
+        
+        if stroreKind != "2" {
+            loadData_Net()
+        }
+
     }
     
     
     @objc func tapAction() {
         disAppearAction()
     }
+    
+    func setTimeArr(arr: [String]) {
+        timeArr = arr
+        table.reloadData()
+    }
+    
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         if (touch.view?.isDescendant(of: self.backView))! {

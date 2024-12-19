@@ -41,10 +41,10 @@ class PostCodeSearchView: UIView {
     
     private lazy var searchTF: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "Enter PostCode search"
         tf.textColor = FONTCOLOR
         tf.backgroundColor = .clear
         tf.font = SFONT(14)
+        tf.setPlaceholder("Enter PostCode search", color: HCOLOR("#BBBBBB"))
         return tf
     }()
     

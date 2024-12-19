@@ -219,6 +219,26 @@ enum ApiManager {
     case getStoreInCost(dateType: String, start: String, end: String)
     ///获取店铺支出
     case getStoreOutCost
+    ///设置是否为主打印机
+    case doMainPrinter(id: String)
+    ///获取用户已预定列表
+    case getUserBookingList(page: String, type: String)
+    ///添加预约
+    case addBooking(model: AddBookingModel)
+    ///获取店铺预约时间
+    case getStoreBookingTime(date: String)
+    ///取消预约
+    case doCancelBooking(id: String)
+    ///处理预约
+    case doConfirmBooking(id: String, type: String, deskID: String)
+    ///表格页面的预约数据
+    case getBookingDataInCharts(date: String)
+    ///店铺是否可以预约 1否2是
+    case getStoreBookingStatus
+    ///恢复取消或者拒绝的预定
+    case doReconfirm(id: String)
+    ///用户预约进店
+    case doBookingCheckin(id: String)
     
     
     
@@ -534,6 +554,29 @@ extension ApiManager: TargetType {
             return "api/boss/store/cost/getStoreInCost"
         case .getStoreOutCost:
             return "api/boss/store/cost/getStoreOutCost"
+        case .doMainPrinter(id: _):
+            return "api/boss/printer/doPrintMain"
+        case .getUserBookingList(page: _, type: _):
+            return "api/boss/desk/reserve/getUserReserveList"
+        case .addBooking(model: _):
+            return "api/boss/desk/reserve/doAddReserve"
+        case .getStoreBookingTime(date: _):
+            return "api/boss/desk/reserve/getStoreReserveList"
+        case .doCancelBooking(id: _):
+            return "api/boss/desk/reserve/doCancelReserve"
+        case .doConfirmBooking(id: _, type: _, deskID: _):
+            return "api/boss/desk/reserve/doReserveConfirm"
+        case .getBookingDataInCharts(date: _):
+            return "api/boss/desk/reserve/getUserReserveCalList"
+        case .getStoreBookingStatus:
+            return "api/boss/desk/reserve/getReserveStatus"
+        case .doReconfirm(id: _):
+            return "api/boss/desk/reserve/doRestore"
+        case .doBookingCheckin(id: _):
+            return "api/boss/desk/reserve/doUserInStore"
+            
+            
+            
             
             
             
@@ -844,6 +887,32 @@ extension ApiManager: TargetType {
             dic = ["type": dateType, "start": start, "end": end]
         case .getStoreOutCost:
             dic = [:]
+        case .doMainPrinter(let id):
+            dic = ["printerId": id]
+        case .getUserBookingList(let page, let type):
+            dic = ["pageIndex": page, "reserveStatus": type]
+        case .addBooking(let model):
+            dic = model.toJSON() ?? [:]
+        case .getStoreBookingTime(let date):
+            dic = ["date": date]
+        case .doCancelBooking(let id):
+            dic = ["userReserveId": id]
+        case .doConfirmBooking(let id, let type, let deskID):
+            dic = ["userReserveId": id, "reserveType": type, "deskId": deskID]
+        case .getBookingDataInCharts(let date):
+            dic = ["date": date]
+        case .getStoreBookingStatus:
+            dic = [:]
+        case .doReconfirm(let id):
+            dic = ["userReserveId": id]
+        case .doBookingCheckin(let id):
+            dic = ["userReserveId": id]
+            
+    
+            
+            
+            
+            
             
             
             

@@ -9,6 +9,8 @@ import UIKit
 
 class GiftRedeemCell: BaseTableViewCell {
 
+    var redeemBlock: VoidBlock?
+    
     private let cardImg: UIImageView = {
         let img = UIImageView()
         img.image = LOIMG("card 1")
@@ -38,7 +40,7 @@ class GiftRedeemCell: BaseTableViewCell {
     
     private let redeemBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Redeem", .white, BFONT(10), MAINCOLOR)
+        but.setCommentStyle(.zero, "Exchange", .white, BFONT(10), MAINCOLOR)
         but.clipsToBounds = true
         but.layer.cornerRadius = 12
         return but
@@ -122,8 +124,17 @@ class GiftRedeemCell: BaseTableViewCell {
             $0.top.equalTo(sImg.snp.bottom).offset(2)
         }
         
-        
+        redeemBut.addTarget(self, action: #selector(clickRedeemAction), for: .touchUpInside)
     }
     
+    
+    @objc private func clickRedeemAction() {
+        redeemBlock?("")
+    }
+    
+    func setCellData(model: GiftVoucherModel) {
+        numberLab.text = D_2_STR(model.amount)
+        s_numberLab.text = D_2_STR(model.amount)
+    }
 
 }

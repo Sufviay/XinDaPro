@@ -153,13 +153,28 @@ class CashOutController: HeadBaseViewController, UITableViewDelegate, UITableVie
             HUD_MB.showWarnig("Please fill in the data!", onView: self.view)
             return
         }
-
-//        if dataModel.otherCashOut != "" && dataModel.otherCashOut != "0" && picImgArr.count == 0 {
-//            HUD_MB.showWarnig("Please upload pictures!", onView: self.view)
-//            return
-//        }
-//
+        
         HUD_MB.loading("", onView: self.view)
+        
+//        HTTPTOOl.uploadImages(images: picImgArr) { [unowned self] json in
+//            HUD_MB.dissmiss(onView: view)
+//            var imgList: [String] = []
+//            for jsonData in json["data"].arrayValue {
+//                imgList.append(jsonData["imageUrl"].stringValue)
+//            }
+//            self.dataModel.imagesList = imgList
+//            //保存数据
+//            //self.doSaveAction_Net()
+//
+//        } failure: { [unowned self] error in
+//            HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
+//        }
+
+
+        
+        
+
+        
         if picImgArr.count != 0 {
             //上传图片
 

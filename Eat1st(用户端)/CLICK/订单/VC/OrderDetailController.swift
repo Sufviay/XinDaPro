@@ -558,8 +558,13 @@ extension OrderDetailController {
         }
         
         if indexPath.section == 2 {
-            if dataModel.startTime == "" {
-                return 125
+            
+            if dataModel.storeInfo.storeKind != "2" {
+                if dataModel.startTime == "" {
+                    return 125
+                } else {
+                    return 160
+                }
             } else {
                 return 160
             }

@@ -37,7 +37,7 @@ class ForgetPWController: BaseViewController {
         let tf = UITextField()
         tf.font = SFONT(15)
         tf.textColor = FONTCOLOR
-        tf.placeholder = "Please enter email address"
+        tf.setPlaceholder("Please enter email address", color: HCOLOR("#BBBBBB"))
         return tf
     }()
     

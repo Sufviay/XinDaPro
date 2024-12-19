@@ -38,41 +38,45 @@ class BossFirstController: HeadBaseViewController {
     private lazy var layout: LTLayout = {
         let layout = LTLayout()
         
-        layout.sliderHeight = 0
+        layout.sliderHeight = 50
         //是否均分
-        layout.isAverage = true
+        layout.isAverage = false
         layout.pageBottomLineHeight = 0
         layout.isScrollEnabled = true
 
 //        //标题栏每个标题的宽度
-//        layout.sliderWidth = 14
+        layout.sliderWidth = 20
 //        //标题看下方滑块指示器的高度
-//        layout.bottomLineHeight = 5
+        layout.bottomLineHeight = 4
 //
         layout.showsHorizontalScrollIndicator = false
 //        //被选中时标题的字体颜色
-//        layout.titleSelectColor = HCOLOR("#3FC5F0")
+        layout.titleSelectColor = FONTCOLOR
 //        //设置标题的字体大小
-//        layout.titleFont = BFONT(14)
+        layout.titleFont = BFONT(14)
         //设置选中时放大的倍数
-//        layout.scale = 1
+        layout.scale = 1
 //        //设置未被选中时的字体颜色
-//        layout.titleColor = HCOLOR("#757575")
+        layout.titleColor = HCOLOR("#6F7FAF")
 //        //设置滑动指示器的颜色
-//        layout.bottomLineColor = HCOLOR("#3FC5F0")
+        layout.bottomLineColor = HCOLOR("#05CBE7")
 //        //标题栏的背景色
-//        layout.titleViewBgColor = .white
+        layout.titleViewBgColor = .white
+        layout.bottomLineCornerRadius = 2
+        layout.lrMargin = 30
         return layout
     }()
     
     lazy var pageView: LTPageView = {
-        let H: CGFloat = S_H - bottomBarH - statusBarH - 50 - 80
-        let pageView = LTPageView(frame: CGRect(x: 0, y: statusBarH + 130, width: S_W, height: H), currentViewController: self, viewControllers: viewControllers, titles: ["", "", ""], layout: layout)
+        let H: CGFloat = S_H - bottomBarH - statusBarH - 80
+        let pageView = LTPageView(frame: CGRect(x: 0, y: statusBarH + 80, width: S_W, height: H), currentViewController: self, viewControllers: viewControllers, titles: ["Booking", "Store revenue", "Live Reporting", "Menu items"], layout: layout)
+        pageView.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: H), byRoundingCorners: [.topLeft, .topRight], radii: 10)
         pageView.backgroundColor = .white
         
         pageView.didSelectIndexBlock = { [unowned self] (_, idx) in
             print("_____________" + String(idx))
             self.tagView.selectIdx = idx
+
         }
         return pageView
     }()
@@ -83,8 +87,6 @@ class BossFirstController: HeadBaseViewController {
         return but
     }()
     
-    
-
     
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_leftbut"), for: .normal)
@@ -104,22 +106,22 @@ class BossFirstController: HeadBaseViewController {
             $0.centerY.equalTo(leftBut)
         }
         
-        view.addSubview(tagView)
-        tagView.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-            $0.height.equalTo(50)
-            $0.top.equalToSuperview().offset(statusBarH + 80)
-        }
+//        view.addSubview(tagView)
+//        tagView.snp.makeConstraints {
+//            $0.left.right.equalToSuperview()
+//            $0.height.equalTo(50)
+//            $0.top.equalToSuperview().offset(statusBarH + 80)
+//        }
+//        
+//        let tView = UIView()
+//        tView.backgroundColor = .white
+//        view.addSubview(tView)
+//        tView.snp.makeConstraints {
+//            $0.left.bottom.right.equalToSuperview()
+//            $0.top.equalTo(tagView.snp.bottom)
+//        }
         
-        let tView = UIView()
-        tView.backgroundColor = .white
-        view.addSubview(tView)
-        tView.snp.makeConstraints {
-            $0.left.bottom.right.equalToSuperview()
-            $0.top.equalTo(tagView.snp.bottom)
-        }
-        
-        viewControllers = [StoreRevenueController(), LiveReportingController(), MenuItemsController()]
+        viewControllers = [StoreBookingController(), StoreRevenueController(), LiveReportingController(), MenuItemsController()]
         view.addSubview(pageView)
 
         

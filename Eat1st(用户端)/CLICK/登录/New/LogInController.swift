@@ -166,18 +166,43 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
         return but
     }()
     
+    private let numberlab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .left)
+        lab.text = "Email:"
+        return lab
+    }()
+    
+    
+    private let numberBackView: UIView = {
+        let view = UIView()
+        view.backgroundColor = HCOLOR("#F5F5F5")
+        view.layer.cornerRadius = 7
+        return view
+    }()
+
     
     private lazy var numberTF: UITextField = {
         let tf = UITextField()
         tf.font = BFONT(14)
-        tf.placeholder = "Please enter email address"
         tf.textColor = HCOLOR("#333333")
+        tf.setPlaceholder("Please enter email address", color: HCOLOR("#BBBBBB"))
         return tf
     }()
     
-    private let line2: UIView = {
+    
+    private let pwlab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .left)
+        lab.text = "Password:"
+        return lab
+    }()
+
+    
+    private let pwBackView: UIView = {
         let view = UIView()
-        view.backgroundColor = HCOLOR("#EEEEEE")
+        view.backgroundColor = HCOLOR("#F5F5F5")
+        view.layer.cornerRadius = 7
         return view
     }()
     
@@ -186,17 +211,10 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
         let tf = UITextField()
         tf.isSecureTextEntry = true
         tf.font = BFONT(14)
-        tf.placeholder = "Please enter password"
+        tf.setPlaceholder("Please enter password", color: HCOLOR("#BBBBBB"))
         tf.textColor = HCOLOR("#333333")
         tf.delegate = self
         return tf
-    }()
-
-    
-    private let line3: UIView = {
-        let view = UIView()
-        view.backgroundColor = HCOLOR("#EEEEEE")
-        return view
     }()
     
     
@@ -292,18 +310,24 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
         
     }()
     
-    
+
     
     private let phoneBut: UIButton = {
         let but = UIButton()
-        but.setImage(LOIMG("login_phone"), for: .normal)
-        //but.isHidden = true
+        but.setCommentStyle(.zero, "Phone sign up", .white, SFONT(15), MAINCOLOR)
+        but.layer.cornerRadius = 21
+        but.setImage(LOIMG("phone_signup"), for: .normal)
+        but.titleEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
+        //but.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 5)
         return but
     }()
 
     private let emailBut: UIButton = {
         let but = UIButton()
-        but.setImage(LOIMG("log_email"), for: .normal)
+        but.setCommentStyle(.zero, "Email sign up", .white, SFONT(15), MAINCOLOR)
+        but.layer.cornerRadius = 21
+        but.setImage(LOIMG("email_signup"), for: .normal)
+        but.titleEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
         return but
     }()
     
@@ -426,61 +450,71 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
         nextBut.snp.makeConstraints {
             $0.left.equalToSuperview().offset(30)
             $0.right.equalToSuperview().offset(-30)
-            $0.top.equalToSuperview().offset(R_H(190))
+            $0.top.equalToSuperview().offset(R_H(180))
             $0.height.equalTo(42)
         }
         
         
-        backView.addSubview(line2)
-        line2.snp.makeConstraints {
+        backView.addSubview(numberlab)
+        numberlab.snp.makeConstraints {
             $0.left.equalToSuperview().offset(25)
-            $0.right.equalToSuperview().offset(-25)
-            $0.height.equalTo(0.5)
-            $0.top.equalToSuperview().offset(R_H(65))
+            $0.top.equalTo(leftBut.snp.bottom).offset(15)
         }
         
-        backView.addSubview(line3)
-        line3.snp.makeConstraints {
-            $0.left.right.height.equalTo(line2)
-            $0.top.equalTo(line2.snp.bottom).offset(55)
-        }
-
-        backView.addSubview(numberTF)
-        numberTF.snp.makeConstraints {
+        backView.addSubview(numberBackView)
+        numberBackView.snp.makeConstraints {
             $0.left.equalToSuperview().offset(25)
             $0.right.equalToSuperview().offset(-25)
             $0.height.equalTo(40)
-            $0.bottom.equalTo(line2.snp.top)
+            $0.top.equalTo(numberlab.snp.bottom).offset(5)
+        }
+
+        numberBackView.addSubview(numberTF)
+        numberTF.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(15)
+            $0.right.equalToSuperview().offset(-15)
+            $0.top.bottom.equalToSuperview()
         }
         
         
-        backView.addSubview(areaBut)
+        numberBackView.addSubview(areaBut)
         areaBut.snp.makeConstraints {
             $0.left.equalToSuperview().offset(10)
-            $0.height.equalTo(60)
+            $0.height.equalTo(40)
             $0.width.equalTo(75)
             $0.centerY.equalTo(numberTF)
         }
 
 
+
+        backView.addSubview(pwlab)
+        pwlab.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(25)
+            $0.top.equalTo(numberBackView.snp.bottom).offset(15)
+        }
         
-        backView.addSubview(hideBut)
+        backView.addSubview(pwBackView)
+        pwBackView.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(25)
+            $0.right.equalToSuperview().offset(-25)
+            $0.height.equalTo(40)
+            $0.top.equalTo(pwlab.snp.bottom).offset(5)
+        }
+        
+        pwBackView.addSubview(hideBut)
         hideBut.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 40, height: 50))
-            $0.bottom.equalTo(line3.snp.top)
-            $0.right.equalToSuperview().offset(-20)
+            $0.centerY.equalToSuperview()
+            $0.right.equalToSuperview().offset(-15)
         }
 
         
-        backView.addSubview(pwTF)
+        pwBackView.addSubview(pwTF)
         pwTF.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(25)
-            $0.bottom.equalTo(line3.snp.top)
-            $0.height.equalTo(40)
+            $0.left.equalToSuperview().offset(15)
+            $0.top.bottom.equalToSuperview()
             $0.right.equalTo(hideBut.snp.left).offset(-15)
         }
-        
-        
         
         
         
@@ -527,7 +561,7 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
         backView.addSubview(otherLab)
         otherLab.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(nextBut.snp.bottom).offset(R_H(74))
+            $0.top.equalTo(nextBut.snp.bottom).offset(R_H(55))
         }
         
         backView.addSubview(line4)
@@ -545,16 +579,15 @@ class LogInController: BaseViewController, UITextFieldDelegate, SystemAlertProto
         
         backView.addSubview(emailBut)
         emailBut.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 30, height: 30))
-            $0.right.equalTo(backView.snp.centerX).offset(-10)
-            $0.top.equalTo(otherLab.snp.bottom).offset(20)
+            $0.left.right.equalTo(nextBut)
+            $0.height.equalTo(42)
+            $0.top.equalTo(otherLab.snp.bottom).offset(R_H(20))
         }
         
         backView.addSubview(phoneBut)
         phoneBut.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 30, height: 30))
-            $0.centerY.equalTo(emailBut)
-            $0.left.equalTo(backView.snp.centerX).offset(10)
+            $0.left.right.height.equalTo(emailBut)
+            $0.top.equalTo(emailBut.snp.bottom).offset(R_H(15))
         }
         
         
@@ -722,6 +755,7 @@ extension LogInController {
         phoneLab.textColor = .white
         emailLab.font = BFONT(20)
         emailLab.textColor = FONTCOLOR
+        numberlab.text = "Email:"
         
         numberTF.text = ""
         
@@ -730,10 +764,10 @@ extension LogInController {
         numberTF.keyboardType = .emailAddress
         numberTF.placeholder = "Please enter email address"
         numberTF.snp.remakeConstraints {
-            $0.left.equalToSuperview().offset(25)
-            $0.right.equalToSuperview().offset(-25)
+            $0.left.equalToSuperview().offset(15)
+            $0.right.equalToSuperview().offset(-15)
             $0.height.equalTo(40)
-            $0.bottom.equalTo(line2.snp.top)
+            $0.centerY.equalToSuperview()
         }
         
         
@@ -751,6 +785,7 @@ extension LogInController {
         emailLab.textColor = .white
         phoneLab.font = BFONT(20)
         phoneLab.textColor = FONTCOLOR
+        numberlab.text = "Phone:"
         
         numberTF.text = ""
         
@@ -759,9 +794,10 @@ extension LogInController {
         numberTF.placeholder = "Please enter phone number"
         numberTF.snp.remakeConstraints {
             $0.left.equalToSuperview().offset(95)
-            $0.right.equalToSuperview().offset(-25)
+            $0.right.equalToSuperview().offset(-15)
             $0.height.equalTo(40)
-            $0.bottom.equalTo(line2.snp.top)
+            $0.centerY.equalToSuperview()
+            //$0.bottom.equalTo(line2.snp.top)
         }
     }
 }
@@ -841,7 +877,13 @@ extension LogInController {
             }
             
             DispatchQueue.main.after(time: .now() + 1) { [unowned self] in
-                dismiss(animated: true)
+                dismiss(animated: true) {
+                    
+                    if UserDefaults.standard.giftID ?? "" != "" {
+                        //有可领取的礼品券
+                        ShowGiftAlertManager.instance.showAlert(giftId: UserDefaults.standard.giftID!)
+                    }
+                }
             }
         }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)

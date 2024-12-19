@@ -425,6 +425,7 @@ public struct Keys {
     static let verID: String = "verID"
     
     static let isLogin = "isLogin"
+    static let giftId = "giftId"
     static let isAgree = "isAgree"
     static let token = "token"
     static let userID = "userID"
@@ -635,6 +636,16 @@ extension UserDefaults {
         }
     }
     
+    //礼品券
+    var giftID: String? {
+        set {
+            set(newValue, forKey: Keys.giftId)
+        }
+        get {
+            return string(forKey: Keys.giftId)
+        }
+    }
+    
 
     
     ///用户信息
@@ -671,8 +682,7 @@ extension UserDefaults {
         UserDefaults.standard.removeObject(forKey: Keys.userName)
         UserDefaults.standard.removeObject(forKey: Keys.userEmail)
         UserDefaults.standard.removeObject(forKey: Keys.userPhone)
-
-    
+        UserDefaults.standard.removeObject(forKey: Keys.giftId)
     }
     
 }
@@ -775,6 +785,16 @@ extension UIDevice {
          default:                                        return identifier
       }
    }
+}
+
+
+extension UITextField {
+    
+    //设置Placeholder的颜色
+    func setPlaceholder(_ str: String, color: UIColor) {
+        self.attributedPlaceholder = NSAttributedString.init(string: str, attributes: [.foregroundColor: color])
+    }
+    
 }
 
 
