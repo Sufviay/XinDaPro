@@ -102,7 +102,7 @@ class TimeSelectView: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
     
     @objc func clickConfirmAction() {
         disAppearAction()
-        let time = selectH + ":" + selectM
+        let time = selectH + ":" + selectM + ":" + selectS
         clickBlock?([type, time])
     }
     
@@ -117,7 +117,7 @@ class TimeSelectView: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
 
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 2
+        return 3
     }
     
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {

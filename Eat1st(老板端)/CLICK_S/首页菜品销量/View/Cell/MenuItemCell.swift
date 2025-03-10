@@ -42,6 +42,7 @@ class MenuItemCell: BaseTableViewCell {
     
     private let nextImg: UIImageView = {
         let img = UIImageView()
+        img.isHidden = true
         return img
     }()
     
@@ -88,17 +89,21 @@ class MenuItemCell: BaseTableViewCell {
     
     func setCellData(model: DishModel, idx: Int) {
         
-        let curL = PJCUtil.getCurrentLanguage()
+//        let curL = PJCUtil.getCurrentLanguage()
+//        
+//        if curL == "en_GB" {
+//            //英文
+//            self.nameLab.text = model.name_En
+//            self.desLab.text = model.name_Hk
+//        } else {
+//            //繁体
+//            self.nameLab.text = model.name_Hk
+//            self.desLab.text = model.name_En
+//        }
         
-        if curL == "en_GB" {
-            //英文
-            self.nameLab.text = model.name_En
-            self.desLab.text = model.name_Hk
-        } else {
-            //繁体
-            self.nameLab.text = model.name_Hk
-            self.desLab.text = model.name_En
-        }
+        nameLab.text = model.name1
+        desLab.text = model.name2
+        
         
         self.countLab.text = model.salesNum
         self.picImg.sd_setImage(with: URL(string: model.dishImg))

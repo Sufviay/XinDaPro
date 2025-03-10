@@ -40,6 +40,8 @@ class HUD_MB: NSObject {
     
     ///展示成功
     static func showSuccess(_ msg: String, onView view: UIView) {
+        
+        
         showWithStatus(hudStatus: .success, text: msg, progress: 0, onView: view)
     }
     
@@ -61,22 +63,28 @@ class HUD_MB: NSObject {
     
     ///隐藏
     static func dissmiss(onView view: UIView) {
-        let hud: MBProgressHUD = MBProgressHUD.forView(view) ?? MBProgressHUD()
-        hud.hide(animated: true)
+        let hud: MBProgressHUD? = MBProgressHUD.forView(view)
+        if hud != nil {
+            hud!.hide(animated: true)
+        }
     }
     
     
     static private func showWithStatus(hudStatus status: ProgressHUDStatus, text msg: String?, progress: Float, onView view: UIView) {
-            
         
+        if status == .waitting && MBProgressHUD.forView(view) != nil {
+            return
+        }
         
-        let path = Bundle.main.path(forResource: "HUD_MB", ofType: "bundle")
         let hud = MBProgressHUD.forView(view) ?? MBProgressHUD()
+        let path = Bundle.main.path(forResource: "HUD_MB", ofType: "bundle")
+        
         hud.bezelView.style = .solidColor
-        hud.bezelView.color = UIColor.black.withAlphaComponent(0.5)
-        hud.contentColor = .white
+        hud.bezelView.backgroundColor = HCOLOR("EEEEEE")
+        hud.contentColor = HCOLOR("666666")
         hud.label.text = msg
-        hud.label.font = UIFont.systemFont(ofSize: 13)
+        hud.label.numberOfLines = 0
+        hud.label.font = UIFont.boldSystemFont(ofSize: 13)
         hud.bezelView.layer.cornerRadius = 15
         hud.removeFromSuperViewOnHide = true
         
@@ -132,14 +140,16 @@ class HUD_MB: NSObject {
             break
             
         case .waitting:
-            hud.mode = .indeterminate
-//            let imgView = UIImageView()
-//            imgView.animationImages = animationImages as? [UIImage]
-//            imgView.animationDuration = 1
-//            hud.customView = imgView
+
+            hud.mode = .customView
+            //hud.bezelView.backgroundColor = .clear
+            let imgView = UIImageView()
+            imgView.image = PJCUtil.getGifImg(name: "1486")
+            hud.customView = imgView
+//            hud.contentColor = MAINCOLOR
+            //hud.tintColor = MAINCOLOR
             view.addSubview(hud)
             hud.show(animated: true)
-//            imgView.startAnimating()
             break
             
         case .progess:

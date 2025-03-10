@@ -12,8 +12,10 @@ class TableInfoCell: BaseTableViewCell {
     
     var clickMoreBlock: VoidBlock?
     
-    private lazy var editeAlert: TableMoreAlert = {
-        let alert = TableMoreAlert()
+    private var dataModel = TableModel()
+    
+    private lazy var editeAlert: MoreAlert = {
+        let alert = MoreAlert()
         
         alert.clickBlock = { [unowned self] (type) in
             clickMoreBlock?(type)
@@ -137,22 +139,25 @@ class TableInfoCell: BaseTableViewCell {
         let cret = sender.convert(sender.frame, to: PJCUtil.currentVC()?.view)
         
         print(cret)
-        self.editeAlert.tap_H = cret.minY
-        self.editeAlert.appearAction()
+        
+        editeAlert.alertType = .table
+        editeAlert.statusType = dataModel.status
+        editeAlert.tap_H = cret.minY
+        editeAlert.appearAction()
     }
     
     
     func setCellData(model: TableModel) {
-        editeAlert.status = model.status
+        dataModel = model
         nameLab.text = model.deskName
         numberLab.text = model.dinersNum
         if model.status == "1" {
             //启用
             statusLab.textColor = HCOLOR("#2AD389")
-            statusLab.text = "On"
+            statusLab.text = "Enable"
         } else {
             statusLab.textColor = HCOLOR("#FC7050")
-            statusLab.text = "Off"
+            statusLab.text = "Disable"
         }
     }
     

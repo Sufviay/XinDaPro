@@ -27,6 +27,8 @@ class StoreInOrOutCostModel: NSObject {
     var dinePrice: Double = 0
     ///外卖金额
     var deliPrice: Double = 0
+    ///充值金额
+    var topUp: Double = 0
     
     
    
@@ -51,9 +53,12 @@ class StoreInOrOutCostModel: NSObject {
     
     var totalOut: Double = 0
     
-    var inArr: [String] = ["", "", "", "", "", "", ""]
+    var inArr: [String] = ["", "", "", "", "", "", "", ""]
     
     var outArr: [String] = ["", "", "", "", "", "", "", "", "", ""]
+    
+    
+    var titStrArr: [String] = ["Type", "Sales", "Revenue", "Card", "Cash", "POS", "WX", "Wallet Spent(S)", "Top up(R)", "Cash On Hand", "Delivery", "Collection", "Dine-in", "VAT"]
     
 
     func updateMode_InCost(json: JSON) {
@@ -69,9 +74,10 @@ class StoreInOrOutCostModel: NSObject {
         tipsPrice = json["tipsPrice"].doubleValue
         dinePrice = json["dinePrice"].doubleValue
         deliPrice = json["deliPrice"].doubleValue
+        topUp = json["topUp"].doubleValue
     
         
-        inArr = ["£\(D_2_STR(salesPrice))", "£\(D_2_STR(dinePrice))", "£\(D_2_STR(deliPrice))", "£\(D_2_STR(tipsPrice))", String(dineNum), String(deliNum), String(reservation)]
+        inArr = ["£\(D_2_STR(salesPrice))", "£\(D_2_STR(dinePrice))", "£\(D_2_STR(deliPrice))", "£\(D_2_STR(topUp))", "£\(D_2_STR(tipsPrice))", String(dineNum), String(deliNum), String(reservation)]
         
     }
     

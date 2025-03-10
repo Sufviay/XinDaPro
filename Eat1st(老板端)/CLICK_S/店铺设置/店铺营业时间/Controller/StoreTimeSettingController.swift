@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import MJRefresh
 
 class StoreTimeSettingController: HeadBaseViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -53,7 +54,7 @@ class StoreTimeSettingController: HeadBaseViewController, UITableViewDelegate, U
         //去掉单元格的线
         tableView.separatorStyle = .none
         //回弹效果
-        tableView.bounces = false
+        tableView.bounces = true
         tableView.showsVerticalScrollIndicator =  false
         tableView.estimatedRowHeight = 0
         tableView.estimatedSectionFooterHeight = 0
@@ -79,7 +80,6 @@ class StoreTimeSettingController: HeadBaseViewController, UITableViewDelegate, U
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
         self.biaoTiLab.text = "Opening hours"
         loadData_Net()
-        
     }
     
     
@@ -115,8 +115,13 @@ class StoreTimeSettingController: HeadBaseViewController, UITableViewDelegate, U
         
         backView.addSubview(table)
         table.snp.makeConstraints {
-            $0.left.right.bottom.equalToSuperview()
+            $0.left.right.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             $0.top.equalTo(line.snp.bottom).offset(10)
+        }
+        
+        table.mj_header = CustomRefreshHeader() { [unowned self] in
+            loadData_Net(true)
         }
         
         self.leftBut.addTarget(self, action: #selector(clickLeftButAction), for: .touchUpInside)
@@ -138,17 +143,21 @@ class StoreTimeSettingController: HeadBaseViewController, UITableViewDelegate, U
 
     
     //MARK: - 网络请求
-    private func loadData_Net() {
-        HUD_MB.loading("", onView: view)
-        HTTPTOOl.getStoreOpeningHours().subscribe(onNext: { (json) in
+    private func loadData_Net(_ isLoading: Bool = false) {
+        if !isLoading {
+            HUD_MB.loading("", onView: view)
+        }
+        HTTPTOOl.getStoreOpeningHours().subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
             
             self.timeModel.updateModel(json: json["data"])
             
             self.table.reloadData()
+            table.mj_header?.endRefreshing()
         
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
+            table.mj_header?.endRefreshing()
         }).disposed(by: self.bag)
     }
     

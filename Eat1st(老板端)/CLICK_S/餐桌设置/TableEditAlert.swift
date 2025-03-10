@@ -37,7 +37,7 @@ class TableEditAlert: UIView, UIGestureRecognizerDelegate {
     private let titlab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("333333"), BFONT(18), .left)
-        lab.text = "Table setting"
+        lab.text = "Dining-table management"
         return lab
     }()
     

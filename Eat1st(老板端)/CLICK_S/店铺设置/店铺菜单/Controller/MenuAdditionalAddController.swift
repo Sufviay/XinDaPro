@@ -62,6 +62,7 @@ class MenuAdditionalAddController: HeadBaseViewController, UITableViewDelegate, 
         tableView.register(PriceDesCell.self, forCellReuseIdentifier: "PriceDesCell")
         tableView.register(DishEditeClassifyCell.self, forCellReuseIdentifier: "DishEditeClassifyCell")
         tableView.register(DishEditeChooseCell.self, forCellReuseIdentifier: "DishEditeChooseCell")
+        tableView.register(DishEditeChooseCell_Three.self, forCellReuseIdentifier: "DishEditeChooseCell_Three")
 
         return tableView
         
@@ -128,7 +129,7 @@ class MenuAdditionalAddController: HeadBaseViewController, UITableViewDelegate, 
         table.snp.makeConstraints {
             $0.top.equalToSuperview().offset(10)
             $0.left.right.equalToSuperview()
-            $0.bottom.equalTo(cancelBut.snp.top).offset(-10)
+            $0.bottom.equalTo(cancelBut.snp.top).offset(-30)
         }
         
         
@@ -155,7 +156,7 @@ class MenuAdditionalAddController: HeadBaseViewController, UITableViewDelegate, 
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 8
+        return 9
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -167,16 +168,22 @@ class MenuAdditionalAddController: HeadBaseViewController, UITableViewDelegate, 
             return 80
         }
         
-        if indexPath.row ==  5 {
+        if indexPath.row == 5 {
+            return 50
+        }
+
+        
+        if indexPath.row ==  6 {
             return 90
         }
         
-        if indexPath.row == 6 {
-            return 55
-        }
         
         if indexPath.row == 7 {
             return 80
+        }
+        
+        if indexPath.row == 8 {
+            return 90
         }
         
         return 50
@@ -228,8 +235,14 @@ class MenuAdditionalAddController: HeadBaseViewController, UITableViewDelegate, 
         }
         
         if indexPath.row == 5 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell") as! DishEditeChooseCell
-            cell.setCellData(titStr: "Dishes kind", l_str: "Food", r_Str: "Drink", statusID: dataModel.dishesKind)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PriceDesCell") as! PriceDesCell
+            return cell
+        }
+
+        
+        if indexPath.row == 6 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell_Three") as! DishEditeChooseCell_Three
+            cell.setCellData(titStr: "Dishes kind", l_str: "Food", m_str: "Drink", r_str: "Milk tea", statusID: dataModel.dishesKind)
             cell.selectBlock = { [unowned self] (status) in
                 dataModel.dishesKind = status
                 tableView.reloadData()
@@ -237,10 +250,6 @@ class MenuAdditionalAddController: HeadBaseViewController, UITableViewDelegate, 
             return cell
         }
         
-        if indexPath.row == 6 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PriceDesCell") as! PriceDesCell
-            return cell
-        }
         
         if indexPath.row == 7 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeClassifyCell") as! DishEditeClassifyCell
@@ -257,8 +266,19 @@ class MenuAdditionalAddController: HeadBaseViewController, UITableViewDelegate, 
             return cell
         }
         
+        if indexPath.row == 8 {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell") as! DishEditeChooseCell
+                cell.setChooseCellData(titStr: "Status", l_str: "Enable", r_Str: "Disable", statusID: dataModel.statusId)
+            
+            cell.selectBlock = { [unowned self] (status) in
+                dataModel.statusId = status
+                table.reloadData()
+            }
+            
+            return cell
+        }
         
-
         
         let cell = UITableViewCell()
         return cell
@@ -285,36 +305,36 @@ extension MenuAdditionalAddController {
     //保存
     func saveAction_Net() {
        
-        ///校验信息
-        if dataModel.nameCn == "" {
-            HUD_MB.showWarnig("Please fill in the simplified Chinese name!", onView: self.view)
-            return
-        }
-        
-        if dataModel.nameHk == "" {
-            HUD_MB.showWarnig("Please fill in the traditional Chinese name!", onView: self.view)
-            return
-        }
-        
-        if dataModel.nameEn == "" {
-            HUD_MB.showWarnig("Please fill in the English name!", onView: self.view)
-            return
-        }
-        
-        if dataModel.attachCode == "" {
-            HUD_MB.showWarnig("Please fill in the serial number!", onView: self.view)
-            return
-        }
-        
-//        if dataModel.price == "" {
-//            HUD_MB.showWarnig("Please fill in the price!", onView: self.view)
+//        ///校验信息
+//        if dataModel.nameCn == "" {
+//            HUD_MB.showWarnig("Please fill in the simplified Chinese name!", onView: self.view)
 //            return
 //        }
-        
-        if dataModel.classifyId == 0 {
-            HUD_MB.showWarnig("Please fill in the food category!", onView: self.view)
-            return
-        }
+//        
+//        if dataModel.nameHk == "" {
+//            HUD_MB.showWarnig("Please fill in the traditional Chinese name!", onView: self.view)
+//            return
+//        }
+//        
+//        if dataModel.nameEn == "" {
+//            HUD_MB.showWarnig("Please fill in the English name!", onView: self.view)
+//            return
+//        }
+//        
+//        if dataModel.attachCode == "" {
+//            HUD_MB.showWarnig("Please fill in the serial number!", onView: self.view)
+//            return
+//        }
+//        
+////        if dataModel.price == "" {
+////            HUD_MB.showWarnig("Please fill in the price!", onView: self.view)
+////            return
+////        }
+//        
+//        if dataModel.classifyId == 0 {
+//            HUD_MB.showWarnig("Please fill in the food category!", onView: self.view)
+//            return
+//        }
         
         
         HUD_MB.loading("", onView: view)

@@ -74,7 +74,7 @@ class EditPriceView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, U
         tableView.dataSource = self
         tableView.contentInsetAdjustmentBehavior = .never
 
-        tableView.register(DishEditeSellTypeCell.self, forCellReuseIdentifier: "DishEditeSellTypeCell")
+        tableView.register(DishEditeChooseCell_Three.self, forCellReuseIdentifier: "DishEditeChooseCell_Three")
         tableView.register(DishEditeChooseCell.self, forCellReuseIdentifier: "DishEditeChooseCell")
         tableView.register(DishEditePriceInPutCell.self, forCellReuseIdentifier: "DishEditePriceInPutCell")
         return tableView
@@ -228,8 +228,8 @@ class EditPriceView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, U
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeSellTypeCell") as! DishEditeSellTypeCell
-            cell.setCellData(statusID: sellType)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell_Three") as! DishEditeChooseCell_Three
+            cell.setCellData(titStr: "Method of sale", l_str: "Delivery", m_str: "Dine-in", r_str: "All", statusID: sellType)
             cell.selectBlock = { [unowned self] (type) in
                 sellType = type
                 table.reloadData()
@@ -239,7 +239,7 @@ class EditPriceView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, U
     
         if indexPath.row == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell") as! DishEditeChooseCell
-            cell.setCellData(titStr: "Buffet or not", l_str: "Not", r_Str: "Buffet", statusID: buffetType)
+            cell.setChooseCellData(titStr: "Buffet", l_str: "Enable", r_Str: "Disable", statusID: buffetType)
         
             cell.selectBlock = { [unowned self] (status) in
                 buffetType = status

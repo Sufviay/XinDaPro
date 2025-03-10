@@ -125,21 +125,26 @@ class DishKuCunEditeCell: BaseTableViewCell, UITextFieldDelegate {
             $0.left.equalTo(titlab.snp.right).offset(3)
         }
         
-        contentView.addSubview(unlimitedBut)
-        unlimitedBut.snp.makeConstraints {
+        contentView.addSubview(limitedBut)
+        limitedBut.snp.makeConstraints {
+            
             $0.left.equalToSuperview()
             $0.width.equalTo(S_W / 2)
             $0.height.equalTo(40)
             $0.top.equalTo(titlab.snp.bottom).offset(10)
+
+        }
+        
+        
+        contentView.addSubview(unlimitedBut)
+        unlimitedBut.snp.makeConstraints {
+
+            $0.width.top.height.equalTo(limitedBut)
+            $0.right.equalToSuperview()
         }
 
         
-        contentView.addSubview(limitedBut)
-        limitedBut.snp.makeConstraints {
-            $0.width.top.height.equalTo(unlimitedBut)
-            $0.right.equalToSuperview()
-        }
-        
+
         unlimitedBut.addSubview(unlimitedImg)
         unlimitedImg.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
@@ -191,8 +196,6 @@ class DishKuCunEditeCell: BaseTableViewCell, UITextFieldDelegate {
         if type != "1" {
             clickTypeBlock?("1")
         }
-        
-        
     }
     
     

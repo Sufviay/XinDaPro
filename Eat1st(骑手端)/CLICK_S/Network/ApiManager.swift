@@ -283,6 +283,7 @@ extension ApiManager: TargetType {
     
     
     var method: Moya.Method {
+                
         return .post
     }
     

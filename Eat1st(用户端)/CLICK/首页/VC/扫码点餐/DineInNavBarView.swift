@@ -40,19 +40,6 @@ class DineInNavBarView: UIView {
     }()
     
     
-//    private let payImg: UIImageView = {
-//        let img = UIImageView()
-//        img.image = LOIMG("pay 1")
-//        return img
-//    }()
-    
-//    private let payLab: UILabel = {
-//        let lab = UILabel()
-//        lab.setCommentStyle(.black, BFONT(8), .center)
-//        lab.text = "PAY"
-//        return lab
-//    }()
-    
     private let amountBut: UIButton = {
         let but = UIButton()
         but.backgroundColor = HCOLOR("#FAFAFA")

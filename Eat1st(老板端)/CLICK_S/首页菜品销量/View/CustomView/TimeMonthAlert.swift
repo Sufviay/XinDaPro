@@ -27,13 +27,13 @@ class TimeMonthAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
     
     private let OKBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "OK", MAINCOLOR, BFONT(14), .clear)
+        but.setCommentStyle(.zero, "OK".local, MAINCOLOR, BFONT(14), .clear)
         return but
     }()
     
     private let cancelBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Cancel", FONTCOLOR, BFONT(14), .clear)
+        but.setCommentStyle(.zero, "Cancel".local, FONTCOLOR, BFONT(14), .clear)
         return but
     }()
     
@@ -48,14 +48,14 @@ class TimeMonthAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
     private let yearLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(.white, BFONT(14), .center)
-        lab.text = "Year"
+        lab.text = "Year".local
         return lab
     }()
     
     private let monthLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(.white, BFONT(14), .center)
-        lab.text = "month"
+        lab.text = "Month".local
         return lab
     }()
     
@@ -122,6 +122,8 @@ class TimeMonthAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
             $0.bottom.equalTo(cancelBut.snp.top).offset(-10)
             $0.right.equalToSuperview().offset(-30)
         }
+        
+        timePickerView.selectRow(DateTool.shared.curMonth - 1, inComponent: 1, animated: false)
         
         cancelBut.addTarget(self, action: #selector(clickCancelAction), for: .touchUpInside)
         OKBut.addTarget(self, action: #selector(clickOKAction), for: .touchUpInside)

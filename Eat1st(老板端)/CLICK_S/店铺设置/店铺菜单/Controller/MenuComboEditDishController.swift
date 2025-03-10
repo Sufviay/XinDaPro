@@ -11,8 +11,8 @@ import RxSwift
 class MenuComboEditDishController: HeadBaseViewController, UITableViewDelegate, UITableViewDataSource {
 
     private let bag = DisposeBag()
-        
-    var comboList: [DishDetailComboModel] = []
+            
+    var printID: String = ""
     
     var comboModel = DishDetailComboModel() {
         didSet {
@@ -215,33 +215,18 @@ class MenuComboEditDishController: HeadBaseViewController, UITableViewDelegate, 
         cell.isShowImg.isHidden = true
         
         cell.selectBlock = { [unowned self] (_) in
-            //点选菜品
-            dataArr[indexPath.section].dishArr[indexPath.row].isSelect = !dataArr[indexPath.section].dishArr[indexPath.row].isSelect
-
-            ///判断当前分类是否全选
-            //当前分类菜品总数
-            let cunt_f = self.dataArr[indexPath.section].dishArr.count
-            //当前分类以选择的菜品数量
-            var s_count_f = 0
-            for model in self.dataArr[indexPath.section].dishArr {
-                if model.isSelect {
-                    s_count_f += 1
-                }
-            }
-            //如果选择的数量和总数相同 分类的全选为选中状态
-            if cunt_f == s_count_f {
-                self.dataArr[indexPath.section].isSelectAll = true
-            } else {
-                self.dataArr[indexPath.section].isSelectAll = false
-            }
-            self.table.reloadData()
-
+            selectDishAction(indexPath: indexPath)
         }
         return cell
     }
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectDishAction(indexPath: indexPath)
+    }
+    
+    
+    func selectDishAction(indexPath: IndexPath) {
         //点选菜品
         dataArr[indexPath.section].dishArr[indexPath.row].isSelect = !dataArr[indexPath.section].dishArr[indexPath.row].isSelect
         
@@ -261,9 +246,17 @@ class MenuComboEditDishController: HeadBaseViewController, UITableViewDelegate, 
         } else {
             self.dataArr[indexPath.section].isSelectAll = false
         }
+        
+        if (dataArr.filter { !$0.isSelectAll }).count == 0 {
+            isSelectAll = true
+        } else {
+            isSelectAll = false
+        }
+        
         self.table.reloadData()
 
     }
+
     
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -290,6 +283,13 @@ class MenuComboEditDishController: HeadBaseViewController, UITableViewDelegate, 
                         model.isSelect = false
                     }
                 }
+                
+                if (dataArr.filter { !$0.isSelectAll }).count == 0 {
+                    isSelectAll = true
+                } else {
+                    isSelectAll = false
+                }
+
                 self.table.reloadData()
             }
             
@@ -338,7 +338,6 @@ class MenuComboEditDishController: HeadBaseViewController, UITableViewDelegate, 
             c_arr = c_arr.filter{ $0.dishArr.count != 0 }
             self.dataArr = c_arr
             self.dealHaveDoneDish(d_arr: d_arr)
-            //self.getTimeDishes_Net(d_arr: d_arr)
             
         }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
@@ -363,34 +362,71 @@ class MenuComboEditDishController: HeadBaseViewController, UITableViewDelegate, 
             }
         }
         
+        if (dataArr.filter { !$0.isSelectAll }).count == 0 {
+            isSelectAll = true
+        } else {
+            isSelectAll = false
+        }
+
         self.table.reloadData()
     }
 
     ///保存菜品
     private func saveAction_Net() {
-        comboModel.comboDishesList.removeAll()
         
-        for c_model in dataArr {
-            for d_model in c_model.dishArr {
-                if d_model.isSelect {
-                    
-                    let model = ComboDishModel()
-                    model.nameEn = d_model.name_En
-                    model.nameCn = d_model.name_Cn
-                    model.nameHk = d_model.name_Hk
-                    model.dishesId = Int64(d_model.id) ?? 0
-                    model.updateModel()
-                    comboModel.comboDishesList.append(model)
+        
+        if printID != "" {
+            //编辑打印机打印菜品的
+            var dishArr: [Int64] = []
+            for c_model in dataArr {
+                for d_model in c_model.dishArr {
+                    if d_model.isSelect {
+                        let id = Int64(d_model.id) ?? 0
+                        dishArr.append(id)
+                    }
                 }
             }
+
+            HUD_MB.loading("", onView: view)
+            HTTPTOOl.setPrinterDishes(id: printID, dishes: dishArr).subscribe(onNext: { [unowned self] (json) in
+                HUD_MB.showSuccess("", onView: view)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    self.navigationController?.popViewController(animated: true)
+                }
+                
+            }, onError: { [unowned self] (error) in
+                HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
+            }).disposed(by: bag)
+            
+        } else {
+            
+            //编辑套餐
+            comboModel.comboDishesList.removeAll()
+            
+            for c_model in dataArr {
+                for d_model in c_model.dishArr {
+                    if d_model.isSelect {
+                        
+                        let model = ComboDishModel()
+                        model.nameEn = d_model.name_En
+                        model.nameCn = d_model.name_Cn
+                        model.nameHk = d_model.name_Hk
+                        model.dishesId = Int64(d_model.id) ?? 0
+                        model.updateModel()
+                        comboModel.comboDishesList.append(model)
+                    }
+                }
+            }
+            
+            if comboModel.comboDishesList.count == 0 {
+                HUD_MB.showWarnig("Please choose the dish!", onView: self.view)
+                return
+            }
+
+            self.navigationController?.popViewController(animated: true)
+
         }
         
-        if comboModel.comboDishesList.count == 0 {
-            HUD_MB.showWarnig("Please choose the dish!", onView: self.view)
-            return
-        }
-
-        self.navigationController?.popViewController(animated: true)
     }
     
     

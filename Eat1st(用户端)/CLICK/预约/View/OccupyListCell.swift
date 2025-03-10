@@ -54,12 +54,12 @@ class OccupyListCell: BaseTableViewCell {
         return lab
     }()
     
-//    private let tlab4: UILabel = {
-//        let lab = UILabel()
-//        lab.setCommentStyle(HCOLOR("#999999"), BFONT(13), .left)
-//        lab.text = "Eamil:"
-//        return lab
-//    }()
+    private let tlab4: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#999999"), BFONT(13), .left)
+        lab.text = "Eamil:"
+        return lab
+    }()
 
     
     private let tlab5: UILabel = {
@@ -97,13 +97,13 @@ class OccupyListCell: BaseTableViewCell {
         lab.text = "01933 403500"
         return lab
     }()
-//    
-//    private let emailLab: UILabel = {
-//        let lab = UILabel()
-//        lab.setCommentStyle(.black, BFONT(13), .left)
-//        lab.text = ""
-//        return lab
-//    }()
+    
+    private let emailLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(.black, BFONT(13), .left)
+        lab.text = ""
+        return lab
+    }()
 
     
     
@@ -170,16 +170,16 @@ class OccupyListCell: BaseTableViewCell {
             $0.top.equalTo(tlab2.snp.bottom).offset(7)
         }
         
-//        backView.addSubview(tlab4)
-//        tlab4.snp.makeConstraints {
-//            $0.left.equalTo(tlab1)
-//            $0.top.equalTo(tlab3.snp.bottom).offset(7)
-//        }
+        backView.addSubview(tlab4)
+        tlab4.snp.makeConstraints {
+            $0.left.equalTo(tlab1)
+            $0.top.equalTo(tlab3.snp.bottom).offset(7)
+        }
         
         backView.addSubview(tlab5)
         tlab5.snp.makeConstraints {
             $0.left.equalTo(tlab1)
-            $0.top.equalTo(tlab3.snp.bottom).offset(7)
+            $0.top.equalTo(tlab4.snp.bottom).offset(7)
         }
 
 
@@ -202,12 +202,12 @@ class OccupyListCell: BaseTableViewCell {
             $0.centerY.equalTo(tlab3)
         }
         
-//        backView.addSubview(emailLab)
-//        emailLab.snp.makeConstraints {
-//            $0.left.equalTo(namelab)
-//            $0.centerY.equalTo(tlab4)
-//        }
-//        
+        backView.addSubview(emailLab)
+        emailLab.snp.makeConstraints {
+            $0.left.equalTo(namelab)
+            $0.centerY.equalTo(tlab4)
+        }
+        
         backView.addSubview(numLab)
         numLab.snp.makeConstraints {
             $0.left.equalTo(namelab)
@@ -238,7 +238,7 @@ class OccupyListCell: BaseTableViewCell {
         phoneLab.text = model.phone == "" ? "--" : model.phone
         numLab.text = model.reserveNum
         timeLab.text = "\(model.reserveDate)  \(model.reserveTime)"
-        //emailLab.text = model.email == "" ? "--" : model.email
+        emailLab.text = model.email == "" ? "--" : model.email
         
         if model.reserveStatus == "1" {
             cancelBut.isHidden = false

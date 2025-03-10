@@ -19,6 +19,8 @@ class AddBookingController: HeadBaseViewController, UITableViewDelegate, UITable
     private var tableList: [TableModel] = []
     private var timeList: [BookingTimeModel] = []
     
+    private var rowNum: Int = 0
+    
     private let backView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -53,6 +55,7 @@ class AddBookingController: HeadBaseViewController, UITableViewDelegate, UITable
         tableView.register(DishEditeInPutCell.self, forCellReuseIdentifier: "DishEditeInPutCell")
         tableView.register(DishEditeClassifyCell.self, forCellReuseIdentifier: "DishEditeClassifyCell")
         tableView.register(BookingTimeCell.self, forCellReuseIdentifier: "BookingTimeCell")
+        tableView.register(BookingTimeNullCell.self, forCellReuseIdentifier: "BookingTimeNullCell")
         return tableView
         
     }()
@@ -131,14 +134,13 @@ class AddBookingController: HeadBaseViewController, UITableViewDelegate, UITable
 extension AddBookingController {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return rowNum
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 4 {
-            
+        if indexPath.row == 5 {
             if timeList.count == 0 {
-                return 100
+                return 300
             } else {
                 let count = ceil(Double(timeList.count) / 3)
                 return CGFloat(count) * 35 + (CGFloat(count) - 1) * 10 + 90
@@ -149,13 +151,17 @@ extension AddBookingController {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0 || indexPath.row == 3 {
+        if indexPath.row == 0 || indexPath.row == 3 || indexPath.row == 4 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeInPutCell") as! DishEditeInPutCell
             if indexPath.row == 0 {
                 cell.setCellData(titStr: "Name", msgStr: submitModel.name)
             }
             if indexPath.row == 3 {
                 cell.setCellData(titStr: "Contact way", msgStr: submitModel.phone)
+            }
+            
+            if indexPath.row == 4 {
+                cell.setCellData(titStr: "Email", msgStr: submitModel.email)
             }
             
             cell.editeEndBlock = { [unowned self] (text) in
@@ -166,6 +172,9 @@ extension AddBookingController {
                     submitModel.phone = text
                 }
                 
+                if indexPath.row == 4 {
+                    submitModel.email = text
+                }
             }
             return cell
         }
@@ -195,15 +204,21 @@ extension AddBookingController {
             return cell
         }
         
-        if indexPath.row == 4 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "BookingTimeCell") as! BookingTimeCell
-            cell.setCellData(timeList: timeList, inputCount: submitModel.reserveNum, timeID: submitModel.reserveId)
+        if indexPath.row == 5 {
             
-            cell.selectItemBlock = { [unowned self] (id) in
-                submitModel.reserveId = id
+            if timeList.count == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "BookingTimeNullCell") as! BookingTimeNullCell
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "BookingTimeCell") as! BookingTimeCell
+                cell.setCellData(timeList: timeList, inputCount: submitModel.reserveNum, timeID: submitModel.reserveId)
+                
+                cell.selectItemBlock = { [unowned self] (id) in
+                    submitModel.reserveId = id
+                }
+                
+                return cell
             }
-            
-            return cell
         }
         
         
@@ -247,6 +262,7 @@ extension AddBookingController {
                 }
                 
                 timeList = tarr
+                rowNum = 6
                 table.reloadData()
                 
             }, onError: { [unowned self] (error) in
@@ -280,7 +296,7 @@ extension AddBookingController {
     private func addBooking_Net() {
         
         if submitModel.name == "" {
-            HUD_MB.showWarnig("Please fill in the reservation name", onView: view)
+            HUD_MB.showWarnig("Please fill in the name", onView: view)
             return
         }
         
@@ -288,12 +304,17 @@ extension AddBookingController {
             HUD_MB.showWarnig("Please fill in the contact information", onView: view)
             return
         }
+        
+        if submitModel.email == "" {
+            HUD_MB.showWarnig("Please fill in the Email", onView: view)
+            return
 
+        }
         if submitModel.reserveId == "" {
             HUD_MB.showWarnig("Please select time", onView: view)
             return
         }
-
+        
         
         HUD_MB.loading("", onView: view)
         HTTPTOOl.addBooking(model: submitModel).subscribe(onNext: { [unowned self] (json) in

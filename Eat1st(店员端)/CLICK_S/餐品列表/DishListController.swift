@@ -768,17 +768,22 @@ extension DishListController {
                 
                 if !isContains {
                     //查找数字 去前两位
-                    let s = dish.dishesCode.prefix(2)
+                    
+                    if dish.dishesCode.count == 1 {
+                        tarr0.first!.dishesArr.append(dish)
+                    } else {
+                        let s = dish.dishesCode.prefix(2)
 
-                    print(s)
-                    
-                    let second_C: String = dish.dishesCode.substring(to: 2)
-                    print("++++++++++++++++++" + second_C)
-                    
-                    for model in tarr2 {
-                        if model.classifyName.localizedCaseInsensitiveContains(second_C) {
-                            model.dishesArr.append(dish)
-                            isContains = true
+                        print(s)
+                        
+                        let second_C: String = dish.dishesCode.substring(to: 2)
+                        print("++++++++++++++++++" + second_C)
+                        
+                        for model in tarr2 {
+                            if model.classifyName.localizedCaseInsensitiveContains(second_C) {
+                                model.dishesArr.append(dish)
+                                isContains = true
+                            }
                         }
                     }
                 }

@@ -65,7 +65,7 @@ class ComplaintsButtonCell: BaseTableViewCell {
         let but = UIButton()
         but.setCommentStyle(.zero, "Reply", .white, BFONT(14), HCOLOR("#465DFD"))
         but.layer.cornerRadius = 10
-        but.isHidden = false
+        but.isHidden = true
         return but
     }()
     
@@ -95,7 +95,8 @@ class ComplaintsButtonCell: BaseTableViewCell {
         
         contentView.addSubview(detailBut_S)
         detailBut_S.snp.makeConstraints {
-            $0.centerY.height.equalTo(dealBut)
+            $0.top.equalToSuperview().offset(10)
+            $0.height.equalTo(35)
             $0.right.equalToSuperview().offset(-20)
             $0.left.equalTo(contentView.snp.centerX).offset(7)
         }
@@ -155,17 +156,17 @@ class ComplaintsButtonCell: BaseTableViewCell {
     
     func setCellData(type: String) {
         
-        if type == "2" {
-            //已回复 详情按钮
-            detailBut_B.isHidden = false
-            detailBut_S.isHidden = true
-            dealBut.isHidden = true
-        } else {
-            //未回复
-            detailBut_B.isHidden = true
-            detailBut_S.isHidden = false
-            dealBut.isHidden = false
-        }
+//        if type == "2" {
+//            //已回复 详情按钮
+//            detailBut_B.isHidden = false
+//            detailBut_S.isHidden = true
+//            //dealBut.isHidden = true
+//        } else {
+//            //未回复
+//            detailBut_B.isHidden = true
+//            detailBut_S.isHidden = false
+//            //dealBut.isHidden = false
+//        }
         
     }
     

@@ -120,6 +120,12 @@ extension UIView {
 //MARK: - 关于String
 extension String {
     
+    ///国际化
+    var local: String {
+        return MyLanguageManager.shared.valueWithKey(key: self)
+    }
+    
+    
     ///字符串 长度
     var length: Int {
         return self.count

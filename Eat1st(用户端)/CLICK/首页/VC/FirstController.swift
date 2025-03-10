@@ -636,7 +636,16 @@ extension FirstController {
                 //跳转浏览器
                 PJCUtil.goBrowser(url: nearestArr[indexPath.row].storeUrl)
             } else {
-                getStoreStatus_Net(id: nearestArr[indexPath.row].storeID)
+                
+                //跳转店铺首页
+                let nextVC = StoreMainController()
+                nextVC.storeID = nearestArr[indexPath.row].storeID
+                //nextVC.isClickList = true
+                //nextVC.saleTypeArr = json["data"].arrayValue.map { $0["saleType"].stringValue }
+                self.navigationController?.pushViewController(nextVC, animated: true)
+
+                
+                //getStoreStatus_Net(id: nearestArr[indexPath.row].storeID)
             }
         }
     }
@@ -645,43 +654,43 @@ extension FirstController {
     
     
     //获取店铺当前的营业状态
-    private func getStoreStatus_Net(id: String) {
-        HUD_MB.loading("", onView: view)
-        HTTPTOOl.getStoreStatus(id: id).subscribe(onNext: { [unowned self] (json) in
-            HUD_MB.dissmiss(onView: self.view)
-            
-            ///返回的status == 3的时候，跳转扫码，1，2的时候正常进菜单
-            
-            let arr = json["data"].arrayValue.filter { $0["saleType"].stringValue == "3" }
-            
-            
-            if arr.count != 0 {
-                
-                //判断是否登录
-                if PJCUtil.checkLoginStatus() {
-                    //进入店铺首页
-                    let nextVC = StoreMainController()
-                    nextVC.storeID = id
-                    nextVC.isClickList = true
-                    nextVC.saleTypeArr = json["data"].arrayValue.map { $0["saleType"].stringValue }
-                    self.navigationController?.pushViewController(nextVC, animated: true)
-                }
-
-            } else {
-                let nextVC = StoreMenuOrderController()
-                nextVC.storeID = id
-                self.navigationController?.pushViewController(nextVC, animated: true)
-            }
-                        
-        }, onError: { [unowned self] (error) in
-            HUD_MB.dissmiss(onView: view)
-            let nextVC = StoreMenuOrderController()
-            nextVC.storeID = id
-            self.navigationController?.pushViewController(nextVC, animated: true)
-            //HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
-        }).disposed(by: bag)
-    }
-    
+//    private func getStoreStatus_Net(id: String) {
+//        HUD_MB.loading("", onView: view)
+//        HTTPTOOl.getStoreStatus(id: id).subscribe(onNext: { [unowned self] (json) in
+//            HUD_MB.dissmiss(onView: self.view)
+//            
+//            ///返回的status == 3的时候，跳转扫码，1，2的时候正常进菜单
+//            
+//            let arr = json["data"].arrayValue.filter { $0["saleType"].stringValue == "3" }
+//            
+//            
+//            if arr.count != 0 {
+//                
+//                //判断是否登录
+//                if PJCUtil.checkLoginStatus() {
+//                    //进入店铺首页
+//                    let nextVC = StoreMainController()
+//                    nextVC.storeID = id
+//                    nextVC.isClickList = true
+//                    nextVC.saleTypeArr = json["data"].arrayValue.map { $0["saleType"].stringValue }
+//                    self.navigationController?.pushViewController(nextVC, animated: true)
+//                }
+//
+//            } else {
+//                let nextVC = StoreMenuOrderController()
+//                nextVC.storeID = id
+//                self.navigationController?.pushViewController(nextVC, animated: true)
+//            }
+//                        
+//        }, onError: { [unowned self] (error) in
+//            HUD_MB.dissmiss(onView: view)
+//            let nextVC = StoreMenuOrderController()
+//            nextVC.storeID = id
+//            self.navigationController?.pushViewController(nextVC, animated: true)
+//            //HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
+//        }).disposed(by: bag)
+//    }
+//    
     
     //获取首单优惠的店铺
     private func loadStoreListFirstDiscount_Net() {

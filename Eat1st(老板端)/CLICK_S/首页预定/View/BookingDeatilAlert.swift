@@ -14,12 +14,12 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
     
     private var dataModel = BookingContentModel()
     
-    private var H: CGFloat = bottomBarH + 350
+    private var H: CGFloat = bottomBarH + 380
     
     private let backView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: bottomBarH + 350), byRoundingCorners: [.topLeft, .topRight], radii: 10)
+        view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: bottomBarH + 380), byRoundingCorners: [.topLeft, .topRight], radii: 10)
         return view
     }()
 
@@ -86,12 +86,12 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
         return lab
     }()
     
-//    private let tlab5: UILabel = {
-//        let lab = UILabel()
-//        lab.setCommentStyle(HCOLOR("#666666"), BFONT(14), .left)
-//        lab.text = "Email:"
-//        return lab
-//    }()
+    private let tlab5: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#666666"), BFONT(14), .left)
+        lab.text = "Email:"
+        return lab
+    }()
     
     
     private let tlab6: UILabel = {
@@ -134,13 +134,13 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
 
 
     
-//    private let emailLab: UILabel = {
-//        let lab = UILabel()
-//        lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .right)
-//        lab.text = "136000000000@163.com"
-//        return lab
-//    }()
-//
+    private let emailLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .right)
+        lab.text = "136000000000@163.com"
+        return lab
+    }()
+
     
     private let createTimeLab: UILabel = {
         let lab = UILabel()
@@ -243,17 +243,17 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
         }
 
 
-//        backView.addSubview(tlab5)
-//        tlab5.snp.makeConstraints {
-//            $0.left.equalToSuperview().offset(20)
-//            $0.top.equalToSuperview().offset(260)
-//        }
-//
+        backView.addSubview(tlab5)
+        tlab5.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(20)
+            $0.top.equalToSuperview().offset(225)
+        }
+
         
         backView.addSubview(tlab6)
         tlab6.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
-            $0.top.equalToSuperview().offset(225)
+            $0.top.equalToSuperview().offset(260)
             //$0.top.equalToSuperview().offset(290)
         }
         
@@ -284,11 +284,11 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
             $0.right.equalToSuperview().offset(-20)
         }
         
-//        backView.addSubview(emailLab)
-//        emailLab.snp.makeConstraints {
-//            $0.centerY.equalTo(tlab5)
-//            $0.right.equalToSuperview().offset(-20)
-//        }
+        backView.addSubview(emailLab)
+        emailLab.snp.makeConstraints {
+            $0.centerY.equalTo(tlab5)
+            $0.right.equalToSuperview().offset(-20)
+        }
         
         backView.addSubview(createTimeLab)
         createTimeLab.snp.makeConstraints {
@@ -325,6 +325,7 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
         dateLab.text = "\(model.reserveDate) \(model.reserveTime)"
         partyLab.text = model.reserveNum
         phoneLab.text = model.phone
+        emailLab.text = model.email == "" ? "--" : model.email
         createTimeLab.text = model.createTime
         
         

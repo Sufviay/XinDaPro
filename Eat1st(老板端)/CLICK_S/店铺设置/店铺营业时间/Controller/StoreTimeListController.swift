@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import MJRefresh
 
 
 class StoreTimeListController: HeadBaseViewController, UITableViewDelegate, UITableViewDataSource, SystemAlertProtocol {
@@ -29,7 +30,7 @@ class StoreTimeListController: HeadBaseViewController, UITableViewDelegate, UITa
         //去掉单元格的线
         tableView.separatorStyle = .none
         //回弹效果
-        tableView.bounces = false
+        tableView.bounces = true
         tableView.showsVerticalScrollIndicator =  false
         tableView.estimatedRowHeight = 0
         tableView.estimatedSectionFooterHeight = 0
@@ -44,7 +45,25 @@ class StoreTimeListController: HeadBaseViewController, UITableViewDelegate, UITa
         return tableView
         
     }()
+    
+    
+    private let addBut: UIButton = {
+        let but = UIButton()
+        but.setImage(LOIMG("dis_add"), for: .normal)
+        but.setCommentStyle(.zero, "Add", HCOLOR("465DFD"), BFONT(17), HCOLOR("#8F92A1").withAlphaComponent(0.06))
+        but.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
+        but.layer.cornerRadius = 10
+        return but
+    }()
 
+
+    private lazy var noDataView: NoDataView = {
+        let view = NoDataView()
+        view.frame = self.table.bounds
+        return view
+    }()
+
+    
     
     override func setViews() {
         view.backgroundColor = HCOLOR("#F7F7F7")
@@ -72,46 +91,55 @@ class StoreTimeListController: HeadBaseViewController, UITableViewDelegate, UITa
         }
         
         
+        view.addSubview(addBut)
+        addBut.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(20)
+            $0.right.equalToSuperview().offset(-20)
+            $0.bottom.equalToSuperview().offset(-bottomBarH - 20)
+            $0.height.equalTo(60)
+        }
+        
+        
         backView.addSubview(table)
         table.snp.makeConstraints {
-            $0.left.right.bottom.equalToSuperview()
+            $0.left.right.equalToSuperview()
             $0.top.equalToSuperview().offset(15)
+            $0.bottom.equalTo(addBut.snp.top).offset(-10)
         }
 
+        table.mj_header = CustomRefreshHeader() { [unowned self] in
+            loadData_Net(true)
+        }
+        
+        addBut.addTarget(self, action: #selector(clickAddAction), for: .touchUpInside)
     }
     
+    
+    @objc private func clickAddAction() {
+        //添加
+        let nextVC = AddStoreTimeController()
+        self.navigationController?.pushViewController(nextVC, animated: true)
+    }
+    
+
     
     @objc private func clickLeftButAction() {
         self.navigationController?.popViewController(animated: true)
     }
 
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
-    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if section == 1 {
-            return 1
-        }
         return timeArr.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 1 {
-            return 150
-        }
         return 110
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.section == 1 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "AddItemCell") as! AddItemCell
-            return cell
-        }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "OpeningTimeListCell") as! OpeningTimeListCell
         cell.setCellData(model: timeArr[indexPath.row])
@@ -130,24 +158,28 @@ class StoreTimeListController: HeadBaseViewController, UITableViewDelegate, UITa
                 self.navigationController?.pushViewController(editVC, animated: true)
             }
             
-            if type == "edit dish" {
+            if type == "dish" {
                 //编辑菜品
                 let editDishVC = StoreTimeBindingDishController()
                 editDishVC.timeID = self.timeArr[indexPath.row].timeId
                 self.navigationController?.pushViewController(editDishVC, animated: true)
             }
 
-            if type == "canUse" {
+            if type == "status" {
                 //禁用启用
                 self.canUseAction_Net(timeID: self.timeArr[indexPath.row].timeId)
             }
             
             if type == "delete" {
                 //删除
-                self.showSystemChooseAlert("Tip", "Delete or not", "Delete", "Cancel") {
-                    self.deleteAction_Net(timeID: self.timeArr[indexPath.row].timeId)
+                self.showSystemChooseAlert("Alert", "Delete or not", "YES", "NO") {
+                    
+                    if self.timeArr[indexPath.row].status == "1" {
+                        self.showSystemChooseAlert("Alert", "The time range is in use. Do you want to delete it？", "Delete", "Cancel") {
+                            self.deleteAction_Net(timeID: self.timeArr[indexPath.row].timeId)
+                        }
+                    }
                 }
-                
             }
         }
         
@@ -157,26 +189,21 @@ class StoreTimeListController: HeadBaseViewController, UITableViewDelegate, UITa
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 1 {
-            //添加
-            let nextVC = AddStoreTimeController()
-            self.navigationController?.pushViewController(nextVC, animated: true)
-        }
-        
-        if indexPath.section == 0 {
-            let detailVC = StoreTimeDetailController()
-            detailVC.timeModel = timeArr[indexPath.row]
-            self.navigationController?.pushViewController(detailVC, animated: true)
-        }
-        
+        let detailVC = StoreTimeDetailController()
+        detailVC.timeModel = timeArr[indexPath.row]
+        self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
     
     
     //MARK: - 网络请求
-    private func loadData_Net() {
-        HUD_MB.loading("", onView: view)
-        HTTPTOOl.getStoreOpeningHours().subscribe(onNext: { (json) in
+    private func loadData_Net(_ isLoading: Bool = false) {
+        
+        if !isLoading {
+            HUD_MB.loading("", onView: view)
+        }
+        
+        HTTPTOOl.getStoreOpeningHours().subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
             
             var tArr: [DayTimeModel] = []
@@ -187,19 +214,28 @@ class StoreTimeListController: HeadBaseViewController, UITableViewDelegate, UITa
                 tArr.append(model)
             }
             self.timeArr = tArr
+            
+            if timeArr.count == 0 {
+                table.addSubview(noDataView)
+            } else {
+                noDataView.removeFromSuperview()
+            }
+            
             self.table.reloadData()
+            table.mj_header?.endRefreshing()
         
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
+            table.mj_header?.endRefreshing()
         }).disposed(by: self.bag)
     }
     
     private func deleteAction_Net(timeID: String) {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.deleteOpeningHours(timeID: timeID).subscribe(onNext: { json in
+        HTTPTOOl.deleteOpeningHours(timeID: timeID).subscribe(onNext: { [unowned self] json in
             HUD_MB.dissmiss(onView: self.view)
             self.loadData_Net()
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
@@ -207,10 +243,10 @@ class StoreTimeListController: HeadBaseViewController, UITableViewDelegate, UITa
     
     private func canUseAction_Net(timeID: String) {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.openingHoursCanUse(timeID: timeID).subscribe(onNext: { json in
+        HTTPTOOl.openingHoursCanUse(timeID: timeID).subscribe(onNext: { [unowned self] json in
             HUD_MB.dissmiss(onView: self.view)
             self.loadData_Net()
-        }, onError: { error in
+        }, onError: { [unowned self] error in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }

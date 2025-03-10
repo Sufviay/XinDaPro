@@ -1,0 +1,49 @@
+/* 
+  Localizable.strings
+  CLICK_S
+
+  Created by 肖扬 on 2025/1/14.
+  
+*/
+
+
+"Live" = "Live";
+"Sale Summary" = "Sale Summary";
+"Booking" = "Booking";
+"Sale Chart" = "Sale Chart";
+
+"Takeaway" = "Takeaway";
+"Sales" = "Sales";
+"Order" = "Order";
+
+"Month" = "Month";
+"Week" = "Week";
+"Day" = "Day";
+"Year" = "Year";
+"OK" = "OK";
+"Cancel" = "Cancel";
+"Period" = "Period";
+
+"Dine-in" = "Dine-in";
+
+"Unpaid Amount" = "Unpaid Amount";
+"Unpaid Order" = "Unpaid Order";
+"Sale" = "Sale";
+"Order" = "Order";
+"Avg per Customer" = "Avg per Customer";
+"Avg per Table" = "Avg per Table";
+"Table" = "Table";
+"Customer" = "Customer";
+
+"Last " = "Last ";
+
+"Sun" = "Sun";
+"Sat" = "Sat";
+"Fri" = "Fri";
+"Thu" = "Thu";
+"Wed" = "Wed" ;
+"Tue" = "Tue";
+"Mon" = "Mon";
+
+"No data available" = "No data available";
+

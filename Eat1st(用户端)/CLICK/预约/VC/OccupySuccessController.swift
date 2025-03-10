@@ -20,7 +20,7 @@ class OccupySuccessController: BaseViewController {
         let lab = UILabel()
         lab.setCommentStyle(.black, SFONT(14), .center)
         lab.numberOfLines = 0
-        lab.text = "Thank You for Your Booking Request!\nWe will send you a confirmation email shortly.\n- If your booking is confirmed, the details will be included.\n- If we are fully booked, we will kindly notify you with alternative options.\nPlease check your email, including your spam folder, for updates."
+        lab.text = "Booking Successful"
         return lab
     }()
     

@@ -85,11 +85,11 @@ class ReviewsController: HeadBaseViewController, UITableViewDelegate, UITableVie
         
         leftBut.addTarget(self, action: #selector(backAction), for: .touchUpInside)
         
-        table.mj_header = MJRefreshNormalHeader() { [unowned self] in
-            self.loadData_Net()
+        table.mj_header = CustomRefreshHeader() { [unowned self] in
+            self.loadData_Net(true)
         }
 
-        table.mj_footer = MJRefreshBackNormalFooter() { [unowned self] in
+        table.mj_footer = CustomRefreshFooter() { [unowned self] in
             self.loadDataMore_Net()
         }
 
@@ -161,8 +161,11 @@ class ReviewsController: HeadBaseViewController, UITableViewDelegate, UITableVie
 extension ReviewsController {
     
     //MARK: - 网络请求
-    private func loadData_Net() {
-        HUD_MB.loading("", onView: view)
+    private func loadData_Net(_ isLoading: Bool = false) {
+        if !isLoading {
+            HUD_MB.loading("", onView: view)
+        }
+        
         HTTPTOOl.getReviewsList(page: 1).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: view)
             page = 2
@@ -180,9 +183,7 @@ extension ReviewsController {
     
     
     private func loadDataMore_Net() {
-        HUD_MB.loading("", onView: view)
         HTTPTOOl.getReviewsList(page: page).subscribe(onNext: { [unowned self] (json) in
-            HUD_MB.dissmiss(onView: view)
             
             if json["data"]["evaluateList"].arrayValue.count == 0 {
                 table.mj_footer?.endRefreshingWithNoMoreData()

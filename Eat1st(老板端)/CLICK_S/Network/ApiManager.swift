@@ -204,9 +204,9 @@ enum ApiManager {
     ///打印机列表
     case getPrinterList
     ///新增打印机
-    case addPrinter(name: String, ip: String, printNum: String, splitType: String, printType: String)
+    case addPrinter(model: PrinterModel)
     ///编辑打印机
-    case editePrinter(id: String, name: String, ip: String, printNum: String, splitType: String, printType: String, status: String)
+    case editePrinter(model: PrinterModel)
     ///启用禁用打印机
     case printerDoStatus(id: String)
     ///删除打印机
@@ -239,91 +239,98 @@ enum ApiManager {
     case doReconfirm(id: String)
     ///用户预约进店
     case doBookingCheckin(id: String)
+    ///获取汇总打印信息
+    case getPrintSummary(dateType: String, start: String, end: String)
+    ///获取营业额统计
+    case getStoreSales(deliveryType: String, queryType: String)
+    ///获取分类统计列表
+    case getStatisClassifyList
+    ///获取分类统计下菜的排名
+    case getStatisClassifyDishesList(id: String, type: String, start: String, end: String)
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    ///获取订单列表
-    case getOrderList(page: String, tag: String, type: String)
-    
-    ///获取订单详情
-    case getOrderDetail(orderID: String)
-    
-    ///已出餐
-    case orderChuCanAction(orderID: String)
-    
-    ///接单
-    case orderJieDanAction(orderID: String)
-    
-    ///拒接
-    case orderJuJieAction(orderID: String, customReason: String, reasonID: String)
-    
-    ///开始配送
-    case orderkaiShiPeiSongAction(orderID: String)
-    
-    ///收货
-    case orderShouHuoAction(orderID: String)
-    
-    
+    ///获取打印机关联菜品
+    case getPrinterDishesList(printerID: String)
+    ///设置打印机菜品
+    case setPrinterLinkDishes(printerID: String, dishesArr: [Int64])
     ///获取投诉处理方式
     case getDealComplaintWay
+    ///获取订单详情
+    case getOrderDetail(orderID: String)
+    ///启用禁用菜品附加
+    case setAttachStatus(id: String)
+    ///设置菜品VIP
+    case doDishVipPrice(id: String, typeStr: String, price: String, status: String)
     
-    ///获取投诉内容
-    case loadComplainContent(orderID: String)
-    
-    
-    ///处理投诉
-    case dealComplain(orderID: String, code: String)
-    
-    ///获取营业金额信息
-    case getTodayAndlastWeekSales
-    
-    ///获取店铺支付方式
-    case getStorePayWay
-    
-    ///更新收款方式
-    case changePayWay(card: String, cash: String)
+
     
     
-    ///上传用户位置信息
-    case uploadUserLocation(lat: String, lng: String)
     
-    ///获取首页Tag数据
-    case getOrderStatusTag
     
-    ///获取拒接原因
-    case getJujieReason
     
-    ///查询营业统计
-    case queryStoreBussiness(type: String, date: String)
     
-    ///获取骑手列表
-    case getRiderList
     
-    ///获取骑手派送中的订单列表
-    case getRiderDeliveryOrderList(id: String)
-    
-    ///获取骑手历史配送订单
-    case getRiderDeliveryHistoryOderList(id: String, page: String)
-    
-    ///获取骑手位置
-    case getRiderLocal(id: String)
+//    ///获取订单列表
+//    case getOrderList(page: String, tag: String, type: String)
+//    
+//
+//    ///已出餐
+//    case orderChuCanAction(orderID: String)
+//    
+//    ///接单
+//    case orderJieDanAction(orderID: String)
+//    
+//    ///拒接
+//    case orderJuJieAction(orderID: String, customReason: String, reasonID: String)
+//    
+//    ///开始配送
+//    case orderkaiShiPeiSongAction(orderID: String)
+//    
+//    ///收货
+//    case orderShouHuoAction(orderID: String)
+//    
+//    
+
+//    
+//    ///获取投诉内容
+//    case loadComplainContent(orderID: String)
+//    
+//    
+//    ///处理投诉
+//    case dealComplain(orderID: String, code: String)
+//    
+//    ///获取营业金额信息
+//    case getTodayAndlastWeekSales
+//    
+//    ///获取店铺支付方式
+//    case getStorePayWay
+//    
+//    ///更新收款方式
+//    case changePayWay(card: String, cash: String)
+//    
+//    
+//    ///上传用户位置信息
+//    case uploadUserLocation(lat: String, lng: String)
+//    
+//    ///获取首页Tag数据
+//    case getOrderStatusTag
+//    
+//    ///获取拒接原因
+//    case getJujieReason
+//    
+//    ///查询营业统计
+//    case queryStoreBussiness(type: String, date: String)
+//    
+//    ///获取骑手列表
+//    case getRiderList
+//    
+//    ///获取骑手派送中的订单列表
+//    case getRiderDeliveryOrderList(id: String)
+//    
+//    ///获取骑手历史配送订单
+//    case getRiderDeliveryHistoryOderList(id: String, page: String)
+//    
+//    ///获取骑手位置
+//    case getRiderLocal(id: String)
     
 
     
@@ -538,9 +545,9 @@ extension ApiManager: TargetType {
             return "api/boss/dishes/doUpdatePrice"
         case .getPrinterList:
             return "api/boss/printer/getPrinterList"
-        case .addPrinter(name: _, ip: _, printNum: _, splitType: _, printType: _):
+        case .addPrinter(model: _):
             return "api/boss/printer/doAdd"
-        case .editePrinter(id: _, name: _, ip: _, printNum: _, splitType: _, printType: _, status: _):
+        case .editePrinter(model: _):
             return "api/boss/printer/doUpdate"
         case .printerDoStatus(id: _):
             return "api/boss/printer/doStatus"
@@ -574,75 +581,84 @@ extension ApiManager: TargetType {
             return "api/boss/desk/reserve/doRestore"
         case .doBookingCheckin(id: _):
             return "api/boss/desk/reserve/doUserInStore"
-            
-            
-            
-            
-            
-            
-            
-            
-
-            
-            
-            
-            
-            
-        case .getOrderStatusTag:
-            return "api/boss/order/getTabList"
-            
-        case .getOrderList(page: _, tag: _, type: _):
-            return "api/boss/order/getOrderList"
-        case .orderChuCanAction(orderID: _):
-            return "api/business/order/cook/doCookOrder"
-        case .getOrderDetail(orderID: _):
-            return "api/boss/order/getOrderDetail"
-            
-        case .orderJieDanAction(orderID: _):
-            return "api/business/order/take/doTakeOrder"
-        case .orderkaiShiPeiSongAction(orderID: _):
-            return "api/business/rider/doDeliveryOrder"
-            
-        case .orderJuJieAction(orderID: _, customReason: _, reasonID: _):
-            return "api/business/order/refuse/doRefuseOrder"
-        case .orderShouHuoAction(orderID: _):
-            return "api/business/order/receive/doReceiveOrder"
-            
+        case .getPrintSummary(dateType: _, start: _, end: _):
+            return "api/boss/store/cost/getSummary"
+        case .getStoreSales(deliveryType: _, queryType: _):
+            return "api/boss/report/getSales"
+        case .getStatisClassifyList:
+            return "api/boss/dishes/classify/statis/getClassifyList"
+        case .getStatisClassifyDishesList(id: _, type: _, start: _, end: _):
+            return "api/boss/dishes/classify/statis/getDishesSalesList"
+        case .setPrinterLinkDishes(printerID: _, dishesArr: _):
+            return "api/boss/printer/dishes/doLink"
+        case .getPrinterDishesList(printerID: _):
+            return "api/boss/printer/dishes/getDishesList"
         case .getDealComplaintWay:
             return "api/boss/plaint/getPlaintTypeList"
-            
-        case .loadComplainContent(orderID: _):
-            return "api/boss/plaint/viewPlaint"
-            
-        case .dealComplain(orderID: _, code: _):
-            return "api/boss/plaint/doPlaintOrder"
-            
-        case .getTodayAndlastWeekSales:
-            return "api/boss/sales/getStoreCurDayAndLastWeekSales"
-        case .getStorePayWay:
-            return "api/boss/store/getStorePayType"
-        case .changePayWay(card: _, cash: _):
-            return "api/boss/store/doStorePayType"
-            
-            
-        case .uploadUserLocation(lat: _, lng: _):
-            return "api/business/rider/doRiderPosition"
-            
+        case .getOrderDetail(orderID: _):
+            return "api/boss/order/getOrderDetail"
+        case .setAttachStatus(id: _):
+            return "api/boss/dishes/attach/doStatus"
+        case .doDishVipPrice(id: _, typeStr: _, price: _, status: _):
+            return "api/boss/dishes/doVipPrice"
 
-        case .getJujieReason:
-            return "api/business/order/refuse/getRefuseTypeList"
             
-        case .queryStoreBussiness(type: _, date: _):
-            return "api/boss/sales/getStoreOfDateSales"
-        case .getRiderList:
-            return "api/boss/rider/getRiderList"
-        case .getRiderDeliveryOrderList(id: _):
-            return "api/boss/rider/getDeliveryOrderList"
-        case .getRiderDeliveryHistoryOderList(id: _, page: _):
-            return "api/boss/rider/getHistoryOrderList"
-        case .getRiderLocal(id: _):
-            return "api/boss/rider/getRiderPosition"
             
+            
+            
+            
+//        case .getOrderStatusTag:
+//            return "api/boss/order/getTabList"
+//            
+//        case .getOrderList(page: _, tag: _, type: _):
+//            return "api/boss/order/getOrderList"
+//        case .orderChuCanAction(orderID: _):
+//            return "api/business/order/cook/doCookOrder"
+
+//            
+//        case .orderJieDanAction(orderID: _):
+//            return "api/business/order/take/doTakeOrder"
+//        case .orderkaiShiPeiSongAction(orderID: _):
+//            return "api/business/rider/doDeliveryOrder"
+//            
+//        case .orderJuJieAction(orderID: _, customReason: _, reasonID: _):
+//            return "api/business/order/refuse/doRefuseOrder"
+//        case .orderShouHuoAction(orderID: _):
+//            return "api/business/order/receive/doReceiveOrder"
+//            
+//
+//        case .loadComplainContent(orderID: _):
+//            return "api/boss/plaint/viewPlaint"
+//            
+//        case .dealComplain(orderID: _, code: _):
+//            return "api/boss/plaint/doPlaintOrder"
+//            
+//        case .getTodayAndlastWeekSales:
+//            return "api/boss/sales/getStoreCurDayAndLastWeekSales"
+//        case .getStorePayWay:
+//            return "api/boss/store/getStorePayType"
+//        case .changePayWay(card: _, cash: _):
+//            return "api/boss/store/doStorePayType"
+//            
+//            
+//        case .uploadUserLocation(lat: _, lng: _):
+//            return "api/business/rider/doRiderPosition"
+//            
+//
+//        case .getJujieReason:
+//            return "api/business/order/refuse/getRefuseTypeList"
+//            
+//        case .queryStoreBussiness(type: _, date: _):
+//            return "api/boss/sales/getStoreOfDateSales"
+//        case .getRiderList:
+//            return "api/boss/rider/getRiderList"
+//        case .getRiderDeliveryOrderList(id: _):
+//            return "api/boss/rider/getDeliveryOrderList"
+//        case .getRiderDeliveryHistoryOderList(id: _, page: _):
+//            return "api/boss/rider/getHistoryOrderList"
+//        case .getRiderLocal(id: _):
+//            return "api/boss/rider/getRiderPosition"
+//            
             
             
 
@@ -870,10 +886,10 @@ extension ApiManager: TargetType {
             dic = ["dishesId": id, "sellType": sellType, "buffetType": buffetType, "deliPrice": dePrice, "dinePrice": dinePrice]
         case .getPrinterList:
             dic = [:]
-        case .addPrinter(let name, let ip, let printNum, let splitType, let printType):
-            dic = ["nameCn": name, "nameHk": name, "nameEn": name, "ip": ip, "status": "1", "remark": "", "printNum": printNum, "splitType": splitType, "printType": printType]
-        case .editePrinter(let id, let name, let ip, let printNum, let splitType, let printType, let status):
-            dic = ["printerId": id, "nameCn": name, "nameHk": name, "nameEn": name, "ip": ip, "status": status, "remark": "", "printNum": printNum, "splitType": splitType, "printType": printType]
+        case .addPrinter(let model):
+            dic = model.toJSON() ?? [:]
+        case .editePrinter(let model):
+            dic = model.toJSON() ?? [:]
         case .printerDoStatus(let id):
             dic = ["printerId": id]
         case .deletePrinter(let id):
@@ -907,85 +923,93 @@ extension ApiManager: TargetType {
             dic = ["userReserveId": id]
         case .doBookingCheckin(let id):
             dic = ["userReserveId": id]
-            
-    
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-        case .getOrderList(let page, let tag, let type):
-            dic = ["pageIndex": page, "deliveryType": type, "tagId": tag]
-            
-        case .getOrderDetail(let orderID):
-            dic = ["orderId": orderID]
-            
-            
-        case .orderChuCanAction(let orderID):
-            dic = ["orderId": orderID]
-            
-        case .orderJieDanAction(let orderID):
-            dic = ["orderId": orderID]
-            
-        case .orderkaiShiPeiSongAction(let orderID):
-            dic = ["orderId": orderID]
-            
-            
-        case .orderJuJieAction(let orderID, let customReason, let id):
-            dic = ["orderId": orderID, "reason": customReason, "refuseTypeId": id]
-            
-        case .orderShouHuoAction(let orderID):
-            dic = ["orderId": orderID]
-            
- 
-            
+        case .getPrintSummary(let dateType, let start, let end):
+            dic = ["type": dateType, "start": start, "end": end]
+        case .getStoreSales(let deliveryType, let queryType):
+            dic = ["deliveryType": deliveryType, "queryType": queryType]
+        case .getStatisClassifyList:
+            dic = [:]
+        case .getStatisClassifyDishesList(let id, let type, let start, let end):
+            dic = ["classifyId": id, "searchType": type, "day": start, "end": end]
+        case .setPrinterLinkDishes(let printerID, let dishesArr):
+            dic = ["printerId": printerID, "dishesList": dishesArr]
+        case .getPrinterDishesList(let printerID):
+            dic = ["printerId": printerID]
         case .getDealComplaintWay:
             dic = [:]
-            
-        case .loadComplainContent(let orderID):
+        case .getOrderDetail(let orderID):
             dic = ["orderId": orderID]
-            
-        case .dealComplain(let orderID, let code):
-            dic = ["orderId": orderID, "plaintId": code]
-            
-        case .getTodayAndlastWeekSales:
-            dic = [:]
-            
-        case .getStorePayWay:
-            dic = [:]
-            
-        case .changePayWay(let card, let cash):
-            dic = ["card": card, "cash": cash]
+        case .setAttachStatus(let id):
+            dic = ["attachId": id]
+        case .doDishVipPrice(let id, let typeStr, let price, let status):
+            dic = ["dishesId": id, "vipDeliveryStr": typeStr, "vipPrice": price, "vipType": status]
             
             
-        case .uploadUserLocation(let lat, let lng):
-            dic = ["lat": lat, "lng": lng]
             
-        case .getOrderStatusTag:
-            dic = [:]
             
-        case .getJujieReason:
-            dic = [:]
-            
-        case .queryStoreBussiness(let type, let date):
-            dic = ["dateType": type, "date": date]
-            
-        case .getRiderList:
-            dic = [:]
-            
-        case .getRiderDeliveryOrderList(let id):
-            dic = ["id": id]
-            
-        case .getRiderDeliveryHistoryOderList(let id, let page):
-            dic  = ["id": id, "pageIndex": page]
-            
-        case .getRiderLocal(let id):
-            dic = ["id": id]
+//        case .getOrderList(let page, let tag, let type):
+//            dic = ["pageIndex": page, "deliveryType": type, "tagId": tag]
+//            
+//
+//            
+//        case .orderChuCanAction(let orderID):
+//            dic = ["orderId": orderID]
+//            
+//        case .orderJieDanAction(let orderID):
+//            dic = ["orderId": orderID]
+//            
+//        case .orderkaiShiPeiSongAction(let orderID):
+//            dic = ["orderId": orderID]
+//            
+//            
+//        case .orderJuJieAction(let orderID, let customReason, let id):
+//            dic = ["orderId": orderID, "reason": customReason, "refuseTypeId": id]
+//            
+//        case .orderShouHuoAction(let orderID):
+//            dic = ["orderId": orderID]
+//            
+// 
+//            
+//
+//        case .loadComplainContent(let orderID):
+//            dic = ["orderId": orderID]
+//            
+//        case .dealComplain(let orderID, let code):
+//            dic = ["orderId": orderID, "plaintId": code]
+//            
+//        case .getTodayAndlastWeekSales:
+//            dic = [:]
+//            
+//        case .getStorePayWay:
+//            dic = [:]
+//            
+//        case .changePayWay(let card, let cash):
+//            dic = ["card": card, "cash": cash]
+//            
+//            
+//        case .uploadUserLocation(let lat, let lng):
+//            dic = ["lat": lat, "lng": lng]
+//            
+//        case .getOrderStatusTag:
+//            dic = [:]
+//            
+//        case .getJujieReason:
+//            dic = [:]
+//            
+//        case .queryStoreBussiness(let type, let date):
+//            dic = ["dateType": type, "date": date]
+//            
+//        case .getRiderList:
+//            dic = [:]
+//            
+//        case .getRiderDeliveryOrderList(let id):
+//            dic = ["id": id]
+//            
+//        case .getRiderDeliveryHistoryOderList(let id, let page):
+//            dic  = ["id": id, "pageIndex": page]
+//            
+//        case .getRiderLocal(let id):
+//            dic = ["id": id]
             
         }
         print("参数：\(dic)")

@@ -34,9 +34,11 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         if (self.l_manager == nil) {
             self.l_manager = CLLocationManager()
             self.l_manager?.delegate = self
-            self.l_manager?.desiredAccuracy = kCLLocationAccuracyBest
-            self.l_manager?.distanceFilter = 15
+            l_manager?.requestAlwaysAuthorization()
+            //self.l_manager?.desiredAccuracy = kCLLocationAccuracyBest
+            //self.l_manager?.distanceFilter = 15
             self.l_manager?.allowsBackgroundLocationUpdates = true
+            l_manager?.showsBackgroundLocationIndicator = true
             self.l_manager?.pausesLocationUpdatesAutomatically = false
         }
         
@@ -49,36 +51,36 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         
         if (self.l_manager != nil) && (CLLocationManager.authorizationStatus() == .denied || CLLocationManager.authorizationStatus() == .notDetermined) {
             //么有获取权限
-            self.l_manager?.requestWhenInUseAuthorization()
+            //self.l_manager?.requestWhenInUseAuthorization()
         } else {
-            self.l_manager?.stopUpdatingLocation()
+            //self.l_manager?.stopUpdatingLocation()
             self.l_manager?.startUpdatingLocation()
         }        
     }
     
        
     //定位
-    func doLocation(success: @escaping (PlaceModel) -> Void, fail: @escaping () -> Void) {
-        isFirstLocation = true
-        
-        self.successBlock = success
-        self.failBlock = fail
-        
-        if (self.l_manager != nil) && (CLLocationManager.authorizationStatus() == .denied || CLLocationManager.authorizationStatus() == .notDetermined) {
-            //么有获取权限
-            self.l_manager?.requestWhenInUseAuthorization()
-        } else {
-            
-            self.l_manager?.startUpdatingLocation()
-        }
-        
-//        self.l_manager.delegate = self
-//        l_manager.desiredAccuracy = kCLLocationAccuracyBest
-//        l_manager.requestAlwaysAuthorization()
-//        l_manager.requestWhenInUseAuthorization()
-//        l_manager.allowsBackgroundLocationUpdates = true
-//        l_manager.pausesLocationUpdatesAutomatically = false
-    }
+//    func doLocation(success: @escaping (PlaceModel) -> Void, fail: @escaping () -> Void) {
+//        isFirstLocation = true
+//        
+//        self.successBlock = success
+//        self.failBlock = fail
+//        
+//        if (self.l_manager != nil) && (CLLocationManager.authorizationStatus() == .denied || CLLocationManager.authorizationStatus() == .notDetermined) {
+//            //么有获取权限
+//            self.l_manager?.requestWhenInUseAuthorization()
+//        } else {
+//            
+//            self.l_manager?.startUpdatingLocation()
+//        }
+//        
+////        self.l_manager.delegate = self
+////        l_manager.desiredAccuracy = kCLLocationAccuracyBest
+////        l_manager.requestAlwaysAuthorization()
+////        l_manager.requestWhenInUseAuthorization()
+////        l_manager.allowsBackgroundLocationUpdates = true
+////        l_manager.pausesLocationUpdatesAutomatically = false
+//    }
 
     
     //Delegate

@@ -33,17 +33,20 @@ class BookingScheController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     
-    private lazy var selectAlert: SelecItemAlert =  {
-        let alert = SelecItemAlert()
-        alert.selectBlock = { [unowned self] dic in
-            let info = dic as! [String: Any]
-            selectDate = dateList_Alert[(info["idx"] as! Int)]
+    private lazy var calendarView: CalendarAlert = {
+        let view = CalendarAlert()
+        
+        view.clickDateBlock = { [unowned self] (par) in
+        
+            
+            let model = DateModel()
+            model.updateModel(date: par as! Date)
+            selectDate = model
             dateView.setData(timeList: dateList_view, curDate: selectDate.yearDate)
         }
-        return alert
+        
+        return view
     }()
-
-    
     
 
     private let dateBut: UIButton = {
@@ -55,7 +58,7 @@ class BookingScheController: UIViewController, UITableViewDelegate, UITableViewD
     
     private let dateLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(11), .left)
+        lab.setCommentStyle(FONTCOLOR, BFONT(14), .left)
         lab.text = "2024-11-23"
         return lab
     }()
@@ -91,8 +94,16 @@ class BookingScheController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.dataSource = self
         tableView.contentInsetAdjustmentBehavior = .never
         tableView.register(ChartBackTableCell.self, forCellReuseIdentifier: "ChartBackTableCell")
+                
         return tableView
     }()
+    
+    
+    private let timeHeaderView: BookingTimeView = {
+        let view = BookingTimeView()
+        return view
+    }()
+    
     
     
     private let addBut: UIButton = {
@@ -130,8 +141,8 @@ class BookingScheController: UIViewController, UITableViewDelegate, UITableViewD
         dateBut.snp.makeConstraints {
             $0.left.equalToSuperview().offset(15)
             $0.right.equalToSuperview().offset(-15)
-            $0.height.equalTo(30)
-            $0.top.equalToSuperview().offset(5)
+            $0.height.equalTo(40)
+            $0.top.equalToSuperview().offset(15)
         }
         
         dateBut.addSubview(dateLab)
@@ -154,35 +165,46 @@ class BookingScheController: UIViewController, UITableViewDelegate, UITableViewD
             $0.height.equalTo(65)
             $0.top.equalTo(dateBut.snp.bottom).offset(10)
         }
+        
+        
         view.addSubview(addBut)
         addBut.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
             $0.right.equalToSuperview().offset(-20)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-10)
             $0.height.equalTo(40)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-20)
+            
         }
         
+        
+        view.addSubview(timeHeaderView)
+        timeHeaderView.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(40)
+            $0.top.equalTo(dateView.snp.bottom).offset(15)
+        }
         
         view.addSubview(table)
         table.snp.makeConstraints {
             $0.left.right.equalToSuperview()
-            $0.top.equalTo(dateView.snp.bottom).offset(15)
+            $0.top.equalTo(timeHeaderView.snp.bottom)
             $0.bottom.equalTo(addBut.snp.top).offset(-15)
         }
     
         
         dateBut.addTarget(self, action: #selector(clickDateAction), for: .touchUpInside)
         addBut.addTarget(self, action: #selector(clickAddAction), for: .touchUpInside)
-
-        table.mj_header = MJRefreshNormalHeader() { [unowned self] in
-            loadBookData_Net()
-        }
         
+        
+        table.mj_header = CustomRefreshHeader() { [unowned self] in
+            loadBookData_Net(true)
+        }
     }
     
     
     @objc private func clickDateAction() {
-        selectAlert.appearAction()
+        
+        calendarView.appearAction()
     }
     
     
@@ -213,7 +235,7 @@ extension BookingScheController {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(dataModel.lineCount) * 45 + 35
+        return CGFloat(dataModel.lineCount) * 45
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -234,44 +256,28 @@ extension BookingScheController {
     
     //获取餐桌和预约日期
     private func loadData_Net() {
-        HUD_MB.loading("", onView: view)
-//        HTTPTOOl.getDeskList(page: 1).subscribe(onNext: { [unowned self] (json) in
-//            //餐桌
-//            var tArr: [TableModel] = []
-//            for jsonData in json["data"].arrayValue {
-//                let model = TableModel()
-//                model.updateModel(json: jsonData)
-//                tArr.append(model)
-//            }
-//            tableList = tArr
-            
-            HTTPTOOl.getStoreBookingTime(date: "").subscribe(onNext: { [unowned self] (json) in
-                HUD_MB.dissmiss(onView: view)
-                //日期
-                let curDate = json["data"]["localDate"].stringValue.changeDate(formatter: "yyyy-MM-dd") ?? Date()
-                let nextCount = json["data"]["maxDayNum"].intValue
-                dateList_Alert = curDate.getSomeOneDateModelWith(count: nextCount)
-                dateList_view = curDate.getSomeOneDateModelWith(count: 7)
-                
-                selectDate = dateList_Alert.first ?? DateModel()
-                selectAlert.setDateModelData(dateList: dateList_Alert)
-                dateView.setData(timeList: dateList_view, curDate: selectDate.yearDate)
-                
-            }, onError: { [unowned self] (error) in
-                HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
-            }).disposed(by: bag)
-//        }, onError: { [unowned self] (error) in
-//            HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
-//        }).disposed(by: bag)
+    
+        //处理日期
+        let curDateModel = DateModel()
+        curDateModel.updateModel(date: Date())
+        selectDate = curDateModel
+        dateList_view = Date().getSomeOneDateModelWith(count: 7)
+        dateView.setData(timeList: dateList_view, curDate: selectDate.yearDate)
+        
     }
     
     
-    private func loadBookData_Net() {
-        HUD_MB.loading("", onView: view)
+    private func loadBookData_Net(_ isLoading: Bool = false) {
+        
+        if !isLoading {
+            HUD_MB.loading("", onView: view)
+        }
+        
         HTTPTOOl.getBookingDataInCharts(date: selectDate.yearDate).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: view)
             table.mj_header?.endRefreshing()
             dataModel.updateModel(json: json)
+            timeHeaderView.setData(timeArr: dataModel.timeArr)
             table.reloadData()
             
         }, onError: { [unowned self] (error) in

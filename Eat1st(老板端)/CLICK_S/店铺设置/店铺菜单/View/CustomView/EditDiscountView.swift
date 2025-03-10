@@ -54,8 +54,8 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
     
     
     //日历弹窗
-    private lazy var calendarView: DiscountSelectDateView = {
-        let view = DiscountSelectDateView()
+    private lazy var calendarView: CalendarAlert = {
+        let view = CalendarAlert()
                 
         view.clickDateBlock = { [unowned self] (par) in
             

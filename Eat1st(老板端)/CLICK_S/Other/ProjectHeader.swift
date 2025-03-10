@@ -249,13 +249,13 @@ let HTML: (String) -> String = { (str) in
 let HTTPTOOl = HttpTool.shared
 
 
-
 //"http://api.moneycheers.net/"
 //"https://api.foodo2o.com/"
-//"https://api-test.foodo2o.com/"
+//"https://api-test.foodo2o.com/"   
+
 
 let ISONLINE: Bool = true
-
-let VERID: String = "37"
+let VERID: String = "52"
 var BASEURL: String = ISONLINE ? "https://api.foodo2o.com/" : "https://api-test.foodo2o.com/"
+
 

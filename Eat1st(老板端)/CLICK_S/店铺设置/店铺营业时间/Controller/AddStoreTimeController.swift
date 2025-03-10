@@ -369,13 +369,13 @@ class AddStoreTimeController: HeadBaseViewController, UITableViewDelegate, UITab
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell") as! DishEditeChooseCell
                 
                 if indexPath.section == 4 {
-                    cell.setCellData(titStr: "Delivery", l_str: "Yes", r_Str: "No", statusID: dataModel.deliverStatus)
+                    cell.setChooseCellData(titStr: "Delivery", l_str: "Enable", r_Str: "Disable", statusID: dataModel.deliverStatus)
                 }
                 if indexPath.section == 5 {
-                    cell.setCellData(titStr: "Collection", l_str: "Yes", r_Str: "No", statusID: dataModel.collectStatus)
+                    cell.setChooseCellData(titStr: "Collection", l_str: "Enable", r_Str: "Disable", statusID: dataModel.collectStatus)
                 }
                 if indexPath.section == 6 {
-                    cell.setCellData(titStr: "Status", l_str: "Enable", r_Str: "Disable", statusID: dataModel.status)
+                    cell.setChooseCellData(titStr: "Status", l_str: "Enable", r_Str: "Disable", statusID: dataModel.status)
                 }
                 
                 cell.selectBlock = { [unowned self] (status) in

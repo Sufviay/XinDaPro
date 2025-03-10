@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import MJRefresh
 
-class DeskSettingController: HeadBaseViewController, UITableViewDelegate, UITableViewDataSource {
+class DeskSettingController: HeadBaseViewController, UITableViewDelegate, UITableViewDataSource, SystemAlertProtocol {
 
     private let bag = DisposeBag()
     
@@ -43,15 +43,16 @@ class DeskSettingController: HeadBaseViewController, UITableViewDelegate, UITabl
         tableView.register(TableInfoCell.self, forCellReuseIdentifier: "TableInfoCell")
         return tableView
     }()
-
-    
+        
     private let addBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Add", HCOLOR("#465DFD"), BFONT(15), HCOLOR("#8F92A1").withAlphaComponent(0.06))
-        but.layer.cornerRadius = 10
         but.setImage(LOIMG("dis_add"), for: .normal)
+        but.setCommentStyle(.zero, "Add", HCOLOR("465DFD"), BFONT(17), HCOLOR("#8F92A1").withAlphaComponent(0.06))
+        but.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
+        but.layer.cornerRadius = 10
         return but
     }()
+
     
     
     private lazy var editAlert: TableEditAlert = {
@@ -63,8 +64,11 @@ class DeskSettingController: HeadBaseViewController, UITableViewDelegate, UITabl
     }()
     
     
-    
-    
+    private lazy var noDataView: NoDataView = {
+        let view = NoDataView()
+        view.frame = self.table.bounds
+        return view
+    }()
     
     override func setViews() {
         setUpUI()
@@ -74,7 +78,7 @@ class DeskSettingController: HeadBaseViewController, UITableViewDelegate, UITabl
     
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Table setting"
+        self.biaoTiLab.text = "Dining-table management"
     }
     
     
@@ -102,16 +106,10 @@ class DeskSettingController: HeadBaseViewController, UITableViewDelegate, UITabl
         }
 
         
-        table.mj_header = MJRefreshNormalHeader() { [unowned self] in
-            self.loadData_Net()
+        table.mj_header = CustomRefreshHeader() { [unowned self] in
+            self.loadData_Net(true)
         }
 
-        table.mj_footer = MJRefreshBackNormalFooter() { [unowned self] in
-            self.loadDataMore_Net()
-        }
-
-
-        
         
         leftBut.addTarget(self, action: #selector(backAction), for: .touchUpInside)
         addBut.addTarget(self, action: #selector(clickAddAction), for: .touchUpInside)
@@ -150,7 +148,7 @@ extension DeskSettingController {
         
         cell.clickMoreBlock = { [unowned self] (type) in
             
-            if type as! String == "open" {
+            if type as! String == "status" {
                 //改变状态
                 setStatus_Net(idx: indexPath.row)
             }
@@ -163,7 +161,10 @@ extension DeskSettingController {
             
             if type as! String == "delete" {
                 //删除
-                deleteAction_Net(idx: indexPath.row)
+                showSystemChooseAlert("Alert", "Delete or not?", "YES", "NO") {
+                    self.deleteAction_Net(idx: indexPath.row)
+                }
+                
             }
             
         }
@@ -177,8 +178,10 @@ extension DeskSettingController {
 
 extension DeskSettingController {
     
-    private func loadData_Net() {
-        HUD_MB.loading("", onView: view)
+    private func loadData_Net(_ isLoading: Bool = false) {
+        if !isLoading {
+            HUD_MB.loading("", onView: view)
+        }
         HTTPTOOl.getDeskList(page: 1).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: view)
             page = 2
@@ -189,44 +192,25 @@ extension DeskSettingController {
                 model.updateModel(json: jsonData)
                 tArr.append(model)
             }
-            dataArr = tArr
-            table.reloadData()
-            table.mj_header?.endRefreshing()
-            table.mj_footer?.resetNoMoreData()
-
             
-        }, onError: { [unowned self] (error) in
-            HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
-            table.mj_header?.endRefreshing()
-        }).disposed(by: bag)
-    }
-    
-    
-    private func loadDataMore_Net() {
-        HUD_MB.loading("", onView: view)
-        HTTPTOOl.getDeskList(page: page).subscribe(onNext: { [unowned self] (json) in
-            HUD_MB.dissmiss(onView: view)
-        
-            if json["data"].arrayValue.count == 0 {
-                table.mj_footer?.endRefreshingWithNoMoreData()
+            dataArr = tArr
+            if dataArr.count == 0 {
+                table.addSubview(noDataView)
             } else {
-                self.page += 1
-                for jsonData in json["data"].arrayValue {
-                    let model = TableModel()
-                    model.updateModel(json: jsonData)
-                    dataArr.append(model)
-                }
-                table.reloadData()
-                table.mj_footer?.endRefreshing()
+                noDataView.removeFromSuperview()
             }
             
+            table.reloadData()
+            table.mj_header?.endRefreshing()
+            
+            
         }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
-            table.mj_footer?.endRefreshing()
+            table.mj_header?.endRefreshing()
         }).disposed(by: bag)
     }
     
-    
+        
     
     
     private func setStatus_Net(idx: Int) {
@@ -250,6 +234,13 @@ extension DeskSettingController {
         HTTPTOOl.deleteDesk(id: dataArr[idx].deskId).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.showSuccess("Success", onView: view)
             dataArr.remove(at: idx)
+
+            if dataArr.count == 0 {
+                table.addSubview(noDataView)
+            } else {
+                noDataView.removeFromSuperview()
+            }
+            
             table.reloadData()
         }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)

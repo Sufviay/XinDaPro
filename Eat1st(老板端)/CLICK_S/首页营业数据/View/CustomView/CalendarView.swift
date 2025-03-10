@@ -8,11 +8,12 @@
 import UIKit
 
 
+
+
+
 class CalendarView: BaseAlertView, UIGestureRecognizerDelegate, FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
 
-    
     var clickDateBlock: VoidBlock?
-
     
     private var dateArr: [String] = []
     
@@ -158,6 +159,7 @@ class CalendarView: BaseAlertView, UIGestureRecognizerDelegate, FSCalendarDelega
     
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        
         self.dateArr.removeAll()
         
         

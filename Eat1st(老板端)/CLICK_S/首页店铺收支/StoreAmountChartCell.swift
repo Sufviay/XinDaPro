@@ -13,9 +13,9 @@ class StoreAmountChartCell: BaseTableViewCell, IValueFormatter {
 
 
     
-    private let titles = ["Dine-in Sales", "Takeaway Sales", "Tips"]
+    private let titles = ["Dine-in Sales", "Takeaway Sales", "Tips", "Top Up"]
 
-    private let colors = [HCOLOR("#5F79F6"), HCOLOR("#F4B33F"), HCOLOR("#64DDE8")]
+    private let colors = [HCOLOR("#5F79F6"), HCOLOR("#F4B33F"), HCOLOR("#64DDE8"), HCOLOR("#9C9FFF")]
 
     
     private lazy var chartView: PieChartView = {
@@ -84,7 +84,7 @@ class StoreAmountChartCell: BaseTableViewCell, IValueFormatter {
         
         
         
-        var ydata: [Double] = [model.dinePrice, model.deliPrice, model.tipsPrice]
+        var ydata: [Double] = [model.dinePrice, model.deliPrice, model.tipsPrice, model.topUp]
         
         if (ydata.filter { $0 != 0 }).count == 0 {
             ydata = []

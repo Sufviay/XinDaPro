@@ -25,6 +25,7 @@ class DishEditeImageCell: BaseTableViewCell, SystemAlertProtocol, CommonToolProt
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(16), .left)
         lab.text = "*"
+        lab.isHidden = true
         return lab
     }()
     
@@ -184,6 +185,7 @@ class DishEditeImageDetailCell: BaseTableViewCell, SystemAlertProtocol, CommonTo
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(16), .left)
         lab.text = "*"
+        lab.isHidden = true
         return lab
     }()
     

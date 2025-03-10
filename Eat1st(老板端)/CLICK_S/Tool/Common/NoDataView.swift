@@ -18,8 +18,8 @@ class NoDataView: UIView {
     
     let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(16), .center)
-        lab.text = "This page has no data"
+        lab.setCommentStyle(FONTCOLOR, BFONT(14), .center)
+        lab.text = "No data available".local
         return lab
     }()
 
@@ -29,8 +29,8 @@ class NoDataView: UIView {
         self.addSubview(picImg)
         picImg.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview().offset(-100)
-            $0.size.equalTo(CGSize(width: 165, height: 112))
+            $0.centerY.equalToSuperview().offset(-50)
+            $0.size.equalTo(CGSize(width: 190, height: 160))
         }
         
         self.addSubview(titlab)

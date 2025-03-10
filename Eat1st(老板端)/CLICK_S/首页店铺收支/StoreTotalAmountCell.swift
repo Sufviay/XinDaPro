@@ -88,9 +88,9 @@ class StoreTotalAmountCell: BaseTableViewCell {
     }
 
     
-    func setCellData(model: StoreInOrOutCostModel) {
+    func setCellData(model: StoreSummaryModel) {
         moneyLab.text = "£\(D_2_STR(model.salesPrice))"
-        numberLab.text = String(model.orderNum)
+        numberLab.text = String(model.salesNum)
     }
     
 

@@ -444,8 +444,8 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
     }
     
     //MARK: - 获取分类及菜品列表
-    func getClassifyAndDishesList(storeID: String, deliveryType: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .getClassifyAndDishesList(storeID: storeID, deliveryType: deliveryType))
+    func getClassifyAndDishesList(storeID: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getClassifyAndDishesList(storeID: storeID))
         return Observable<JSON>.create(response)
     }
     

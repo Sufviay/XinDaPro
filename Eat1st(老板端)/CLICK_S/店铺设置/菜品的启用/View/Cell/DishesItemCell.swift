@@ -39,9 +39,10 @@ class DishesItemCell: BaseTableViewCell {
         return lab
     }()
     
-     let isShowImg: UIImageView = {
+    let isShowImg: UIImageView = {
         let img = UIImageView()
         img.image = LOIMG("sj_hide")
+        img.isHidden = true
         return img
     }()
     
@@ -89,13 +90,19 @@ class DishesItemCell: BaseTableViewCell {
     }
     
     @objc private func clickSelectAction() {
-        self.selectBlock?("")
+        selectBlock?("")
     }
     
     
     func setCellData(model: DishModel) {
-        self.moneyLab.text = "£\(model.price)"
         
+        
+        if model.sellType == "3" || model.sellType == "1" {
+            self.moneyLab.text = "£\(model.deliPrice)"
+        } else {
+            self.moneyLab.text = "£\(model.dinePrice)"
+        }
+            
         self.nameLab1.text = model.name1
         self.nameLab2.text = model.name2
         
@@ -105,17 +112,17 @@ class DishesItemCell: BaseTableViewCell {
             self.selectBut.setImage(LOIMG("unsel_f"), for: .normal)
         }
         
-        if model.haveSpec {
-            
-            self.isShowImg.isHidden = false
-            if model.optionArr.count == 0 {
-                self.isShowImg.image = LOIMG("sj_hide")
-            } else {
-                self.isShowImg.image = LOIMG("sj_show")
-            }
-        } else {
-            self.isShowImg.isHidden = true
-        }
+//        if model.haveSpec {
+//            
+//            self.isShowImg.isHidden = false
+//            if model.optionArr.count == 0 {
+//                self.isShowImg.image = LOIMG("sj_hide")
+//            } else {
+//                self.isShowImg.image = LOIMG("sj_show")
+//            }
+//        } else {
+//            self.isShowImg.isHidden = true
+//        }
 
     }
     

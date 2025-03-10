@@ -43,7 +43,7 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
             if type == "delete" {
                 
                 DispatchQueue.main.async {
-                    self.showSystemChooseAlert("Alert", "Delete it?", "YES", "NO") {
+                    self.showSystemChooseAlert("Alert", "Delete or not?", "YES", "NO") {
                         self.deleteClassify_Net()
                     }
                 }
@@ -88,15 +88,17 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
         return view
     }()
     
-    //买一赠一
-    private lazy var giveView: EditeFreeOneView = {
-        let view = EditeFreeOneView()
+    
+    //设置状态
+    private lazy var statusView: EditStatusView = {
+        let view = EditStatusView()
         return view
     }()
-
-    //设置点心套餐
-    private lazy var baleView: EditeBaleTypeView = {
-        let view = EditeBaleTypeView()
+    
+    
+    //设置VIP价格
+    private lazy var vipView: EditVIPView = {
+        let view = EditVIPView()
         return view
     }()
 
@@ -123,6 +125,18 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
         
     }()
     
+    
+    private let addBut: UIButton = {
+        let but = UIButton()
+        but.clipsToBounds = true
+        but.layer.cornerRadius = 10
+        but.setImage(LOIMG("dis_add"), for: .normal)
+        but.setCommentStyle(.zero, "Add", HCOLOR("#465DFD"), BFONT(17), HCOLOR("#8F92A1").withAlphaComponent(0.06))
+        but.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
+        return but
+    }()
+    
+
 
     
     override func setNavi() {
@@ -154,20 +168,34 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
             $0.top.equalToSuperview().offset(statusBarH + 80)
         }
         
+        
+        view.addSubview(addBut)
+        addBut.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(20)
+            $0.right.equalToSuperview().offset(-20)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-10)
+            $0.height.equalTo(50)
+        }
+        
+
+        
         view.addSubview(table)
         table.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.top.equalTo(searchView.snp.bottom)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            $0.bottom.equalTo(addBut.snp.top).offset(-10)
         }
         
-        table.mj_header = MJRefreshNormalHeader() { [unowned self] in
-            self.loadData_Net()
+        
+        
+        table.mj_header = CustomRefreshHeader() { [unowned self] in
+            self.loadData_Net(true)
         }
 
         
         self.leftBut.addTarget(self, action: #selector(clickBackAction), for: .touchUpInside)
         self.rightBut.addTarget(self, action: #selector(clickRightAction), for: .touchUpInside)
+        addBut.addTarget(self, action: #selector(clickAddAction), for: .touchUpInside)
         
     }
     
@@ -178,6 +206,29 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
     @objc private func clickRightAction() {
         self.moreView.appearAction()
     }
+    
+    
+    @objc private func clickAddAction() {
+        //新增菜品
+        
+        if type == "dis" {
+            let nextVC = MenuDishEditeController()
+            nextVC.isAdd = true
+            nextVC.dishType = "1"
+            self.navigationController?.pushViewController(nextVC, animated: true)
+        }
+        if type == "add" {
+            let nextVC = MenuAdditionalAddController()
+            nextVC.isAdd = true
+            self.navigationController?.pushViewController(nextVC, animated: true)
+        }
+        if type == "fre" {
+            let nextVC = MenuGiftAddController()
+            nextVC.isAdd = true
+            self.navigationController?.pushViewController(nextVC, animated: true)
+        }
+    }
+
     
     
     //搜索
@@ -192,23 +243,16 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
     
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if section == 1 {
-            return 1
-        }
         
         return dishArr.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 1 {
-            return 90
-        }
-        
         let model = dishArr[indexPath.row]
         
         let h1 = model.name1.getTextHeigh(BFONT(13), S_W - 120)
@@ -223,77 +267,95 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.section == 1 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "AddItemCell") as! AddItemCell
-            return cell
-        }
+        let model = dishArr[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "MenuDishCell") as! MenuDishCell
-        cell.setCellData(model: dishArr[indexPath.row], type: self.type)
+        cell.setCellData(model: model, type: self.type)
         
         cell.clickMoreBlock = { [unowned self] (par) in
-            if par == "de" {
+            
+            print(par)
+            
+            if par == "delete" {
                 //删除
-                DispatchQueue.main.async { [unowned self] in
-                    self.showSystemChooseAlert("Alert", "Delete it?", "YES", "NO") { [unowned self] in
-                        deleteDish_Net(idx: indexPath.row)
+                showSystemChooseAlert("Alert", "Delete or not?", "YES", "NO") { [unowned self] in
+                    
+                    if model.statusID == "1" {
+                        //上架
+                        self.showSystemChooseAlert("Alert", "The dish is in use. Do you want to delete it？", "Delete", "Cancel") {
+                            self.deleteDish_Net(idx: indexPath.row)
+                        }
+                    } else {
+                        self.deleteDish_Net(idx: indexPath.row)
                     }
-                }                
+                }
             }
-            if par == "ed" {
+            if par == "detail" {
                 //编辑
                 if type == "dis" {
                     let nextVC = MenuDishDetailController()
-                    nextVC.dishID = dishArr[indexPath.row].id
-                    self.navigationController?.pushViewController(nextVC, animated: true)
+                    nextVC.dishID = model.id
+                    navigationController?.pushViewController(nextVC, animated: true)
                 }
                 if type == "add" {
-                    let nextVC = MenuAdditionalAddController()
-                    nextVC.isAdd = false
-                    nextVC.addID = dishArr[indexPath.row].id
-                    self.navigationController?.pushViewController(nextVC, animated: true)
+                    let nextVC = MenuAdditionalDetailController()
+                    nextVC.addID = model.id
+                    navigationController?.pushViewController(nextVC, animated: true)
                 }
                 if type == "fre" {
-                    let nextVC = MenuGiftAddController()
-                    nextVC.isAdd = false
-                    nextVC.giftID = dishArr[indexPath.row].id
-                    self.navigationController?.pushViewController(nextVC, animated: true)
-                }
+                    let nextVC = MenuGiftDetailController()
+                    nextVC.giftID = model.id
+                    navigationController?.pushViewController(nextVC, animated: true)                }
             }
             
-            if par == "kc" {
+            if par == "stock" {
                 //库存
-                let model = self.dishArr[indexPath.row]
-                self.kuCunView.setAlertData(name1: model.name1, name2: model.name2, type: model.limitBuy, num: model.limitNum, dishID: model.id)
-                self.kuCunView.appearAction()
+                kuCunView.setAlertData(name1: model.name1, name2: model.name2, type: model.limitBuy, num: model.limitNum, dishID: model.id)
+                kuCunView.appearAction()
             }
             
-            if par == "yh" {
+            if par == "discount" {
                 //优惠
-                let model = self.dishArr[indexPath.row]
-                self.discountView.setAlertData(discountType: model.discountType, discountPrice: model.discountPrice, dishID: model.id, discountStartDate: model.discountStartDate, discountEndDate: model.discountEndDate)
-                self.discountView.appearAction()
+                discountView.setAlertData(discountType: model.discountType, discountPrice: model.discountPrice, dishID: model.id, discountStartDate: model.discountStartDate, discountEndDate: model.discountEndDate)
+                discountView.appearAction()
             }
             
-            if par == "pr" {
+            if par == "price" {
                 //价格
                 let model = self.dishArr[indexPath.row]
                 priceView.setAlertData(id: model.id, sellType: model.sellType, buffetType: model.buffetType, dePrice: model.deliPrice, dinePrice: model.dinePrice)
                 priceView.appearAction()
             }
             
-            if par == "give" {
+            if par == "free" {
                 //买一赠一
-                let model = self.dishArr[indexPath.row]
-                giveView.setAlertData(isGive: model.isGiveOne, dishId: model.id)
-                giveView.appearAction()
+                statusView.setAlertData(type: .giveOne, status: model.isGiveOne, id: model.id)
+                statusView.appearAction()
             }
             
-            if par == "bale" {
+            if par == "special" {
                 //设置点心套餐
-                let model = self.dishArr[indexPath.row]
-                baleView.setAlertData(type: model.baleType, dishId: model.id)
-                baleView.appearAction()
+                let stauts = model.baleType == "2" ? true : false
+                statusView.setAlertData(type: .baleType, status: stauts, id: model.id)
+                statusView.appearAction()
+            }
+            
+            if par == "status" {
+                //设置状态
+                let status = model.statusID == "1" ? true : false
+                statusView.setAlertData(type: .attachStatus, status: status, id: model.id)
+                statusView.appearAction()
+            }
+            
+            if par == "VIP" {
+                //设置VIP
+                vipView.setAlertData(id: model.id, status: model.vipType, price: model.vipPrice, typeStr: model.vipDeliveryStr)
+                vipView.appearAction()
+            }
+            
+            if par == "VAT" {
+                //设置VAT
+                loadDishDetail_Net(id: model.id)
             }
         }
         
@@ -302,46 +364,39 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if indexPath.section == 0 {
-            
-            if type == "dis" {
-                let nextVC = MenuDishDetailController()
-                nextVC.dishID = dishArr[indexPath.row].id
-                self.navigationController?.pushViewController(nextVC, animated: true)
-            }
-            if type == "add" {
-                let nextVC = MenuAdditionalDetailController()
-                nextVC.addID = dishArr[indexPath.row].id
-                self.navigationController?.pushViewController(nextVC, animated: true)
-            }
-            
-            if type == "fre" {
-                let nextVC = MenuGiftDetailController()
-                nextVC.giftID = dishArr[indexPath.row].id
-                self.navigationController?.pushViewController(nextVC, animated: true)
-            }
-            
-            
-        } else {
-            //新增菜品
-            
-            if type == "dis" {
-                let nextVC = MenuDishEditeController()
-                nextVC.isAdd = true
-                nextVC.dishType = "1"
-                self.navigationController?.pushViewController(nextVC, animated: true)
-            }
-            if type == "add" {
-                let nextVC = MenuAdditionalAddController()
-                nextVC.isAdd = true
-                self.navigationController?.pushViewController(nextVC, animated: true)
-            }
-            if type == "fre" {
-                let nextVC = MenuGiftAddController()
-                nextVC.isAdd = true
-                self.navigationController?.pushViewController(nextVC, animated: true)
-            }
+        if type == "dis" {
+            let nextVC = MenuDishDetailController()
+            nextVC.dishID = dishArr[indexPath.row].id
+            self.navigationController?.pushViewController(nextVC, animated: true)
         }
+        if type == "add" {
+            let nextVC = MenuAdditionalDetailController()
+            nextVC.addID = dishArr[indexPath.row].id
+            self.navigationController?.pushViewController(nextVC, animated: true)
+        }
+        
+        if type == "fre" {
+            let nextVC = MenuGiftDetailController()
+            nextVC.giftID = dishArr[indexPath.row].id
+            self.navigationController?.pushViewController(nextVC, animated: true)
+        }
+    }
+    
+    
+    private func loadDishDetail_Net(id: String) {
+        HUD_MB.loading("", onView: view)
+        HTTPTOOl.getDishesDetail(id: id).subscribe(onNext: { [self] (json) in
+            HUD_MB.dissmiss(onView: self.view)
+            var dishModel = DishDetailModel()
+            dishModel = DishDetailModel.deserialize(from: json.dictionaryObject!, designatedPath: "data")!
+            statusView.dishModel = dishModel
+            let status = dishModel.vatType == "2" ? true : false
+            statusView.setAlertData(type: .VAT, status: status, id: String(dishModel.dishesId))
+            statusView.appearAction()
+        }, onError: { (error) in
+            HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
+        }).disposed(by: self.bag)
+
     }
     
     
@@ -367,8 +422,10 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
 extension MenuDishListController {
     
     //MARK: - 网络请求
-    private func loadData_Net() {
-        HUD_MB.loading("", onView: view)
+    private func loadData_Net(_ isLoading: Bool = false) {
+        if !isLoading {
+            HUD_MB.loading("", onView: view)
+        }
         
         if type == "dis" {
             HTTPTOOl.getClassifyDishesList(id: classifyID).subscribe(onNext: { (json) in

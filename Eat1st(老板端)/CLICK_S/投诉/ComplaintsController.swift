@@ -76,11 +76,11 @@ class ComplaintsController: HeadBaseViewController, UITableViewDelegate, UITable
             $0.top.equalToSuperview().offset(20)
         }
         
-        table.mj_header = MJRefreshNormalHeader() { [unowned self] in
-            self.loadData_Net()
+        table.mj_header = CustomRefreshHeader() { [unowned self] in
+            self.loadData_Net(true)
         }
 
-        table.mj_footer = MJRefreshBackNormalFooter() { [unowned self] in
+        table.mj_footer = CustomRefreshFooter() { [unowned self] in
             self.loadDataMore_Net()
         }
 
@@ -141,7 +141,10 @@ extension ComplaintsController {
 extension ComplaintsController {
     
     //MARK: - 加载数据
-    private func loadData_Net() {
+    private func loadData_Net(_ isLoading: Bool = false) {
+        if !isLoading {
+            HUD_MB.loading("", onView: view)
+        }
         HUD_MB.loading("", onView: view)
         HTTPTOOl.getComplatinsList(page: 1).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: view)
@@ -165,10 +168,7 @@ extension ComplaintsController {
     
     
     private func loadDataMore_Net() {
-        HUD_MB.loading("", onView: view)
-        HTTPTOOl.getComplatinsList(page: page).subscribe(onNext: { [unowned self] (json) in
-            HUD_MB.dissmiss(onView: view)
-        
+        HTTPTOOl.getComplatinsList(page: page).subscribe(onNext: { [unowned self] (json) in        
             if json["data"].arrayValue.count == 0 {
                 table.mj_footer?.endRefreshingWithNoMoreData()
             } else {

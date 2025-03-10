@@ -274,37 +274,37 @@ extension MenuGiftAddController {
     //保存
     func saveAction_Net() {
        
-        ///校验信息
-        if dataModel.nameCn == "" {
-            HUD_MB.showWarnig("Please fill in the simplified Chinese name!", onView: self.view)
-            return
-        }
-        
-        if dataModel.nameHk == "" {
-            HUD_MB.showWarnig("Please fill in the traditional Chinese name!", onView: self.view)
-            return
-        }
-        
-        if dataModel.nameEn == "" {
-            HUD_MB.showWarnig("Please fill in the English name!", onView: self.view)
-            return
-        }
-        
-        if dataModel.giftCode == "" {
-            HUD_MB.showWarnig("Please fill in the serial number!", onView: self.view)
-            return
-        }
-        
-        if dataModel.classifyId == 0 {
-            HUD_MB.showWarnig("Please fill in the food category!", onView: self.view)
-            return
-        }
-        
-        if dataModel.showImageUrl == "" && self.dataModel.imageUrl == "" {
-            HUD_MB.showWarnig("Please upload picture!", onView: self.view)
-            return
-        }
-
+//        ///校验信息
+//        if dataModel.nameCn == "" {
+//            HUD_MB.showWarnig("Please fill in the simplified Chinese name!", onView: self.view)
+//            return
+//        }
+//        
+//        if dataModel.nameHk == "" {
+//            HUD_MB.showWarnig("Please fill in the traditional Chinese name!", onView: self.view)
+//            return
+//        }
+//        
+//        if dataModel.nameEn == "" {
+//            HUD_MB.showWarnig("Please fill in the English name!", onView: self.view)
+//            return
+//        }
+//        
+//        if dataModel.giftCode == "" {
+//            HUD_MB.showWarnig("Please fill in the serial number!", onView: self.view)
+//            return
+//        }
+//        
+//        if dataModel.classifyId == 0 {
+//            HUD_MB.showWarnig("Please fill in the food category!", onView: self.view)
+//            return
+//        }
+//        
+//        if dataModel.showImageUrl == "" && self.dataModel.imageUrl == "" {
+//            HUD_MB.showWarnig("Please upload picture!", onView: self.view)
+//            return
+//        }
+//
         
         
         HUD_MB.loading("", onView: view)

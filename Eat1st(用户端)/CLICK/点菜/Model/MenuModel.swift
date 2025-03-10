@@ -286,15 +286,32 @@ class MenuModel: NSObject {
             
             ///设置当前店铺的购买方式 1外卖 2自取 ""为关店状态
             
-            if curentTime.deliverStatus == "1" {
-                buyType = "1"
-            } else {
-                if curentTime.collectStatus == "1" {
-                    buyType = "2"
-                } else {
-                    buyType = ""
-                }
+            if curentTime.deliverStatus == "2" && curentTime.collectStatus == "2" {
+                buyType = ""
             }
+            
+            if curentTime.deliverStatus == "2" && curentTime.collectStatus == "1" {
+                buyType = "2"
+            }
+            
+            if curentTime.deliverStatus == "1" && curentTime.collectStatus == "2" {
+                buyType = "1"
+            }
+            
+            if curentTime.deliverStatus == "1" && curentTime.collectStatus == "1" && buyType == "" {
+                buyType = "1"
+            }
+            
+            
+//            if curentTime.deliverStatus == "1" {
+//                buyType = "1"
+//            } else {
+//                if curentTime.collectStatus == "1" {
+//                    buyType = "2"
+//                } else {
+//                    buyType = ""
+//                }
+//            }
         } else {
             buyType = ""
         }

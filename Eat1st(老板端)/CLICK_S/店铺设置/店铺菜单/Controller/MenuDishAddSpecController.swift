@@ -165,7 +165,7 @@ class MenuDishAddSpecController: HeadBaseViewController, UITableViewDelegate, UI
 
     @objc private func clickRightAction() {
         //删除
-        self.showSystemChooseAlert("Alert", "Delete it?", "YES", "NO") {
+        self.showSystemChooseAlert("Alert", "Delete or not?", "YES", "NO") {
             self.deleteSpec_Net()
         }
     }
@@ -267,11 +267,11 @@ class MenuDishAddSpecController: HeadBaseViewController, UITableViewDelegate, UI
             if indexPath.row == 4 || indexPath.row == 5 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell") as! DishEditeChooseCell
                 if indexPath.row == 4 {
-                    cell.setCellData(titStr: "Choose", l_str: "Optional", r_Str: "Required", statusID: dataModel.required)
+                    cell.setChooseCellData(titStr: "Choose", l_str: "Required", r_Str: "Optional", statusID: dataModel.required)
                 }
                 
                 if indexPath.row == 5 {
-                    cell.setCellData(titStr: "Multi-select", l_str: "Disable", r_Str: "Enable", statusID: dataModel.multiple)
+                    cell.setChooseCellData(titStr: "Multi-select", l_str: "Enable", r_Str: "Disable", statusID: dataModel.multiple)
                 }
                 
                 

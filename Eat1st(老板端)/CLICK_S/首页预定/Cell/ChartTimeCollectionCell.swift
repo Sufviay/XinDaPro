@@ -30,7 +30,7 @@ class ChartTimeCollectionCell: UICollectionViewCell, UITableViewDelegate, UITabl
         tableView.delegate = self
         tableView.dataSource = self
         tableView.contentInsetAdjustmentBehavior = .never
-        tableView.register(TimeHeadCell.self, forCellReuseIdentifier: "TimeHeadCell")
+        //tableView.register(TimeHeadCell.self, forCellReuseIdentifier: "TimeHeadCell")
         tableView.register(TimeBookingInfoCell.self, forCellReuseIdentifier: "TimeBookingInfoCell")
         return tableView
     }()
@@ -52,69 +52,44 @@ class ChartTimeCollectionCell: UICollectionViewCell, UITableViewDelegate, UITabl
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 0 {
-            return 35
-        }
         return 45
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return line + 1
+        return line
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "TimeHeadCell") as! TimeHeadCell
-            cell.titLab.text = timeData.reserveTime
-            return cell
-        }
+//        if indexPath.row == 0 {
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "TimeHeadCell") as! TimeHeadCell
+//            cell.titLab.text = timeData.reserveTime
+//            return cell
+//        }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "TimeBookingInfoCell") as! TimeBookingInfoCell
         
         if timeData.bookingArr.count == 0 {
             cell.setCellData(isBook: false, model: nil)
         } else {
-            if indexPath.row <= timeData.bookingArr.count {
-                cell.setCellData(isBook: true, model: timeData.bookingArr[indexPath.row - 1])
+            if indexPath.row <= timeData.bookingArr.count - 1 {
+                cell.setCellData(isBook: true, model: timeData.bookingArr[indexPath.row])
             } else {
                 cell.setCellData(isBook: false, model: nil)
             }
         }
 
-        
-//        let deskId = tableArr[indexPath.row - 1].deskId
-//        
-//        let arr = timeData.tableStausArr.filter { $0.deskId == deskId }
-//        if arr.count != 0 {
-//            cell.setCellData(isBook: true, model: arr.first!)
-//        } else {
-//            cell.setCellData(isBook: false, model: nil)
-//        }
         return cell
         
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //查看详情
-        
-        if indexPath.row != 0 {
-            
-            if indexPath.row <= timeData.bookingArr.count {
-                //看详情
-                let detailModel = timeData.bookingArr[indexPath.row - 1]
-                clickBlock?(detailModel)
-            }
+        if indexPath.row <= timeData.bookingArr.count - 1 {
+            //看详情
+            let detailModel = timeData.bookingArr[indexPath.row]
+            clickBlock?(detailModel)
         }
         
-
-//        let deskId = tableArr[indexPath.row - 1].deskId
-//        let arr = timeData.tableStausArr.filter { $0.deskId == deskId }
-//        
-//        if arr.count != 0 {
-//            //看详情
-//            let detailModel = arr.first!
-//            clickBlock?(detailModel)
-//        }
         
     }
     
@@ -128,50 +103,50 @@ class ChartTimeCollectionCell: UICollectionViewCell, UITableViewDelegate, UITabl
 
 
 
-class TimeHeadCell: BaseTableViewCell {
-    
-    let titLab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(11), .center)
-        return lab
-    }()
-    
-    private let line1: UIView = {
-        let view = UIView()
-        view.backgroundColor = HCOLOR("#E5E5E5")
-        return view
-    }()
-    
-    private let line2: UIView = {
-        let view = UIView()
-        view.backgroundColor = HCOLOR("#E5E5E5")
-        return view
-    }()
-    
-
-    
-    override func setViews() {
-        contentView.backgroundColor = HCOLOR("#DFEFFF")
-        contentView.addSubview(titLab)
-        titLab.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        contentView.addSubview(line1)
-        line1.snp.makeConstraints {
-            $0.left.right.bottom.equalToSuperview()
-            $0.height.equalTo(0.5)
-        }
-        
-        contentView.addSubview(line2)
-        line2.snp.makeConstraints {
-            $0.top.right.bottom.equalToSuperview()
-            $0.width.equalTo(0.5)
-        }
-
-    }
-    
-}
+//class TimeHeadCell: BaseTableViewCell {
+//    
+//    let titLab: UILabel = {
+//        let lab = UILabel()
+//        lab.setCommentStyle(HCOLOR("#080808"), BFONT(11), .center)
+//        return lab
+//    }()
+//    
+//    private let line1: UIView = {
+//        let view = UIView()
+//        view.backgroundColor = HCOLOR("#E5E5E5")
+//        return view
+//    }()
+//    
+//    private let line2: UIView = {
+//        let view = UIView()
+//        view.backgroundColor = HCOLOR("#E5E5E5")
+//        return view
+//    }()
+//    
+//
+//    
+//    override func setViews() {
+//        contentView.backgroundColor = HCOLOR("#DFEFFF")
+//        contentView.addSubview(titLab)
+//        titLab.snp.makeConstraints {
+//            $0.edges.equalToSuperview()
+//        }
+//        
+//        contentView.addSubview(line1)
+//        line1.snp.makeConstraints {
+//            $0.left.right.bottom.equalToSuperview()
+//            $0.height.equalTo(0.5)
+//        }
+//        
+//        contentView.addSubview(line2)
+//        line2.snp.makeConstraints {
+//            $0.top.right.bottom.equalToSuperview()
+//            $0.width.equalTo(0.5)
+//        }
+//
+//    }
+//    
+//}
 
 
 class TimeBookingInfoCell: BaseTableViewCell {

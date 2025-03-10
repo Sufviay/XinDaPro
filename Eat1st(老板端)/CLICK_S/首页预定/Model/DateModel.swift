@@ -13,9 +13,18 @@ class DateModel: NSObject {
     var yearDate: String = ""
     var monthDate: String = ""
     var week: String = ""
+
     
     
-    
+    func updateModel(date: Date) {
+        yearDate = date.getString("yyyy-MM-dd")
+        monthDate = date.getString("MM-dd")
+        let calendar = Calendar.current
+        let weekday = calendar.component(.weekday, from: date)
+        let shortWeekday = calendar.shortWeekdaySymbols[weekday - 1]
+        week = shortWeekday
+    }
     
 
+    
 }

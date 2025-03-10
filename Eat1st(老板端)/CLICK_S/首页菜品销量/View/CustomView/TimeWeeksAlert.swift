@@ -14,14 +14,21 @@ class TimeWeeksAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
     ///年数组
     private let yearArr: [String] = Date().getYearStrArr(yearCount: 3)
     ///当前年的周数组
-    private var weekCount: Int = DateTool.getWeekCountBy(year: DateTool.getDateComponents(date: Date()).year!)
+    private var weekCount: Int = DateTool.shared.getWeekCountBy(year: DateTool.shared.curYear)
+    
+    
     
     ///日期字符串
-    private var dateStr: String = DateTool.getWeekRangeDateBy(year: DateTool.getDateComponents(date: Date()).year!, week: DateTool.getWeekCountBy(year: DateTool.getDateComponents(date: Date()).year!)) {
+    private var dateStr: String = ""  {
         didSet {
             self.timeLab.text = dateStr
+            print(dateStr)
         }
     }
+    
+    
+    private var startDate_sel: Date?
+    private var endDate_sel: Date?
     
 
     
@@ -35,13 +42,13 @@ class TimeWeeksAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
     
     private let OKBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "OK", MAINCOLOR, BFONT(14), .clear)
+        but.setCommentStyle(.zero, "OK".local, MAINCOLOR, BFONT(14), .clear)
         return but
     }()
     
     private let cancelBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Cancel", FONTCOLOR, BFONT(14), .clear)
+        but.setCommentStyle(.zero, "Cancel".local, FONTCOLOR, BFONT(14), .clear)
         return but
     }()
     
@@ -52,34 +59,35 @@ class TimeWeeksAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
         let view = UIView()
         
         view.backgroundColor = MAINCOLOR
-        view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: 300, height: 50), byRoundingCorners: [.topLeft, .topRight], radii: 10)
+        view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W - 40, height: 50), byRoundingCorners: [.topLeft, .topRight], radii: 10)
         return view
     }()
 
     private let yearLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(.white, BFONT(14), .center)
-        lab.text = "Year"
+        lab.text = "Year".local
         return lab
     }()
     
     private let weekLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(.white, BFONT(14), .center)
-        lab.text = "Week"
+        lab.text = "Week".local
         return lab
     }()
     private let dateLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(.white, BFONT(14), .center)
-        lab.text = "Date"
+        lab.text = "Period".local
         return lab
     }()
     
     
     private let timeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, SFONT(14), .center)
+        lab.setCommentStyle(FONTCOLOR, BFONT(14), .center)
+        lab.numberOfLines = 2
         lab.text = ""
         return lab
     }()
@@ -100,9 +108,11 @@ class TimeWeeksAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
         self.addGestureRecognizer(tap)
 
         
+        print(dateStr)
+        
         self.addSubview(backView)
         backView.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 300, height: 250))
+            $0.size.equalTo(CGSize(width: S_W - 40, height: 300))
             $0.centerX.equalToSuperview()
             $0.centerY.equalToSuperview().offset(-30)
         }
@@ -132,7 +142,7 @@ class TimeWeeksAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
         yearLab.snp.makeConstraints {
             $0.left.top.equalToSuperview()
             $0.height.equalTo(45)
-            $0.width.equalTo(100)
+            $0.width.equalTo((S_W - 40) / 3)
         }
         
         backView.addSubview(weekLab)
@@ -148,12 +158,11 @@ class TimeWeeksAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
         }
         
         backView.addSubview(timeLab)
-        timeLab.text = self.dateStr
-        
         timeLab.snp.makeConstraints {
-            $0.width.equalTo(140)
+            $0.width.equalTo((S_W - 40) / 3)
             $0.right.equalToSuperview()
             $0.centerY.equalToSuperview()
+            $0.height.equalTo(150)
         }
         
         backView.addSubview(timePickerView)
@@ -161,9 +170,18 @@ class TimeWeeksAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
             $0.left.equalToSuperview()
             $0.top.equalTo(headView.snp.bottom).offset(10)
             $0.bottom.equalTo(cancelBut.snp.top).offset(-10)
-            $0.width.equalTo(200)
+            $0.right.equalTo(timeLab.snp.left).offset(-10)
         }
         
+        
+        
+        print("aaaaa\(DateTool.shared.curWeek)")
+                
+        let dateRange = DateTool.shared.getWeekRangeDateBy(year: DateTool.shared.curYear, week: DateTool.shared.curWeek)
+        dateStr = dateRange.startDate.getString("yyyy-MM-dd") + "\n~" + dateRange.endDate.getString("yyyy-MM-dd")
+        startDate_sel = dateRange.startDate
+        endDate_sel = dateRange.endDate
+        timePickerView.selectRow(DateTool.shared.curWeek - 1, inComponent: 1, animated: false)
         cancelBut.addTarget(self, action: #selector(clickCancelAction), for: .touchUpInside)
         OKBut.addTarget(self, action: #selector(clickOKAction), for: .touchUpInside)
         
@@ -171,20 +189,34 @@ class TimeWeeksAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
     
     
     @objc private func clickCancelAction() {
+        
+        let date = DateTool.dateFromStringByFormatter(dateString: "2025-01-06", formatter: "yyyy-MM-dd")
+        
+        let com = DateTool.getDateComponents(date: date)
+        
+        print(com.weekOfYear!)
+
+        
         self.disAppearAction()
     }
     
     @objc private func clickOKAction()  {
-        let year = yearArr[timePickerView.selectedRow(inComponent: 0)]
-        let week = weekCount - timePickerView.selectedRow(inComponent: 1)
-        let showStr = "\(year) \(week)th weeks (\(dateStr))"
     
-        let firstStr = dateStr.components(separatedBy: "~").first ?? ""
-        let lastStr = dateStr.components(separatedBy: "~").last ?? ""
-        let parDateStr1 = "\(year)-\(firstStr)"
-        let parDateStr2 = "\(year)-\(lastStr)"
-        self.selectBlock?([showStr, parDateStr1, parDateStr2])
-        self.disAppearAction()
+        if let sDate = startDate_sel, let eDate = endDate_sel {
+            
+            let year = yearArr[timePickerView.selectedRow(inComponent: 0)]
+            let week = timePickerView.selectedRow(inComponent: 1) + 1
+            let showStr = "\(year) \(week)th weeks (\(sDate.getString("MM-dd"))~\(eDate.getString("MM-dd")))"
+
+            let parDateStr1 = sDate.getString("yyyy-MM-dd")
+            let parDateStr2 = eDate.getString("yyyy-MM-dd")
+            selectBlock?([showStr, parDateStr1, parDateStr2])
+            disAppearAction()
+        } else {
+            disAppearAction()
+        }
+        
+
     }
     
     
@@ -231,7 +263,7 @@ class TimeWeeksAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
             pickerLabel?.text = yearArr[row]
         }
         if component == 1 {
-            pickerLabel?.text = String(weekCount - row)
+            pickerLabel?.text = String(row + 1)
         }
         
         return pickerLabel!
@@ -242,18 +274,25 @@ class TimeWeeksAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
         if component == 0 {
             //更改周数
             let year = Int(yearArr[row]) ?? 0
-            self.weekCount = DateTool.getWeekCountBy(year: year)
+            self.weekCount = DateTool.shared.getWeekCountBy(year: year)
             pickerView.reloadComponent(1)
-            let week = weekCount - pickerView.selectedRow(inComponent: 1)
+            let week = pickerView.selectedRow(inComponent: 1) + 1
             print(week)
-            self.dateStr = DateTool.getWeekRangeDateBy(year: year, week: week)
+            
+            let dateRange = DateTool.shared.getWeekRangeDateBy(year: year, week: week)
+            dateStr = dateRange.startDate.getString("yyyy-MM-dd") + "\n~" + dateRange.endDate.getString("yyyy-MM-dd")
+            startDate_sel = dateRange.startDate
+            endDate_sel = dateRange.endDate
         }
         
         if component == 1 {
             //更新日期
             let year = Int(yearArr[pickerView.selectedRow(inComponent: 0)]) ?? 0
-            let week = weekCount - row
-            self.dateStr = DateTool.getWeekRangeDateBy(year: year, week: week)
+            let week = row + 1
+            let dateRange = DateTool.shared.getWeekRangeDateBy(year: year, week: week)
+            dateStr = dateRange.startDate.getString("yyyy-MM-dd") + "\n~" + dateRange.endDate.getString("yyyy-MM-dd")
+            startDate_sel = dateRange.startDate
+            endDate_sel = dateRange.endDate
         }
         
     }

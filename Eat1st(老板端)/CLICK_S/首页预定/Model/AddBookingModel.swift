@@ -21,6 +21,7 @@ class AddBookingModel: HandyJSON {
     var reserveId: String = ""
     ///预定人数[...]
     var reserveNum: Int = 2
+    var email: String = ""
     
     
     required init() {

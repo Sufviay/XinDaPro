@@ -57,23 +57,35 @@ class OpenHoursModel {
                 allTime.append(model)
             }
         }
+        
+        
 
-        //循环星期列表
-        for jsonData in json["openTimeWeekList"].arrayValue {
-            //获取timeID
-            let timeID = jsonData["storeTimeId"].stringValue
-            //找到相对应的TimeModel
-            if (allTime.filter { $0.timeId == timeID }).count != 0 {
-                let model = allTime.filter { $0.timeId == timeID }[0]
-                
-                ///获取weekID
-                let weekId = jsonData["weekType"].stringValue
-                ///根据weekID将timeModel插入指定位置
-                timeList[(Int(weekId) ?? 0) - 1].timeArr.append(model)
+//        //循环星期列表
+//        for jsonData in json["openTimeWeekList"].arrayValue {
+//            //获取timeID
+//            let timeID = jsonData["storeTimeId"].stringValue
+//            //找到相对应的TimeModel
+//            if (allTime.filter { $0.timeId == timeID }).count != 0 {
+//                let model = allTime.filter { $0.timeId == timeID }[0]
+//                
+//                ///获取weekID
+//                let weekId = jsonData["weekType"].stringValue
+//                ///根据weekID将timeModel插入指定位置
+//                timeList[(Int(weekId) ?? 0) - 1].timeArr.append(model)
+//            }
+//        }
+        
+        
+        for model in allTime {
+            for jsonData in json["openTimeWeekList"].arrayValue {
+                //获取timeID
+                let timeID = jsonData["storeTimeId"].stringValue
+                if timeID == model.timeId {
+                    let weekIdx = jsonData["weekType"].intValue
+                    timeList[weekIdx - 1].timeArr.append(model)
+                }
             }
         }
-        
-        
     }
 }
 

@@ -10,11 +10,11 @@ import UIKit
 class FiltrateSelectTagView: BaseAlertView, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource {
 
     
-    private var strArr: [String] = ["month", "weeks", "day"]
+    private var strArr: [String] = ["Month".local, "Week".local, "Day".local]
     
-    var selectBlock: VoidBlock?
+    var selectBlock: VoidStringBlock?
     
-    var selectType: String = ""
+    private var selectType: String = ""
     
     private let backView: UIView = {
         let view = UIView()
@@ -82,6 +82,10 @@ class FiltrateSelectTagView: BaseAlertView, UIGestureRecognizerDelegate, UITable
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return strArr.count
     }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 220 / 3
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TextCell") as! TextCell
@@ -93,16 +97,18 @@ class FiltrateSelectTagView: BaseAlertView, UIGestureRecognizerDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+
         let str = strArr[indexPath.row]
         
-        if str != selectType {
-            selectType = str
-            self.table.reloadData()
-            selectBlock?(str)
-            self.disAppearAction()
-        }
+        disAppearAction()
+        selectBlock?(str)
     }
+    
+    func setData(type: String) {
+        selectType = type
+        table.reloadData()
+    }
+    
 }
 
 
@@ -111,6 +117,7 @@ class TextCell: BaseTableViewCell {
     let tlab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(FONTCOLOR, BFONT(15), .center)
+        lab.numberOfLines = 0
         return lab
     }()
     
@@ -120,6 +127,7 @@ class TextCell: BaseTableViewCell {
         tlab.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
         
     }
     

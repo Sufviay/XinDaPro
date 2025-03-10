@@ -146,6 +146,7 @@ class LiveRepotingCell: BaseTableViewCell {
         let img = UIImageView()
         img.clipsToBounds = true
         img.layer.cornerRadius = 1
+        img.image = GRADIENTCOLOR(HCOLOR("#FFC65E"), HCOLOR("#FF8E12"), CGSize(width: 70, height: 3))
         return img
     }()
     
@@ -174,7 +175,7 @@ class LiveRepotingCell: BaseTableViewCell {
     func setCellData(titStr: String) {
         self.titlab.text = titStr
         
-        if titStr == "Live Reporting" || titStr == "Sales" {
+        if titStr == "Live Reporting" || titStr == "Sales".local {
             line.image = GRADIENTCOLOR(HCOLOR("#FFC65E"), HCOLOR("#FF8E12"), CGSize(width: 70, height: 3))
         }
         if titStr == "Real time order" || titStr == "Expenditure" {

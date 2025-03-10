@@ -67,9 +67,10 @@ class BossFirstController: HeadBaseViewController {
         return layout
     }()
     
+    //"Live Reporting"
     lazy var pageView: LTPageView = {
         let H: CGFloat = S_H - bottomBarH - statusBarH - 80
-        let pageView = LTPageView(frame: CGRect(x: 0, y: statusBarH + 80, width: S_W, height: H), currentViewController: self, viewControllers: viewControllers, titles: ["Booking", "Store revenue", "Live Reporting", "Menu items"], layout: layout)
+        let pageView = LTPageView(frame: CGRect(x: 0, y: statusBarH + 80, width: S_W, height: H), currentViewController: self, viewControllers: viewControllers, titles: ["Live".local, "Sale Summary".local, "Booking".local, "Sale Chart".local], layout: layout)
         pageView.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: H), byRoundingCorners: [.topLeft, .topRight], radii: 10)
         pageView.backgroundColor = .white
         
@@ -84,6 +85,7 @@ class BossFirstController: HeadBaseViewController {
     private let msgBut: UIButton = {
         let but = UIButton()
         but.setImage(LOIMG("sy_msg"), for: .normal)
+        but.isHidden = true
         return but
     }()
     
@@ -121,7 +123,8 @@ class BossFirstController: HeadBaseViewController {
 //            $0.top.equalTo(tagView.snp.bottom)
 //        }
         
-        viewControllers = [StoreBookingController(), StoreRevenueController(), LiveReportingController(), MenuItemsController()]
+        //StoreBookingController()
+        viewControllers = [StoreDataOverviewController(), StoreRevenueController(), BookingScheController(), MenuItemsController()]
         view.addSubview(pageView)
 
         

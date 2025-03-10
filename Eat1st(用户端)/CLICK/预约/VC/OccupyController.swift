@@ -148,11 +148,11 @@ class OccupyController: BaseViewController, UITableViewDelegate, UITableViewData
             return
         }
         
-//        if submitModel.email == "" {
-//            HUD_MB.showWarnig("Please fill in the email.", onView: view)
-//            return
-//
-//        }
+        if submitModel.email == "" {
+            HUD_MB.showWarnig("Please fill in the email.", onView: view)
+            return
+
+        }
         
         if submitModel.reserveId == "" {
             HUD_MB.showWarnig("Please select time.", onView: view)
@@ -176,7 +176,7 @@ class OccupyController: BaseViewController, UITableViewDelegate, UITableViewData
         }
         
         if indexPath.row == 1 {
-            return 110
+            return 140
         }
         
         if indexPath.row == 2 {
@@ -213,9 +213,9 @@ class OccupyController: BaseViewController, UITableViewDelegate, UITableViewData
                 submitModel.phone = str
             }
             
-//            cell.editEmailBlock = { [unowned self] (str) in
-//                submitModel.email = str
-//            }
+            cell.editEmailBlock = { [unowned self] (str) in
+                submitModel.email = str
+            }
             return cell
         }
         

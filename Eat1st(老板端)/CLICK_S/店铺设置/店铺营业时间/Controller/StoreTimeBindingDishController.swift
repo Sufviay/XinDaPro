@@ -211,33 +211,18 @@ class StoreTimeBindingDishController: HeadBaseViewController, UITableViewDelegat
         cell.isShowImg.isHidden = true
         
         cell.selectBlock = { [unowned self] (_) in
-            //点选菜品
-            dataArr[indexPath.section].dishArr[indexPath.row].isSelect = !dataArr[indexPath.section].dishArr[indexPath.row].isSelect
-
-            ///判断当前分类是否全选
-            //当前分类菜品总数
-            let cunt_f = self.dataArr[indexPath.section].dishArr.count
-            //当前分类以选择的菜品数量
-            var s_count_f = 0
-            for model in self.dataArr[indexPath.section].dishArr {
-                if model.isSelect {
-                    s_count_f += 1
-                }
-            }
-            //如果选择的数量和总数相同 分类的全选为选中状态
-            if cunt_f == s_count_f {
-                self.dataArr[indexPath.section].isSelectAll = true
-            } else {
-                self.dataArr[indexPath.section].isSelectAll = false
-            }
-            self.table.reloadData()
-
+            selectDishAction(indexPath: indexPath)
         }
         return cell
     }
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectDishAction(indexPath: indexPath)
+    }
+    
+    
+    func selectDishAction(indexPath: IndexPath) {
         //点选菜品
         dataArr[indexPath.section].dishArr[indexPath.row].isSelect = !dataArr[indexPath.section].dishArr[indexPath.row].isSelect
         
@@ -257,9 +242,18 @@ class StoreTimeBindingDishController: HeadBaseViewController, UITableViewDelegat
         } else {
             self.dataArr[indexPath.section].isSelectAll = false
         }
+        
+        if (dataArr.filter { !$0.isSelectAll }).count == 0 {
+            isSelectAll = true
+        } else {
+            isSelectAll = false
+        }
+        
         self.table.reloadData()
 
     }
+    
+    
     
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -286,6 +280,13 @@ class StoreTimeBindingDishController: HeadBaseViewController, UITableViewDelegat
                         model.isSelect = false
                     }
                 }
+                
+                if (dataArr.filter { !$0.isSelectAll }).count == 0 {
+                    isSelectAll = true
+                } else {
+                    isSelectAll = false
+                }
+                
                 self.table.reloadData()
             }
             
@@ -299,13 +300,13 @@ class StoreTimeBindingDishController: HeadBaseViewController, UITableViewDelegat
     
     ///请求分类菜品
     private func loadDishData_Net() {
-       
-        HTTPTOOl.getDishList().subscribe(onNext: { (json) in
-            HUD_MB.dissmiss(onView: self.view)
+        HUD_MB.loading("", onView: view)
+        HTTPTOOl.getDishList().subscribe(onNext: { [unowned self] (json) in
             var c_arr: [F_DishModel] = []
             for c_jsonData in json["data"]["classifyList"].arrayValue {
                 let model = F_DishModel()
                 model.updateModel(json: c_jsonData)
+                model.isShow = true
                 c_arr.append(model)
             }
             
@@ -330,14 +331,14 @@ class StoreTimeBindingDishController: HeadBaseViewController, UITableViewDelegat
             self.dataArr = c_arr
             self.getTimeDishes_Net(d_arr: d_arr)
             
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
     
     ///获取关联菜品
     private func getTimeDishes_Net(d_arr: [DishModel]) {
-        HTTPTOOl.getTimeBindingDishes(timeID: timeID).subscribe(onNext: { (json) in
+        HTTPTOOl.getTimeBindingDishes(timeID: timeID).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
             for jsonData in json["data"].arrayValue {
                 let dishID = jsonData["dishesId"].stringValue
@@ -348,7 +349,9 @@ class StoreTimeBindingDishController: HeadBaseViewController, UITableViewDelegat
                 }
             }
             
+            
             for c_model in self.dataArr {
+                        
                 if (c_model.dishArr.filter { !$0.isSelect }.count == 0){
                     c_model.isSelectAll = true
                 } else {
@@ -356,9 +359,15 @@ class StoreTimeBindingDishController: HeadBaseViewController, UITableViewDelegat
                 }
             }
             
+            if (dataArr.filter { !$0.isSelectAll }).count == 0 {
+                isSelectAll = true
+            } else {
+                isSelectAll = false
+            }
+            
             self.table.reloadData()
             
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
@@ -382,12 +391,12 @@ class StoreTimeBindingDishController: HeadBaseViewController, UITableViewDelegat
         }
         
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.saveTimeBindingDishes(timeID: timeID, dishes: tarr).subscribe(onNext: { (json) in
+        HTTPTOOl.saveTimeBindingDishes(timeID: timeID, dishes: tarr).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.showSuccess("Success", onView: self.view)
             DispatchQueue.main.after(time: .now() + 1.5) {
                 self.navigationController?.popViewController(animated: true)
             }
-        }, onError: { error in
+        }, onError: { [unowned self] error in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }

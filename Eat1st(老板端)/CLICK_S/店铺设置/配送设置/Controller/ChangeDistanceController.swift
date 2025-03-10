@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import MJRefresh
 
 
 class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UITableViewDataSource, SystemAlertProtocol {
@@ -46,15 +47,6 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
         return view
     }()
     
-
-//    private let titLab: UILabel = {
-//        let lab = UILabel()
-//        lab.setCommentStyle(HCOLOR("#666666"), SFONT(10), .left)
-//        lab.numberOfLines = 0
-//        lab.text = "1. The delivery distance shall be at most one decimal point and must be greater than 0. The delivery fee can be 0.\n2. Delivery distance and delivery fee must be increasing.\n3. The farthest distance is the maximum distribution distance of the store."
-//        return lab
-//    }()
-    
     
     private let selectBackView: UIView = {
         let view = UIView()
@@ -62,6 +54,14 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
         view.layer.cornerRadius = 5
         return view
     }()
+    
+    private let tlab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(FONTCOLOR, BFONT(14), .left)
+        lab.text = "Current type"
+        return lab
+    }()
+    
     
     private let radiusBut: UIButton = {
         let but = UIButton()
@@ -91,7 +91,7 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
         //去掉单元格的线
         tableView.separatorStyle = .none
         //回弹效果
-        tableView.bounces = false
+        tableView.bounces = true
         tableView.showsVerticalScrollIndicator =  false
         tableView.estimatedRowHeight = 0
         tableView.estimatedSectionFooterHeight = 0
@@ -99,9 +99,7 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
         tableView.delegate = self
         tableView.dataSource = self
         tableView.contentInsetAdjustmentBehavior = .never
-        
         tableView.register(DistanceChargeCell.self, forCellReuseIdentifier: "DistanceChargeCell")
-        tableView.register(AddItemCell.self, forCellReuseIdentifier: "AddItemCell")
         return tableView
         
     }()
@@ -117,9 +115,25 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
     }()
 
     
+    private let addBut: UIButton = {
+        let but = UIButton()
+        but.setImage(LOIMG("dis_add"), for: .normal)
+        but.setCommentStyle(.zero, "Add", HCOLOR("465DFD"), BFONT(17), HCOLOR("#8F92A1").withAlphaComponent(0.06))
+        but.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
+        but.layer.cornerRadius = 10
+        return but
+    }()
+    
+    private lazy var noDataView: NoDataView = {
+        let view = NoDataView()
+        view.frame = self.table.bounds
+        return view
+    }()
+
+    
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Change distance limit"
+        self.biaoTiLab.text = "Delivery charges"
     
     }
 
@@ -142,9 +156,18 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
         backView.addSubview(selectBackView)
         selectBackView.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: 140, height: 30))
-            $0.centerX.equalToSuperview()
+            $0.right.equalToSuperview().offset(-40)
+            //$0.centerX.equalToSuperview()
             $0.top.equalToSuperview().offset(20)
         }
+        
+        
+        backView.addSubview(tlab)
+        tlab.snp.makeConstraints {
+            $0.centerY.equalTo(selectBackView)
+            $0.left.equalToSuperview().offset(20)
+        }
+        
         
         selectBackView.addSubview(radiusBut)
         radiusBut.snp.makeConstraints {
@@ -168,17 +191,31 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
             $0.top.equalTo(selectBackView.snp.bottom).offset(20)
         }
         
+        backView.addSubview(addBut)
+        addBut.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(20)
+            $0.right.equalToSuperview().offset(-20)
+            $0.height.equalTo(50)
+            $0.bottom.equalToSuperview().offset(-bottomBarH - 10)
+        }
+
+        
         backView.addSubview(table)
         table.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.top.equalTo(line.snp.bottom).offset(0)
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalTo(addBut.snp.top).offset(-10)
         }
         
         
         leftBut.addTarget(self, action: #selector(clickLeftButAction), for: .touchUpInside)
         radiusBut.addTarget(self, action: #selector(clickRaAction), for: .touchUpInside)
         postcodeBut.addTarget(self, action: #selector(clickPosAction), for: .touchUpInside)
+        addBut.addTarget(self, action: #selector(clickAddAction), for: .touchUpInside)
+        
+        table.mj_header = CustomRefreshHeader() { [unowned self] in
+            getData_Net(true)
+        }
     }
     
     
@@ -187,14 +224,24 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
     }
     
     
+    @objc private func clickAddAction() {
+        editeView.isEdite = false
+        editeView.feeType = feeType
+        editeView.appearAction()
+    }
+    
+    
+    
     @objc private func clickRaAction() {
         if feeType != "1" {
             feeType = "1"
             self.table.reloadData()
-            if radiusDataArr.count != 0 {
-                setDeliveryType_Net()
+            setDeliveryType_Net()
+            if radiusDataArr.count == 0 {
+                table.addSubview(noDataView)
+            } else {
+                noDataView.removeFromSuperview()
             }
-            
         }
         
     }
@@ -203,76 +250,57 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
         if feeType != "2" {
             feeType = "2"
             self.table.reloadData()
-            if postCodeDataArr.count != 0 {
-                setDeliveryType_Net()
+            setDeliveryType_Net()
+            if postCodeDataArr.count == 0 {
+                table.addSubview(noDataView)
+            } else {
+                noDataView.removeFromSuperview()
             }
         }
-    }
-    
-
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            return 160
-        }
-        return 90
+        return 160
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            if feeType == "1" {
-                return radiusDataArr.count
-            }
-            if feeType == "2" {
-                return postCodeDataArr.count
-            }
+        if feeType == "1" {
+            return radiusDataArr.count
         }
-        return 1
+        if feeType == "2" {
+            return postCodeDataArr.count
+        }
+        
+        return 0
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DistanceChargeCell") as! DistanceChargeCell
-                
-            let model = feeType == "1" ? radiusDataArr[indexPath.row] : postCodeDataArr[indexPath.row]
-            cell.setCellData(model: model, type: feeType)
-            cell.clickDeleteBlock = { [unowned self] (_) in
-                
-                //二次确认
-                self.showSystemChooseAlert("Alert", "Delete it?", "YES", "NO") {
-                    self.deleteData_Net(id: (self.feeType == "1" ? self.radiusDataArr[indexPath.row].id : self.postCodeDataArr[indexPath.row].id))
-                }
-
-            }
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DistanceChargeCell") as! DistanceChargeCell
             
-            cell.editeBlock = { [unowned self] (_) in
-                //编辑
-                
-                let model = feeType == "1" ? radiusDataArr[indexPath.row] : postCodeDataArr[indexPath.row]
-                editeView.feeType = feeType
-                editeView.setEditeValueWith(milesOrPostcode: (feeType == "1" ? String(model.distance) : model.postCode), pound: String(model.amount), id: model.id)
-                editeView.isEdite = true
-                editeView.appearAction()
+        let model = feeType == "1" ? radiusDataArr[indexPath.row] : postCodeDataArr[indexPath.row]
+        cell.setCellData(model: model, type: feeType)
+        cell.clickDeleteBlock = { [unowned self] (_) in
+            
+            //二次确认
+            self.showSystemChooseAlert("Alert", "Delete or not?", "YES", "NO") {
+                self.deleteData_Net(id: (self.feeType == "1" ? self.radiusDataArr[indexPath.row].id : self.postCodeDataArr[indexPath.row].id))
             }
 
-            return cell
         }
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AddItemCell") as! AddItemCell
-        return cell
-    }
-    
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 1 {
-            editeView.isEdite = false
+        cell.editeBlock = { [unowned self] (_) in
+            //编辑
+            let model = feeType == "1" ? radiusDataArr[indexPath.row] : postCodeDataArr[indexPath.row]
             editeView.feeType = feeType
+            editeView.setEditeValueWith(milesOrPostcode: (feeType == "1" ? String(model.distance) : model.postCode), pound: String(model.amount), id: model.id)
+            editeView.isEdite = true
             editeView.appearAction()
         }
+
+        return cell
+        
     }
     
 }
@@ -280,9 +308,13 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
 extension ChangeDistanceController {
     
     //MARK: - 网络请求
-    private func getData_Net() {
-        HUD_MB.loading("", onView: view)
-        HTTPTOOl.getDeliveryFeeListAndType().subscribe(onNext: { (json) in
+    private func getData_Net(_ isLoading: Bool = false) {
+        
+        if !isLoading {
+            HUD_MB.loading("", onView: view)
+        }
+        
+        HTTPTOOl.getDeliveryFeeListAndType().subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
             self.feeType = json["data"]["feeType"].stringValue
             var tarr: [DeliveryFeeModel] = []
@@ -292,13 +324,33 @@ extension ChangeDistanceController {
                 model.updateModel(json: jsonData)
                 tarr.append(model)
             }
+            
+
                 
             self.radiusDataArr = tarr.filter { $0.type == "1" }
             self.postCodeDataArr = tarr.filter { $0.type == "2" }
-            self.table.reloadData()
             
-        }, onError: { (error) in
+
+            if feeType == "1" {
+                if radiusDataArr.count == 0 {
+                    table.addSubview(noDataView)
+                } else {
+                    noDataView.removeFromSuperview()
+                }
+            }
+            if feeType == "2" {
+                if postCodeDataArr.count == 0 {
+                    table.addSubview(noDataView)
+                } else {
+                    noDataView.removeFromSuperview()
+                }
+            }
+            
+            self.table.reloadData()
+            table.mj_header?.endRefreshing()
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
+            table.mj_header?.endRefreshing()
         }).disposed(by: self.bag)
     }
 

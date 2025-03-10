@@ -78,6 +78,9 @@ class DishDetailModel: HandyJSON {
     /// 菜品种类（1食物，2饮料）
     var dishesKind: String = ""
     
+    ///是否含税（1否，2是）
+    var vatType: String = ""
+    
     ///特殊菜品 1否 2是
     var baleType: String = ""
     
@@ -95,9 +98,23 @@ class DishDetailModel: HandyJSON {
     ///是否买一赠一  1否 2是
     var giveOne: String = ""
     
+    ///是否打印别名  1否 2是
+    var printType: String = ""
+    ///打印别名的名称
+    var printAlias: String = ""
     
+    var aliasStr: String = ""
     
+    ///商品条形码
+    var dishesBarCode: String = ""
     
+    ///会员价格（1无，2有）[...]
+    var vipType: String = ""
+    ///会员价格[...]
+    var vipPrice: String = ""
+    ///会员价格配送类型（1外卖，2自取，3堂食）[...]
+    var vipDeliveryStr: String = ""
+
     
     
     var dishName1: String = ""
@@ -133,7 +150,7 @@ class DishDetailModel: HandyJSON {
         desStr = self.dealMsg(enStr: remarkEn, hkStr: remarkHk)
         allergenStr = self.dealMsg(enStr: allergenEn, hkStr: allergenHk)
         tagsStr = self.dealTags()
-        
+        aliasStr = printAlias == "" ? "--" : printAlias
         
         for smodel in specList {
             for omodel in smodel.optionList {
@@ -271,6 +288,33 @@ class ComboDishModel: HandyJSON {
         let h2 = name2.getTextHeigh(SFONT(13), S_W - 95)
         self.name_h = 20 + h1 + 2 + h2
     }
+    
+    
+    
+    func updatePrinterDishModel(json: JSON) {
+        nameEn = json["nameEn"].stringValue
+        nameHk = json["nameHk"].stringValue
+        nameCn = json["nameCn"].stringValue
+        
+        dishesId = json["dishesId"].int64Value
+        
+        
+        let curL = PJCUtil.getCurrentLanguage()
+
+        if curL == "en_GB" {
+            name1 = nameEn == "" ? "--" : nameEn
+            name2 = nameHk == "" ? "--" : nameHk
+        } else {
+            name1 = nameHk == "" ? "--" : nameHk
+            name2 = nameEn == "" ? "--" : nameEn
+        }
+        
+        let h1 = name1.getTextHeigh(BFONT(14), S_W - 40)
+        let h2 = name2.getTextHeigh(SFONT(14), S_W - 40)
+        self.name_h = 40 + h1 + 2 + h2
+
+    }
+    
     
 }
 

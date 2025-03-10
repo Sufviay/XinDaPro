@@ -473,6 +473,8 @@ extension UserDefaults {
             return string(forKey: Keys.userName)
         }
     }
+    
+
 
     
 //    ///搜索历史数组

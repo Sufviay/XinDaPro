@@ -61,11 +61,11 @@ class MessageController: HeadBaseViewController, UITableViewDelegate, UITableVie
         setUpUI()
         loadMsg_Net()
         
-        table.mj_header = MJRefreshNormalHeader() { [unowned self] in
-            self.loadMsg_Net()
+        table.mj_header = CustomRefreshHeader() { [unowned self] in
+            self.loadMsg_Net(true)
         }
 
-        table.mj_footer = MJRefreshBackNormalFooter() { [unowned self] in
+        table.mj_footer = CustomRefreshFooter() { [unowned self] in
             self.loadMsgMore_Net()
         }
     }
@@ -131,8 +131,11 @@ class MessageController: HeadBaseViewController, UITableViewDelegate, UITableVie
 extension MessageController {
     
     
-    func loadMsg_Net() {
-        HUD_MB.loading("", onView: backView)
+    func loadMsg_Net(_ isLoading: Bool = false) {
+        if !isLoading {
+            HUD_MB.loading("", onView: backView)
+        }
+        
         HTTPTOOl.getMsgList(page: 1, type: "").subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: backView)
             self.page = 2
@@ -158,7 +161,6 @@ extension MessageController {
     
     func loadMsgMore_Net() {
         HTTPTOOl.getMsgList(page: page, type: "").subscribe(onNext: { [unowned self] (json) in
-            HUD_MB.dissmiss(onView: backView)
             
             if json["data"].arrayValue.count == 0 {
                 table.mj_footer?.endRefreshingWithNoMoreData()
@@ -192,7 +194,7 @@ import SwiftyJSON
 class MessageModel: NSObject {
     
     var orderID: String = ""
-    ///操作类型（1拒接订单，2取消订单，3修改订单，4订单折扣，5修改支付方式，6保存预付，7删除预付）
+    ///操作类型（1拒接订单，2取消订单，3修改订单，4订单折扣，5修改支付方式，6保存预付，7删除预付，8打印汇总，9删除订单菜品，10用户充值，11充值消费，12修改堂食服务费）
     var operateType: String = ""
 //    ///订单是否合并（1否，2是），若orderId未合并订单编码，否则为订单编码
 //    var mergeType: String = ""
@@ -382,16 +384,16 @@ class MessageModel: NSObject {
         }
         
         
-        if operateType == "6" || operateType == "7" {
-            t_h += 10
-        } else {
-            t_h += 40
-        }
+        t_h += 10
         
+//        if operateType == "6" || operateType == "7" || operateType == "8" || operateType == "9" {
+//            t_h += 10
+//        } else {
+//            t_h += 40
+//        }
+//        
         cell_H = t_h
-        
     }
-    
     
 }
 

@@ -102,22 +102,9 @@ class StoreInfoModel: NSObject {
     var storeAddress: String = ""
     ///店铺ID
     var storeID: String = ""
-//    ///阶梯配送费列表
-//    var feeList: [JTFeeModel] = []
-//    ///配送状态 1开启 2关闭
-//    var deStatus: String = ""
-//    ///自取状态 1开启 2关闭
-//    var coStatus: String = ""
     ///营业时间
-    //var timeArr: [DaySetTimeModel] = []
     var storeOpenTime: [WeekOpenTimeModel] = []
     
-//    ///自取时间
-//    var coMin: String = ""
-//    var coMax: String = ""
-//    ///配送时间
-//    var deMin: String = ""
-//    var deMax: String = ""
     
 
     ///折扣说明
@@ -182,6 +169,12 @@ class StoreInfoModel: NSObject {
     ///店铺是否开启预定
     var isOpenBooking: Bool = false
     
+    ///配送状态 1开启 2关闭
+    var deliverStatus: String = ""
+    ///自取状态 1开启 2关闭
+    var collectStatus: String = ""
+
+    
     
 
     func updateModel(json: JSON) {
@@ -229,6 +222,8 @@ class StoreInfoModel: NSObject {
         self.storeKind = json["storeKind"].stringValue
         self.storeUrl = json["storeUrl"].stringValue
         
+        collectStatus = json["collectStatus"].stringValue
+        deliverStatus = json["deliverStatus"].stringValue
         
         
         if minOrder == 0 {

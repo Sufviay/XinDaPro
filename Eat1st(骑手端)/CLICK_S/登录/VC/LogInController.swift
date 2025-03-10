@@ -247,24 +247,43 @@ class LogInController: BaseViewController {
             UserDefaults.standard.accountNum = self.emailTF.text!
 //            UserDefaults.standard.storeLng = json["data"]["lng"].doubleValue
 //            UserDefaults.standard.storeLat = json["data"]["lat"].doubleValue
+            UserDefaults.standard.userID = json["data"]["businessId"].stringValue
+            
+
+            
 
             //上传tsToken
-            let tsToken = UserDefaults.standard.tsToken ?? ""
-
-            if tsToken != "" {
-                HTTPTOOl.updateTSToken(token: tsToken).subscribe(onNext: { (json) in
-                    print("推送注册成功")
-                    DispatchQueue.main.after(time: .now() + 1.5) {
-                        self.navigationController?.setViewControllers([FirstController()], animated: false)
-                    }
-                }, onError: { (error) in
-                    print("推送注册失败")
-                }).disposed(by: self.bag)
-            } else {
-                DispatchQueue.main.after(time: .now() + 1.5) {
-                    self.navigationController?.setViewControllers([FirstController()], animated: false)
-                }
+//            let tsToken = UserDefaults.standard.tsToken ?? ""
+//
+//            if tsToken != "" {
+//                HTTPTOOl.updateTSToken(token: tsToken).subscribe(onNext: { (json) in
+//                    print("推送注册成功")
+//                    DispatchQueue.main.after(time: .now() + 1.5) {
+//                        self.navigationController?.setViewControllers([FirstController()], animated: false)
+//                    }
+//                }, onError: { (error) in
+//                    print("推送注册失败")
+//                }).disposed(by: self.bag)
+//            } else {
+//                DispatchQueue.main.after(time: .now() + 1.5) {
+//                    self.navigationController?.setViewControllers([FirstController()], animated: false)
+//                }
+//            }
+            
+            
+            //设置推送别名
+            
+            JPUSHService.setAlias("eat1st_\(json["data"]["businessId"].stringValue)", completion: { code1, name, code2 in
+                print(code1)
+                print(name)
+                print(code2)
+            }, seq: 1000)
+            
+            DispatchQueue.main.after(time: .now() + 1.5) {
+                self.navigationController?.setViewControllers([FirstController()], animated: false)
             }
+
+            
             
             //上传语言
             HTTPTOOl.setLanguage().subscribe(onNext: { (json) in

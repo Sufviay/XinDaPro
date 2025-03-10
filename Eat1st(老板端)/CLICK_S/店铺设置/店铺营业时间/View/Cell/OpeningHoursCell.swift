@@ -372,8 +372,8 @@ class OpeningTimeListCell: BaseTableViewCell {
     }()
     
     
-    private lazy var alertView: OpeningTimeMoreAlert = {
-        let alert = OpeningTimeMoreAlert()
+    private lazy var alertView: MoreAlert = {
+        let alert = MoreAlert()
         alert.clickBlock = { [unowned self] (type) in
             self.clickMoreBlock?(type)
         }
@@ -480,8 +480,9 @@ class OpeningTimeListCell: BaseTableViewCell {
         print(sender.frame)
         let cret = sender.convert(sender.frame, to: PJCUtil.currentVC()?.view)
         print(cret)
+        alertView.alertType = .openTime
+        alertView.statusType = dataModel.status
         alertView.tap_H = cret.minY
-        alertView.status = dataModel.status
         alertView.appearAction()
 
     }

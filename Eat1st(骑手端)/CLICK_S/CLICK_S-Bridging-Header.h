@@ -8,5 +8,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "SDPhotoBrowser.h"
 #import "DeviceID.h"
+#import "JPUSHService.h"
+#import <UserNotifications/UserNotifications.h>
 
 

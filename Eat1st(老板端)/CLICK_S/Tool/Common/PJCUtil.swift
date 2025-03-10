@@ -317,10 +317,10 @@ class PJCUtil: NSObject {
             } else if lang.contains("en") {
                 return "en_GB"
             } else {
-                return "zh_HK"
+                return "en_GB"
             }
         } else {
-            return "zh_HK"
+            return "en_GB"
         }
     }
     
@@ -329,6 +329,14 @@ class PJCUtil: NSObject {
         return Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
     }
     
+
+    //MARK: - 获取本地Gif图片
+    static func getGifImg(name: String) -> UIImage? {
+        let path = Bundle.main.path(forResource: name, ofType: "gif")
+        let url = URL.init(fileURLWithPath: path!)
+        let imgeData = try? Data(contentsOf: url)
+        return UIImage.sd_image(withGIFData: imgeData)
+    }
 
 
 

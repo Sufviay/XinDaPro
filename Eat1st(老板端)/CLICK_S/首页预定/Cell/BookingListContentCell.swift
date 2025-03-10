@@ -52,13 +52,14 @@ class BookingListContentCell: BaseTableViewCell {
         return lab
     }()
     
-//    private let tlab5: UILabel = {
-//        let lab = UILabel()
-//        lab.setCommentStyle(HCOLOR("#666666"), BFONT(14), .left)
-//        lab.text = "Email:"
-//        return lab
-//    }()
-//    
+    
+    private let tlab5: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#666666"), BFONT(14), .left)
+        lab.text = "Email:"
+        return lab
+    }()
+    
     
     private let tlab6: UILabel = {
         let lab = UILabel()
@@ -100,12 +101,12 @@ class BookingListContentCell: BaseTableViewCell {
 
 
     
-//    private let emailLab: UILabel = {
-//        let lab = UILabel()
-//        lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .right)
-//        lab.text = "136000000000@163.com"
-//        return lab
-//    }()
+    private let emailLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .right)
+        lab.text = "136000000000@163.com"
+        return lab
+    }()
 
     
     private let createTimeLab: UILabel = {
@@ -157,18 +158,18 @@ class BookingListContentCell: BaseTableViewCell {
             $0.top.equalToSuperview().offset(115)
         }
 
-//
-//        contentView.addSubview(tlab5)
-//        tlab5.snp.makeConstraints {
-//            $0.left.equalToSuperview().offset(20)
-//            $0.top.equalToSuperview().offset(165)
-//        }
+
+        contentView.addSubview(tlab5)
+        tlab5.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(20)
+            $0.top.equalToSuperview().offset(140)
+        }
 
         
         contentView.addSubview(tlab6)
         tlab6.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
-            $0.top.equalToSuperview().offset(140)
+            $0.top.equalToSuperview().offset(165)
         }
         
         contentView.addSubview(statusImg)
@@ -204,11 +205,11 @@ class BookingListContentCell: BaseTableViewCell {
             $0.right.equalToSuperview().offset(-20)
         }
         
-//        contentView.addSubview(emailLab)
-//        emailLab.snp.makeConstraints {
-//            $0.centerY.equalTo(tlab5)
-//            $0.right.equalToSuperview().offset(-20)
-//        }
+        contentView.addSubview(emailLab)
+        emailLab.snp.makeConstraints {
+            $0.centerY.equalTo(tlab5)
+            $0.right.equalToSuperview().offset(-20)
+        }
         
         contentView.addSubview(createTimeLab)
         createTimeLab.snp.makeConstraints {
@@ -251,6 +252,7 @@ class BookingListContentCell: BaseTableViewCell {
         partyLab.text = model.reserveNum
         //tableLab.text = model.deskName
         phoneLab.text = model.phone
+        emailLab.text = model.email == "" ? "--" : model.email
         createTimeLab.text = model.createTime
         
     }

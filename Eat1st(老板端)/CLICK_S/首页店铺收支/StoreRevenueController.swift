@@ -25,10 +25,11 @@ class StoreRevenueController: UIViewController, UITableViewDelegate, UITableView
     ///查询截止日期
     private var endDateStr: String = ""
     
-    private var dataModel = StoreInOrOutCostModel()
+    private var dataModel = StoreSummaryModel()
     
     
-    private let titArr1: [String] = ["Tatal Sales", "Dine-in Sales", "Takeaway Sales", "Tips", "Dine-in Customer", "Takeaway Customer", "Reservation"]
+    
+    private let titArr1: [String] = ["Tatal Sales", "Dine-in Sales", "Takeaway Sales", "Top Up", "Tips", "Dine-in Customer", "Takeaway Customer", "Reservation"]
     
     private let titArr2: [String] = ["Total Expenditure", "Food Cost", "Staff Wages", "Water Bill", "Electricity Bill", "Gas Bill", "Licenses Fee", "Rent", "Tax", "Misc"]
     
@@ -38,19 +39,19 @@ class StoreRevenueController: UIViewController, UITableViewDelegate, UITableView
         
         //选择时间类型
         view.selectTypeBlock = { [unowned self] (str) in
-            print(str as! String)
-            
-            if str as! String == "weeks" {
+        
+            if str == "Week".local {
                 self.dataType = "2"
             }
-            if str as! String == "day" {
+            if str == "Day".local {
                 self.dataType = "1"
             }
-            if str as! String == "month" {
+            if str == "Month".local {
                 self.dataType = "3"
             }
-
         }
+        
+        
         
         //选择的时间
         view.selectTimeBlock = { [unowned self] (arr) in
@@ -68,7 +69,7 @@ class StoreRevenueController: UIViewController, UITableViewDelegate, UITableView
     
     private lazy var table: UITableView = {
         let tableView = UITableView()
-        tableView.backgroundColor = .clear
+        tableView.backgroundColor = .white
         //去掉单元格的线
         tableView.separatorStyle = .none
         //回弹效果
@@ -85,6 +86,7 @@ class StoreRevenueController: UIViewController, UITableViewDelegate, UITableView
         tableView.register(StoreAmountChartCell.self, forCellReuseIdentifier: "StoreAmountChartCell")
         tableView.register(StoreAmountDataCell.self, forCellReuseIdentifier: "StoreAmountDataCell")
         tableView.register(StoreOutChartCell.self, forCellReuseIdentifier: "StoreOutChartCell")
+        tableView.register(StoreSalesDataCell.self, forCellReuseIdentifier: "StoreSalesDataCell")
         return tableView
     }()
 
@@ -101,14 +103,15 @@ class StoreRevenueController: UIViewController, UITableViewDelegate, UITableView
     
     
     private func setUpUI() {
-        
+            
+        view.backgroundColor = .white
         
         view.addSubview(filtrateView)
         filtrateView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(15)
             $0.left.equalToSuperview().offset(20)
             $0.right.equalToSuperview().offset(-20)
-            $0.height.equalTo(30)
+            $0.height.equalTo(40)
         }
         
         
@@ -119,8 +122,8 @@ class StoreRevenueController: UIViewController, UITableViewDelegate, UITableView
             $0.height.equalTo(S_H - bottomBarH - statusBarH - 130 - 55)
         }
         
-        table.mj_header = MJRefreshNormalHeader() { [unowned self] in
-            loadData_Net()
+        table.mj_header = CustomRefreshHeader() { [unowned self] in
+            loadData_Net(true)
         }
     }
 
@@ -130,17 +133,13 @@ class StoreRevenueController: UIViewController, UITableViewDelegate, UITableView
 extension StoreRevenueController {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 7
+        return 3
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if section == 3 {
-            return 7
-        }
-        
-        if section == 6 {
-            return 10
+
+        if section == 0 || section == 1 {
+            return 0
         }
         
         return 1
@@ -152,21 +151,30 @@ extension StoreRevenueController {
             return 75
         }
         
-        if indexPath.section == 1 || indexPath.section == 4 {
+        if indexPath.section == 1 {
             return 50
         }
         
+//        if indexPath.section == 2 {
+//            return 260
+//        }
+        
         if indexPath.section == 2 {
-            return 260
+            return 50 * 13 + 60
         }
         
-        if indexPath.section == 3 || indexPath.section == 6 {
-            return 45
-        }
-        
-        if indexPath.section == 5 {
-            return 300
-        }
+//        if indexPath.section = 4 {
+//            return 50
+//        }
+//        
+//        
+//        if indexPath.section == 6 {
+//            return 45
+//        }
+//        
+//        if indexPath.section == 5 {
+//            return 300
+//        }
         
         return 100
     }
@@ -179,42 +187,45 @@ extension StoreRevenueController {
             return cell
         }
         
-        if indexPath.section == 1 || indexPath.section == 4 {
+        if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "LiveRepotingCell") as! LiveRepotingCell
-            if indexPath.section == 1 {
-                cell.setCellData(titStr: "Sales")
-            }
-            if indexPath.section == 4 {
-                cell.setCellData(titStr: "Expenditure")
-            }
+            cell.setCellData(titStr: "Sales".local)
             return cell
         }
         
         if indexPath.section == 2 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "StoreAmountChartCell") as! StoreAmountChartCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "StoreSalesDataCell") as! StoreSalesDataCell
             cell.setCellData(model: dataModel)
             return cell
         }
         
-        
-        if indexPath.section == 3 || indexPath.section == 6 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "StoreAmountDataCell") as! StoreAmountDataCell
-            if indexPath.section == 3 {
-                cell.setCellData(titStr: titArr1[indexPath.row], number: dataModel.inArr[indexPath.row])
-            }
-            if indexPath.section == 6 {
-                cell.setCellData(titStr: titArr2[indexPath.row], number: dataModel.outArr[indexPath.row])
-            }
-            
-            return cell
-        }
-        
-        
-        if indexPath.section == 5 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "StoreOutChartCell") as! StoreOutChartCell
-            cell.setCellData(model: dataModel)
-            return cell
-        }
+//        if indexPath.section == 4 {
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "LiveRepotingCell") as! LiveRepotingCell
+//            cell.setCellData(titStr: "Expenditure")
+//            return cell
+//        }
+//        
+//        if indexPath.section == 2 {
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "StoreAmountChartCell") as! StoreAmountChartCell
+//            //cell.setCellData(model: dataModel)
+//            return cell
+//        }
+//        
+//
+//        
+//        
+//        if  indexPath.section == 6 {
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "StoreAmountDataCell") as! StoreAmountDataCell
+//            //cell.setCellData(titStr: titArr2[indexPath.row], number: dataModel.outArr[indexPath.row])
+//            return cell
+//        }
+//        
+//        
+//        if indexPath.section == 5 {
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "StoreOutChartCell") as! StoreOutChartCell
+//            //cell.setCellData(model: dataModel)
+//            return cell
+//        }
         
         let cell = UITableViewCell()
         return cell
@@ -227,7 +238,7 @@ extension StoreRevenueController {
     
     
     //MARK: - 网络请求
-    func loadData_Net() {
+    func loadData_Net(_ isLoading: Bool = false) {
         
         if dateStr == "" {
             HUD_MB.showWarnig("Please select a date", onView: view)
@@ -235,22 +246,31 @@ extension StoreRevenueController {
         }
 
         
-        HUD_MB.loading("", onView: view)
-        HTTPTOOl.getStoreInCost(dateType: dataType, start: dateStr, end: endDateStr).subscribe(onNext: { [unowned self] (json1) in
-
-            dataModel.updateMode_InCost(json: json1["data"])
+        if !isLoading {
+            HUD_MB.loading("", onView: view)
+        }
+        
+        HTTPTOOl.getPrintSummary(type: dataType, start: dateStr, end: endDateStr).subscribe(onNext: { [unowned self] (json) in
+            HUD_MB.dissmiss(onView: view)
             
-            HTTPTOOl.getStoreOutCost().subscribe(onNext: { [unowned self] (json2) in
-                HUD_MB.dissmiss(onView: view)
-                
-                dataModel.updateModel_OutCost(json: json2["data"], dateType: dataType)
-                table.mj_header?.endRefreshing()
-                table.reloadData()
-    
-            }, onError: { [unowned self] (error) in
-                table.mj_header?.endRefreshing()
-                HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
-            }).disposed(by: bag)
+            dataModel = StoreSummaryModel.deserialize(from: json.dictionaryObject!, designatedPath: "data") ?? StoreSummaryModel()
+            dataModel.dealModel()
+            table.mj_header?.endRefreshing()
+            table.reloadData()
+
+//            dataModel.updateMode_InCost(json: json1["data"])
+            
+//            HTTPTOOl.getStoreOutCost().subscribe(onNext: { [unowned self] (json2) in
+//                HUD_MB.dissmiss(onView: view)
+//                
+//                dataModel.updateModel_OutCost(json: json2["data"], dateType: dataType)
+//                table.mj_header?.endRefreshing()
+//                table.reloadData()
+//    
+//            }, onError: { [unowned self] (error) in
+//                table.mj_header?.endRefreshing()
+//                HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
+//            }).disposed(by: bag)
             
         }, onError: { [unowned self] (error) in
             table.mj_header?.endRefreshing()

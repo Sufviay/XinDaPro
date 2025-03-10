@@ -71,7 +71,10 @@ class DishEditeInPutCell: BaseTableViewCell, UITextFieldDelegate {
     }
     
     
-    func setCellData(titStr: String, msgStr: String) {
+    func setCellData(titStr: String, msgStr: String, isMust: Bool = true) {
+                
+        sLab.isHidden = !isMust
+        
         self.titlab.text = titStr
         self.inputTF.text = msgStr
     }
@@ -209,7 +212,7 @@ class PriceDesCell: BaseTableViewCell {
     private let msgLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#F75E5E"), SFONT(10), .left)
-        lab.text = "The price is between -100 and 100. When it is negative, the corresponding order price is subtracted; when it is positive, the order price is increased; when it is 0, it is free."
+        lab.text = "The price is between 0 and 100.  When it is positive, the order price is increased;  when it is 0, it is free."
         lab.numberOfLines = 0
         return lab
     }()

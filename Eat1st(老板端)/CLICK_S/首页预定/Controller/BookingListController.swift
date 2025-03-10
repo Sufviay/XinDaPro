@@ -156,11 +156,11 @@ class BookingListController: UIViewController, UITableViewDelegate, UITableViewD
         }
         
         
-        table.mj_header = MJRefreshNormalHeader() { [unowned self] in
-            loadData_Net()
+        table.mj_header = CustomRefreshHeader() { [unowned self] in
+            loadData_Net(true)
         }
 
-        table.mj_footer = MJRefreshBackNormalFooter() { [unowned self] in
+        table.mj_footer = CustomRefreshFooter() { [unowned self] in
             loadDataMore_Net()
         }
         
@@ -208,7 +208,7 @@ extension BookingListController {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
-            return 170
+            return 200
         }
         return 65
     }
@@ -270,8 +270,11 @@ extension BookingListController {
 extension BookingListController {
     
     
-    private func loadData_Net() {
-        HUD_MB.loading("", onView: view)
+    private func loadData_Net(_ isLoading: Bool = false) {
+        if !isLoading {
+            HUD_MB.loading("", onView: view)
+        }
+        
         HTTPTOOl.getUserBookingList(page: 1, type: listStatus).subscribe(onNext: { [unowned self] (json) in
             
             HUD_MB.dissmiss(onView: view)

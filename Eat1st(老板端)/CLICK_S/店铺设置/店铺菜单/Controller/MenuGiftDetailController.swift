@@ -103,7 +103,7 @@ class MenuGiftDetailController: HeadBaseViewController, UITableViewDelegate, UIT
 
     @objc private func clickRightAction() {
         //删除
-        self.showSystemChooseAlert("Alert", "Delete it?", "YES", "NO") {
+        self.showSystemChooseAlert("Alert", "Delete or not?", "YES", "NO") {
             self.deleteDish_Net()
         }
     }

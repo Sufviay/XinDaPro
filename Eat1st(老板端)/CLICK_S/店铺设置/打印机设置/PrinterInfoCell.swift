@@ -11,8 +11,11 @@ class PrinterInfoCell: BaseTableViewCell {
 
     var clickMoreBlock: VoidBlock?
     
-    private lazy var editeAlert: PrinterMoreAlert = {
-        let alert = PrinterMoreAlert()
+    
+    private var dataModel = PrinterModel()
+    
+    private lazy var editeAlert: MoreAlert = {
+        let alert = MoreAlert()
         
         alert.clickBlock = { [unowned self] (type) in
             clickMoreBlock?(type)
@@ -31,47 +34,81 @@ class PrinterInfoCell: BaseTableViewCell {
     private let nameLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#000000"), BFONT(17), .left)
-        lab.numberOfLines = 0
+        lab.lineBreakMode = .byTruncatingTail
         lab.text = "name"
         return lab
     }()
     
-    private let ipLab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(15), .left)
-        lab.text = "IP:192.168.1.1"
-        lab.numberOfLines = 0
-        return lab
-    }()
-    
-    private let copiesLab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(15), .left)
-        lab.text = "Print copies: 1"
-        lab.numberOfLines = 0
-        return lab
-    }()
-    
+    ///打印機類型
     private let printerTypeLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#666666"), SFONT(15), .left)
         lab.text = "Printer type: Thermal printer"
-        //"Needle printer"
-        lab.numberOfLines = 0
+        lab.lineBreakMode = .byTruncatingTail
+        return lab
+    }()
+    
+    ///打印機iP
+    private let ipLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#666666"), SFONT(15), .left)
+        lab.text = "IP:192.168.1.1"
+        lab.lineBreakMode = .byTruncatingTail
+        return lab
+    }()
+    
+    //是否為主打印機
+    private let mainPrinterLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#666666"), SFONT(15), .left)
+        lab.text = "Main printer: YES"
+        lab.lineBreakMode = .byTruncatingTail
+        return lab
+    }()
+    
+    
+    ///打印語言
+    private let printLanguageLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#666666"), SFONT(15), .left)
+        lab.text = "Print language: Chinese"
+        lab.lineBreakMode = .byTruncatingTail
+        return lab
+    }()
+
+    
+    
+    ///打印份兒數
+    private let copiesLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#666666"), SFONT(15), .left)
+        lab.text = "Print copies: 1"
+        lab.lineBreakMode = .byTruncatingTail
         return lab
     }()
     
 
-
+    ///打印類型
     private let printTypeLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#666666"), SFONT(15), .left)
-        lab.text = "Whether to print separately: YES"
+        lab.text = "Print separately: YES"
         //"Needle printer"
-        lab.numberOfLines = 0
+        lab.lineBreakMode = .byTruncatingTail
         return lab
     }()
-
+    
+    //是否點心
+    private let printDXLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#666666"), SFONT(15), .left)
+        lab.text = "Print dessert: YES"
+        //"Needle printer"
+        lab.lineBreakMode = .byTruncatingTail
+        return lab
+    }()
+    
+    ///打印機狀態
     private let statusLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#2AD389"), BFONT(14), .left)
@@ -134,11 +171,28 @@ class PrinterInfoCell: BaseTableViewCell {
             $0.top.equalTo(printerTypeLab.snp.bottom).offset(5)
         }
         
+        
+        contentView.addSubview(mainPrinterLab)
+        mainPrinterLab.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(20)
+            $0.right.equalToSuperview().offset(-80)
+            $0.top.equalTo(ipLab.snp.bottom).offset(5)
+        }
+        
+        contentView.addSubview(printLanguageLab)
+        printLanguageLab.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(20)
+            $0.right.equalToSuperview().offset(-80)
+            $0.top.equalTo(mainPrinterLab.snp.bottom).offset(5)
+        }
+
+
+        
         contentView.addSubview(copiesLab)
         copiesLab.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
             $0.right.equalToSuperview().offset(-80)
-            $0.top.equalTo(ipLab.snp.bottom).offset(5)
+            $0.top.equalTo(printLanguageLab.snp.bottom).offset(5)
         }
         
         contentView.addSubview(printTypeLab)
@@ -148,9 +202,17 @@ class PrinterInfoCell: BaseTableViewCell {
             $0.top.equalTo(copiesLab.snp.bottom).offset(5)
         }
         
+        contentView.addSubview(printDXLab)
+        printDXLab.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(20)
+            $0.right.equalToSuperview().offset(-80)
+            $0.top.equalTo(printTypeLab.snp.bottom).offset(5)
+        }
+
+        
         contentView.addSubview(statusLab)
         statusLab.snp.makeConstraints {
-            $0.top.equalTo(printTypeLab.snp.bottom).offset(10)
+            $0.top.equalTo(printDXLab.snp.bottom).offset(10)
             $0.left.equalToSuperview().offset(20)
         }
        
@@ -168,28 +230,25 @@ class PrinterInfoCell: BaseTableViewCell {
         let cret = sender.convert(sender.frame, to: PJCUtil.currentVC()?.view)
         
         print(cret)
-        self.editeAlert.tap_H = cret.minY
+        editeAlert.alertType = .printer
+        editeAlert.statusType = dataModel.status
+        editeAlert.tap_H = cret.minY
         self.editeAlert.appearAction()
-
     }
     
     
     func setCellData(model: PrinterModel) {
-        editeAlert.openStatus = model.status
-        editeAlert.mainStatus = model.printMain
         
-        if model.status == "1" {
-            //启用
-            statusLab.textColor = HCOLOR("#2AD389")
-            statusLab.text = "On"
-        } else {
-            statusLab.textColor = HCOLOR("#FC7050")
-            statusLab.text = "Off"
-        }
+        
+        dataModel = model
+        
 
-        nameLab.text = model.name
-        ipLab.text = "IP: \(model.ip)"
-        copiesLab.text = "Print copies: \(model.printNum)"
+        if MyLanguageManager.shared.language == .Chinese {
+            nameLab.text = model.nameHk
+        } else {
+            nameLab.text = model.nameEn
+        }
+        
         
         if model.printType == "1" {
             printerTypeLab.text = "Printer type: Thermal printer"
@@ -198,14 +257,54 @@ class PrinterInfoCell: BaseTableViewCell {
         } else {
             printerTypeLab.text = "Printer type: Label printer"
         }
+
         
-        if model.splitType == "2" {
-            printTypeLab.text = "Whether to print separately: YES"
+
+        ipLab.text = "IP: \(model.ip)"
+        
+        if model.printMain == "2" {
+            //是
+            mainPrinterLab.text = "Main printer: Enable"
         } else {
-            printTypeLab.text = "Whether to print separately: NO"
+            mainPrinterLab.text = "Main printer: Disable"
         }
         
+        
+        if model.langType == "1" {
+            //中文
+            printLanguageLab.text = "Print language: Chinese"
+        } else if model.langType == "2" {
+            //英文
+            printLanguageLab.text = "Print language: English"
+        } else {
+            //英文和中文
+            printLanguageLab.text = "Print language: Chinese and English"
+        }
+        
+        
+        copiesLab.text = "Print copies: \(model.printNum)"
+        
+        
+        if model.splitType == "2" {
+            printTypeLab.text = "Print separately: Enable"
+        } else {
+            printTypeLab.text = "Print separately: Disable"
+        }
+        
+        
+        if model.dimType == "2" {
+            printDXLab.text = "Dim Sum: Enable"
+        } else {
+            printDXLab.text = "Dim Sum: Disable"
+        }
+        
+        if model.status == "1" {
+            //启用
+            statusLab.textColor = HCOLOR("#2AD389")
+            statusLab.text = "Enable"
+        } else {
+            statusLab.textColor = HCOLOR("#FC7050")
+            statusLab.text = "Disable"
+        }
     }
-    
-
 }

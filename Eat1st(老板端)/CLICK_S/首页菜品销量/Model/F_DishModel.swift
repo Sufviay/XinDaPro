@@ -30,13 +30,12 @@ class F_DishModel: NSObject {
         self.name_En = json["nameEn"].stringValue == "" ? "--" : json["nameEn"].stringValue
         self.name_Hk = json["nameHk"].stringValue == "" ? "--" : json["nameHk"].stringValue
 
-        let curLa = PJCUtil.getCurrentLanguage()
-        if curLa == "en_GB" {
-            self.name1 = self.name_En
-            self.name2 = self.name_Hk
-        } else {
+        if MyLanguageManager.shared.language == .Chinese  {
             self.name1 = self.name_Hk
             self.name2 = self.name_En
+        } else {
+            self.name1 = self.name_En
+            self.name2 = self.name_Hk
         }
     }
 }
@@ -119,6 +118,13 @@ class DishModel: NSObject {
     ///菜品类型 1 单品 2套餐
     var dishesType: String = ""
     
+    ///会员价格（1无，2有）[...]
+    var vipType: String = ""
+    ///会员价格[...]
+    var vipPrice: String = ""
+    ///会员价格配送类型（1外卖，2自取，3堂食）[...]
+    var vipDeliveryStr: String = ""
+    
     
     var optionArr: [DishOptionModel] = [] {
         didSet {
@@ -165,6 +171,11 @@ class DishModel: NSObject {
         self.buffetType = json["buffetType"].stringValue
         self.isGiveOne = json["giveOne"].stringValue == "1" ? false : true
         self.baleType = json["baleType"].stringValue
+
+        vipPrice = D_2_STR(json["vipPrice"].doubleValue)
+        vipType = json["vipType"].stringValue
+        vipDeliveryStr = json["vipDeliveryStr"].stringValue
+        
         
         let deliPrice = json["deliPrice"].doubleValue
         let dinePrice = json["dinePrice"].doubleValue
@@ -198,7 +209,7 @@ class DishModel: NSObject {
         self.discount = json["discount"].stringValue
         
         self.dishImg = json["imageUrl"].stringValue
-        self.salesNum = json["salesNum"].stringValue
+        self.salesNum = json["saleNum"].stringValue
         self.type = json["type"].stringValue
         
         self.haveSpec = json["haveSpec"].stringValue == "1" ? true : false
@@ -207,26 +218,9 @@ class DishModel: NSObject {
         self.limitNum = json["limitNum"].stringValue
         
         
-        let curLa = PJCUtil.getCurrentLanguage()
-        if curLa == "en_GB" {
-            self.name1 = self.name_En
-            self.name2 = self.name_Hk
+        //let curLa = PJCUtil.getCurrentLanguage()
+        if MyLanguageManager.shared.language == .Chinese  {
             
-            if des_En == "" && des_Hk == "" {
-                self.des_all = "--"
-            }
-            if des_En == "" && des_Hk != "" {
-                self.des_all = des_Hk
-            }
-            if des_En != "" && des_Hk == "" {
-                self.des_all = des_En
-            }
-            if des_En != "" && des_Hk != "" {
-                self.des_all = des_En + "\n" + des_Hk
-            }
-            
-            
-        } else {
             self.name1 = self.name_Hk
             self.name2 = self.name_En
             
@@ -242,6 +236,24 @@ class DishModel: NSObject {
             if des_En != "" && des_Hk != "" {
                 self.des_all = des_Hk + "\n" + des_En
             }
+            
+        } else {
+            self.name1 = self.name_En
+            self.name2 = self.name_Hk
+            
+            if des_En == "" && des_Hk == "" {
+                self.des_all = "--"
+            }
+            if des_En == "" && des_Hk != "" {
+                self.des_all = des_Hk
+            }
+            if des_En != "" && des_Hk == "" {
+                self.des_all = des_En
+            }
+            if des_En != "" && des_Hk != "" {
+                self.des_all = des_En + "\n" + des_Hk
+            }
+
         }
         
         self.dish_H = self.name1.getTextHeigh(SFONT(13), S_W - 170) + self.name2.getTextHeigh(SFONT(11), S_W - 170) + 25

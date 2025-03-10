@@ -14,7 +14,7 @@ class FirstSideToolView: UIView, UIGestureRecognizerDelegate, UITableViewDelegat
     
     private let imgStrArr: [String] = ["side_home", "side_set", "side_review", "side_tousu", "side_table"]
 
-    private let titStrArr: [String] = ["Home", "Restaurant settings", "Reviews", "Complaints", "Table setting"]
+    private let titStrArr: [String] = ["Home", "Restaurant settings", "Reviews", "Complaints", "Dining-table management"]
 
     private let backView: UIView = {
         let view = UIView()
@@ -226,7 +226,12 @@ extension FirstSideToolView {
         
         if section == 0 || section == titStrArr.count {
             return 1
-        } else if section == 1 {
+        } else if section == 2 {
+            return 0
+        }
+        
+        
+        else if section == 1 {
             if UserDefaults.standard.userAuth == "2" {
                 return 1
             } else {

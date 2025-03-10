@@ -151,7 +151,7 @@ class MenuComboEditSpecController: HeadBaseViewController, UITableViewDelegate, 
 
     @objc private func clickRightAction() {
         //删除
-        self.showSystemChooseAlert("Alert", "Delete it?", "YES", "NO") { [unowned self] in
+        self.showSystemChooseAlert("Alert", "Delete or not?", "YES", "NO") { [unowned self] in
             self.deleteAction_Net()
         }
     }

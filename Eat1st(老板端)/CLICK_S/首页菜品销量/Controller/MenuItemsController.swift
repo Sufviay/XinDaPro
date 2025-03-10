@@ -16,6 +16,8 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
     
     private var dishArr: [DishModel] = []
     
+    private var selectClassifyID: String = ""
+    
     //查询方式 1天，2周，3月
     private var dataType: String = "3"
 
@@ -24,47 +26,23 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
 
     ///查询截止日期
     private var endDateStr: String = ""
-    
-    private var isAll: Bool = false
-
-    
-    private let topLab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("333333"), BFONT(20), .left)
-        lab.text = "Top menu items"
-        return lab
-    }()
-    
-    private let line: UIImageView = {
-        let img = UIImageView()
-        img.image = GRADIENTCOLOR(HCOLOR("#FFC65E"), HCOLOR("#FF8E12"), CGSize(width: 70, height: 3))
-        img.clipsToBounds = true
-        img.layer.cornerRadius = 1
-        return img
-    }()
-
-    
+        
     
     private lazy var filtrateView: SalesFiltrateView = {
         let view = SalesFiltrateView()
         
         //选择时间类型
         view.selectTypeBlock = { [unowned self] (str) in
-            print(str as! String)
             
-            if str as! String == "weeks" {
+            if str == "Week".local {
                 self.dataType = "2"
             }
-            if str as! String == "day" {
+            if str == "Day".local {
                 self.dataType = "1"
             }
-            if str as! String == "month" {
+            if str == "Month".local {
                 self.dataType = "3"
             }
-            
-            dateStr = ""
-            endDateStr = ""
-
         }
         
         //选择的时间
@@ -74,12 +52,62 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
             print(dateArr[1])
             self.dateStr = dateArr[0]
             self.endDateStr = dateArr[1]
-            self.loadData_Net()
+            loadData_Net()
         }
         
         return view
     }()
 
+    private let classifyBut: UIButton = {
+        let but = UIButton()
+        but.backgroundColor = HCOLOR("#F6F6F6")
+        but.clipsToBounds = true
+        but.layer.cornerRadius = 5
+        return but
+    }()
+    
+    
+    private let s_img: UIImageView = {
+        let img = UIImageView()
+        img.image = LOIMG("xl_b")
+        return img
+    }()
+    
+    
+    private let classifyLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(FONTCOLOR, BFONT(14), .left)
+        lab.lineBreakMode = .byTruncatingTail
+        lab.text = "All"
+        return lab
+    }()
+    
+    
+    private let totalView: UIView = {
+        let view = UIView()
+        view.backgroundColor = HCOLOR("#F5F8FF")
+        view.layer.cornerRadius = 7
+        return view
+    }()
+    
+    private let totalLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#333333"), BFONT(14), .left)
+        lab.text = "Total:"
+        return lab
+    }()
+    
+    private let totalNum: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#222222"), BFONT(16), .left)
+        lab.lineBreakMode = .byTruncatingTail
+        lab.text = ""
+        return lab
+    }()
+    
+    
+    
+    
     
     private lazy var table: UITableView = {
         let tableView = UITableView()
@@ -103,6 +131,27 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
     }()
 
     
+    private lazy var classifyAlert: StatisClassifyAlert = {
+        let alert = StatisClassifyAlert()
+        alert.selectBlock = { [unowned self] (par) in
+            let dic: [String: String] = par as! [String: String]
+            selectClassifyID = dic["id"]!
+            classifyLab.text = dic["name"]!
+            loadData_Net()
+        }
+        return alert
+    }()
+    
+    
+    private lazy var noDataView: NoDataView = {
+        let view = NoDataView()
+        view.frame = table.bounds
+        return view
+    }()
+
+    
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -116,40 +165,76 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
     private func setUpUI() {
         
         
-        view.addSubview(line)
-        line.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 70, height: 3))
-            $0.left.equalToSuperview().offset(20)
-            $0.top.equalToSuperview().offset(47)
-        }
-
-        
-        view.addSubview(topLab)
-        topLab.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(20)
-            $0.bottom.equalTo(line.snp.top).offset(-7)
-        }
-        
-        
         view.addSubview(filtrateView)
         filtrateView.snp.makeConstraints {
-            $0.top.equalTo(line.snp.bottom).offset(15)
+            $0.top.equalToSuperview().offset(20)
             $0.left.equalToSuperview().offset(20)
             $0.right.equalToSuperview().offset(-20)
-            $0.height.equalTo(30)
+            $0.height.equalTo(40)
         }
         
+        view.addSubview(totalView)
+        totalView.snp.makeConstraints {
+            $0.right.equalToSuperview().offset(-20)
+            $0.height.equalTo(filtrateView)
+            $0.top.equalTo(filtrateView.snp.bottom).offset(10)
+            $0.width.equalTo(130)
+        }
+        
+        
+        totalView.addSubview(totalLab)
+        totalLab.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalToSuperview().offset(12)
+        }
+        
+        totalView.addSubview(totalNum)
+        totalNum.snp.makeConstraints {
+            $0.bottom.equalTo(totalLab.snp.bottom).offset(1)
+            $0.left.equalTo(totalLab.snp.right).offset(5)
+        }
+        
+        view.addSubview(classifyBut)
+        classifyBut.snp.makeConstraints {
+            $0.left.right.height.equalTo(filtrateView)
+            $0.right.equalTo(totalView.snp.left).offset(-10)
+            $0.top.equalTo(filtrateView.snp.bottom).offset(10)
+        }
+        
+        
+        classifyBut.addSubview(s_img)
+        s_img.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.right.equalToSuperview().offset(-7)
+        }
+        
+        classifyBut.addSubview(classifyLab)
+        classifyLab.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalToSuperview().offset(25)
+            $0.right.equalToSuperview().offset(-18)
+
+        }
         
         view.addSubview(table)
         table.snp.makeConstraints {
             $0.left.right.equalToSuperview()
-            $0.top.equalToSuperview().offset(110)
-            $0.height.equalTo(S_H - bottomBarH - statusBarH - 130 - 110)
+            $0.top.equalTo(classifyBut.snp.bottom).offset(15)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-15)
         }
         
-        table.mj_header = MJRefreshNormalHeader() { [unowned self] in
-            self.loadData_Net()
+        classifyBut.addTarget(self, action: #selector(clickClassifyAction), for: .touchUpInside)
+        
+        
+        table.mj_header = CustomRefreshHeader() { [unowned self] in
+            loadData_Net(true)
         }
+    }
+    
+    
+    
+    @objc private func clickClassifyAction() {
+        classifyAlert.appearAction()
     }
     
     
@@ -161,26 +246,13 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
         
         
         if section == 2 {
-            return 1
+            return 0
         }
         if section == 0 {
-            if dishArr.count > 5 {
-                if isAll {
-                    return dishArr.count
-                } else {
-                    return 5
-                }
-            } else {
-                return dishArr.count
-            }
-
+            return dishArr.count
         }
         if section == 1 {
-            if dishArr.count > 5 {
-                return 1
-            } else {
-                return 0
-            }
+            return 0
         }
         return 0
     }
@@ -227,11 +299,6 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
         
         if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MenuItemMoreCell") as! MenuItemMoreCell
-            cell.setCellData(isShow: self.isAll)
-            cell.clickBlock = { [unowned self] (_) in
-                self.isAll = !isAll
-                self.table.reloadData()
-            }
             return cell
         }
         
@@ -249,51 +316,88 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
-            if self.dataType != "1" {
-                let nextVC = DishChartController()
-                nextVC.type = dataType
-                nextVC.dateStr = self.dateStr
-                nextVC.endDateStr = self.endDateStr
-                nextVC.dishModel = dishArr[indexPath.row]
-                self.navigationController?.pushViewController(nextVC, animated: true)
-            }
-            
-
-        }
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        if indexPath.section == 0 {
+//            if self.dataType != "1" {
+//                let nextVC = DishChartController()
+//                nextVC.type = dataType
+//                nextVC.dateStr = self.dateStr
+//                nextVC.endDateStr = self.endDateStr
+//                nextVC.dishModel = dishArr[indexPath.row]
+//                self.navigationController?.pushViewController(nextVC, animated: true)
+//            }
+//        }
+//    }
 }
 
 extension MenuItemsController {
     
     //MARK: - 网络请求
-    private func loadData_Net() {
-        HUD_MB.loading("", onView: view)
+    private func loadData_Net(_ isLoading: Bool = false) {
         
-        if dateStr == "" {
-            HUD_MB.showWarnig("Please select a date", onView: view)
-            return
+        if !isLoading {
+            HUD_MB.loading("", onView: view)
         }
-        
-        HTTPTOOl.getDishesReportingData(type: dataType, day: dateStr, endDay: endDateStr).subscribe(onNext: { (json) in
+       
+        HTTPTOOl.getStaticClassifyDishesSales(id: selectClassifyID, type: dataType, start: dateStr, end: endDateStr).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
             var tArr: [DishModel] = []
-            for jsonData in json["data"].arrayValue {
+            for jsonData in json["data"]["dishesList"].arrayValue {
+                let model = DishModel()
+                model.updateModel(json: jsonData)
+                tArr.append(model)
+            }
+            
+            dishArr = tArr
+            
+            if dishArr.count == 0 {
+                table.addSubview(noDataView)
+            } else {
+                noDataView.removeFromSuperview()
+            }
+            
+            table.reloadData()
+            table.mj_header?.endRefreshing()
+            totalNum.text = json["data"]["totalNum"].stringValue == "" ? "0" : json["data"]["totalNum"].stringValue
+        }, onError: { [unowned self] (error) in
+            HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
+            table.mj_header?.endRefreshing()
+            totalNum.text = "0"
+        }).disposed(by: self.bag)
+        
+    }
+    
+    
+    
+    private func updateData_Net()  {
+        
+        HUD_MB.loading("", onView: view)
+        HTTPTOOl.getStaticClassifyDishesSales(id: selectClassifyID, type: dataType, start: dateStr, end: endDateStr).subscribe(onNext: { [unowned self] (json) in
+            HUD_MB.dissmiss(onView: view)
+            var tArr: [DishModel] = []
+            for jsonData in json["data"]["dishesList"].arrayValue {
                 let model = DishModel()
                 model.updateModel(json: jsonData)
                 tArr.append(model)
             }
             
             self.dishArr = tArr
+            
+            if dishArr.count == 0 {
+                table.addSubview(noDataView)
+            } else {
+                noDataView.removeFromSuperview()
+            }
+
             self.table.mj_header?.endRefreshing()
             self.table.reloadData()
+            totalNum.text = json["data"]["totalNum"].stringValue == "" ? "0" : json["data"]["totalNum"].stringValue
             
-        }, onError: { (error) in
+        }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
             self.table.mj_header?.endRefreshing()
+            totalNum.text = "0"
         }).disposed(by: self.bag)
-        
     }
     
 }

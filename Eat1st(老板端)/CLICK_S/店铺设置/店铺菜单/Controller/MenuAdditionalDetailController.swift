@@ -101,7 +101,7 @@ class MenuAdditionalDetailController: HeadBaseViewController, UITableViewDelegat
 
     @objc private func clickRightAction() {
         //删除
-        self.showSystemChooseAlert("Alert", "Delete it?", "YES", "NO") {
+        self.showSystemChooseAlert("Alert", "Delete or not?", "YES", "NO") {
             self.deleteDish_Net()
         }
     }
@@ -110,7 +110,7 @@ class MenuAdditionalDetailController: HeadBaseViewController, UITableViewDelegat
     
     //MARK: - Delegete
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 6
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -119,7 +119,7 @@ class MenuAdditionalDetailController: HeadBaseViewController, UITableViewDelegat
             let h2 = dishModel.dishName2.getTextHeigh(SFONT(15), S_W - 120)
             return 25 + 15 + h1 + h2
         }
-        if indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 3 {
+        if indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 3 || indexPath.row == 5 {
             return 66
         }
         
@@ -147,7 +147,7 @@ class MenuAdditionalDetailController: HeadBaseViewController, UITableViewDelegat
             return cell
         }
         
-        if indexPath.row == 1 || indexPath.row == 2  || indexPath.row == 3 || indexPath.row == 4 {
+        if indexPath.row == 1 || indexPath.row == 2  || indexPath.row == 3 || indexPath.row == 4 || indexPath.row == 5 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
             if indexPath.row == 1 {
                 cell.setCellData(titStr: "Serial number", msgStr: dishModel.attachCode)
@@ -156,12 +156,17 @@ class MenuAdditionalDetailController: HeadBaseViewController, UITableViewDelegat
                 cell.setCellData(titStr: "Price", msgStr: "£ \(dishModel.price)")
             }
             
+            
+            
+            
             if indexPath.row == 3 {
                 var msg = ""
                 if dishModel.dishesKind == "1" {
                     msg = "Food"
-                } else {
+                } else if dishModel.dishesKind == "2" {
                     msg = "Drink"
+                } else  {
+                    msg = "Milk tea"
                 }
                 cell.setCellData(titStr: "Dishes kind", msgStr: msg)
             }
@@ -169,12 +174,23 @@ class MenuAdditionalDetailController: HeadBaseViewController, UITableViewDelegat
             if indexPath.row == 4 {
                 cell.setCellData(titStr: "Category", msgStr: dishModel.classifyStr)
             }
+            
+            if indexPath.row == 5 {
+                var msg = ""
+                if dishModel.statusId == "1" {
+                    //启用
+                    msg = "Enable"
+                } else {
+                    msg = "Disable"
+                }
+                cell.setCellData(titStr: "Status", msgStr: msg)
+            }
+            
             return cell
         }
         
         let cell = UITableViewCell()
         return cell
-        
         
     }
     

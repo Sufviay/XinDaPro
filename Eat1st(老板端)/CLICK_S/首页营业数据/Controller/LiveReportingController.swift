@@ -105,8 +105,8 @@ class LiveReportingController: UIViewController, UITableViewDelegate, UITableVie
             $0.left.right.top.equalToSuperview()
             $0.height.equalTo(S_H - bottomBarH - statusBarH - 130)
         }
-        table.mj_header = MJRefreshNormalHeader() { [unowned self] in
-            self.getReportingData_Net()
+        table.mj_header = CustomRefreshHeader() { [unowned self] in
+            self.getReportingData_Net(true)
         }
     }
     
@@ -135,7 +135,7 @@ class LiveReportingController: UIViewController, UITableViewDelegate, UITableVie
         }
         
         if section == 4 {
-            if dateStr == Date().getString("YYYY-MM-dd") {
+            if dateStr == Date().getString("yyyy-MM-dd") {
                 return 0
             }
         }
@@ -385,8 +385,11 @@ extension LiveReportingController {
     //MARK: - 网络请求
     
     ///请求数据
-    private func getReportingData_Net() {
-        HUD_MB.loading("", onView: view)
+    private func getReportingData_Net(_ isLoading: Bool = false) {
+        if !isLoading {
+            HUD_MB.loading("", onView: view)
+        }
+       
         HTTPTOOl.getLiveReportingData(date: dateStr, end: endDateStr).subscribe(onNext: { (json) in
             self.dataModel.updateModel(json: json["data"])
             self.getOnlineStatus_Net()

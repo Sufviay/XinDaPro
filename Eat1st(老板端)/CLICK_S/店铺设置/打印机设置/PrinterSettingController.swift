@@ -7,9 +7,10 @@
 
 import UIKit
 import RxSwift
+import MJRefresh
 
 
-class PrinterSettingController: HeadBaseViewController, UITableViewDelegate, UITableViewDataSource {
+class PrinterSettingController: HeadBaseViewController, UITableViewDelegate, UITableViewDataSource, SystemAlertProtocol {
 
     private let bag = DisposeBag()
     
@@ -29,6 +30,7 @@ class PrinterSettingController: HeadBaseViewController, UITableViewDelegate, UIT
         let but = UIButton()
         but.setImage(LOIMG("dis_add"), for: .normal)
         but.setCommentStyle(.zero, "Add", HCOLOR("465DFD"), BFONT(17), HCOLOR("#8F92A1").withAlphaComponent(0.06))
+        but.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         but.layer.cornerRadius = 10
         return but
     }()
@@ -62,6 +64,12 @@ class PrinterSettingController: HeadBaseViewController, UITableViewDelegate, UIT
         return alert
     }()
     
+    
+    private lazy var noDataView: NoDataView = {
+        let view = NoDataView()
+        view.frame = self.table.bounds
+        return view
+    }()
     
     
     override func setNavi() {
@@ -100,6 +108,10 @@ class PrinterSettingController: HeadBaseViewController, UITableViewDelegate, UIT
             $0.top.equalToSuperview().offset(20)
         }
         
+        table.mj_header = CustomRefreshHeader() { [unowned self] in
+            loadPrinterList_Net(true)
+        }
+        
         leftBut.addTarget(self, action: #selector(clickBackAction), for: .touchUpInside)
         addBut.addTarget(self, action: #selector(clickAddAction), for: .touchUpInside)
     }
@@ -118,7 +130,7 @@ class PrinterSettingController: HeadBaseViewController, UITableViewDelegate, UIT
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 180
+        return 250
     }
     
 
@@ -128,8 +140,10 @@ class PrinterSettingController: HeadBaseViewController, UITableViewDelegate, UIT
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        let model = dataArr[indexPath.row]
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "PrinterInfoCell") as! PrinterInfoCell
-        cell.setCellData(model: dataArr[indexPath.row])
+        cell.setCellData(model: model)
         
         cell.clickMoreBlock = { [unowned self] (type) in
             
@@ -138,7 +152,7 @@ class PrinterSettingController: HeadBaseViewController, UITableViewDelegate, UIT
                 doMainPrinter(id: dataArr[indexPath.row].printerId)
             }
             
-            if type as! String == "open" {
+            if type as! String == "status" {
                 //改变状态
                 doStatus_Net(id: dataArr[indexPath.row].printerId)
             }
@@ -151,7 +165,15 @@ class PrinterSettingController: HeadBaseViewController, UITableViewDelegate, UIT
             
             if type as! String == "delete" {
                 //删除
-                delete_Net(id: dataArr[indexPath.row].printerId)
+                showSystemChooseAlert("Alert", "Delete or not?", "YES", "NO") {
+                    self.delete_Net(id: self.dataArr[indexPath.row].printerId)
+                }
+            }
+            
+            if type as! String == "dish" {
+                let nextVC = PrinterLinkController()
+                nextVC.printerID = model.printerId
+                navigationController?.pushViewController(nextVC, animated: true)
             }
         }
         
@@ -168,23 +190,34 @@ extension PrinterSettingController {
     //MARK: - 网络请求
     
     ///列表
-    private func loadPrinterList_Net() {
+    private func loadPrinterList_Net(_ isLoading: Bool = false) {
         
-        HUD_MB.loading("", onView: view)
+        if !isLoading {
+            HUD_MB.loading("", onView: view)
+        }
+        
         HTTPTOOl.getPrinterList().subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: view)
             
             var tArr: [PrinterModel] = []
             for jsonData in json["data"].arrayValue {
-                let model = PrinterModel()
-                model.updateModel(json: jsonData)
+                let model = PrinterModel.deserialize(from: jsonData.dictionaryObject!) ?? PrinterModel()
                 tArr.append(model)
             }
             dataArr = tArr
+            
+            if dataArr.count == 0 {
+                table.addSubview(noDataView)
+            } else {
+                noDataView.removeFromSuperview()
+            }
+            
             table.reloadData()
+            table.mj_header?.endRefreshing()
             
         }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
+            table.mj_header?.endRefreshing()
         }).disposed(by: bag)
     }
     

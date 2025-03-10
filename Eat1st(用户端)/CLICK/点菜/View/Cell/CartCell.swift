@@ -310,7 +310,8 @@ class MenuCartGoodsCell: BaseTableViewCell, UICollectionViewDelegate, UICollecti
     func setCellData(model: CartDishModel, isVip: Bool)  {
         
         
-        if model.isOn == "1" || model.isOn == "4" {
+        //|| model.isOn == "4"
+        if model.isOn == "1" {
             //可用
             self.selectView.isHidden = false
             self.deleteBut.isHidden = true

@@ -260,14 +260,6 @@ class StoreMainVipButCell: BaseTableViewCell {
         clickBlock?("code")
     }
     
-    @objc private func clickYueAction() {
-        clickBlock?("record")
-    }
-    
-    @objc private func clickShareAction() {
-        clickBlock?("share")
-    }
-
     
     
     func setCellData(amount: String)  {

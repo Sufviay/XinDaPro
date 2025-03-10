@@ -111,7 +111,7 @@ enum ApiManager {
     ///检查App版本
     case CheckAppVer
     ///获取分类及菜品列表
-    case getClassifyAndDishesList(storeID: String, deliveryType: String)
+    case getClassifyAndDishesList(storeID: String)
     ///清空购物车
     case emptyCart(storeID: String)
     ///账户删除
@@ -387,7 +387,7 @@ extension ApiManager: TargetType {
             return "api/user/login/logout"
         case .CheckAppVer:
             return "api/user/version/checkVersion"
-        case .getClassifyAndDishesList(storeID: _, deliveryType: _):
+        case .getClassifyAndDishesList(storeID: _):
             return "api/user/dishes/getDishesClassifyList"
         case .emptyCart(storeID: _):
             return "api/user/cart/doClearCart"
@@ -672,8 +672,8 @@ extension ApiManager: TargetType {
             dic = [:]
         case .CheckAppVer:
             dic = ["sysType": "2", "verId": UserDefaults.standard.verID!]
-        case .getClassifyAndDishesList(let storeID, let deliveryType):
-            dic = ["storeId": storeID, "deliveryType": deliveryType]
+        case .getClassifyAndDishesList(let storeID):
+            dic = ["storeId": storeID]
         case .emptyCart(let storeID):
             dic = ["storeId": storeID]
         case .deleteAccountApply:

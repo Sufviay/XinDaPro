@@ -10,11 +10,11 @@ import UIKit
 class SalesFiltrateView: UIView {
 
 
-    private var type: String = "month"
+    private var type: String = "Month".local
 
     
     //选择了类型的Block
-    var selectTypeBlock: VoidBlock?
+    var selectTypeBlock: VoidStringBlock?
     
     //选择时间的Block
     var selectTimeBlock: VoidBlock?
@@ -29,8 +29,8 @@ class SalesFiltrateView: UIView {
     
     private let typeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(10), .center)
-        lab.text = ""
+        lab.setCommentStyle(FONTCOLOR, BFONT(14), .center)
+        lab.text = "Month".local
         return lab
     }()
     
@@ -55,7 +55,8 @@ class SalesFiltrateView: UIView {
     
     private let timeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(10), .center)
+        lab.setCommentStyle(FONTCOLOR, BFONT(14), .center)
+        lab.adjustsFontSizeToFitWidth = true
         lab.text = ""
         return lab
     }()
@@ -63,13 +64,68 @@ class SalesFiltrateView: UIView {
     
     private lazy var typeView: FiltrateSelectTagView = {
         let view = FiltrateSelectTagView()
-        view.selectType = "month"
+        view.setData(type: "Month".local)
+
         view.selectBlock = { [unowned self] (str) in
-            self.typeLab.text = str as? String
-            self.type = str as! String
-            timeLab.text = ""
-            self.selectTypeBlock?(str)
             
+            if str == "Week".local {
+                weekAlert.appearAction()
+                
+                weekAlert.selectBlock = { [unowned self] (arr) in
+                    type = str
+                    typeLab.text = type
+                    view.setData(type: type)
+                    selectTypeBlock?(type)
+                    
+                    
+                    let showStr = (arr as! [String])[0]
+                    let dateStr = (arr as! [String])[1]
+                    let endDateStr = (arr as! [String])[2]
+                    self.timeLab.text = showStr
+                    self.selectTimeBlock?([dateStr, endDateStr])
+                }
+                
+            }
+            
+            if str == "Month".local {
+                
+                monthAlert.appearAction()
+                
+    
+                monthAlert.selectBlock = { [unowned self] (arr) in
+                    
+                    type = str
+                    typeLab.text = type
+                    view.setData(type: type)
+                    selectTypeBlock?(type)
+                    
+                    let showStr = (arr as! [String])[0]
+                    let dateStr = (arr as! [String])[1]
+                    let endDateStr = (arr as! [String])[2]
+                    timeLab.text = showStr
+                    self.selectTimeBlock?([dateStr, endDateStr])
+                }
+
+                
+            }
+            
+            if str == "Day".local {
+                dayAlert.appearAction()
+                
+                dayAlert.selectBlock = { [unowned self] (arr) in
+                    
+                    type = str
+                    typeLab.text = type
+                    view.setData(type: type)
+                    selectTypeBlock?(type)
+                    
+                    let showStr = (arr as! [String])[0]
+                    let dateStr = (arr as! [String])[1]
+                    let endDateStr = (arr as! [String])[2]
+                    self.timeLab.text = showStr
+                    self.selectTimeBlock?([dateStr, endDateStr])
+                }
+            }
         }
         return view
     }()
@@ -78,13 +134,13 @@ class SalesFiltrateView: UIView {
     private lazy var weekAlert: TimeWeeksAlert = {
         let view = TimeWeeksAlert()
         
-        view.selectBlock = { [unowned self] (arr) in
-            let showStr = (arr as! [String])[0]
-            let dateStr = (arr as! [String])[1]
-            let endDateStr = (arr as! [String])[2]
-            self.timeLab.text = showStr
-            self.selectTimeBlock?([dateStr, endDateStr])
-        }
+//        view.selectBlock = { [unowned self] (arr) in
+//            let showStr = (arr as! [String])[0]
+//            let dateStr = (arr as! [String])[1]
+//            let endDateStr = (arr as! [String])[2]
+//            self.timeLab.text = showStr
+//            self.selectTimeBlock?([dateStr, endDateStr])
+//        }
         
         return view
     }()
@@ -103,25 +159,25 @@ class SalesFiltrateView: UIView {
     
     private lazy var monthAlert: TimeMonthAlert = {
         let view = TimeMonthAlert()
-        view.selectBlock = { [unowned self] (arr) in
-            let showStr = (arr as! [String])[0]
-            let dateStr = (arr as! [String])[1]
-            let endDateStr = (arr as! [String])[2]
-            self.timeLab.text = showStr
-            self.selectTimeBlock?([dateStr, endDateStr])
-        }
+//        view.selectBlock = { [unowned self] (arr) in
+//            let showStr = (arr as! [String])[0]
+//            let dateStr = (arr as! [String])[1]
+//            let endDateStr = (arr as! [String])[2]
+//            self.timeLab.text = showStr
+//            self.selectTimeBlock?([dateStr, endDateStr])
+//        }
         return view
     }()
     
     private lazy var dayAlert: TimeDayAlert = {
         let view = TimeDayAlert()
-        view.selectBlock = { [unowned self] (arr) in
-            let showStr = (arr as! [String])[0]
-            let dateStr = (arr as! [String])[1]
-            let endDateStr = (arr as! [String])[2]
-            self.timeLab.text = showStr
-            self.selectTimeBlock?([dateStr, endDateStr])
-        }
+//        view.selectBlock = { [unowned self] (arr) in
+//            let showStr = (arr as! [String])[0]
+//            let dateStr = (arr as! [String])[1]
+//            let endDateStr = (arr as! [String])[2]
+//            self.timeLab.text = showStr
+//            self.selectTimeBlock?([dateStr, endDateStr])
+//        }
         return view
     }()
     
@@ -134,7 +190,7 @@ class SalesFiltrateView: UIView {
         
         self.addSubview(typeBut)
         typeBut.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 85, height: 28))
+            $0.size.equalTo(CGSize(width: 85, height: 40))
             $0.centerY.equalToSuperview()
             $0.left.equalToSuperview().offset(0)
         }
@@ -146,7 +202,7 @@ class SalesFiltrateView: UIView {
             $0.centerY.equalToSuperview()
             $0.right.equalToSuperview().offset(0)
             $0.left.equalTo(typeBut.snp.right).offset(10)
-            $0.height.equalTo(28)
+            $0.height.equalTo(40)
         }
 
         
@@ -163,7 +219,7 @@ class SalesFiltrateView: UIView {
             $0.centerY.equalToSuperview()
         }
         
-        typeLab.text = "month"
+        typeLab.text = "Month".local
         
         
         timeBut.addSubview(s_img2)
@@ -180,8 +236,8 @@ class SalesFiltrateView: UIView {
         }
         
         
-        let year = DateTool.getDateComponents(date: Date()).year!
-        let month = DateTool.getDateComponents(date: Date()).month!
+        let year = DateTool.shared.curYear
+        let month = DateTool.shared.curMonth
 
         self.timeLab.text = month >= 10 ? "\(year)-\(month)" : "\(year)-0\(month)"
         
@@ -202,20 +258,44 @@ class SalesFiltrateView: UIView {
     }
     
     @objc func clickTimeAction() {
-        if self.type == "weeks" {
+        if self.type == "Week".local {
             self.weekAlert.appearAction()
+            
+            weekAlert.selectBlock = { [unowned self] (arr) in
+                
+                let showStr = (arr as! [String])[0]
+                let dateStr = (arr as! [String])[1]
+                let endDateStr = (arr as! [String])[2]
+                self.timeLab.text = showStr
+                self.selectTimeBlock?([dateStr, endDateStr])
+            }
+            
         }
         
-//        if self.type == "years" {
-//            self.yearAlert.appearAction()
-//        }
-        
-        if self.type == "month" {
+        if self.type == "Month".local {
             self.monthAlert.appearAction()
+            
+            monthAlert.selectBlock = { [unowned self] (arr) in
+                                
+                let showStr = (arr as! [String])[0]
+                let dateStr = (arr as! [String])[1]
+                let endDateStr = (arr as! [String])[2]
+                timeLab.text = showStr
+                self.selectTimeBlock?([dateStr, endDateStr])
+            }
+            
         }
         
-        if self.type == "day" {
+        if self.type == "Day".local {
             self.dayAlert.appearAction()
+            dayAlert.selectBlock = { [unowned self] (arr) in
+                
+                let showStr = (arr as! [String])[0]
+                let dateStr = (arr as! [String])[1]
+                let endDateStr = (arr as! [String])[2]
+                self.timeLab.text = showStr
+                self.selectTimeBlock?([dateStr, endDateStr])
+            }
         }
     }
 }

@@ -233,12 +233,18 @@ extension FirstSideToolView {
                     
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "logOut"), object: nil)
                     
+                    JPUSHService.deleteAlias({ code1, name, code2 in
+                        
+                    }, seq: 1002)
+                    
+                    
                     UserDefaults.standard.isLogin = false
                     UserDefaults.standard.removeObject(forKey: Keys.userName)
                     UserDefaults.standard.removeObject(forKey: Keys.token)
                     UserDefaults.standard.removeObject(forKey: Keys.userType)
                     UserDefaults.standard.removeObject(forKey: Keys.accountNum)
                     UserDefaults.standard.removeObject(forKey: Keys.userRole)
+                    UserDefaults.standard.removeObject(forKey: Keys.userID)
                     PJCUtil.currentVC()?.navigationController?.setViewControllers([LogInController()], animated: false)
                 }, onError: { (error) in
                     HUD_MB.showError(ErrorTool.errorMessage(error), onView: PJCUtil.getWindowView())

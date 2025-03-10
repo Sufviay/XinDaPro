@@ -9,6 +9,8 @@ import UIKit
 
 class MenuDishCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    private var dataModel = DishModel()
+    
     ///菜品类型。dis 菜。add附加。fre赠品
     private var dishType: String = "dis"
     
@@ -119,18 +121,8 @@ class MenuDishCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionVie
     
     
     
-    private lazy var alertView_kc: MenuDishMoreFourAlert = {
-        let alert = MenuDishMoreFourAlert()
-        
-        alert.clickBlock = { [unowned self] (type) in
-            self.clickMoreBlock?(type)
-        }
-        return alert
-    }()
-    
-    private lazy var alertView: MenuDishMoreTwoAlert = {
-        let alert = MenuDishMoreTwoAlert()
-        
+    private lazy var alertView: MoreAlert = {
+        let alert = MoreAlert()
         alert.clickBlock = { [unowned self] (type) in
             self.clickMoreBlock?(type)
         }
@@ -235,15 +227,16 @@ class MenuDishCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionVie
         
         print(cret)
         
-        
         if self.dishType == "dis" {
-            self.alertView_kc.tap_H = cret.minY
-            self.alertView_kc.appearAction()
-
+            alertView.alertType = .dish
+        } else if dishType == "add" {
+            alertView.alertType = .additional
+            alertView.statusType = dataModel.statusID
         } else {
-            self.alertView.tap_H = cret.minY
-            self.alertView.appearAction()
+            alertView.alertType = .gift
         }
+        alertView.tap_H = cret.minY
+        alertView.appearAction()
     }
     
     
@@ -267,6 +260,7 @@ class MenuDishCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionVie
     }
         
     func setCellData(model: DishModel, type: String) {
+        dataModel = model
         self.dishType = type
         self.nameLab1.text = model.name1
         self.nameLab2.text = model.name2

@@ -19,10 +19,10 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
     private var dataModel = StoreInfoModel()
     
     ///是否是点击店铺列表进入的
-    var isClickList: Bool = false
+    //var isClickList: Bool = false
     
     ///售卖类型 1外卖，2自取，3堂食
-    var saleTypeArr: [String] = []
+    //var saleTypeArr: [String] = []
     
     private var sectionNum: Int = 0
     
@@ -40,43 +40,11 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
         }
         
         view.setData(isHavePay: false)
-        
-        if isClickList {
-            view.backBut.setImage(LOIMG("nav_back_w"), for: .normal)
-        } else {
-            view.backBut.setImage(LOIMG("nav_cbl_w"), for: .normal)
-        }
-        
-        view.backBlock = { [unowned self] _ in
-            
-            if isClickList {
-                navigationController?.popViewController(animated: true)
-            } else {
-                sideBar.appearAction()
-            }
-        }
+       
+        view.backBut.setImage(LOIMG("nav_back_w"), for: .normal)
                 
-        view.amountBlock = { [unowned self] _ in
-            let amountVC = RechargeDetailController()
-            amountVC.storeID = storeID
-            amountVC.storeName = dataModel.name
-            navigationController?.pushViewController(amountVC, animated: true)
-        }
-        
-        view.payBlock = { [unowned self] _ in
-            
-            if UserDefaults.standard.isAgree {
-                let payVC = PayCodeController()
-                payVC.storeID = storeID
-                navigationController?.pushViewController(payVC, animated: true)
-            } else {
-                //弹出法律条文页面
-                let webVC = AgreeTermsController()
-                webVC.titStr = "APP Terms and Conditions"
-                webVC.webUrl = TCURL
-                webVC.storeID = storeID
-                self.present(webVC, animated: true, completion: nil)
-            }
+        view.backBlock = { [unowned self] _ in
+            navigationController?.popViewController(animated: true)
         }
         
         return view
@@ -121,21 +89,13 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
         
         view.backgroundColor = .white
         setUpUI()
-        //addNotificationCenter()
+        addNotificationCenter()
     }
     
     override func setNavi() {
         loadData_Net()
         loadCanBookingStatus_Net()
         //getWalletMoney_Net()
-    }
-    
-    override func didAppear() {
-        if isClickList {
-            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        } else {
-            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-        }
     }
     
     
@@ -160,10 +120,25 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
     }
     
     
-    @objc private func clickCBLAction()  {
-        sideBar.appearAction()
+    //MARK: - 通知中心
+    private func addNotificationCenter() {
+        //监测登录的变化
+        NotificationCenter.default.addObserver(self, selector: #selector(centerAction_login), name: NSNotification.Name( "login"), object: nil)
+    
+    }
+        
+    deinit {
+        print("\(self.classForCoder)销毁")
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("login"), object: nil)
+
     }
     
+    @objc private func centerAction_login() {
+        loadData_Net()
+        loadCanBookingStatus_Net()
+    }
+
+
     
     
     private func loadData_Net() {
@@ -172,15 +147,21 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
             
             dataModel.updateModel(json: json["data"])
             sectionNum = 6
-            //获取充值信息
-            HTTPTOOl.getUserVip(storeID: storeID).subscribe(onNext: { [unowned self] (json2) in
+            
+            if UserDefaults.standard.isLogin {
+                //获取充值信息
+                HTTPTOOl.getUserVip(storeID: storeID).subscribe(onNext: { [unowned self] (json2) in
+                    HUD_MB.dissmiss(onView: view)
+                    dataModel.isVip = json2["data"]["vipType"].stringValue == "2" ? true: false
+                    dataModel.vipAmount = D_2_STR(json2["data"]["amount"].doubleValue)
+                    table.reloadData()
+                }, onError: { [unowned self] (error) in
+                    HUD_MB.showMessage(ErrorTool.errorMessage(error), self.view)
+                }).disposed(by: bag)
+            } else {
                 HUD_MB.dissmiss(onView: view)
-                dataModel.isVip = json2["data"]["vipType"].stringValue == "2" ? true: false
-                dataModel.vipAmount = D_2_STR(json2["data"]["amount"].doubleValue)
                 table.reloadData()
-            }, onError: { [unowned self] (error) in
-                HUD_MB.showMessage(ErrorTool.errorMessage(error), self.view)
-            }).disposed(by: bag)
+            }
         }, onError: { [unowned self] (error) in
             HUD_MB.showMessage(ErrorTool.errorMessage(error), self.view)
         }).disposed(by: self.bag)
@@ -188,19 +169,22 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
     
     
     private func loadCanBookingStatus_Net() {
-        HTTPTOOl.isCanBooking(storeID: storeID).subscribe(onNext: { [unowned self] (json) in
-            if json["data"]["reserveStatus"].stringValue == "2" {
-                //是
-                dataModel.isOpenBooking = true
-            }
-            if json["data"]["reserveStatus"].stringValue == "1" {
-                //否
-                dataModel.isOpenBooking = false
-            }
-            
-        }, onError: { [unowned self] (error) in
-            HUD_MB.showMessage(ErrorTool.errorMessage(error), self.view)
-        }).disposed(by: bag)
+        
+        if UserDefaults.standard.isLogin {
+            HTTPTOOl.isCanBooking(storeID: storeID).subscribe(onNext: { [unowned self] (json) in
+                if json["data"]["reserveStatus"].stringValue == "2" {
+                    //是
+                    dataModel.isOpenBooking = true
+                }
+                if json["data"]["reserveStatus"].stringValue == "1" {
+                    //否
+                    dataModel.isOpenBooking = false
+                }
+                
+            }, onError: { [unowned self] (error) in
+                HUD_MB.showMessage(ErrorTool.errorMessage(error), self.view)
+            }).disposed(by: bag)
+        }
     }
     
     
@@ -284,67 +268,58 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
             
             cell.clickBlock = { [unowned self] (type) in
                 if type == "code" {
-                    //付款码
-                    if UserDefaults.standard.isAgree {
-                        let payVC = PayCodeController()
-                        payVC.storeID = storeID
-                        payVC.storeName = dataModel.name
-                        navigationController?.pushViewController(payVC, animated: true)
-                    } else {
-                        //弹出法律条文页面
-                        let webVC = AgreeTermsController()
-                        webVC.titStr = "APP Terms and Conditions"
-                        webVC.webUrl = TCURL
-                        webVC.storeID = storeID
-                        self.present(webVC, animated: true, completion: nil)
+                    
+                    if PJCUtil.checkLoginStatus() {
+                        //付款码
+                        if UserDefaults.standard.isAgree {
+                            let payVC = PayCodeController()
+                            payVC.storeID = storeID
+                            payVC.storeName = dataModel.name
+                            navigationController?.pushViewController(payVC, animated: true)
+                        } else {
+                            //弹出法律条文页面
+                            let webVC = AgreeTermsController()
+                            webVC.titStr = "APP Terms and Conditions"
+                            webVC.webUrl = TCURL
+                            webVC.storeID = storeID
+                            self.present(webVC, animated: true, completion: nil)
+                        }
                     }
                 }
                 
                 if type == "book" {
                     
-                    if dataModel.isOpenBooking {
-                        let nextVC = OccupyController()
-                        nextVC.storeID = dataModel.storeID
-                        nextVC.storeName = dataModel.name
-                        nextVC.storeDes = dataModel.des
-                        navigationController?.pushViewController(nextVC, animated: true)
-                    } else {
-                        showSystemAlert("Alert", "Table booking function turned off", "OK")
+                    if PJCUtil.checkLoginStatus() {
+                        if dataModel.isOpenBooking {
+                            let nextVC = OccupyController()
+                            nextVC.storeID = dataModel.storeID
+                            nextVC.storeName = dataModel.name
+                            nextVC.storeDes = dataModel.des
+                            navigationController?.pushViewController(nextVC, animated: true)
+                        } else {
+                            showSystemAlert("Alert", "Table booking function turned off", "OK")
+                        }
                     }
                 }
                 
-                if type == "record" {
-                    let amountVC = RechargeDetailController()
-                    amountVC.storeID = dataModel.storeID
-                    amountVC.storeName = dataModel.name
-                    navigationController?.pushViewController(amountVC, animated: true)
-                }
-                
-                if type == "share" {
-                    let nextVC = ShareController()
-                    navigationController?.pushViewController(nextVC, animated: true)
-                }
+//                if type == "record" {
+//                    let amountVC = RechargeDetailController()
+//                    amountVC.storeID = dataModel.storeID
+//                    amountVC.storeName = dataModel.name
+//                    navigationController?.pushViewController(amountVC, animated: true)
+//                }
+//                
+//                if type == "share" {
+//                    let nextVC = ShareController()
+//                    navigationController?.pushViewController(nextVC, animated: true)
+//                }
             }
             
             return cell
         }
         if indexPath.section == 5 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "StoreFirstPageButCell") as! StoreFirstPageButCell
-            cell.setCellData(data: dataModel, isDinein: isClickList, typeArr: saleTypeArr)
-            
-            cell.clickBlock = { [unowned self] (type) in
-                if type == "order" {
-                    let nextVC =  OrderListController()
-                    navigationController?.pushViewController(nextVC, animated: true)
-                }
-                
-                if type == "dinein" {
-                    //打开扫一扫
-                    clickSaoYiSaoAction(storeID: storeID)
-                }
-                
-            }
-            
+            cell.setCellData(data: dataModel)
             return cell
         }
         
@@ -355,110 +330,108 @@ class StoreMainController: BaseViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 2 {
-            //展示充值码
-            if UserDefaults.standard.isAgree {
-                let payVC = PayCodeController()
-                payVC.storeID = storeID
-                navigationController?.pushViewController(payVC, animated: true)
-            } else {
-                //弹出法律条文页面
-                let webVC = AgreeTermsController()
-                webVC.titStr = "APP Terms and Conditions"
-                webVC.webUrl = TCURL
-                webVC.storeID = storeID
-                self.present(webVC, animated: true, completion: nil)
-            }
-        }
-    }
-    
-    
-    //MARK: - 扫一扫
-    private func clickSaoYiSaoAction(storeID: String) {
-        //绑定店铺
-        
-        if PJCUtil.checkLoginStatus() {
-            let scanVC = ScanViewController()
-            var style = LBXScanViewStyle()
-            style.animationImage = UIImage(named: "CodeScan.bundle/qrcode_scan_light_green")
-            style.colorAngle = MAINCOLOR
-            scanVC.scanStyle = style
-//            if storeID == "" {
-//                scanVC.isClickStore = false
-//            } else {
-//                scanVC.isClickStore = true
-//            }
-//
-            scanVC.clickWaiMaiBlock = { [unowned self] (_) in
-                let nextVC = StoreMenuOrderController()
-                nextVC.storeID = storeID
-                self.navigationController?.pushViewController(nextVC, animated: true)
-            }
             
-            
-            ///https://share.eat1st.co.uk/store/detail/?storeId=1558386586135650305&deskId=1111111111
-
-            
-            scanVC.scanFinshBlock = { [unowned self] (str) in
-                
-                print("---------------------\(str)")
-                
-                let scanStr = str as! String
-                if scanStr != "" {
-                    
-                    var storeID = ""
-                    var deskID = ""
-                    
-                    let arr1 = scanStr.components(separatedBy: "?")
-
-                    let str1 = arr1.last ?? ""
-
-                    if str1 != "" {
-
-                        let arr2 = str1.components(separatedBy: "&")
-
-                        for tStr in arr2 {
-
-                            let arr3 = tStr.components(separatedBy: "=")
-                            if arr3.first ?? "" == "storeId" {
-                                storeID = arr3.last ?? ""
-                            }
-                            if arr3.first ?? "" == "deskId" {
-                                deskID = arr3.last ?? ""
-                            }
-                        }
-                        
-                        if deskID == "" && storeID != "" {
-                            //店铺宣传
-                            //进入店铺主页
-                            let nextVC = StoreMainController()
-                            nextVC.storeID = storeID
-                            self.navigationController?.pushViewController(nextVC, animated: true)
-                        }
-                        
-                        if deskID != "" && storeID != "" {
-                            //扫码点餐
-                            //验证桌号
-                            HUD_MB.loading("", onView: view)
-                            HTTPTOOl.checkDesk(storeID: storeID, deskID: deskID).subscribe(onNext: { [unowned self] json in
-                                HUD_MB.dissmiss(onView: self.view)
-                                
-                                let dineInVC = DineInFirstController()
-                                dineInVC.deskID = deskID
-                                dineInVC.storeID = storeID
-                                self.navigationController?.pushViewController(dineInVC, animated: true)
-                                
-                            }, onError: { [unowned self] error in
-                                HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
-                            }).disposed(by: self.bag)
-                        }
-
-                    }
+            if PJCUtil.checkLoginStatus() {
+                //展示充值码
+                if UserDefaults.standard.isAgree {
+                    let payVC = PayCodeController()
+                    payVC.storeID = storeID
+                    navigationController?.pushViewController(payVC, animated: true)
+                } else {
+                    //弹出法律条文页面
+                    let webVC = AgreeTermsController()
+                    webVC.titStr = "APP Terms and Conditions"
+                    webVC.webUrl = TCURL
+                    webVC.storeID = storeID
+                    self.present(webVC, animated: true, completion: nil)
                 }
             }
-            scanVC.modalPresentationStyle = .fullScreen
-            self.present(scanVC, animated: true, completion: nil)
         }
     }
+    
+    
+//    //MARK: - 扫一扫
+//    private func clickSaoYiSaoAction(storeID: String) {
+//        //绑定店铺
+//        
+//        if PJCUtil.checkLoginStatus() {
+//            let scanVC = ScanViewController()
+//            var style = LBXScanViewStyle()
+//            style.animationImage = UIImage(named: "CodeScan.bundle/qrcode_scan_light_green")
+//            style.colorAngle = MAINCOLOR
+//            scanVC.scanStyle = style
+//            
+//            scanVC.clickWaiMaiBlock = { [unowned self] (_) in
+//                let nextVC = StoreMenuOrderController()
+//                nextVC.storeID = storeID
+//                self.navigationController?.pushViewController(nextVC, animated: true)
+//            }
+//            
+//            
+//            ///https://share.eat1st.co.uk/store/detail/?storeId=1558386586135650305&deskId=1111111111
+//
+//            
+//            scanVC.scanFinshBlock = { [unowned self] (str) in
+//                
+//                print("---------------------\(str)")
+//                
+//                let scanStr = str as! String
+//                if scanStr != "" {
+//                    
+//                    var storeID = ""
+//                    var deskID = ""
+//                    
+//                    let arr1 = scanStr.components(separatedBy: "?")
+//
+//                    let str1 = arr1.last ?? ""
+//
+//                    if str1 != "" {
+//
+//                        let arr2 = str1.components(separatedBy: "&")
+//
+//                        for tStr in arr2 {
+//
+//                            let arr3 = tStr.components(separatedBy: "=")
+//                            if arr3.first ?? "" == "storeId" {
+//                                storeID = arr3.last ?? ""
+//                            }
+//                            if arr3.first ?? "" == "deskId" {
+//                                deskID = arr3.last ?? ""
+//                            }
+//                        }
+//                        
+//                        if deskID == "" && storeID != "" {
+//                            //店铺宣传
+//                            //进入店铺主页
+//                            let nextVC = StoreMainController()
+//                            nextVC.storeID = storeID
+//                            self.navigationController?.pushViewController(nextVC, animated: true)
+//                        }
+//                        
+//                        if deskID != "" && storeID != "" {
+//                            //扫码点餐
+//                            //验证桌号
+//                            HUD_MB.loading("", onView: view)
+//                            HTTPTOOl.checkDesk(storeID: storeID, deskID: deskID).subscribe(onNext: { [unowned self] json in
+//                                HUD_MB.dissmiss(onView: self.view)
+//                                
+//                                let dineInVC = DineInFirstController()
+//                                dineInVC.deskID = deskID
+//                                dineInVC.storeID = storeID
+//                                self.navigationController?.pushViewController(dineInVC, animated: true)
+//                                
+//                            }, onError: { [unowned self] error in
+//                                HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
+//                            }).disposed(by: self.bag)
+//                        }
+//
+//                    }
+//                }
+//            }
+//            scanVC.modalPresentationStyle = .fullScreen
+//            self.present(scanVC, animated: true, completion: nil)
+//        }
+//    }
 
     
 }

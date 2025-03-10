@@ -110,6 +110,11 @@ class DishesItemContentCell: BaseTableViewCell, UITableViewDelegate, UITableView
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            self.clickSelectBlock?("")
+        }
+        
+        
 //        if indexPath.section == 0 {
 //            if dataModel.haveSpec {
 //
@@ -135,8 +140,4 @@ class DishesItemContentCell: BaseTableViewCell, UITableViewDelegate, UITableView
         self.dataModel = dish
         self.table.reloadData()
     }
-
-
-    
-
 }

@@ -212,15 +212,15 @@ class LogInController: BaseViewController {
         
         view.addSubview(loginBut)
         loginBut.snp.makeConstraints {
-            $0.left.right.equalTo(line1)
+            $0.size.equalTo(CGSize(width: 280, height: 55))
+            $0.centerX.equalToSuperview()
             $0.top.equalTo(line2.snp.bottom).offset(R_H(70))
-            $0.height.equalTo(55)
         }
         
         loginBut.addSubview(loginlab)
         loginlab.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview().offset(30)
+            $0.left.equalToSuperview().offset(20)
         }
         
         

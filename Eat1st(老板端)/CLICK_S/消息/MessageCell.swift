@@ -173,9 +173,10 @@ class MessageCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSource
         }
         
         if section == 15 {
-            if dataModel.operateType == "6" || dataModel.operateType == "7" {
-                return 0
-            }
+//            if dataModel.operateType == "6" || dataModel.operateType == "7" {
+//                return 0
+//            }
+            return 0
         }
         return 1
     }
@@ -414,6 +415,26 @@ class MessageHearderCell: BaseTableViewCell {
             titLab.text = "Delete credit"
         }
         
+        if model.operateType == "8" {
+            ///
+            titLab.text = "Print summary"
+        }
+        
+        if model.operateType == "9" {
+            titLab.text = "Delete dishes"
+        }
+        
+        if model.operateType == "10" {
+            titLab.text = "Top up"
+        }
+        
+        if model.operateType == "11" {
+            titLab.text = "Wallet spent"
+        }
+        
+        if model.operateType == "12" {
+            titLab.text = "change service charge"
+        }
     }
     
 }
@@ -564,7 +585,6 @@ class MessageChangeCell: BaseTableViewCell {
         }
 
     }
-    
     
     
     func setCellData(titStr: String, oldStr: String, newStr: String) {

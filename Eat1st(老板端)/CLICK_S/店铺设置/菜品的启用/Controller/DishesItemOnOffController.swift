@@ -544,10 +544,13 @@ extension DishesItemOnOffController {
     }
     
     
+    
+    
+    
     //计算选中个数
     private func getSelectCount() -> Int {
+                
         var t: Int = 0
-        
         for model in dataArr {
             for tmodel in model.dishArr {
                 if tmodel.isSelect {

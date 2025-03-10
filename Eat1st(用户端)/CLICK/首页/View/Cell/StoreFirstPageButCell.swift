@@ -214,54 +214,55 @@ class StoreFirstPageButCell: BaseTableViewCell {
     
     
     @objc private func clickDeAction()  {
-
         //配送
         let menuVC = StoreMenuOrderController()
         menuVC.storeID = dataModel.storeID
+        menuVC.menuInfo.buyType = "1"
         PJCUtil.currentVC()?.navigationController?.pushViewController(menuVC, animated: true)
-        
     }
     
     @objc private func clickCoAction()  {
         //自取
         let menuVC = StoreMenuOrderController()
         menuVC.storeID = dataModel.storeID
+        menuVC.menuInfo.buyType = "2"
         PJCUtil.currentVC()?.navigationController?.pushViewController(menuVC, animated: true)
     }
     
     @objc private func clickOrderAction()  {
-        if isDine {
-            clickBlock?("dinein")
-        } else {
-            clickBlock?("order")
-        }    
+        let menuVC = StoreMenuOrderController()
+        menuVC.storeID = dataModel.storeID
+        menuVC.menuInfo.buyType = ""
+        PJCUtil.currentVC()?.navigationController?.pushViewController(menuVC, animated: true)
     }
     
     
-//    @objc private func clickBookingAction() {
-//        //预定
-//        let nextVC = OccupyController()
-//        nextVC.storeID = dataModel.storeID
-//        nextVC.storeName = dataModel.name
-//        nextVC.storeDes = dataModel.des
-//        PJCUtil.currentVC()?.navigationController?.pushViewController(nextVC, animated: true)
-//        
-//    }
     
-    func setCellData(data: StoreInfoModel, isDinein : Bool, typeArr: [String]) {
-        
-        ///1外卖，2自取，3堂食
+    func setCellData(data: StoreInfoModel) {
+    
         self.dataModel = data
-        isDine = isDinein
-        if isDinein {
-            orderLab.text = "Dine-in"
-            //bookingBut.isHidden = false
-        } else {
-            orderLab.text = "Orders"
-            //bookingBut.isHidden = true
+        if data.collectStatus == "2" && data.deliverStatus == "2" {
+            ///都关闭
+            orderLab.text = "Menu"
+            orderBut.isHidden = false
         }
         
-        if typeArr.contains("1") {
+        else if dataModel.collectStatus == "" && dataModel.deliverStatus == "" {
+            ///都关闭
+            orderLab.text = "Menu"
+            orderBut.isHidden = false
+        }
+        
+        else {
+            orderLab.text = ""
+            orderBut.isHidden = true
+        }
+        
+        
+        
+        
+        
+        if data.deliverStatus == "1" {
             //可以外卖
             deBut.isUserInteractionEnabled = true
             deImg.image = LOIMG("store_wm")
@@ -273,7 +274,7 @@ class StoreFirstPageButCell: BaseTableViewCell {
             deLab.textColor = HCOLOR("999999")
         }
         
-        if typeArr.contains("2") {
+        if data.collectStatus == "1" {
             //可以自取
             coBut.isUserInteractionEnabled = true
             coImg.image = LOIMG("store_zq")
@@ -284,8 +285,5 @@ class StoreFirstPageButCell: BaseTableViewCell {
             coImg.image = LOIMG("store_zq_nusel")
             coLab.textColor = HCOLOR("999999")
         }
-        
     }
-    
-
 }

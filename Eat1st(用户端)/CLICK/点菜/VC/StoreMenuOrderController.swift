@@ -22,7 +22,7 @@ class StoreMenuOrderController: BaseViewController, UITableViewDataSource, UITab
     private let storeInfo = StoreInfoModel()
     
     ///店铺菜品模型
-    private var menuInfo = MenuModel()
+    var menuInfo = MenuModel()
     
     ///购物车的数据模型
     private var cartModel = CartDataModel()
@@ -250,7 +250,6 @@ extension StoreMenuOrderController {
                 if UserDefaults.standard.isLogin {
                     HUD_MB.loading("", onView: view)
                     loadCartData_Net()
-                    //loadData_Net()
                 }
             }
             
@@ -392,7 +391,7 @@ extension StoreMenuOrderController {
     private func loadData_Net() {
         
         ///获取所有分类和所有菜品
-        HTTPTOOl.getClassifyAndDishesList(storeID: storeID, deliveryType: "").subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.getClassifyAndDishesList(storeID: storeID).subscribe(onNext: { [unowned self] (json) in
 
             ///初始化菜单页面的数据
             self.menuInfo.updateModel(json: json)
@@ -442,6 +441,8 @@ extension StoreMenuOrderController {
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
         }).disposed(by: self.bag)
     }
+    
+    
     
     //MARK: - 添加购物车
     private func addCart_Net(dishesID: String, buyNum: Int) {

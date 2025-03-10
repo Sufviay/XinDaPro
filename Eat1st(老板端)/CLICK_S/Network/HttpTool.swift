@@ -681,14 +681,14 @@ class HttpTool {
     }
     
     //MARK: - 添加打印机
-    func addPrinter(name: String, ip: String, printNum: String, splitType: String, printType: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .addPrinter(name: name, ip: ip, printNum: printNum, splitType: splitType, printType:  printType))
+    func addPrinter(model: PrinterModel) -> Observable<JSON> {
+        let response = rxApiManager(api: .addPrinter(model: model))
         return Observable<JSON>.create(response)
     }
     
     //MARK: - 编辑打印机
-    func editPrinter(id: String, name: String, ip: String, printNum: String, splitType: String, printType: String, status: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .editePrinter(id: id, name: name, ip: ip, printNum: printNum, splitType: splitType, printType:  printType, status: status))
+    func editPrinter(model: PrinterModel) -> Observable<JSON> {
+        let response = rxApiManager(api: .editePrinter(model: model))
         return Observable<JSON>.create(response)
     }
     
@@ -795,147 +795,197 @@ class HttpTool {
         return Observable<JSON>.create(response)
     }
 
-    
 
-    
-
-    
-    
-    
-    
-    
-
-    
-    
-    //MARK: - 订单列表
-    func getOrderList(page: Int, tag: String, type: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .getOrderList(page: String(page), tag: tag, type: type))
+    //MARK: - 获取汇总打印信息
+    func getPrintSummary(type: String, start: String, end: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getPrintSummary(dateType: type, start: start, end: end))
         return Observable<JSON>.create(response)
     }
+
+
+    //MARK: - 获取店铺营业额统计     配送类型（1外卖，2堂食，不传查询全部）    统计类型（1今日，2本周，3本月，不传默认今日）
+    func getStoreSales(queryType: String, deliveryType: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getStoreSales(deliveryType: deliveryType, queryType: queryType))
+        return Observable<JSON>.create(response)
+    }
+
+    //MARK: - 获取统计菜品的分类
+    func getStaticClassifyList() -> Observable<JSON> {
+        let response = rxApiManager(api: .getStatisClassifyList)
+        return Observable<JSON>.create(response)
+    }
+    
+    
+    //MARK: - 获取分类下菜品销量
+    func getStaticClassifyDishesSales(id: String, type: String, start: String, end: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getStatisClassifyDishesList(id: id, type: type, start: start, end: end))
+        return Observable<JSON>.create(response)
+    }
+    
+    
+    //MARK: - 获取打印机关联菜品
+    func getPrinterLinkDishes(id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getPrinterDishesList(printerID: id))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 打印机关联菜品
+    func setPrinterDishes(id: String, dishes: [Int64]) -> Observable<JSON> {
+        let response = rxApiManager(api: .setPrinterLinkDishes(printerID: id, dishesArr: dishes))
+        return Observable<JSON>.create(response)
+    }
+    
     
     //MARK: - 订单详情
     func getOrderDetail(orderID: String) -> Observable<JSON> {
         let response = rxApiManager(api: .getOrderDetail(orderID: orderID))
         return Observable<JSON>.create(response)
     }
-    
-    
-    //MARK: 出餐
-    func chuCanAciton(orderID: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .orderChuCanAction(orderID: orderID))
-        return Observable<JSON>.create(response)
-    }
-    
-    //MARK: - 接单
-    func jiedanAction(orderID: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .orderJieDanAction(orderID: orderID))
-        return Observable<JSON>.create(response)
-    }
-    
-    //MARK: - 拒接
-    func jujieAciton(orderID: String, customReason: String, reasonID: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .orderJuJieAction(orderID: orderID, customReason: customReason, reasonID: reasonID))
-        return Observable<JSON>.create(response)
-    }
-    
-    //MARK: - 开始配送
-    func kaiShiPeiSongAction(orderID: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .orderkaiShiPeiSongAction(orderID: orderID))
-        return Observable<JSON>.create(response)
-    }
-    
-    
-    //MARK: - 确认收货
-    func shouHuoAction(orderID: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .orderShouHuoAction(orderID: orderID))
-        return Observable<JSON>.create(response)
-    }
-    
-
 
     
-    
-    //MARK: - 获取投诉内容
-    func loadComplainContent(orderId: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .loadComplainContent(orderID: orderId))
-        return Observable<JSON>.create(response)
-    }
-    
-    //MARK: - 处理投诉
-    func dealComplaintAction(orderID: String, code: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .dealComplain(orderID: orderID, code: code))
-        return Observable<JSON>.create(response)
-    }
-    
-    //MARK: - 获取营业金额
-    func getBusinessSale() -> Observable<JSON> {
-        let response = rxApiManager(api: .getTodayAndlastWeekSales)
-        return Observable<JSON>.create(response)
-    }
-    
-    //MARK: - 获取支付方式
-    func getPayWay() -> Observable<JSON> {
-        let response = rxApiManager(api: .getStorePayWay)
-        return Observable<JSON>.create(response)
-    }
-    
-    //MARK: - 改变支付方式
-    func changePayWay(card: String, cash: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .changePayWay(card: card, cash: cash))
+    //MARK: - 设置菜品附加的启用禁用状态
+    func setAttachStatus(id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .setAttachStatus(id: id))
         return Observable<JSON>.create(response)
     }
     
     
-    
-    //MARK: - 上传用户经纬度
-    func uploadUserLocation(lat: String, lng: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .uploadUserLocation(lat: lat, lng: lng))
-        return Observable<JSON>.create(response)
-    }
-    
-    //MARK: - 获取订单状态Tag
-    func getOrderStatusTag() -> Observable<JSON> {
-        let response = rxApiManager(api: .getOrderStatusTag)
-        return Observable<JSON>.create(response)
-    }
-    
-    //MARK: - 获取拒接原因
-    func getJuJieReason() -> Observable<JSON> {
-        let response = rxApiManager(api: .getJujieReason)
-        return Observable<JSON>.create(response)
-    }
-    
-    //MARK: - 查询营业统计
-    func queryStoreBussiness(type: String, date: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .queryStoreBussiness(type: type, date: date))
-        return Observable<JSON>.create(response)
-    }
-    
-
-    //MARK: - 获取骑手列表
-    func getRiderList() -> Observable<JSON> {
-        let response = rxApiManager(api: .getRiderList)
-        return Observable<JSON>.create(response)
-    }
-    
-    
-    //MARK: - 骑手配送中的
-    func getRiderPSZOrderList(id: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .getRiderDeliveryOrderList(id: id))
-        return Observable<JSON>.create(response)
-    }
-    
-    //MARK: - 获取历史配送
-    func getRiderPSHistoryList(id: String, page: Int) -> Observable<JSON> {
-        let response = rxApiManager(api: .getRiderDeliveryHistoryOderList(id: id, page: String(page)))
+    //MARK: - 设置菜品VIP价格
+    func doDishVIP(id: String, typeStr: String, price: String, status: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .doDishVipPrice(id: id, typeStr: typeStr, price: price, status: status))
         return Observable<JSON>.create(response)
     }
 
-    //MARK: - 获取骑手位置
-    func getRiderLocal(id: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .getRiderLocal(id: id))
-        return Observable<JSON>.create(response)
-    }
+
+
+    
+
+    
+    
+//    //MARK: - 订单列表
+//    func getOrderList(page: Int, tag: String, type: String) -> Observable<JSON> {
+//        let response = rxApiManager(api: .getOrderList(page: String(page), tag: tag, type: type))
+//        return Observable<JSON>.create(response)
+//    }
+//    
+//
+//    
+//    //MARK: 出餐
+//    func chuCanAciton(orderID: String) -> Observable<JSON> {
+//        let response = rxApiManager(api: .orderChuCanAction(orderID: orderID))
+//        return Observable<JSON>.create(response)
+//    }
+//    
+//    //MARK: - 接单
+//    func jiedanAction(orderID: String) -> Observable<JSON> {
+//        let response = rxApiManager(api: .orderJieDanAction(orderID: orderID))
+//        return Observable<JSON>.create(response)
+//    }
+//    
+//    //MARK: - 拒接
+//    func jujieAciton(orderID: String, customReason: String, reasonID: String) -> Observable<JSON> {
+//        let response = rxApiManager(api: .orderJuJieAction(orderID: orderID, customReason: customReason, reasonID: reasonID))
+//        return Observable<JSON>.create(response)
+//    }
+//    
+//    //MARK: - 开始配送
+//    func kaiShiPeiSongAction(orderID: String) -> Observable<JSON> {
+//        let response = rxApiManager(api: .orderkaiShiPeiSongAction(orderID: orderID))
+//        return Observable<JSON>.create(response)
+//    }
+//    
+//    
+//    //MARK: - 确认收货
+//    func shouHuoAction(orderID: String) -> Observable<JSON> {
+//        let response = rxApiManager(api: .orderShouHuoAction(orderID: orderID))
+//        return Observable<JSON>.create(response)
+//    }
+//    
+//
+//
+//    
+//    
+//    //MARK: - 获取投诉内容
+//    func loadComplainContent(orderId: String) -> Observable<JSON> {
+//        let response = rxApiManager(api: .loadComplainContent(orderID: orderId))
+//        return Observable<JSON>.create(response)
+//    }
+//    
+//    //MARK: - 处理投诉
+//    func dealComplaintAction(orderID: String, code: String) -> Observable<JSON> {
+//        let response = rxApiManager(api: .dealComplain(orderID: orderID, code: code))
+//        return Observable<JSON>.create(response)
+//    }
+//    
+//    //MARK: - 获取营业金额
+//    func getBusinessSale() -> Observable<JSON> {
+//        let response = rxApiManager(api: .getTodayAndlastWeekSales)
+//        return Observable<JSON>.create(response)
+//    }
+//    
+//    //MARK: - 获取支付方式
+//    func getPayWay() -> Observable<JSON> {
+//        let response = rxApiManager(api: .getStorePayWay)
+//        return Observable<JSON>.create(response)
+//    }
+//    
+//    //MARK: - 改变支付方式
+//    func changePayWay(card: String, cash: String) -> Observable<JSON> {
+//        let response = rxApiManager(api: .changePayWay(card: card, cash: cash))
+//        return Observable<JSON>.create(response)
+//    }
+//    
+//    
+//    
+//    //MARK: - 上传用户经纬度
+//    func uploadUserLocation(lat: String, lng: String) -> Observable<JSON> {
+//        let response = rxApiManager(api: .uploadUserLocation(lat: lat, lng: lng))
+//        return Observable<JSON>.create(response)
+//    }
+//    
+//    //MARK: - 获取订单状态Tag
+//    func getOrderStatusTag() -> Observable<JSON> {
+//        let response = rxApiManager(api: .getOrderStatusTag)
+//        return Observable<JSON>.create(response)
+//    }
+//    
+//    //MARK: - 获取拒接原因
+//    func getJuJieReason() -> Observable<JSON> {
+//        let response = rxApiManager(api: .getJujieReason)
+//        return Observable<JSON>.create(response)
+//    }
+//    
+//    //MARK: - 查询营业统计
+//    func queryStoreBussiness(type: String, date: String) -> Observable<JSON> {
+//        let response = rxApiManager(api: .queryStoreBussiness(type: type, date: date))
+//        return Observable<JSON>.create(response)
+//    }
+//    
+//
+//    //MARK: - 获取骑手列表
+//    func getRiderList() -> Observable<JSON> {
+//        let response = rxApiManager(api: .getRiderList)
+//        return Observable<JSON>.create(response)
+//    }
+//    
+//    
+//    //MARK: - 骑手配送中的
+//    func getRiderPSZOrderList(id: String) -> Observable<JSON> {
+//        let response = rxApiManager(api: .getRiderDeliveryOrderList(id: id))
+//        return Observable<JSON>.create(response)
+//    }
+//    
+//    //MARK: - 获取历史配送
+//    func getRiderPSHistoryList(id: String, page: Int) -> Observable<JSON> {
+//        let response = rxApiManager(api: .getRiderDeliveryHistoryOderList(id: id, page: String(page)))
+//        return Observable<JSON>.create(response)
+//    }
+//
+//    //MARK: - 获取骑手位置
+//    func getRiderLocal(id: String) -> Observable<JSON> {
+//        let response = rxApiManager(api: .getRiderLocal(id: id))
+//        return Observable<JSON>.create(response)
+//    }
     
     
     //MARK: - 上传菜品图片

@@ -1,0 +1,48 @@
+/* 
+  Localizable.strings
+  CLICK_S
+
+  Created by 肖扬 on 2025/1/14.
+  
+*/
+
+
+"Live" = "實時";
+"Sale Summary" = "銷售總匯";
+"Booking" = "訂座";
+"Sale Chart" = "銷售排行";
+
+"Takeaway" = "外賣";
+"Sales" = "銷售";
+"Order" = "訂單";
+
+"Month" = "月";
+"Week" = "周";
+"Day" = "日";
+"Year" = "年";
+"OK" = "確認";
+"Cancel" = "取消";
+"Period" = "時間段";
+
+"Dine-in" = "堂食";
+
+"Unpaid Amount" = "未付金額";
+"Unpaid Order" = "未付訂單";
+"Sale" = "銷售";
+"Order" = "訂單";
+"Avg per Customer" = "每客平均";
+"Avg per Table" = "每桌平均";
+"Table" = "餐桌";
+"Customer" = "客人數";
+
+"Last " = "較上";
+
+"Sun" = "周日";
+"Sat" = "周六";
+"Fri" = "周五";
+"Thu" = "周四";
+"Wed" = "周三" ;
+"Tue" = "周二";
+"Mon" = "周一";
+
+"No data available" = "暫無數據";

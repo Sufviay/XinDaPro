@@ -10,8 +10,10 @@ import UIKit
 class ChartBackTableCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
 
+    
     var clickBlock: VoidBlock?
 
+    private var canPostScroll: Bool = false
     private var dataModel = BookChartDataModel()
     
     
@@ -30,6 +32,7 @@ class ChartBackTableCell: BaseTableViewCell, UITableViewDelegate, UITableViewDat
         tableView.dataSource = self
         tableView.contentInsetAdjustmentBehavior = .never
         tableView.register(ChatTableLabCell.self, forCellReuseIdentifier: "ChatTableLabCell")
+        tableView.tag = 2
         return tableView
     }()
     
@@ -45,6 +48,7 @@ class ChartBackTableCell: BaseTableViewCell, UITableViewDelegate, UITableViewDat
         coll.bounces = false
         coll.delegate = self
         coll.dataSource = self
+        coll.tag = 1
         coll.backgroundColor = .clear
         coll.showsHorizontalScrollIndicator = false
         coll.register(ChartTimeCollectionCell.self, forCellWithReuseIdentifier: "ChartTimeCollectionCell")
@@ -54,6 +58,8 @@ class ChartBackTableCell: BaseTableViewCell, UITableViewDelegate, UITableViewDat
     
 
     override func setViews() {
+        
+        addCenterNotification()
         
         contentView.addSubview(table)
         table.snp.makeConstraints {
@@ -70,28 +76,17 @@ class ChartBackTableCell: BaseTableViewCell, UITableViewDelegate, UITableViewDat
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        if indexPath.row == 0 {
-            return 35
-        }
-        
         return 45
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataModel.lineCount + 1
+        return dataModel.lineCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatTableLabCell") as! ChatTableLabCell
-        
-        if indexPath.row == 0 {
-            cell.titLab.text = "NUMBER"
-            cell.titLab.textColor = HCOLOR("#999999")
-        } else {
-            cell.titLab.text = String(indexPath.row)
-            cell.titLab.textColor = FONTCOLOR
-        }
+        cell.titLab.text = String(indexPath.row + 1)
+        cell.titLab.textColor = FONTCOLOR
         return cell
     }
     
@@ -100,7 +95,7 @@ class ChartBackTableCell: BaseTableViewCell, UITableViewDelegate, UITableViewDat
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let h = CGFloat(dataModel.lineCount) * 45 + 35
+        let h = CGFloat(dataModel.lineCount) * 45
         return CGSize(width: 80, height: h)
     }
     
@@ -121,6 +116,37 @@ class ChartBackTableCell: BaseTableViewCell, UITableViewDelegate, UITableViewDat
     }
 
     
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        let tagValue = scrollView.tag
+        if tagValue == 1 {
+            //滑动了发送通知
+            
+            if canPostScroll {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "bootomOffset"), object: scrollView.contentOffset)
+            }
+        }
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        canPostScroll = true
+    }
+    
+    //注册通知监听预订信息表格的滑动
+    private func addCenterNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(beginScrol(info:)), name: NSNotification.Name(rawValue: "topOffset"), object: nil)
+    }
+    
+    @objc private func beginScrol(info: Notification) {
+        let offset = info.object as! CGPoint
+        canPostScroll = false
+        collection.setContentOffset(offset, animated: true)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "topOffset"), object: nil)
+    }
     
     
     func setCellData(model: BookChartDataModel) {

@@ -11,13 +11,13 @@ class TimeDayAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDele
 
     var selectBlock: VoidBlock?
     ///年数组
-    private let yearArr: [String] = Date().getYearStrArr(yearCount: 1)
+    private let yearArr: [String] = Date().getYearStrArr(yearCount: 3)
     
     ///月数组
     private let monthArr: [String] = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
     
     ///日
-    private var dayCount: Int = DateTool.getDaysBy(year: Int(Date().getYearStrArr(yearCount: 5)[0])!, month: 1)
+    private var dayCount: Int = DateTool.shared.getDaysBy(year: DateTool.shared.curYear, month: DateTool.shared.curMonth)
     
 
     private let backView: UIView = {
@@ -29,13 +29,13 @@ class TimeDayAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDele
     
     private let OKBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "OK", MAINCOLOR, BFONT(14), .clear)
+        but.setCommentStyle(.zero, "OK".local, MAINCOLOR, BFONT(14), .clear)
         return but
     }()
     
     private let cancelBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Cancel", FONTCOLOR, BFONT(14), .clear)
+        but.setCommentStyle(.zero, "Cancel".local, FONTCOLOR, BFONT(14), .clear)
         return but
     }()
     
@@ -50,21 +50,21 @@ class TimeDayAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDele
     private let yearLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(.white, BFONT(14), .center)
-        lab.text = "Year"
+        lab.text = "Year".local
         return lab
     }()
     
     private let monthLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(.white, BFONT(14), .center)
-        lab.text = "month"
+        lab.text = "Month".local
         return lab
     }()
     
     private let dayLab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(.white, BFONT(14), .center)
-        lab.text = "day"
+        lab.text = "Day".local
         return lab
     }()
 
@@ -140,6 +140,9 @@ class TimeDayAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDele
             $0.bottom.equalTo(cancelBut.snp.top).offset(-10)
             $0.right.equalToSuperview().offset(-20)
         }
+        
+        timePickerView.selectRow(DateTool.shared.curMonth - 1, inComponent: 1, animated: false)
+        timePickerView.selectRow(DateTool.shared.curDay - 1, inComponent: 2, animated: false)
         
         cancelBut.addTarget(self, action: #selector(clickCancelAction), for: .touchUpInside)
         OKBut.addTarget(self, action: #selector(clickOKAction), for: .touchUpInside)
@@ -230,14 +233,14 @@ class TimeDayAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDele
         if component == 0 {
             let year = Int(yearArr[row]) ?? 0
             let month = pickerView.selectedRow(inComponent: 1) + 1
-            self.dayCount = DateTool.getDaysBy(year: year, month: month)
+            dayCount = DateTool.shared.getDaysBy(year: year, month: month)
             pickerView.reloadComponent(2)
         }
 
         if component == 1 {
             let year = Int(yearArr[pickerView.selectedRow(inComponent: 0)]) ?? 0
             let month = row + 1
-            self.dayCount = DateTool.getDaysBy(year: year, month: month)
+            dayCount = DateTool.shared.getDaysBy(year: year, month: month)
             pickerView.reloadComponent(2)
 
         }

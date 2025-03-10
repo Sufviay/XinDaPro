@@ -14,7 +14,7 @@ class MenuItemBottonCell: BaseTableViewCell {
     private let tlab: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#999999"), BFONT(10), .center)
-        lab.text = "Information displayed is based on data collected in the past 28 days"
+        lab.text = ""
         lab.numberOfLines = 0
         return lab
     }()

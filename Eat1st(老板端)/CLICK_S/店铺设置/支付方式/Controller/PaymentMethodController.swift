@@ -199,97 +199,99 @@ class PaymentMethodController: HeadBaseViewController {
             $0.top.equalToSuperview().offset(statusBarH + 80)
         }
         
-        backView.addSubview(todayLab)
-        todayLab.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(30)
-            $0.top.equalToSuperview().offset(35)
-        }
-
-        backView.addSubview(s_lab)
-        s_lab.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(30)
-            $0.top.equalToSuperview().offset(75)
-        }
+//        backView.addSubview(todayLab)
+//        todayLab.snp.makeConstraints {
+//            $0.left.equalToSuperview().offset(30)
+//            $0.top.equalToSuperview().offset(35)
+//        }
+//
+//        backView.addSubview(s_lab)
+//        s_lab.snp.makeConstraints {
+//            $0.left.equalToSuperview().offset(30)
+//            $0.top.equalToSuperview().offset(75)
+//        }
+//        
+//        backView.addSubview(mlab)
+//        mlab.snp.makeConstraints {
+//            $0.left.equalTo(s_lab.snp.right).offset(5)
+//            $0.bottom.equalTo(s_lab).offset(3)
+//        }
+//        
+//        backView.addSubview(cashImg)
+//        cashImg.snp.makeConstraints {
+//            $0.top.equalToSuperview().offset(125)
+//            $0.left.equalToSuperview().offset(30)
+//        }
+//        
+//        backView.addSubview(posImg)
+//        posImg.snp.makeConstraints {
+//            $0.centerY.equalTo(cashImg)
+//            $0.left.equalToSuperview().offset(S_W / 3 + 30)
+//        }
+//        
+//        backView.addSubview(cardImg)
+//        cardImg.snp.makeConstraints {
+//            $0.centerY.equalTo(cashImg)
+//            $0.left.equalToSuperview().offset(S_W / 3 * 2 + 30)
+//        }
+//        
+//        backView.addSubview(cashLab)
+//        cashLab.snp.makeConstraints {
+//            $0.centerY.equalTo(cashImg)
+//            $0.left.equalTo(cashImg.snp.right).offset(5)
+//        }
+//        
+//        backView.addSubview(posLab)
+//        posLab.snp.makeConstraints {
+//            $0.centerY.equalTo(posImg)
+//            $0.left.equalTo(posImg.snp.right).offset(5)
+//        }
+//        
+//        backView.addSubview(cardLab)
+//        cardLab.snp.makeConstraints {
+//            $0.centerY.equalTo(cardImg)
+//            $0.left.equalTo(cardImg.snp.right).offset(5)
+//        }
+//    
+//        backView.addSubview(cashNumLab)
+//        cashNumLab.snp.makeConstraints {
+//            $0.top.equalToSuperview().offset(150)
+//            $0.left.equalTo(cashImg)
+//        }
+//        
+//        backView.addSubview(posNumLab)
+//        posNumLab.snp.makeConstraints {
+//            $0.top.equalToSuperview().offset(150)
+//            $0.left.equalTo(posImg)
+//        }
+//        
+//        backView.addSubview(cardNumLab)
+//        cardNumLab.snp.makeConstraints {
+//            $0.top.equalToSuperview().offset(150)
+//            $0.left.equalTo(cardImg)
+//        }
+//
+//        backView.addSubview(line)
+//        line.snp.makeConstraints {
+//            $0.left.equalToSuperview().offset(20)
+//            $0.right.equalToSuperview().offset(-20)
+//            $0.height.equalTo(0.5)
+//            $0.top.equalToSuperview().offset(195)
+//        }
         
-        backView.addSubview(mlab)
-        mlab.snp.makeConstraints {
-            $0.left.equalTo(s_lab.snp.right).offset(5)
-            $0.bottom.equalTo(s_lab).offset(3)
-        }
         
-        backView.addSubview(cashImg)
-        cashImg.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(125)
-            $0.left.equalToSuperview().offset(30)
-        }
-        
-        backView.addSubview(posImg)
-        posImg.snp.makeConstraints {
-            $0.centerY.equalTo(cashImg)
-            $0.left.equalToSuperview().offset(S_W / 3 + 30)
-        }
-        
-        backView.addSubview(cardImg)
-        cardImg.snp.makeConstraints {
-            $0.centerY.equalTo(cashImg)
-            $0.left.equalToSuperview().offset(S_W / 3 * 2 + 30)
-        }
-        
-        backView.addSubview(cashLab)
-        cashLab.snp.makeConstraints {
-            $0.centerY.equalTo(cashImg)
-            $0.left.equalTo(cashImg.snp.right).offset(5)
-        }
-        
-        backView.addSubview(posLab)
-        posLab.snp.makeConstraints {
-            $0.centerY.equalTo(posImg)
-            $0.left.equalTo(posImg.snp.right).offset(5)
-        }
-        
-        backView.addSubview(cardLab)
-        cardLab.snp.makeConstraints {
-            $0.centerY.equalTo(cardImg)
-            $0.left.equalTo(cardImg.snp.right).offset(5)
-        }
-    
-        backView.addSubview(cashNumLab)
-        cashNumLab.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(150)
-            $0.left.equalTo(cashImg)
-        }
-        
-        backView.addSubview(posNumLab)
-        posNumLab.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(150)
-            $0.left.equalTo(posImg)
-        }
-        
-        backView.addSubview(cardNumLab)
-        cardNumLab.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(150)
-            $0.left.equalTo(cardImg)
-        }
-        
-        backView.addSubview(line)
-        line.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(20)
-            $0.right.equalToSuperview().offset(-20)
-            $0.height.equalTo(0.5)
-            $0.top.equalToSuperview().offset(195)
-        }
         
         backView.addSubview(sImg1)
         sImg1.snp.makeConstraints {
             $0.left.equalToSuperview().offset(30)
-            $0.top.equalTo(line.snp.bottom).offset(30)
-            
+            //$0.top.equalTo(line.snp.bottom).offset(30)
+            $0.top.equalToSuperview().offset(40)
         }
         
         backView.addSubview(sImg2)
         sImg2.snp.makeConstraints {
             $0.left.equalToSuperview().offset(30)
-            $0.top.equalTo(line.snp.bottom).offset(80)
+            $0.top.equalTo(sImg1.snp.bottom).offset(40)
         }
         
         backView.addSubview(tlab1)

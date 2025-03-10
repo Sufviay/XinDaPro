@@ -47,6 +47,12 @@ class DishDetailMsgCell: BaseTableViewCell {
         self.titleLab.text = titStr
         self.msgLab.text = msgStr
         
+        if msgStr == "" {
+            msgLab.text = "--"
+        } else {
+            msgLab.text = msgStr
+        }
+        
         if titStr == "Price" {
             self.msgLab.textColor = HCOLOR("#6B7DFD")
         } else {

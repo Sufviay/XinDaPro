@@ -159,11 +159,18 @@ class PJCUtil: NSObject {
         
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "logOut"), object: nil)
         
+        JPUSHService.deleteAlias({ code1, name, code2 in
+            
+        }, seq: 1002)
+        
         UserDefaults.standard.isLogin = false
         UserDefaults.standard.removeObject(forKey: Keys.userName)
         UserDefaults.standard.removeObject(forKey: Keys.token)
         UserDefaults.standard.removeObject(forKey: Keys.userType)
+        UserDefaults.standard.removeObject(forKey: Keys.userID)
         PJCUtil.currentVC()?.navigationController?.setViewControllers([LogInController()], animated: false)
+        
+        
         
     }
     
