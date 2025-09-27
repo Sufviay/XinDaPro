@@ -41,15 +41,15 @@ class EditeKuCunView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, 
     
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save", .white, BFONT(14), HCOLOR("#465DFD"))
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
         but.layer.cornerRadius = 14
         return but
     }()
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("333333"), BFONT(18), .left)
-        lab.text = "Edit stock"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
+        lab.text = "Edit stock".local
         return lab
     }()
     
@@ -161,7 +161,7 @@ class EditeKuCunView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, 
     @objc private func clickSaveAction() {
         if kuCunType == "2" {
             if kuCunNum == "0" || kuCunNum == "" {
-                HUD_MB.showWarnig("Place fill in the remaining quantity in stock!", onView: PJCUtil.getWindowView())
+                HUD_MB.showWarnig("Fill in the remaining quantity in stock".local, onView: PJCUtil.getWindowView())
                 return
             }
         }
@@ -226,8 +226,8 @@ class EditeKuCunView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, 
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
-            let h1 = dishName1.getTextHeigh(BFONT(17), S_W - 120)
-            let h2 = dishName2.getTextHeigh(SFONT(15), S_W - 120)
+            let h1 = dishName1.getTextHeigh(TIT_2, S_W - 120)
+            let h2 = dishName2.getTextHeigh(TXT_1, S_W - 120)
             return 25 + 15 + h1 + h2
  
         } else {

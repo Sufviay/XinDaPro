@@ -14,7 +14,7 @@ class WeekNameCell: BaseTableViewCell {
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(15), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
         lab.text = "Sunday"
         return lab
     }()
@@ -27,7 +27,7 @@ class WeekNameCell: BaseTableViewCell {
     
     private let closedLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(14), .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
         lab.text = "closed"
         return lab
     }()
@@ -84,14 +84,14 @@ class TimeSetInfoCell: BaseTableViewCell {
     
     private let nameLab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         lab.text = "Name"
         return lab
     }()
     
     private let nameLab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(14), .left)
+        lab.setCommentStyle(HCOLOR("#666666"), TXT_1, .left)
         lab.text = ""
         return lab
     }()
@@ -122,8 +122,8 @@ class TimeSetInfoCell: BaseTableViewCell {
     
     private let tLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(13), .left)
-        lab.text = "Opening Hours"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.text = "Opening time".local
         return lab
     }()
 
@@ -131,7 +131,7 @@ class TimeSetInfoCell: BaseTableViewCell {
     
     private let startLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(13), .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
         lab.text = "8:00"
         return lab
     }()
@@ -139,22 +139,22 @@ class TimeSetInfoCell: BaseTableViewCell {
     
     private let endLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(13), .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
         lab.text = "8:00"
         return lab
     }()
     
     private let deLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(13), .left)
-        lab.text = "Delivery"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.text = "Delivery".local
         return lab
     }()
     
     private let coLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(13), .left)
-        lab.text = "Collection"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.text = "Collection".local
         return lab
     }()
     
@@ -320,14 +320,14 @@ class OpeningTimeListCell: BaseTableViewCell {
     
     private let nameLab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(16), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
         lab.lineBreakMode = .byTruncatingTail
         return lab
     }()
     
     private let nameLab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(15), .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
         lab.lineBreakMode = .byTruncatingTail
         return lab
     }()
@@ -342,8 +342,8 @@ class OpeningTimeListCell: BaseTableViewCell {
     
     private let tLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(14), .left)
-        lab.text = "Opening Hours"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.text = "Opening time".local
         return lab
     }()
 
@@ -351,7 +351,7 @@ class OpeningTimeListCell: BaseTableViewCell {
     
     private let startLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(15), .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
         lab.text = "8:00"
         return lab
     }()
@@ -359,7 +359,7 @@ class OpeningTimeListCell: BaseTableViewCell {
     
     private let endLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(15), .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
         lab.text = "8:00"
         return lab
     }()
@@ -405,7 +405,7 @@ class OpeningTimeListCell: BaseTableViewCell {
         contentView.addSubview(tLab)
         tLab.snp.makeConstraints {
             $0.left.equalToSuperview().offset(40)
-            $0.top.bottom.equalToSuperview().offset(15)
+            $0.bottom.equalToSuperview().offset(-15)
         }
         
         contentView.addSubview(point)
@@ -461,9 +461,9 @@ class OpeningTimeListCell: BaseTableViewCell {
             //启用
             nameLab1.textColor = .black
             nameLab2.textColor = HCOLOR("666666")
-            tLab.textColor = FONTCOLOR
-            startLab.textColor = FONTCOLOR
-            endLab.textColor = FONTCOLOR
+            tLab.textColor = TXTCOLOR_1
+            startLab.textColor = TXTCOLOR_1
+            endLab.textColor = TXTCOLOR_1
         } else {
             //禁用
             nameLab1.textColor = HCOLOR("#999999")

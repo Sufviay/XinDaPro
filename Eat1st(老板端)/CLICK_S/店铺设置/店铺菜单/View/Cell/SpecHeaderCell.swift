@@ -12,7 +12,7 @@ class SpecHeaderCell: BaseTableViewCell {
 
     let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(18), .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_4, .left)
         lab.text = "#1 Specifiation"
         return lab
     }()
@@ -45,7 +45,7 @@ class SpecHeaderEditeCell: BaseTableViewCell {
     
     let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(16), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
         lab.text = "#1 Specification"
         return lab
     }()
@@ -75,7 +75,7 @@ class SpecHeaderEditeCell: BaseTableViewCell {
     }
     
     func setCellData(numStr: Int) {
-        self.titlab.text = "#\(numStr) Specification"
+        self.titlab.text = "#\(numStr) \("Specification".local)"
     }
     
 }
@@ -85,8 +85,8 @@ class OptionHeaderCell: BaseTableViewCell {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(16), .left)
-        lab.text = "Options"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.text = "Options".local + ":"
         return lab
     }()
 
@@ -115,7 +115,7 @@ class OptionHeaderEditeCell: BaseTableViewCell {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1,TIT_2, .left)
         lab.text = "#1 Option"
         return lab
     }()
@@ -133,7 +133,7 @@ class OptionHeaderEditeCell: BaseTableViewCell {
         editeBut.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.size.equalTo(CGSize(width: 40, height: 40))
-            $0.right.equalToSuperview().offset(-15)
+            $0.right.equalToSuperview().offset(-40)
         }
         
         editeBut.addTarget(self, action: #selector(clickAciton), for: .touchUpInside)
@@ -145,7 +145,7 @@ class OptionHeaderEditeCell: BaseTableViewCell {
     }
     
     func setCellData(number: Int) {
-        self.titlab.text = "#\(number) Option"
+        self.titlab.text = "#\(number) \("Option".local)"
     }
     
 }

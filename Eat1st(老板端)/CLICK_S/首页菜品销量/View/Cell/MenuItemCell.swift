@@ -12,13 +12,13 @@ class MenuItemCell: BaseTableViewCell {
     
     private let picImg: UIImageView = {
         let img = UIImageView()
-        img.backgroundColor = HCOLOR("F8F8F8")
+        img.backgroundColor = BACKCOLOR_2
         return img
     }()
     
     private let nameLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), BFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_2, TIT_3, .left)
         lab.text = "Beef Chow Mein"
         lab.numberOfLines = 0
         return lab
@@ -26,7 +26,7 @@ class MenuItemCell: BaseTableViewCell {
     
     private let desLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("999999"), SFONT(11), .left)
+        lab.setCommentStyle(TXTCOLOR_3, TXT_2, .left)
         lab.text = "Classified information"
         lab.numberOfLines = 0
         return lab
@@ -34,7 +34,7 @@ class MenuItemCell: BaseTableViewCell {
     
     private let countLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#333333"), BFONT(14), .right)
+        lab.setCommentStyle(TXTCOLOR_2, TIT_3, .right)
         lab.text = "100"
         return lab
     }()
@@ -74,7 +74,7 @@ class MenuItemCell: BaseTableViewCell {
         contentView.addSubview(countLab)
         countLab.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.right.equalToSuperview().offset(-40)
+            $0.right.equalToSuperview().offset(-20)
         }
         
         contentView.addSubview(nextImg)
@@ -105,7 +105,13 @@ class MenuItemCell: BaseTableViewCell {
         desLab.text = model.name2
         
         
-        self.countLab.text = model.salesNum
+        if model.deliveryNum > 0  && model.deliveryNum != model.salesNum {
+            countLab.text = "\(model.salesNum)(\(model.deliveryNum))"
+        } else {
+            countLab.text = "\(model.salesNum)"
+        }
+        
+        
         self.picImg.sd_setImage(with: URL(string: model.dishImg))
         
         if idx == 0 {
@@ -125,8 +131,8 @@ class MenuItemCell: BaseTableViewCell {
             self.nextImg.image = LOIMG("next_blue")
         }
         else {
-            self.nameLab.textColor = HCOLOR("#666666")
-            self.countLab.textColor = HCOLOR("#666666")
+            self.nameLab.textColor = TXTCOLOR_2
+            self.countLab.textColor = TXTCOLOR_2
             self.nextImg.image = LOIMG("next_black")
         }
     }

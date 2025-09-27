@@ -45,5 +45,401 @@
 "Tue" = "Tue";
 "Mon" = "Mon";
 
-"No data available" = "No data available";
+"Monday" = "Monday";
+"Tuesday" = "Tuesday";
+"Wednesday" = "Wednesday";
+"Thursday" = "Thursday";
+"Friday" = "Friday";
+"Saturday" = "Saturday";
+"Sunday" = "Sunday";
 
+
+"No data available" = "No data available";
+"Uber" = "Uber Eats";
+"Querying" = "Querying";
+"Query failed" = "Query failed";
+
+//["Home".local, "Restaurant settings".local, "Reviews".local, "Orders".local, "Complaints".local, "Dining-table management".local, "System Settings".local]
+
+"Home" = "Home";
+"Restaurant settings" = "Restaurant settings";
+"Reviews" = "Reviews";
+"Orders" = "Orders";
+"Complaints" = "Complaints";
+"Dine-in table management" = "Dine-in table management";
+"System settings" = "System settings";
+"Logout" = "Logout";
+
+"Change language" = "Change language";
+"Change password" = "Change password";
+
+"Old Password" = "Old Password";
+"New Password" = "New Password";
+"Re-enter Password" = "Re-enter Password";
+
+"Please enter the old password" = "Please enter the old password";
+"Please enter a new password" = "Please enter a new password";
+"Please enter a new password again" = "Please enter a new password again";
+"The two entered passwords are not the same" = "The two entered passwords are not the same";
+
+"Save" = "Save";
+"OK" = "OK";
+"Reset password successful,\nplease return to login." = "Reset password successful,\nplease return to login.";
+
+"Menu" = "Menu";
+"ltem availability" = "ltem availability";
+"Delivery area" = "Delivery area";
+"Delivery charges" = "Delivery charges";
+"Opening hours" = "Opening hours";
+"Holiday" = "Holiday";
+"Restaurant details settings" = "Restaurant details settings";
+"Payment method" = "Payment method";
+"Printer" = "Printer";
+"Manage your table" = "Manage your table";
+
+"View and edit your menu" = "View and edit your menu";
+"Take items off menu temporarily if they go out of stock" = "Take items off menu temporarily if they go out of stock";
+"Manage the area you delivery to" = "Manage the area you delivery to";
+"Manage how much you charge for delivery" = "Manage how much you charge for delivery";
+"Set the days and times you want to take orders" = "Set the days and times you want to take orders";
+"Set holiday times" = "Set holiday times";
+"Make changes to your restaurant details and fees" = "Make changes to your restaurant details and fees";
+"Change user app payment method setting" = "Change user app payment method setting";
+"Printer setting" = "Printer setting";
+
+"Edit your menu" = "Edit your menu";
+"Dishes" = "Dishes";
+"Combo" = "Combo";
+"Additional" = "Additional";
+"Gifts" = "Gifts";
+
+"Add Category" = "Add Category";
+"Add Dishes" = "Add Dishes";
+"Add Additional item" = "Add Additional item";
+"Add Gift item" = "Add Gift item";
+
+"Search" = "Search";
+"Search for dish" = "Search for dish";
+
+"Delete or not?" = "Delete or not?";
+"YES" = "YES";
+"NO" = "NO";
+"Alert" = "Alert";
+
+"Edit Category" = "Edit category";
+"Simplified Chinese name" = "Simplified Chinese name";
+"Traditional Chinese name" = "Traditional Chinese name";
+"English name" = "English name";
+
+"Detail" = "Detail";
+"Delete" = "Delete";
+
+"设置中..." = "Setting...";
+"设置成功！" = "Succeed!";
+
+"Home setting" = "Home setting";
+"Font size" = "Font size";
+"Hide" = "Hide";
+"Display" = "Display";
+"At least keep one." = "At least keep one.";
+"Uber Eats" = "Uber Eats";
+"Deliveroo" = "Deliveroo";
+"Confirm" = "Confirm";
+"Add" = "Add";
+"Check in" = "Check in";
+"Date:" = "Date:";
+"Party:" = "Party:";
+"Contact way:" = "Contact way:";
+"Email:" = "Email:";
+"Create time:" = "Create time:";
+"Cancel or not?" = "Cancel or not?";
+"All" = "All";
+"Total:" = "Total:";
+"Reject Orders:" = "Reject Orders:";
+"Orders:" = "Orders:";
+
+"In stock" = "In stock";
+"Sold out today" = "Sold out today";
+"Sold out indefinitely" = "Sold out indefinitely";
+
+"Edit price" = "Edit price";
+"Edit VIP" = "Edit VIP";
+"Edit VAT" = "Edit VAT";
+"Edit stock" = "Edit stock";
+"Edit discount" = "Edit discount";
+"Edit one free" = "Edit one free";
+"Edit special offer" = "Edit special offer";
+
+"Enable" = "Enable";
+"Disable" = "Disable";
+"Status:" = "Status:";
+"Edit" = "Edit";
+"Edit dishes" = "Edit dishes";
+
+"On menu now" = "On menu now";
+"Off menu" = "Off menu";
+"Select all items" = "Select all items";
+"Take off menu" = "Take off menu";
+"Take on menu" = "Take on menu";
+
+"Small font size" = "Small font size";
+"Medium-sized font" = "Medium-sized font";
+"Large font size" = "Large font size";
+
+"Order time:" = "Order time:";
+"Order code:" = "Order code:";
+"Delivery" = "Delivery";
+"Collection" = "Collection";
+"Orders" = "Orders";
+
+"待支付" = "Wait for payment";
+"支付中" = "Payment processing";
+"支付失敗" = "Payment failed";
+"用戶取消" = "Customer cancelled";
+"商家取消" = "Cancelled";
+"系统取消" = "System cancelled";
+"商家拒絕" = "Refused";
+"支付成功" = "Payment sucessful";
+"已接單" = "Accepted";
+"已出餐" = "Dishes completed";
+"已派單" = "Assigned driver";
+"配送中" = "Delivering";
+"已完成" = "Order completed";
+
+"Order Details" = "Order Details";
+"Complaints" = "Complaints";
+"Order details" = "Order details";
+"Reply" = "Reply";
+
+"Account" = "Account";
+"Password" = "Password";
+"Sign in" = "Sign in";
+
+"Current type" = "Current type";
+"Radius" = "Distance";
+"Postcode" = "Postcode";
+
+"Min delivery price £" = "Min delivery price £";
+"Min delivery price" = "Min delivery price";
+
+"Please enter the price." = "Please enter the price.";
+
+"Distribution distance" = "Distribution distance";
+"Delivery area Postcode" = "Delivery area Postcode";
+"Less than or equal to" = "Less than or equal to";
+"Delivery charge" = "Delivery charge";
+"DELETE" = "DELETE";
+"SET >" = "SET >";
+"Opening time" = "Opening hours";
+
+"Set time" = "Set time";
+
+"Please fill in the simplified Chinese name!" = "Please fill in the simplified Chinese name!";
+"Please fill in the traditional Chinese name!" = "Please fill in the traditional Chinese name!";
+"Please fill in the English name!" = "Please fill in the English name!";
+"Please fill in the business hours!" = "Please fill in the business hours!";
+"Please select delivery status!" = "Please select delivery status!";
+"Please fill in the delivery time!" = "Please fill in the delivery time!";
+"Please select collection status!" = "Please select collection status!";
+"Please fill in the collection time!" = "Please fill in the collection time!";
+"Select whether to enable it!" = "Select whether to enable it!";
+"Please select the week!" = "Please select the week!";
+
+"Simplified Chinese name" = "Simplified Chinese name";
+"Traditional Chinese name" = "Traditional Chinese name";
+"English name" = "English name";
+
+"Delivery time" = "Delivery time";
+"Collection time" = "Collection time";
+"Status" = "Status";
+
+"Date" = "Date";
+"Holiday name" = "Holiday name";
+"Time" = "Time";
+"Remark" = "Remark";
+"Accept cash payment" = "Accept cash payment";
+"Accept online payment" = "Accept online payment";
+
+
+"Printer type" = "Printer type";
+"Thermal printer" = "Thermal printer";
+"Dot matrix printer" = "Dot matrix printer";
+"Label printer" = "Label printer";
+
+"Print language" = "Print language";
+"Chinese" = "Chinese";
+"English" = "English";
+"Chinese and English" = "Chinese and English";
+
+"Print copies" = "Print copies";
+"Print separately" = "Print separately";
+
+"Dim Sum" = "Dim Sum";
+"Print souce" = "Print souce";
+
+"Printer IP" = "Printer IP";
+"Print two copies" = "Print two copies";
+"Print three copies" = "Print three copies";
+"Print four copies" = "Print four copies";
+"Print one copy" = "Print one copy";
+
+"Number of table seats" = "Number of table seats";
+"Table name" = "Table name";
+
+"Min delivery price" = "Min delivery price";
+"Data Management" = "Data Management";
+
+"Price" = "Price";
+"Sell type" = "Sell type";
+"Buffet" = "Buffet";
+"Delivery Price" = "Delivery Price";
+"Dine-in Price" = "Dine-in Price";
+"VIP price" = "VIP price";
+"VIP scope" = "VIP scope";
+
+"Edit status" = "Edit status";
+
+"Fill in the remaining quantity in stock" = "Fill in the remaining quantity in stock";
+"Stock" = "Stock";
+"Discount" = "Discount";
+"Start Date" = "Start Date";
+"End Date" = "End Date";
+"Fill in the discount price" = "Fill in the discount price";
+"Choose start date" = "Choose start date";
+"Choose end date" = "Choose end date";
+
+"Place fill in the price!" = "Place fill in the price!";
+"Place fill in start date!" = "Place fill in start date!";
+"Place fill in end date!" = "Place fill in end date!";
+"The dish is in use. Do you want to delete it?" = "The dish is in use. Do you want to delete it?";
+"Dish Edit" = "Dish Edit";
+
+"Serial number" = "Serial number";
+"Bar code" = "Bar code";
+"Simplified Chinese description" = "Simplified Chinese description";
+"Traditional Chinese description" = "Traditional Chinese description";
+"English description" = "English description";
+"Simplified Chinese allergen" = "Simplified Chinese allergen";
+"Traditional Chinese allergen" = "Traditional Chinese allergen";
+"English allergen" = "English allergen";
+"Print alias" = "Print alias";
+"Alias" = "Alias";
+"Dishes kind" = "Dishes kind";
+"Food" = "Food";
+"Drink" = "Drink";
+"Milk tea" = "Milk tea";
+"Special offer" = "Special offer";
+"Category" = "Category";
+"Food tags" = "Food tags";
+"Dish picture" = "Dish picture";
+"Dish detail picture" = "Dish detail picture";
+"Add specifications" = "Add specifications";
+"Specification" = "Specification";
+"Edit specification" = "Edit specification";
+"Choose" = "Choose";
+"Multi-select" = "Multi-select";
+"Required" = "Required";
+"Optional" = "Optional";
+"Options" = "Options";
+"Add options" = "Add options";
+
+"Edit option" = "Edit option";
+"Option" = "Option";
+
+"Please select whether it is mandatory!" = "Please select whether it is mandatory!";
+"Whether you can select both!" = "Whether you can select both!";
+"Please add an optio!" = "Please add an optio!";
+
+"Picture" = "Picture";
+"Album" = "Album";
+"Camera" = "Camera";
+"To view" = "To view";
+"Dish Detail" = "Dish Detail";
+"Description" = "Description";
+"Buy one get one free" = "Buy one get one free";
+"Allergen" = "Allergen";
+
+"Tags" = "Tags";
+"Add combo options" = "Add combo options";
+"Edit combo option" = "Edit combo option";
+"Please add dishes!" = "Please add dishes!";
+"Keep at least one!" = "Keep at least one!";
+"Please choose the dish!" = "Please choose the dish!";
+"Additional Edit" = "Additional Edit";
+
+"Additional Detail" = "Additional Detail";
+"The time range is in use, Do you want to delete it?" = "The time range is in use. Do you want to delete it?";
+
+"By continuing, you are indicating that you accept our " = "By continuing, you are indicating that you accept our ";
+"and " = "and ";
+"Terms of Service" = "Terms of Service";
+"Privacy Policy" = "Privacy Policy";
+"Do you want to log out?" = "Do you want to log out?";
+"Customer Management" = "Customer Management";
+"Promotion Management" = "Promotion Management";
+"Phone Number" = "Phone Number";
+"Email" = "Email";
+"Latest Order Date" = "Latest Order Date";
+"Customer Detail" = "Customer Detail";
+"Birthday" = "Birthday";
+"Order Quantity" = "Order Quantity";
+"User Status" = "User Status";
+"Last Login Time" = "Last Login Time";
+"Total Order Amount" = "Total Order Amount";
+"Normal" = "Normal";
+"Application for cancellation" = "Application for cancellation";
+"Platform cancellation" = "Platform cancellation";
+"User cancellation" = "User cancellation";
+"User Order" = "User Order";
+"Success" = "Success";
+"Every week on " = "Every week on ";
+"Every two weeks on " = "Every two weeks on ";
+"Every four weeks on " = "Every four weeks on ";
+"Indefinitely" = "Indefinitely";
+"Promotion Content" = "Promotion Content";
+"Promotion Cycle" = "Promotion Cycle";
+"In progress" = "In progress";
+"End" = "End";
+"Stop" = "Stop";
+"p_Discount" = "Discount";
+"p_Dish" = "Dish";
+"p_Money" = "Money";
+ "Are you sure you want to stop this?" = "Are you sure you want to stop this?";
+
+"Coupon type" = "Coupon type";
+"Promotion name" = "Promotion name";
+"Min order amount for use" = "Min order amount for use";
+"Discount percentage" = "Discount percentage";
+"Max amount for discount" = "Max amount for discount";
+"Amount for discount" = "Amount for discount";
+"Dishes List" = "Dishes List";
+"Promotion validity" = "Promotion validity";
+"Fix date" = "Fix date";
+"Days from get" = "Days from get";
+"Please enter the number of days" = "Please enter the number of days";
+"Cycle type" = "Cycle type";
+"One week" = "One week";
+"Two weeks" = "Two weeks";
+"Four weeks" = "Four weeks";
+"Cycle time" = "Cycle time";
+"Finish date" = "Finish date";
+"Select dishes" = "Select dishes";
+"Dish name" = "Dish name";
+"Issue date" = "Issue date";
+"Validity days" = "Validity days";
+"perpetual" = "perpetual";
+"1 day" = "1 day";
+"30 days" = "30 days";
+"60 days" = "60 days";
+"90 days" = "90 days";
+"Printer name" = "Printer name";
+"Customer tags setting" = "Customer tags setting";
+"Tag-linked user count:" = "Tag-linked user count:";
+"Customer Tags" = "Customer Tags";
+"Please select tag status!" = "Please select tag status!";
+"Name" = "Name";
+"Last Date" = "Last Date";
+"Edit tags" = "Edit tags";
+"last update:" = "last update:";
+"Immediately" = "Immediately";
+"Top menu items" = "Top menu items";

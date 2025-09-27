@@ -62,7 +62,7 @@ class DishesSpecNameCell: BaseTableViewCell {
     func setCellData(model: DishOptionModel) {
         if model.statusId == "1" {
             self.selectImg.image = LOIMG("spec_sel")
-            self.nameLab1.textColor = FONTCOLOR
+            self.nameLab1.textColor = TXTCOLOR_1
             self.nameLab2.textColor = HCOLOR("666666")
         } else {
             self.selectImg.image = LOIMG("spec_unsel")

@@ -111,7 +111,7 @@ class StoreOutChartCell: BaseTableViewCell, IValueFormatter {
         data.setValueFormatter(self)
 
         data.setValueFont(BFONT(12))
-        data.setValueTextColor(FONTCOLOR)
+        data.setValueTextColor(TXTCOLOR_1)
         chartView.data = data
 
     }

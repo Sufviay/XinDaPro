@@ -14,13 +14,13 @@ class DishesShowCell: BaseTableViewCell {
         img.clipsToBounds = true
         img.layer.cornerRadius = 10
         img.contentMode = .scaleAspectFill
-        img.backgroundColor = HOLDCOLOR
+        img.backgroundColor = BACKCOLOR_2
         return img
     }()
     
     private let nameLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(11), .left)
+        lab.setCommentStyle(TXTCOLOR_1, BFONT(11), .left)
         lab.text = "Spicy burger Spicy burger Spicy burger Spicy burger Spicy burger"
         lab.numberOfLines = 0
         return lab
@@ -197,13 +197,13 @@ class DishesFreeCell: BaseTableViewCell {
         img.clipsToBounds = true
         img.layer.cornerRadius = 10
         img.contentMode = .scaleAspectFill
-        img.backgroundColor = HOLDCOLOR
+        img.backgroundColor = BACKCOLOR_2
         return img
     }()
     
     private let nameLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(11), .left)
+        lab.setCommentStyle(TXTCOLOR_1, BFONT(11), .left)
         lab.text = "Spicy burger Spicy burger Spicy burger Spicy burger Spicy burger"
         lab.numberOfLines = 0
         return lab

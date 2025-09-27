@@ -271,7 +271,7 @@ class ComplaintsRefundAlert: UIView, UIGestureRecognizerDelegate, UITextFieldDel
     
     private lazy var inputTF: UITextField = {
         let tf = UITextField()
-        tf.textColor = FONTCOLOR
+        tf.textColor = TXTCOLOR_1
         tf.font = SFONT(13)
         tf.placeholder = "input refund amount"
         tf.delegate = self

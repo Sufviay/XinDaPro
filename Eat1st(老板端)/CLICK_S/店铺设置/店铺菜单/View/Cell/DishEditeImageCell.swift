@@ -16,14 +16,14 @@ class DishEditeImageCell: BaseTableViewCell, SystemAlertProtocol, CommonToolProt
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(16), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
         lab.text = "Food tags"
         return lab
     }()
     
     private let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(16), .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
         lab.text = "*"
         lab.isHidden = true
         return lab
@@ -34,7 +34,7 @@ class DishEditeImageCell: BaseTableViewCell, SystemAlertProtocol, CommonToolProt
         let img = UIImageView()
         img.clipsToBounds = true
         img.contentMode = .scaleAspectFill
-        img.backgroundColor = HOLDCOLOR
+        img.backgroundColor = BACKCOLOR_2
         img.isUserInteractionEnabled = true
         img.image = LOIMG("dish_addImg")
         return img
@@ -83,22 +83,22 @@ class DishEditeImageCell: BaseTableViewCell, SystemAlertProtocol, CommonToolProt
     @objc private func tapAction() {
         //self.showImage(self.picImgView)
         
-        let alertController = UIAlertController(title: "Picture", message: "", preferredStyle: .actionSheet)
-        let actionOne = UIAlertAction(title: "Album", style: .default) { (alert) in
+        let alertController = UIAlertController(title: "Picture".local, message: "", preferredStyle: .actionSheet)
+        let actionOne = UIAlertAction(title: "Album".local, style: .default) { (alert) in
             //相册
             self.showPhotoLibrary()
         }
-        let actionTwo = UIAlertAction(title: "Camera", style: .default) { (alert) in
+        let actionTwo = UIAlertAction(title: "Camera".local, style: .default) { (alert) in
             //相机
             self.showCamera()
         }
         
-        let actionThree = UIAlertAction(title: "To view", style: .default) { (alert) in
+        let actionThree = UIAlertAction(title: "To view".local, style: .default) { (alert) in
             ///放大图片
             self.showImage(self.picImgView)
         }
 
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancel = UIAlertAction(title: "Cancel".local, style: .cancel, handler: nil)
         
         if self.picImg == nil && self.picUrl == "" {
             alertController.addAction(actionOne)
@@ -176,14 +176,14 @@ class DishEditeImageDetailCell: BaseTableViewCell, SystemAlertProtocol, CommonTo
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(16), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
         lab.text = "Food tags"
         return lab
     }()
     
     private let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(16), .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
         lab.text = "*"
         lab.isHidden = true
         return lab
@@ -194,7 +194,7 @@ class DishEditeImageDetailCell: BaseTableViewCell, SystemAlertProtocol, CommonTo
         let img = UIImageView()
         img.clipsToBounds = true
         img.contentMode = .scaleAspectFill
-        img.backgroundColor = HOLDCOLOR
+        img.backgroundColor = BACKCOLOR_2
         img.isUserInteractionEnabled = true
         img.image = LOIMG("dish_addImg_d")
         return img
@@ -243,22 +243,22 @@ class DishEditeImageDetailCell: BaseTableViewCell, SystemAlertProtocol, CommonTo
     @objc private func tapAction() {
         //self.showImage(self.picImgView)
         
-        let alertController = UIAlertController(title: "Picture", message: "", preferredStyle: .actionSheet)
-        let actionOne = UIAlertAction(title: "Album", style: .default) { (alert) in
+        let alertController = UIAlertController(title: "Picture".local, message: "", preferredStyle: .actionSheet)
+        let actionOne = UIAlertAction(title: "Album".local, style: .default) { (alert) in
             //相册
             self.showPhotoLibrary()
         }
-        let actionTwo = UIAlertAction(title: "Camera", style: .default) { (alert) in
+        let actionTwo = UIAlertAction(title: "Camera".local, style: .default) { (alert) in
             //相机
             self.showCamera()
         }
         
-        let actionThree = UIAlertAction(title: "To view", style: .default) { (alert) in
+        let actionThree = UIAlertAction(title: "To view".local, style: .default) { (alert) in
             ///放大图片
             self.showImage(self.picImgView)
         }
 
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancel = UIAlertAction(title: "Cancel".local, style: .cancel, handler: nil)
         
         if self.picImg == nil && self.picUrl == "" {
             alertController.addAction(actionOne)

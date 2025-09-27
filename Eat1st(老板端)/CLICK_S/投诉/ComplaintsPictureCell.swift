@@ -74,7 +74,7 @@ class PicImgCell: UICollectionViewCell {
     
     let picImg: UIImageView = {
         let img = UIImageView()
-        img.backgroundColor = HOLDCOLOR
+        img.backgroundColor = BACKCOLOR_2
         img.contentMode = .scaleAspectFill
         img.clipsToBounds = true
         img.layer.cornerRadius = 5

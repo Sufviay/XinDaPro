@@ -51,7 +51,7 @@ class SelectFourButCell: BaseTableViewCell {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(17), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
         lab.text = "Print copies"
         return lab
     }()
@@ -59,7 +59,7 @@ class SelectFourButCell: BaseTableViewCell {
 
     private let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), SFONT(16), .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
         lab.text = "*"
         return lab
     }()
@@ -120,28 +120,28 @@ class SelectFourButCell: BaseTableViewCell {
     
     private let oneLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         lab.text = "Print one copy"
         return lab
     }()
     
     private let twoLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         lab.text = "Print two copies"
         return lab
     }()
     
     private let threeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         lab.text = "Label printer"
         return lab
     }()
 
     private let fourLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         lab.text = "Label printer"
         return lab
     }()
@@ -153,7 +153,7 @@ class SelectFourButCell: BaseTableViewCell {
         contentView.addSubview(titlab)
         titlab.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
-            $0.top.equalToSuperview().offset(5)
+            $0.top.equalToSuperview().offset(15)
         }
         
         
@@ -302,7 +302,7 @@ class SelectFourButCell: BaseTableViewCell {
         if selectIdx != "4" {
             selectIdx = "4"
         } else {
-            selectIdx = "4"
+            selectIdx = ""
         }
         clickBlock?(selectIdx)
     }

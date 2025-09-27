@@ -155,14 +155,15 @@ class PJCUtil: NSObject {
     
     //MARK: - 登出
     static func logOut() {
-        
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "logOut"), object: nil)
-        
+
         UserDefaults.standard.isLogin = false
         UserDefaults.standard.removeObject(forKey: Keys.userName)
         UserDefaults.standard.removeObject(forKey: Keys.token)
         UserDefaults.standard.removeObject(forKey: Keys.userType)
         UserDefaults.standard.removeObject(forKey: Keys.userAuth)
+        UserDefaults.standard.removeObject(forKey: Keys.storeName)
+        UserDefaults.standard.removeObject(forKey: Keys.userRole)
+
         PJCUtil.currentVC()?.navigationController?.setViewControllers([LogInController()], animated: false)
         
     }
@@ -308,20 +309,28 @@ class PJCUtil: NSObject {
     //MARK: - 获取当前系统语言版本
     static func getCurrentLanguage() -> String {
         
-        if let lang = Locale.preferredLanguages.first {
-            if lang.hasPrefix("zh") {
-                if lang.contains("Hant") || lang.contains("Trad") {
-                    return "zh_HK"
-                }
-                return "zh_CN"
-            } else if lang.contains("en") {
-                return "en_GB"
-            } else {
-                return "en_GB"
-            }
-        } else {
+        
+        switch MyLanguageManager.shared.language {
+        case .Chinese:
+            return "zh_HK"
+        case .English:
             return "en_GB"
         }
+//        
+//        if let lang = Locale.preferredLanguages.first {
+//            if lang.hasPrefix("zh") {
+//                if lang.contains("Hant") || lang.contains("Trad") {
+//                    return "zh_HK"
+//                }
+//                return "zh_CN"
+//            } else if lang.contains("en") {
+//                return "en_GB"
+//            } else {
+//                return "en_GB"
+//            }
+//        } else {
+//            return "en_GB"
+//        }
     }
     
     //MARK: - 获取版本号

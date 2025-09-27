@@ -103,7 +103,7 @@ class MenuGiftDetailController: HeadBaseViewController, UITableViewDelegate, UIT
 
     @objc private func clickRightAction() {
         //删除
-        self.showSystemChooseAlert("Alert", "Delete or not?", "YES", "NO") {
+        self.showSystemChooseAlert("Alert".local, "Delete or not?".local, "YES".local, "NO".local) {
             self.deleteDish_Net()
         }
     }
@@ -126,7 +126,7 @@ class MenuGiftDetailController: HeadBaseViewController, UITableViewDelegate, UIT
         }
         
         if indexPath.row == 2 {
-            let h = dishModel.classifyStr.getTextHeigh(SFONT(14), S_W - 80)
+            let h = dishModel.classifyStr.getTextHeigh(TXT_1, S_W - 80)
             return h + 50
         }
         

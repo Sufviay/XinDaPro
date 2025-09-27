@@ -11,71 +11,71 @@ class MenuTagView: UIView {
 
     
     
-    var clickBlock: VoidStringBlock?
+    var clickBlock: VoidBlock?
     
     
     
-    private var type: String = "on" {
+    private var type: PageType = .dish {
         didSet {
-            if type == "dis" {
+            if type == .dish {
                 self.line1.isHidden = false
                 self.line2.isHidden = true
                 self.line3.isHidden = true
                 self.line4.isHidden = true
-                self.but1.setTitleColor(FONTCOLOR, for: .normal)
-                self.but1.titleLabel?.font = BFONT(14)
-                self.but2.setTitleColor(HCOLOR("#6F7FAF"), for: .normal)
-                self.but2.titleLabel?.font = SFONT(14)
-                self.but3.setTitleColor(HCOLOR("#6F7FAF"), for: .normal)
-                self.but3.titleLabel?.font = SFONT(14)
-                self.but4.setTitleColor(HCOLOR("#6F7FAF"), for: .normal)
-                self.but4.titleLabel?.font = SFONT(14)
+                self.but1.setTitleColor(TXTCOLOR_1, for: .normal)
+                self.but1.titleLabel?.font = TIT_3
+                self.but2.setTitleColor(TXTCOLOR_2, for: .normal)
+                self.but2.titleLabel?.font = TXT_1
+                self.but3.setTitleColor(TXTCOLOR_2, for: .normal)
+                self.but3.titleLabel?.font = TXT_1
+                self.but4.setTitleColor(TXTCOLOR_2, for: .normal)
+                self.but4.titleLabel?.font = TXT_1
 
             }
             
-            if type == "add" {
+            if type == .additional {
                 self.line2.isHidden = false
                 self.line1.isHidden = true
                 self.line3.isHidden = true
                 self.line4.isHidden = true
-                self.but2.setTitleColor(FONTCOLOR, for: .normal)
-                self.but2.titleLabel?.font = BFONT(14)
-                self.but1.setTitleColor(HCOLOR("#6F7FAF"), for: .normal)
-                self.but1.titleLabel?.font = SFONT(14)
-                self.but3.setTitleColor(HCOLOR("#6F7FAF"), for: .normal)
-                self.but3.titleLabel?.font = SFONT(14)
-                self.but4.setTitleColor(HCOLOR("#6F7FAF"), for: .normal)
-                self.but4.titleLabel?.font = SFONT(14)
+                self.but2.setTitleColor(TXTCOLOR_1, for: .normal)
+                self.but2.titleLabel?.font = TIT_3
+                self.but1.setTitleColor(TXTCOLOR_2, for: .normal)
+                self.but1.titleLabel?.font = TXT_1
+                self.but3.setTitleColor(TXTCOLOR_2, for: .normal)
+                self.but3.titleLabel?.font = TXT_1
+                self.but4.setTitleColor(TXTCOLOR_2, for: .normal)
+                self.but4.titleLabel?.font = TXT_1
             }
             
-            if type == "fre" {
+            if type == .gift {
                 self.line2.isHidden = true
                 self.line1.isHidden = true
                 self.line3.isHidden = false
                 self.line4.isHidden = true
-                self.but3.setTitleColor(FONTCOLOR, for: .normal)
-                self.but3.titleLabel?.font = BFONT(14)
-                self.but1.setTitleColor(HCOLOR("#6F7FAF"), for: .normal)
-                self.but1.titleLabel?.font = SFONT(14)
-                self.but2.setTitleColor(HCOLOR("#6F7FAF"), for: .normal)
-                self.but2.titleLabel?.font = SFONT(14)
-                self.but4.setTitleColor(HCOLOR("#6F7FAF"), for: .normal)
-                self.but4.titleLabel?.font = SFONT(14)
+                self.but3.setTitleColor(TXTCOLOR_1, for: .normal)
+                self.but3.titleLabel?.font = TIT_3
+                self.but1.setTitleColor(TXTCOLOR_2, for: .normal)
+                self.but1.titleLabel?.font = TXT_1
+                self.but2.setTitleColor(TXTCOLOR_2, for: .normal)
+                self.but2.titleLabel?.font = TXT_1
+                self.but4.setTitleColor(TXTCOLOR_2, for: .normal)
+                self.but4.titleLabel?.font = TXT_1
             }
             
-            if type == "com" {
+            if type == .combo {
                 self.line2.isHidden = true
                 self.line1.isHidden = true
                 self.line3.isHidden = true
                 self.line4.isHidden = false
-                self.but4.setTitleColor(FONTCOLOR, for: .normal)
-                self.but4.titleLabel?.font = BFONT(14)
-                self.but1.setTitleColor(HCOLOR("#6F7FAF"), for: .normal)
-                self.but1.titleLabel?.font = SFONT(14)
-                self.but2.setTitleColor(HCOLOR("#6F7FAF"), for: .normal)
-                self.but2.titleLabel?.font = SFONT(14)
-                self.but3.setTitleColor(HCOLOR("#6F7FAF"), for: .normal)
-                self.but3.titleLabel?.font = SFONT(14)
+                self.but4.setTitleColor(TXTCOLOR_1, for: .normal)
+                self.but4.titleLabel?.font = TIT_3
+                self.but1.setTitleColor(TXTCOLOR_2, for: .normal)
+                self.but1.titleLabel?.font = TXT_1
+                self.but2.setTitleColor(TXTCOLOR_2, for: .normal)
+                self.but2.titleLabel?.font = TXT_1
+                self.but3.setTitleColor(TXTCOLOR_2, for: .normal)
+                self.but3.titleLabel?.font = TXT_1
             }
             
         }
@@ -83,26 +83,26 @@ class MenuTagView: UIView {
 
     private let but1: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Dishes", FONTCOLOR, BFONT(14), .clear)
+        but.setCommentStyle(.zero, "Dishes".local, TXTCOLOR_1, TIT_3, .clear)
         return but
     }()
     
     private let but2: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Additional", HCOLOR("#6F7FAF"), SFONT(14), .clear)
+        but.setCommentStyle(.zero, "Additional".local, HCOLOR("#6F7FAF"), TXT_1, .clear)
         return but
     }()
     
     private let but3: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Gifts", HCOLOR("#6F7FAF"), SFONT(14), .clear)
+        but.setCommentStyle(.zero, "Gifts".local, HCOLOR("#6F7FAF"), TXT_1, .clear)
         return but
     }()
     
     
     private let but4: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Combo", HCOLOR("#6F7FAF"), SFONT(14), .clear)
+        but.setCommentStyle(.zero, "Combo".local, HCOLOR("#6F7FAF"), TXT_1, .clear)
         return but
     }()
 
@@ -153,31 +153,31 @@ class MenuTagView: UIView {
         self.addSubview(but1)
         but1.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
-            $0.left.equalToSuperview().offset(20)
-            $0.width.equalTo(60)
+            $0.left.equalToSuperview()
+            $0.width.equalTo(S_W / 3)
         }
         
         self.addSubview(but4)
         but4.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
-            $0.left.equalTo(but1.snp.right).offset(10)
-            $0.width.equalTo(60)
+            $0.left.equalTo(but1.snp.right)
+            $0.width.equalTo(S_W / 3)
         }
         
         self.addSubview(but2)
         but2.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
-            $0.width.equalTo(80)
-            $0.left.equalTo(but4.snp.right).offset(10)
+            $0.width.equalTo(S_W / 3)
+            $0.left.equalTo(but4.snp.right)
         }
         
-        self.addSubview(but3)
-        but3.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview()
-            $0.width.equalTo(60)
-            $0.left.equalTo(but2.snp.right).offset(10)
-        }
-
+//        self.addSubview(but3)
+//        but3.snp.makeConstraints {
+//            $0.top.bottom.equalToSuperview()
+//            $0.width.equalTo(60)
+//            $0.left.equalTo(but2.snp.right).offset(10)
+//        }
+//
         
         
         self.addSubview(line1)
@@ -196,12 +196,12 @@ class MenuTagView: UIView {
         }
         
         
-        self.addSubview(line3)
-        line3.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 20, height: 4))
-            $0.bottom.equalToSuperview().offset(-5)
-            $0.centerX.equalTo(but3)
-        }
+//        self.addSubview(line3)
+//        line3.snp.makeConstraints {
+//            $0.size.equalTo(CGSize(width: 20, height: 4))
+//            $0.bottom.equalToSuperview().offset(-5)
+//            $0.centerX.equalTo(but3)
+//        }
         
         self.addSubview(line4)
         line4.snp.makeConstraints {
@@ -224,30 +224,30 @@ class MenuTagView: UIView {
     
     @objc private func clickbut1Action() {
         
-        if self.type != "dis" {
-            self.type = "dis"
+        if self.type != .dish {
+            self.type = .dish
             clickBlock?(type)
         }
         
     }
     
     @objc private func clickbut2Action() {
-        if self.type != "add" {
-            self.type = "add"
+        if self.type != .additional {
+            self.type = .additional
             clickBlock?(type)
         }
     }
 
     @objc private func clickbut3Action() {
-        if self.type != "fre" {
-            self.type = "fre"
+        if self.type != .gift {
+            self.type = .gift
             clickBlock?(type)
         }
     }
     
     @objc private func clickbut4Action() {
-        if self.type != "com" {
-            self.type = "com"
+        if self.type != .combo {
+            self.type = .combo
             clickBlock?(type)
         }
     }

@@ -15,28 +15,28 @@ class OpeningHoursInputCell: BaseTableViewCell {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(16), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
         lab.text = "Opening Hours"
         return lab
     }()
     
     private let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(16), .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
         lab.text = "*"
         return lab
     }()
     
     private let startBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "", FONTCOLOR, BFONT(15), HCOLOR("#F8F9F9"))
+        but.setCommentStyle(.zero, "", TXTCOLOR_1, TIT_3, BACKCOLOR_3)
         but.layer.cornerRadius = 7
         return but
     }()
     
     private let endBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "", FONTCOLOR, BFONT(15), HCOLOR("#F8F9F9"))
+        but.setCommentStyle(.zero, "", TXTCOLOR_1, TIT_3, BACKCOLOR_3)
         but.layer.cornerRadius = 7
         return but
     }()
@@ -90,10 +90,14 @@ class OpeningHoursInputCell: BaseTableViewCell {
     }
     
     
-    func setCellData(model: AddTimeSubmitModel) {
-        self.startBut.setTitle(model.startTime, for: .normal)
-        self.endBut.setTitle(model.endTime, for: .normal)
+    func setCellData(titStr: String, star: String, end: String) {
+        titlab.text = titStr
+        self.startBut.setTitle(star, for: .normal)
+        self.endBut.setTitle(end, for: .normal)
     }
+    
+    
+    
     
     
     @objc private func clickStartAction() {
@@ -114,14 +118,14 @@ class OpeningHoursInputTimeCell: BaseTableViewCell {
     
     private let tLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         lab.text = "Delivery:"
         return lab
     }()
     
     private let minLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(14), .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
         lab.text = "min"
         return lab
     }()
@@ -130,14 +134,14 @@ class OpeningHoursInputTimeCell: BaseTableViewCell {
     
     private let minBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "", FONTCOLOR, BFONT(15), HCOLOR("#F8F9F9"))
+        but.setCommentStyle(.zero, "", TXTCOLOR_1, TIT_3, BACKCOLOR_3)
         but.layer.cornerRadius = 7
         return but
     }()
     
     private let maxBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "", FONTCOLOR, BFONT(15), HCOLOR("#F8F9F9"))
+        but.setCommentStyle(.zero, "", TXTCOLOR_1, TIT_3, BACKCOLOR_3)
         but.layer.cornerRadius = 7
         return but
     }()
@@ -213,14 +217,14 @@ class TitleCell: BaseTableViewCell {
     
     let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(16), .left)
-        lab.text = "Week"
+        lab.setCommentStyle(.black, TIT_2, .left)
+        lab.text = "Week".local
         return lab
     }()
     
     let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(16), .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
         lab.text = "*"
         return lab
     }()
@@ -256,8 +260,7 @@ class SelectWeekCell: BaseTableViewCell {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(13), .left)
-        lab.text = "Week"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         return lab
     }()
 
@@ -275,7 +278,7 @@ class SelectWeekCell: BaseTableViewCell {
             $0.left.equalToSuperview().offset(20)
             $0.right.equalToSuperview().offset(-20)
             $0.bottom.equalToSuperview()
-            $0.height.equalTo(1)
+            $0.height.equalTo(0.5)
         }
         
         contentView.addSubview(titlab)
@@ -305,25 +308,25 @@ class SelectWeekCell: BaseTableViewCell {
         
         
         if idx == 0 {
-            self.titlab.text = "Monday"
+            self.titlab.text = "Monday".local
         }
         if idx == 1 {
-            self.titlab.text = "Tuesday"
+            self.titlab.text = "Tuesday".local
         }
         if idx == 2 {
-            self.titlab.text = "Wednesday"
+            self.titlab.text = "Wednesday".local
         }
         if idx == 3 {
-            self.titlab.text = "Thursday"
+            self.titlab.text = "Thursday".local
         }
         if idx == 4 {
-            self.titlab.text = "Friday"
+            self.titlab.text = "Friday".local
         }
         if idx == 5 {
-            self.titlab.text = "Saturday"
+            self.titlab.text = "Saturday".local
         }
         if idx == 6 {
-            self.titlab.text = "Sunday"
+            self.titlab.text = "Sunday".local
         }
         
     }

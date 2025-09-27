@@ -26,12 +26,12 @@ class DistanceEditeView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegat
         didSet {
             if feeType == "1" {
                 self.mlab.text = "MILES"
-                self.tlab1.text = "Distribution distance"
+                self.tlab1.text = "Distribution distance".local
                 self.tlab2.isHidden = false
             }
             if feeType == "2" {
                 self.mlab.text = ""
-                self.tlab1.text = "Delivery area Postcode"
+                self.tlab1.text = "Delivery area Postcode".local
                 self.tlab2.isHidden = true
             }
         }
@@ -56,29 +56,29 @@ class DistanceEditeView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegat
     
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save", .white, BFONT(14), HCOLOR("#465DFD"))
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_3, HCOLOR("#465DFD"))
         but.layer.cornerRadius = 14
         return but
     }()
     
     private let tlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(16), .left)
+        lab.setCommentStyle(.black, TIT_3, .left)
         lab.text = "Distribution distance"
         return lab
     }()
     
     private let tlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(13), .left)
-        lab.text = "Less than or equal to"
+        lab.setCommentStyle(HCOLOR("#666666"), TXT_2, .left)
+        lab.text = "Less than or equal to".local
         return lab
     }()
     
     private let tlab3: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(16), .left)
-        lab.text = "Delivery charge"
+        lab.setCommentStyle(.black, TIT_3, .left)
+        lab.text = "Delivery charge".local
         return lab
     }()
     
@@ -113,14 +113,14 @@ class DistanceEditeView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegat
     
     private let mlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("333333"), BFONT(14), .right)
+        lab.setCommentStyle(HCOLOR("333333"), TIT_3, .right)
         lab.text = "MILES"
         return lab
     }()
     
     private let plab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("333333"), BFONT(14), .right)
+        lab.setCommentStyle(HCOLOR("333333"), TIT_3, .right)
         lab.text = "POUND"
         return lab
     }()
@@ -128,7 +128,7 @@ class DistanceEditeView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegat
 
     private lazy var mInPutTF: UITextField = {
         let tf = UITextField()
-        tf.font = BFONT(14)
+        tf.font = TIT_3
         tf.textColor = HCOLOR("333333")
         tf.delegate = self
         tf.tag = 100
@@ -138,7 +138,7 @@ class DistanceEditeView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegat
     
     private lazy var pInPutTF: UITextField = {
         let tf = UITextField()
-        tf.font = BFONT(14)
+        tf.font = TIT_3
         tf.textColor = HCOLOR("333333")
         tf.delegate = self
         tf.tag = 200

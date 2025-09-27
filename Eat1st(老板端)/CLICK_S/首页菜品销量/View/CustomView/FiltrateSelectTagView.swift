@@ -112,33 +112,3 @@ class FiltrateSelectTagView: BaseAlertView, UIGestureRecognizerDelegate, UITable
 }
 
 
-class TextCell: BaseTableViewCell {
-
-    let tlab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(15), .center)
-        lab.numberOfLines = 0
-        return lab
-    }()
-    
-    override func setViews() {
-        
-        contentView.addSubview(tlab)
-        tlab.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        
-    }
-    
-    func setCellData(str: String, isSelect: Bool)  {
-        self.tlab.text = str
-        if isSelect {
-            self.tlab.textColor = MAINCOLOR
-            
-        } else {
-            self.tlab.textColor = FONTCOLOR
-        }
-    }
-    
-}

@@ -55,7 +55,7 @@ class ComplaintsController: HeadBaseViewController, UITableViewDelegate, UITable
     
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Complaints"
+        self.biaoTiLab.text = "Complaints".local
         table.reloadData()
     }
     

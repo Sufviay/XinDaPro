@@ -27,8 +27,8 @@ class HeadBaseViewController: UIViewController {
     
     let biaoTiLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.white, BFONT(20), .center)
-        lab.numberOfLines = 0
+        lab.setCommentStyle(.white, TIT_1, .center)
+        lab.adjustsFontSizeToFitWidth = true
         return lab
     }()
     
@@ -36,7 +36,7 @@ class HeadBaseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.modalPresentationStyle = .fullScreen
-        view.backgroundColor = BACKCOLOR
+        view.backgroundColor = BACKCOLOR_1
         
     
         view.addSubview(headImg)
@@ -57,7 +57,8 @@ class HeadBaseViewController: UIViewController {
         view.addSubview(biaoTiLab)
         biaoTiLab.snp.makeConstraints {
             $0.centerY.equalTo(leftBut)
-            $0.centerX.equalToSuperview()
+            $0.left.equalToSuperview().offset(60)
+            $0.right.equalToSuperview().offset(-60)
         }
         
         setViews()

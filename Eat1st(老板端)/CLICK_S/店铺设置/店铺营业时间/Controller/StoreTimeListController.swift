@@ -50,7 +50,7 @@ class StoreTimeListController: HeadBaseViewController, UITableViewDelegate, UITa
     private let addBut: UIButton = {
         let but = UIButton()
         but.setImage(LOIMG("dis_add"), for: .normal)
-        but.setCommentStyle(.zero, "Add", HCOLOR("465DFD"), BFONT(17), HCOLOR("#8F92A1").withAlphaComponent(0.06))
+        but.setCommentStyle(.zero, "Add".local, HCOLOR("465DFD"), TIT_2, BACKCOLOR_3)
         but.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         but.layer.cornerRadius = 10
         return but
@@ -73,7 +73,7 @@ class StoreTimeListController: HeadBaseViewController, UITableViewDelegate, UITa
     
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Opening hours"
+        self.biaoTiLab.text = "Opening hours".local
         loadData_Net()
     }
 
@@ -96,7 +96,7 @@ class StoreTimeListController: HeadBaseViewController, UITableViewDelegate, UITa
             $0.left.equalToSuperview().offset(20)
             $0.right.equalToSuperview().offset(-20)
             $0.bottom.equalToSuperview().offset(-bottomBarH - 20)
-            $0.height.equalTo(60)
+            $0.height.equalTo(50)
         }
         
         
@@ -172,10 +172,10 @@ class StoreTimeListController: HeadBaseViewController, UITableViewDelegate, UITa
             
             if type == "delete" {
                 //删除
-                self.showSystemChooseAlert("Alert", "Delete or not", "YES", "NO") {
+                self.showSystemChooseAlert("Alert".local, "Delete or not?".local, "YES".local, "NO".local) {
                     
                     if self.timeArr[indexPath.row].status == "1" {
-                        self.showSystemChooseAlert("Alert", "The time range is in use. Do you want to delete it？", "Delete", "Cancel") {
+                        self.showSystemChooseAlert("Alert".local, "The time range is in use, Do you want to delete it?".local, "Delete".local, "Cancel".local) {
                             self.deleteAction_Net(timeID: self.timeArr[indexPath.row].timeId)
                         }
                     }

@@ -26,6 +26,7 @@ class BaseAlertView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
     open func setViews() {}
     
     

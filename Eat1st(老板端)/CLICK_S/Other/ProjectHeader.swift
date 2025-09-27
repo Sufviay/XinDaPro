@@ -174,11 +174,38 @@ let GRADIENTCOLOR: (UIColor, UIColor, CGSize) -> UIImage = { (b_color, e_color, 
 }
 
 
-let BACKCOLOR: UIColor = HCOLOR("#FFFFFF")
+
 let MAINCOLOR: UIColor = HCOLOR("#465DFD")
-let FONTCOLOR: UIColor = HCOLOR("#080808")
-let SFONTCOLOR: UIColor = HCOLOR("#666666")
-let HOLDCOLOR: UIColor = HCOLOR("#F8F8F8")
+///白色
+let BACKCOLOR_1: UIColor = HCOLOR("#FFFFFF")
+///图片的背景色
+let BACKCOLOR_2: UIColor = HCOLOR("#F8F8F8")
+///各种输入框的背景色
+let BACKCOLOR_3: UIColor = HCOLOR("#8F92A1").withAlphaComponent(0.06)
+///cell线的颜色
+let BACKCOLOR_4: UIColor = HCOLOR("#EEEEEE")
+///数据框的背景颜色
+let BACKCOLOR_5: UIColor = HCOLOR("#F5F8FF")
+
+
+
+
+///文字颜色
+let TXTCOLOR_1: UIColor = HCOLOR("#080808")
+///描述文字的颜色
+let TXTCOLOR_2: UIColor = HCOLOR("#666666")
+///
+let TXTCOLOR_3: UIColor = HCOLOR("999999")
+
+///红色文字颜色
+let TXTCOLOR_4: UIColor = HCOLOR("#F75E5E")
+///绿色文字颜色
+let TXTCOLOR_5: UIColor = HCOLOR("#02C392")
+
+///输入框的站位文字颜色
+let TFHOLDCOLOR: UIColor = HCOLOR("#CCCCCC")
+
+
 
 
 let D_2_STR: (Double) -> String = { num in
@@ -223,6 +250,77 @@ let BFONT: (CGFloat) -> UIFont = { fontnum in
     return UIFont.boldSystemFont(ofSize: fontnum)
 }
 
+
+
+///根據系統選擇自動設置字體
+let S_BFONT: (CGFloat) -> UIFont = { fontnum in
+    
+    let curFontSize = ChangeFontManager.currentFontSize()
+    
+    switch curFontSize {
+    case .large:
+        return UIFont.boldSystemFont(ofSize: fontnum + 2)
+    case .medium:
+        return UIFont.boldSystemFont(ofSize: fontnum)
+    case .small:
+        return UIFont.boldSystemFont(ofSize: fontnum - 2)
+    }
+}
+
+///根據系統選擇自動設置字體
+let S_SFONT: (CGFloat) -> UIFont = { fontnum in
+    
+    let curFontSize = ChangeFontManager.currentFontSize()
+    
+    switch curFontSize {
+    case .large:
+        return UIFont.systemFont(ofSize: fontnum + 2)
+    case .medium:
+        return UIFont.systemFont(ofSize: fontnum)
+    case .small:
+        return UIFont.systemFont(ofSize: fontnum - 2)
+    }
+}
+
+
+
+
+///20
+var TIT_1 = S_BFONT(20)
+///16
+var TIT_2 = S_BFONT(16)
+///14
+var TIT_3 = S_BFONT(14)
+///18
+var TIT_4 = S_BFONT(18)
+///12
+var TIT_5 = S_BFONT(12)
+///10
+var TIT_6 = S_BFONT(10)
+
+
+///25
+var NUMFONT_1 = S_BFONT(25)
+///22
+var NUMFONT_2 = S_BFONT(22)
+///15
+var NUMFONT_3 = S_BFONT(15)
+
+
+///14
+var TXT_1 = S_SFONT(14)
+///12
+var TXT_2 = S_SFONT(12)
+///10
+var TXT_3 = S_SFONT(10)
+
+
+
+
+
+
+
+
 //MARK: - 关于图片
 ///设置本地图片（必须设置否则崩溃 ！）
 let LOIMG: (String) -> UIImage = { (name) in
@@ -230,12 +328,16 @@ let LOIMG: (String) -> UIImage = { (name) in
     return img
 }
 
+
+
 //MARK: - 关于Block
 
 typealias VoidBlock = (_ any: Any) -> ()
 typealias VoidStringBlock = (_ str: String) -> ()
 typealias VoidIntBlock = (_ num: Int) -> ()
 typealias VoidImgBlock = (_ img: UIImage?) -> ()
+typealias VoidDateBlock = (_ date: Date) -> ()
+typealias VoidBoolBlock = (_ val: Bool) -> ()
 
 
 //MARK: - 处理字符串中的转义字符
@@ -255,7 +357,8 @@ let HTTPTOOl = HttpTool.shared
 
 
 let ISONLINE: Bool = true
-let VERID: String = "52"
+let VERID: String = "72"
 var BASEURL: String = ISONLINE ? "https://api.foodo2o.com/" : "https://api-test.foodo2o.com/"
+
 
 

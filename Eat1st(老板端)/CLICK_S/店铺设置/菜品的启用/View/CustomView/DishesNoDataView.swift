@@ -30,7 +30,7 @@ class DishesNoDataView: UIView {
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(17), .center)
+        lab.setCommentStyle(TXTCOLOR_1, BFONT(17), .center)
         lab.text = "All items are on your menu"
         return lab
     }()

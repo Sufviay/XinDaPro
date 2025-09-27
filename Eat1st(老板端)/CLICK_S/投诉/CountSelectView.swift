@@ -56,7 +56,7 @@ class CountSelectView: UIView {
     
     private let countLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(14), .center)
+        lab.setCommentStyle(TXTCOLOR_1, BFONT(14), .center)
         lab.isHidden = true
         return lab
     }()

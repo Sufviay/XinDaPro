@@ -74,7 +74,7 @@ class ReviewsReplyAlert: UIView, UIGestureRecognizerDelegate {
     
     private let inputTF: UITextView = {
         let tf = UITextView()
-        tf.textColor = FONTCOLOR
+        tf.textColor = TXTCOLOR_1
         tf.font = SFONT(14)
         tf.backgroundColor = .clear
         return tf

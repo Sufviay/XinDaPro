@@ -18,7 +18,7 @@ class NoDataView: UIView {
     
     let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(14), .center)
+        lab.setCommentStyle(TXTCOLOR_1, BFONT(14), .center)
         lab.text = "No data available".local
         return lab
     }()

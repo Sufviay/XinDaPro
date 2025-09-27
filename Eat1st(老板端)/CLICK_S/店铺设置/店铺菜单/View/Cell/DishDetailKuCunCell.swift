@@ -11,21 +11,21 @@ class DishDetailKuCunCell: BaseTableViewCell {
 
     private let titleLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .left)
-        lab.text = "Stock"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.text = "Stock".local
         return lab
     }()
     
     private let msgLab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
         lab.text = "111"
         return lab
     }()
     
     private let msgLab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
         lab.text = "111"
         return lab
     }()
@@ -59,10 +59,10 @@ class DishDetailKuCunCell: BaseTableViewCell {
     
     func setCellData(type: String, num: String) {
         if type == "1" {
-            self.msgLab1.text = "Disable"
+            self.msgLab1.text = "Disable".local
             self.msgLab2.text = ""
         } else {
-            self.msgLab1.text = "Enable"
+            self.msgLab1.text = "Enable".local
             self.msgLab2.text = num
         }
     }

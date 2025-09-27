@@ -42,7 +42,7 @@ class VersionAlert: BaseAlertView {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(17), .center)
+        lab.setCommentStyle(TXTCOLOR_1, BFONT(17), .center)
         lab.text = "Update to remind"
         return lab
     }()
@@ -51,7 +51,7 @@ class VersionAlert: BaseAlertView {
         let lab = UILabel()
         lab.numberOfLines = 0
         let tempStr = "The new version was found, \nplease update it"
-        lab.attributedText = tempStr.attributedString(font: SFONT(14), textColor: FONTCOLOR, lineSpaceing: 3, wordSpaceing: 0)
+        lab.attributedText = tempStr.attributedString(font: SFONT(14), textColor: TXTCOLOR_1, lineSpaceing: 3, wordSpaceing: 0)
         lab.textAlignment = .center
         return lab
     }()

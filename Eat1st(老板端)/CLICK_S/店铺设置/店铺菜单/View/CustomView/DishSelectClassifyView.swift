@@ -39,8 +39,8 @@ class DishSelectClassifyView: UIView, UIGestureRecognizerDelegate, UITableViewDe
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("333333"), BFONT(18), .left)
-        lab.text = "Food labels"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
+        lab.text = "Category".local
         return lab
     }()
     
@@ -55,7 +55,7 @@ class DishSelectClassifyView: UIView, UIGestureRecognizerDelegate, UITableViewDe
     
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Confirm", .white, BFONT(14), HCOLOR("#465DFD"))
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
         but.layer.cornerRadius = 14
         return but
     }()
@@ -224,7 +224,7 @@ class DishSelectClassifyView: UIView, UIGestureRecognizerDelegate, UITableViewDe
         let cell = tableView.dequeueReusableCell(withIdentifier: "SelectLabCell") as! SelectLabCell
         let model = dataArr[indexPath.row]
         let isSel = model.id == selectID
-        cell.setCellData(isSelect: isSel, titStr: model.name1)
+        cell.setCellData(isSelect: isSel, titStr: model.name1, type: "classify")
         return cell
     }
     

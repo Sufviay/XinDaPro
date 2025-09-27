@@ -42,13 +42,13 @@ class TimeWeeksAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
     
     private let OKBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "OK".local, MAINCOLOR, BFONT(14), .clear)
+        but.setCommentStyle(.zero, "OK".local, MAINCOLOR, TIT_3, .clear)
         return but
     }()
     
     private let cancelBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Cancel".local, FONTCOLOR, BFONT(14), .clear)
+        but.setCommentStyle(.zero, "Cancel".local, TXTCOLOR_1, TIT_3, .clear)
         return but
     }()
     
@@ -65,20 +65,20 @@ class TimeWeeksAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
 
     private let yearLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.white, BFONT(14), .center)
+        lab.setCommentStyle(.white, TIT_3, .center)
         lab.text = "Year".local
         return lab
     }()
     
     private let weekLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.white, BFONT(14), .center)
+        lab.setCommentStyle(.white, TIT_3, .center)
         lab.text = "Week".local
         return lab
     }()
     private let dateLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.white, BFONT(14), .center)
+        lab.setCommentStyle(.white, TIT_3, .center)
         lab.text = "Period".local
         return lab
     }()
@@ -86,8 +86,9 @@ class TimeWeeksAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
     
     private let timeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(14), .center)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .center)
         lab.numberOfLines = 2
+        lab.adjustsFontSizeToFitWidth = true
         lab.text = ""
         return lab
     }()
@@ -188,6 +189,17 @@ class TimeWeeksAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
     }
     
     
+    func reSetData() {
+        
+        let dateRange = DateTool.shared.getWeekRangeDateBy(year: DateTool.shared.curYear, week: DateTool.shared.curWeek)
+        dateStr = dateRange.startDate.getString("yyyy-MM-dd") + "\n~" + dateRange.endDate.getString("yyyy-MM-dd")
+        startDate_sel = dateRange.startDate
+        endDate_sel = dateRange.endDate
+        timePickerView.selectRow(DateTool.shared.curWeek - 1, inComponent: 1, animated: false)
+
+    }
+    
+    
     @objc private func clickCancelAction() {
         
         let date = DateTool.dateFromStringByFormatter(dateString: "2025-01-06", formatter: "yyyy-MM-dd")
@@ -254,8 +266,8 @@ class TimeWeeksAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
         var pickerLabel = view as? UILabel
         if pickerLabel == nil {
             pickerLabel = UILabel()
-            pickerLabel?.font = SFONT(16)
-            pickerLabel?.textColor = FONTCOLOR
+            pickerLabel?.font = TIT_2
+            pickerLabel?.textColor = TXTCOLOR_1
             pickerLabel?.textAlignment = .center
         }
         

@@ -13,14 +13,14 @@ class AddClassifyView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate 
     var isEdite: Bool = false {
         didSet {
             if isEdite {
-                self.titlab.text = "Edite category"
+                self.titlab.text = "Edit Category".local
             } else {
-                self.titlab.text = "Add category"
+                self.titlab.text = "Add Category".local
             }
         }
     }
     
-    var type: String = ""
+    var type: PageType = .dish
     
     var classifyID: String = ""
 
@@ -48,15 +48,15 @@ class AddClassifyView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate 
     
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save", .white, BFONT(14), HCOLOR("#465DFD"))
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
         but.layer.cornerRadius = 14
         return but
     }()
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("333333"), BFONT(18), .left)
-        lab.text = "Add category"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
+        lab.text = "Add Category".local
         return lab
     }()
     
@@ -70,50 +70,50 @@ class AddClassifyView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate 
 
     private let lab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(15), .left)
-        lab.text = "Simplified Chinese name"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.text = "Simplified Chinese name".local
         return lab
     }()
     
     private let lab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(15), .left)
-        lab.text = "Traditional Chinese name"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.text = "Traditional Chinese name".local
         return lab
     }()
 
     private let lab3: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(15), .left)
-        lab.text = "English name"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.text = "English name".local
         return lab
     }()
     
     private let tView1: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 7
-        view.backgroundColor = HCOLOR("#8F92A1").withAlphaComponent(0.06)
+        view.backgroundColor = BACKCOLOR_3
         return view
     }()
     
     private let tView2: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 7
-        view.backgroundColor = HCOLOR("#8F92A1").withAlphaComponent(0.06)
+        view.backgroundColor = BACKCOLOR_3
         return view
     }()
     
     private let tView3: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 7
-        view.backgroundColor = HCOLOR("#8F92A1").withAlphaComponent(0.06)
+        view.backgroundColor = BACKCOLOR_3
         return view
     }()
 
 
     private let slab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), SFONT(17), .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
         lab.text = "*"
         return lab
     }()
@@ -121,14 +121,14 @@ class AddClassifyView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate 
     
     private let slab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), SFONT(17), .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
         lab.text = "*"
         return lab
     }()
 
     private let slab3: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), SFONT(17), .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
         lab.text = "*"
         return lab
     }()
@@ -136,24 +136,24 @@ class AddClassifyView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate 
     
     private lazy var jtInputTF: UITextField = {
         let tf = UITextField()
-        tf.textColor = HCOLOR("333333")
-        tf.font = SFONT(14)
+        tf.textColor = TXTCOLOR_1
+        tf.font = TIT_3
         tf.delegate = self
         return tf
     }()
     
     private lazy var ftInputTF: UITextField = {
         let tf = UITextField()
-        tf.textColor = HCOLOR("333333")
-        tf.font = SFONT(14)
+        tf.textColor = TXTCOLOR_1
+        tf.font = TIT_3
         tf.delegate = self
         return tf
     }()
 
     private lazy var enInputTF: UITextField = {
         let tf = UITextField()
-        tf.textColor = HCOLOR("333333")
-        tf.font = SFONT(14)
+        tf.textColor = TXTCOLOR_1
+        tf.font = TIT_3
         tf.delegate = self
         return tf
     }()
@@ -416,7 +416,7 @@ class AddClassifyView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate 
     private func saveAction_Net() {
         HUD_MB.loading("", onView: backView)
         if isEdite {
-            if type == "dis" {
+            if type == .dish {
                 HTTPTOOl.editeMenuDishClassify(id: classifyID, name_E: self.enInputTF.text!, name_C: self.jtInputTF.text!, name_H: self.ftInputTF.text!).subscribe(onNext: { (json) in
                     HUD_MB.dissmiss(onView: self.backView)
                     
@@ -434,7 +434,7 @@ class AddClassifyView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate 
                     HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.backView)
                 }).disposed(by: self.bag)
             }
-            if type == "add" {
+            if type == .additional {
                 HTTPTOOl.editeAttachDishClassify(id: classifyID, name_E: self.enInputTF.text!, name_C: self.jtInputTF.text!, name_H: self.ftInputTF.text!).subscribe(onNext: { (json) in
                     HUD_MB.dissmiss(onView: self.backView)
                     
@@ -452,7 +452,7 @@ class AddClassifyView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate 
                     HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.backView)
                 }).disposed(by: self.bag)
             }
-            if type == "fre" {
+            if type == .gift {
                 HTTPTOOl.editeGiftDishClassify(id: classifyID, name_E: self.enInputTF.text!, name_C: self.jtInputTF.text!, name_H: self.ftInputTF.text!).subscribe(onNext: { (json) in
                     HUD_MB.dissmiss(onView: self.backView)
                     
@@ -472,7 +472,7 @@ class AddClassifyView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate 
             }
             
         } else {
-            if type == "dis" {
+            if type == .dish {
                 HTTPTOOl.addMenuDishClassify(name_E: self.enInputTF.text!, name_C: self.jtInputTF.text!, name_H: self.ftInputTF.text!).subscribe(onNext: { (json) in
                     HUD_MB.dissmiss(onView: self.backView)
                     self.saveSuccessBlock?("")
@@ -483,7 +483,7 @@ class AddClassifyView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate 
                 }).disposed(by: self.bag)
             }
             
-            if type == "add" {
+            if type == .additional {
                 HTTPTOOl.addMenuAttachClassify(name_E: self.enInputTF.text!, name_C: self.jtInputTF.text!, name_H: self.ftInputTF.text!).subscribe(onNext: { (json) in
                     HUD_MB.dissmiss(onView: self.backView)
                     self.saveSuccessBlock?("")
@@ -494,7 +494,7 @@ class AddClassifyView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate 
                 }).disposed(by: self.bag)
             }
 
-            if type == "fre" {
+            if type == .gift {
                 HTTPTOOl.addMenuGiftClassify(name_E: self.enInputTF.text!, name_C: self.jtInputTF.text!, name_H: self.ftInputTF.text!).subscribe(onNext: { (json) in
                     HUD_MB.dissmiss(onView: self.backView)
                     self.saveSuccessBlock?("")
@@ -512,7 +512,7 @@ class AddClassifyView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate 
     
     private func loadDetail_Net() {
         HUD_MB.loading("", onView: self.backView)
-        if type == "dis" {
+        if type == .dish {
             HTTPTOOl.getMenuDishClassifyDetail(id: classifyID).subscribe(onNext: { (json) in
                 HUD_MB.dissmiss(onView: self.backView)
                 self.jtInputTF.text = json["data"]["nameCn"].stringValue
@@ -523,7 +523,7 @@ class AddClassifyView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate 
                 HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.backView)
             }).disposed(by: self.bag)
         }
-        if type == "add" {
+        if type == .additional {
             HTTPTOOl.getAttachDishClassifyDetail(id: classifyID).subscribe(onNext: { (json) in
                 HUD_MB.dissmiss(onView: self.backView)
                 self.jtInputTF.text = json["data"]["nameCn"].stringValue
@@ -534,7 +534,7 @@ class AddClassifyView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate 
                 HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.backView)
             }).disposed(by: self.bag)
         }
-        if type == "fre" {
+        if type == .gift {
             HTTPTOOl.getGiftDishClassifyDetail(id: classifyID).subscribe(onNext: { (json) in
                 HUD_MB.dissmiss(onView: self.backView)
                 self.jtInputTF.text = json["data"]["nameCn"].stringValue

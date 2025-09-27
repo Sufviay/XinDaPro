@@ -379,9 +379,6 @@ class MenuModel: NSObject {
     
     
     
-    
-    
-    
     //根据购物车数据对菜品进行赋值
     func dealWithMenuDishesByCartData(cart_arr: [CartDishModel]) {
         
@@ -410,16 +407,6 @@ class MenuModel: NSObject {
                 }
             }
             
-            
-//            for c_model in self.allDataArr {
-//                for d_model in c_model.dishArr {
-//                    if cart_model.dishID == d_model.dishID {
-//                        d_model.cart.append(cart_model)
-//                        d_model.sel_Num += cart_model.cartCount
-//                    }
-//                }
-//                
-//            }
         }
         
     }

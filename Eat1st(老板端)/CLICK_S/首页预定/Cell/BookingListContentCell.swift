@@ -12,7 +12,7 @@ class BookingListContentCell: BaseTableViewCell {
 
     private let nameLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(18), .left)
+        lab.setCommentStyle(TXTCOLOR_1, BFONT(18), .left)
         lab.text = "Ms zhang"
         return lab
     }()

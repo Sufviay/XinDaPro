@@ -10,16 +10,51 @@ import RxSwift
 import MJRefresh
 
 
+
 class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITableViewDataSource, SystemAlertProtocol {
+    
     
     private let bag = DisposeBag()
     
     var titStr: String = ""
     var classifyID: String = ""
-    //菜品类型  菜 赠品 附加
-    var type: String = ""
+    
+    ///菜品类型  菜 赠品 附加
+    ///search_Edit菜品搜索為別急
+    ///"search_OnOff"菜品搜索為上下架
+    var type: PageType = .dish {
+        didSet {
+            
+            if type == .seach_edit || type == .search_onoff {
+                //搜索
+                addBut.isHidden = true
+                rightBut.isHidden = true
+                
+            } else {
+                addBut.isHidden = false
+                rightBut.isHidden = false
+                
+                if type == .gift {
+                    addBut.setTitle("Add Dishes".local, for: .normal)
+                }
+                if type == .additional {
+                    addBut.setTitle("Add Additional item".local, for: .normal)
+                }
+                if type == .gift {
+                    addBut.setTitle("Add Gift item".local, for: .normal)
+                }
+            }
+            
+        }
+    }
+    
+    private var searchString: String = ""
+    
     
     private var dishArr: [DishModel] = []
+    
+    
+    private var allDishArr: [DishModel] = []
 
     
     private let rightBut: UIButton = {
@@ -32,7 +67,8 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
         let view = MenuDishSearchView()
         view.doSearchBlock = { [unowned self] (s_str) in
             //进行搜索
-            self.doSearch(searchStr: s_str)
+            searchString = s_str
+            doSearch()
         }
         return view
     }()
@@ -43,7 +79,7 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
             if type == "delete" {
                 
                 DispatchQueue.main.async {
-                    self.showSystemChooseAlert("Alert", "Delete or not?", "YES", "NO") {
+                    self.showSystemChooseAlert("Alert".local, "Delete or not?".local, "YES".local, "NO".local) {
                         self.deleteClassify_Net()
                     }
                 }
@@ -131,7 +167,7 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
         but.clipsToBounds = true
         but.layer.cornerRadius = 10
         but.setImage(LOIMG("dis_add"), for: .normal)
-        but.setCommentStyle(.zero, "Add", HCOLOR("#465DFD"), BFONT(17), HCOLOR("#8F92A1").withAlphaComponent(0.06))
+        but.setCommentStyle(.zero, "Add Dishes".local, MAINCOLOR, TIT_2, BACKCOLOR_3)
         but.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         return but
     }()
@@ -183,9 +219,12 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
         table.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.top.equalTo(searchView.snp.bottom)
-            $0.bottom.equalTo(addBut.snp.top).offset(-10)
+            if type == .seach_edit || type == .search_onoff  {
+                $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-10)
+            } else {
+                $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-70)
+            }
         }
-        
         
         
         table.mj_header = CustomRefreshHeader() { [unowned self] in
@@ -211,18 +250,18 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
     @objc private func clickAddAction() {
         //新增菜品
         
-        if type == "dis" {
+        if type == .dish {
             let nextVC = MenuDishEditeController()
             nextVC.isAdd = true
             nextVC.dishType = "1"
             self.navigationController?.pushViewController(nextVC, animated: true)
         }
-        if type == "add" {
+        if type == .additional {
             let nextVC = MenuAdditionalAddController()
             nextVC.isAdd = true
             self.navigationController?.pushViewController(nextVC, animated: true)
         }
-        if type == "fre" {
+        if type == .gift {
             let nextVC = MenuGiftAddController()
             nextVC.isAdd = true
             self.navigationController?.pushViewController(nextVC, animated: true)
@@ -232,11 +271,11 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
     
     
     //搜索
-    func doSearch(searchStr: String) {
-        if searchStr == "" {
+    func doSearch() {
+        if searchString == "" {
             self.loadData_Net()
         } else {
-            self.dishArr = self.dishArr.filter { $0.name_En.contains(searchStr) || $0.name_Hk.contains(searchStr) }
+            self.dishArr = allDishArr.filter { $0.name_En.lowercased().contains(searchString.lowercased()) || $0.name_Hk.contains(searchString) }
             self.table.reloadData()
         }
     }
@@ -255,14 +294,16 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let model = dishArr[indexPath.row]
         
-        let h1 = model.name1.getTextHeigh(BFONT(13), S_W - 120)
-        let h2 = model.name2.getTextHeigh(SFONT(13), S_W - 120)
+        let h1 = model.name1.getTextHeigh(TIT_3, S_W - 220)
+        let h2 = model.name2.getTextHeigh(TXT_1, S_W - 220)
         
-        if model.tags.count == 0 {
-            return 15 + h1 + h2 + 10 + 40
-        } else {
-            return 15 + h1 + h2 + 10 + 55
-        }
+        return 15 + h1 + h2 + 10 + 40
+        
+//        if model.tags.count == 0 {
+//            return 15 + h1 + h2 + 10 + 40
+//        } else {
+//            return 15 + h1 + h2 + 10 + 55
+//        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -278,11 +319,11 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
             
             if par == "delete" {
                 //删除
-                showSystemChooseAlert("Alert", "Delete or not?", "YES", "NO") { [unowned self] in
+                showSystemChooseAlert("Alert".local, "Delete or not?".local, "YES".local, "NO".local) { [unowned self] in
                     
                     if model.statusID == "1" {
                         //上架
-                        self.showSystemChooseAlert("Alert", "The dish is in use. Do you want to delete it？", "Delete", "Cancel") {
+                        self.showSystemChooseAlert("Alert".local, "The dish is in use. Do you want to delete it?".local, "Delete".local, "Cancel".local) {
                             self.deleteDish_Net(idx: indexPath.row)
                         }
                     } else {
@@ -292,17 +333,32 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
             }
             if par == "detail" {
                 //编辑
-                if type == "dis" {
+                if type == .seach_edit {
+                    if model.dishesType == "2" {
+                        //套餐
+                        let nextVC = MenuDishComboDetailController()
+                        nextVC.dishID = model.id
+                        navigationController?.pushViewController(nextVC, animated: true)
+                    }
+                    if model.dishesType == "1" {
+                        //单品
+                        let nextVC = MenuDishDetailController()
+                        nextVC.dishID = model.id
+                        navigationController?.pushViewController(nextVC, animated: true)
+                    }
+                }
+                
+                if type == .dish {
                     let nextVC = MenuDishDetailController()
                     nextVC.dishID = model.id
                     navigationController?.pushViewController(nextVC, animated: true)
                 }
-                if type == "add" {
+                if type == .additional {
                     let nextVC = MenuAdditionalDetailController()
                     nextVC.addID = model.id
                     navigationController?.pushViewController(nextVC, animated: true)
                 }
-                if type == "fre" {
+                if type == .gift {
                     let nextVC = MenuGiftDetailController()
                     nextVC.giftID = model.id
                     navigationController?.pushViewController(nextVC, animated: true)                }
@@ -357,6 +413,21 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
                 //设置VAT
                 loadDishDetail_Net(id: model.id)
             }
+            
+            if par == "on" {
+                //设置上架
+                setOnOff_Net(model: model, type: "1")
+            }
+            
+            if par == "off today" {
+                //今日下架
+                setOnOff_Net(model: model, type: "3")
+            }
+            
+            if par == "off inde" {
+                //永远下架
+                setOnOff_Net(model: model, type: "2")
+            }
         }
         
         return cell
@@ -364,20 +435,37 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if type == "dis" {
+        let model = dishArr[indexPath.row]
+        
+        if type == .seach_edit {
+            if model.dishesType == "2" {
+                //套餐
+                let nextVC = MenuDishComboDetailController()
+                nextVC.dishID = model.id
+                navigationController?.pushViewController(nextVC, animated: true)
+            }
+            if model.dishesType == "1" {
+                //单品
+                let nextVC = MenuDishDetailController()
+                nextVC.dishID = model.id
+                navigationController?.pushViewController(nextVC, animated: true)
+            }
+        }
+        
+        if type == .dish {
             let nextVC = MenuDishDetailController()
-            nextVC.dishID = dishArr[indexPath.row].id
+            nextVC.dishID = model.id
             self.navigationController?.pushViewController(nextVC, animated: true)
         }
-        if type == "add" {
+        if type == .additional {
             let nextVC = MenuAdditionalDetailController()
-            nextVC.addID = dishArr[indexPath.row].id
+            nextVC.addID = model.id
             self.navigationController?.pushViewController(nextVC, animated: true)
         }
         
-        if type == "fre" {
+        if type == .gift {
             let nextVC = MenuGiftDetailController()
-            nextVC.giftID = dishArr[indexPath.row].id
+            nextVC.giftID = model.id
             self.navigationController?.pushViewController(nextVC, animated: true)
         }
     }
@@ -427,29 +515,39 @@ extension MenuDishListController {
             HUD_MB.loading("", onView: view)
         }
         
-        if type == "dis" {
-            HTTPTOOl.getClassifyDishesList(id: classifyID).subscribe(onNext: { (json) in
+        if type == .dish || type == .seach_edit || type == .search_onoff {
+            HTTPTOOl.getClassifyDishesList(id: classifyID).subscribe(onNext: { [unowned self] (json) in
                 HUD_MB.dissmiss(onView: self.view)
                 
                 var tArr: [DishModel] = []
                 for jsonData in json["data"].arrayValue {
                     let model = DishModel()
                     model.updateModel(json: jsonData)
-                    if model.dishesType == "1" {
+                    if type == .dish {
+                        if model.dishesType == "1" {
+                            tArr.append(model)
+                        }
+                    } else {
                         tArr.append(model)
                     }
                 }
-                self.dishArr = tArr
-                self.table.mj_header?.endRefreshing()
-                self.table.reloadData()
-            }, onError: { (error) in
-                HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
-                self.table.mj_header?.endRefreshing()
+                dishArr = tArr
+                allDishArr = tArr
+                
+                if searchString != "" {
+                    dishArr = allDishArr.filter { $0.name_En.lowercased().contains(searchString.lowercased()) || $0.name_Hk.contains(searchString) }
+                }
+
+                table.mj_header?.endRefreshing()
+                table.reloadData()
+            }, onError: { [unowned self] (error) in
+                HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
+                table.mj_header?.endRefreshing()
             }).disposed(by: self.bag)
         }
         
-        if type == "add" {
-            HTTPTOOl.getClassifyAttachList(id: classifyID).subscribe(onNext: { (json) in
+        if type == .additional {
+            HTTPTOOl.getClassifyAttachList(id: classifyID).subscribe(onNext: { [unowned self] (json) in
                 HUD_MB.dissmiss(onView: self.view)
                 
                 var tArr: [DishModel] = []
@@ -459,16 +557,22 @@ extension MenuDishListController {
                     tArr.append(model)
                 }
                 self.dishArr = tArr
+                allDishArr = tArr
+                
+                if searchString != "" {
+                    dishArr = allDishArr.filter { $0.name_En.lowercased().contains(searchString.lowercased()) || $0.name_Hk.contains(searchString) }
+                }
+                
                 self.table.mj_header?.endRefreshing()
                 self.table.reloadData()
-            }, onError: { (error) in
+            }, onError: { [unowned self] (error) in
                 HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
                 self.table.mj_header?.endRefreshing()
             }).disposed(by: self.bag)
         }
         
-        if type == "fre" {
-            HTTPTOOl.getClassifyGiftList(id: classifyID).subscribe(onNext: { (json) in
+        if type == .gift {
+            HTTPTOOl.getClassifyGiftList(id: classifyID).subscribe(onNext: { [unowned self] (json) in
                 HUD_MB.dissmiss(onView: self.view)
                 
                 var tArr: [DishModel] = []
@@ -478,9 +582,15 @@ extension MenuDishListController {
                     tArr.append(model)
                 }
                 self.dishArr = tArr
+                allDishArr = tArr
+                
+                if searchString != "" {
+                    dishArr = allDishArr.filter { $0.name_En.lowercased().contains(searchString.lowercased()) || $0.name_Hk.contains(searchString) }
+                }
+                
                 self.table.mj_header?.endRefreshing()
                 self.table.reloadData()
-            }, onError: { (error) in
+            }, onError: { [unowned self] (error) in
                 HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
                 self.table.mj_header?.endRefreshing()
             }).disposed(by: self.bag)
@@ -492,27 +602,27 @@ extension MenuDishListController {
     private func deleteClassify_Net() {
         HUD_MB.loading("", onView: view)
         
-        if type == "dis" {
-            HTTPTOOl.deleteMenuDishClassify(id: classifyID).subscribe(onNext: { (json) in
+        if type == .dish {
+            HTTPTOOl.deleteMenuDishClassify(id: classifyID).subscribe(onNext: { [unowned self] (json) in
                 HUD_MB.dissmiss(onView: self.view)
                 self.navigationController?.popViewController(animated: true)
-            }, onError: { (error) in
+            }, onError: { [unowned self] (error) in
                 HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
             }).disposed(by: self.bag)
         }
-        if type == "add" {
-            HTTPTOOl.deleteAttachDishClassify(id: classifyID).subscribe(onNext: { (json) in
+        if type == .additional {
+            HTTPTOOl.deleteAttachDishClassify(id: classifyID).subscribe(onNext: { [unowned self] (json) in
                 HUD_MB.dissmiss(onView: self.view)
                 self.navigationController?.popViewController(animated: true)
-            }, onError: { (error) in
+            }, onError: { [unowned self] (error) in
                 HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
             }).disposed(by: self.bag)
         }
-        if type == "fre" {
-            HTTPTOOl.deleteGiftDishClassify(id: classifyID).subscribe(onNext: { (json) in
+        if type == .gift {
+            HTTPTOOl.deleteGiftDishClassify(id: classifyID).subscribe(onNext: { [unowned self] (json) in
                 HUD_MB.dissmiss(onView: self.view)
                 self.navigationController?.popViewController(animated: true)
-            }, onError: { (error) in
+            }, onError: { [unowned self] (error) in
                 HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
             }).disposed(by: self.bag)
 
@@ -523,35 +633,47 @@ extension MenuDishListController {
     private func deleteDish_Net(idx: Int) {
         HUD_MB.loading("", onView: view)
         
-        if type == "dis" {
-            HTTPTOOl.deleteDish(id: dishArr[idx].id).subscribe(onNext: { (json) in
+        if type == .dish || type == .seach_edit {
+            HTTPTOOl.deleteDish(id: dishArr[idx].id).subscribe(onNext: { [unowned self] (json) in
                 HUD_MB.dissmiss(onView: self.view)
                 self.dishArr.remove(at: idx)
                 self.table.reloadData()
-            }, onError: { (error) in
+            }, onError: { [unowned self] (error) in
                 HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
             }).disposed(by: self.bag)
         }
-        if type == "add" {
-            HTTPTOOl.deleteAdditional(id: dishArr[idx].id).subscribe(onNext: { (json) in
+        if type == .additional {
+            HTTPTOOl.deleteAdditional(id: dishArr[idx].id).subscribe(onNext: { [unowned self] (json) in
                 HUD_MB.dissmiss(onView: self.view)
                 self.dishArr.remove(at: idx)
                 self.table.reloadData()
-            }, onError: { (error) in
+            }, onError: { [unowned self] (error) in
                 HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
             }).disposed(by: self.bag)
         }
-        if type == "fre" {
-            HTTPTOOl.deleteGift(id: dishArr[idx].id).subscribe(onNext: { (json) in
+        if type == .gift {
+            HTTPTOOl.deleteGift(id: dishArr[idx].id).subscribe(onNext: { [unowned self] (json) in
                 HUD_MB.dissmiss(onView: self.view)
                 self.dishArr.remove(at: idx)
                 self.table.reloadData()
-            }, onError: { (error) in
+            }, onError: { [unowned self] (error) in
                 HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
             }).disposed(by: self.bag)
         }
     }
     
+    
+    //设置菜品上下架
+    private func setOnOff_Net(model: DishModel, type: String) {
+        HUD_MB.loading("", onView: view)
+        HTTPTOOl.setDishesOnOff(dishes: [["dishesId": model.id]], status: type).subscribe(onNext: { [unowned self] (json) in
+            HUD_MB.dissmiss(onView: view)
+            model.statusID = type
+            table.reloadData()
+        }, onError: { [unowned self] (error) in
+            HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
+        }).disposed(by: self.bag)
+    }
 }
 
 

@@ -11,15 +11,16 @@ class DataInfoCell_People: UICollectionViewCell {
     
     private let backView: UIView = {
         let view = UIView()
-        view.backgroundColor = HCOLOR("#F5F8FF")
+        view.backgroundColor = BACKCOLOR_5
         view.layer.cornerRadius = 7
         return view
     }()
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#333333"), BFONT(13), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         lab.text = "Customer".local
+        lab.adjustsFontSizeToFitWidth = true
         return lab
     }()
     
@@ -27,7 +28,7 @@ class DataInfoCell_People: UICollectionViewCell {
     
     private let numberlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#222222"), BFONT(20), .left)
+        lab.setCommentStyle(HCOLOR("#222222"), NUMFONT_2, .left)
         lab.adjustsFontSizeToFitWidth = true
         lab.text = "9999"
         return lab
@@ -56,7 +57,7 @@ class DataInfoCell_People: UICollectionViewCell {
     
     private let crlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#222222"), BFONT(14), .left)
+        lab.setCommentStyle(HCOLOR("#222222"), NUMFONT_3, .left)
         lab.adjustsFontSizeToFitWidth = true
         lab.text = "9999"
         return lab
@@ -65,29 +66,29 @@ class DataInfoCell_People: UICollectionViewCell {
     
     private let etlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#222222"), BFONT(14), .left)
+        lab.setCommentStyle(HCOLOR("#222222"), NUMFONT_3, .left)
         lab.adjustsFontSizeToFitWidth = true
         lab.text = "9999"
         return lab
     }()
     
     
-    private let tlab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#AAAAAA"), SFONT(10), .left)
-        lab.text = "较上周二"
-        return lab
-    }()
+//    private let tlab: UILabel = {
+//        let lab = UILabel()
+//        lab.setCommentStyle(HCOLOR("#AAAAAA"), TXT_1, .left)
+//        lab.text = "较上周二"
+//        return lab
+//    }()
     
-    private let simg: UIImageView = {
-        let img = UIImageView()
-        img.image = LOIMG("up")
-        return img
-    }()
+//    private let simg: UIImageView = {
+//        let img = UIImageView()
+//        img.image = LOIMG("up")
+//        return img
+//    }()
     
     private let tblab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#E9522F"), SFONT(10), .left)
+        lab.setCommentStyle(HCOLOR("#E9522F"), TXT_1, .left)
         lab.adjustsFontSizeToFitWidth = true
         lab.text = "99999"
         return lab
@@ -108,9 +109,9 @@ class DataInfoCell_People: UICollectionViewCell {
         
         backView.addSubview(titlab)
         titlab.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(15)
+            $0.left.equalToSuperview().offset(10)
             $0.top.equalToSuperview().offset(12)
-            $0.right.equalToSuperview().offset(-15)
+            $0.right.equalToSuperview().offset(-10)
         }
         
         backView.addSubview(line)
@@ -149,31 +150,31 @@ class DataInfoCell_People: UICollectionViewCell {
         
         backView.addSubview(numberlab)
         numberlab.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(15)
-            $0.right.equalTo(line.snp.left).offset(-10)
+            $0.left.equalToSuperview().offset(10)
+            $0.right.equalTo(line.snp.left).offset(-5)
             $0.centerY.equalTo(line)
         }
         
         
-        backView.addSubview(tlab)
-        tlab.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(15)
-            $0.bottom.equalToSuperview().offset(-15)
-            $0.width.equalTo(50)
-        }
+//        backView.addSubview(tlab)
+//        tlab.snp.makeConstraints {
+//            $0.left.equalToSuperview().offset(15)
+//            $0.bottom.equalToSuperview().offset(-15)
+//            //$0.width.equalTo(50)
+//        }
         
-        backView.addSubview(simg)
-        simg.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 8, height: 9))
-            $0.centerY.equalTo(tlab)
-            $0.left.equalTo(tlab.snp.right)
-        }
+//        backView.addSubview(simg)
+//        simg.snp.makeConstraints {
+//            $0.size.equalTo(CGSize(width: 8, height: 9))
+//            $0.centerY.equalTo(tlab)
+//            $0.left.equalTo(tlab.snp.right)
+//        }
         
         backView.addSubview(tblab)
         tblab.snp.makeConstraints {
-            $0.centerY.equalTo(tlab)
-            $0.left.equalTo(simg.snp.right).offset(2)
-            $0.right.equalToSuperview().offset(-20)
+            $0.bottom.equalToSuperview().offset(-15)
+            $0.left.equalToSuperview().offset(15)
+            $0.right.equalToSuperview().offset(-10)
         }
 
         
@@ -192,24 +193,19 @@ class DataInfoCell_People: UICollectionViewCell {
         crlab.text = crNum
         etlab.text = etNum
         
-        tlab.text = "Last ".local + week
-        tblab.text = compareNum
+        tblab.text = "Last ".local + week + " " + compareNum
         
         //（1上涨，2相等，3下降）
         if floatingType == "1" || floatingType == "2" {
-            simg.image = LOIMG("up")
-            tlab.textColor = HCOLOR("#E9522F")
+            //simg.image = LOIMG("up")
+            //tlab.textColor = HCOLOR("#E9522F")
             tblab.textColor = HCOLOR("#E9522F")
             
         } else {
-            simg.image = LOIMG("down")
-            tlab.textColor = HCOLOR("#19B366")
+            //simg.image = LOIMG("down")
+            //tlab.textColor = HCOLOR("#19B366")
             tblab.textColor = HCOLOR("#19B366")
         }
-        
-        
-
-        
         
     }
     

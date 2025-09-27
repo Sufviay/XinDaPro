@@ -21,22 +21,22 @@ class DistanceChargeCell: BaseTableViewCell {
     
     private let tlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(16), .left)
+        lab.setCommentStyle(.black, TIT_3, .left)
         lab.text = "Distribution distance"
         return lab
     }()
     
     private let tlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(13), .left)
-        lab.text = "Less than or equal to"
+        lab.setCommentStyle(HCOLOR("#666666"), TXT_2, .left)
+        lab.text = "Less than or equal to".local
         return lab
     }()
     
     private let tlab3: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(16), .left)
-        lab.text = "Delivery charge"
+        lab.setCommentStyle(.black, TIT_3, .left)
+        lab.text = "Delivery charge".local
         return lab
     }()
     
@@ -57,21 +57,21 @@ class DistanceChargeCell: BaseTableViewCell {
     
     private let mlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("333333"), BFONT(13), .left)
+        lab.setCommentStyle(HCOLOR("333333"), TIT_3, .left)
         lab.text = "MILES"
         return lab
     }()
     
     private let plab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("333333"), BFONT(13), .left)
+        lab.setCommentStyle(HCOLOR("333333"), TIT_3, .left)
         lab.text = "POUND"
         return lab
     }()
     
     private let mNumLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(20), .right)
+        lab.setCommentStyle(HCOLOR("#465DFD"), TIT_4, .right)
         lab.text = "4"
         lab.isUserInteractionEnabled = true
         return lab
@@ -80,7 +80,7 @@ class DistanceChargeCell: BaseTableViewCell {
     
     private let pNumLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(20), .right)
+        lab.setCommentStyle(HCOLOR("#465DFD"), TIT_4, .right)
         lab.text = "300.00"
         lab.isUserInteractionEnabled = true
         return lab
@@ -88,7 +88,7 @@ class DistanceChargeCell: BaseTableViewCell {
     
     private let deleBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "DELETE", .white, SFONT(13), HCOLOR("#465DFD"))
+        but.setCommentStyle(.zero, "DELETE".local, .white, SFONT(13), HCOLOR("#465DFD"))
         but.setImage(LOIMG("dis_delete"), for: .normal)
         but.layer.cornerRadius = 14
         return but
@@ -183,14 +183,14 @@ class DistanceChargeCell: BaseTableViewCell {
     func setCellData(model: DeliveryFeeModel, type: String) {
         
         if type == "1" {
-            self.tlab1.text = "Distribution distance"
+            self.tlab1.text = "Distribution distance".local
             self.tlab2.isHidden = false
             self.mNumLab.text = String(model.distance)
             self.mlab.text = "MILES"
             
         }
         if type == "2" {
-            self.tlab1.text = "Delivery area Postcode"
+            self.tlab1.text = "Delivery area Postcode".local
             self.tlab2.isHidden = true
             self.mNumLab.text = model.postCode
             self.mlab.text = ""

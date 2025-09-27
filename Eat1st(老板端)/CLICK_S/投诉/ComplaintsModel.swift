@@ -99,7 +99,7 @@ class ComplaintsModel: NSObject {
     
     func updateModel_Detail(json: JSON) {
         
-        plaintReason = "\(json["plaintReason"].stringValue) -- \(deliveryTypeName)"
+        plaintReason = "\(json["plaintReasonName"].stringValue) -- \(deliveryTypeName)"
         reason_H = plaintReason.getTextHeigh(SFONT(14), S_W - 105) + 50
         
         var tArr: [String] = []

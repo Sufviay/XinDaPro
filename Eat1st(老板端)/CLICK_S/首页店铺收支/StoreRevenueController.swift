@@ -17,10 +17,10 @@ class StoreRevenueController: UIViewController, UITableViewDelegate, UITableView
     
     
     //查询方式 1天，2周，3月
-    private var dataType: String = "3"
+    private var dataType: String = "1"
 
     ///查询日期
-    private var dateStr: String = DateTool.getDateComponents(date: Date()).month! >= 10 ? "\(DateTool.getDateComponents(date: Date()).year!)-\(DateTool.getDateComponents(date: Date()).month!)" : "\(DateTool.getDateComponents(date: Date()).year!)-0\(DateTool.getDateComponents(date: Date()).month!)"
+    private var dateStr: String = Date().getString("yyyy-MM-dd") //DateTool.getDateComponents(date: Date()).month! >= 10 ? "\(DateTool.getDateComponents(date: Date()).year!)-\(DateTool.getDateComponents(date: Date()).month!)" : "\(DateTool.getDateComponents(date: Date()).year!)-0\(DateTool.getDateComponents(date: Date()).month!)"
 
     ///查询截止日期
     private var endDateStr: String = ""
@@ -36,7 +36,7 @@ class StoreRevenueController: UIViewController, UITableViewDelegate, UITableView
     
     private lazy var filtrateView: SalesFiltrateView = {
         let view = SalesFiltrateView()
-        
+        view.initFiltrateViewDateType(dateType: self.dataType)
         //选择时间类型
         view.selectTypeBlock = { [unowned self] (str) in
         
@@ -87,6 +87,7 @@ class StoreRevenueController: UIViewController, UITableViewDelegate, UITableView
         tableView.register(StoreAmountDataCell.self, forCellReuseIdentifier: "StoreAmountDataCell")
         tableView.register(StoreOutChartCell.self, forCellReuseIdentifier: "StoreOutChartCell")
         tableView.register(StoreSalesDataCell.self, forCellReuseIdentifier: "StoreSalesDataCell")
+        tableView.register(SalesHeaderCell.self, forCellReuseIdentifier: "SalesHeaderCell")
         return tableView
     }()
 
@@ -138,8 +139,12 @@ extension StoreRevenueController {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        if section == 0 || section == 1 {
+        if section == 0 {
             return 0
+        }
+        
+        if section == 1 {
+            return 1
         }
         
         return 1
@@ -160,7 +165,7 @@ extension StoreRevenueController {
 //        }
         
         if indexPath.section == 2 {
-            return 50 * 13 + 60
+            return 50 * CGFloat(dataModel.numberLine) + 60
         }
         
 //        if indexPath.section = 4 {
@@ -188,8 +193,16 @@ extension StoreRevenueController {
         }
         
         if indexPath.section == 1 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "LiveRepotingCell") as! LiveRepotingCell
-            cell.setCellData(titStr: "Sales".local)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SalesHeaderCell") as! SalesHeaderCell
+            
+            cell.clickBlock = { [unowned self] (_) in
+                dataType = "1"
+                dateStr = Date().getString("yyyy-MM-dd")
+                endDateStr = ""
+                filtrateView.reSetDateToToday()
+                loadData_Net()
+            }
+            
             return cell
         }
         
@@ -251,22 +264,22 @@ extension StoreRevenueController {
         }
         
         HTTPTOOl.getPrintSummary(type: dataType, start: dateStr, end: endDateStr).subscribe(onNext: { [unowned self] (json) in
-            HUD_MB.dissmiss(onView: view)
+            
             
             dataModel = StoreSummaryModel.deserialize(from: json.dictionaryObject!, designatedPath: "data") ?? StoreSummaryModel()
+            HUD_MB.dissmiss(onView: view)
             dataModel.dealModel()
             table.mj_header?.endRefreshing()
             table.reloadData()
 
-//            dataModel.updateMode_InCost(json: json1["data"])
             
-//            HTTPTOOl.getStoreOutCost().subscribe(onNext: { [unowned self] (json2) in
+            
+//            HTTPTOOl.getUberSummary(dateType: dataType, start: dateStr, end: endDateStr).subscribe(onNext: { [unowned self] (json) in
 //                HUD_MB.dissmiss(onView: view)
-//                
-//                dataModel.updateModel_OutCost(json: json2["data"], dateType: dataType)
+//                dataModel.updateModelByUber(json: json)
 //                table.mj_header?.endRefreshing()
 //                table.reloadData()
-//    
+//                
 //            }, onError: { [unowned self] (error) in
 //                table.mj_header?.endRefreshing()
 //                HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)

@@ -300,21 +300,30 @@ extension FirstSideToolView {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if section == 0 {
-            if isHome {
-                return 0
-            }
-        }
+//        if section == 0 {
+//            if isHome {
+//                return 0
+//            }
+//        }
+//        
+//        if section == 5 {
+//            return 0
+//        }
+//        
+//        if section == 9 {
+//            return 0
+//        }
+//        
+//        return 1
         
-        if section == 5 {
+        
+        if section == 10 {
+            return 1
+        } else {
             return 0
         }
         
-        if section == 9 {
-            return 0
-        }
         
-        return 1
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

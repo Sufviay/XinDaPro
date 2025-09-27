@@ -23,7 +23,7 @@
 #import "MJRefreshBackNormalFooter.h"
 #import "MJRefreshBackStateFooter.h"
 #import "MJRefreshGifHeader.h"
-#import "MJRefreshBackNormalFooter.h"
+#import "MJRefreshNormalHeader.h"
 #import "MJRefreshStateHeader.h"
 #import "MJRefreshNormalTrailer.h"
 #import "MJRefreshStateTrailer.h"

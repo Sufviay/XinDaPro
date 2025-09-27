@@ -21,9 +21,9 @@ target 'CLICK_S' do
   pod 'Firebase/Messaging'
   
   
-  #谷歌地图
-  pod'GoogleMaps'
-  pod'GooglePlaces'
+#  #谷歌地图
+#  pod'GoogleMaps'
+#  pod'GooglePlaces'
   
   pod 'FSCalendar'
   

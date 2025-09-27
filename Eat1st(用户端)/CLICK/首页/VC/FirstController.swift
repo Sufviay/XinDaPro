@@ -839,23 +839,23 @@ extension FirstController {
     //检查是否有未完成的订单
     func checkHaveUncompleteOrder_Net() {
         
-        if UserDefaults.standard.isLogin {
-            HTTPTOOl.getUnCompleteOrderCount().subscribe(onNext: {[unowned self] (json) in
-                uncompleteCount = json["data"]["num"].intValue
-                uncompleteID = json["data"]["orderId"].stringValue
-                if json["data"]["num"].intValue != 0 {
-                    self.haveUnCompleteOrder = true
-                } else {
-                    self.haveUnCompleteOrder = false
-                }
-                self.table.reloadData()
-                //self.table.reloadSections([1], with: .none)
-            }, onError: { [unowned self] _ in
-                self.haveUnCompleteOrder = false
-            }).disposed(by: self.bag)
-        } else {
-            haveUnCompleteOrder = false
-        }
+//        if UserDefaults.standard.isLogin {
+//            HTTPTOOl.getUnCompleteOrderCount().subscribe(onNext: {[unowned self] (json) in
+//                uncompleteCount = json["data"]["num"].intValue
+//                uncompleteID = json["data"]["orderId"].stringValue
+//                if json["data"]["num"].intValue != 0 {
+//                    self.haveUnCompleteOrder = true
+//                } else {
+//                    self.haveUnCompleteOrder = false
+//                }
+//                self.table.reloadData()
+//                //self.table.reloadSections([1], with: .none)
+//            }, onError: { [unowned self] _ in
+//                self.haveUnCompleteOrder = false
+//            }).disposed(by: self.bag)
+//        } else {
+//            haveUnCompleteOrder = false
+//        }
     }
     
     

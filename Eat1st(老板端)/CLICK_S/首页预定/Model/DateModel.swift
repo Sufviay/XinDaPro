@@ -13,6 +13,7 @@ class DateModel: NSObject {
     var yearDate: String = ""
     var monthDate: String = ""
     var week: String = ""
+    var idx = 0
 
     
     

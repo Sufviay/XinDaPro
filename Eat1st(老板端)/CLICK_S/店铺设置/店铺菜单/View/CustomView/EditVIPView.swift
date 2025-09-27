@@ -40,15 +40,15 @@ class EditVIPView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UIT
     
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save", .white, BFONT(14), HCOLOR("#465DFD"))
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
         but.layer.cornerRadius = 14
         return but
     }()
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("333333"), BFONT(18), .left)
-        lab.text = "Edit VIP"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
+        lab.text = "Edit VIP".local
         return lab
     }()
     
@@ -238,7 +238,7 @@ class EditVIPView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UIT
         
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell") as! DishEditeChooseCell
-            cell.setChooseCellData(titStr: "VIP", l_str: "Enable", r_Str: "Disable", statusID: vipType)
+            cell.setChooseCellData(titStr: "VIP", l_str: "Enable".local, r_Str: "Disable".local, statusID: vipType)
 
             cell.selectBlock = { [unowned self] (status) in
                 vipType = status
@@ -249,7 +249,7 @@ class EditVIPView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UIT
         
         if indexPath.row == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditePriceInPutCell") as! DishEditePriceInPutCell
-            cell.setCellData(money: vipPrice, titStr: "Price of VIP")
+            cell.setCellData(money: vipPrice, titStr: "VIP price".local)
             
             cell.editeEndBlock = { [unowned self] (text) in
                 vipPrice = text
@@ -259,7 +259,7 @@ class EditVIPView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UIT
         
         if indexPath.row == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell_Three_Multiple") as! DishEditeChooseCell_Three_Multiple
-            cell.setCellData(titStr: "VIP scope ", l_str: "Delivery", m_str: "Collection", r_str: "Dine-in", typeStr: vipTypeStr)
+            cell.setCellData(titStr: "VIP scope".local, l_str: "Delivery".local, m_str: "Collection".local, r_str: "Dine-in".local, typeStr: vipTypeStr)
             cell.selectBlock = { [unowned self] (type) in
                 vipTypeStr = type
                 table.reloadData()

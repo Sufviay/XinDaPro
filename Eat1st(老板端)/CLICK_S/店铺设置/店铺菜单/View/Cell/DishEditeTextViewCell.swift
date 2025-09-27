@@ -13,28 +13,28 @@ class DishEditeTextViewCell: BaseTableViewCell, UITextViewDelegate {
 
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(16), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
         return lab
     }()
     
     private let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(16), .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
         lab.text = "*"
         return lab
     }()
 
     private let backView: UIView = {
         let view = UIView()
-        view.backgroundColor = HCOLOR("#F8F9F9")
+        view.backgroundColor = BACKCOLOR_3
         view.layer.cornerRadius = 7
         return view
     }()
     
     private lazy var inputTF: UITextView = {
         let tf = UITextView()
-        tf.font = SFONT(14)
-        tf.textColor = HCOLOR("333333")
+        tf.font = TXT_1
+        tf.textColor = TXTCOLOR_1
         tf.delegate = self
         tf.backgroundColor = .clear
         return tf
@@ -46,7 +46,7 @@ class DishEditeTextViewCell: BaseTableViewCell, UITextViewDelegate {
         contentView.addSubview(titlab)
         titlab.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
-            $0.top.equalToSuperview().offset(20)
+            $0.top.equalToSuperview().offset(17)
         }
         
         contentView.addSubview(sLab)

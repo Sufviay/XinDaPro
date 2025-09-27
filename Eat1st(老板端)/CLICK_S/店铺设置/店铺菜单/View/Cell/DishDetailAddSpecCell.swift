@@ -11,7 +11,7 @@ class DishDetailAddSpecCell: BaseTableViewCell {
     
     private let backView: UIView = {
         let view = UIView()
-        view.backgroundColor = HCOLOR("#8F92A1").withAlphaComponent(0.06)
+        view.backgroundColor = BACKCOLOR_3
         view.layer.cornerRadius = 10
         return view
     }()
@@ -24,8 +24,8 @@ class DishDetailAddSpecCell: BaseTableViewCell {
     
     let inLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(17), .center)
-        lab.text = "Add specifications"
+        lab.setCommentStyle(MAINCOLOR, TIT_2, .center)
+        lab.text = "Add specifications".local
         return lab
     }()
     

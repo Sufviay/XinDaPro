@@ -33,7 +33,7 @@ class PrinterInfoCell: BaseTableViewCell {
     
     private let nameLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#000000"), BFONT(17), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
         lab.lineBreakMode = .byTruncatingTail
         lab.text = "name"
         return lab
@@ -42,7 +42,7 @@ class PrinterInfoCell: BaseTableViewCell {
     ///打印機類型
     private let printerTypeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(15), .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
         lab.text = "Printer type: Thermal printer"
         lab.lineBreakMode = .byTruncatingTail
         return lab
@@ -51,26 +51,26 @@ class PrinterInfoCell: BaseTableViewCell {
     ///打印機iP
     private let ipLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(15), .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
         lab.text = "IP:192.168.1.1"
         lab.lineBreakMode = .byTruncatingTail
         return lab
     }()
     
-    //是否為主打印機
-    private let mainPrinterLab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(15), .left)
-        lab.text = "Main printer: YES"
-        lab.lineBreakMode = .byTruncatingTail
-        return lab
-    }()
+//    //是否為主打印機
+//    private let mainPrinterLab: UILabel = {
+//        let lab = UILabel()
+//        lab.setCommentStyle(HCOLOR("#666666"), SFONT(15), .left)
+//        lab.text = "Main printer: YES"
+//        lab.lineBreakMode = .byTruncatingTail
+//        return lab
+//    }()
     
     
     ///打印語言
     private let printLanguageLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(15), .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
         lab.text = "Print language: Chinese"
         lab.lineBreakMode = .byTruncatingTail
         return lab
@@ -81,7 +81,7 @@ class PrinterInfoCell: BaseTableViewCell {
     ///打印份兒數
     private let copiesLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(15), .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
         lab.text = "Print copies: 1"
         lab.lineBreakMode = .byTruncatingTail
         return lab
@@ -91,7 +91,7 @@ class PrinterInfoCell: BaseTableViewCell {
     ///打印類型
     private let printTypeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(15), .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
         lab.text = "Print separately: YES"
         //"Needle printer"
         lab.lineBreakMode = .byTruncatingTail
@@ -101,8 +101,18 @@ class PrinterInfoCell: BaseTableViewCell {
     //是否點心
     private let printDXLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(15), .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
         lab.text = "Print dessert: YES"
+        //"Needle printer"
+        lab.lineBreakMode = .byTruncatingTail
+        return lab
+    }()
+    
+    //是否點心
+    private let printSouceLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.text = "Print souce: JustEat"
         //"Needle printer"
         lab.lineBreakMode = .byTruncatingTail
         return lab
@@ -111,7 +121,7 @@ class PrinterInfoCell: BaseTableViewCell {
     ///打印機狀態
     private let statusLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#2AD389"), BFONT(14), .left)
+        lab.setCommentStyle(HCOLOR("#2AD389"), TIT_3, .left)
         lab.text = "On"
         return lab
     }()
@@ -153,7 +163,6 @@ class PrinterInfoCell: BaseTableViewCell {
             $0.left.equalToSuperview().offset(20)
             $0.top.equalToSuperview().offset(10)
             $0.right.equalToSuperview().offset(-80)
-            
         }
         
         contentView.addSubview(printerTypeLab)
@@ -172,18 +181,18 @@ class PrinterInfoCell: BaseTableViewCell {
         }
         
         
-        contentView.addSubview(mainPrinterLab)
-        mainPrinterLab.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(20)
-            $0.right.equalToSuperview().offset(-80)
-            $0.top.equalTo(ipLab.snp.bottom).offset(5)
-        }
+//        contentView.addSubview(mainPrinterLab)
+//        mainPrinterLab.snp.makeConstraints {
+//            $0.left.equalToSuperview().offset(20)
+//            $0.right.equalToSuperview().offset(-80)
+//            $0.top.equalTo(ipLab.snp.bottom).offset(5)
+//        }
         
         contentView.addSubview(printLanguageLab)
         printLanguageLab.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
             $0.right.equalToSuperview().offset(-80)
-            $0.top.equalTo(mainPrinterLab.snp.bottom).offset(5)
+            $0.top.equalTo(ipLab.snp.bottom).offset(5)
         }
 
 
@@ -208,11 +217,20 @@ class PrinterInfoCell: BaseTableViewCell {
             $0.right.equalToSuperview().offset(-80)
             $0.top.equalTo(printTypeLab.snp.bottom).offset(5)
         }
+        
+        contentView.addSubview(printSouceLab)
+        printSouceLab.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(20)
+            $0.right.equalToSuperview().offset(-80)
+            $0.top.equalTo(printDXLab.snp.bottom).offset(5)
+        }
+
+
 
         
         contentView.addSubview(statusLab)
         statusLab.snp.makeConstraints {
-            $0.top.equalTo(printDXLab.snp.bottom).offset(10)
+            $0.top.equalTo(printSouceLab.snp.bottom).offset(10)
             $0.left.equalToSuperview().offset(20)
         }
        
@@ -251,60 +269,80 @@ class PrinterInfoCell: BaseTableViewCell {
         
         
         if model.printType == "1" {
-            printerTypeLab.text = "Printer type: Thermal printer"
+            printerTypeLab.text = "Printer type".local + ": " +  "Thermal printer".local
         } else if model.printType == "2" {
-            printerTypeLab.text = "Printer type: Dot matrix printer"
+            printerTypeLab.text = "Printer type".local + ": " + "Dot matrix printer".local
         } else {
-            printerTypeLab.text = "Printer type: Label printer"
+            printerTypeLab.text = "Printer type".local + ": " + "Label printer".local
         }
 
         
 
         ipLab.text = "IP: \(model.ip)"
         
-        if model.printMain == "2" {
-            //是
-            mainPrinterLab.text = "Main printer: Enable"
-        } else {
-            mainPrinterLab.text = "Main printer: Disable"
-        }
+//        if model.printMain == "2" {
+//            //是
+//            mainPrinterLab.text = "Main printer: Enable"
+//        } else {
+//            mainPrinterLab.text = "Main printer: Disable"
+//        }
         
         
         if model.langType == "1" {
             //中文
-            printLanguageLab.text = "Print language: Chinese"
+            printLanguageLab.text = "Print language".local + ": " + "Chinese".local
         } else if model.langType == "2" {
             //英文
-            printLanguageLab.text = "Print language: English"
+            printLanguageLab.text = "Print language".local + ": " + "English".local
         } else {
             //英文和中文
-            printLanguageLab.text = "Print language: Chinese and English"
+            printLanguageLab.text = "Print language".local + ": " + "Chinese and English".local
         }
         
         
-        copiesLab.text = "Print copies: \(model.printNum)"
+        copiesLab.text = "Print copies".local + ": \(model.printNum)"
         
         
         if model.splitType == "2" {
-            printTypeLab.text = "Print separately: Enable"
+            printTypeLab.text = "Print separately".local + ": " + "Enable".local
         } else {
-            printTypeLab.text = "Print separately: Disable"
+            printTypeLab.text = "Print separately".local + ": " + "Disable".local
         }
         
         
         if model.dimType == "2" {
-            printDXLab.text = "Dim Sum: Enable"
+            printDXLab.text = "Dim Sum".local + ": " + "Enable".local
         } else {
-            printDXLab.text = "Dim Sum: Disable"
+            printDXLab.text = "Dim Sum".local + ": " + "Disable".local
         }
         
         if model.status == "1" {
             //启用
             statusLab.textColor = HCOLOR("#2AD389")
-            statusLab.text = "Enable"
+            statusLab.text = "Enable".local
         } else {
             statusLab.textColor = HCOLOR("#FC7050")
-            statusLab.text = "Disable"
+            statusLab.text = "Disable".local
         }
+        
+        var souceStr = ""
+        if model.printSource != "" {
+            souceStr = model.printSource
+            
+            let souceArr = model.printSource.components(separatedBy: ",")
+            if souceArr.contains("1") {
+                souceStr = souceStr.replacingOccurrences(of: "1", with: "Deliveroo")
+            }
+            if souceArr.contains("2") {
+                souceStr = souceStr.replacingOccurrences(of: "2", with: "UberEats")
+            }
+            if souceArr.contains("3") {
+                souceStr = souceStr.replacingOccurrences(of: "3", with: "JustEat")
+            }
+            printSouceLab.text = "Print souce".local + ": " + souceStr
+        } else {
+            printSouceLab.text = "Print souce".local + ": " + "--"
+        }
+                
     }
 }

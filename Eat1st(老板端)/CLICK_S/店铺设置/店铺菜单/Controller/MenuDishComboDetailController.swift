@@ -63,7 +63,7 @@ class MenuDishComboDetailController: HeadBaseViewController, UITableViewDelegate
 
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Dish detail"
+        self.biaoTiLab.text = "Dish Detail".local
         self.loadData_Net()
     }
 
@@ -106,7 +106,7 @@ class MenuDishComboDetailController: HeadBaseViewController, UITableViewDelegate
 
     @objc private func clickRightAction() {
         //删除
-        self.showSystemChooseAlert("Alert", "Delete or not?", "YES", "NO") { [unowned self] in
+        self.showSystemChooseAlert("Alert".local, "Delete or not?".local, "YES".local, "NO".local) { [unowned self] in
             self.deleteDish_Net()
         }
     }
@@ -138,27 +138,27 @@ class MenuDishComboDetailController: HeadBaseViewController, UITableViewDelegate
             }
             
             if indexPath.row == 3 {
-                let h = dishModel.desStr.getTextHeigh(SFONT(14), S_W - 80)
+                let h = dishModel.desStr.getTextHeigh(TXT_1, S_W - 80)
                 return h + 50
             }
             
             
             if indexPath.row == 5 {
-                let h = dishModel.aliasStr.getTextHeigh(SFONT(14), S_W - 80)
+                let h = dishModel.aliasStr.getTextHeigh(TXT_1, S_W - 80)
                 return h + 50
             }
             
             if indexPath.row == 15 {
-                let h = dishModel.classifyStr.getTextHeigh(SFONT(14), S_W - 80)
+                let h = dishModel.classifyStr.getTextHeigh(TXT_1, S_W - 80)
                 return h + 50
             }
             if indexPath.row == 16 {
-                let h = dishModel.allergenStr.getTextHeigh(SFONT(14), S_W - 80)
+                let h = dishModel.allergenStr.getTextHeigh(TXT_1, S_W - 80)
                 return h + 50
             }
             
             if indexPath.row == 18 {
-                let h = dishModel.tagsStr.getTextHeigh(SFONT(14), S_W - 80)
+                let h = dishModel.tagsStr.getTextHeigh(TXT_1, S_W - 80)
                 return h + 50
             }
             
@@ -203,32 +203,32 @@ class MenuDishComboDetailController: HeadBaseViewController, UITableViewDelegate
             
             if indexPath.row == 1 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
-                cell.setCellData(titStr: "Serial number", msgStr: dishModel.dishesCode)
+                cell.setCellData(titStr: "Serial number".local, msgStr: dishModel.dishesCode)
                 return cell
             }
             
             if indexPath.row == 2 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
-                cell.setCellData(titStr: "Bar code", msgStr: dishModel.dishesBarCode)
+                cell.setCellData(titStr: "Bar code".local, msgStr: dishModel.dishesBarCode)
                 return cell
             }
             
             if indexPath.row == 3 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
-                cell.setCellData(titStr: "Description", msgStr: dishModel.desStr)
+                cell.setCellData(titStr: "Description".local, msgStr: dishModel.desStr)
                 return cell
             }
             
             if indexPath.row == 4 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
-                let str = dishModel.printType == "2" ? "Enable" : " Disable"
-                cell.setCellData(titStr: "Print alias", msgStr: str)
+                let str = dishModel.printType == "2" ? "Enable".local : " Disable".local
+                cell.setCellData(titStr: "Print alias".local, msgStr: str)
                 return cell
             }
             
             if indexPath.row == 5 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
-                cell.setCellData(titStr: "Alias", msgStr: dishModel.aliasStr)
+                cell.setCellData(titStr: "Alias".local, msgStr: dishModel.aliasStr)
                 return cell
             }
             
@@ -244,16 +244,16 @@ class MenuDishComboDetailController: HeadBaseViewController, UITableViewDelegate
                 
                 var msg = ""
                 if dishModel.sellType == "1" {
-                    msg = "Delivery"
+                    msg = "Delivery".local
                 }
                 if dishModel.sellType == "2" {
-                    msg = "Dine-in"
+                    msg = "Dine-in".local
                 }
                 if dishModel.sellType == "3" {
-                    msg = "All"
+                    msg = "All".local
                 }
                 
-                cell.setCellData(titStr: "Method of sale", msgStr: msg)
+                cell.setCellData(titStr: "Sell type".local, msgStr: msg)
                 return cell
 
             }
@@ -264,13 +264,13 @@ class MenuDishComboDetailController: HeadBaseViewController, UITableViewDelegate
                 
                 var msg = ""
                 if dishModel.buffetType == "1" {
-                    msg = "Disable"
+                    msg = "Disable".local
                 }
                 if dishModel.buffetType == "2" {
-                    msg = "Enable"
+                    msg = "Enable".local
                 }
                 
-                cell.setCellData(titStr: "Buffet", msgStr: msg)
+                cell.setCellData(titStr: "Buffet".local, msgStr: msg)
                 return cell
 
             }
@@ -291,11 +291,11 @@ class MenuDishComboDetailController: HeadBaseViewController, UITableViewDelegate
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
                 var msg = ""
                 if dishModel.giveOne == "1" {
-                    msg = "Disable"
+                    msg = "Disable".local
                 } else {
-                    msg = "Enable"
+                    msg = "Enable".local
                 }
-                cell.setCellData(titStr: "Buy one get one free", msgStr: msg)
+                cell.setCellData(titStr: "Buy one get one free".local, msgStr: msg)
                 return cell
             }
             
@@ -303,13 +303,13 @@ class MenuDishComboDetailController: HeadBaseViewController, UITableViewDelegate
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
                 var msg = ""
                 if dishModel.dishesKind == "1" {
-                    msg = "Food"
+                    msg = "Food".local
                 } else if dishModel.dishesKind == "2" {
-                    msg = "Drink"
+                    msg = "Drink".local
                 } else  {
-                    msg = "Milk tea"
+                    msg = "Milk tea".local
                 }
-                cell.setCellData(titStr: "Dishes kind", msgStr: msg)
+                cell.setCellData(titStr: "Dishes kind".local, msgStr: msg)
                 return cell
 
             }
@@ -318,9 +318,9 @@ class MenuDishComboDetailController: HeadBaseViewController, UITableViewDelegate
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
                 var msg = ""
                 if dishModel.vatType == "1" {
-                    msg = "Disable"
+                    msg = "Disable".local
                 } else {
-                    msg = "Enable"
+                    msg = "Enable".local
                 }
                 cell.setCellData(titStr: "VAT", msgStr: msg)
                 return cell
@@ -332,11 +332,11 @@ class MenuDishComboDetailController: HeadBaseViewController, UITableViewDelegate
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
                 var msg = ""
                 if dishModel.baleType == "1" {
-                    msg = "Disable"
+                    msg = "Disable".local
                 } else {
-                    msg = "Enable"
+                    msg = "Enable".local
                 }
-                cell.setCellData(titStr: "Special offer", msgStr: msg)
+                cell.setCellData(titStr: "Special offer".local, msgStr: msg)
                 return cell
 
             }
@@ -344,13 +344,13 @@ class MenuDishComboDetailController: HeadBaseViewController, UITableViewDelegate
 
             if indexPath.row == 15 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
-                cell.setCellData(titStr: "Category", msgStr: dishModel.classifyStr)
+                cell.setCellData(titStr: "Category".local, msgStr: dishModel.classifyStr)
                 return cell
             }
             
             if indexPath.row == 16 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
-                cell.setCellData(titStr: "Allergen", msgStr: dishModel.allergenStr)
+                cell.setCellData(titStr: "Allergen".local, msgStr: dishModel.allergenStr)
                 return cell
             }
             
@@ -358,23 +358,28 @@ class MenuDishComboDetailController: HeadBaseViewController, UITableViewDelegate
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
                 var msg = ""
                 if dishModel.statusId == "1" {
-                    msg = "Enable"
-                } else {
-                    msg = "Disable"
+                    msg = "In stock".local
                 }
-                cell.setCellData(titStr: "Status", msgStr: msg)
+                if dishModel.statusId == "2" {
+                    msg = "Sold out indefinitely".local
+                }
+                if dishModel.statusId == "3" {
+                    msg = "Sold out today".local
+                }
+
+                cell.setCellData(titStr: "Status".local, msgStr: msg)
                 return cell
             }
             
             if indexPath.row == 18 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
-                cell.setCellData(titStr: "Food tags", msgStr: dishModel.tagsStr)
+                cell.setCellData(titStr: "Food tags".local, msgStr: dishModel.tagsStr)
                 return cell
             }
 
             if indexPath.row == 19 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishListPictureCell") as! DishListPictureCell
-                cell.setCellData(titStr: "Dish picture", picUrl: dishModel.showListUrl)
+                cell.setCellData(titStr: "Dish picture".local, picUrl: dishModel.showListUrl)
                 return cell
             }
             
@@ -385,7 +390,7 @@ class MenuDishComboDetailController: HeadBaseViewController, UITableViewDelegate
             }
             if indexPath.row == 21 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailAddSpecCell") as! DishDetailAddSpecCell
-                cell.inLab.text = "Add"
+                cell.inLab.text = "Add combo options".local
                 return cell
             }
         } else {

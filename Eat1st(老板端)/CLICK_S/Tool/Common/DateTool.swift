@@ -175,5 +175,20 @@ class DateTool: NSObject {
     }
     
     
+    static func getMonthLastDate(monthStr: String) -> String {
+        let arr = monthStr.components(separatedBy: "-")
+        var returnStr =  ""
+        if arr.count == 2 {
+            let year = Int(arr[0]) ?? 0
+            let month = Int(arr[1]) ?? 0
+            let dayNum = DateTool().getDaysBy(year: year, month: month)
+            let dayStr = dayNum < 10 ? "0\(dayNum)" : "\(dayNum)"
+            returnStr = monthStr + "-" + dayStr
+        }
+        return returnStr
+    }
+
+
+    
 
 }

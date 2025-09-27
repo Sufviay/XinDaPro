@@ -101,6 +101,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
                 if UserDefaults.standard.isLogin {
                     print("开始上传位置")
                     HTTPTOOl.uploadUserLocation(lat: model.lat, lng: model.lng).subscribe(onNext: { (json) in
+                        print(model.lat)
+                        print(model.lng)
                         print("上传成功！")
                     }, onError: { (error) in
                         print(ErrorTool.errorMessage(error))

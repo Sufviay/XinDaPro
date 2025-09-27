@@ -394,7 +394,7 @@ class PJCUtil: NSObject {
         if UserDefaults.standard.isLogin  {
             goUrl = URL(string: "\(url)?token=\((UserDefaults.standard.token ?? ""))")
         } else {
-            goUrl = URL(string: url)
+            goUrl = URL(string: "\(url)?token=\("")")
         }
         
         print(goUrl)

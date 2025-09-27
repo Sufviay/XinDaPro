@@ -24,7 +24,7 @@ class PrinterModel: HandyJSON {
     ///打印机繁体名称[...]
     var nameHk: String = ""
     ///主打印机（1否，2是）[...]
-    var printMain: String = ""
+    var printMain: String = "1"
     ///打印份数（1一份，2两份，3三份，4四份）[...]
     var printNum: String = ""
     ///打印机类型（1热敏，2针式、3标签）[...]
@@ -36,6 +36,8 @@ class PrinterModel: HandyJSON {
     ///打印机状态[...]
     var status: String = ""
     var printerId: String = ""
+    /// 打印平台来源,半角逗号拼接code ( 1->Deliveroo, 2->UberEats, 3->JustEat)
+    var printSource: String = ""
     
     
     required init() {}

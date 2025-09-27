@@ -9,6 +9,25 @@ import UIKit
 import RxSwift
 import MJRefresh
 
+
+
+enum PageType {
+    ///菜品搜索編輯
+    case seach_edit
+    ///菜品搜索上下架
+    case search_onoff
+    ///單品
+    case dish
+    ///套餐
+    case combo
+    ///附加
+    case additional
+    ///禮品贈送
+    case gift
+    
+}
+
+
 class MenuListController: HeadBaseViewController, UITableViewDelegate, UITableViewDataSource, SystemAlertProtocol {
 
     
@@ -18,12 +37,18 @@ class MenuListController: HeadBaseViewController, UITableViewDelegate, UITableVi
     
     private var comboDishes: [DishModel] = []
     
-    private var type: String = "dis"
+    private var dataType: PageType = .dish
     
     private lazy var tagView: MenuTagView = {
         let view = MenuTagView()
         view.clickBlock = { [unowned self] (type) in
-            self.type = type
+            dataType = type as! PageType
+            if dataType == .combo {
+                addBut.setTitle("Add Dishes".local, for: .normal)
+            } else {
+                addBut.setTitle("Add Category".local, for: .normal)
+            }
+                
             self.loadData_Net()
         }
         return view
@@ -87,7 +112,7 @@ class MenuListController: HeadBaseViewController, UITableViewDelegate, UITableVi
         but.clipsToBounds = true
         but.layer.cornerRadius = 10
         but.setImage(LOIMG("dis_add"), for: .normal)
-        but.setCommentStyle(.zero, "Add", HCOLOR("#465DFD"), BFONT(17), HCOLOR("#8F92A1").withAlphaComponent(0.06))
+        but.setCommentStyle(.zero, "Add Category".local, HCOLOR("#465DFD"), TIT_2, BACKCOLOR_3)
         but.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         return but
     }()
@@ -104,9 +129,16 @@ class MenuListController: HeadBaseViewController, UITableViewDelegate, UITableVi
     }()
 
     
+    private let searchBut: UIButton = {
+        let but = UIButton()
+        but.setImage(LOIMG("search_nav"), for: .normal)
+        return but
+    }()
+    
+    
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Edit your menu"
+        self.biaoTiLab.text = "Edit your menu".local
         loadData_Net()
     }
 
@@ -146,26 +178,41 @@ class MenuListController: HeadBaseViewController, UITableViewDelegate, UITableVi
             $0.bottom.equalTo(addBut.snp.top).offset(-10)
         }
         
+        view.addSubview(searchBut)
+        searchBut.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 50, height: 40))
+            $0.centerY.equalTo(leftBut)
+            $0.right.equalToSuperview().offset(-10)
+        }
+        
         table.mj_header = CustomRefreshHeader() { [unowned self] in
             self.loadData_Net(true)
         }
         
         addBut.addTarget(self, action: #selector(clickAddAction), for: .touchUpInside)
-        
+        searchBut.addTarget(self, action: #selector(clickSearchAction), for: .touchUpInside)
+    }
+    
+    
+    @objc private func clickSearchAction() {
+        //搜索菜品
+        let nextVC = MenuDishListController()
+        nextVC.titStr = "Search".local
+        nextVC.type = .seach_edit
+        self.navigationController?.pushViewController(nextVC, animated: true)
+
     }
     
     
     @objc private func clickAddAction() {
-        if type == "com" {
-    
+        if dataType == .combo {
             //添加套餐菜品
             let nextVC = MenuDishComboEditeController()
             self.navigationController?.pushViewController(nextVC, animated: true)
             
         } else {
-            
             //添加分类
-            self.addClassifyView.type = self.type
+            addClassifyView.type = dataType
             self.addClassifyView.appearAction()
         }
     }
@@ -196,11 +243,11 @@ class MenuListController: HeadBaseViewController, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if self.type == "com" {
+        if dataType == .combo {
             //套餐
             let model = comboDishes[indexPath.row]
-            let h1 = model.name1.getTextHeigh(BFONT(13), S_W - 120)
-            let h2 = model.name2.getTextHeigh(SFONT(13), S_W - 120)
+            let h1 = model.name1.getTextHeigh(TIT_3, S_W - 220)
+            let h2 = model.name2.getTextHeigh(TIT_1, S_W - 220)
             
             if model.tags.count == 0 {
                 return 15 + h1 + h2 + 10 + 40
@@ -209,8 +256,8 @@ class MenuListController: HeadBaseViewController, UITableViewDelegate, UITableVi
             }
             
         } else {
-            let h1 = dataArr[indexPath.row].name1.getTextHeigh(BFONT(13), S_W - 90)
-            let h2 = dataArr[indexPath.row].name2.getTextHeigh(SFONT(13), S_W - 90)
+            let h1 = dataArr[indexPath.row].name1.getTextHeigh(TIT_3, S_W - 90)
+            let h2 = dataArr[indexPath.row].name2.getTextHeigh(TXT_1, S_W - 90)
             return h1 + h2 + 50
         }
         
@@ -221,7 +268,7 @@ class MenuListController: HeadBaseViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         
-        if type == "com" {
+        if dataType == .combo {
             return comboDishes.count
         } else {
             return dataArr.count
@@ -230,21 +277,21 @@ class MenuListController: HeadBaseViewController, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if type == "com" {
+        if dataType == .combo {
             
             let model = comboDishes[indexPath.row]
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "MenuDishCell") as! MenuDishCell
-            cell.setCellData(model: model, type: "dis")
+            cell.setCellData(model: model, type: dataType)
             
             cell.clickMoreBlock = { [unowned self] (par) in
                 if par == "delete" {
                     //删除
-                    showSystemChooseAlert("Alert", "Delete or not?", "YES", "NO") {
+                    showSystemChooseAlert("Alert".local, "Delete or not?".local, "YES".local, "NO".local) {
                         
                         if model.statusID == "1" {
                             //上架
-                            self.showSystemChooseAlert("Alert", "The dish is in use. Do you want to delete it？", "Delete", "Cancel") {
+                            self.showSystemChooseAlert("Alert".local, "The dish is in use. Do you want to delete it?".local, "Delete".local, "Cancel".local) {
                                 self.deleteDishes_Net(idx: indexPath.row)
                             }
                         } else {
@@ -317,7 +364,7 @@ class MenuListController: HeadBaseViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         
-        if type == "com" {
+        if dataType == .combo {
             //套餐菜品详情
             let nextVC = MenuDishComboDetailController()
             nextVC.dishID = comboDishes[indexPath.row].id
@@ -329,7 +376,7 @@ class MenuListController: HeadBaseViewController, UITableViewDelegate, UITableVi
             let nextVC = MenuDishListController()
             nextVC.titStr = dataArr[indexPath.row].name1
             nextVC.classifyID = dataArr[indexPath.row].id
-            nextVC.type = self.type
+            nextVC.type = dataType
             self.navigationController?.pushViewController(nextVC, animated: true)
         }
     }
@@ -365,7 +412,7 @@ extension MenuListController {
         }
         
 
-        if type == "dis" {
+        if dataType == .dish {
             HTTPTOOl.getMenuDishClassifyList().subscribe(onNext: { [unowned self] (json) in
                 HUD_MB.dissmiss(onView: self.view)
                 
@@ -385,7 +432,7 @@ extension MenuListController {
             }).disposed(by: self.bag)
         }
         
-        if type == "add" {
+        if dataType == .additional {
             HTTPTOOl.getMenuAttachClassifyList().subscribe(onNext: { [unowned self] (json) in
                 HUD_MB.dissmiss(onView: self.view)
                 
@@ -405,7 +452,7 @@ extension MenuListController {
             }).disposed(by: self.bag)
         }
         
-        if type == "fre" {
+        if dataType == .gift {
             HTTPTOOl.getMenuGiftClassifyList().subscribe(onNext: {[unowned self] (json) in
                 HUD_MB.dissmiss(onView: self.view)
                 
@@ -426,7 +473,7 @@ extension MenuListController {
         }
         
         
-        if type == "com" {
+        if dataType == .combo {
             //如果是套餐的话就展示套菜的菜品
             HTTPTOOl.getDishList().subscribe(onNext: { [unowned self] (json) in
                 HUD_MB.dissmiss(onView: self.view)

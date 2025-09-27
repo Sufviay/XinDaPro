@@ -17,10 +17,10 @@ class DateSelectView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
     
     private lazy var collection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
+        layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
-        layout.itemSize = CGSize(width: S_W / 7, height: 65)
+        layout.itemSize = CGSize(width: S_W / 7 - 1, height: 65)
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
         let coll = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -80,7 +80,13 @@ class DateSelectView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
     func setData(timeList: [DateModel], curDate: String) {
         dateList = timeList
         selectDate = curDate
+        
         collection.reloadData()
+        let curDateArr = dateList.filter { $0.yearDate == curDate }
+        if curDateArr.count != 0 {
+            collection.scrollToItem(at: IndexPath(item: curDateArr.first!.idx, section: 0), at: .left, animated: true)
+        }
+        
     }
     
 }
@@ -91,14 +97,14 @@ class DateScheCollCell: UICollectionViewCell {
     
     private let tlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#999999"), BFONT(11), .center)
+        lab.setCommentStyle(TXTCOLOR_3, TIT_5, .center)
         lab.text = "web"
         return lab
     }()
     
     private let tlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#999999"), BFONT(11), .center)
+        lab.setCommentStyle(TXTCOLOR_3, TIT_5, .center)
         lab.text = "11-24"
         return lab
     }()
@@ -127,15 +133,15 @@ class DateScheCollCell: UICollectionViewCell {
     
     
     func setCellData(date: DateModel, isSelect: Bool) {
-        tlab1.text = date.week
+        tlab1.text = date.week.local
         tlab2.text = date.monthDate
         
         if isSelect {
-            tlab1.textColor = HCOLOR("#465DFD")
-            tlab2.textColor = HCOLOR("#465DFD")
+            tlab1.textColor = MAINCOLOR
+            tlab2.textColor = MAINCOLOR
         } else {
-            tlab1.textColor = HCOLOR("#999999")
-            tlab2.textColor = HCOLOR("#999999")
+            tlab1.textColor = TXTCOLOR_3
+            tlab2.textColor = TXTCOLOR_3
         }
     }
     

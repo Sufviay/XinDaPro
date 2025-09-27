@@ -38,14 +38,14 @@ class DishKuCunEditeCell: BaseTableViewCell, UITextFieldDelegate {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(16), .left)
-        lab.text = "Stock"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.text = "Stock".local
         return lab
     }()
     
     private let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(16), .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
         lab.text = "*"
         return lab
     }()
@@ -65,8 +65,8 @@ class DishKuCunEditeCell: BaseTableViewCell, UITextFieldDelegate {
     
     private let unlimitedLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(14), .left)
-        lab.text = "Disable"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.text = "Disable".local
         return lab
     }()
     
@@ -86,25 +86,25 @@ class DishKuCunEditeCell: BaseTableViewCell, UITextFieldDelegate {
     
     private let limitedLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(14), .left)
-        lab.text = "Enable"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.text = "Enable".local
         return lab
     }()
 
     
     private let tfBackView: UIView = {
         let view = UIView()
-        view.backgroundColor = HCOLOR("#8F92A1").withAlphaComponent(0.06)
+        view.backgroundColor = BACKCOLOR_3
         view.layer.cornerRadius = 7
         return view
     }()
     
     private lazy var inputTF: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "Fill in the remaining quantity in stock"
+        tf.placeholder = "Fill in the remaining quantity in stock".local
         tf.keyboardType = .numberPad
-        tf.font = SFONT(14)
-        tf.textColor = FONTCOLOR
+        tf.font = TIT_3
+        tf.textColor = TXTCOLOR_1
         tf.delegate = self
         return tf
     }()
@@ -129,7 +129,7 @@ class DishKuCunEditeCell: BaseTableViewCell, UITextFieldDelegate {
         limitedBut.snp.makeConstraints {
             
             $0.left.equalToSuperview()
-            $0.width.equalTo(S_W / 2)
+            $0.right.equalTo(contentView.snp.centerX)
             $0.height.equalTo(40)
             $0.top.equalTo(titlab.snp.bottom).offset(10)
 
@@ -139,15 +139,16 @@ class DishKuCunEditeCell: BaseTableViewCell, UITextFieldDelegate {
         contentView.addSubview(unlimitedBut)
         unlimitedBut.snp.makeConstraints {
 
-            $0.width.top.height.equalTo(limitedBut)
+            $0.top.bottom.equalTo(limitedBut)
             $0.right.equalToSuperview()
+            $0.left.equalTo(limitedBut.snp.right)
         }
 
         
 
         unlimitedBut.addSubview(unlimitedImg)
         unlimitedImg.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(20)
+            $0.left.equalToSuperview().offset(30)
             $0.size.equalTo(CGSize(width: 10, height: 10))
             $0.centerY.equalToSuperview()
         }
@@ -155,12 +156,12 @@ class DishKuCunEditeCell: BaseTableViewCell, UITextFieldDelegate {
         unlimitedBut.addSubview(unlimitedLab)
         unlimitedLab.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview().offset(42)
+            $0.left.equalTo(unlimitedImg.snp.right).offset(10)
         }
         
         limitedBut.addSubview(limitedImg)
         limitedImg.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(10)
+            $0.left.equalToSuperview().offset(30)
             $0.size.equalTo(CGSize(width: 10, height: 10))
             $0.centerY.equalToSuperview()
         }
@@ -168,7 +169,7 @@ class DishKuCunEditeCell: BaseTableViewCell, UITextFieldDelegate {
         limitedBut.addSubview(limitedLab)
         limitedLab.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview().offset(32)
+            $0.left.equalTo(limitedImg.snp.right).offset(10)
         }
         
         contentView.addSubview(tfBackView)

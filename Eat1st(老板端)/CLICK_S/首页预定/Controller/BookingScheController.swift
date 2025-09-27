@@ -40,7 +40,7 @@ class BookingScheController: UIViewController, UITableViewDelegate, UITableViewD
         
             
             let model = DateModel()
-            model.updateModel(date: par as! Date)
+            model.updateModel(date: par)
             selectDate = model
             dateView.setData(timeList: dateList_view, curDate: selectDate.yearDate)
         }
@@ -48,17 +48,58 @@ class BookingScheController: UIViewController, UITableViewDelegate, UITableViewD
         return view
     }()
     
+    
+    private let totalView: UIView = {
+        let view = UIView()
+        view.backgroundColor = BACKCOLOR_5
+        view.layer.cornerRadius = 7
+        return view
+    }()
+    
+    private let l_lab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.text = "L:"
+        return lab
+    }()
+    
+    private let d_lab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.text = "D:"
+        return lab
+    }()
+    
+    
+    private let l_number: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.text = "0"
+        return lab
+    }()
+    
+    private let d_number: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.text = "0"
+        return lab
+    }()
+
+    
+    
+    
 
     private let dateBut: UIButton = {
         let but = UIButton()
-        but.backgroundColor = HCOLOR("#8F92A1").withAlphaComponent(0.06)
+        but.backgroundColor = BACKCOLOR_3
         but.layer.cornerRadius = 5
         return but
     }()
     
+    
     private let dateLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         lab.text = "2024-11-23"
         return lab
     }()
@@ -108,7 +149,7 @@ class BookingScheController: UIViewController, UITableViewDelegate, UITableViewD
     
     private let addBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "ADD", HCOLOR("#465DFD"), BFONT(15), HCOLOR("#8F92A1").withAlphaComponent(0.06))
+        but.setCommentStyle(.zero, "Add".local, MAINCOLOR, TIT_3, BACKCOLOR_3)
         but.layer.cornerRadius = 10
         but.setImage(LOIMG("dis_add"), for: .normal)
         return but
@@ -137,10 +178,47 @@ class BookingScheController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     private func setUpUI() {
+        
+       // S_H - bottomBarH - statusBarH - 130  - 55
+        
+        view.addSubview(totalView)
+        totalView.snp.makeConstraints {
+            $0.right.equalToSuperview().offset(-15)
+            $0.height.equalTo(40)
+            $0.top.equalToSuperview().offset(15)
+            $0.width.equalTo(135)
+        }
+        
+        totalView.addSubview(l_lab)
+        l_lab.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(10)
+            $0.centerY.equalToSuperview()
+        }
+        
+        totalView.addSubview(d_lab)
+        d_lab.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalToSuperview().offset(70)
+        }
+        
+        totalView.addSubview(l_number)
+        l_number.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalTo(l_lab.snp.right).offset(3)
+        }
+        
+        totalView.addSubview(d_number)
+        d_number.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalTo(d_lab.snp.right).offset(3)
+        }
+        
+        
+        
         view.addSubview(dateBut)
         dateBut.snp.makeConstraints {
             $0.left.equalToSuperview().offset(15)
-            $0.right.equalToSuperview().offset(-15)
+            $0.right.equalTo(totalView.snp.left).offset(-10)
             $0.height.equalTo(40)
             $0.top.equalToSuperview().offset(15)
         }
@@ -172,7 +250,8 @@ class BookingScheController: UIViewController, UITableViewDelegate, UITableViewD
             $0.left.equalToSuperview().offset(20)
             $0.right.equalToSuperview().offset(-20)
             $0.height.equalTo(40)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-20)
+            $0.top.equalToSuperview().offset(S_H - bottomBarH - statusBarH - 130  - 50)
+            //$0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-20)
             
         }
         
@@ -261,7 +340,7 @@ extension BookingScheController {
         let curDateModel = DateModel()
         curDateModel.updateModel(date: Date())
         selectDate = curDateModel
-        dateList_view = Date().getSomeOneDateModelWith(count: 7)
+        dateList_view = Date().getSomeOneDateModelWith(count: 30)
         dateView.setData(timeList: dateList_view, curDate: selectDate.yearDate)
         
     }
@@ -277,6 +356,8 @@ extension BookingScheController {
             HUD_MB.dissmiss(onView: view)
             table.mj_header?.endRefreshing()
             dataModel.updateModel(json: json)
+            l_number.text = String(dataModel.lunchNum)
+            d_number.text = String(dataModel.dinnerNum)
             timeHeaderView.setData(timeArr: dataModel.timeArr)
             table.reloadData()
             

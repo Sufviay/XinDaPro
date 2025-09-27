@@ -59,7 +59,7 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
                 
         view.clickDateBlock = { [unowned self] (par) in
             
-            let date = par as! Date
+            let date = par
             
             if timeSeltype == "start" {
                 self.startInputTF.text = date.getString("yyyy-MM-dd")
@@ -89,15 +89,15 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
 
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save", .white, BFONT(14), HCOLOR("#465DFD"))
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
         but.layer.cornerRadius = 14
         return but
     }()
 
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("333333"), BFONT(18), .left)
-        lab.text = "Edit discount"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
+        lab.text = "Edit discount".local
         return lab
     }()
 
@@ -111,14 +111,14 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
 
     private let tlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(16), .left)
-        lab.text = "Discount"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.text = "Discount".local
         return lab
     }()
     
     private let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(16), .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
         lab.text = "*"
         return lab
     }()
@@ -126,14 +126,14 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
     
     private let tlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(16), .left)
-        lab.text = "Start Date"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.text = "Start Date".local
         return lab
     }()
     
     private let sLab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(16), .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
         lab.text = "*"
         return lab
     }()
@@ -141,14 +141,14 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
     
     private let tlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(16), .left)
-        lab.text = "End Date"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.text = "End Date".local
         return lab
     }()
     
     private let sLab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(16), .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_2, .left)
         lab.text = "*"
         return lab
     }()
@@ -180,32 +180,32 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
     
     private let yeslab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(14), .left)
-        lab.text = "Enable"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.text = "Enable".local
         return lab
     }()
     
     
     private let nolab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(14), .left)
-        lab.text = "Disable"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.text = "Disable".local
         return lab
     }()
 
     
     private let tfBackView: UIView = {
         let view = UIView()
-        view.backgroundColor = HCOLOR("#8F92A1").withAlphaComponent(0.06)
+        view.backgroundColor = BACKCOLOR_3
         view.layer.cornerRadius = 7
         return view
     }()
     
     private lazy var inputTF: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "Fill in the discount price"
-        tf.font = SFONT(14)
-        tf.textColor = FONTCOLOR
+        tf.placeholder = "Fill in the discount price".local
+        tf.font = TIT_3
+        tf.textColor = TXTCOLOR_1
         tf.delegate = self
         return tf
     }()
@@ -213,32 +213,32 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
     
     private let startBackView: UIView = {
         let view = UIView()
-        view.backgroundColor = HCOLOR("#8F92A1").withAlphaComponent(0.06)
+        view.backgroundColor = BACKCOLOR_3
         view.layer.cornerRadius = 7
         return view
     }()
     
     private lazy var startInputTF: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "Choose start date"
-        tf.font = SFONT(14)
-        tf.textColor = FONTCOLOR
+        tf.placeholder = "Choose start date".local
+        tf.font = TIT_3
+        tf.textColor = TXTCOLOR_1
         tf.isUserInteractionEnabled = false
         return tf
     }()
     
     private let endBackView: UIView = {
         let view = UIView()
-        view.backgroundColor = HCOLOR("#8F92A1").withAlphaComponent(0.06)
+        view.backgroundColor = BACKCOLOR_3
         view.layer.cornerRadius = 7
         return view
     }()
     
     private lazy var endInputTF: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "Choose end date"
-        tf.font = SFONT(14)
-        tf.textColor = FONTCOLOR
+        tf.placeholder = "Choose end date".local
+        tf.font = TIT_3
+        tf.textColor = TXTCOLOR_1
         tf.isUserInteractionEnabled = false
         return tf
     }()
@@ -473,17 +473,17 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
     @objc private func clickSaveAction() {
         if discountType == "2" {
             if inputTF.text ?? "" == "" {
-                HUD_MB.showWarnig("Place fill in the price!", onView: PJCUtil.getWindowView())
+                HUD_MB.showWarnig("Place fill in the price!".local, onView: PJCUtil.getWindowView())
                 return
             }
             
             if startInputTF.text ?? "" == "" {
-                HUD_MB.showWarnig("Place fill in start date!", onView: PJCUtil.getWindowView())
+                HUD_MB.showWarnig("Place fill in start date!".local, onView: PJCUtil.getWindowView())
                 return
             }
             
             if endInputTF.text ?? "" == "" {
-                HUD_MB.showWarnig("Place fill in end date!", onView: PJCUtil.getWindowView())
+                HUD_MB.showWarnig("Place fill in end date!".local, onView: PJCUtil.getWindowView())
                 return
             }
 

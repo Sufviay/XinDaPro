@@ -10,6 +10,45 @@ import UIKit
 class SalesFiltrateView: UIView {
 
 
+    
+    func initFiltrateViewDateType(dateType: String) {
+        if dateType == "1" {
+            //天
+            type = "Day".local
+            
+            timeLab.text = Date().getString("yyyy-MM-dd")
+        }
+        if dateType == "2" {
+            //周
+            type = "Week".local
+        }
+        if dateType == "3" {
+            //月
+            type = "Month".local
+            let year = DateTool.shared.curYear
+            let month = DateTool.shared.curMonth
+            timeLab.text = month >= 10 ? "\(year)-\(month)" : "\(year)-0\(month)"
+        }
+        typeLab.text = type
+    }
+    
+    
+    func reSetDateToToday() {
+        
+        type = "Day".local
+        typeLab.text = type
+        timeLab.text = Date().getString("yyyy-MM-dd")
+        typeView.setData(type: type)
+        
+        dayAlert.reSetData()
+        weekAlert.reSetData()
+        monthAlert.reSetData()
+        
+    }
+    
+    
+    
+    
     private var type: String = "Month".local
 
     
@@ -22,15 +61,15 @@ class SalesFiltrateView: UIView {
     
     private let typeBut: UIButton = {
         let but = UIButton()
-        but.backgroundColor = HCOLOR("#F6F6F6")
+        but.backgroundColor = BACKCOLOR_3
         but.layer.cornerRadius = 5
         return but
     }()
     
     private let typeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(14), .center)
-        lab.text = "Month".local
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .center)
+        lab.text = ""
         return lab
     }()
     
@@ -48,14 +87,14 @@ class SalesFiltrateView: UIView {
     
     private let timeBut: UIButton = {
         let but = UIButton()
-        but.backgroundColor = HCOLOR("#F6F6F6")
+        but.backgroundColor = BACKCOLOR_3
         but.layer.cornerRadius = 5
         return but
     }()
     
     private let timeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(14), .center)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .center)
         lab.adjustsFontSizeToFitWidth = true
         lab.text = ""
         return lab
@@ -64,7 +103,7 @@ class SalesFiltrateView: UIView {
     
     private lazy var typeView: FiltrateSelectTagView = {
         let view = FiltrateSelectTagView()
-        view.setData(type: "Month".local)
+        view.setData(type: type)
 
         view.selectBlock = { [unowned self] (str) in
             
@@ -134,50 +173,17 @@ class SalesFiltrateView: UIView {
     private lazy var weekAlert: TimeWeeksAlert = {
         let view = TimeWeeksAlert()
         
-//        view.selectBlock = { [unowned self] (arr) in
-//            let showStr = (arr as! [String])[0]
-//            let dateStr = (arr as! [String])[1]
-//            let endDateStr = (arr as! [String])[2]
-//            self.timeLab.text = showStr
-//            self.selectTimeBlock?([dateStr, endDateStr])
-//        }
-        
         return view
     }()
     
-//    private lazy var yearAlert: TimeYearAlert = {
-//        let view = TimeYearAlert()
-//        view.selectBlock = { [unowned self] (arr) in
-//            let showStr = (arr as! [String])[0]
-//            let dateStr = (arr as! [String])[1]
-//            self.timeLab.text = showStr
-//            self.selectTimeBlock?(dateStr)
-//        }
-//
-//        return view
-//    }()
     
     private lazy var monthAlert: TimeMonthAlert = {
         let view = TimeMonthAlert()
-//        view.selectBlock = { [unowned self] (arr) in
-//            let showStr = (arr as! [String])[0]
-//            let dateStr = (arr as! [String])[1]
-//            let endDateStr = (arr as! [String])[2]
-//            self.timeLab.text = showStr
-//            self.selectTimeBlock?([dateStr, endDateStr])
-//        }
         return view
     }()
     
     private lazy var dayAlert: TimeDayAlert = {
         let view = TimeDayAlert()
-//        view.selectBlock = { [unowned self] (arr) in
-//            let showStr = (arr as! [String])[0]
-//            let dateStr = (arr as! [String])[1]
-//            let endDateStr = (arr as! [String])[2]
-//            self.timeLab.text = showStr
-//            self.selectTimeBlock?([dateStr, endDateStr])
-//        }
         return view
     }()
     
@@ -219,7 +225,6 @@ class SalesFiltrateView: UIView {
             $0.centerY.equalToSuperview()
         }
         
-        typeLab.text = "Month".local
         
         
         timeBut.addSubview(s_img2)
@@ -236,10 +241,6 @@ class SalesFiltrateView: UIView {
         }
         
         
-        let year = DateTool.shared.curYear
-        let month = DateTool.shared.curMonth
-
-        self.timeLab.text = month >= 10 ? "\(year)-\(month)" : "\(year)-0\(month)"
         
         timeBut.addTarget(self, action: #selector(clickTimeAction), for: .touchUpInside)
         typeBut.addTarget(self, action: #selector(clickTypeAction), for: .touchUpInside)

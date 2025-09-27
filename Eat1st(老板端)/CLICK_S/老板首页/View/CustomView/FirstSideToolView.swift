@@ -12,9 +12,9 @@ class FirstSideToolView: UIView, UIGestureRecognizerDelegate, UITableViewDelegat
     
     private let bag = DisposeBag()
     
-    private let imgStrArr: [String] = ["side_home", "side_set", "side_review", "side_tousu", "side_table"]
+    private let imgStrArr: [String] = ["side_home", "side_set","side_review", "side_order", "side_customer", "side_coupon", "side_tousu", "side_setting"]
 
-    private let titStrArr: [String] = ["Home", "Restaurant settings", "Reviews", "Complaints", "Dining-table management"]
+    private let titStrArr: [String] = ["Home".local, "Restaurant settings".local, "Reviews".local, "Orders".local, "Customer Management".local, "Promotion Management".local, "Complaints".local, "System settings".local]
 
     private let backView: UIView = {
         let view = UIView()
@@ -39,7 +39,7 @@ class FirstSideToolView: UIView, UIGestureRecognizerDelegate, UITableViewDelegat
         let img = UIImageView()
         img.clipsToBounds = true
         img.layer.cornerRadius = 10
-        img.backgroundColor = HOLDCOLOR
+        img.backgroundColor = BACKCOLOR_2
         img.image = LOIMG("icon")
         img.isUserInteractionEnabled = true
         
@@ -49,7 +49,7 @@ class FirstSideToolView: UIView, UIGestureRecognizerDelegate, UITableViewDelegat
     
     let nameLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.white, BFONT(14), .left)
+        lab.setCommentStyle(.white, TIT_3, .left)
         lab.lineBreakMode = .byTruncatingTail
         lab.text = "\(UserDefaults.standard.userName ?? "")"
         return lab
@@ -57,7 +57,7 @@ class FirstSideToolView: UIView, UIGestureRecognizerDelegate, UITableViewDelegat
 
     private let addressLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.white, SFONT(12), .left)
+        lab.setCommentStyle(.white, TIT_5, .left)
         lab.lineBreakMode = .byTruncatingTail
         lab.text = UserDefaults.standard.accountNum
         //lab.numberOfLines = 2
@@ -228,10 +228,7 @@ extension FirstSideToolView {
             return 1
         } else if section == 2 {
             return 0
-        }
-        
-        
-        else if section == 1 {
+        } else if section == 1 {
             if UserDefaults.standard.userAuth == "2" {
                 return 1
             } else {
@@ -286,21 +283,45 @@ extension FirstSideToolView {
         }
         
         if indexPath.section == 3 {
+            //订单列表
+            let orderVC = OrderListController()
+            PJCUtil.currentVC()?.navigationController?.pushViewController(orderVC, animated: true)
+        }
+        
+        if indexPath.section == 4 {
+            //客戶管理
+            let customerVC = CustomerListController()
+            PJCUtil.currentVC()?.navigationController?.pushViewController(customerVC, animated: true)
+        }
+        if indexPath.section == 5 {
+            //促銷管理
+            let proVC = PromotionListController()
+            PJCUtil.currentVC()?.navigationController?.pushViewController(proVC, animated: true)
+        }
+
+        
+        if indexPath.section == 6 {
             //投诉列表
             let complatinVC = ComplaintsController()
             PJCUtil.currentVC()?.navigationController?.pushViewController(complatinVC, animated: true)
 
         }
         
-        if indexPath.section == 4 {
-            //餐桌设置
-            let deskVC = DeskSettingController()
-            PJCUtil.currentVC()?.navigationController?.pushViewController(deskVC, animated: true)
+//        if indexPath.section == 5 {
+//            //餐桌设置
+//            let deskVC = DeskSettingController()
+//            PJCUtil.currentVC()?.navigationController?.pushViewController(deskVC, animated: true)
+//        }
+//        
+        if indexPath.section == 7 {
+            //系统设置
+            let systemVC = SystemSettingController()
+            PJCUtil.currentVC()?.navigationController?.pushViewController(systemVC, animated: true)
         }
         
         if indexPath.section == titStrArr.count {
             //退出
-            self.showSystemChooseAlert("Alert", "Log Out or Not", "YES", "NO") {
+            self.showSystemChooseAlert("Alert".local, "Do you want to log out?".local, "YES".local, "NO".local) {
                 HUD_MB.loading("", onView: PJCUtil.getWindowView())
                 HTTPTOOl.userLogOut().subscribe(onNext: { (json) in
                     HUD_MB.dissmiss(onView: PJCUtil.getWindowView())
@@ -310,7 +331,7 @@ extension FirstSideToolView {
                     UserDefaults.standard.removeObject(forKey: Keys.token)
                     UserDefaults.standard.removeObject(forKey: Keys.userType)
                     UserDefaults.standard.removeObject(forKey: Keys.userAuth)
-                    UserDefaults.standard.removeObject(forKey: Keys.accountNum)
+                    UserDefaults.standard.removeObject(forKey: Keys.storeName)
                     UserDefaults.standard.removeObject(forKey: Keys.userRole)
                     PJCUtil.currentVC()?.navigationController?.setViewControllers([LogInController()], animated: false)
                 }, onError: { (error) in
@@ -342,7 +363,7 @@ class SideOptionCell: BaseTableViewCell {
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(14), .left)
+        lab.setCommentStyle(HCOLOR("#465DFD"), TIT_3, .left)
         return lab
     }()
     
@@ -360,13 +381,13 @@ class SideOptionCell: BaseTableViewCell {
         contentView.addSubview(titLab)
         titLab.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview().offset(70)
+            $0.left.equalToSuperview().offset(60)
         }
         
         contentView.addSubview(nextImg)
         nextImg.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.right.equalToSuperview().offset(-20)
+            $0.right.equalToSuperview().offset(-15)
             $0.size.equalTo(CGSize(width: 7, height: 12))
         }
         
@@ -412,8 +433,8 @@ class logOutCell: BaseTableViewCell {
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(14), .left)
-        lab.text = "Logout"
+        lab.setCommentStyle(HCOLOR("#465DFD"), TIT_3, .left)
+        lab.text = "Logout".local
         return lab
     }()
 

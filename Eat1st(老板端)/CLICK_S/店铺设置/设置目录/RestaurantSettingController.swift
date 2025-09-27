@@ -10,15 +10,18 @@ import UIKit
 class RestaurantSettingController: HeadBaseViewController, UITableViewDataSource, UITableViewDelegate {
     
     
-    private var imgStrArr: [String] = ["set_menu", "set_item", "set_area", "set_deFee", "set_time", "set_set", "set_pay", "set_printer"]
-    private var nameStrArr: [String] = ["Menu", "ltem availability", "Delivery area", "Delivery charges", "Opening hours", "Restaurant details", "Payment Method", "Printer"]
-    private var desStrArr: [String] = ["View and edit your menu",
-                                       "Take items off menu temporarily if they go out of stock",
-                                       "Manage the area you deliver to",
-                                       "Manage how much you charge for delivery",
-                                       "Set the days and times you want to take orders",
-                                       "Make changes to your menu, restaurant details and bag fees",
-                                       "Change user app payment method setting", "Printer setting"]
+    private var imgStrArr: [String] = ["set_menu", "set_item", "set_area", "set_deFee", "set_time", "set_holiday", "set_set", "set_pay", "set_printer", "set_table"]
+    private var nameStrArr: [String] = ["Menu".local, "ltem availability".local, "Delivery area".local, "Delivery charges".local, "Opening hours".local, "Holiday".local, "Restaurant details settings".local, "Payment method".local, "Printer".local, "Dine-in table management".local]
+    private var desStrArr: [String] = ["View and edit your menu".local,
+                                       "Take items off menu temporarily if they go out of stock".local,
+                                       "Manage the area you delivery to".local,
+                                       "Manage how much you charge for delivery".local,
+                                       "Set the days and times you want to take orders".local,
+                                       "Set holiday times".local,
+                                       "Make changes to your restaurant details and fees".local,
+                                       "Change user app payment method setting".local,
+                                       "Printer setting".local,
+                                       "Manage your table".local]
     
 
     private let backView: UIView = {
@@ -28,21 +31,21 @@ class RestaurantSettingController: HeadBaseViewController, UITableViewDataSource
         return view
     }()
     
-    private let line: UIImageView = {
-        let img = UIImageView()
-        img.image = GRADIENTCOLOR(HCOLOR("#FFC65E"), HCOLOR("#FF8E12"), CGSize(width: 70, height: 3))
-        img.clipsToBounds = true
-        img.layer.cornerRadius = 1
-        return img
-    }()
-    
-    
-    private let titleLab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#333333"), BFONT(20), .left)
-        lab.text = "Restaurant settings"
-        return lab
-    }()
+//    private let line: UIImageView = {
+//        let img = UIImageView()
+//        img.image = GRADIENTCOLOR(HCOLOR("#FFC65E"), HCOLOR("#FF8E12"), CGSize(width: 70, height: 3))
+//        img.clipsToBounds = true
+//        img.layer.cornerRadius = 1
+//        return img
+//    }()
+//    
+//    
+//    private let titleLab: UILabel = {
+//        let lab = UILabel()
+//        lab.setCommentStyle(HCOLOR("#333333"), BFONT(20), .left)
+//        lab.text = "Restaurant settings"
+//        return lab
+//    }()
     
     
     
@@ -78,25 +81,25 @@ class RestaurantSettingController: HeadBaseViewController, UITableViewDataSource
             $0.top.equalToSuperview().offset(statusBarH + 80)
         }
         
-        backView.addSubview(line)
-        line.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-10)
-            $0.size.equalTo(CGSize(width: 70, height: 3))
-            $0.left.equalToSuperview().offset(20)
-        }
-        
-        backView.addSubview(titleLab)
-        titleLab.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(20)
-            $0.bottom.equalTo(line.snp.top).offset(-3)
-        }
+//        backView.addSubview(line)
+//        line.snp.makeConstraints {
+//            $0.bottom.equalToSuperview().offset(-10)
+//            $0.size.equalTo(CGSize(width: 70, height: 3))
+//            $0.left.equalToSuperview().offset(20)
+//        }
+//        
+//        backView.addSubview(titleLab)
+//        titleLab.snp.makeConstraints {
+//            $0.left.equalToSuperview().offset(20)
+//            $0.bottom.equalTo(line.snp.top).offset(-3)
+//        }
         
         
         
         view.addSubview(table)
         table.snp.makeConstraints {
             $0.left.right.equalToSuperview()
-            $0.top.equalTo(backView.snp.bottom)
+            $0.top.equalTo(backView).offset(30)
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         
@@ -106,7 +109,7 @@ class RestaurantSettingController: HeadBaseViewController, UITableViewDataSource
     
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Eat1st\nPartner Center"
+        self.biaoTiLab.text = "Restaurant settings".local
     }
     
     
@@ -120,17 +123,20 @@ class RestaurantSettingController: HeadBaseViewController, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 65
+        
+        let h = desStrArr[indexPath.section].getTextHeigh(TXT_2, S_W - 140) + 50
+        
+        return h
     }
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if section == 0 || section == 1 || section == 3 || section == 4 || section == 6 || section == 7 {
-            return 1
+        if section == 2 {
+            return 0
         }
         
-        return 0
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -145,33 +151,53 @@ class RestaurantSettingController: HeadBaseViewController, UITableViewDataSource
         
         if indexPath.section == 0 {
             let nextVC = MenuListController()
-            self.navigationController?.pushViewController(nextVC, animated: true)
+            navigationController?.pushViewController(nextVC, animated: true)
         }
         
         if indexPath.section == 1 {
             let nextVC = DishesItemOnOffController()
-            self.navigationController?.pushViewController(nextVC, animated: true)
+            navigationController?.pushViewController(nextVC, animated: true)
         }
         
         if indexPath.section == 3 {
             
             let nextVC = ChangeDistanceController()
-            self.navigationController?.pushViewController(nextVC, animated: true)
+            navigationController?.pushViewController(nextVC, animated: true)
         }
         
         if indexPath.section == 4 {
             let nextVC = StoreTimeSettingController()
-            self.navigationController?.pushViewController(nextVC, animated: true)
+            navigationController?.pushViewController(nextVC, animated: true)
+        }
+        
+        if indexPath.section == 5 {
+            //假日设置
+            let nextVC = HolidaySettingController()
+            navigationController?.pushViewController(nextVC, animated: true)
         }
         
         if indexPath.section == 6 {
-            let nextVC = PaymentMethodController()
-            self.navigationController?.pushViewController(nextVC, animated: true)
+            //餐廳詳情設置
+            let nextVC = StoreDetailSettingController()
+            navigationController?.pushViewController(nextVC, animated: true)
         }
         
         if indexPath.section == 7 {
+            //支付方式
+            let nextVC = PaymentMethodController()
+            navigationController?.pushViewController(nextVC, animated: true)
+        }
+        
+        if indexPath.section == 8 {
+            //打印機
             let nextVC = PrinterSettingController()
-            self.navigationController?.pushViewController(nextVC, animated: true)
+            navigationController?.pushViewController(nextVC, animated: true)
+        }
+        
+        if indexPath.section == 9 {
+            //餐桌設置
+            let nextVC = DeskSettingController()
+            navigationController?.pushViewController(nextVC, animated: true)
         }
         
     }
@@ -189,13 +215,13 @@ class RestaurantSettingItemCell: BaseTableViewCell {
     
     private let nameLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#000000"), BFONT(17), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
         return lab
     }()
     
     private let desLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(12), .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_2, .left)
         lab.numberOfLines = 0
         return lab
     }()
@@ -232,13 +258,13 @@ class RestaurantSettingItemCell: BaseTableViewCell {
         contentView.addSubview(nameLab)
         nameLab.snp.makeConstraints {
             $0.left.equalToSuperview().offset(70)
-            $0.top.equalTo(sImg).offset(-2)
+            $0.top.equalToSuperview().offset(10)
         }
         
         contentView.addSubview(desLab)
         desLab.snp.makeConstraints {
             $0.left.equalToSuperview().offset(70)
-            $0.top.equalTo(nameLab.snp.bottom).offset(0)
+            $0.top.equalToSuperview().offset(35)
             $0.right.equalToSuperview().offset(-70)
         }
         

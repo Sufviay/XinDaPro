@@ -247,8 +247,8 @@ class DishDetailComboModel: HandyJSON {
             name2 = nameEn == "" ? "--" : nameEn
         }
         
-        let h1 = name1.getTextHeigh(BFONT(17), S_W - 120)
-        let h2 = name2.getTextHeigh(SFONT(15), S_W - 120)
+        let h1 = name1.getTextHeigh(TIT_2, S_W - 120)
+        let h2 = name2.getTextHeigh(TXT_1, S_W - 120)
         self.name_h = 30 + h1 + 2 + h2
         
     }
@@ -284,8 +284,8 @@ class ComboDishModel: HandyJSON {
             name2 = nameEn == "" ? "--" : nameEn
         }
         
-        let h1 = name1.getTextHeigh(BFONT(13), S_W - 95)
-        let h2 = name2.getTextHeigh(SFONT(13), S_W - 95)
+        let h1 = name1.getTextHeigh(TIT_3, S_W - 95)
+        let h2 = name2.getTextHeigh(TXT_1, S_W - 95)
         self.name_h = 20 + h1 + 2 + h2
     }
     
@@ -362,8 +362,8 @@ class DishDetailSpecModel: HandyJSON {
             name2 = nameEn == "" ? "--" : nameEn
         }
 
-        let h1 = name1.getTextHeigh(BFONT(16), S_W - 120)
-        let h2 = name2.getTextHeigh(SFONT(15), S_W - 120)
+        let h1 = name1.getTextHeigh(TIT_3, S_W - 120)
+        let h2 = name2.getTextHeigh(TXT_1, S_W - 120)
         self.name_h = 30 + h1 + h2
         
         var t_h: CGFloat = 0
@@ -411,8 +411,8 @@ class DishDetailOptionModel: HandyJSON {
             name2 = nameEn == "" ? "--" : nameEn
         }
         
-        let h1 = name1.getTextHeigh(BFONT(14), S_W - 120)
-        let h2 = name2.getTextHeigh(SFONT(14), S_W - 120)
+        let h1 = name1.getTextHeigh(TIT_3, S_W - 120)
+        let h2 = name2.getTextHeigh(TXT_1, S_W - 120)
         self.name_h = 30 + h1 + h2
         self.op_h = name_h + 45 + 70
     }

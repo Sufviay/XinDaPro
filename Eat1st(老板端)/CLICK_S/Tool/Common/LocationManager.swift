@@ -9,6 +9,14 @@ import UIKit
 import CoreLocation
 
 
+class PlaceModel: NSObject {
+    var postCode: String = ""
+    var lat: String = ""
+    var lng: String = ""
+    var address: String = ""
+}
+
+
 class LocationManager: NSObject, CLLocationManagerDelegate {
     
     

@@ -12,13 +12,18 @@ class MoreAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITab
     
     enum MoreAlertType {
         case dish
+        case combo
         case additional
         case gift
         case printer
         case table
         case openTime
+        case holiday
+        case onoff
+        case customer
+        case promotion
+        case tag
     }
-    
     
     
     
@@ -123,63 +128,77 @@ class MoreAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITab
         
         switch alertType {
         case .dish:
-            celltitleArr = ["Detail", "Edit price", "Edit VIP", "Edit VAT", "Edit stock", "Edit discount", "Edit one free", "Edit special offer", "Delete"]
+            celltitleArr = ["Detail".local, "Edit price".local, "Edit VIP".local, "Edit VAT".local, "Edit stock".local, "Edit discount".local, "Edit one free".local, "Edit special offer".local, "Delete".local]
+        case .combo:
+            celltitleArr = ["Detail".local, "Edit price".local, "Edit VIP".local, "Edit VAT".local, "Edit stock".local, "Edit discount".local, "Edit one free".local, "Delete".local]
         case .additional:
             
             var statusStr = ""
             if statusType == "1" {
                 //启用
-                statusStr = "Enable"
+                statusStr = "Disable".local
             }
             if statusType == "2" {
                 //禁用
-                statusStr = "Disable"
+                statusStr = "Enable".local
             }
             
-            celltitleArr = ["Detail", "Status:\(statusStr)", "Delete"]
+            celltitleArr = ["Detail".local, statusStr, "Delete".local]
             
         case .gift:
-            celltitleArr = ["Detail", "Delete"]
+            celltitleArr = ["Detail".local, "Delete".local]
+            
+        case .holiday:
+            celltitleArr = ["Edit".local, "Delete".local]
             
         case .printer:
             var statusStr = ""
             if statusType == "1" {
                 //启用
-                statusStr = "Enable"
+                statusStr = "Disable".local
             }
             if statusType == "2" {
                 //禁用
-                statusStr = "Disable"
+                statusStr = "Enable".local
             }
-            celltitleArr = ["Status:\(statusStr)", "Edit", "Edit dishes", "Delete"]
+            celltitleArr = [statusStr, "Edit".local, "Edit dishes".local, "Delete".local]
             
         case .table:
             var statusStr = ""
             if statusType == "1" {
                 //启用
-                statusStr = "Enable"
+                statusStr = "Disable".local
             }
             if statusType == "2" {
                 //禁用
-                statusStr = "Disable"
+                statusStr = "Enable".local
             }
-            celltitleArr = ["Status:\(statusStr)", "Edit", "Delete"]
+            celltitleArr = [statusStr, "Edit".local, "Delete".local]
         case .openTime:
             var statusStr = ""
             if statusType == "1" {
                 //启用
-                statusStr = "Enable"
+                statusStr = "Disable".local
             }
             if statusType == "2" {
                 //禁用
-                statusStr = "Disable"
+                statusStr = "Enable".local
             }
-            celltitleArr = ["Detail", "Edit", "Edit dishes", "Status:\(statusStr)", "Delete"]
+            celltitleArr = ["Detail".local, "Edit".local, "Edit dishes".local, statusStr, "Delete".local]
+        case .onoff:
+            celltitleArr = ["In stock".local, "Sold out today".local, "Sold out indefinitely".local]
+        case .customer:
+            celltitleArr = ["Detail".local, "Edit tags".local, "Orders".local]
+        case .promotion:
+            celltitleArr = ["Detail".local, "Stop".local]
+        case .tag:
+            celltitleArr = ["Edit".local, "Delete".local]
         }
+
         
         table.reloadData()
         
-        let h =  celltitleArr.count * 30 + 30
+        let h =  celltitleArr.count * 40 + 30
         if (tap_H + CGFloat(h) + 50) > S_H {
             //超出屏幕范围
             
@@ -204,7 +223,6 @@ class MoreAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITab
                 $0.right.equalToSuperview().offset(-15)
                 $0.top.equalToSuperview().offset(tap_H + 20)
             }
-
         }
     
         addWindow()
@@ -228,7 +246,7 @@ class MoreAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITab
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 30
+        return 40
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -242,41 +260,59 @@ class MoreAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITab
         
         let titStr = celltitleArr[indexPath.row]
         
-        if titStr == "Delete" {
+        if titStr == "Delete".local {
             clickBlock?("delete")
         }
-        if titStr == "Edit" {
+        if titStr == "Edit".local {
             clickBlock?("edit")
         }
-        if titStr.contains("Status") {
+        if titStr == "Disable".local || titStr == "Enable".local {
             clickBlock?("status")
         }
-        if titStr == "Detail" {
+        if titStr == "Detail".local {
             clickBlock?("detail")
         }
-        if titStr == "Edit price" {
+        if titStr == "Edit price".local {
             clickBlock?("price")
         }
-        if titStr == "Edit stock" {
+        if titStr == "Edit stock".local {
             clickBlock?("stock")
         }
-        if titStr == "Edit discount" {
+        if titStr == "Edit discount".local {
             clickBlock?("discount")
         }
-        if titStr == "Edit one free" {
+        if titStr == "Edit one free".local {
             clickBlock?("free")
         }
-        if titStr == "Edit special offer" {
+        if titStr == "Edit special offer".local {
             clickBlock?("special")
         }
-        if titStr == "Edit dishes" {
+        if titStr == "Edit dishes".local {
             clickBlock?("dish")
         }
-        if titStr == "Edit VAT" {
+        if titStr == "Edit VAT".local {
             clickBlock?("VAT")
         }
-        if titStr == "Edit VIP" {
+        if titStr == "Edit VIP".local {
             clickBlock?("VIP")
+        }
+        if titStr == "In stock".local {
+            clickBlock?("on")
+        }
+        if titStr == "Sold out today".local {
+            clickBlock?("off today")
+        }
+        if titStr == "Sold out indefinitely".local {
+            clickBlock?("off inde")
+        }
+        if titStr == "Orders".local {
+            clickBlock?("order")
+        }
+        if titStr == "Stop".local {
+            clickBlock?("stop")
+        }
+        if titStr == "Edit tags".local {
+            clickBlock?("tag")
         }
         disAppearAction()
     }
@@ -294,7 +330,7 @@ class MoreAlertItemCell: BaseTableViewCell  {
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(11), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_5, .left)
         lab.text = "Edit"
         return lab
     }()
@@ -321,11 +357,11 @@ class MoreAlertItemCell: BaseTableViewCell  {
     
     func setCellData(titStr: String) {
         titLab.text = titStr
-        if titStr == "Delete" {
-            titLab.textColor = HCOLOR("#F75E5E")
+        if titStr == "Delete".local || titStr == "Stop".local {
+            titLab.textColor = TXTCOLOR_4
             line.isHidden = true
         } else {
-            titLab.textColor = FONTCOLOR
+            titLab.textColor = TXTCOLOR_1
             line.isHidden = false
         }
     }

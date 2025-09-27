@@ -9,7 +9,7 @@ import UIKit
 
 class CalendarAlert: BaseAlertView, UIGestureRecognizerDelegate, FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
 
-    var clickDateBlock: VoidBlock?
+    var clickDateBlock: VoidDateBlock?
 
     private var selectDate: Date?
     
@@ -22,7 +22,7 @@ class CalendarAlert: BaseAlertView, UIGestureRecognizerDelegate, FSCalendarDeleg
     
     private let sureBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Confirm", .white, BFONT(13), MAINCOLOR)
+        but.setCommentStyle(.zero, "Confirm".local, .white, TIT_3, MAINCOLOR)
         but.clipsToBounds = true
         but.layer.cornerRadius = 10
         return but
@@ -30,7 +30,7 @@ class CalendarAlert: BaseAlertView, UIGestureRecognizerDelegate, FSCalendarDeleg
     
     private let cancelBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Cancel", MAINCOLOR, BFONT(13), .clear)
+        but.setCommentStyle(.zero, "Cancel".local, MAINCOLOR, TIT_3, .clear)
         but.clipsToBounds = true
         but.layer.cornerRadius = 10
         but.layer.borderColor = MAINCOLOR.cgColor
@@ -45,12 +45,12 @@ class CalendarAlert: BaseAlertView, UIGestureRecognizerDelegate, FSCalendarDeleg
         
         calendar.appearance.todayColor = HCOLOR("999999")
         //calendar.appearance.headerDateFormat = "yyyy年MM月"
-        calendar.appearance.headerTitleFont = BFONT(18)
-        calendar.appearance.headerTitleColor = HCOLOR("333333")
-        calendar.appearance.weekdayTextColor = HCOLOR("#465DFD")
-        calendar.appearance.weekdayFont = BFONT(14)
+        calendar.appearance.headerTitleFont = TIT_4
+        calendar.appearance.headerTitleColor = TXTCOLOR_1
+        calendar.appearance.weekdayTextColor = MAINCOLOR
+        calendar.appearance.weekdayFont = TIT_3
         calendar.appearance.headerMinimumDissolvedAlpha = 0
-        calendar.appearance.selectionColor = HCOLOR("#465DFD")
+        calendar.appearance.selectionColor = MAINCOLOR
 
         calendar.delegate = self
         calendar.dataSource = self
@@ -89,7 +89,7 @@ class CalendarAlert: BaseAlertView, UIGestureRecognizerDelegate, FSCalendarDeleg
             $0.left.equalTo(backView.snp.centerX).offset(10)
             $0.right.equalToSuperview().offset(-20)
             $0.bottom.equalToSuperview().offset(-20)
-            $0.height.equalTo(40)
+            $0.height.equalTo(50)
         }
         
         
@@ -105,7 +105,7 @@ class CalendarAlert: BaseAlertView, UIGestureRecognizerDelegate, FSCalendarDeleg
             $0.left.equalToSuperview().offset(20)
             $0.right.equalToSuperview().offset(-20)
             $0.top.equalToSuperview().offset(10)
-            $0.bottom.equalTo(cancelBut.snp.top).offset(-20)
+            $0.bottom.equalTo(cancelBut.snp.top).offset(-15)
         }
         
         
@@ -120,7 +120,7 @@ class CalendarAlert: BaseAlertView, UIGestureRecognizerDelegate, FSCalendarDeleg
     @objc private func clickSureAction() {
 
         if selectDate != nil {
-            clickDateBlock?(selectDate)
+            clickDateBlock?(selectDate!)
             disAppearAction()
         }
     }

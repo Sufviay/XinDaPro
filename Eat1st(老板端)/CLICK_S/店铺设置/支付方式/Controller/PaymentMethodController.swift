@@ -147,15 +147,15 @@ class PaymentMethodController: HeadBaseViewController {
     
     private let tlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(16), .left)
-        lab.text = "Accept cash payment"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.text = "Accept cash payment".local
         return lab
     }()
     
     private let tlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(16), .left)
-        lab.text = "Accept online payment"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.text = "Accept online payment".local
         return lab
     }()
 
@@ -181,7 +181,7 @@ class PaymentMethodController: HeadBaseViewController {
 
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Payment Method"
+        self.biaoTiLab.text = "Payment method".local
 
     }
     

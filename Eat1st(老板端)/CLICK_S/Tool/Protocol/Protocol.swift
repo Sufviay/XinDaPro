@@ -254,7 +254,7 @@ extension CommonToolProtocol where Self: Any {
 
         phManager.configuration.saveSystemAblum = true
         phManager.configuration.navBarBackgroudColor = .white
-        phManager.configuration.navigationTitleColor = FONTCOLOR
+        phManager.configuration.navigationTitleColor = TXTCOLOR_1
         phManager.configuration.requestImageAfterFinishingSelection = true
         vc.manager = phManager
         vc.delegate = self as? HXAlbumListViewControllerDelegate

@@ -30,7 +30,7 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
     
     private lazy var filtrateView: SalesFiltrateView = {
         let view = SalesFiltrateView()
-        
+        view.initFiltrateViewDateType(dateType: dataType)
         //选择时间类型
         view.selectTypeBlock = { [unowned self] (str) in
             
@@ -60,7 +60,7 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
 
     private let classifyBut: UIButton = {
         let but = UIButton()
-        but.backgroundColor = HCOLOR("#F6F6F6")
+        but.backgroundColor = BACKCOLOR_3
         but.clipsToBounds = true
         but.layer.cornerRadius = 5
         return but
@@ -76,14 +76,14 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
     
     private let classifyLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1, BFONT(14), .left)
         lab.lineBreakMode = .byTruncatingTail
-        lab.text = "All"
+        lab.text = "All".local
         return lab
     }()
     
     
-    private let totalView: UIView = {
+    private let totalView1: UIView = {
         let view = UIView()
         view.backgroundColor = HCOLOR("#F5F8FF")
         view.layer.cornerRadius = 7
@@ -92,19 +92,37 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
     
     private let totalLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#333333"), BFONT(14), .left)
-        lab.text = "Total:"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_5, .left)
+        lab.text = "Total:".local
         return lab
     }()
     
+    
     private let totalNum: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#222222"), BFONT(16), .left)
-        lab.lineBreakMode = .byTruncatingTail
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.adjustsFontSizeToFitWidth = true
         lab.text = ""
         return lab
     }()
     
+    
+    private let totalView2: UIView = {
+        let view = UIView()
+        view.backgroundColor = BACKCOLOR_5
+        view.layer.cornerRadius = 7
+        return view
+    }()
+
+
+    private let totalPrice: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.adjustsFontSizeToFitWidth = true
+        lab.text = ""
+        return lab
+    }()
+
     
     
     
@@ -165,6 +183,8 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
     private func setUpUI() {
         
         
+        //S_H - statusBarH - bottomBarH - 130
+        
         view.addSubview(filtrateView)
         filtrateView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(20)
@@ -173,31 +193,49 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
             $0.height.equalTo(40)
         }
         
-        view.addSubview(totalView)
-        totalView.snp.makeConstraints {
+        view.addSubview(totalView2)
+        totalView2.snp.makeConstraints {
             $0.right.equalToSuperview().offset(-20)
             $0.height.equalTo(filtrateView)
             $0.top.equalTo(filtrateView.snp.bottom).offset(10)
-            $0.width.equalTo(130)
+            $0.width.equalTo(90)
+        }
+        
+        totalView2.addSubview(totalPrice)
+        totalPrice.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.left.equalToSuperview().offset(10)
+            $0.right.equalToSuperview().offset(-10)
+        }
+        
+        view.addSubview(totalView1)
+        totalView1.snp.makeConstraints {
+            $0.right.equalTo(totalView2.snp.left).offset(-5)
+            $0.height.equalTo(filtrateView)
+            $0.top.equalTo(filtrateView.snp.bottom).offset(10)
+            $0.width.equalTo(100)
         }
         
         
-        totalView.addSubview(totalLab)
+        totalView1.addSubview(totalLab)
         totalLab.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.left.equalToSuperview().offset(12)
+            $0.width.equalTo(("Total:".local.getTextWidth(TIT_5, 15) + 1))
         }
         
-        totalView.addSubview(totalNum)
+        totalView1.addSubview(totalNum)
         totalNum.snp.makeConstraints {
             $0.bottom.equalTo(totalLab.snp.bottom).offset(1)
             $0.left.equalTo(totalLab.snp.right).offset(5)
+            $0.right.equalToSuperview().offset(-5)
         }
+        
         
         view.addSubview(classifyBut)
         classifyBut.snp.makeConstraints {
-            $0.left.right.height.equalTo(filtrateView)
-            $0.right.equalTo(totalView.snp.left).offset(-10)
+            $0.left.height.equalTo(filtrateView)
+            $0.right.equalTo(totalView1.snp.left).offset(-10)
             $0.top.equalTo(filtrateView.snp.bottom).offset(10)
         }
         
@@ -211,8 +249,8 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
         classifyBut.addSubview(classifyLab)
         classifyLab.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview().offset(25)
-            $0.right.equalToSuperview().offset(-18)
+            $0.left.equalToSuperview().offset(15)
+            $0.right.equalToSuperview().offset(-15)
 
         }
         
@@ -220,7 +258,8 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
         table.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.top.equalTo(classifyBut.snp.bottom).offset(15)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-15)
+            //$0.bottom.equalTo(view.snp.bottom).offset(-25 - bottomBarH)
+            $0.height.equalTo(S_H - statusBarH - bottomBarH - 255)
         }
         
         classifyBut.addTarget(self, action: #selector(clickClassifyAction), for: .touchUpInside)
@@ -261,18 +300,9 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
             
-            var h1: CGFloat = 0
-            var h2: CGFloat = 0
             
-            let curL = PJCUtil.getCurrentLanguage()
-            if curL == "en_GB" {
-                h1  = dishArr[indexPath.row].name_En.getTextHeigh(BFONT(14), S_W - 170)
-                h2 = dishArr[indexPath.row].name_Hk.getTextHeigh(SFONT(11), S_W - 170)
-                
-            } else {
-                h1  = dishArr[indexPath.row].name_Hk.getTextHeigh(BFONT(14), S_W - 170)
-                h2 = dishArr[indexPath.row].name_En.getTextHeigh(SFONT(11), S_W - 170)
-            }
+            let h1  = dishArr[indexPath.row].name1.getTextHeigh(TIT_3, S_W - 170)
+            let h2 = dishArr[indexPath.row].name1.getTextHeigh(TXT_2, S_W - 170)
 
             let returnH = h1 + h2 + 25
             
@@ -351,6 +381,7 @@ extension MenuItemsController {
             dishArr = tArr
             
             if dishArr.count == 0 {
+                table.layoutIfNeeded()
                 table.addSubview(noDataView)
             } else {
                 noDataView.removeFromSuperview()
@@ -358,11 +389,20 @@ extension MenuItemsController {
             
             table.reloadData()
             table.mj_header?.endRefreshing()
-            totalNum.text = json["data"]["totalNum"].stringValue == "" ? "0" : json["data"]["totalNum"].stringValue
+            
+            var num: Int = 0
+            num = json["data"]["totalNum"].intValue
+            totalNum.text = String(num)
+            
+            var price: Double = 0
+            price = json["data"]["totalPrice"].doubleValue
+            totalPrice.text = "£" + D_2_STR(price)
+            
         }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
             table.mj_header?.endRefreshing()
             totalNum.text = "0"
+            totalPrice.text = "£0"
         }).disposed(by: self.bag)
         
     }
@@ -384,6 +424,7 @@ extension MenuItemsController {
             self.dishArr = tArr
             
             if dishArr.count == 0 {
+                table.layoutIfNeeded()
                 table.addSubview(noDataView)
             } else {
                 noDataView.removeFromSuperview()
@@ -391,7 +432,16 @@ extension MenuItemsController {
 
             self.table.mj_header?.endRefreshing()
             self.table.reloadData()
-            totalNum.text = json["data"]["totalNum"].stringValue == "" ? "0" : json["data"]["totalNum"].stringValue
+            
+            
+            var num: Int = 0
+            num = json["data"]["totalNum"].intValue
+            totalNum.text = String(num)
+            
+            var price: Double = 0
+            price = json["data"]["totalPrice"].doubleValue
+            totalPrice.text = "£" + D_2_STR(price)
+            
             
         }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)

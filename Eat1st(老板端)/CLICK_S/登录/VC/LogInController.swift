@@ -34,16 +34,16 @@ class LogInController: BaseViewController {
     
     private let tlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#B9B9B9"), SFONT(14), .left)
-        lab.text = "Account"
+        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.text = "Account".local
         return lab
     }()
     
     
     private let tlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#B9B9B9"), SFONT(14), .left)
-        lab.text = "Password"
+        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.text = "Password".local
         return lab
     }()
 
@@ -70,8 +70,9 @@ class LogInController: BaseViewController {
     
     private let emailTF: UITextField = {
         let tf = UITextField()
-        tf.font = SFONT(14)
-        tf.textColor = HCOLOR("#3A3A3A")
+        tf.font = TIT_3
+        tf.textColor = TXTCOLOR_1
+        tf.text = UserDefaults.standard.accountNum ?? ""
         //tf.placeholder = "Account"
         return tf
     }()
@@ -79,9 +80,9 @@ class LogInController: BaseViewController {
     
     private let passwordTF: UITextField = {
         let tf = UITextField()
-        tf.font = SFONT(14)
+        tf.font = TIT_3
         tf.isSecureTextEntry = true
-        tf.textColor = HCOLOR("#3A3A3A")
+        tf.textColor = TXTCOLOR_1
         //tf.placeholder = "Password"
         return tf
     }()
@@ -96,8 +97,8 @@ class LogInController: BaseViewController {
     
     private let loginlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.white, BFONT(17), .left)
-        lab.text = "Sign in"
+        lab.setCommentStyle(.white, TIT_2, .left)
+        lab.text = "Sign in".local
         return lab
     }()
     
@@ -113,7 +114,7 @@ class LogInController: BaseViewController {
                 print("Terms and Conditions")
                 
                 let nextVC =  XYViewController()
-                nextVC.titStr = "Terms of Service"
+                nextVC.titStr = "Terms of Service".local
                 nextVC.webUrl = "http://deal.foodo2o.com/terms_of_service.html"
                 self.present(nextVC, animated: true, completion: nil)
                 
@@ -124,7 +125,7 @@ class LogInController: BaseViewController {
                 print("Privacy Policy")
                 
                 let nextVC =  XYViewController()
-                nextVC.titStr = "Privacy Policy"
+                nextVC.titStr = "Privacy Policy".local
                 nextVC.webUrl = "http://deal.foodo2o.com/privacy_policy.html"
                 self.present(nextVC, animated: true, completion: nil)
             }
@@ -167,7 +168,8 @@ class LogInController: BaseViewController {
         view.addSubview(tlab2)
         tlab2.snp.makeConstraints {
             $0.left.equalTo(tlab1)
-            $0.top.equalTo(backImg.snp.bottom).offset(105)
+            $0.top.equalTo(tlab1.snp.bottom).offset(60)
+            //$0.top.equalTo(backImg.snp.bottom).offset(105)
         }
         
         
@@ -192,7 +194,7 @@ class LogInController: BaseViewController {
         emailTF.snp.makeConstraints {
             $0.left.right.equalTo(line1)
             $0.bottom.equalTo(line1.snp.top)
-            $0.height.equalTo(38)
+            $0.height.equalTo(40)
         }
         
         view.addSubview(passwordTF)
@@ -200,12 +202,12 @@ class LogInController: BaseViewController {
             $0.left.equalTo(line2)
             $0.right.equalTo(line2.snp.right).offset(-70)
             $0.bottom.equalTo(line2.snp.top)
-            $0.height.equalTo(38)
+            $0.height.equalTo(40)
         }
         
         view.addSubview(canSeeBut)
         canSeeBut.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 40, height: 30))
+            $0.size.equalTo(CGSize(width: 50, height: 50))
             $0.centerY.equalTo(passwordTF)
             $0.right.equalTo(line2)
         }
@@ -263,30 +265,32 @@ class LogInController: BaseViewController {
             UserDefaults.standard.isLogin = true
             UserDefaults.standard.token = json["data"]["token"].stringValue
             UserDefaults.standard.userName = json["data"]["name"].stringValue
+            UserDefaults.standard.storeName = json["data"]["storeName"].stringValue
             UserDefaults.standard.userType = json["data"]["accountType"].stringValue
             UserDefaults.standard.userRole = json["data"]["accountTypeName"].stringValue
             UserDefaults.standard.accountNum = self.emailTF.text!
             UserDefaults.standard.storeLng = json["data"]["lng"].doubleValue
             UserDefaults.standard.storeLat = json["data"]["lat"].doubleValue
             UserDefaults.standard.userAuth = json["data"]["auth"].stringValue
+            
 
             //上传tsToken
-            let tsToken = UserDefaults.standard.tsToken ?? ""
-
-            if tsToken != "" {
-                HTTPTOOl.updateTSToken(token: tsToken).subscribe(onNext: { (json) in
-                    print("推送注册成功")
-                    DispatchQueue.main.after(time: .now() + 1.5) {
-                        self.navigationController?.setViewControllers([BossFirstController()], animated: false)
-                    }
-                }, onError: { (error) in
-                    print("推送注册失败")
-                }).disposed(by: self.bag)
-            } else {
-                DispatchQueue.main.after(time: .now() + 1.5) {
-                    self.navigationController?.setViewControllers([BossFirstController()], animated: false)
-                }
-            }
+//            let tsToken = UserDefaults.standard.tsToken ?? ""
+//
+//            if tsToken != "" {
+//                HTTPTOOl.updateTSToken(token: tsToken).subscribe(onNext: { (json) in
+//                    print("推送注册成功")
+//                    DispatchQueue.main.after(time: .now() + 1.5) {
+//                        self.navigationController?.setViewControllers([BossFirstController()], animated: false)
+//                    }
+//                }, onError: { (error) in
+//                    print("推送注册失败")
+//                }).disposed(by: self.bag)
+//            } else {
+//                DispatchQueue.main.after(time: .now() + 1.5) {
+//                    self.navigationController?.setViewControllers([BossFirstController()], animated: false)
+//                }
+//            }
             
             //上传语言
             HTTPTOOl.setLanguage().subscribe(onNext: { (json) in
@@ -294,6 +298,11 @@ class LogInController: BaseViewController {
             }, onError: {_ in
                 
             }).disposed(by: self.bag)
+            
+            DispatchQueue.main.after(time: .now() + 1.5) {
+                self.navigationController?.setViewControllers([BossFirstController()], animated: false)
+            }
+
             
         }, onError: { (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)

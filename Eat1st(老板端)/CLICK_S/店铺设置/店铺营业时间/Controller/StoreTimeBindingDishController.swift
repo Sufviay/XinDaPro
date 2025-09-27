@@ -32,7 +32,7 @@ class StoreTimeBindingDishController: HeadBaseViewController, UITableViewDelegat
     
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save", .white, BFONT(14), HCOLOR("465DFD"))
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
         but.clipsToBounds = true
         but.layer.cornerRadius = 14
         return but
@@ -55,7 +55,7 @@ class StoreTimeBindingDishController: HeadBaseViewController, UITableViewDelegat
     
     private let allBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Select all items", FONTCOLOR, BFONT(13), .clear)
+        but.setCommentStyle(.zero, "Select all items".local, TXTCOLOR_1, TIT_3, .clear)
         return but
     }()
     
@@ -84,7 +84,7 @@ class StoreTimeBindingDishController: HeadBaseViewController, UITableViewDelegat
     
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Dishes"
+        self.biaoTiLab.text = "Dishes".local
 
     }
     
@@ -125,7 +125,7 @@ class StoreTimeBindingDishController: HeadBaseViewController, UITableViewDelegat
         
         backView.addSubview(saveBut)
         saveBut.snp.makeConstraints {
-            $0.height.equalTo(40)
+            $0.height.equalTo(50)
             $0.left.equalToSuperview().offset(20)
             $0.bottom.equalToSuperview().offset(-bottomBarH - 10)
             $0.right.equalToSuperview().offset(-20)

@@ -56,7 +56,7 @@ extension UIColor {
     }
     
     ///颜色转为图片
-    open func changeImage()-> UIImage {
+    public func changeImage()-> UIImage {
         let rect = CGRect(x: 0,y: 0,width: 1,height: 1)
         UIGraphicsBeginImageContext(rect.size)
         let context = UIGraphicsGetCurrentContext()
@@ -74,7 +74,7 @@ extension UIColor {
 extension UILabel {
     
     ///设置基础样式
-    open func setCommentStyle(_ color: UIColor, _ mfont: UIFont, _ alignment: NSTextAlignment) {
+    public func setCommentStyle(_ color: UIColor, _ mfont: UIFont, _ alignment: NSTextAlignment) {
         self.textColor = color
         self.textAlignment = alignment
         self.font = mfont
@@ -82,7 +82,9 @@ extension UILabel {
          lineBreakMode 属性用于Label文字的省略形式
          */
         self.lineBreakMode = .byTruncatingTail
+        //adjustsFontSizeToFitWidth = true
     }
+    
     
     
     
@@ -93,7 +95,7 @@ extension UILabel {
 extension UIButton {
     
     ///设置基础样式
-    open func setCommentStyle(_ frame: CGRect, _ titleStr: String, _ titleColor: UIColor, _ strFont: UIFont, _ backColor: UIColor) {
+    public func setCommentStyle(_ frame: CGRect, _ titleStr: String, _ titleColor: UIColor, _ strFont: UIFont, _ backColor: UIColor) {
         self.frame = frame
         self.setTitle(titleStr, for: .normal)
         self.setTitleColor(titleColor, for: .normal)
@@ -433,6 +435,7 @@ extension Date {
             let weekday = calendar.component(.weekday, from: returnDate)
             let shortWeekday = calendar.shortWeekdaySymbols[weekday - 1]            
             model.week = shortWeekday
+            model.idx = num
             tempArr.append(model)
         }
         return tempArr
@@ -493,6 +496,7 @@ public struct Keys {
     static let token = "token"
     static let userID = "userID"
     static let userName = "name"
+    static let storeName = "sname"
     static let userRole = "userRole"
     static let userAuth = "userAuth"
     static let accountNum = "accountNum"
@@ -517,7 +521,7 @@ public struct Keys {
     //关于通知中心
     ///用于显示/隐藏筛选排序栏
     static let sxpxStatus = "sxpxStatus"
-
+    
 }
 
 
@@ -631,6 +635,17 @@ extension UserDefaults {
         get {
             return string(forKey: Keys.userName)
         }
+    }
+    
+    ///店铺名称
+    var storeName: String? {
+        set {
+            set(newValue, forKey: Keys.storeName)
+        }
+        get {
+            return string(forKey: Keys.storeName)
+        }
+
     }
 
     
@@ -897,6 +912,17 @@ extension UIDevice {
          default:                                        return identifier
       }
    }
+}
+
+
+
+extension UITextField {
+    
+    //设置Placeholder的颜色
+    func setPlaceholder(_ str: String, color: UIColor) {
+        self.attributedPlaceholder = NSAttributedString.init(string: str, attributes: [.foregroundColor: color])
+    }
+    
 }
 
 

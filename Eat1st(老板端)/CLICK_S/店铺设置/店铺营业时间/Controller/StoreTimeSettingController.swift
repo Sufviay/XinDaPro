@@ -28,8 +28,8 @@ class StoreTimeSettingController: HeadBaseViewController, UITableViewDelegate, U
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#333333"), BFONT(18), .left)
-        lab.text = "Opening Hours"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
+        lab.text = "Opening time".local
         return lab
     }()
     
@@ -44,7 +44,7 @@ class StoreTimeSettingController: HeadBaseViewController, UITableViewDelegate, U
     
     private let setBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "SET >", HCOLOR("#465DFD"), BFONT(11), .clear)
+        but.setCommentStyle(.zero, "SET >".local, MAINCOLOR, TIT_5, .clear)
         return but
     }()
 
@@ -78,7 +78,7 @@ class StoreTimeSettingController: HeadBaseViewController, UITableViewDelegate, U
     
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Opening hours"
+        self.biaoTiLab.text = "Opening hours".local
         loadData_Net()
     }
     

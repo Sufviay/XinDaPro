@@ -12,7 +12,7 @@ class MenuDishCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionVie
     private var dataModel = DishModel()
     
     ///菜品类型。dis 菜。add附加。fre赠品
-    private var dishType: String = "dis"
+    private var dataType: PageType = .dish
     
     var clickMoreBlock: VoidStringBlock?
 
@@ -21,14 +21,14 @@ class MenuDishCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionVie
     
     private let line: UIView = {
         let view = UIView()
-        view.backgroundColor = HCOLOR("#EEEEEE")
+        view.backgroundColor = BACKCOLOR_4
         return view
     }()
     
     
     private let nameLab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(13), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         lab.numberOfLines = 0
         lab.text = "Sesame Prawn on Toast"
         return lab
@@ -37,7 +37,7 @@ class MenuDishCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionVie
     
     private let nameLab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(13), .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
         lab.numberOfLines = 0
         lab.text = "芝麻大蝦吐司"
         return lab
@@ -53,20 +53,20 @@ class MenuDishCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionVie
     
     private let moneyLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#6B7DFD"), SFONT(13), .left)
+        lab.setCommentStyle(MAINCOLOR, TXT_1, .left)
         lab.text = "£ 23.63"
         return lab
     }()
     
-    private let disCountImg: UIImageView = {
-        let img = UIImageView()
-        img.image = LOIMG("dish_discount")
-        return img
-    }()
+//    private let disCountImg: UIImageView = {
+//        let img = UIImageView()
+//        img.image = LOIMG("dish_discount")
+//        return img
+//    }()
     
     private let kuCunLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#F75E5E"), SFONT(11), .left)
+        lab.setCommentStyle(TXTCOLOR_4, TXT_2, .left)
         lab.text = "Stock: 9 "
         return lab
     }()
@@ -74,14 +74,14 @@ class MenuDishCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionVie
     
     private let disMoneyLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(10), .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_2, .left)
         lab.text = "£4.8"
         return lab
     }()
     
     private let disLine: UIView = {
         let view = UIView()
-        view.backgroundColor = HCOLOR("#666666")
+        view.backgroundColor = TXTCOLOR_2
         return view
     }()
     
@@ -98,6 +98,12 @@ class MenuDishCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionVie
         return lab
     }()
 
+    private let statusLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(TXTCOLOR_4, TIT_3, .right)
+        lab.text = "Sold out indefinitely".local
+        return lab
+    }()
     
     
     
@@ -144,14 +150,14 @@ class MenuDishCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionVie
         contentView.addSubview(nameLab1)
         nameLab1.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
-            $0.right.equalToSuperview().offset(-100)
+            $0.right.equalToSuperview().offset(-200)
             $0.top.equalToSuperview().offset(15)
         }
         
         contentView.addSubview(nameLab2)
         nameLab2.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
-            $0.right.equalToSuperview().offset(-100)
+            $0.right.equalToSuperview().offset(-200)
             $0.top.equalTo(nameLab1.snp.bottom).offset(0)
         }
         
@@ -200,19 +206,25 @@ class MenuDishCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionVie
             $0.edges.equalToSuperview()
         }
         
-        contentView.addSubview(collection)
-        collection.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(20)
-            $0.right.equalToSuperview().offset(-70)
-            $0.top.equalTo(moneyLab.snp.bottom).offset(10)
-            $0.height.equalTo(15)
-        }
+//        contentView.addSubview(collection)
+//        collection.snp.makeConstraints {
+//            $0.left.equalToSuperview().offset(20)
+//            $0.right.equalToSuperview().offset(-70)
+//            $0.top.equalTo(moneyLab.snp.bottom).offset(10)
+//            $0.height.equalTo(15)
+//        }
         
-        contentView.addSubview(disCountImg)
-        disCountImg.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 15, height: 15))
-            $0.centerY.equalTo(nameLab1)
-            $0.left.equalToSuperview().offset(S_W - 90)
+//        contentView.addSubview(disCountImg)
+//        disCountImg.snp.makeConstraints {
+//            $0.size.equalTo(CGSize(width: 15, height: 15))
+//            $0.centerY.equalTo(nameLab1)
+//            $0.left.equalToSuperview().offset(S_W - 90)
+//        }
+        
+        contentView.addSubview(statusLab)
+        statusLab.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(20)
+            $0.right.equalTo(moreBut.snp.left)
         }
         
         moreBut.addTarget(self, action: #selector(clickMoreAction(sender:)), for: .touchUpInside)
@@ -227,14 +239,22 @@ class MenuDishCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionVie
         
         print(cret)
         
-        if self.dishType == "dis" {
+        switch dataType {
+        case .seach_edit:
             alertView.alertType = .dish
-        } else if dishType == "add" {
+        case .search_onoff:
+            alertView.alertType = .onoff
+        case .dish:
+            alertView.alertType = .dish
+        case .additional:
             alertView.alertType = .additional
             alertView.statusType = dataModel.statusID
-        } else {
+        case .gift:
             alertView.alertType = .gift
+        case .combo:
+            alertView.alertType = .combo
         }
+        
         alertView.tap_H = cret.minY
         alertView.appearAction()
     }
@@ -259,13 +279,13 @@ class MenuDishCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionVie
         return CGSize(width: w, height: 15)
     }
         
-    func setCellData(model: DishModel, type: String) {
+    func setCellData(model: DishModel, type: PageType) {
         dataModel = model
-        self.dishType = type
+        self.dataType = type
         self.nameLab1.text = model.name1
         self.nameLab2.text = model.name2
         
-        self.tagArr = model.tags
+        //self.tagArr = model.tags
         self.collection.reloadData()
         
         if tagArr.count == 0 {
@@ -284,7 +304,7 @@ class MenuDishCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionVie
                 self.disMoneyLab.text = "£\(model.deliPrice)"
             }
             self.discountScaleLab.text = "\(model.discountSale)%OFF"
-            self.disCountImg.isHidden = false
+//            self.disCountImg.isHidden = false
             self.disBackImg.isHidden = false
             self.disMoneyLab.isHidden = false
         } else {
@@ -297,7 +317,7 @@ class MenuDishCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionVie
             
             self.disMoneyLab.text = ""
             self.discountScaleLab.text = ""
-            self.disCountImg.isHidden = true
+//            self.disCountImg.isHidden = true
             self.disBackImg.isHidden = true
             self.disMoneyLab.isHidden = true
         }
@@ -308,30 +328,46 @@ class MenuDishCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionVie
         } else {
             self.kuCunLab.text = "Stock: \(model.limitNum)"
         }
-    }
-
-    override func reSetFrame() {
-                
-        //获取UIlabel的行数
-        let h = nameLab1.text!.getTextHeigh(BFONT(13), S_W - 120)
-        let lineNum = Int(ceil(h / nameLab1.font.lineHeight))
-
-        if lineNum > 1 {
-            disCountImg.snp.remakeConstraints {
-                $0.size.equalTo(CGSize(width: 15, height: 15))
-                $0.centerY.equalTo(nameLab1)
-                $0.left.equalToSuperview().offset(S_W - 90)
-            }
-        } else {
-            
-            let w = nameLab1.text!.getTextWidth(BFONT(13), nameLab1.font.lineHeight)
-            disCountImg.snp.remakeConstraints {
-                $0.size.equalTo(CGSize(width: 15, height: 15))
-                $0.centerY.equalTo(nameLab1)
-                $0.left.equalToSuperview().offset(w + 30)
-            }
+        
+        if model.statusID == "1" {
+            //上架
+            statusLab.text = "In stock".local
+            statusLab.textColor = TXTCOLOR_5
+        }
+        if model.statusID == "2" {
+            //永久下架
+            statusLab.text = "Sold out indefinitely".local
+            statusLab.textColor = TXTCOLOR_4
+        }
+        if model.statusID == "3" {
+            //當天下架
+            statusLab.text = "Sold out today".local
+            statusLab.textColor = TXTCOLOR_4
         }
     }
+
+//    override func reSetFrame() {
+//                
+//        //获取UIlabel的行数
+//        let h = nameLab1.text!.getTextHeigh(BFONT(13), S_W - 120)
+//        let lineNum = Int(ceil(h / nameLab1.font.lineHeight))
+//
+//        if lineNum > 1 {
+//            disCountImg.snp.remakeConstraints {
+//                $0.size.equalTo(CGSize(width: 15, height: 15))
+//                $0.centerY.equalTo(nameLab1)
+//                $0.left.equalToSuperview().offset(S_W - 90)
+//            }
+//        } else {
+//            
+//            let w = nameLab1.text!.getTextWidth(BFONT(13), nameLab1.font.lineHeight)
+//            disCountImg.snp.remakeConstraints {
+//                $0.size.equalTo(CGSize(width: 15, height: 15))
+//                $0.centerY.equalTo(nameLab1)
+//                $0.left.equalToSuperview().offset(w + 30)
+//            }
+//        }
+//    }
 
 }
 

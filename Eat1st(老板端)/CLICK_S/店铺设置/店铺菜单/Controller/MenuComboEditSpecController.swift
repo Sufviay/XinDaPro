@@ -20,15 +20,7 @@ class MenuComboEditSpecController: HeadBaseViewController, UITableViewDelegate, 
     
     var isAdd: Bool = false
     
-    var isSave: Bool = false {
-        didSet {
-            if isSave {
-                self.saveBut.setTitle("Save", for: .normal)
-            } else {
-                self.saveBut.setTitle("Confirm", for: .normal)
-            }
-        }
-    }
+    var isSave: Bool = false
 
     private let rightBut: UIButton = {
         let but = UIButton()
@@ -71,23 +63,23 @@ class MenuComboEditSpecController: HeadBaseViewController, UITableViewDelegate, 
     
     private let cancelBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "cancel", HCOLOR("#465DFD"), BFONT(14), .clear)
+        but.setCommentStyle(.zero, "Cancel".local, MAINCOLOR, TIT_2, .clear)
         but.layer.cornerRadius = 14
-        but.layer.borderColor = HCOLOR("#465DFD").cgColor
+        but.layer.borderColor = MAINCOLOR.cgColor
         but.layer.borderWidth = 2
         return but
     }()
 
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Confirm", .white, BFONT(14), HCOLOR("#465DFD"))
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
         but.layer.cornerRadius = 14
         return but
     }()
     
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Edit"
+        self.biaoTiLab.text = "Edit combo option".local
         self.rightBut.isHidden = isAdd
         self.table.reloadData()
     }
@@ -151,7 +143,7 @@ class MenuComboEditSpecController: HeadBaseViewController, UITableViewDelegate, 
 
     @objc private func clickRightAction() {
         //删除
-        self.showSystemChooseAlert("Alert", "Delete or not?", "YES", "NO") { [unowned self] in
+        self.showSystemChooseAlert("Alert".local, "Delete or not?".local, "YES".local, "NO".local) { [unowned self] in
             self.deleteAction_Net()
         }
     }
@@ -172,23 +164,23 @@ class MenuComboEditSpecController: HeadBaseViewController, UITableViewDelegate, 
     private func saveAciton_Net() {
         //校验信息
         if dataModel.nameCn == "" {
-            HUD_MB.showWarnig("Please fill in the simplified Chinese name!", onView: self.view)
+            HUD_MB.showWarnig("Please fill in the simplified Chinese name!".local, onView: self.view)
             return
         }
         
         if dataModel.nameHk == "" {
-            HUD_MB.showWarnig("Please fill in the traditional Chinese name!", onView: self.view)
+            HUD_MB.showWarnig("Please fill in the traditional Chinese name!".local, onView: self.view)
             return
         }
         
         if dataModel.nameEn == "" {
-            HUD_MB.showWarnig("Please fill in the English name!", onView: self.view)
+            HUD_MB.showWarnig("Please fill in the English name!".local, onView: self.view)
             return
         }
         
         
         if dataModel.comboDishesList.count == 0 {
-            HUD_MB.showWarnig("Please add dishes!", onView: self.view)
+            HUD_MB.showWarnig("Please add dishes!".local, onView: self.view)
             return
         }
         
@@ -284,13 +276,13 @@ class MenuComboEditSpecController: HeadBaseViewController, UITableViewDelegate, 
             if indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 2 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeInPutCell") as! DishEditeInPutCell
                 if indexPath.row == 0 {
-                    cell.setCellData(titStr: "Simplified Chinese name", msgStr: dataModel.nameCn)
+                    cell.setCellData(titStr: "Simplified Chinese name".local, msgStr: dataModel.nameCn)
                 }
                 if indexPath.row == 1 {
-                    cell.setCellData(titStr: "Traditional Chinese name", msgStr: dataModel.nameHk)
+                    cell.setCellData(titStr: "Traditional Chinese name".local, msgStr: dataModel.nameHk)
                 }
                 if indexPath.row == 2 {
-                    cell.setCellData(titStr: "English name", msgStr: dataModel.nameHk)
+                    cell.setCellData(titStr: "English name".local, msgStr: dataModel.nameHk)
                 }
                 
                 
@@ -311,10 +303,11 @@ class MenuComboEditSpecController: HeadBaseViewController, UITableViewDelegate, 
             
             if indexPath.row == 3 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "SpecHeaderEditeCell") as! SpecHeaderEditeCell
-                cell.titlab.text = "Dishes"
+                cell.titlab.text = "Dishes".local
                 cell.clickBlock = { [unowned self] _ in
                     //编辑套餐的菜品
                     let nextVC = MenuComboEditDishController()
+                    nextVC.pageType = .combo
                     nextVC.comboModel = self.dataModel
                     self.navigationController?.pushViewController(nextVC, animated: true)
                     

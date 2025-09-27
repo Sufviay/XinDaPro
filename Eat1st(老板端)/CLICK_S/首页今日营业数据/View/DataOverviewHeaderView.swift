@@ -16,7 +16,7 @@ class DataOverviewHeaderView: UIView {
 
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#333333"), BFONT(17), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
         //lab.text = Date().getString("yyyy-MM-dd")
         return lab
     }()
@@ -82,6 +82,21 @@ class DataOverviewHeaderView: UIView {
     }()
     
     
+    private let tlab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(HCOLOR("#6F7FAF"), BFONT(10), .right)
+        lab.text = "last update:".local
+        lab.isHidden = true
+        return lab
+    }()
+    
+    private let timeLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(TXTCOLOR_1, BFONT(12), .right)
+        return lab
+    }()
+    
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -101,54 +116,65 @@ class DataOverviewHeaderView: UIView {
             $0.top.equalTo(titLab.snp.bottom).offset(5)
         }
         
-        addSubview(monthBut)
-        monthBut.snp.makeConstraints {
+        addSubview(timeLab)
+        timeLab.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.height.equalTo(50)
-            $0.width.equalTo(70)
-            $0.right.equalToSuperview().offset(-10)
+            $0.right.equalToSuperview().offset(-20)
+        }
+        addSubview(tlab)
+        tlab.snp.makeConstraints {
+            $0.bottom.equalTo(timeLab.snp.bottom).offset(-2)
+            $0.right.equalTo(timeLab.snp.left)
         }
         
-        addSubview(weekBut)
-        weekBut.snp.makeConstraints {
-            $0.centerY.height.equalTo(monthBut)
-            $0.width.equalTo(70)
-            $0.right.equalTo(monthBut.snp.left).offset(-5)
-        }
-        
-        addSubview(dayBut)
-        dayBut.snp.makeConstraints {
-            $0.centerY.height.equalTo(monthBut)
-            $0.width.equalTo(50)
-            $0.right.equalTo(weekBut.snp.left).offset(-5)
-        }
-        
-        dayBut.addSubview(line1)
-        line1.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 25, height: 2))
-            $0.centerX.equalTo(dayBut)
-            $0.bottom.equalToSuperview().offset(-12)
-        }
-        
-        
-        weekBut.addSubview(line2)
-        line2.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 25, height: 2))
-            $0.centerX.equalTo(weekBut)
-            $0.bottom.equalToSuperview().offset(-12)
-        }
-        
-        monthBut.addSubview(line3)
-        line3.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 25, height: 2))
-            $0.centerX.equalTo(monthBut)
-            $0.bottom.equalToSuperview().offset(-12)
-        }
-
-
-        monthBut.addTarget(self, action: #selector(clickMonthAction), for: .touchUpInside)
-        weekBut.addTarget(self, action: #selector(clickWeekAction), for: .touchUpInside)
-        dayBut.addTarget(self, action: #selector(clickDayAction), for: .touchUpInside)
+//        addSubview(monthBut)
+//        monthBut.snp.makeConstraints {
+//            $0.centerY.equalToSuperview()
+//            $0.height.equalTo(50)
+//            $0.width.equalTo(70)
+//            $0.right.equalToSuperview().offset(-10)
+//        }
+//        
+//        addSubview(weekBut)
+//        weekBut.snp.makeConstraints {
+//            $0.centerY.height.equalTo(monthBut)
+//            $0.width.equalTo(70)
+//            $0.right.equalTo(monthBut.snp.left).offset(-5)
+//        }
+//        
+//        addSubview(dayBut)
+//        dayBut.snp.makeConstraints {
+//            $0.centerY.height.equalTo(monthBut)
+//            $0.width.equalTo(50)
+//            $0.right.equalTo(weekBut.snp.left).offset(-5)
+//        }
+//        
+//        dayBut.addSubview(line1)
+//        line1.snp.makeConstraints {
+//            $0.size.equalTo(CGSize(width: 25, height: 2))
+//            $0.centerX.equalTo(dayBut)
+//            $0.bottom.equalToSuperview().offset(-12)
+//        }
+//        
+//        
+//        weekBut.addSubview(line2)
+//        line2.snp.makeConstraints {
+//            $0.size.equalTo(CGSize(width: 25, height: 2))
+//            $0.centerX.equalTo(weekBut)
+//            $0.bottom.equalToSuperview().offset(-12)
+//        }
+//        
+//        monthBut.addSubview(line3)
+//        line3.snp.makeConstraints {
+//            $0.size.equalTo(CGSize(width: 25, height: 2))
+//            $0.centerX.equalTo(monthBut)
+//            $0.bottom.equalToSuperview().offset(-12)
+//        }
+//
+//
+//        monthBut.addTarget(self, action: #selector(clickMonthAction), for: .touchUpInside)
+//        weekBut.addTarget(self, action: #selector(clickWeekAction), for: .touchUpInside)
+//        dayBut.addTarget(self, action: #selector(clickDayAction), for: .touchUpInside)
     }
     
     
@@ -202,8 +228,10 @@ class DataOverviewHeaderView: UIView {
     }
     
     
-    func setDate(date: String) {
+    func setDate(date: String, time: String) {
         titLab.text = date
+        tlab.isHidden = false
+        timeLab.text = time
         line.isHidden = false
     }
     

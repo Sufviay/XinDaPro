@@ -132,7 +132,7 @@ class AddStoreTimeController: HeadBaseViewController, UITableViewDelegate, UITab
     
     private let cancelBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Cancel", HCOLOR("#465DFD"), BFONT(14), .clear)
+        but.setCommentStyle(.zero, "Cancel".local, MAINCOLOR, TIT_2, .clear)
         but.clipsToBounds = true
         but.layer.cornerRadius = 14
         but.layer.borderWidth = 2
@@ -142,7 +142,7 @@ class AddStoreTimeController: HeadBaseViewController, UITableViewDelegate, UITab
     
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save", .white, BFONT(14), HCOLOR("465DFD"))
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
         but.clipsToBounds = true
         but.layer.cornerRadius = 14
         return but
@@ -157,7 +157,7 @@ class AddStoreTimeController: HeadBaseViewController, UITableViewDelegate, UITab
     
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Opening hours"
+        self.biaoTiLab.text = "Opening hours".local
 
     }
 
@@ -177,7 +177,7 @@ class AddStoreTimeController: HeadBaseViewController, UITableViewDelegate, UITab
         cancelBut.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
             $0.width.equalTo((S_W - 60) / 2)
-            $0.height.equalTo(40)
+            $0.height.equalTo(50)
             $0.bottom.equalToSuperview().offset(-bottomBarH - 10)
         }
         
@@ -212,53 +212,53 @@ class AddStoreTimeController: HeadBaseViewController, UITableViewDelegate, UITab
         
         //保存
         if dataModel.nameCn == "" {
-            HUD_MB.showWarnig("Please fill in the simplified Chinese name!", onView: self.view)
+            HUD_MB.showWarnig("Please fill in the simplified Chinese name!".local, onView: self.view)
             return
         }
         
         if dataModel.nameHk == "" {
-            HUD_MB.showWarnig("Please fill in the traditional Chinese name!", onView: self.view)
+            HUD_MB.showWarnig("Please fill in the traditional Chinese name!".local, onView: self.view)
             return
         }
         
         if dataModel.nameEn == "" {
-            HUD_MB.showWarnig("Please fill in the English name!", onView: self.view)
+            HUD_MB.showWarnig("Please fill in the English name!".local, onView: self.view)
             return
         }
         
         if dataModel.startTime == "" || dataModel.endTime == "" {
-            HUD_MB.showWarnig("Please fill in the business hours!", onView: self.view)
+            HUD_MB.showWarnig("Please fill in the business hours!".local, onView: self.view)
             return
         }
         
         if dataModel.deliverStatus == "" {
-            HUD_MB.showWarnig("Please select delivery status!", onView: self.view)
+            HUD_MB.showWarnig("Please select delivery status!".local, onView: self.view)
             return
         }
         if dataModel.deliverStatus == "1" {
             if dataModel.deliverMin == "" || dataModel.deliverMax == "" {
-                HUD_MB.showWarnig("Please fill in the delivery time!", onView: self.view)
+                HUD_MB.showWarnig("Please fill in the delivery time!".local, onView: self.view)
                 return
             }
         }
         
         if dataModel.collectStatus == "" {
-            HUD_MB.showWarnig("Please select collection status!", onView: self.view)
+            HUD_MB.showWarnig("Please select collection status!".local, onView: self.view)
             return
         }
         if dataModel.collectStatus == "1" {
             if dataModel.collectMin == "" || dataModel.collectMax == ""  {
-                HUD_MB.showWarnig("Please fill in the collection time!", onView: self.view)
+                HUD_MB.showWarnig("Please fill in the collection time!".local, onView: self.view)
                 return
             }
         }
         
         if dataModel.status == "" {
-            HUD_MB.showWarnig("Select whether to enable it!", onView: self.view)
+            HUD_MB.showWarnig("Select whether to enable it!".local, onView: self.view)
             return
         }
         if dataModel.weekTypeList.count == 0 {
-            HUD_MB.showWarnig("Please select the week！", onView: self.view)
+            HUD_MB.showWarnig("Please select the week!".local, onView: self.view)
             return
         }
 
@@ -313,10 +313,10 @@ class AddStoreTimeController: HeadBaseViewController, UITableViewDelegate, UITab
             }
         }
         if indexPath.section == 7 {
-            return 40
+            return 50
         }
         if indexPath.section == 8 {
-            return 40
+            return 45
         }
         
         return 50
@@ -328,13 +328,13 @@ class AddStoreTimeController: HeadBaseViewController, UITableViewDelegate, UITab
         if indexPath.section == 0 || indexPath.section == 1 || indexPath.section == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeInPutCell") as! DishEditeInPutCell
             if indexPath.section == 0 {
-                cell.setCellData(titStr: "Simplified Chinese name", msgStr: dataModel.nameCn)
+                cell.setCellData(titStr: "Simplified Chinese name".local, msgStr: dataModel.nameCn)
             }
             if indexPath.section == 1 {
-                cell.setCellData(titStr: "Traditional Chinese name", msgStr: dataModel.nameHk)
+                cell.setCellData(titStr: "Traditional Chinese name".local, msgStr: dataModel.nameHk)
             }
             if indexPath.section == 2 {
-                cell.setCellData(titStr: "English name", msgStr: dataModel.nameEn)
+                cell.setCellData(titStr: "English name".local, msgStr: dataModel.nameEn)
             }
             
             cell.editeEndBlock = { [unowned self] (text) in
@@ -354,7 +354,7 @@ class AddStoreTimeController: HeadBaseViewController, UITableViewDelegate, UITab
         
         if indexPath.section == 3 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "OpeningHoursInputCell") as! OpeningHoursInputCell
-            cell.setCellData(model: dataModel)
+            cell.setCellData(titStr: "Opening time".local, star: dataModel.startTime, end: dataModel.endTime)
             
             cell.clickBlock = { [unowned self] (type) in
                 self.selectTimeAlert.type = type
@@ -369,13 +369,13 @@ class AddStoreTimeController: HeadBaseViewController, UITableViewDelegate, UITab
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell") as! DishEditeChooseCell
                 
                 if indexPath.section == 4 {
-                    cell.setChooseCellData(titStr: "Delivery", l_str: "Enable", r_Str: "Disable", statusID: dataModel.deliverStatus)
+                    cell.setChooseCellData(titStr: "Delivery".local, l_str: "Enable".local, r_Str: "Disable".local, statusID: dataModel.deliverStatus)
                 }
                 if indexPath.section == 5 {
-                    cell.setChooseCellData(titStr: "Collection", l_str: "Enable", r_Str: "Disable", statusID: dataModel.collectStatus)
+                    cell.setChooseCellData(titStr: "Collection".local, l_str: "Enable".local, r_Str: "Disable".local, statusID: dataModel.collectStatus)
                 }
                 if indexPath.section == 6 {
-                    cell.setChooseCellData(titStr: "Status", l_str: "Enable", r_Str: "Disable", statusID: dataModel.status)
+                    cell.setChooseCellData(titStr: "Status".local, l_str: "Enable".local, r_Str: "Disable".local, statusID: dataModel.status)
                 }
                 
                 cell.selectBlock = { [unowned self] (status) in
@@ -406,10 +406,10 @@ class AddStoreTimeController: HeadBaseViewController, UITableViewDelegate, UITab
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OpeningHoursInputTimeCell") as! OpeningHoursInputTimeCell
                 if indexPath.section == 4 {
-                    cell.setCellData(titStr: "Delivery:", maxStr: dataModel.deliverMax, minStr: dataModel.deliverMin)
+                    cell.setCellData(titStr: "Delivery".local + ":", maxStr: dataModel.deliverMax, minStr: dataModel.deliverMin)
                 }
                 if indexPath.section == 5 {
-                    cell.setCellData(titStr: "Collection:", maxStr: dataModel.collectMax, minStr: dataModel.collectMin)
+                    cell.setCellData(titStr: "Collection".local + ":", maxStr: dataModel.collectMax, minStr: dataModel.collectMin)
                 }
                 
                 cell.clickBlock = { [unowned self] (type) in

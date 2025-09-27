@@ -15,7 +15,7 @@ class BookingTimeView: UIView, UICollectionViewDelegate, UICollectionViewDataSou
     
     private let tlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#999999"), BFONT(11), .center)
+        lab.setCommentStyle(TXTCOLOR_3, TIT_5, .center)
         lab.text = "NUMBER"
         lab.backgroundColor = HCOLOR("#F1F8FF")
         return lab
@@ -48,7 +48,7 @@ class BookingTimeView: UIView, UICollectionViewDelegate, UICollectionViewDataSou
         
         addSubview(tlab)
         tlab.snp.makeConstraints {
-            $0.width.equalTo(60)
+            $0.width.equalTo(70)
             $0.top.bottom.left.equalToSuperview()
         }
         
@@ -122,7 +122,7 @@ class TimeHeadCollectCell: UICollectionViewCell {
     
     let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(12), .center)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_5, .center)
         return lab
     }()
     

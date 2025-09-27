@@ -31,8 +31,8 @@ class EditeClassifyView: UIView, UIGestureRecognizerDelegate {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("333333"), BFONT(18), .left)
-        lab.text = "Edit dishes category"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
+        lab.text = "Edit Category".local
         return lab
     }()
     
@@ -46,14 +46,14 @@ class EditeClassifyView: UIView, UIGestureRecognizerDelegate {
     
     private let editeBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Detail", HCOLOR("#080808"), BFONT(17), HCOLOR("#8F92A1").withAlphaComponent(0.06))
+        but.setCommentStyle(.zero, "Detail".local, TXTCOLOR_1, TIT_2, BACKCOLOR_3)
         but.layer.cornerRadius = 7
         return but
     }()
     
     private let deleteBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Delete", HCOLOR("#F75E5E"), BFONT(17), HCOLOR("#8F92A1").withAlphaComponent(0.06))
+        but.setCommentStyle(.zero, "Delete".local, HCOLOR("#F75E5E"), TIT_2, BACKCOLOR_3)
         but.layer.cornerRadius = 7
         return but
     }()

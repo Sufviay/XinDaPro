@@ -30,13 +30,13 @@ class TimeSelectView: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
     
     private let cancelBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Cancel", FONTCOLOR, SFONT(14), .clear)
+        but.setCommentStyle(.zero, "Cancel".local, TXTCOLOR_1, TXT_1, .clear)
         return but
     }()
     
     private let confirmBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Confirm", FONTCOLOR, SFONT(14), .clear)
+        but.setCommentStyle(.zero, "Confirm".local, TXTCOLOR_1, TXT_1, .clear)
         return but
     }()
     
@@ -102,7 +102,7 @@ class TimeSelectView: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
     
     @objc func clickConfirmAction() {
         disAppearAction()
-        let time = selectH + ":" + selectM + ":" + selectS
+        let time = selectH + ":" + selectM //+ ":" + selectS
         clickBlock?([type, time])
     }
     
@@ -117,7 +117,7 @@ class TimeSelectView: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
 
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 3
+        return 2
     }
     
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
@@ -140,8 +140,8 @@ class TimeSelectView: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
         var pickerLabel = view as? UILabel
         if pickerLabel == nil {
             pickerLabel = UILabel()
-            pickerLabel?.font = SFONT(16)
-            pickerLabel?.textColor = HCOLOR("#333333")
+            pickerLabel?.font = TIT_2
+            pickerLabel?.textColor = TXTCOLOR_1
             pickerLabel?.textAlignment = .center
         }
         

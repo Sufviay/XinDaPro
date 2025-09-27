@@ -132,20 +132,20 @@ class DishDetailSpecInfoCell: BaseTableViewCell, UITableViewDelegate, UITableVie
                 
                 if indexPath.row == 2 {
                     if dataModel.required == "2" {
-                        msgStr = "Required"
+                        msgStr = "Required".local
                     } else {
-                        msgStr = "Optional"
+                        msgStr = "Optional".local
                     }
-                    cell.setCellData(titStr: "Choose", msgStr: msgStr)
+                    cell.setCellData(titStr: "Choose".local, msgStr: msgStr)
                 }
                 
                 if indexPath.row == 3 {
                     if dataModel.multiple == "1" {
-                        msgStr = "Disable"
+                        msgStr = "Disable".local
                     } else {
-                        msgStr = "Enable"
+                        msgStr = "Enable".local
                     }
-                    cell.setCellData(titStr: "Multi-select", msgStr: msgStr)
+                    cell.setCellData(titStr: "Multi-select".local, msgStr: msgStr)
                 }
                 
 //                if indexPath.row == 4 {

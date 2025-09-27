@@ -61,7 +61,7 @@ class CustomNaviBar: UIView {
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.textColor = FONTCOLOR
+        lab.textColor = TXTCOLOR_1
         lab.font = BFONT(17)
         lab.textAlignment = .center
         lab.text = ""
@@ -75,7 +75,7 @@ class CustomNaviBar: UIView {
         }
     }
     
-    var headerTitleColor = FONTCOLOR {
+    var headerTitleColor = TXTCOLOR_1 {
         didSet {
             self.titLab.textColor = headerTitleColor
         }
@@ -172,7 +172,7 @@ class BaseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.modalPresentationStyle = .fullScreen
-        view.backgroundColor = BACKCOLOR
+        view.backgroundColor = BACKCOLOR_1
         view.addSubview(naviBar)
         naviBar.snp.makeConstraints {
             $0.top.right.left.equalToSuperview()

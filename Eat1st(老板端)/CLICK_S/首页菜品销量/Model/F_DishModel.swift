@@ -48,7 +48,7 @@ class DishModel: NSObject {
     
     var c_id: String = ""
     var id: String = ""
-    ///状态ID  1上架 2下架
+    ///状态ID  1上架 2永久下架3當天下架
     var statusID: String = ""
     ///原价格
     var price: String = "0"
@@ -84,7 +84,8 @@ class DishModel: NSObject {
     var haveSpec: Bool = false
     
     var dishImg: String = ""
-    var salesNum: String = ""
+    var salesNum: Int = 0
+    var deliveryNum: Int = 0
     
     ///类型（查询菜品每周销量、菜品每月销量时带上此参数）
     var type: String = ""
@@ -143,7 +144,7 @@ class DishModel: NSObject {
     
     var cell_H: CGFloat = 0
     
-    //菜品名高度
+    //菜品名高度  用於菜品上下架頁面
     var dish_H: CGFloat = 0
     //规格名高度
     var option_H: CGFloat = 0
@@ -209,7 +210,8 @@ class DishModel: NSObject {
         self.discount = json["discount"].stringValue
         
         self.dishImg = json["imageUrl"].stringValue
-        self.salesNum = json["saleNum"].stringValue
+        self.salesNum = json["saleNum"].intValue
+        deliveryNum = json["deliveryNum"].intValue
         self.type = json["type"].stringValue
         
         self.haveSpec = json["haveSpec"].stringValue == "1" ? true : false
@@ -256,7 +258,7 @@ class DishModel: NSObject {
 
         }
         
-        self.dish_H = self.name1.getTextHeigh(SFONT(13), S_W - 170) + self.name2.getTextHeigh(SFONT(11), S_W - 170) + 25
+        self.dish_H = self.name1.getTextHeigh(TXT_1, S_W - 170) + self.name2.getTextHeigh(TXT_2, S_W - 170) + 25
         self.cell_H = self.dish_H
     }
     

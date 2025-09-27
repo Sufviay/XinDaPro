@@ -46,13 +46,13 @@ class CropImageController: BaseViewController {
     
     private let cancelBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Cancel", .white, SFONT(18), .clear)
+        but.setCommentStyle(.zero, "Cancel".local, .white, TIT_2, .clear)
         return but
     }()
     
     private let confirmBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Confirm", .white, SFONT(18), .clear)
+        but.setCommentStyle(.zero, "Confirm".local, .white, TIT_2, .clear)
         return but
     }()
 

@@ -68,7 +68,7 @@ class StoreTimeDetailController: HeadBaseViewController, UITableViewDataSource, 
     
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Opening hours"
+        self.biaoTiLab.text = "Opening hours".local
 
     }
     
@@ -115,7 +115,7 @@ class StoreTimeDetailController: HeadBaseViewController, UITableViewDataSource, 
 
     
     @objc private func clickDeleteAciton() {
-        self.showSystemChooseAlert("Tip", "Delete or not", "Delete", "Cancel") {
+        self.showSystemChooseAlert("Alert".local, "Delete or not".local, "YES".local, "NO".local) {
             self.deleteAction_Net()
         }
     }
@@ -163,13 +163,13 @@ class StoreTimeDetailController: HeadBaseViewController, UITableViewDataSource, 
             }
         }
         if indexPath.section == 6 {
-            return 30
+            return 40
         }
         if indexPath.section == 7 {
             return 60
         }
 
-        return 40
+        return 45
     }
     
     
@@ -197,10 +197,10 @@ class StoreTimeDetailController: HeadBaseViewController, UITableViewDataSource, 
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Detail_CoOrDeStausCell") as! Detail_CoOrDeStausCell
                 if indexPath.section == 2 {
-                    cell.setCellData(titStr: "Delivery", status: timeModel.deStatus)
+                    cell.setCellData(titStr: "Delivery".local, status: timeModel.deStatus)
                 }
                 if indexPath.section == 3 {
-                    cell.setCellData(titStr: "Collection", status: timeModel.coStatus)
+                    cell.setCellData(titStr: "Collection".local, status: timeModel.coStatus)
                 }
                 return cell
             }
@@ -208,10 +208,10 @@ class StoreTimeDetailController: HeadBaseViewController, UITableViewDataSource, 
             if indexPath.row == 1 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Detail_CoOrDeTimeCell") as! Detail_CoOrDeTimeCell
                 if indexPath.section == 2 {
-                    cell.setCellData(titStr: "Delivery time", min: timeModel.deMin, max: timeModel.deMax)
+                    cell.setCellData(titStr: "Delivery time".local, min: timeModel.deMin, max: timeModel.deMax)
                 }
                 if indexPath.section == 3 {
-                    cell.setCellData(titStr: "Collection time", min: timeModel.coMin, max: timeModel.coMax)
+                    cell.setCellData(titStr: "Collection time".local, min: timeModel.coMin, max: timeModel.coMax)
                 }
                 return cell
                 
@@ -224,7 +224,7 @@ class StoreTimeDetailController: HeadBaseViewController, UITableViewDataSource, 
         }
         if indexPath.section == 5 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TitleCell") as! TitleCell
-            cell.titlab.text = "Week"
+            cell.titlab.text = "Week".local
             cell.sLab.isHidden = true
             return cell
         }

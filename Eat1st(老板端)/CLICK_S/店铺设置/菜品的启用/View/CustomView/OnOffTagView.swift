@@ -19,32 +19,32 @@ class OnOffTagView: UIView {
             if type == "on" {
                 self.line1.isHidden = false
                 self.line2.isHidden = true
-                self.onBut.setTitleColor(FONTCOLOR, for: .normal)
-                self.onBut.titleLabel?.font = BFONT(14)
+                self.onBut.setTitleColor(TXTCOLOR_1, for: .normal)
+                self.onBut.titleLabel?.font = TIT_2
                 self.offBut.setTitleColor(HCOLOR("#6F7FAF"), for: .normal)
-                self.offBut.titleLabel?.font = SFONT(14)
+                self.offBut.titleLabel?.font = TXT_1
             }
             
             if type == "off" {
                 self.line2.isHidden = false
                 self.line1.isHidden = true
-                self.offBut.setTitleColor(FONTCOLOR, for: .normal)
-                self.offBut.titleLabel?.font = BFONT(14)
+                self.offBut.setTitleColor(TXTCOLOR_1, for: .normal)
+                self.offBut.titleLabel?.font = TIT_2
                 self.onBut.setTitleColor(HCOLOR("#6F7FAF"), for: .normal)
-                self.onBut.titleLabel?.font = SFONT(14)
+                self.onBut.titleLabel?.font = TXT_1
             }
         }
     }
 
     private let onBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "On menu now", FONTCOLOR, BFONT(14), .clear)
+        but.setCommentStyle(.zero, "On menu now".local, TXTCOLOR_1, TIT_2, .clear)
         return but
     }()
     
     private let offBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Off menu", HCOLOR("#6F7FAF"), SFONT(14), .clear)
+        but.setCommentStyle(.zero, "Off menu".local, HCOLOR("#6F7FAF"), TXT_1, .clear)
         return but
     }()
     

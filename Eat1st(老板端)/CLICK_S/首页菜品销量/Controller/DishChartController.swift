@@ -40,7 +40,7 @@ class DishChartController: HeadBaseViewController, IAxisValueFormatter {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(21), .left)
+        lab.setCommentStyle(TXTCOLOR_1, BFONT(21), .left)
         lab.text = "Your delivery area"
         lab.numberOfLines = 0
         return lab

@@ -35,7 +35,7 @@
 "Table" = "餐桌";
 "Customer" = "客人數";
 
-"Last " = "較上";
+"Last " = "上";
 
 "Sun" = "周日";
 "Sat" = "周六";
@@ -45,4 +45,414 @@
 "Tue" = "周二";
 "Mon" = "周一";
 
+"Monday" = "周一";
+"Tuesday" = "周二";
+"Wednesday" = "周三";
+"Thursday" = "周四";
+"Friday" = "周五";
+"Saturday" = "周六";
+"Sunday" = "周日";
+
 "No data available" = "暫無數據";
+"Uber" = "Uber Eats";
+"Querying" = "查询中";
+"Query failed" = "查询失败";
+
+
+"Home" = "首頁";
+"Restaurant settings" = "餐廳設置";
+"Reviews" = "評論";
+"Orders" = "訂單";
+"Complaints" = "投訴";
+"Dine-in table management" = "堂食餐桌";
+"System settings" = "系統設置";
+"Logout" = "退出登錄";
+
+
+"Change language" = "切換語言";
+"Change password" = "修改密碼";
+
+
+"Old Password" = "舊密碼";
+"New Password" = "新密碼";
+"Re-enter Password" = "再次輸入新密碼";
+
+"Please enter the old password" = "請輸入舊密碼";
+"Please enter a new password" = "請輸入新密碼";
+"Please enter a new password again" = "請再次輸入新密碼";
+"The two entered passwords are not the same" = "兩次密碼輸入不一致";
+
+"Save" = "保存";
+"OK" = "確定";
+"Reset password successful,\nplease return to login." = "重置密碼成功，請重新登錄。";
+
+"Menu" = "菜單";
+"ltem availability" = "庫存情況";
+"Delivery area" = "配送區域管理";
+"Delivery charges" = "配送費";
+"Opening hours" = "營業時間";
+"Holiday" = "假日";
+"Restaurant details settings" = "店鋪詳情設置";
+"Payment method" = "支付方式";
+"Printer" = "打印機";
+
+"View and edit your menu" = "查看並編輯您的菜單";
+"Take items off menu temporarily if they go out of stock" = "如果某些菜品缺貨，應暫時將其從菜單上移除";
+"Manage the area you delivery to" = "管理您的配送區域。";
+"Manage how much you charge for delivery" = "管理配送費用的收取額度";
+"Set the days and times you want to take orders" = "設定您希望接收訂單的日期和時間";
+"Set holiday times" = "設置節假日的日期和時間";
+"Make changes to your restaurant details and fees" = "修改您的餐廳詳情及費用信息";
+"Change user app payment method setting" = "更改用戶的支付方式";
+"Printer setting" = "打印機設置";
+"Manage your table" = "堂食餐桌設置";
+
+"Edit your menu" = "編輯菜單";
+"Dishes" = "菜品";
+"Combo" = "套餐";
+"Additional" = "附加";
+"Gifts" = "禮品";
+
+"Add Category" = "加入分類";
+"Add Dishes" = "加入菜品";
+"Add Additional item" = "加入菜品附加項目";
+"Add Gift item" = "加入禮品項目";
+
+"Search" = "搜索";
+"Search for dish" = "搜索菜品";
+
+"Delete or not?" = "是否刪除?";
+"YES" = "是";
+"NO" = "否";
+"Alert" = "提示";
+
+
+"Edit Category" = "編輯分類";
+"Simplified Chinese name" = "簡體中文名稱";
+"Traditional Chinese name" = "繁體中文名稱";
+"English name" = "英文名稱";
+
+"Detail" = "詳情";
+"Delete" = "刪除";
+
+"设置中..." = "設置中...";
+"设置成功！" = "設置成功！";
+
+
+"Home setting" = "首頁設置";
+"Font size" = "設置字體大小";
+"Hide" = "隱藏";
+"Display" = "顯示";
+"At least keep one." = "至少保留一個。";
+"Uber Eats" = "Uber Eats";
+"Deliveroo" = "Deliveroo";
+"Confirm" = "確認";
+"Add" = "添加";
+"Check in" = "簽到";
+"Date:" = "日期:";
+"Party:" = "人數:";
+"Contact way:" = "聯繫方式:";
+"Email:" = "郵箱:";
+"Create time:" = "創建時間:";
+"Cancel or not?" = "是否取消？";
+
+"All" = "全部";
+"Total:" = "總計:";
+
+"Reject Orders:" = "拒接單:";
+"Orders:" = "訂單數:";
+
+"In stock" = "在售";
+"Sold out today" = "今日售罄";
+"Sold out indefinitely" = "無限期售罄";
+
+"Edit price" = "編輯價格";
+"Edit VIP" = "編輯會員價格";
+"Edit VAT" = "編輯稅費";
+"Edit stock" = "編輯庫存";
+"Edit discount" = "編輯優惠";
+"Edit one free" = "編輯買一送一";
+"Edit special offer" = "編輯特別優惠";
+"Enable" = "啟用";
+"Disable" = "禁用";
+"Status:" = "狀態:";
+"Edit" = "編輯";
+"Edit dishes" = "編輯菜品";
+
+"On menu now" = "上架的菜品";
+"Off menu" = "下架的菜品";
+"Select all items" = "選擇全部";
+"Take off menu" = "從菜單下架";
+"Take on menu" = "加入菜單";
+
+"Small font size" = "小字體";
+"Medium-sized font" = "中號字體";
+"Large font size" = "大字體";
+
+
+"Order time:" = "下單時間:";
+"Order code:" = "訂單編號:";
+"Delivery" = "外賣";
+"Collection" = "自取";
+
+"Orders" = "訂單";
+
+
+"待支付" = "待支付";
+"支付中" = "支付中";
+"支付失敗" = "支付失敗";
+"用戶取消" = "用戶取消";
+"商家取消" = "商家取消";
+"系統取消" = "系統取消";
+"商家拒絕" = "商家拒絕";
+"支付成功" = "支付成功";
+"已接單" = "已接單";
+"已出餐" = "已出餐";
+"已派單" = "已派單";
+"配送中" = "配送中";
+"已完成" = "已完成";
+
+"Order Details" = "訂單詳情";
+"Order details" = "訂單詳情";
+"Complaints" = "投訴";
+"Reply" = "回復";
+
+"Account" = "帳戶";
+"Password" = "密碼";
+"Sign in" = "登陸";
+
+"Current type" = "當前的方式";
+"Radius" = "距離";
+"Postcode" = "郵編";
+
+"Min delivery price £" = "最小起送金額 £";
+"Min delivery price" = "最小起送金額";
+
+"Please enter the price." = "請輸入金額";
+
+
+"Distribution distance" = "配送距離";
+"Delivery area Postcode" = "送貨區域郵編";
+"Less than or equal to" = "小於或等於";
+"Delivery charge" = "配送費";
+"DELETE" = "刪除";
+"SET >" = "設置 >";
+"Opening time" = "營業時間";
+
+"Set time" = "設置時間";
+
+"Please fill in the simplified Chinese name!" = "請填寫簡體中文名稱!";
+"Please fill in the traditional Chinese name!" = "請填寫繁體中文名稱!";
+"Please fill in the English name!" = "請填寫英文名稱!";
+"Please fill in the business hours!" = "請填寫營業時間!";
+"Please select delivery status!" = "請選擇配送狀態!";
+"Please fill in the delivery time!" = "請填寫配送時間!";
+"Please select collection status!" = "請選擇自取狀態!";
+"Please fill in the collection time!" = "請填寫自取時間!";
+"Select whether to enable it!" = "請選擇是否啟用!";
+"Please select the week!" = "請選擇周數!";
+
+"Simplified Chinese name" = "簡體中文名稱";
+"Traditional Chinese name" = "繁體中文名稱";
+"English name" = "英文名稱";
+
+"Delivery time" = "配送時間";
+"Collection time" = "自取時間";
+"Status" = "狀態";
+
+"Date" = "日期";
+"Holiday name" = "假日名稱";
+"Time" = "時間";
+"Remark" = "備註";
+
+"Accept cash payment" = "接受現金支付";
+"Accept online payment" = "接受在線支付";
+
+"Printer type" = "打印機類型";
+"Thermal printer" = "熱敏打印機";
+"Dot matrix printer" = "點陣打印機";
+"Label printer" = "標籤打印機";
+
+"Print language" = "打印語言";
+"Chinese" = "中文";
+"English" = "英文";
+"Chinese and English" = "中文和英文";
+
+"Print copies" = "打印份數";
+"Print separately" = "單獨打印";
+
+"Dim Sum" = "點心";
+"Print souce" = "打印來源";
+
+"Printer IP" = "打印機IP";
+"Print two copies" = "打印兩份";
+"Print three copies" = "打印三份";
+"Print four copies" = "打印四份";
+"Print one copy" = "打印一份";
+
+"Number of table seats" = "餐桌座位數量";
+"Table name" = "餐桌名稱";
+
+"Min delivery price" = "最低配送價格";
+"Data Management" = "數據管理";
+
+"Price" = "金額";
+"Sell type" = "售賣類型";
+"Buffet" = "自助餐";
+
+"Delivery Price" = "外賣價格";
+"Dine-in Price" = "堂食價格";
+"VIP price" = "VIP價格";
+"VIP scope" = "VIP範圍";
+
+"Fill in the remaining quantity in stock" = "請填寫庫存數量";
+"Stock" = "庫存";
+
+"Discount" = "優惠";
+"Start Date" = "開始日期";
+"End Date" = "結束日期";
+"Fill in the discount price" = "填寫優惠價格";
+"Choose start date" = "選擇開始日期";
+"Choose end date" = "選擇結束日期";
+
+"Place fill in the price!" = "填寫價格!";
+"Place fill in start date!" = "填寫開始日期!";
+"Place fill in end date!" = "填寫結束日期!";
+"The dish is in use. Do you want to delete it?" = "此菜品正在使用中，您是否要將其刪除？";
+"Dish Edit" = "菜品編輯";
+
+"Serial number" = "序列號";
+"Bar code" = "條形碼";
+
+"Simplified Chinese description" = "簡體中文描述";
+"Traditional Chinese description" = "繁體中文描述";
+"English description" = "英文描述";
+"Simplified Chinese allergen" = "簡體中文過敏原";
+"Traditional Chinese allergen" = "繁體中文過敏原";
+"English allergen" = "英文過敏原";
+"Print alias" = "打印別名";
+"Alias" = "別名";
+
+"Dishes kind" = "菜品種類";
+"Food" = "食物";
+"Drink" = "飲料";
+"Milk tea" = "奶茶";
+"Special offer" = "特別優惠";
+"Category" = "分類";
+"Food tags" = "食品標籤";
+"Dish picture" = "菜品圖片";
+"Dish detail picture" = "菜品詳情圖片";
+"Add specifications" = "添加規格";
+"Specification" = "規格";
+"Edit specification" = "編輯規格";
+"Choose" = "選擇";
+"Multi-select" = "多選";
+
+"Required" = "必選的";
+"Optional" = "可選的";
+"Options" = "選項";
+"Add options" = "添加選項";
+"Edit option" = "編輯選項";
+"Option" = "選項";
+
+
+"Please select whether it is mandatory!" = "請選擇是否為必填!";
+"Whether you can select both!" = "是否可多選!";
+"Please add an optio!" = "請添加選項!";
+
+
+"Picture" = "圖片";
+"Album" = "相冊";
+"Camera" = "相機";
+"To view" = "查看";
+
+"Dish Detail" = "菜品詳情";
+"Description" = "描述";
+"Buy one get one free" = "買一贈一";
+"Allergen" = "過敏原";
+
+"Tags" = "標籤";
+"Add combo options" = "添加套餐選項";
+"Edit combo option" = "編輯套餐選項";
+"Please add dishes!" = "請添加菜品！";
+"Keep at least one!" = "至少保留一個！";
+"Please choose the dish!" = "請選擇菜品!";
+"Additional Edit" = "附加編輯";
+"Additional Detail" = "附加詳情";
+"The time range is in use, Do you want to delete it?" = "該時間段正在使用中，您要刪除它嗎？";
+"By continuing, you are indicating that you accept our " = "繼續操作即表示您已經同意我們的 ";
+"and " = "和 ";
+
+"Terms of Service" = "服務條款";
+"Privacy Policy" = "隱私政策";
+"Do you want to log out?" = "是否退出登錄？";
+"Customer Management" = "顧客管理";
+"Promotion Management" = "優惠管理";
+"Phone Number" = "手機號碼";
+"Email" = "郵箱";
+"Latest Order Date" = "最後下單日期";
+"Customer Detail" = "顧客詳情";
+"Birthday" = "生日";
+"Order Quantity" = "訂單數量";
+"User Status" = "用戶狀態";
+"Last Login Time" = "最後登錄時間";
+"Total Order Amount" = "下單金額總計";
+"Normal" = "正常";
+"Application for cancellation" = "申請註銷";
+"Platform cancellation" = "平台註銷";
+"User cancellation" = "用戶註銷";
+"User Order" = "用戶訂單";
+"Success" = "成功";
+
+"Every week on " = "每週的";
+"Every two weeks on " = "每兩週的";
+"Every four weeks on " = "每四周的";
+"Indefinitely" = "无限期地";
+"Promotion Content" = "優惠內容";
+"Promotion Cycle" = "優惠週期";
+"In progress" = "進行中";
+"End" = "結束";
+"Stop" = "停止";
+"p_Discount" = "折扣";
+"p_Dish" = "贈菜";
+"p_Money" = "減錢";
+"Are you sure you want to stop this?" = "你确定要停止吗？";
+ 
+
+"Coupon type" = "優惠券類型";
+"Promotion name" = "促銷名稱";
+"Min order amount for use" = "最低金額可用";
+"Discount percentage" = "折扣百分比";
+"Max amount for discount" = "最大折扣金額";
+"Amount for discount" = "折扣金額";
+"Dishes List" = "菜品列表";
+"Promotion validity" = "促銷有效期";
+"Fix date" = "固定日期";
+"Days from get" = "固定天數";
+"Please enter the number of days" = "請輸入有效天數";
+"Cycle type" = "週期類型";
+"One week" = "每週";
+"Two weeks" = "每兩週";
+"Four weeks" = "每四周";
+"Cycle time" = "週期時間";
+"Finish date" = "截止日期";
+"Select dishes" = "選擇菜品";
+"Dish name" = "菜品名稱";
+"Issue date" = "發行日期";
+"Validity days" = "有效天數";
+"perpetual" = "永久";
+"1 day" = "1天";
+"30 days" = "30天";
+"60 days" = "60天";
+"90 days" = "90天";
+"Printer name" = "打印機名稱";
+"Customer tags setting" = "顧客标签设置";
+"Tag-linked user count:" = "標籤關聯用戶數量:";
+"Customer Tags" = "顧客標籤";
+"Please select tag status!" = "請選擇標籤狀態！";
+"Name" = "姓名";
+"Last Date" = "最后日期";
+"Edit tags" = "编辑标签";
+"last update:" = "上次更新:";
+"Immediately" = "立即";
+"Top menu items" = "Top menu items";

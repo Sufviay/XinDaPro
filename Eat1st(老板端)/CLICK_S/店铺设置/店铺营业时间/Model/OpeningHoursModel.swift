@@ -23,25 +23,25 @@ class OpenHoursModel {
             let model = WeekOpenTimeModel()
             model.weekID = String(idx)
             if idx == 1 {
-                model.weekName = "Monday"
+                model.weekName = "Monday".local
             }
             if idx == 2 {
-                model.weekName = "Tuesday"
+                model.weekName = "Tuesday".local
             }
             if idx == 3 {
-                model.weekName = "Wednesday"
+                model.weekName = "Wednesday".local
             }
             if idx == 4 {
-                model.weekName = "Thursday"
+                model.weekName = "Thursday".local
             }
             if idx == 5 {
-                model.weekName = "Friday"
+                model.weekName = "Friday".local
             }
             if idx == 6 {
-                model.weekName = "Saturday"
+                model.weekName = "Saturday".local
             }
             if idx == 7 {
-                model.weekName = "Sunday"
+                model.weekName = "Sunday".local
             }
             
             timeList.append(model)
@@ -74,6 +74,9 @@ class OpenHoursModel {
 //                timeList[(Int(weekId) ?? 0) - 1].timeArr.append(model)
 //            }
 //        }
+        
+        
+        
         
         
         for model in allTime {

@@ -29,7 +29,7 @@ class PrinterSettingController: HeadBaseViewController, UITableViewDelegate, UIT
     private let addBut: UIButton = {
         let but = UIButton()
         but.setImage(LOIMG("dis_add"), for: .normal)
-        but.setCommentStyle(.zero, "Add", HCOLOR("465DFD"), BFONT(17), HCOLOR("#8F92A1").withAlphaComponent(0.06))
+        but.setCommentStyle(.zero, "Add".local, MAINCOLOR, TIT_2, BACKCOLOR_3)
         but.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         but.layer.cornerRadius = 10
         return but
@@ -52,7 +52,6 @@ class PrinterSettingController: HeadBaseViewController, UITableViewDelegate, UIT
         tableView.dataSource = self
         tableView.contentInsetAdjustmentBehavior = .never
         tableView.register(PrinterInfoCell.self, forCellReuseIdentifier: "PrinterInfoCell")
-        tableView.register(AddItemCell.self, forCellReuseIdentifier: "AddItemCell")
         return tableView
     }()
     
@@ -74,7 +73,7 @@ class PrinterSettingController: HeadBaseViewController, UITableViewDelegate, UIT
     
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Printer Setting"
+        self.biaoTiLab.text = "Printer".local
     }
     
     override func setViews() {
@@ -130,7 +129,7 @@ class PrinterSettingController: HeadBaseViewController, UITableViewDelegate, UIT
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 250
+        return 245
     }
     
 
@@ -165,7 +164,7 @@ class PrinterSettingController: HeadBaseViewController, UITableViewDelegate, UIT
             
             if type as! String == "delete" {
                 //删除
-                showSystemChooseAlert("Alert", "Delete or not?", "YES", "NO") {
+                showSystemChooseAlert("Alert".local, "Delete or not?".local, "YES".local, "NO".local) {
                     self.delete_Net(id: self.dataArr[indexPath.row].printerId)
                 }
             }

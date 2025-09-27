@@ -32,18 +32,17 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, 
     private var printerIP: String = ""
 
     
-    private var printerID: String = "" {
-        didSet {
-            if printerID == "" {
-                titlab.text = "Add"
-            } else {
-                titlab.text = "Edite"
-            }
-        }
-    }
+//    private var printerID: String = "" {
+//        didSet {
+//            if printerID == "" {
+//                titlab.text = "Add"
+//            } else {
+//                titlab.text = "Edite"
+//            }
+//        }
+//    }
     
-    
-    
+
     
     private var H: CGFloat = S_H - 200
 
@@ -63,7 +62,7 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, 
     
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save", .white, BFONT(14), HCOLOR("#465DFD"))
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
         but.layer.cornerRadius = 14
         return but
     }()
@@ -71,8 +70,8 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, 
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("333333"), BFONT(18), .left)
-        lab.text = ""
+        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
+        lab.text = "Printer".local
         return lab
     }()
     
@@ -104,71 +103,15 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, 
         tableView.register(SelectThreeButCell.self, forCellReuseIdentifier: "SelectThreeButCell")
         tableView.register(DishEditeChooseCell.self, forCellReuseIdentifier: "DishEditeChooseCell")
         tableView.register(SelectFourButCell.self, forCellReuseIdentifier: "SelectFourButCell")
-        
+        tableView.register(PrinterSouceCell.self, forCellReuseIdentifier: "PrinterSouceCell")
         return tableView
     }()
 
-    
-    
-    
-    
-    
-    
-    private lazy var nameView: InputView = {
-        let view = InputView()
-        view.setStyle(titStr: "Printer name", holderStr: "")
-        view.editBlock = { [unowned self] (str) in
-            printerName = str
-        }
-        return view
-    }()
-    
-    private lazy var ipView: InputView = {
-        let view = InputView()
-        view.setStyle(titStr: "Printer IP", holderStr: "")
-        view.editBlock = { [unowned self] (str) in
-            printerIP = str
-        }
-        return view
-    }()
-    
-    private lazy var copyView: SelectBut_4 = {
-        let view = SelectBut_4()
-        view.setStyle(titStr: "Print copies", str1: "Print one copy", str2: "Print two copies", str3: "Print three copies", str4: "Print four copies")
-        view.clickBlock = { [unowned self] (str) in
-            printNum = str
-        }
-        return view
-    }()
-    
-    
-    private lazy var printTypeView: SelectBut = {
-        let view = SelectBut()
-        view.setStyle(titStr: "Whether to print separately", l_Str: "YES", r_Str: "NO")
-        view.clickBlock = { [unowned self] (str) in
-            if str == "1" {
-                splitType = "2"
-            } else {
-                splitType = "1"
-            }
-        }
-        return view
-    }()
-
-    private lazy var printerTypeView: SelectBut_3 = {
-        let view = SelectBut_3()
-        view.setStyle(titStr: "Printer type", str1: "Thermal printer", str2: "Dot matrix printer", str3: "Label printer")
-        view.clickBlock = { [unowned self] (str) in
-            printerType = str
-        }
-        return view
-    }()
 
     
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        //addNotification()
         
         self.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         self.frame = S_BS
@@ -225,40 +168,6 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, 
         }
         
         
-//        backView.addSubview(nameView)
-//        nameView.snp.makeConstraints {
-//            $0.left.right.equalToSuperview()
-//            $0.height.equalTo(70)
-//            $0.top.equalTo(line.snp.bottom).offset(25)
-//        }
-//        
-//        
-//        backView.addSubview(ipView)
-//        ipView.snp.makeConstraints {
-//            $0.left.right.height.equalTo(nameView)
-//            $0.top.equalTo(nameView.snp.bottom).offset(15)
-//        }
-//        
-//        backView.addSubview(copyView)
-//        copyView.snp.makeConstraints {
-//            $0.left.right.equalTo(nameView)
-//            $0.height.equalTo(105)
-//            $0.top.equalTo(ipView.snp.bottom).offset(15)
-//        }
-//        
-//        backView.addSubview(printTypeView)
-//        printTypeView.snp.makeConstraints {
-//            $0.left.right.height.equalTo(nameView)
-//            $0.top.equalTo(copyView.snp.bottom).offset(15)
-//        }
-//        
-//        backView.addSubview(printerTypeView)
-//        printerTypeView.snp.makeConstraints {
-//            $0.left.right.equalTo(nameView)
-//            $0.height.equalTo(105)
-//            $0.top.equalTo(printTypeView.snp.bottom).offset(15)
-//        }
-//              
         closeBut.addTarget(self, action: #selector(clickCloseAction), for: .touchUpInside)
         saveBut.addTarget(self, action: #selector(clickSaveAction), for: .touchUpInside)
     }
@@ -331,74 +240,16 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, 
     }
     
     
-//    //添加监听
-//    func addNotification() {
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-//        
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHiden(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-//    }
-//    
-    
-//    deinit {
-//        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-//        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-//    }
-//
-//
-//    @objc func keyboardWillShow(notification: NSNotification) {
-//        //获取键盘高度
-//        let userInfo: Dictionary = notification.userInfo!
-//        let value = userInfo["UIKeyboardFrameEndUserInfoKey"]
-//        let keyboardRec = (value as AnyObject).cgRectValue
-//        let height = keyboardRec?.size.height ?? 0
-//        
-//        self.backView.snp.updateConstraints {
-//            $0.bottom.equalToSuperview().offset(-(height - 115 - 200))
-//        }
-//    }
-//    
-//    @objc func keyboardWillHiden(notification: NSNotification) {
-//        self.backView.snp.updateConstraints {
-//            $0.bottom.equalToSuperview()
-//        }
-//    }
-    
-    
     func setData(model: PrinterModel) {
         
         dataModel = model
-        if model.printerId == "" {
-            titlab.text = "Add"
-        } else {
-            titlab.text = "Edit"
-        }
-
+//        if model.printerId == "" {
+//            titlab.text = "Add"
+//        } else {
+//            titlab.text = "Edit"
+//        }
         table.reloadData()
         
-//        printerID = model.printerId
-//    
-//        status = model.status
-//        //printerName = model.name
-//        printerIP = model.ip
-//        printNum = model.printNum
-//        printerType = model.printType
-//        splitType = model.splitType
-//        
-//        //nameView.inputTF.text = model.name
-//        ipView.inputTF.text = model.ip
-//        copyView.selectIdx = model.printNum
-//        printerTypeView.selectIdx = model.printType
-//        
-//        var type: String = ""
-//        if model.splitType == "2" {
-//            type = "1"
-//        }
-//        if model.splitType == "1" {
-//            type = "2"
-//        }
-//        
-//        printTypeView.selectIdx = type
-//        
     }
 
     
@@ -429,59 +280,77 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, 
     
 
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 12
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 11
+        
+        if section == 1 || section == 2 {
+            return 0
+        }
+        
+        if section == 5 {
+            return 0
+        }
+        
+        if section == 11 {
+            if dataModel.printerId == "" {
+                return 1
+            } else {
+                return 0
+            }
+        }
+        
+        return 1
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 4 {
+        if indexPath.section == 0 || indexPath.section == 1 || indexPath.section == 2 || indexPath.section == 4 {
             return 80
         }
         
-        if indexPath.row == 3 || indexPath.row == 6 {
+        if indexPath.section == 3 || indexPath.section == 6 || indexPath.section == 7 || indexPath.section == 10 {
             return 105
         }
         
-        if indexPath.row == 5 || indexPath.row == 8 || indexPath.row == 9 || indexPath.row == 10 {
+        if indexPath.section == 5 || indexPath.section == 8 || indexPath.section == 9 || indexPath.section == 11 {
             return 90
-        }
-        
-        if indexPath.row == 7 {
-            return 105
         }
         
         return 100
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 4 {
+        if indexPath.section == 0 || indexPath.section == 1 || indexPath.section == 2 || indexPath.section == 4 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeInPutCell") as! DishEditeInPutCell
             
-            if indexPath.row == 0 {
-                cell.setCellData(titStr: "Simplified Chinese name", msgStr: dataModel.nameCn)
+            if indexPath.section == 0 {
+                cell.setCellData(titStr: "Printer name".local, msgStr: dataModel.nameCn)
             }
-            if indexPath.row == 1 {
-                cell.setCellData(titStr: "Traditional Chinese name", msgStr: dataModel.nameHk)
+            if indexPath.section == 1 {
+                cell.setCellData(titStr: "Traditional Chinese name".local, msgStr: dataModel.nameHk)
             }
-            if indexPath.row == 2 {
-                cell.setCellData(titStr: "English name", msgStr: dataModel.nameEn)
+            if indexPath.section == 2 {
+                cell.setCellData(titStr: "English name".local, msgStr: dataModel.nameEn)
             }
-            if indexPath.row == 4 {
-                cell.setCellData(titStr: "Printer IP", msgStr: dataModel.ip)
+            if indexPath.section == 4 {
+                cell.setCellData(titStr: "Printer IP".local, msgStr: dataModel.ip)
             }
             
             cell.editeEndBlock = { [unowned self] (text) in
-                if indexPath.row == 0 {
+                if indexPath.section == 0 {
                     self.dataModel.nameCn = text
-                }
-                if indexPath.row == 1 {
                     self.dataModel.nameHk = text
-                }
-                if indexPath.row == 2 {
                     self.dataModel.nameEn = text
                 }
-                if indexPath.row == 4 {
+                if indexPath.section == 1 {
+                    self.dataModel.nameHk = text
+                }
+                if indexPath.section == 2 {
+                    self.dataModel.nameEn = text
+                }
+                if indexPath.section == 4 {
                     dataModel.ip = text
                 }
             }
@@ -489,23 +358,23 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, 
             return cell
         }
         
-        if indexPath.row == 3 || indexPath.row == 6 {
+        if indexPath.section == 3 || indexPath.section == 6 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "SelectThreeButCell") as! SelectThreeButCell
             
-            if indexPath.row == 3 {
-                cell.setCellData(titStr: "Printer type", str1: "Thermal printer", str2: "Dot matrix printer", str3: "Label printer", selectType: dataModel.printType)
+            if indexPath.section == 3 {
+                cell.setCellData(titStr: "Printer type".local, str1: "Thermal printer".local, str2: "Dot matrix printer".local, str3: "Label printer".local, selectType: dataModel.printType)
             }
-            if indexPath.row == 6 {
-                cell.setCellData(titStr: "Print language", str1: "Chinese", str2: "English", str3: "Chinese and English", selectType: dataModel.langType)
+            if indexPath.section == 6 {
+                cell.setCellData(titStr: "Print language".local, str1: "Chinese".local, str2: "English".local, str3: "Chinese and English".local, selectType: dataModel.langType)
 
             }
             
             cell.clickBlock = { [unowned self] (str) in
                 
-                if indexPath.row == 3 {
+                if indexPath.section == 3 {
                     dataModel.printType = str
                 }
-                if indexPath.row == 6 {
+                if indexPath.section == 6 {
                     dataModel.langType = str
                 }
                 
@@ -514,33 +383,33 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, 
             return cell
         }
         
-        if indexPath.row == 5 || indexPath.row == 8 || indexPath.row == 9 || indexPath.row == 10 {
+        if indexPath.section == 5 || indexPath.section == 8 || indexPath.section == 9 || indexPath.section == 11 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell") as! DishEditeChooseCell
-            if indexPath.row == 5 {
-                cell.setChooseCellData(titStr: "Main printer", l_str: "Enable", r_Str: "Disable", statusID: dataModel.printMain)
+            if indexPath.section == 5 {
+                cell.setChooseCellData(titStr: "Main printer".local, l_str: "Enable".local, r_Str: "Disable".local, statusID: dataModel.printMain)
             }
-            if indexPath.row == 8 {
-                cell.setChooseCellData(titStr: "Print separately", l_str: "Enable", r_Str: "Disable", statusID: dataModel.splitType)
+            if indexPath.section == 8 {
+                cell.setChooseCellData(titStr: "Print separately".local, l_str: "Enable".local, r_Str: "Disable".local, statusID: dataModel.splitType)
             }
-            if indexPath.row == 9 {
-                cell.setChooseCellData(titStr: "Dim Sum", l_str: "Enable", r_Str: "Diable", statusID: dataModel.dimType)
+            if indexPath.section == 9 {
+                cell.setChooseCellData(titStr: "Dim Sum".local, l_str: "Enable".local, r_Str: "Disable".local, statusID: dataModel.dimType)
 
             }
-            if indexPath.row == 10 {
-                cell.setChooseCellData(titStr: "Status", l_str: "Enable", r_Str: "Disable", statusID: dataModel.status)
+            if indexPath.section == 11 {
+                cell.setChooseCellData(titStr: "Status".local, l_str: "Enable".local, r_Str: "Disable".local, statusID: dataModel.status)
             }
 
             cell.selectBlock = { [unowned self] (str) in
-                if indexPath.row == 5 {
+                if indexPath.section == 5 {
                     dataModel.printMain = str
                 }
-                if indexPath.row == 8 {
+                if indexPath.section == 8 {
                     dataModel.splitType = str
                 }
-                if indexPath.row == 9 {
+                if indexPath.section == 9 {
                     dataModel.dimType = str
                 }
-                if indexPath.row == 10 {
+                if indexPath.section == 11 {
                     dataModel.status = str
                 }
                 table.reloadData()
@@ -549,9 +418,9 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, 
             return cell
         }
         
-        if indexPath.row == 7 {
+        if indexPath.section == 7 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "SelectFourButCell") as! SelectFourButCell
-            cell.setCellData(titStr: "Print copies", str1: "Print one copy", str2: "Print two copies", str3: "Print three copies", str4: "Print four copies", selectType: dataModel.printNum)
+            cell.setCellData(titStr: "Print copies".local, str1: "Print one copy".local, str2: "Print two copies".local, str3: "Print three copies".local, str4: "Print four copies".local, selectType: dataModel.printNum)
             cell.clickBlock = { [unowned self] (str) in
                 dataModel.printNum = str
             }
@@ -559,8 +428,20 @@ class EditPrintAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, 
             return cell
         }
         
+        if indexPath.section == 10 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PrinterSouceCell") as! PrinterSouceCell
+            cell.setCellData(printSouce: dataModel.printSource)
+            cell.clickBlock =  { [unowned self] (str) in
+                dataModel.printSource = str
+            }
+            return cell
+        }
+        
+        
         let cell = UITableViewCell()
         return cell
+        
+        
     }
 
 }

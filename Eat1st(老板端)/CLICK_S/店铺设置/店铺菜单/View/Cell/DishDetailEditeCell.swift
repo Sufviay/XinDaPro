@@ -13,7 +13,7 @@ class DishDetailEditeCell: BaseTableViewCell {
 
     private let nameLab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("000000"), BFONT(17), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
         lab.text = "Sesame Prawn on Toast"
         lab.numberOfLines = 0
         return lab
@@ -21,7 +21,7 @@ class DishDetailEditeCell: BaseTableViewCell {
     
     private let nameLab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(15), .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
         lab.text = "芝麻大蝦吐司"
         lab.numberOfLines = 0
         return lab

@@ -11,7 +11,7 @@ class PrinterDishesCell: BaseTableViewCell {
 
     private let namelab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         lab.text = "Name"
         lab.numberOfLines = 0
         return lab
@@ -19,7 +19,7 @@ class PrinterDishesCell: BaseTableViewCell {
     
     private let namelab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
         lab.text = "Name"
         lab.numberOfLines = 0
         return lab

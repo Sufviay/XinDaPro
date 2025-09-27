@@ -19,7 +19,7 @@ class DishesItemCell: BaseTableViewCell {
     
     private let nameLab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, SFONT(13), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TXT_1, .left)
         lab.text = "BBQ Spare Ribs in Mandarin Sauce\n中式烤排骨"
         lab.numberOfLines = 0
         return lab
@@ -28,13 +28,13 @@ class DishesItemCell: BaseTableViewCell {
     private let nameLab2: UILabel = {
         let lab = UILabel()
         lab.numberOfLines = 0
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(11), .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_2, .left)
         return lab
     }()
     
     private let moneyLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, SFONT(13), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TXT_1, .left)
         lab.text = "£6.50"
         return lab
     }()

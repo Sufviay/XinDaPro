@@ -38,15 +38,15 @@ class EditPriceView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, U
     
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save", .white, BFONT(14), HCOLOR("#465DFD"))
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
         but.layer.cornerRadius = 14
         return but
     }()
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("333333"), BFONT(18), .left)
-        lab.text = "Edit price"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
+        lab.text = "Edit price".local
         return lab
     }()
     
@@ -229,7 +229,7 @@ class EditPriceView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, U
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell_Three") as! DishEditeChooseCell_Three
-            cell.setCellData(titStr: "Method of sale", l_str: "Delivery", m_str: "Dine-in", r_str: "All", statusID: sellType)
+            cell.setCellData(titStr: "Sell type".local, l_str: "Delivery".local, m_str: "Dine-in".local, r_str: "All".local, statusID: sellType)
             cell.selectBlock = { [unowned self] (type) in
                 sellType = type
                 table.reloadData()
@@ -239,7 +239,7 @@ class EditPriceView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, U
     
         if indexPath.row == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell") as! DishEditeChooseCell
-            cell.setChooseCellData(titStr: "Buffet", l_str: "Enable", r_Str: "Disable", statusID: buffetType)
+            cell.setChooseCellData(titStr: "Buffet".local, l_str: "Enable".local, r_Str: "Disable".local, statusID: buffetType)
         
             cell.selectBlock = { [unowned self] (status) in
                 buffetType = status
@@ -250,10 +250,10 @@ class EditPriceView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, U
         if indexPath.row == 2 || indexPath.row == 3 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditePriceInPutCell") as! DishEditePriceInPutCell
             if indexPath.row == 2 {
-                cell.setCellData(money: dePrice, titStr: "Delivery Price")
+                cell.setCellData(money: dePrice, titStr: "Delivery Price".local)
             }
             if indexPath.row == 3 {
-                cell.setCellData(money: dinePrice, titStr: "Dine-in Price")
+                cell.setCellData(money: dinePrice, titStr: "Dine-in Price".local)
             }
             
             cell.editeEndBlock = { [unowned self] (text) in

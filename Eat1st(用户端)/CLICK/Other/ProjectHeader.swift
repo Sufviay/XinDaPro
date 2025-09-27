@@ -255,7 +255,7 @@ let ENV: String = "1"
 
 let V2URL: String = ISONLINE ? "https://api.foodo2o.com/" : "https://api-test.foodo2o.com/"
 
-let VERID: String = "94"
+let VERID: String = "95"
 
 let SERVICE_Email: String = "service@eat1st.co.uk"
 

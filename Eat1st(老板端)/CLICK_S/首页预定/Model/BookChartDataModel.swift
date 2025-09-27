@@ -16,9 +16,16 @@ class BookChartDataModel: NSObject {
     ///可预约时间model
     var timeArr: [ChartBookTimeModel] = []
     
+    ///晚餐人数 17:00 以后
+    var dinnerNum: Int = 0
+    ///午餐人数 17:00 以前
+    var lunchNum: Int = 0
+    
     
     func updateModel(json: JSON) {
         
+        dinnerNum = json["data"]["dinnerNum"].intValue
+        lunchNum = json["data"]["lunchNum"].intValue
         
         
         var bookInfoArr: [BookingContentModel] = []

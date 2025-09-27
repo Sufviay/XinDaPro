@@ -8,7 +8,22 @@
 import UIKit
 import RxSwift
 
+
+
+
 class MenuComboEditDishController: HeadBaseViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    enum SELECTDISHTYPE {
+        ///打印机关联
+        case printer
+        ///套餐关联
+        case combo
+        ///促销关联
+        case coupon
+    }
+
+    
+    var pageType: SELECTDISHTYPE = .combo
 
     private let bag = DisposeBag()
             
@@ -36,7 +51,7 @@ class MenuComboEditDishController: HeadBaseViewController, UITableViewDelegate, 
     
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Confirm", .white, BFONT(14), HCOLOR("465DFD"))
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
         but.clipsToBounds = true
         but.layer.cornerRadius = 14
         return but
@@ -59,7 +74,7 @@ class MenuComboEditDishController: HeadBaseViewController, UITableViewDelegate, 
     
     private let allBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Select all items", FONTCOLOR, BFONT(13), .clear)
+        but.setCommentStyle(.zero, "Select all items".local, TXTCOLOR_1, TIT_3, .clear)
         return but
     }()
     
@@ -88,13 +103,10 @@ class MenuComboEditDishController: HeadBaseViewController, UITableViewDelegate, 
     
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Dishes"
+        self.biaoTiLab.text = "Dishes".local
 
     }
     
-    
-    
-
     
     override func setViews() {
         setUpUI()
@@ -129,7 +141,7 @@ class MenuComboEditDishController: HeadBaseViewController, UITableViewDelegate, 
         
         backView.addSubview(saveBut)
         saveBut.snp.makeConstraints {
-            $0.height.equalTo(40)
+            $0.height.equalTo(50)
             $0.left.equalToSuperview().offset(20)
             $0.bottom.equalToSuperview().offset(-bottomBarH - 10)
             $0.right.equalToSuperview().offset(-20)
@@ -304,44 +316,88 @@ class MenuComboEditDishController: HeadBaseViewController, UITableViewDelegate, 
     ///请求分类菜品
     private func loadDishData_Net() {
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.getDishList().subscribe(onNext: { [unowned self] (json) in
-            HUD_MB.dissmiss(onView: self.view)
-            var c_arr: [F_DishModel] = []
-            for c_jsonData in json["data"]["classifyList"].arrayValue {
-                let model = F_DishModel()
-                model.updateModel(json: c_jsonData)
-                model.isShow = true
-                c_arr.append(model)
-            }
-            
-            var d_arr: [DishModel] = []
-            for d_jsonData in json["data"]["dishesList"].arrayValue {
-                let model = DishModel()
-                model.updateModel(json: d_jsonData)
-                //过滤 要单品且上架的菜品
-                if model.dishesType == "1" && model.statusID == "1" {
-                    d_arr.append(model)
+        
+        if pageType == .coupon {
+            HTTPTOOl.getCouponCanSelectDishes().subscribe(onNext: { [unowned self] (json) in
+                HUD_MB.dissmiss(onView: self.view)
+                var c_arr: [F_DishModel] = []
+                for c_jsonData in json["data"]["classifyList"].arrayValue {
+                    let model = F_DishModel()
+                    model.updateModel(json: c_jsonData)
+                    model.isShow = true
+                    c_arr.append(model)
                 }
                 
-            }
-            
-            
-            for model in d_arr {
-                for f_model in c_arr {
-                    if f_model.id == model.c_id {
-                        f_model.dishArr.append(model)
+                var d_arr: [DishModel] = []
+                for d_jsonData in json["data"]["dishesList"].arrayValue {
+                    let model = DishModel()
+                    model.updateModel(json: d_jsonData)
+                    //过滤 要单品且上架的菜品
+                    if model.dishesType == "1" && model.statusID == "1" {
+                        d_arr.append(model)
+                    }
+                    
+                }
+                
+                
+                for model in d_arr {
+                    for f_model in c_arr {
+                        if f_model.id == model.c_id {
+                            f_model.dishArr.append(model)
+                        }
                     }
                 }
-            }
-            
-            //去掉空的分类
-            c_arr = c_arr.filter{ $0.dishArr.count != 0 }
-            self.dataArr = c_arr
-            self.dealHaveDoneDish(d_arr: d_arr)
-            
-        }, onError: { [unowned self] (error) in
-            HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
-        }).disposed(by: self.bag)
+                
+                //去掉空的分类
+                c_arr = c_arr.filter{ $0.dishArr.count != 0 }
+                self.dataArr = c_arr
+                self.dealHaveDoneDish(d_arr: d_arr)
+                
+            }, onError: { [unowned self] (error) in
+                HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
+            }).disposed(by: self.bag)
+
+        } else {
+            HTTPTOOl.getDishList().subscribe(onNext: { [unowned self] (json) in
+                HUD_MB.dissmiss(onView: self.view)
+                var c_arr: [F_DishModel] = []
+                for c_jsonData in json["data"]["classifyList"].arrayValue {
+                    let model = F_DishModel()
+                    model.updateModel(json: c_jsonData)
+                    model.isShow = true
+                    c_arr.append(model)
+                }
+                
+                var d_arr: [DishModel] = []
+                for d_jsonData in json["data"]["dishesList"].arrayValue {
+                    let model = DishModel()
+                    model.updateModel(json: d_jsonData)
+                    //过滤 要单品且上架的菜品
+                    if model.dishesType == "1" && model.statusID == "1" {
+                        d_arr.append(model)
+                    }
+                    
+                }
+                
+                
+                for model in d_arr {
+                    for f_model in c_arr {
+                        if f_model.id == model.c_id {
+                            f_model.dishArr.append(model)
+                        }
+                    }
+                }
+                
+                //去掉空的分类
+                c_arr = c_arr.filter{ $0.dishArr.count != 0 }
+                self.dataArr = c_arr
+                self.dealHaveDoneDish(d_arr: d_arr)
+                
+            }, onError: { [unowned self] (error) in
+                HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
+            }).disposed(by: self.bag)
+        }
+        
     }
     
     ///处理已添加套餐的菜品
@@ -375,7 +431,7 @@ class MenuComboEditDishController: HeadBaseViewController, UITableViewDelegate, 
     private func saveAction_Net() {
         
         
-        if printID != "" {
+        if pageType == .printer {
             //编辑打印机打印菜品的
             var dishArr: [Int64] = []
             for c_model in dataArr {
@@ -398,7 +454,9 @@ class MenuComboEditDishController: HeadBaseViewController, UITableViewDelegate, 
                 HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
             }).disposed(by: bag)
             
-        } else {
+        }
+        
+        if pageType == .combo || pageType == .coupon {
             
             //编辑套餐
             comboModel.comboDishesList.removeAll()
@@ -419,7 +477,7 @@ class MenuComboEditDishController: HeadBaseViewController, UITableViewDelegate, 
             }
             
             if comboModel.comboDishesList.count == 0 {
-                HUD_MB.showWarnig("Please choose the dish!", onView: self.view)
+                HUD_MB.showWarnig("Please choose the dish!".local, onView: self.view)
                 return
             }
 

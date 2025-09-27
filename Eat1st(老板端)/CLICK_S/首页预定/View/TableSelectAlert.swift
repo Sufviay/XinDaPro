@@ -145,7 +145,7 @@ class TableSelectAlert: BaseAlertView, UIGestureRecognizerDelegate, UITableViewD
         if selectID == tableArr[indexPath.row].deskId {
             cell.tlab.textColor = HCOLOR("#465DFD")
         } else {
-            cell.tlab.textColor = FONTCOLOR
+            cell.tlab.textColor = TXTCOLOR_1
         }
         
         return cell

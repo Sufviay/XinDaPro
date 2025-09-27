@@ -36,8 +36,8 @@ class DishSelectTagsView: UIView, UIGestureRecognizerDelegate, UITableViewDelega
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("333333"), BFONT(18), .left)
-        lab.text = "Food labels"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
+        lab.text = "Food tags".local
         return lab
     }()
     
@@ -52,7 +52,7 @@ class DishSelectTagsView: UIView, UIGestureRecognizerDelegate, UITableViewDelega
     
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Confirm", .white, BFONT(14), HCOLOR("#465DFD"))
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
         but.layer.cornerRadius = 14
         return but
     }()
@@ -228,7 +228,7 @@ class DishSelectTagsView: UIView, UIGestureRecognizerDelegate, UITableViewDelega
                 issel = true
             }
         }
-        cell.setCellData(isSelect: issel, titStr: model.name1)
+        cell.setCellData(isSelect: issel, titStr: model.name1, type: "tag")
         return cell
     }
     
@@ -287,7 +287,7 @@ class SelectLabCell: BaseTableViewCell {
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#333333"), SFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         return lab
     }()
     
@@ -308,14 +308,28 @@ class SelectLabCell: BaseTableViewCell {
     }
     
     
-    func setCellData(isSelect: Bool, titStr: String)  {
+    func setCellData(isSelect: Bool, titStr: String, type: String)  {
         self.titLab.text = titStr
         
         if isSelect {
-            self.selectImg.image = LOIMG("dish_sel_b")
+            if type == "tag" {
+                self.selectImg.image = LOIMG("dish_sel_b")
+            }
+            if type == "classify" {
+                self.selectImg.image = LOIMG("dish_sel")
+            }
+            
             self.titLab.textColor = HCOLOR("#465DFD")
+
+            
         } else {
-            self.selectImg.image = LOIMG("dish_unsel_b")
+            if type == "tag" {
+                self.selectImg.image = LOIMG("dish_unsel_b")
+            }
+            if type == "classify" {
+                self.selectImg.image = LOIMG("dish_unsel")
+            }
+
             self.titLab.textColor = HCOLOR("#333333")
 
         }

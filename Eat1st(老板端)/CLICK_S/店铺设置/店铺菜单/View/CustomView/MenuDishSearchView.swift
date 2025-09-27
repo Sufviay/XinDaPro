@@ -13,14 +13,14 @@ class MenuDishSearchView: UIView {
     
     private let backView: UIView = {
         let view = UIView()
-        view.backgroundColor = HCOLOR("#8F92A1").withAlphaComponent(0.06)
+        view.backgroundColor = BACKCOLOR_3
         view.layer.cornerRadius = 7
         return view
     }()
     
     private let searchBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Search", HCOLOR("#465DFD"), SFONT(13), .clear)
+        but.setCommentStyle(.zero, "Search".local, MAINCOLOR, TXT_1, .clear)
         return but
     }()
     
@@ -32,9 +32,9 @@ class MenuDishSearchView: UIView {
     
     private let inputTF: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "Search for dish or ingredient"
-        tf.textColor = FONTCOLOR
-        tf.font = SFONT(13)
+        tf.setPlaceholder("Search for dish".local, color: TFHOLDCOLOR)
+        tf.textColor = TXTCOLOR_1
+        tf.font = TXT_1
         return tf
     }()
     

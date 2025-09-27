@@ -18,16 +18,16 @@ class DishesItemOnOffController: HeadBaseViewController, UITableViewDelegate, UI
     ///所有数据的个数
     private var allCount: Int = 0
     
-    ///1上架。2下架
+    ///1上架的列表。2下架的列表
     private var type: String = "1"
 
     ///选中个数
     private var selectCount: Int = 0 {
         didSet {
             if type == "1" {
-                self.b_but.setTitle("Take off menu - \(selectCount) item", for: .normal)
+                self.b_but.setTitle("Take off menu".local + " (\(selectCount))", for: .normal)
             } else {
-                self.b_but.setTitle("Take on menu - \(selectCount) item", for: .normal)
+                self.b_but.setTitle("Take on menu".local + " (\(selectCount))", for: .normal)
             }
             
             if selectCount == allCount {
@@ -59,19 +59,19 @@ class DishesItemOnOffController: HeadBaseViewController, UITableViewDelegate, UI
     }()
     
 
-    private let titLab: UILabel = {
-        let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(13), .left)
-        lab.numberOfLines = 0
-        lab.text = "Temporarily take items off your menu until the end of the day if you're running low or out of stock. Use the menu tool to add, edit or remove items from your menu"
-        return lab
-    }()
-    
-    private let line: UIView = {
-        let view = UIView()
-        view.backgroundColor = HCOLOR("#EEEEEE")
-        return view
-    }()
+//    private let titLab: UILabel = {
+//        let lab = UILabel()
+//        lab.setCommentStyle(HCOLOR("#666666"), SFONT(13), .left)
+//        lab.numberOfLines = 0
+//        lab.text = "Temporarily take items off your menu until the end of the day if you're running low or out of stock. Use the menu tool to add, edit or remove items from your menu"
+//        return lab
+//    }()
+//    
+//    private let line: UIView = {
+//        let view = UIView()
+//        view.backgroundColor = HCOLOR("#EEEEEE")
+//        return view
+//    }()
     
     private lazy var tagView: OnOffTagView = {
         let tag = OnOffTagView()
@@ -90,7 +90,7 @@ class DishesItemOnOffController: HeadBaseViewController, UITableViewDelegate, UI
     
     private let b_but: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Take off menu -0item", .white, BFONT(14), HCOLOR("#465DFD"))
+        but.setCommentStyle(.zero, "Take off menu".local + " (0)", .white, TIT_3, HCOLOR("#465DFD"))
         but.layer.cornerRadius = 10
         return but
     }()
@@ -105,7 +105,7 @@ class DishesItemOnOffController: HeadBaseViewController, UITableViewDelegate, UI
     
     private let allBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Select all items", FONTCOLOR, BFONT(13), .clear)
+        but.setCommentStyle(.zero, "Select all items".local, TXTCOLOR_1, TIT_3, .clear)
         but.isHidden = true
         return but
     }()
@@ -143,12 +143,25 @@ class DishesItemOnOffController: HeadBaseViewController, UITableViewDelegate, UI
         view.frame = self.table.bounds
         return view
     }()
+    
+    
+    lazy var offOptionView: DishesOffSelectView =  {
+        let view = DishesOffSelectView()
+        return view
+    }()
+
+    
+    private let searchBut: UIButton = {
+        let but = UIButton()
+        but.setImage(LOIMG("search_nav"), for: .normal)
+        return but
+    }()
 
     
     
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "ltem availability"
+        self.biaoTiLab.text = "ltem availability".local
     
     }
     
@@ -162,6 +175,15 @@ class DishesItemOnOffController: HeadBaseViewController, UITableViewDelegate, UI
     
     
     private func setUpUI() {
+        
+        view.addSubview(searchBut)
+        searchBut.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 50, height: 40))
+            $0.centerY.equalTo(leftBut)
+            $0.right.equalToSuperview().offset(-10)
+        }
+
+        
         view.addSubview(backView)
         backView.snp.makeConstraints {
             $0.left.right.equalToSuperview()
@@ -169,25 +191,26 @@ class DishesItemOnOffController: HeadBaseViewController, UITableViewDelegate, UI
             $0.top.equalToSuperview().offset(statusBarH + 80)
         }
         
-        backView.addSubview(titLab)
-        titLab.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(20)
-            $0.right.equalToSuperview().offset(-20)
-            $0.top.equalToSuperview().offset(20)
-        }
-        
-        backView.addSubview(line)
-        line.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(20)
-            $0.right.equalToSuperview().offset(-20)
-            $0.height.equalTo(0.5)
-            $0.top.equalTo(titLab.snp.bottom).offset(20)
-        }
-        
+//        backView.addSubview(titLab)
+//        titLab.snp.makeConstraints {
+//            $0.left.equalToSuperview().offset(20)
+//            $0.right.equalToSuperview().offset(-20)
+//            $0.top.equalToSuperview().offset(20)
+//        }
+//        
+//        backView.addSubview(line)
+//        line.snp.makeConstraints {
+//            $0.left.equalToSuperview().offset(20)
+//            $0.right.equalToSuperview().offset(-20)
+//            $0.height.equalTo(0.5)
+//            $0.top.equalTo(titLab.snp.bottom).offset(20)
+//        }
+//        
         backView.addSubview(tagView)
         tagView.snp.makeConstraints {
             $0.left.right.equalToSuperview()
-            $0.top.equalTo(line.snp.bottom)
+            //$0.top.equalTo(line.snp.bottom)
+            $0.top.equalToSuperview().offset(20)
             $0.height.equalTo(40)
         }
         
@@ -226,7 +249,19 @@ class DishesItemOnOffController: HeadBaseViewController, UITableViewDelegate, UI
         self.b_but.addTarget(self, action: #selector(clickB_butAction), for: .touchUpInside)
         self.allBut.addTarget(self, action: #selector(clickAllAction), for: .touchUpInside)
         self.allImgBut.addTarget(self, action: #selector(clickAllAction), for: .touchUpInside)
+        searchBut.addTarget(self, action: #selector(clickSearchAction), for: .touchUpInside)
     }
+    
+    
+    @objc private func clickSearchAction() {
+        //搜索
+        let searchVC = MenuDishListController()
+        searchVC.titStr = "Search".local
+        searchVC.type = .search_onoff
+        navigationController?.pushViewController(searchVC, animated: true)
+        
+    }
+    
     
     
     @objc private func clickLeftButAction() {
@@ -399,14 +434,17 @@ extension DishesItemOnOffController {
         HTTPTOOl.getDishList().subscribe(onNext: { (json) in
             HUD_MB.dissmiss(onView: self.view)
             var c_arr: [F_DishModel] = []
-            for c_jsonData in json["data"]["classifyList"].arrayValue {
+            let c_JSONArr = json["data"]["classifyList"].arrayValue
+            
+            for c_jsonData in c_JSONArr {
                 let model = F_DishModel()
                 model.updateModel(json: c_jsonData)
                 c_arr.append(model)
             }
             
             var d_arr: [DishModel] = []
-            for d_jsonData in json["data"]["dishesList"].arrayValue {
+            let d_JSONArr = json["data"]["dishesList"].arrayValue
+            for d_jsonData in d_JSONArr {
                 let model = DishModel()
                 model.updateModel(json: d_jsonData)
                 d_arr.append(model)
@@ -414,7 +452,6 @@ extension DishesItemOnOffController {
             
             self.setOnOffDataModelArr(d_arr: d_arr, c_arr: c_arr)
             self.table.reloadData()
-            
             
         }, onError: { (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
@@ -460,12 +497,30 @@ extension DishesItemOnOffController {
         
         let dishesID = self.getSelectedDishData()
         
-        HUD_MB.loading("", onView: view)
-        HTTPTOOl.setDishesOnOff(dishes: dishesID).subscribe(onNext: { (json) in
-            self.loadDishData_Net()
-        }, onError: { (error) in
-            HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
-        }).disposed(by: self.bag)
+        
+                
+        if type == "1" {
+            //进行下架操作
+            offOptionView.appearAction()
+            offOptionView.confirmBlock = { [unowned self] (type) in
+                HUD_MB.loading("", onView: view)
+                HTTPTOOl.setDishesOnOff(dishes: dishesID, status: type).subscribe(onNext: { [unowned self] (json) in
+                    loadDishData_Net()
+                }, onError: { (error) in
+                    HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
+                }).disposed(by: self.bag)
+            }
+        }
+        
+        if type == "2" {
+            //进行上架操作
+            HUD_MB.loading("", onView: view)
+            HTTPTOOl.setDishesOnOff(dishes: dishesID, status: "1").subscribe(onNext: { [unowned self] (json) in
+                loadDishData_Net()
+            }, onError: { (error) in
+                HUD_MB.showError(ErrorTool.errorMessage(error), onView: self.view)
+            }).disposed(by: self.bag)
+        }
         
     }
     
@@ -502,11 +557,22 @@ extension DishesItemOnOffController {
         
         for model in d_arr {
                             
-            if model.statusID == type {
-                for (idx, f_model) in c_arr.enumerated() {
-                    
-                    if f_model.id == model.c_id {
-                        arr[idx].dishArr.append(model)
+            if type == "1" {
+                if model.statusID == type {
+                    for (idx, f_model) in c_arr.enumerated() {
+                        
+                        if f_model.id == model.c_id {
+                            arr[idx].dishArr.append(model)
+                        }
+                    }
+                }
+            } else {
+                if model.statusID != "1" {
+                    for (idx, f_model) in c_arr.enumerated() {
+                        
+                        if f_model.id == model.c_id {
+                            arr[idx].dishArr.append(model)
+                        }
                     }
                 }
             }

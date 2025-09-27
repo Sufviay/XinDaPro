@@ -12,14 +12,15 @@ class DishDetailMsgCell: BaseTableViewCell {
 
     private let titleLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         lab.text = "Menu numbering"
+        lab.adjustsFontSizeToFitWidth = true
         return lab
     }()
     
     private let msgLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
         lab.text = "111"
         lab.numberOfLines = 0
         return lab
@@ -31,6 +32,7 @@ class DishDetailMsgCell: BaseTableViewCell {
         contentView.addSubview(titleLab)
         titleLab.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
+            $0.right.equalToSuperview().offset(-20)
             $0.top.equalToSuperview().offset(10)
         }
         
@@ -69,7 +71,7 @@ class DishDetailPriceCell: BaseTableViewCell {
 
     private let titleLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         lab.text = "Price"
         return lab
     }()
@@ -77,7 +79,7 @@ class DishDetailPriceCell: BaseTableViewCell {
     private let disPriceLab: UILabel = {
         let lab = UILabel()
         //666666
-        lab.setCommentStyle(HCOLOR("#6B7DFD"), SFONT(14), .left)
+        lab.setCommentStyle(HCOLOR("#6B7DFD"), TIT_3, .left)
         lab.text = "111"
         lab.numberOfLines = 0
         return lab
@@ -86,7 +88,7 @@ class DishDetailPriceCell: BaseTableViewCell {
     
     private let oldPriceLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#999999"), SFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_3, TXT_1, .left)
         lab.text = "111"
         lab.numberOfLines = 0
         return lab
@@ -95,7 +97,7 @@ class DishDetailPriceCell: BaseTableViewCell {
     
     private let line: UIView = {
         let view = UIView()
-        view.backgroundColor = HCOLOR("#999999")
+        view.backgroundColor = TXTCOLOR_3
         return view
     }()
     
@@ -134,10 +136,10 @@ class DishDetailPriceCell: BaseTableViewCell {
         
         
         if type == "1" {
-            self.titleLab.text = "Delivery Price"
+            self.titleLab.text = "Delivery Price".local
         }
         if type == "2" {
-            self.titleLab.text = "Dine-in Price"
+            self.titleLab.text = "Dine-in Price".local
         }
         
         if model.discountType == "2" {
@@ -173,7 +175,7 @@ class DishDetailPriceCell: BaseTableViewCell {
             if type == "2" {
                 self.disPriceLab.text = "£\(model.dinePrice)"
             }
-            self.disPriceLab.textColor = HCOLOR("#666666")
+            self.disPriceLab.textColor = TXTCOLOR_2
         }
         
     }

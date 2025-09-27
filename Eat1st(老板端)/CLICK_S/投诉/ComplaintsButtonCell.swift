@@ -26,7 +26,7 @@ class ComplaintsButtonCell: BaseTableViewCell {
     private let detailLab_b: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(14), .center)
-        lab.text = "Order details"
+        lab.text = "Order details".local
         return lab
     }()
 
@@ -50,7 +50,7 @@ class ComplaintsButtonCell: BaseTableViewCell {
     private let detailLab_w: UILabel = {
         let lab = UILabel()
         lab.setCommentStyle(.white, BFONT(14), .center)
-        lab.text = "Order details"
+        lab.text = "Order details".local
         return lab
     }()
     
@@ -63,7 +63,7 @@ class ComplaintsButtonCell: BaseTableViewCell {
     
     private let dealBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Reply", .white, BFONT(14), HCOLOR("#465DFD"))
+        but.setCommentStyle(.zero, "Reply".local, .white, BFONT(14), HCOLOR("#465DFD"))
         but.layer.cornerRadius = 10
         but.isHidden = true
         return but
@@ -156,19 +156,16 @@ class ComplaintsButtonCell: BaseTableViewCell {
     
     func setCellData(type: String) {
         
-//        if type == "2" {
-//            //已回复 详情按钮
-//            detailBut_B.isHidden = false
-//            detailBut_S.isHidden = true
-//            //dealBut.isHidden = true
-//        } else {
-//            //未回复
-//            detailBut_B.isHidden = true
-//            detailBut_S.isHidden = false
-//            //dealBut.isHidden = false
-//        }
-        
+        if type == "2" {
+            //已回复 详情按钮
+            detailBut_B.isHidden = false
+            detailBut_S.isHidden = true
+            dealBut.isHidden = true
+        } else {
+            //未回复
+            detailBut_B.isHidden = true
+            detailBut_S.isHidden = false
+            dealBut.isHidden = false
+        }
     }
-    
-    
 }

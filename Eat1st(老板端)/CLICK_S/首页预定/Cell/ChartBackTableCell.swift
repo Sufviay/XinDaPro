@@ -64,7 +64,7 @@ class ChartBackTableCell: BaseTableViewCell, UITableViewDelegate, UITableViewDat
         contentView.addSubview(table)
         table.snp.makeConstraints {
             $0.top.bottom.left.equalToSuperview()
-            $0.width.equalTo(60)
+            $0.width.equalTo(70)
         }
         
         contentView.addSubview(collection)
@@ -86,7 +86,7 @@ class ChartBackTableCell: BaseTableViewCell, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatTableLabCell") as! ChatTableLabCell
         cell.titLab.text = String(indexPath.row + 1)
-        cell.titLab.textColor = FONTCOLOR
+        cell.titLab.textColor = TXTCOLOR_1
         return cell
     }
     
@@ -163,7 +163,7 @@ class ChatTableLabCell: BaseTableViewCell {
     
     let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(11), .center)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_5, .center)
         lab.lineBreakMode = .byTruncatingTail
         lab.numberOfLines = 2
         return lab

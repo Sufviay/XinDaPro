@@ -13,28 +13,28 @@ class DishEditeClassifyCell: BaseTableViewCell {
 
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(16), .left)
-        lab.text = "Category"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.text = "Category".local
         return lab
     }()
     
     private let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(16), .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
         lab.text = "*"
         return lab
     }()
 
     private let backView: UIView = {
         let view = UIView()
-        view.backgroundColor = HCOLOR("#F8F9F9")
+        view.backgroundColor = BACKCOLOR_3
         view.layer.cornerRadius = 7
         return view
     }()
     
     private let msglab: UILabel  = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#333333"), SFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         return lab
     }()
     
@@ -48,7 +48,7 @@ class DishEditeClassifyCell: BaseTableViewCell {
         contentView.addSubview(titlab)
         titlab.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
-            $0.top.equalToSuperview().offset(20)
+            $0.top.equalToSuperview().offset(17)
         }
         
         contentView.addSubview(sLab)

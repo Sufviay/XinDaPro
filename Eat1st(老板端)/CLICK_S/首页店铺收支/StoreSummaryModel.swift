@@ -76,10 +76,34 @@ class StoreSummaryModel: HandyJSON {
     var dineInPrice: Double = 0
     
     
-    var titStrArr: [String] = ["Type", "Sales", "Revenue", "Card", "Cash", "POS", "WX", "Wallet Spent(S)", "Top up(R)", "Cash On Hand", "Delivery", "Collection", "Dine-in"]
+    ///Uber
+    var uberNum: Int = 0
+    var uberPrice: Double = 0
+
+    ///deliveroo
+    var deliverooNum: Int = 0
+    var deliverooPrice: Double = 0
     
-    var numberArr: [String] = ["", "", "", "", "", "", "", "", "", "", "", "", ""]
-    var priceArr: [String] = ["", "", "", "", "", "", "", "", "", "", "", "", ""]
+    ///小费
+    var deliverooTipsPrice: Double = 0
+    var uberTipsPrice: Double = 0
+
+    ///税号 有稅号就有稅
+    var vatNo: String = ""
+    ///未结算订单数量
+    var unpaidOrderNum: Int = 0
+    ///未结算订单金额
+    var unpaidOrderPrice: Double = 0
+    
+    var numberLine: Int = 19
+    
+    
+    
+    
+    var titStrArr: [String] = ["Type", "Sales", "Revenue", "Card", "Cash", "POS", "WX", "Wallet Spent(S)", "Top up(R)", "Cash On Hand", "Delivery", "Collection", "Dine-in", "Unpaid", "VAT", "Uber Eats", "Uber Eats Tips", "Deliveroo", "Deliveroo Tips"]
+    
+    var numberArr: [String] = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+    var priceArr: [String] = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
     
     
     required init() {}
@@ -88,10 +112,66 @@ class StoreSummaryModel: HandyJSON {
     func dealModel()  {
         Cash_On_Hand = cashPrice + rechargePrice
         
-        numberArr = ["Total", String(salesNum), String(allNum), String(cardNum), String(cashNum), String(posNum), String(cashWNum), String(consumeNum), String(rechargeNum), "", String(deliveryNum), String(collectionNum), String(dineInNum), ""]
+        numberArr = ["Total", String(salesNum), String(allNum), String(cardNum), String(cashNum), String(posNum), String(cashWNum), String(consumeNum), String(rechargeNum), "", String(deliveryNum), String(collectionNum), String(dineInNum), String(unpaidOrderNum), "", String(uberNum), "", String(deliverooNum), ""]
         
-        priceArr = ["Amount", "£ " + D_2_STR(salesPrice), "£ " + D_2_STR(allPrice), "£ " + D_2_STR(cardPrice), "£ " + D_2_STR(cashPrice), "£ " + D_2_STR(posPrice), "£ " + D_2_STR(cashWPrice), "£ " + D_2_STR(consumePrice), "£ " + D_2_STR(rechargePrice), "£ " + D_2_STR(Cash_On_Hand), "£ " + D_2_STR(deliveryPrice), "£ " + D_2_STR(collectionPrice), "£ " + D_2_STR(dineInPrice)]
+        priceArr = ["Amount", "£ " + D_2_STR(salesPrice), "£ " + D_2_STR(allPrice), "£ " + D_2_STR(cardPrice), "£ " + D_2_STR(cashPrice), "£ " + D_2_STR(posPrice), "£ " + D_2_STR(cashWPrice), "£ " + D_2_STR(consumePrice), "£ " + D_2_STR(rechargePrice), "£ " + D_2_STR(Cash_On_Hand), "£ " + D_2_STR(deliveryPrice), "£ " + D_2_STR(collectionPrice), "£ " + D_2_STR(dineInPrice), "£ " + D_2_STR(unpaidOrderPrice), "£ " + D_2_STR(allVatPrice), "£ " + D_2_STR(uberPrice), "£ " + D_2_STR(uberTipsPrice), "£ " + D_2_STR(deliverooPrice), "£ " + D_2_STR(deliverooTipsPrice)]
+        
+        
+        if vatNo == "" && unpaidOrderNum == 0 {
+            numberLine = 17
+        }
+        
+        if vatNo == "" && unpaidOrderNum != 0 {
+            numberLine = 18
+        }
+        
+        if vatNo != "" && unpaidOrderNum == 0 {
+            numberLine = 18
+        }
+        
         
     }
+    
+//    func updateModelByUber(json: JSON) {
+//        
+//        uberStatus =  json["data"]["status"].stringValue
+//        
+//        if uberStatus == "2" {
+//            uberNum = json["data"]["uberNums"].intValue
+//            uberPrice = json["data"]["uberPrice"].doubleValue
+//            
+//            uberRefundNum = json["data"]["uberRefundNum"].intValue
+//            uberRefundPrice = json["data"]["uberRefundPrice"].doubleValue
+//            
+//            numberArr[15] = String(uberNum)
+//            priceArr[15] = "£ " + D_2_STR(uberPrice)
+//            
+//            numberArr[16] = String(uberRefundNum)
+//            priceArr[16] = "£ " + D_2_STR(uberRefundPrice)
+//            
+//            
+//        }
+//        
+//        if uberStatus == "1" {
+//            numberArr[15] = ""
+//            priceArr[15] = "Querying".local
+//            
+//            numberArr[16] = ""
+//            priceArr[16] = "Querying".local
+//            
+//            
+//        }
+//        
+//        if uberStatus == "-1" || uberStatus == "-2" {
+//            numberArr[15] = "-"
+//            priceArr[15] = "-"
+//            
+//            numberArr[16] = "-"
+//            priceArr[16] = "-"
+//
+//            
+//        }
+//        
+//    }
     
 }

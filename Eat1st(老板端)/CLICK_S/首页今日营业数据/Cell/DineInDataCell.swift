@@ -32,14 +32,14 @@ class DineInDataCell: BaseTableViewCell, UICollectionViewDataSource, UICollectio
     
     private let line: UIView = {
         let view = UIView()
-        view.backgroundColor = HCOLOR("#304FFF")
+        view.backgroundColor = MAINCOLOR
         view.layer.cornerRadius = 1
         return view
     }()
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#333333"), BFONT(15), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
         lab.text = "Dine-in".local
         return lab
     }()
@@ -111,7 +111,7 @@ class DineInDataCell: BaseTableViewCell, UICollectionViewDataSource, UICollectio
         if indexPath.item == 0 || indexPath.item == 1 {
             return CGSize(width: (S_W - 90) / 2, height: 80)
         }
-        return CGSize(width: (S_W - 90) / 2, height: 90)
+        return CGSize(width: (S_W - 90) / 2, height: 100)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

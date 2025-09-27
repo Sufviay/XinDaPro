@@ -82,6 +82,17 @@ public class LTPageView: UIView {
         setupSubViews()
     }
     
+    
+//    @objc public func updateData(viewControllers:[UIViewController], titles: [String]) {
+//        self.viewControllers = viewControllers
+//        self.titles = titles
+//        guard viewControllers.count == titles.count else {
+//            fatalError("控制器数量和标题数量不一致")
+//        }
+//
+//    }
+    
+    
     /* 滚动到某个位置 */
     @objc public func scrollToIndex(index: Int)  {
         pageTitleView.scrollToIndex(index: index)

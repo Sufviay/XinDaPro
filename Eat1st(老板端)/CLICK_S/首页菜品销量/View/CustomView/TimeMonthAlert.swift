@@ -27,13 +27,13 @@ class TimeMonthAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
     
     private let OKBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "OK".local, MAINCOLOR, BFONT(14), .clear)
+        but.setCommentStyle(.zero, "OK".local, MAINCOLOR, TIT_3, .clear)
         return but
     }()
     
     private let cancelBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Cancel".local, FONTCOLOR, BFONT(14), .clear)
+        but.setCommentStyle(.zero, "Cancel".local, TXTCOLOR_1, TIT_3, .clear)
         return but
     }()
     
@@ -47,14 +47,14 @@ class TimeMonthAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
 
     private let yearLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.white, BFONT(14), .center)
+        lab.setCommentStyle(.white, TIT_3, .center)
         lab.text = "Year".local
         return lab
     }()
     
     private let monthLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.white, BFONT(14), .center)
+        lab.setCommentStyle(.white, TIT_3, .center)
         lab.text = "Month".local
         return lab
     }()
@@ -131,6 +131,10 @@ class TimeMonthAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
     }
     
     
+    func reSetData() {
+        timePickerView.selectRow(DateTool.shared.curMonth - 1, inComponent: 1, animated: false)
+    }
+    
     @objc private func clickCancelAction() {
         self.disAppearAction()
     }
@@ -179,8 +183,8 @@ class TimeMonthAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
         var pickerLabel = view as? UILabel
         if pickerLabel == nil {
             pickerLabel = UILabel()
-            pickerLabel?.font = SFONT(16)
-            pickerLabel?.textColor = FONTCOLOR
+            pickerLabel?.font = TIT_2
+            pickerLabel?.textColor = TXTCOLOR_1
             pickerLabel?.textAlignment = .center
         }
         

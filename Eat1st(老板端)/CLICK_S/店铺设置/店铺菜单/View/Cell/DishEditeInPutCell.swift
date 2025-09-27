@@ -13,28 +13,28 @@ class DishEditeInPutCell: BaseTableViewCell, UITextFieldDelegate {
 
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(16), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
         return lab
     }()
     
     private let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(16), .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
         lab.text = "*"
         return lab
     }()
 
     private let backView: UIView = {
         let view = UIView()
-        view.backgroundColor = HCOLOR("#F8F9F9")
+        view.backgroundColor = BACKCOLOR_3
         view.layer.cornerRadius = 7
         return view
     }()
     
     private lazy var inputTF: UITextField = {
         let tf = UITextField()
-        tf.font = SFONT(14)
-        tf.textColor = HCOLOR("333333")
+        tf.font = TXT_1
+        tf.textColor = TXTCOLOR_1
         tf.delegate = self
         return tf
     }()
@@ -44,7 +44,8 @@ class DishEditeInPutCell: BaseTableViewCell, UITextFieldDelegate {
         contentView.addSubview(titlab)
         titlab.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
-            $0.top.equalToSuperview().offset(20)
+            //$0.right.equalToSuperview().offset(-20)
+            $0.top.equalToSuperview().offset(17)
         }
         
         contentView.addSubview(sLab)
@@ -95,28 +96,28 @@ class DishEditePriceInPutCell: BaseTableViewCell, UITextFieldDelegate {
     
     let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(16), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
         lab.text = "Pirce"
         return lab
     }()
     
     private let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(16), .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
         lab.text = "*"
         return lab
     }()
 
     private let backView: UIView = {
         let view = UIView()
-        view.backgroundColor = HCOLOR("#F8F9F9")
+        view.backgroundColor = BACKCOLOR_3
         view.layer.cornerRadius = 7
         return view
     }()
     
     private let moneyIconLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#333333"), SFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         lab.text = "£"
         return lab
     }()
@@ -124,8 +125,8 @@ class DishEditePriceInPutCell: BaseTableViewCell, UITextFieldDelegate {
     
     private lazy var inputTF: UITextField = {
         let tf = UITextField()
-        tf.font = SFONT(14)
-        tf.textColor = HCOLOR("333333")
+        tf.font = TIT_3
+        tf.textColor = TXTCOLOR_1
         tf.delegate = self
         return tf
     }()
@@ -135,7 +136,8 @@ class DishEditePriceInPutCell: BaseTableViewCell, UITextFieldDelegate {
         contentView.addSubview(titlab)
         titlab.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
-            $0.top.equalToSuperview().offset(20)
+            //$0.right.equalToSuperview().offset(-20)
+            $0.top.equalToSuperview().offset(17)
         }
         
         contentView.addSubview(sLab)
@@ -209,21 +211,20 @@ class DishEditePriceInPutCell: BaseTableViewCell, UITextFieldDelegate {
 class PriceDesCell: BaseTableViewCell {
     
     
-    private let msgLab: UILabel = {
+    let msgLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#F75E5E"), SFONT(10), .left)
+        lab.setCommentStyle(MAINCOLOR, TXT_3, .left)
         lab.text = "The price is between 0 and 100.  When it is positive, the order price is increased;  when it is 0, it is free."
         lab.numberOfLines = 0
         return lab
     }()
     
     override func setViews() {
-        
         contentView.addSubview(msgLab)
         msgLab.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
             $0.right.equalToSuperview().offset(-20)
-            $0.top.equalToSuperview().offset(10)
+            $0.top.equalToSuperview().offset(5)
         }
         
     }

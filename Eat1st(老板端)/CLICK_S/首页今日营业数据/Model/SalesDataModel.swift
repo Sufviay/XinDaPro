@@ -125,6 +125,11 @@ class SalesDataModel: HandyJSON {
     
     
     
+    /// 外卖未结账金额[...]
+    var de_notSettlePrice: Double = 0
+    ///外卖未结账单数[...]
+    var de_notSettleOrders: Int = 0
+
     
     ///外卖总营业额
     var de_totalPrice: Double = 0
@@ -146,8 +151,49 @@ class SalesDataModel: HandyJSON {
     //var de_totalOrdersCompare: Int = 0
     
     
+    
+    ///Uber
+    ///查询状态  -1异常 1查询中 2已返回
+//    var uber_status: String = "1"
+    ///总订单
+    var uberNums: Int = 0
+    ///上期-总订单数[...]
+    var uberPrevNums: Int = 0
+    ///上期-总订单数类型（1上涨，2相等，3下降）[...]
+    var uberPrevNumsType: String = ""
 
     
+    
+
+    var uberPrice: Double = 0
+    ///上期-总营业额[...]
+    var uberPrevPrice: Double = 0
+    ///上期-总营业额类型（1上涨，2相等，3下降）[...]
+    var uberPrevPriceType: String = ""
+
+//    ///订单退款数量
+//    var uber_RefundNum: Int = 0
+//    ///uber订单退款金额
+//    var uber_RefundPrice: Double = 0
+    
+    
+    
+    ///deliveroo
+    
+    ///deliveroo订单数[...]
+    var deliverooNums: Int = 0
+    ///deliveroo上期订单数[...]
+    var deliverooPrevNums: Int = 0
+    ///deliveroo上期订单类型（1上涨，2相等，3下降）[...]
+    var deliverooPrevNumsType: String = ""
+    
+    ///deliveroo上期订单金额[...]
+    var deliverooPrevPrice: Double = 0
+    ///deliveroo上期订单金额类型（1上涨，2相等，3下降）[...]
+    var deliverooPrevPriceType: String = ""
+    ///deliveroo订单金额[...]
+    var deliverooPrice: Double = 0
+
     
     
     
@@ -230,7 +276,28 @@ class SalesDataModel: HandyJSON {
         de_prevTotalPrice = json["prevSettlePrice"].doubleValue
         de_prevTotalPriceType = json["prevSettlePriceType"].stringValue
         
-
+        de_notSettlePrice = json["de_notSettlePrice"].doubleValue
+        de_notSettleOrders = json["notSettleOrders"].intValue
+        
     }
     
+    
+    
+//    func updateModel_Uber(json: JSON) {
+//        
+//        uber_status = json["status"].stringValue
+//        
+//        if uber_status == "2" {
+//            uber_totalPrice = json["uberPrice"].doubleValue
+//            uber_prevTotalPrice = json["uberPrevPrice"].doubleValue
+//            uber_prevTotalPriceType = json["uberPrevPriceType"].stringValue
+//            
+//            uber_prevTotalOrders = json["uberPrevNums"].intValue
+//            uber_totalOrders = json["uberNums"].intValue
+//            uber_prevTotalOrdersType = json["uberPrevNumsType"].stringValue
+//            
+//            uber_RefundNum = json["uberRefundNum"].intValue
+//            uber_RefundPrice = json["uberRefundPrice"].doubleValue
+//        }
+//    }
 }

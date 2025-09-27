@@ -19,8 +19,8 @@ class Detail_OpeningTimeCell: BaseTableViewCell {
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(14), .left)
-        lab.text = "Opening Hours"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.text = "Opening time".local
         return lab
     }()
 
@@ -29,7 +29,7 @@ class Detail_OpeningTimeCell: BaseTableViewCell {
     
     private let startLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(15), .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
         lab.text = "8:00"
         return lab
     }()
@@ -37,7 +37,7 @@ class Detail_OpeningTimeCell: BaseTableViewCell {
     
     private let endLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(15), .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
         lab.text = "8:00"
         return lab
     }()
@@ -105,8 +105,7 @@ class Detail_CoOrDeStausCell: BaseTableViewCell {
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(14), .left)
-        lab.text = "Opening Hours"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         return lab
     }()
 
@@ -143,7 +142,7 @@ class Detail_CoOrDeStausCell: BaseTableViewCell {
     
     func setCellData(titStr: String, status: String) {
         
-        if titStr == "Delivery" {
+        if titStr == "Delivery".local {
             point.backgroundColor = HCOLOR("#FEC501")
         } else {
             point.backgroundColor = HCOLOR("#465DFD")
@@ -166,7 +165,7 @@ class Detail_CoOrDeTimeCell: BaseTableViewCell {
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         return lab
     }()
 
@@ -174,7 +173,7 @@ class Detail_CoOrDeTimeCell: BaseTableViewCell {
     
     private let maxLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(15), .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
         lab.text = "8:00"
         return lab
     }()
@@ -182,7 +181,7 @@ class Detail_CoOrDeTimeCell: BaseTableViewCell {
     
     private let minLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(15), .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
         lab.text = "8:00"
         return lab
     }()
@@ -197,7 +196,7 @@ class Detail_CoOrDeTimeCell: BaseTableViewCell {
     
     private let tLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(13), .right)
+        lab.setCommentStyle(TXTCOLOR_1, BFONT(13), .right)
         lab.text = "min"
         return lab
     }()
@@ -260,14 +259,14 @@ class Detail_TimeStausCell: BaseTableViewCell {
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(14), .left)
-        lab.text = "Status"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.text = "Status".local
         return lab
     }()
     
     private let statusLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(15), .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
         lab.text = ""
         return lab
     }()
@@ -300,10 +299,10 @@ class Detail_TimeStausCell: BaseTableViewCell {
     
     func setCellData(status: String) {
         if status == "1" {
-            self.statusLab.text = "Enable"
+            self.statusLab.text = "Enable".local
         }
         if status == "2" {
-            self.statusLab.text = "Disable"
+            self.statusLab.text = "Disable".local
         }
     }
     
@@ -314,7 +313,7 @@ class Detail_TimeWeekCell: BaseTableViewCell {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(13), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         lab.text = "Status"
         return lab
     }()
@@ -345,25 +344,25 @@ class Detail_TimeWeekCell: BaseTableViewCell {
     
     func setCellData(idx: Int, select: Bool) {
         if idx == 0 {
-            self.titlab.text = "Monday"
+            self.titlab.text = "Monday".local
         }
         if idx == 1 {
-            self.titlab.text = "Tuesday"
+            self.titlab.text = "Tuesday".local
         }
         if idx == 2 {
-            self.titlab.text = "Wednesday"
+            self.titlab.text = "Wednesday".local
         }
         if idx == 3 {
-            self.titlab.text = "Thursday"
+            self.titlab.text = "Thursday".local
         }
         if idx == 4 {
-            self.titlab.text = "Friday"
+            self.titlab.text = "Friday".local
         }
         if idx == 5 {
-            self.titlab.text = "Saturday"
+            self.titlab.text = "Saturday".local
         }
         if idx == 6 {
-            self.titlab.text = "Sunday"
+            self.titlab.text = "Sunday".local
         }
         
         if select {
@@ -394,8 +393,8 @@ class OpeningSelectDishCell: BaseTableViewCell {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(15), .left)
-        lab.text = "Dishes"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.text = "Dishes".local
         return lab
     }()
     
@@ -417,7 +416,7 @@ class OpeningSelectDishCell: BaseTableViewCell {
         line1.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
             $0.right.equalToSuperview().offset(-20)
-            $0.height.equalTo(1)
+            $0.height.equalTo(0.5)
             $0.top.equalToSuperview()
         }
         
@@ -425,7 +424,7 @@ class OpeningSelectDishCell: BaseTableViewCell {
         line2.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
             $0.right.equalToSuperview().offset(-20)
-            $0.height.equalTo(1)
+            $0.height.equalTo(0.5)
             $0.bottom.equalToSuperview()
         }
         

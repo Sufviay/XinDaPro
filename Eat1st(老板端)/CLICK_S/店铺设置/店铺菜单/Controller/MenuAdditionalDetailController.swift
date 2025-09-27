@@ -58,7 +58,7 @@ class MenuAdditionalDetailController: HeadBaseViewController, UITableViewDelegat
     
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Additional detail"
+        self.biaoTiLab.text = "Additional Detail".local
         self.loadData_Net()
     }
 
@@ -101,7 +101,7 @@ class MenuAdditionalDetailController: HeadBaseViewController, UITableViewDelegat
 
     @objc private func clickRightAction() {
         //删除
-        self.showSystemChooseAlert("Alert", "Delete or not?", "YES", "NO") {
+        self.showSystemChooseAlert("Alert".local, "Delete or not?".local, "YES".local, "NO".local) {
             self.deleteDish_Net()
         }
     }
@@ -115,8 +115,8 @@ class MenuAdditionalDetailController: HeadBaseViewController, UITableViewDelegat
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
-            let h1 = dishModel.dishName1.getTextHeigh(BFONT(17), S_W - 120)
-            let h2 = dishModel.dishName2.getTextHeigh(SFONT(15), S_W - 120)
+            let h1 = dishModel.dishName1.getTextHeigh(TIT_2, S_W - 120)
+            let h2 = dishModel.dishName2.getTextHeigh(TXT_1, S_W - 120)
             return 25 + 15 + h1 + h2
         }
         if indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 3 || indexPath.row == 5 {
@@ -124,7 +124,7 @@ class MenuAdditionalDetailController: HeadBaseViewController, UITableViewDelegat
         }
         
         if indexPath.row == 4 {
-            let h = dishModel.classifyStr.getTextHeigh(SFONT(14), S_W - 80)
+            let h = dishModel.classifyStr.getTextHeigh(TXT_1, S_W - 80)
             return h + 50
         }
         
@@ -150,10 +150,10 @@ class MenuAdditionalDetailController: HeadBaseViewController, UITableViewDelegat
         if indexPath.row == 1 || indexPath.row == 2  || indexPath.row == 3 || indexPath.row == 4 || indexPath.row == 5 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailMsgCell") as! DishDetailMsgCell
             if indexPath.row == 1 {
-                cell.setCellData(titStr: "Serial number", msgStr: dishModel.attachCode)
+                cell.setCellData(titStr: "Serial number".local, msgStr: dishModel.attachCode)
             }
             if indexPath.row == 2 {
-                cell.setCellData(titStr: "Price", msgStr: "£ \(dishModel.price)")
+                cell.setCellData(titStr: "Price".local, msgStr: "£ \(dishModel.price)")
             }
             
             
@@ -162,28 +162,28 @@ class MenuAdditionalDetailController: HeadBaseViewController, UITableViewDelegat
             if indexPath.row == 3 {
                 var msg = ""
                 if dishModel.dishesKind == "1" {
-                    msg = "Food"
+                    msg = "Food".local
                 } else if dishModel.dishesKind == "2" {
-                    msg = "Drink"
+                    msg = "Drink".local
                 } else  {
-                    msg = "Milk tea"
+                    msg = "Milk tea".local
                 }
-                cell.setCellData(titStr: "Dishes kind", msgStr: msg)
+                cell.setCellData(titStr: "Dishes kind".local, msgStr: msg)
             }
             
             if indexPath.row == 4 {
-                cell.setCellData(titStr: "Category", msgStr: dishModel.classifyStr)
+                cell.setCellData(titStr: "Category".local, msgStr: dishModel.classifyStr)
             }
             
             if indexPath.row == 5 {
                 var msg = ""
                 if dishModel.statusId == "1" {
                     //启用
-                    msg = "Enable"
+                    msg = "Enable".local
                 } else {
-                    msg = "Disable"
+                    msg = "Disable".local
                 }
-                cell.setCellData(titStr: "Status", msgStr: msg)
+                cell.setCellData(titStr: "Status".local, msgStr: msg)
             }
             
             return cell

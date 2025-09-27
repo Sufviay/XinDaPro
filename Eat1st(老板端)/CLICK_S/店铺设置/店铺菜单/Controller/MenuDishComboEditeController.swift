@@ -33,16 +33,16 @@ class MenuDishComboEditeController: HeadBaseViewController, UITableViewDelegate,
     
     private let cancelBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "cancel", HCOLOR("#465DFD"), BFONT(14), .clear)
+        but.setCommentStyle(.zero, "Cancel".local, MAINCOLOR, TIT_2, .clear)
         but.layer.cornerRadius = 14
-        but.layer.borderColor = HCOLOR("#465DFD").cgColor
+        but.layer.borderColor = MAINCOLOR.cgColor
         but.layer.borderWidth = 2
         return but
     }()
 
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "save", .white, BFONT(14), HCOLOR("#465DFD"))
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
         but.layer.cornerRadius = 14
         return but
     }()
@@ -72,6 +72,7 @@ class MenuDishComboEditeController: HeadBaseViewController, UITableViewDelegate,
         tableView.register(DishEditeImageDetailCell.self, forCellReuseIdentifier: "DishEditeImageDetailCell")
         tableView.register(DishKuCunEditeCell.self, forCellReuseIdentifier: "DishKuCunEditeCell")
         tableView.register(DishDetailAddSpecCell.self, forCellReuseIdentifier: "DishDetailAddSpecCell")
+        tableView.register(SelectThreeButCell.self, forCellReuseIdentifier: "SelectThreeButCell")
     
         tableView.register(ComboNameCell.self, forCellReuseIdentifier: "ComboNameCell")
         tableView.register(ComboDishNameCell.self, forCellReuseIdentifier: "ComboDishNameCell")
@@ -130,7 +131,7 @@ class MenuDishComboEditeController: HeadBaseViewController, UITableViewDelegate,
     
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Dish Edit"
+        self.biaoTiLab.text = "Dish Edit".local
         self.table.reloadData()
     }
 
@@ -223,11 +224,11 @@ class MenuDishComboEditeController: HeadBaseViewController, UITableViewDelegate,
             }
             
             if indexPath.row == 8 {
-                return 80
+                return 90
             }
             
             if indexPath.row == 9 {
-                return 90
+                return 80
             }
             
             if indexPath.row == 10 {
@@ -254,7 +255,7 @@ class MenuDishComboEditeController: HeadBaseViewController, UITableViewDelegate,
                 return 80
             }
             if indexPath.row == 22 {
-                return 90
+                return 120
             }
             if indexPath.row == 23 {
                 return 90
@@ -285,19 +286,19 @@ class MenuDishComboEditeController: HeadBaseViewController, UITableViewDelegate,
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeInPutCell") as! DishEditeInPutCell
                 
                 if indexPath.row == 0 {
-                    cell.setCellData(titStr: "Simplified Chinese name", msgStr: dataModel.nameCn)
+                    cell.setCellData(titStr: "Simplified Chinese name".local, msgStr: dataModel.nameCn)
                 }
                 if indexPath.row == 1 {
-                    cell.setCellData(titStr: "Traditional Chinese name", msgStr: dataModel.nameHk)
+                    cell.setCellData(titStr: "Traditional Chinese name".local, msgStr: dataModel.nameHk)
                 }
                 if indexPath.row == 2 {
-                    cell.setCellData(titStr: "English name", msgStr: dataModel.nameEn)
+                    cell.setCellData(titStr: "English name".local, msgStr: dataModel.nameEn)
                 }
                 if indexPath.row == 3 {
-                    cell.setCellData(titStr: "Serial number", msgStr: dataModel.dishesCode)
+                    cell.setCellData(titStr: "Serial number".local, msgStr: dataModel.dishesCode)
                 }
                 if indexPath.row == 4 {
-                    cell.setCellData(titStr: "Bar code", msgStr: dataModel.dishesBarCode, isMust: false)
+                    cell.setCellData(titStr: "Bar code".local, msgStr: dataModel.dishesBarCode, isMust: false)
                 }
                 
                 cell.editeEndBlock = { [unowned self] (text) in
@@ -324,23 +325,23 @@ class MenuDishComboEditeController: HeadBaseViewController, UITableViewDelegate,
             if indexPath.row == 5 || indexPath.row == 6 || indexPath.row == 7 || indexPath.row == 19 || indexPath.row == 20 || indexPath.row == 21 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeTextViewCell") as! DishEditeTextViewCell
                 if indexPath.row == 5 {
-                    cell.setCellData(titStr: "Simplified Chinese description", msgStr: dataModel.remarkCn, isMust: false)
+                    cell.setCellData(titStr: "Simplified Chinese description".local, msgStr: dataModel.remarkCn, isMust: false)
                 }
                 if indexPath.row == 6 {
-                    cell.setCellData(titStr: "Traditional Chinese description", msgStr: dataModel.remarkHk, isMust: false)
+                    cell.setCellData(titStr: "Traditional Chinese description".local, msgStr: dataModel.remarkHk, isMust: false)
                 }
                 if indexPath.row == 7 {
-                    cell.setCellData(titStr: "English description", msgStr: dataModel.remarkEn, isMust: false)
+                    cell.setCellData(titStr: "English description".local, msgStr: dataModel.remarkEn, isMust: false)
                 }
                 
                 if indexPath.row == 19 {
-                    cell.setCellData(titStr: "Chinese simplified allergen", msgStr: dataModel.allergenCn, isMust: true)
+                    cell.setCellData(titStr: "Simplified Chinese allergen".local, msgStr: dataModel.allergenCn, isMust: true)
                 }
                 if indexPath.row == 20 {
-                    cell.setCellData(titStr: "Chinese traditional allergen", msgStr: dataModel.allergenHk, isMust: true)
+                    cell.setCellData(titStr: "Traditional Chinese allergen".local, msgStr: dataModel.allergenHk, isMust: true)
                 }
                 if indexPath.row == 21 {
-                    cell.setCellData(titStr: "English allergen", msgStr: dataModel.allergenEn, isMust: true)
+                    cell.setCellData(titStr: "English allergen".local, msgStr: dataModel.allergenEn, isMust: true)
                 }
                 
                 cell.editeEndBlock = { [unowned self] (text) in
@@ -370,7 +371,7 @@ class MenuDishComboEditeController: HeadBaseViewController, UITableViewDelegate,
             
             if indexPath.row == 8 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell") as! DishEditeChooseCell
-                cell.setChooseCellData(titStr: "Print alias", l_str: "Enable", r_Str: "Disable", statusID: dataModel.printType)
+                cell.setChooseCellData(titStr: "Print alias".local, l_str: "Enable".local, r_Str: "Disable".local, statusID: dataModel.printType)
             
                 cell.selectBlock = { [unowned self] (status) in
                 
@@ -383,7 +384,7 @@ class MenuDishComboEditeController: HeadBaseViewController, UITableViewDelegate,
             
             if indexPath.row == 9 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeInPutCell") as! DishEditeInPutCell
-                cell.setCellData(titStr: "Alias", msgStr: dataModel.printAlias, isMust: false)
+                cell.setCellData(titStr: "Alias".local, msgStr: dataModel.printAlias, isMust: false)
                 
                 cell.editeEndBlock = { [unowned self] (text) in
                     dataModel.printAlias = text
@@ -408,7 +409,7 @@ class MenuDishComboEditeController: HeadBaseViewController, UITableViewDelegate,
             
             if indexPath.row == 11 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell_Three") as! DishEditeChooseCell_Three
-                cell.setCellData(titStr: "Method of sale", l_str: "Delivery", m_str: "Dine-in", r_str: "All", statusID: dataModel.sellType)
+                cell.setCellData(titStr: "Sell type".local, l_str: "Delivery".local, m_str: "Dine-in".local, r_str: "All".local, statusID: dataModel.sellType)
                 cell.selectBlock = { [unowned self] (type) in
                     self.dataModel.sellType = type
                     table.reloadData()
@@ -420,10 +421,10 @@ class MenuDishComboEditeController: HeadBaseViewController, UITableViewDelegate,
             if indexPath.row == 12 || indexPath.row == 13 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditePriceInPutCell") as! DishEditePriceInPutCell
                 if indexPath.row == 12 {
-                    cell.setCellData(money: dataModel.deliPrice, titStr: "Delivery Price")
+                    cell.setCellData(money: dataModel.deliPrice, titStr: "Delivery Price".local)
                 }
                 if indexPath.row == 13 {
-                    cell.setCellData(money: dataModel.dinePrice, titStr: "Dine-in Price")
+                    cell.setCellData(money: dataModel.dinePrice, titStr: "Dine-in Price".local)
                 }
                 
                 cell.editeEndBlock = { [unowned self] (text) in
@@ -440,7 +441,7 @@ class MenuDishComboEditeController: HeadBaseViewController, UITableViewDelegate,
 
             if indexPath.row == 14 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell") as! DishEditeChooseCell
-                    cell.setChooseCellData(titStr: "Buffet", l_str: "Enable", r_Str: "Disable", statusID: dataModel.buffetType)
+                cell.setChooseCellData(titStr: "Buffet".local, l_str: "Enable".local, r_Str: "Disable".local, statusID: dataModel.buffetType)
                 
                 cell.selectBlock = { [unowned self] (status) in
                     
@@ -454,7 +455,7 @@ class MenuDishComboEditeController: HeadBaseViewController, UITableViewDelegate,
             if indexPath.row == 15 {
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell_Three") as! DishEditeChooseCell_Three
-                cell.setCellData(titStr: "Dishes kind", l_str: "Food", m_str: "Drink", r_str: "Milk tea", statusID: dataModel.dishesKind)
+                cell.setCellData(titStr: "Dishes kind".local, l_str: "Food".local, m_str: "Drink".local, r_str: "Milk tea".local, statusID: dataModel.dishesKind)
                 
                 cell.selectBlock = { [unowned self] (status) in
                 
@@ -467,7 +468,7 @@ class MenuDishComboEditeController: HeadBaseViewController, UITableViewDelegate,
             if indexPath.row == 16 {
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell") as! DishEditeChooseCell
-                cell.setChooseCellData(titStr: "VAT", l_str: "Enable", r_Str: "Disable", statusID: dataModel.vatType)
+                cell.setChooseCellData(titStr: "VAT", l_str: "Enable".local, r_Str: "Disable".local, statusID: dataModel.vatType)
             
                 cell.selectBlock = { [unowned self] (status) in
                 
@@ -480,7 +481,7 @@ class MenuDishComboEditeController: HeadBaseViewController, UITableViewDelegate,
             if indexPath.row == 17 {
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell") as! DishEditeChooseCell
-                cell.setChooseCellData(titStr: "Special offer", l_str: "Enable", r_Str: "Disable", statusID: dataModel.baleType)
+                cell.setChooseCellData(titStr: "Special offer".local, l_str: "Enable".local, r_Str: "Disable".local, statusID: dataModel.baleType)
             
                 cell.selectBlock = { [unowned self] (status) in
                 
@@ -507,10 +508,10 @@ class MenuDishComboEditeController: HeadBaseViewController, UITableViewDelegate,
             }
             
             if indexPath.row == 22  {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell") as! DishEditeChooseCell
-                    cell.setChooseCellData(titStr: "Status", l_str: "Enable", r_Str: "Disable", statusID: dataModel.statusId)
+                let cell = tableView.dequeueReusableCell(withIdentifier: "SelectThreeButCell") as! SelectThreeButCell
+                cell.setCellData(titStr: "Status".local, str1: "In stock".local, str2: "Sold out indefinitely".local, str3: "Sold out today".local, selectType: dataModel.statusId)
                 
-                cell.selectBlock = { [unowned self] (status) in
+                cell.clickBlock = { [unowned self] (status) in
                     ///点选上下架 和 折扣
                     self.dataModel.statusId = status
                     table.reloadData()
@@ -541,7 +542,7 @@ class MenuDishComboEditeController: HeadBaseViewController, UITableViewDelegate,
             
             if indexPath.row == 24 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeImageCell") as! DishEditeImageCell
-                cell.setCellData(titStr: "Dish picture", imgUrl: dataModel.showListUrl, picImage: up_DishPic)
+                cell.setCellData(titStr: "Dish picture".local, imgUrl: dataModel.showListUrl, picImage: up_DishPic)
         
                 cell.selectImgBlock = { [unowned self] (img) in
                         
@@ -555,7 +556,7 @@ class MenuDishComboEditeController: HeadBaseViewController, UITableViewDelegate,
             
             if indexPath.row == 25 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeImageDetailCell") as! DishEditeImageDetailCell
-                cell.setCellData(titStr: "Dish Detail picture", imgUrl: dataModel.showDetailUrl, picImage: up_DishDetailPic)
+                cell.setCellData(titStr: "Dish detail picture".local, imgUrl: dataModel.showDetailUrl, picImage: up_DishDetailPic)
                 
                 cell.selectImgBlock = { [unowned self] (img) in
                     self.cropVC.cropImg = img
@@ -567,7 +568,7 @@ class MenuDishComboEditeController: HeadBaseViewController, UITableViewDelegate,
             
             if indexPath.row == 26 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DishDetailAddSpecCell") as! DishDetailAddSpecCell
-                cell.inLab.text = "Add"
+                cell.inLab.text = "Add combo options".local
                 return cell
             }
         } else {

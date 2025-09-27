@@ -34,8 +34,8 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("333333"), BFONT(18), .left)
-        lab.text = "Detail"
+        lab.setCommentStyle(HCOLOR("333333"), TIT_4, .left)
+        lab.text = "Detail".local
         return lab
     }()
     
@@ -51,7 +51,7 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
     
     private let nameLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(18), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
         lab.text = "Ms zhang"
         return lab
     }()
@@ -59,15 +59,15 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
     
     private let tlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), BFONT(14), .left)
-        lab.text = "Date:"
+        lab.setCommentStyle(TXTCOLOR_2, TIT_3, .left)
+        lab.text = "Date:".local
         return lab
     }()
     
     private let tlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), BFONT(14), .left)
-        lab.text = "Party:"
+        lab.setCommentStyle(TXTCOLOR_2, TIT_3, .left)
+        lab.text = "Party:".local
         return lab
     }()
     
@@ -81,29 +81,29 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
     
     private let tlab4: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), BFONT(14), .left)
-        lab.text = "Contact way:"
+        lab.setCommentStyle(TXTCOLOR_2, TIT_3, .left)
+        lab.text = "Contact way:".local
         return lab
     }()
     
     private let tlab5: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), BFONT(14), .left)
-        lab.text = "Email:"
+        lab.setCommentStyle(TXTCOLOR_2, TIT_3, .left)
+        lab.text = "Email:".local
         return lab
     }()
     
     
     private let tlab6: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), BFONT(14), .left)
-        lab.text = "Create time:"
+        lab.setCommentStyle(TXTCOLOR_2, TIT_3, .left)
+        lab.text = "Create time:".local
         return lab
     }()
     
     private let dateLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(14), .right)
+        lab.setCommentStyle(MAINCOLOR, TIT_3, .right)
         lab.text = "2022-06-08 08:00PM"
         return lab
     }()
@@ -111,7 +111,7 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
     
     private let partyLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(14), .right)
+        lab.setCommentStyle(MAINCOLOR, TIT_3, .right)
         lab.text = "10"
         return lab
     }()
@@ -127,7 +127,7 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
     
     private let phoneLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
         lab.text = "01933 403500"
         return lab
     }()
@@ -136,7 +136,7 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
     
     private let emailLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
         lab.text = "136000000000@163.com"
         return lab
     }()
@@ -144,7 +144,7 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
     
     private let createTimeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
         lab.text = "2022-06-08"
         return lab
     }()
@@ -153,17 +153,17 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
     
     private let cancelBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Cancel", HCOLOR("#465DFD"), BFONT(14), .white)
+        but.setCommentStyle(.zero, "Cancel".local, MAINCOLOR, TIT_3, .white)
         but.layer.cornerRadius = 14
         but.layer.borderWidth = 2
-        but.layer.borderColor = HCOLOR("#465DFD").cgColor
+        but.layer.borderColor = MAINCOLOR.cgColor
         return but
     }()
     
     
     private let checkInBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Check in", .white, BFONT(14), HCOLOR("#465DFD"))
+        but.setCommentStyle(.zero, "Check in".local, .white, TIT_3, MAINCOLOR)
         but.layer.cornerRadius = 14
         return but
     }()
@@ -357,7 +357,7 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
 
     @objc private func clickCancelAction() {
         //取消
-        showSystemChooseAlert("Alert", "Cancel or not?", "YES", "NO") { [unowned self] in
+        showSystemChooseAlert("Alert".local, "Cancel or not?".local, "YES".local, "NO".local) { [unowned self] in
             doCancel_Net(id: dataModel.userReserveId)
         }
 

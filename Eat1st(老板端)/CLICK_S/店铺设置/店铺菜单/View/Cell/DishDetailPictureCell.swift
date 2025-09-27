@@ -13,15 +13,15 @@ class DishDetailPictureCell: BaseTableViewCell, CommonToolProtocol, SDPhotoBrows
     
     private let titleLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .left)
-        lab.text = "Dish detail picture"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.text = "Dish detail picture".local
         return lab
     }()
 
     private let picImg: UIImageView = {
         let img = UIImageView()
         img.contentMode = .scaleAspectFill
-        img.backgroundColor = HOLDCOLOR
+        img.backgroundColor = BACKCOLOR_2
         img.clipsToBounds = true
         img.isUserInteractionEnabled = true
         return img

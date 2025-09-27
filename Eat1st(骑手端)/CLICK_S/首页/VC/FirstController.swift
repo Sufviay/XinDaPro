@@ -27,9 +27,11 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
             if workStatus == "1" {
                 //工作中
                 self.sliderBut.setImage(LOIMG("slider_c"), for: .normal)
+                t_lab.text = "ON"
             } else {
                 //休息
                 self.sliderBut.setImage(LOIMG("slider_o"), for: .normal)
+                t_lab.text = "OFF"
             }
         }
     }
@@ -710,12 +712,9 @@ class FirstController: BaseViewController, UITableViewDelegate, UITableViewDataS
     //MARK: - 定时相关
     private func startTimer() {
         print("startTimer")
-        timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { (_) in
+        timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { (_) in
             //获取当前位置
-            
-            
             print("计时器跑着吗？")
-            
             LocationManager.shared.initialize()
             LocationManager.shared.doLocation()
         })

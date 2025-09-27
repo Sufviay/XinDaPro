@@ -28,16 +28,16 @@ class MenuAdditionalAddController: HeadBaseViewController, UITableViewDelegate, 
     
     private let cancelBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "cancel", HCOLOR("#465DFD"), BFONT(14), .clear)
+        but.setCommentStyle(.zero, "Cancel".local, MAINCOLOR, TIT_2, .clear)
         but.layer.cornerRadius = 14
-        but.layer.borderColor = HCOLOR("#465DFD").cgColor
+        but.layer.borderColor = MAINCOLOR.cgColor
         but.layer.borderWidth = 2
         return but
     }()
 
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "save", .white, BFONT(14), HCOLOR("#465DFD"))
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
         but.layer.cornerRadius = 14
         return but
     }()
@@ -88,7 +88,7 @@ class MenuAdditionalAddController: HeadBaseViewController, UITableViewDelegate, 
     
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Additional edit"
+        self.biaoTiLab.text = "Additional Edit".local
     }
 
     
@@ -156,7 +156,7 @@ class MenuAdditionalAddController: HeadBaseViewController, UITableViewDelegate, 
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 9
+        return 8
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -168,21 +168,21 @@ class MenuAdditionalAddController: HeadBaseViewController, UITableViewDelegate, 
             return 80
         }
         
-        if indexPath.row == 5 {
-            return 50
-        }
+//        if indexPath.row == 5 {
+//            return 50
+//        }
 
         
-        if indexPath.row ==  6 {
+        if indexPath.row ==  5 {
             return 90
         }
         
         
-        if indexPath.row == 7 {
+        if indexPath.row == 6 {
             return 80
         }
         
-        if indexPath.row == 8 {
+        if indexPath.row == 7 {
             return 90
         }
         
@@ -195,16 +195,16 @@ class MenuAdditionalAddController: HeadBaseViewController, UITableViewDelegate, 
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeInPutCell") as! DishEditeInPutCell
             
             if indexPath.row == 0 {
-                cell.setCellData(titStr: "Simplified Chinese name", msgStr: dataModel.nameCn)
+                cell.setCellData(titStr: "Simplified Chinese name".local, msgStr: dataModel.nameCn)
             }
             if indexPath.row == 1 {
-                cell.setCellData(titStr: "Traditional Chinese name", msgStr: dataModel.nameHk)
+                cell.setCellData(titStr: "Traditional Chinese name".local, msgStr: dataModel.nameHk)
             }
             if indexPath.row == 2 {
-                cell.setCellData(titStr: "English name", msgStr: dataModel.nameEn)
+                cell.setCellData(titStr: "English name".local, msgStr: dataModel.nameEn)
             }
             if indexPath.row == 3 {
-                cell.setCellData(titStr: "Serial number", msgStr: dataModel.attachCode)
+                cell.setCellData(titStr: "Serial number".local, msgStr: dataModel.attachCode)
             }
             
             cell.editeEndBlock = { [unowned self] (text) in
@@ -227,22 +227,22 @@ class MenuAdditionalAddController: HeadBaseViewController, UITableViewDelegate, 
         
         if indexPath.row == 4 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditePriceInPutCell") as! DishEditePriceInPutCell
-            cell.setCellData(money: dataModel.price, titStr: "Price")
+            cell.setCellData(money: dataModel.price, titStr: "Price".local)
             cell.editeEndBlock = { [unowned self] (text) in
                 self.dataModel.price = text == "" ? "0" : text
             }
             return cell
         }
         
-        if indexPath.row == 5 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PriceDesCell") as! PriceDesCell
-            return cell
-        }
+//        if indexPath.row == 5 {
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "PriceDesCell") as! PriceDesCell
+//            return cell
+//        }
 
         
-        if indexPath.row == 6 {
+        if indexPath.row == 5 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell_Three") as! DishEditeChooseCell_Three
-            cell.setCellData(titStr: "Dishes kind", l_str: "Food", m_str: "Drink", r_str: "Milk tea", statusID: dataModel.dishesKind)
+            cell.setCellData(titStr: "Dishes kind".local, l_str: "Food".local, m_str: "Drink".local, r_str: "Milk tea".local, statusID: dataModel.dishesKind)
             cell.selectBlock = { [unowned self] (status) in
                 dataModel.dishesKind = status
                 tableView.reloadData()
@@ -251,7 +251,7 @@ class MenuAdditionalAddController: HeadBaseViewController, UITableViewDelegate, 
         }
         
         
-        if indexPath.row == 7 {
+        if indexPath.row == 6 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeClassifyCell") as! DishEditeClassifyCell
             let str = PJCUtil.getCurrentLanguage() == "en_GB" ? dataModel.classifyNameEn : dataModel.classifyNameHk
             cell.setCellData(c_msg: str)
@@ -266,10 +266,10 @@ class MenuAdditionalAddController: HeadBaseViewController, UITableViewDelegate, 
             return cell
         }
         
-        if indexPath.row == 8 {
+        if indexPath.row == 7 {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "DishEditeChooseCell") as! DishEditeChooseCell
-                cell.setChooseCellData(titStr: "Status", l_str: "Enable", r_Str: "Disable", statusID: dataModel.statusId)
+            cell.setChooseCellData(titStr: "Status".local, l_str: "Enable".local, r_Str: "Disable".local, statusID: dataModel.statusId)
             
             cell.selectBlock = { [unowned self] (status) in
                 dataModel.statusId = status

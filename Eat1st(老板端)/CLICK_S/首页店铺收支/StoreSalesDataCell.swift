@@ -72,17 +72,32 @@ class StoreSalesDataCell: BaseTableViewCell, UITableViewDelegate, UITableViewDat
         
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return dataModel.titStrArr.count
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataModel.titStrArr.count
+        if section == 13 {
+            if dataModel.unpaidOrderNum == 0 {
+                return 0
+            }
+        }
+        if section == 14 {
+            if dataModel.vatNo == "" {
+                return  0
+            }
+        }
+        
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SaleContentCell") as! SaleContentCell
-        cell.setCellData(l_str: dataModel.titStrArr[indexPath.row], m_str: dataModel.numberArr[indexPath.row], r_str: dataModel.priceArr[indexPath.row])
+        cell.setCellData(l_str: dataModel.titStrArr[indexPath.section], m_str: dataModel.numberArr[indexPath.section], r_str: dataModel.priceArr[indexPath.section])
         return cell
     }
     
@@ -104,21 +119,23 @@ class SaleContentCell: BaseTableViewCell {
     
     private let l_lab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), BFONT(13), .left)
+        lab.setCommentStyle(TXTCOLOR_2, TIT_3, .left)
         lab.text = "Sales"
+        lab.adjustsFontSizeToFitWidth = true
         return lab
     }()
     
     private let m_lab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#000000"), BFONT(14), .center)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_1, .center)
         lab.text = "Total"
+        lab.adjustsFontSizeToFitWidth = true
         return lab
     }()
     
     private let r_lab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#000000"), BFONT(14), .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_1, .right)
         lab.adjustsFontSizeToFitWidth = true
         lab.text = "Amount"
         return lab
@@ -129,29 +146,33 @@ class SaleContentCell: BaseTableViewCell {
         
         contentView.addSubview(line)
         line.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(15)
-            $0.right.equalToSuperview().offset(-15)
+            $0.left.equalToSuperview().offset(10)
+            $0.right.equalToSuperview().offset(-10)
             $0.height.equalTo(0.5)
             $0.bottom.equalToSuperview()
-        }
-        
-        contentView.addSubview(l_lab)
-        l_lab.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview().offset(20)
-        }
-        
-        contentView.addSubview(r_lab)
-        r_lab.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.right.equalToSuperview().offset(-15)
-            $0.width.equalTo((S_W - 50) / 3)
         }
         
         contentView.addSubview(m_lab)
         m_lab.snp.makeConstraints {
             $0.center.equalToSuperview()
+            $0.width.equalTo(60)
         }
+
+        
+        contentView.addSubview(l_lab)
+        l_lab.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalToSuperview().offset(10)
+            $0.right.equalTo(m_lab.snp.left).offset(-5)
+        }
+        
+        contentView.addSubview(r_lab)
+        r_lab.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.right.equalToSuperview().offset(-10)
+            $0.left.equalTo(m_lab.snp.right).offset(5)
+        }
+        
     }
     
     
@@ -161,27 +182,23 @@ class SaleContentCell: BaseTableViewCell {
         r_lab.text = r_str
         
         if l_str == "Type" {
-            l_lab.textColor = FONTCOLOR
-            l_lab.font = BFONT(17)
+            l_lab.textColor = TXTCOLOR_1
+            l_lab.font = TIT_4
             
-            m_lab.textColor = FONTCOLOR
-            m_lab.font = BFONT(17)
+            m_lab.font = TIT_4
             
-            r_lab.textColor = FONTCOLOR
-            r_lab.font = BFONT(17)
+            r_lab.font = TIT_4
         } else {
-            l_lab.textColor = HCOLOR("#666666")
-            l_lab.font = BFONT(15)
+            l_lab.textColor = TXTCOLOR_2
+            l_lab.font = TIT_2
             
-            m_lab.textColor = .black
-            m_lab.font = BFONT(15)
+            m_lab.font = TIT_2
             
-            r_lab.textColor = .black
-            r_lab.font = BFONT(15)
+            r_lab.font = TIT_2
         }
         
         
-        if l_str == "Type" || l_str == "Revenue" || l_str == "Top up(R)" || l_str == "Cash On Hand" {
+        if l_str == "Type" || l_str == "Revenue" || l_str == "Top up(R)" || l_str == "Cash On Hand" || l_str == "VAT" || l_str == "Dine-in" || l_str == "Unpaid" {
             line.isHidden = false
         } else {
             line.isHidden = true

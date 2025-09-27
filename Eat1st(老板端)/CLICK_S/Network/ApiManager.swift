@@ -54,7 +54,7 @@ enum ApiManager {
     ///设置店铺总的营业状态
     case setStoreOpenStatus(coStatus: String, deStatus: String)
     //设置菜品上下架
-    case setDishesOnOffStatus(dishes: [[String: String]])
+    case setDishesOnOffStatus(dishes: [[String: String]], status: String)
     ///获取店铺阶梯配送费列表和配送方式
     case getDeliveryFeeListAndType
     ///添加店铺阶梯配送费
@@ -260,87 +260,54 @@ enum ApiManager {
     case setAttachStatus(id: String)
     ///设置菜品VIP
     case doDishVipPrice(id: String, typeStr: String, price: String, status: String)
-    
-
-    
-    
-    
-    
-    
-    
-    
-//    ///获取订单列表
-//    case getOrderList(page: String, tag: String, type: String)
-//    
-//
-//    ///已出餐
-//    case orderChuCanAction(orderID: String)
-//    
-//    ///接单
-//    case orderJieDanAction(orderID: String)
-//    
-//    ///拒接
-//    case orderJuJieAction(orderID: String, customReason: String, reasonID: String)
-//    
-//    ///开始配送
-//    case orderkaiShiPeiSongAction(orderID: String)
-//    
-//    ///收货
-//    case orderShouHuoAction(orderID: String)
-//    
-//    
-
-//    
-//    ///获取投诉内容
-//    case loadComplainContent(orderID: String)
-//    
-//    
-//    ///处理投诉
-//    case dealComplain(orderID: String, code: String)
-//    
-//    ///获取营业金额信息
-//    case getTodayAndlastWeekSales
-//    
-//    ///获取店铺支付方式
-//    case getStorePayWay
-//    
-//    ///更新收款方式
-//    case changePayWay(card: String, cash: String)
-//    
-//    
-//    ///上传用户位置信息
-//    case uploadUserLocation(lat: String, lng: String)
-//    
-//    ///获取首页Tag数据
-//    case getOrderStatusTag
-//    
-//    ///获取拒接原因
-//    case getJujieReason
-//    
-//    ///查询营业统计
-//    case queryStoreBussiness(type: String, date: String)
-//    
-//    ///获取骑手列表
-//    case getRiderList
-//    
-//    ///获取骑手派送中的订单列表
-//    case getRiderDeliveryOrderList(id: String)
-//    
-//    ///获取骑手历史配送订单
-//    case getRiderDeliveryHistoryOderList(id: String, page: String)
-//    
-//    ///获取骑手位置
-//    case getRiderLocal(id: String)
-    
-
-    
-    
-    
-
-    
-    
-    
-    
+    ///查询Uber的销售信息
+    case getUberSummary(dateType: String, start: String, end: String)
+    ///获取节假日列表
+    case getHolidayList
+    ///添加节假日
+    case addHoliday(model: HolidayModel)
+    ///删除节假日
+    case deleteHoliday(id: String)
+    ///编辑节假日
+    case editHoliday(model: HolidayModel)
+    ///获取订单列表
+    case getAllOrderList(startDate: String, endDate: String, source: String, userID: String, payType: String, status: String, page: String)
+    ///修改密碼
+    case changePassword(new: String, old: String, reNew: String)
+    ///获取其他平台的菜品销量
+    case getOtherDishesSummary(page: Int, searchType: String, start: String, end: String, ptType: String)
+    ///获取其他平台订单数据
+    case getOtherOrderSummary(searchType: String, start: String, end: String, ptType: String)
+    ///获取店铺信息
+    case getStoreInfo
+    ///设置店铺起送金额
+    case setStoreMineOrderPrice(price: String)
+    ///設置數據查詢範圍
+    case doStoreSalesScope(id: String)
+    ///获取客户列表
+    case getCustomerList(page: Int, start: String, end: String, sortAsc: String, sortBy: String)
+    ///優惠列表
+    case getCouponRuleList(isHistory: Bool, status: String, page: Int)
+    ///添加优惠券
+    case addCoupon(model: CouponModel)
+    ///获取优惠券关联菜品
+    case getCouponCanSelectDishesList
+    ///編輯優惠狀態
+    case editCouponStatus(id: String, status: String)
+    ///獲取優惠詳情
+    case getCouponDetail(id: String)
+    ///餐桌排序
+    case deskDoSort(sortList: [[String: String]])
+    ///获取用户标签列表
+    case getCustomerTagList
+    ///新增用户标签
+    case addCustomerTag(status: String, nameEn: String, nameCn: String, nameHk: String)
+    ///编辑用户标签
+    case editCustomerTag(id: String, status: String, nameEn: String, nameCn: String, nameHk: String)
+    ///删除用户标签
+    case deleteCustomerTag(id: String)
+    ///用戶綁定標籤
+    case userLinkTags(userID: String, tagList: [String])
     
 
         
@@ -392,7 +359,7 @@ extension ApiManager: TargetType {
             return "api/boss/store/updateDayOpenStatus"
         case .setStoreOpenStatus(coStatus: _, deStatus: _):
             return "api/boss/store/updateAllOpenStatus"
-        case .setDishesOnOffStatus(dishes: _):
+        case .setDishesOnOffStatus(dishes: _,  status: _):
             return "api/boss/dishes/doStatus"
         case .getDeliveryFeeListAndType:
             return "api/boss/store/delivery/fee/getDeliveryTypeAndFeeList"
@@ -601,69 +568,54 @@ extension ApiManager: TargetType {
             return "api/boss/dishes/attach/doStatus"
         case .doDishVipPrice(id: _, typeStr: _, price: _, status: _):
             return "api/boss/dishes/doVipPrice"
-
-            
-            
-            
-            
-            
-//        case .getOrderStatusTag:
-//            return "api/boss/order/getTabList"
-//            
-//        case .getOrderList(page: _, tag: _, type: _):
-//            return "api/boss/order/getOrderList"
-//        case .orderChuCanAction(orderID: _):
-//            return "api/business/order/cook/doCookOrder"
-
-//            
-//        case .orderJieDanAction(orderID: _):
-//            return "api/business/order/take/doTakeOrder"
-//        case .orderkaiShiPeiSongAction(orderID: _):
-//            return "api/business/rider/doDeliveryOrder"
-//            
-//        case .orderJuJieAction(orderID: _, customReason: _, reasonID: _):
-//            return "api/business/order/refuse/doRefuseOrder"
-//        case .orderShouHuoAction(orderID: _):
-//            return "api/business/order/receive/doReceiveOrder"
-//            
-//
-//        case .loadComplainContent(orderID: _):
-//            return "api/boss/plaint/viewPlaint"
-//            
-//        case .dealComplain(orderID: _, code: _):
-//            return "api/boss/plaint/doPlaintOrder"
-//            
-//        case .getTodayAndlastWeekSales:
-//            return "api/boss/sales/getStoreCurDayAndLastWeekSales"
-//        case .getStorePayWay:
-//            return "api/boss/store/getStorePayType"
-//        case .changePayWay(card: _, cash: _):
-//            return "api/boss/store/doStorePayType"
-//            
-//            
-//        case .uploadUserLocation(lat: _, lng: _):
-//            return "api/business/rider/doRiderPosition"
-//            
-//
-//        case .getJujieReason:
-//            return "api/business/order/refuse/getRefuseTypeList"
-//            
-//        case .queryStoreBussiness(type: _, date: _):
-//            return "api/boss/sales/getStoreOfDateSales"
-//        case .getRiderList:
-//            return "api/boss/rider/getRiderList"
-//        case .getRiderDeliveryOrderList(id: _):
-//            return "api/boss/rider/getDeliveryOrderList"
-//        case .getRiderDeliveryHistoryOderList(id: _, page: _):
-//            return "api/boss/rider/getHistoryOrderList"
-//        case .getRiderLocal(id: _):
-//            return "api/boss/rider/getRiderPosition"
-//            
-            
-            
-
-            
-            
+        case .getUberSummary(dateType: _, start: _, end: _):
+            return "api/boss/report/getUberSummary"
+        case .getHolidayList:
+            return "api/boss/store/holiday/getList"
+        case .addHoliday(model: _):
+            return "api/boss/store/holiday/addHoliday"
+        case .deleteHoliday(id: _):
+            return "api/boss/store/holiday/deleteHoliday"
+        case .editHoliday(model: _):
+            return "api/boss/store/holiday/editHoliday"
+        case .getAllOrderList(startDate: _, endDate: _, source: _, userID: _, payType: _, status: _, page: _):
+            return "api/boss/order/getAllOrderList"
+        case .changePassword(new: _, old: _, reNew: _):
+            return "api/boss/changePassword"
+        case .getOtherDishesSummary(page: _, searchType: _, start: _, end: _, ptType: _):
+            return "api/boss/report/getOtherDishesSummary"
+        case .getOtherOrderSummary(searchType: _, start: _, end: _, ptType: _):
+            return "api/boss/report/getOtherOrderSummary"
+        case .getStoreInfo:
+            return "api/boss/store/getStoreInfo"
+        case .setStoreMineOrderPrice(price: _):
+            return "api/boss/store/doStoreMinOrderPrice"
+        case .doStoreSalesScope(id: _):
+            return "api/boss/store/doStoreSalesScope"
+        case .getCustomerList(page: _, start: _, end: _, sortAsc: _, sortBy: _):
+            return "api/boss/user/getUserList"
+        case .getCouponRuleList(isHistory: _, status: _, page: _):
+            return "api/boss/coupon/rule/getList"
+        case .addCoupon(model: _):
+            return "api/boss/coupon/rule/doAdd"
+        case .getCouponCanSelectDishesList:
+            return "api/boss/coupon/rule/getSelDishesList"
+        case .editCouponStatus(id: _, status: _):
+            return "api/boss/coupon/rule/doStatus"
+        case .getCouponDetail(id: _):
+            return "api/boss/coupon/rule/getInfo"
+        case .deskDoSort(sortList: _):
+            return "api/boss/desk/doSort"
+        case .getCustomerTagList:
+            return "api/boss/user/tag/getList"
+        case .addCustomerTag(status: _, nameEn: _, nameCn: _, nameHk: _):
+            return "api/boss/user/tag/doAdd"
+        case .editCustomerTag(id: _, status: _, nameEn: _, nameCn: _, nameHk: _):
+            return "api/boss/user/tag/doUpdate"
+        case .deleteCustomerTag(id: _):
+            return "api/boss/user/tag/doDelete"
+        case .userLinkTags(userID: _, tagList: _):
+            return "api/boss/user/tag/doUserTag"
             
         }
     }
@@ -733,8 +685,8 @@ extension ApiManager: TargetType {
             dic = [:]
         case .getDishesOptionList(let id):
             dic = ["dishesId": id]
-        case .setDishesOnOffStatus(let dishes):
-            dic = ["dishesList" : dishes]
+        case .setDishesOnOffStatus(let dishes, let status):
+            dic = ["dishesList" : dishes, "status": status]
         case .getDeliveryFeeListAndType:
             dic = [:]
         case .addDeliveryFee(let amount, let distance, let postCode, let type):
@@ -943,75 +895,57 @@ extension ApiManager: TargetType {
             dic = ["attachId": id]
         case .doDishVipPrice(let id, let typeStr, let price, let status):
             dic = ["dishesId": id, "vipDeliveryStr": typeStr, "vipPrice": price, "vipType": status]
-            
-            
-            
-            
-//        case .getOrderList(let page, let tag, let type):
-//            dic = ["pageIndex": page, "deliveryType": type, "tagId": tag]
-//            
-//
-//            
-//        case .orderChuCanAction(let orderID):
-//            dic = ["orderId": orderID]
-//            
-//        case .orderJieDanAction(let orderID):
-//            dic = ["orderId": orderID]
-//            
-//        case .orderkaiShiPeiSongAction(let orderID):
-//            dic = ["orderId": orderID]
-//            
-//            
-//        case .orderJuJieAction(let orderID, let customReason, let id):
-//            dic = ["orderId": orderID, "reason": customReason, "refuseTypeId": id]
-//            
-//        case .orderShouHuoAction(let orderID):
-//            dic = ["orderId": orderID]
-//            
-// 
-//            
-//
-//        case .loadComplainContent(let orderID):
-//            dic = ["orderId": orderID]
-//            
-//        case .dealComplain(let orderID, let code):
-//            dic = ["orderId": orderID, "plaintId": code]
-//            
-//        case .getTodayAndlastWeekSales:
-//            dic = [:]
-//            
-//        case .getStorePayWay:
-//            dic = [:]
-//            
-//        case .changePayWay(let card, let cash):
-//            dic = ["card": card, "cash": cash]
-//            
-//            
-//        case .uploadUserLocation(let lat, let lng):
-//            dic = ["lat": lat, "lng": lng]
-//            
-//        case .getOrderStatusTag:
-//            dic = [:]
-//            
-//        case .getJujieReason:
-//            dic = [:]
-//            
-//        case .queryStoreBussiness(let type, let date):
-//            dic = ["dateType": type, "date": date]
-//            
-//        case .getRiderList:
-//            dic = [:]
-//            
-//        case .getRiderDeliveryOrderList(let id):
-//            dic = ["id": id]
-//            
-//        case .getRiderDeliveryHistoryOderList(let id, let page):
-//            dic  = ["id": id, "pageIndex": page]
-//            
-//        case .getRiderLocal(let id):
-//            dic = ["id": id]
-            
+        case .getUberSummary(let dateType, let start, let end):
+            dic = ["queryType": dateType, "start": start, "end": end]
+        case .getHolidayList:
+            dic = [:]
+        case .addHoliday(let model):
+            dic = model.toJSON() ?? [:]
+        case .deleteHoliday(let id):
+            dic = ["id": id]
+        case .editHoliday(let model):
+            dic = model.toJSON() ?? [:]
+        case .getAllOrderList(let start, let end, let source, let userID,  let payType, let status, let page):
+            dic = ["startDate": start, "endDate": end, "source": source, "userId": userID, "pageIndex": page, "payType": payType, "status": status]
+        case .changePassword(let new, let old, let reNew):
+            dic = ["newPassword": new, "oldPassword": old, "verifyPassword": reNew]
+        case .getOtherDishesSummary(let page, let searchType, let start, let end, let ptType):
+            dic = ["pageIndex": page, "searchSource": ptType, "searchType": searchType, "day": start, "end": end]
+        case .getOtherOrderSummary(let searchType, let start, let end, let ptType):
+            dic = ["searchSource": ptType, "searchType": searchType, "day": start, "end": end]
+        case .getStoreInfo:
+            dic = [:]
+        case .setStoreMineOrderPrice(let price):
+            dic = ["minOrderPrice": price]
+        case .doStoreSalesScope(let id):
+            dic = ["id": id]
+        case .getCustomerList(let page, let start, let end, let sortAsc, let sortBy):
+            dic = ["pageIndex": page, "startDate": start, "endDate": end, "sortAsc": sortAsc, "sortBy": sortBy]
+        case .getCouponRuleList(let isHistory, let status, let page):
+            dic = ["history": isHistory, "status": status, "pageIndex": page]
+        case .addCoupon(let model):
+            dic = model.toJSON() ?? [:]
+        case .getCouponCanSelectDishesList:
+            dic = [:]
+        case .editCouponStatus(let id, let status):
+            dic = ["id": id, "status": status]
+        case .getCouponDetail(let id):
+            dic = ["id": id]
+        case .deskDoSort(let sortList):
+            dic = ["deskSortList": sortList]
+        case .addCustomerTag(let status, let nameEn, let nameCn, let nameHk):
+            dic = ["status": status, "nameCn": nameCn, "nameEn": nameEn, "nameHk": nameHk]
+        case .getCustomerTagList:
+            dic = [:]
+        case .editCustomerTag(let id, let status, let nameEn, let nameCn, let nameHk):
+            dic = ["status": status, "nameCn": nameCn, "nameEn": nameEn, "nameHk": nameHk, "tagId": id]
+        case .deleteCustomerTag(let id):
+            dic = ["tagId": id]
+        case .userLinkTags(let userID, let tagList):
+            dic = ["userId": userID, "tagIdList": tagList]
         }
+        
+        
         print("参数：\(dic)")
         return .requestParameters(parameters: dic, encoding: JSONEncoding.default)
         

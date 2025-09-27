@@ -57,22 +57,22 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
     
     private let tlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(14), .left)
-        lab.text = "Current type"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.text = "Current type".local
         return lab
     }()
     
     
     private let radiusBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Radius", HCOLOR("#ADADAD"), BFONT(11), .clear)
+        but.setCommentStyle(.zero, "Radius".local, HCOLOR("#ADADAD"), TIT_5, .clear)
         but.layer.cornerRadius = 5
         return but
     }()
     
     private let postcodeBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Postcode", HCOLOR("#ADADAD"), BFONT(11), .clear)
+        but.setCommentStyle(.zero, "Postcode".local, HCOLOR("#ADADAD"), TIT_5, .clear)
         but.layer.cornerRadius = 5
         return but
     }()
@@ -106,11 +106,9 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
     
     private lazy var editeView: DistanceEditeView = {
         let view = DistanceEditeView()
-        
         view.clickSaveBlock = { [unowned self] _ in
             self.getData_Net()
         }
-        
         return view
     }()
 
@@ -118,11 +116,12 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
     private let addBut: UIButton = {
         let but = UIButton()
         but.setImage(LOIMG("dis_add"), for: .normal)
-        but.setCommentStyle(.zero, "Add", HCOLOR("465DFD"), BFONT(17), HCOLOR("#8F92A1").withAlphaComponent(0.06))
+        but.setCommentStyle(.zero, "Add".local, MAINCOLOR, TIT_2, BACKCOLOR_3)
         but.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         but.layer.cornerRadius = 10
         return but
     }()
+    
     
     private lazy var noDataView: NoDataView = {
         let view = NoDataView()
@@ -133,7 +132,7 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
     
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Delivery charges"
+        self.biaoTiLab.text = "Delivery charges".local
     
     }
 
@@ -284,7 +283,7 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
         cell.clickDeleteBlock = { [unowned self] (_) in
             
             //二次确认
-            self.showSystemChooseAlert("Alert", "Delete or not?", "YES", "NO") {
+            self.showSystemChooseAlert("Alert".local, "Delete or not?".local, "YES".local, "NO".local) {
                 self.deleteData_Net(id: (self.feeType == "1" ? self.radiusDataArr[indexPath.row].id : self.postCodeDataArr[indexPath.row].id))
             }
 

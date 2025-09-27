@@ -19,7 +19,7 @@ class ComboNameCell: BaseTableViewCell {
     
     private let namelab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(17), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
         lab.text = "Name"
         lab.numberOfLines = 0
         return lab
@@ -27,7 +27,7 @@ class ComboNameCell: BaseTableViewCell {
     
     private let namelab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(15), .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
         lab.text = "Name"
         lab.numberOfLines = 0
         return lab
@@ -35,7 +35,7 @@ class ComboNameCell: BaseTableViewCell {
     
     private let numLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(17), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
         lab.text = "#1"
         return lab
     }()
@@ -48,7 +48,7 @@ class ComboNameCell: BaseTableViewCell {
         contentView.addSubview(numLab)
         numLab.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview().offset(20)
+            $0.left.equalToSuperview().offset(15)
         }
         
         contentView.addSubview(editeBut)
@@ -97,7 +97,7 @@ class ComboDishNameCell: BaseTableViewCell {
     
     private let namelab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(13), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         lab.text = "Name"
         lab.numberOfLines = 0
         return lab
@@ -105,7 +105,7 @@ class ComboDishNameCell: BaseTableViewCell {
     
     private let namelab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), SFONT(13), .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
         lab.text = "Name"
         lab.numberOfLines = 0
         return lab

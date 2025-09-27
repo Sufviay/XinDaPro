@@ -12,7 +12,9 @@ class BossFirstController: HeadBaseViewController {
     
     private let bag = DisposeBag()
     
-    private var viewControllers: [UIViewController] = []
+    private var pageViewControllers: [UIViewController] = []
+        
+    private let H: CGFloat = S_H - bottomBarH - statusBarH - 80
     
     ///侧滑栏
     private lazy var sideBar: FirstSideToolView = {
@@ -21,16 +23,16 @@ class BossFirstController: HeadBaseViewController {
     }()
     
     
-    ///顶部tag
-    private lazy var tagView: FirstTagView = {
-        let view = FirstTagView()
-        
-        view.selectTagItemBlock = { [unowned self] (idx) in
-            self.pageView.scrollToIndex(index: idx)
-        }
-        
-        return view
-    }()
+//    ///顶部tag
+//    private lazy var tagView: FirstTagView = {
+//        let view = FirstTagView()
+//        
+//        view.selectTagItemBlock = { [unowned self] (idx) in
+//            self.pageView.scrollToIndex(index: idx)
+//        }
+//        
+//        return view
+//    }()
     
     
     
@@ -51,9 +53,9 @@ class BossFirstController: HeadBaseViewController {
 //
         layout.showsHorizontalScrollIndicator = false
 //        //被选中时标题的字体颜色
-        layout.titleSelectColor = FONTCOLOR
+        layout.titleSelectColor = TXTCOLOR_1
 //        //设置标题的字体大小
-        layout.titleFont = BFONT(14)
+        layout.titleFont = TIT_3
         //设置选中时放大的倍数
         layout.scale = 1
 //        //设置未被选中时的字体颜色
@@ -61,26 +63,15 @@ class BossFirstController: HeadBaseViewController {
 //        //设置滑动指示器的颜色
         layout.bottomLineColor = HCOLOR("#05CBE7")
 //        //标题栏的背景色
-        layout.titleViewBgColor = .white
+        layout.titleViewBgColor = BACKCOLOR_1
         layout.bottomLineCornerRadius = 2
         layout.lrMargin = 30
         return layout
     }()
     
-    //"Live Reporting"
-    lazy var pageView: LTPageView = {
-        let H: CGFloat = S_H - bottomBarH - statusBarH - 80
-        let pageView = LTPageView(frame: CGRect(x: 0, y: statusBarH + 80, width: S_W, height: H), currentViewController: self, viewControllers: viewControllers, titles: ["Live".local, "Sale Summary".local, "Booking".local, "Sale Chart".local], layout: layout)
-        pageView.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: H), byRoundingCorners: [.topLeft, .topRight], radii: 10)
-        pageView.backgroundColor = .white
-        
-        pageView.didSelectIndexBlock = { [unowned self] (_, idx) in
-            print("_____________" + String(idx))
-            self.tagView.selectIdx = idx
+    private var pageView: LTPageView!
+    
 
-        }
-        return pageView
-    }()
     
     private let msgBut: UIButton = {
         let but = UIButton()
@@ -90,16 +81,44 @@ class BossFirstController: HeadBaseViewController {
     }()
     
     
+    private let titlab1: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(.white, TIT_1, .center)
+        lab.text = UserDefaults.standard.storeName ?? "Eat1st"
+        return lab
+    }()
+    
+    private let titlab2: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(.white, TIT_2, .center)
+        lab.text = UserDefaults.standard.accountNum
+        return lab
+    }()
+    
+    
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_leftbut"), for: .normal)
-        self.biaoTiLab.text = "Eat1st\nPartner Centre"
-        
+        biaoTiLab.text = ""
     }
     
 
     override func setViews() {
         
-        self.view.backgroundColor = .white
+        addNotificationCenter()
+        loadPageView()
+        
+        view.addSubview(titlab1)
+        titlab1.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(60)
+            $0.right.equalToSuperview().offset(-60)
+            $0.top.equalToSuperview().offset(statusBarH + 10)
+        }
+        
+        view.addSubview(titlab2)
+        titlab2.snp.makeConstraints {
+            $0.left.right.equalTo(titlab1)
+            $0.top.equalTo(titlab1.snp.bottom)
+        }
         
         view.addSubview(msgBut)
         msgBut.snp.makeConstraints {
@@ -108,27 +127,15 @@ class BossFirstController: HeadBaseViewController {
             $0.centerY.equalTo(leftBut)
         }
         
-//        view.addSubview(tagView)
-//        tagView.snp.makeConstraints {
-//            $0.left.right.equalToSuperview()
-//            $0.height.equalTo(50)
-//            $0.top.equalToSuperview().offset(statusBarH + 80)
-//        }
-//        
-//        let tView = UIView()
-//        tView.backgroundColor = .white
-//        view.addSubview(tView)
-//        tView.snp.makeConstraints {
-//            $0.left.bottom.right.equalToSuperview()
-//            $0.top.equalTo(tagView.snp.bottom)
-//        }
         
-        //StoreBookingController()
-        viewControllers = [StoreDataOverviewController(), StoreRevenueController(), BookingScheController(), MenuItemsController()]
-        view.addSubview(pageView)
+        
+//        pageView.didSelectIndexBlock = { [unowned self] (_, idx) in
+//            print("_____________" + String(idx))
+//            self.tagView.selectIdx = idx
+//
+//        }
+                
 
-        
-        
         leftBut.addTarget(self, action: #selector(clickSideBarAction), for: .touchUpInside)
         msgBut.addTarget(self, action: #selector(clickMsgAction), for: .touchUpInside)
         
@@ -147,5 +154,77 @@ class BossFirstController: HeadBaseViewController {
     }
     
     
+    //添加通知中心
+    
+    private func addNotificationCenter() {
+        //监测消息的变化
+        NotificationCenter.default.addObserver(self, selector: #selector(loadPageView), name: NSNotification.Name(rawValue: "fistPageDataChange"), object: nil)
+        
+    }
+    
+    deinit {
+        print("\(self.classForCoder)销毁")
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("fistPageDataChange"), object: nil)
+    }
+
+    
+    
+    //更新首頁數據變化
+    @objc private func loadPageView() {
+        
+        if pageView != nil {
+            pageView.removeFromSuperview()
+            pageView = nil
+        }
+        
+        
+        var tempControllers: [UIViewController] = []
+        var titleArr: [String] = []
+        
+        for (idx, str) in FirstPageManager.shared.pageDataTitle.enumerated() {
+            
+            if FirstPageManager.shared.pageDataShow[idx] {
+                titleArr.append(str)
+                
+                switch str {
+                case "Live":
+                    let vc = StoreDataOverviewController()
+                    tempControllers.append(vc)
+                case "Sale Summary":
+                    let vc = StoreRevenueController()
+                    tempControllers.append(vc)
+                case "Booking":
+                    let vc = BookingScheController()
+                    tempControllers.append(vc)
+                case "Sale Chart":
+                    let vc = MenuItemsController()
+                    tempControllers.append(vc)
+                case "Uber Eats":
+                    let vc = OtherPlatformController()
+                    vc.platformType = "2"
+                    tempControllers.append(vc)
+                case "Deliveroo":
+                    let vc = OtherPlatformController()
+                    vc.platformType = "1"
+                    tempControllers.append(vc)
+                default:
+                    break
+                }
+
+            }
+        }
+        
+        let pageTitArr = titleArr.map { $0.local }
+        
+        pageViewControllers = tempControllers
+    
+        pageView = LTPageView(frame: CGRect(x: 0, y: statusBarH + 80, width: S_W, height: H), currentViewController: self, viewControllers: pageViewControllers, titles: pageTitArr, layout: layout)
+        pageView.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: H), byRoundingCorners: [.topLeft, .topRight], radii: 10)
+        pageView.backgroundColor = .white
+
+        view.addSubview(pageView)
+
+        
+    }
 
 }

@@ -16,13 +16,13 @@ class DishesSelectCell: BaseTableViewCell {
         img.clipsToBounds = true
         img.layer.cornerRadius = 10
         img.contentMode = .scaleAspectFill
-        img.backgroundColor = HOLDCOLOR
+        img.backgroundColor = BACKCOLOR_2
         return img
     }()
     
     private let nameLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(FONTCOLOR, BFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1, BFONT(14), .left)
         lab.text = "Spicy burger Spicy burger Spicy burger Spicy burger Spicy burger"
         lab.numberOfLines = 0
         return lab

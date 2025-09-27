@@ -15,13 +15,13 @@ class DishEditeChooseCell: BaseTableViewCell {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(16), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
         return lab
     }()
     
     private let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(16), .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
         lab.text = "*"
         return lab
     }()
@@ -53,13 +53,13 @@ class DishEditeChooseCell: BaseTableViewCell {
 
     private let tlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         return lab
     }()
     
     private let tlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         return lab
     }()
     
@@ -129,7 +129,7 @@ class DishEditeChooseCell: BaseTableViewCell {
     
     @objc private func clickL_ButAction() {
         
-        if titlab.text == "Status" || titlab.text == "Delivery" || titlab.text == "Collection" {
+        if titlab.text == "Status".local || titlab.text == "Delivery".local || titlab.text == "Collection".local {
             if statusID != "1" {
                 statusID = "1"
                 selectBlock?("1")
@@ -147,7 +147,7 @@ class DishEditeChooseCell: BaseTableViewCell {
     
     @objc private func clickR_ButAction() {
         
-        if titlab.text == "Status" || titlab.text == "Delivery" || titlab.text == "Collection" {
+        if titlab.text == "Status".local || titlab.text == "Delivery".local || titlab.text == "Collection".local {
             if statusID != "2" {
                 statusID = "2"
                 selectBlock?("2")
@@ -176,7 +176,7 @@ class DishEditeChooseCell: BaseTableViewCell {
         self.statusID = statusID
         
         
-        if titStr == "Status" || titStr == "Delivery" || titStr == "Collection" {
+        if titStr == "Status".local || titStr == "Delivery".local || titStr == "Collection".local {
             if statusID == "1" {
                 self.selectImg1.image = LOIMG("dish_sel")
                 self.selectImg2.image = LOIMG("dish_unsel")
@@ -225,14 +225,14 @@ class DishEditeChooseCell_Three: BaseTableViewCell {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(16), .left)
-        lab.text = "Method of sale"
+        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.text = "Sell type"
         return lab
     }()
     
     private let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(16), .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
         lab.text = "*"
         return lab
     }()
@@ -278,21 +278,21 @@ class DishEditeChooseCell_Three: BaseTableViewCell {
 
     private let tlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         lab.text = "Delivery"
         return lab
     }()
     
     private let tlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         lab.text = "Dine-in"
         return lab
     }()
     
     private let tlab3: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         lab.text = "All"
         return lab
     }()
@@ -448,14 +448,14 @@ class DishEditeChooseCell_Three_Multiple: BaseTableViewCell {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, BFONT(16), .left)
-        lab.text = "Method of sale"
+        lab.setCommentStyle(.black, TIT_2, .left)
+        lab.text = "Sell type"
         return lab
     }()
     
     private let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), BFONT(16), .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
         lab.text = "*"
         return lab
     }()
@@ -501,21 +501,21 @@ class DishEditeChooseCell_Three_Multiple: BaseTableViewCell {
 
     private let tlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         lab.text = "Delivery"
         return lab
     }()
     
     private let tlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         lab.text = "Dine-in"
         return lab
     }()
     
     private let tlab3: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#080808"), BFONT(14), .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         lab.text = "All"
         return lab
     }()

@@ -107,7 +107,7 @@ class StatisClassifyAlert: BaseAlertView, UIGestureRecognizerDelegate, UITableVi
         let cell = tableView.dequeueReusableCell(withIdentifier: "TextCell") as! TextCell
         cell.tlab.textAlignment = .left
         //let isSelect = indexPath.row == selectIdx ? true : false
-        let tStr: String = indexPath.row == 0 ? "All" : dataArr[indexPath.row - 1].name1
+        let tStr: String = indexPath.row == 0 ? "All".local : dataArr[indexPath.row - 1].name1
         cell.setCellData(str: tStr, isSelect: false)
         return cell
     }
@@ -119,7 +119,7 @@ class StatisClassifyAlert: BaseAlertView, UIGestureRecognizerDelegate, UITableVi
         
         
         let id = indexPath.row == 0 ? "" : dataArr[indexPath.row - 1].id
-        let name = indexPath.row == 0 ? "All" : dataArr[indexPath.row - 1].name1
+        let name = indexPath.row == 0 ? "All".local : dataArr[indexPath.row - 1].name1
         let info = ["id": id, "name": name]
         selectBlock?(info)
         disAppearAction()
