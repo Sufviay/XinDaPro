@@ -34,6 +34,7 @@ class SelectTypeAlert: BaseAlertView, UIGestureRecognizerDelegate, UITableViewDe
     enum AlertType {
         case customerTag
         case platformType
+        case logType
     }
     
     var alertType: AlertType = .customerTag
@@ -120,6 +121,28 @@ class SelectTypeAlert: BaseAlertView, UIGestureRecognizerDelegate, UITableViewDe
             typeArr = [model1, model3, model4, model5]
             table.reloadData()
         }
+        
+        if alertType == .logType {
+            let model1 = TypeModel(id: "", name: "All".local)
+            let model2 = TypeModel(id: "1", name: "Rejected order".local)
+            let model3 = TypeModel(id: "2", name: "Cancelled order".local)
+            let model4 = TypeModel(id: "3", name: "Changed order".local)
+            let model5 = TypeModel(id: "4", name: "Discounted order".local)
+            let model6 = TypeModel(id: "5", name: "Changed payment method".local)
+            let model7 = TypeModel(id: "6", name: "Credit".local)
+            let model8 = TypeModel(id: "7", name: "Delete credit".local)
+            let model9 = TypeModel(id: "8", name: "Print summary".local)
+            let model10 = TypeModel(id: "9", name: "Delete dishes".local)
+            let model11 = TypeModel(id: "10", name: "Top up".local)
+            let model12 = TypeModel(id: "11", name: "Wallet spent".local)
+            let model13 = TypeModel(id: "12", name: "change service charge".local)
+            let model14 = TypeModel(id: "13", name: "Gift voucher".local)
+            
+            typeArr = [model1, model2, model3, model4, model5, model6, model7, model8, model9, model10, model11, model12, model13, model14]
+            table.reloadData()
+
+        }
+        
     }
     
     override func appearAction() {
@@ -173,12 +196,13 @@ class SelectTypeAlert: BaseAlertView, UIGestureRecognizerDelegate, UITableViewDe
             HUD_MB.dissmiss(onView: backView)
             
             let model = TypeModel()
-            model.id = ""
-            if MyLanguageManager.shared.language == .Chinese {
-                model.name = "全部"
-            } else {
-                model.name = "All"
-            }
+//            model.id = ""
+//            if MyLanguageManager.shared.language == .Chinese {
+//                model.name = "全部"
+//            } else {
+//                model.name = "All"
+//            }
+            model.name = "All".local
             
             var tarr: [TypeModel] = [model]
             for jsonData in json["data"].arrayValue {

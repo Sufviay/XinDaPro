@@ -14,7 +14,7 @@ class BossFirstController: HeadBaseViewController {
     
     private var pageViewControllers: [UIViewController] = []
         
-    private let H: CGFloat = S_H - bottomBarH - statusBarH - 80
+    //private let H: CGFloat = S_H - bottomBarH - statusBarH - 80
     
     ///侧滑栏
     private lazy var sideBar: FirstSideToolView = {
@@ -22,19 +22,7 @@ class BossFirstController: HeadBaseViewController {
         return view
     }()
     
-    
-//    ///顶部tag
-//    private lazy var tagView: FirstTagView = {
-//        let view = FirstTagView()
-//        
-//        view.selectTagItemBlock = { [unowned self] (idx) in
-//            self.pageView.scrollToIndex(index: idx)
-//        }
-//        
-//        return view
-//    }()
-    
-    
+
     
     //配置滑动视图
     private lazy var layout: LTLayout = {
@@ -76,7 +64,7 @@ class BossFirstController: HeadBaseViewController {
     private let msgBut: UIButton = {
         let but = UIButton()
         but.setImage(LOIMG("sy_msg"), for: .normal)
-        but.isHidden = true
+        but.isHidden = false
         return but
     }()
     
@@ -99,6 +87,7 @@ class BossFirstController: HeadBaseViewController {
     override func setNavi() {
         self.leftBut.setImage(LOIMG("sy_leftbut"), for: .normal)
         biaoTiLab.text = ""
+        loadTagList_Net()
     }
     
 
@@ -128,14 +117,6 @@ class BossFirstController: HeadBaseViewController {
         }
         
         
-        
-//        pageView.didSelectIndexBlock = { [unowned self] (_, idx) in
-//            print("_____________" + String(idx))
-//            self.tagView.selectIdx = idx
-//
-//        }
-                
-
         leftBut.addTarget(self, action: #selector(clickSideBarAction), for: .touchUpInside)
         msgBut.addTarget(self, action: #selector(clickMsgAction), for: .touchUpInside)
         
@@ -156,15 +137,12 @@ class BossFirstController: HeadBaseViewController {
     
     //添加通知中心
     
-    private func addNotificationCenter() {
-        //监测消息的变化
-        NotificationCenter.default.addObserver(self, selector: #selector(loadPageView), name: NSNotification.Name(rawValue: "fistPageDataChange"), object: nil)
-        
-    }
     
     deinit {
         print("\(self.classForCoder)销毁")
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("fistPageDataChange"), object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+        UIDevice.current.endGeneratingDeviceOrientationNotifications()
     }
 
     
@@ -177,54 +155,131 @@ class BossFirstController: HeadBaseViewController {
             pageView = nil
         }
         
+        if FirstPageManager.shared.pageDataTitle.count == 0 {
+            return
+        }
         
         var tempControllers: [UIViewController] = []
         var titleArr: [String] = []
         
-        for (idx, str) in FirstPageManager.shared.pageDataTitle.enumerated() {
-            
-            if FirstPageManager.shared.pageDataShow[idx] {
-                titleArr.append(str)
-                
-                switch str {
-                case "Live":
-                    let vc = StoreDataOverviewController()
-                    tempControllers.append(vc)
-                case "Sale Summary":
-                    let vc = StoreRevenueController()
-                    tempControllers.append(vc)
-                case "Booking":
-                    let vc = BookingScheController()
-                    tempControllers.append(vc)
-                case "Sale Chart":
-                    let vc = MenuItemsController()
-                    tempControllers.append(vc)
-                case "Uber Eats":
-                    let vc = OtherPlatformController()
-                    vc.platformType = "2"
-                    tempControllers.append(vc)
-                case "Deliveroo":
-                    let vc = OtherPlatformController()
-                    vc.platformType = "1"
-                    tempControllers.append(vc)
-                default:
-                    break
-                }
-
+        for str in FirstPageManager.shared.pageDataTitle {
+            titleArr.append(str)
+            switch str {
+            case "Live":
+                let vc = StoreDataOverviewController()
+                tempControllers.append(vc)
+            case "Sale Summary":
+                let vc = StoreRevenueController()
+                tempControllers.append(vc)
+            case "Booking":
+                let vc = BookingScheController()
+                tempControllers.append(vc)
+            case "Sale Chart":
+                let vc = MenuItemsController()
+                tempControllers.append(vc)
+            case "Uber Eats":
+                let vc = OtherPlatformController()
+                vc.platformType = "2"
+                tempControllers.append(vc)
+            case "Deliveroo":
+                let vc = OtherPlatformController()
+                vc.platformType = "1"
+                tempControllers.append(vc)
+            default:
+                break
             }
         }
         
         let pageTitArr = titleArr.map { $0.local }
         
         pageViewControllers = tempControllers
+        
+        let H =  UIScreen.main.bounds.height - bottomBarH - statusBarH - 80
     
-        pageView = LTPageView(frame: CGRect(x: 0, y: statusBarH + 80, width: S_W, height: H), currentViewController: self, viewControllers: pageViewControllers, titles: pageTitArr, layout: layout)
-        pageView.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: H), byRoundingCorners: [.topLeft, .topRight], radii: 10)
+        pageView = LTPageView(frame: CGRect(x: 0, y: statusBarH + 80, width: UIScreen.main.bounds.width, height: H), currentViewController: self, viewControllers: pageViewControllers, titles: pageTitArr, layout: layout)
+        //pageView.cornerWithRect(rect: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: H), byRoundingCorners: [.topLeft, .topRight], radii: 10)
         pageView.backgroundColor = .white
 
         view.addSubview(pageView)
-
         
     }
+    
+    
+    private func loadTagList_Net() {
+        //每次进入首页 请求tag列表 要与本地存储的作比较，有变化就更新，没有变化就忽略
+        HTTPTOOl.getStoreInfo().subscribe(onNext: { [unowned self] (json) in
+            //获取tablist
+            let listIdArr = json["data"]["tabPageList"].arrayObject as? [Int]
+            if let tarr = listIdArr {
+                if !FirstPageManager.matchLocally(idArr: tarr) {
+                    loadPageView()
+                }
+            }
 
+        }, onError: { [unowned self] (error) in
+            HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
+        }).disposed(by: bag)
+
+    }
+    
+    
+
+}
+
+
+extension BossFirstController {
+    
+    private func addNotificationCenter() {
+        //监测消息的变化
+        NotificationCenter.default.addObserver(self, selector: #selector(loadPageView), name: NSNotification.Name(rawValue: "fistPageDataChange"), object: nil)
+        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+        NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+
+
+    @objc private func orientationDidChange() {
+        
+        switch UIDevice.current.orientation {
+        case .unknown:
+            print("未知")
+        case .portrait:
+            print("竖屏")
+            updateFrame()
+        case .portraitUpsideDown:
+            print("颠倒竖屏")
+            updateFrame()
+        case .landscapeLeft:
+            print("左旋转 横屏")
+            updateFrame()
+        case .landscapeRight:
+            print("右旋转 横屏")
+            updateFrame()
+        case .faceUp:
+            print("屏幕朝上")
+        case .faceDown:
+            print("屏幕朝下")
+        default:
+            break
+        }
+        
+    }
+    
+    
+    private func updateFrame() {
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            DispatchQueue.main.async {
+                print(R_W(338))
+                
+                let H =  UIScreen.main.bounds.height - bottomBarH - statusBarH - 80
+                
+                self.pageView.snp.remakeConstraints {
+                    $0.left.right.equalToSuperview()
+                    $0.top.equalToSuperview().offset(statusBarH + 80)
+                    $0.height.equalTo(H)
+                }
+                
+            }
+        }
+    }
 }

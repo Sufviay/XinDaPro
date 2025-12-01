@@ -54,16 +54,16 @@ let IS_BIG: Bool = S_W == 320 ? true : false  //放大模式
 
 ///比例宽度
 let R_W : (CGFloat) -> CGFloat = {width in
-    return S_W * width /  375
+    return UIScreen.main.bounds.width * width /  375
 }
 
 ///比例高度
 let R_H: (CGFloat) -> CGFloat = {height in
-    var H: CGFloat = S_H
+    var H: CGFloat = 0
     if statusBarH > 20 {
-        H = S_H - statusBarH - bottomBarH
+        H = UIScreen.main.bounds.height - statusBarH - bottomBarH
     } else {
-        H = S_H
+        H = UIScreen.main.bounds.height
     }
     return H * height / 667
 }
@@ -237,6 +237,12 @@ let D_1_STR: (Double) -> String = { num in
 }
 
 
+let D_2: (Double) -> Double = { num in
+    let numStr = String(format: "%.2f", num)
+    return Double(numStr) ?? 0
+}
+
+
 
 //MARK: - 关于字体
 
@@ -346,7 +352,6 @@ let HTML: (String) -> String = { (str) in
 }
 
 
-
 //MARK: - 网络
 let HTTPTOOl = HttpTool.shared
 
@@ -357,7 +362,7 @@ let HTTPTOOl = HttpTool.shared
 
 
 let ISONLINE: Bool = true
-let VERID: String = "72"
+let VERID: String = "74"
 var BASEURL: String = ISONLINE ? "https://api.foodo2o.com/" : "https://api-test.foodo2o.com/"
 
 

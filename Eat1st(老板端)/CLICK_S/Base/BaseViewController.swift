@@ -155,6 +155,8 @@ class CustomNaviBar: UIView {
 
 
 class BaseViewController: UIViewController {
+    
+    
 
     lazy var naviBar: CustomNaviBar = {
         let bar = CustomNaviBar()

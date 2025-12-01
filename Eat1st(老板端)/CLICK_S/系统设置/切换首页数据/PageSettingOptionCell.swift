@@ -34,6 +34,7 @@ class PageSettingOptionCell: BaseTableViewCell {
         let but = UIButton()
         but.setCommentStyle(.zero, "Display".local, TXTCOLOR_1, BFONT(10), BACKCOLOR_3)
         but.layer.cornerRadius = 3
+        but.isHidden = true
         return but
     }()
     
@@ -41,6 +42,7 @@ class PageSettingOptionCell: BaseTableViewCell {
         let but = UIButton()
         but.setCommentStyle(.zero, "Hide".local, TXTCOLOR_1, BFONT(10), BACKCOLOR_3)
         but.layer.cornerRadius = 3
+        but.isHidden = true
         return but
     }()
 

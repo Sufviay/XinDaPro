@@ -42,7 +42,7 @@ class HeadBaseViewController: UIViewController {
         view.addSubview(headImg)
         headImg.snp.makeConstraints {
             $0.left.right.top.equalToSuperview()
-            $0.height.equalTo(SET_H(265, 375))
+            $0.height.equalTo(view.snp.width).multipliedBy(D_2(265 / 375))
         }
         
         

@@ -584,8 +584,8 @@ class HttpTool {
     }
     
     //MARK: - 获取消息
-    func getMsgList(page: Int, type: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .getMsgList(page: String(page), type: type))
+    func getMsgList(page: Int, typeList: [String]) -> Observable<JSON> {
+        let response = rxApiManager(api: .getMsgList(page: String(page), typeList: typeList))
         return Observable<JSON>.create(response)
     }
     

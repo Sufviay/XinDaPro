@@ -45,6 +45,16 @@
 "Tue" = "Tue";
 "Mon" = "Mon";
 
+
+"周日" = "Sun";
+"周六" = "Sat";
+"周五" = "Fri";
+"周四" = "Thu";
+"周三" = "Wed" ;
+"周二" = "Tue";
+"周一" = "Mon";
+
+
 "Monday" = "Monday";
 "Tuesday" = "Tuesday";
 "Wednesday" = "Wednesday";
@@ -443,3 +453,18 @@
 "last update:" = "last update:";
 "Immediately" = "Immediately";
 "Top menu items" = "Top menu items";
+"Rejected order" = "Rejected order";
+"Cancelled order" = "Cancelled order";
+"Changed order" = "Changed order";
+"Discounted order" = "Discounted order";
+"Changed payment method" = "Changed payment method";
+"Credit" = "Credit";
+"Delete credit" = "Delete credit";
+"Print summary" = "Print summary";
+"Delete dishes" = "Delete dishes";
+"Top up" = "Top up";
+"Wallet spent" = "Wallet spent";
+"change service charge" = "change service charge";
+"Operation record" = "Operation record";
+"Gift voucher" = "Gift voucher";
+"Reply from the merchant" = "Reply from the merchant";

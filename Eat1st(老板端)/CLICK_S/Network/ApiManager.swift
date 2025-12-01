@@ -176,7 +176,7 @@ enum ApiManager {
     ///增加或修改套餐信息
     case comboDoAddOrUpdate(model: DishDetailModel)
     ///获取消息列表
-    case getMsgList(page: String, type: String)
+    case getMsgList(page: String, typeList: [String])
     ///获取合并订单的订单列表
     case getMergeDetail(mergeID: String)
     ///获取投诉列表
@@ -484,7 +484,7 @@ extension ApiManager: TargetType {
             return "api/boss/dishes/spec/doAddOrUpdate"
         case .comboDoAddOrUpdate(model: _):
             return "api/boss/dishes/combo/doAddOrUpdate"
-        case .getMsgList(page: _, type: _):
+        case .getMsgList(page: _, typeList: _):
             return "api/boss/operate/log/getLogList"
         case .getMergeDetail(mergeID: _):
             return "api/boss/merge/getMergeDetail"
@@ -810,8 +810,8 @@ extension ApiManager: TargetType {
             dic = model.toJSON() ?? [:]
         case .comboDoAddOrUpdate(let model):
             dic = model.toJSON() ?? [:]
-        case .getMsgList(let page, let type):
-            dic = ["pageIndex": page, "operateType": type]
+        case .getMsgList(let page, let typeList):
+            dic = ["pageIndex": page, "operateTypeList": typeList]
         case .getMergeDetail(let mergeID):
             dic = ["mergeId": mergeID]
         case .getReviewsList(let page):

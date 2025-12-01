@@ -9,6 +9,9 @@ import UIKit
 import RxSwift
 
 class LogInController: BaseViewController {
+    
+    
+    
 
     private let bag = DisposeBag()
     
@@ -136,8 +139,8 @@ class LogInController: BaseViewController {
     
     
     override func setViews() {
+        addNotification()
         self.naviBar.isHidden = true
-
         self.setUpUI()
         
     }
@@ -148,21 +151,35 @@ class LogInController: BaseViewController {
         view.addSubview(backImg)
         backImg.snp.makeConstraints {
             $0.left.top.equalToSuperview()
-            $0.width.equalTo(R_W(338))
-            $0.height.equalTo(SET_H(260, 338))
+            
+            if UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight {
+                $0.width.equalToSuperview().multipliedBy(0.5)
+                
+            } else {
+                $0.width.equalTo(R_W(338))
+            }
+            
+            $0.height.equalTo(backImg.snp.width).multipliedBy(D_2(260 / 338))
         }
         
-        view.addSubview(textImg)
+        
+        backImg.addSubview(textImg)
         textImg.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(R_W(30))
-            $0.top.equalTo(R_H(82))
+            $0.left.equalToSuperview().offset(30)
+            $0.centerY.equalToSuperview().offset(-20)
+            $0.width.equalToSuperview().multipliedBy(D_2(178 / 338))
+            $0.height.equalTo(textImg.snp.width).multipliedBy(D_2(55 / 178))
         }
         
         
         view.addSubview(tlab1)
         tlab1.snp.makeConstraints {
             $0.left.equalToSuperview().offset(50)
-            $0.top.equalTo(backImg.snp.bottom).offset(R_H(30))
+            if UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight {
+                $0.top.equalTo(textImg.snp.bottom).offset(R_H(150))
+            } else {
+                $0.top.equalTo(backImg.snp.bottom).offset(R_H(30))
+            }
         }
         
         view.addSubview(tlab2)
@@ -273,25 +290,6 @@ class LogInController: BaseViewController {
             UserDefaults.standard.storeLat = json["data"]["lat"].doubleValue
             UserDefaults.standard.userAuth = json["data"]["auth"].stringValue
             
-
-            //上传tsToken
-//            let tsToken = UserDefaults.standard.tsToken ?? ""
-//
-//            if tsToken != "" {
-//                HTTPTOOl.updateTSToken(token: tsToken).subscribe(onNext: { (json) in
-//                    print("推送注册成功")
-//                    DispatchQueue.main.after(time: .now() + 1.5) {
-//                        self.navigationController?.setViewControllers([BossFirstController()], animated: false)
-//                    }
-//                }, onError: { (error) in
-//                    print("推送注册失败")
-//                }).disposed(by: self.bag)
-//            } else {
-//                DispatchQueue.main.after(time: .now() + 1.5) {
-//                    self.navigationController?.setViewControllers([BossFirstController()], animated: false)
-//                }
-//            }
-            
             //上传语言
             HTTPTOOl.setLanguage().subscribe(onNext: { (json) in
                 print("语言设置成功")
@@ -334,4 +332,84 @@ class LogInController: BaseViewController {
         
     }
     
+    
+    deinit {
+        print("\(self.classForCoder) 销毁")
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+        UIDevice.current.endGeneratingDeviceOrientationNotifications()
+    }
+
 }
+
+extension LogInController {
+    
+    private func addNotification() {
+        
+        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+        NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: UIDevice.orientationDidChangeNotification, object: nil)
+        
+    }
+    
+
+    @objc private func orientationDidChange() {
+        
+        switch UIDevice.current.orientation {
+        case .unknown:
+            print("未知")
+        case .portrait:
+            print("竖屏")
+            updateFrame()
+        case .portraitUpsideDown:
+            print("颠倒竖屏")
+            updateFrame()
+        case .landscapeLeft:
+            print("左旋转 横屏")
+            updateFrame()
+        case .landscapeRight:
+            print("右旋转 横屏")
+            updateFrame()
+        case .faceUp:
+            print("屏幕朝上")
+        case .faceDown:
+            print("屏幕朝下")
+        default:
+            break
+        }
+        
+    }
+    
+    
+    private func updateFrame() {
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            DispatchQueue.main.async {
+                print(R_W(338))
+                
+                self.backImg.snp.remakeConstraints {
+                    
+                    $0.left.top.equalToSuperview()
+                    
+                    if UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight {
+                        $0.width.equalToSuperview().multipliedBy(0.5)
+                        
+                    } else {
+                        $0.width.equalTo(R_W(338))
+                    }
+                    $0.height.equalTo(self.backImg.snp.width).multipliedBy(D_2(260 / 338))
+                }
+                
+                self.tlab1.snp.remakeConstraints {
+                    $0.left.equalToSuperview().offset(50)
+                    if UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight {
+                        $0.top.equalTo(self.textImg.snp.bottom).offset(R_H(150))
+                    } else {
+                        $0.top.equalTo(self.backImg.snp.bottom).offset(R_H(30))
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+

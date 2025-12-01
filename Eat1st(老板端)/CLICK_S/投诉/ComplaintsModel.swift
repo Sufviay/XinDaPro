@@ -59,7 +59,7 @@ class ComplaintsModel: NSObject {
     var orderTime: String = ""
     
     ///是否收起
-    var isShow: Bool = false
+    var isShow: Bool = true
     
     ///投诉图片
     var plaintImgs: [String] = []
@@ -90,8 +90,10 @@ class ComplaintsModel: NSObject {
         buyNum = json["buyNum"].stringValue
         deliveryType = json["deliveryType"].stringValue
         deliveryTypeName = json["deliveryTypeName"].stringValue
-        handleType = json["handleType"].stringValue
         createTime = json["createTime"].stringValue
+        
+        
+        updateModel_Detail(json: json["detailResult"])
         
     }
     
@@ -139,9 +141,9 @@ class ComplaintsModel: NSObject {
         } else {
             
             if handleTypeId == "4" {
-                replyContent = "Reply from the merchant:\n\(handleName)\n\(refundWay)\n\(refundPrice)"
+                replyContent = "\("Reply from the merchant".local):\n\(handleName)\n\(refundWay)\n£\(refundPrice)"
             } else {
-                replyContent = "Reply from the merchant:\n\(handleName)"
+                replyContent = "\("Reply from the merchant".local):\n\(handleName)"
             }
         }
         

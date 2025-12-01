@@ -45,6 +45,14 @@
 "Tue" = "周二";
 "Mon" = "周一";
 
+"周日" = "周日";
+"周六" = "周六";
+"周五" = "周五";
+"周四" = "周四";
+"周三" = "周三" ;
+"周二" = "周二";
+"周一" = "周一";
+
 "Monday" = "周一";
 "Tuesday" = "周二";
 "Wednesday" = "周三";
@@ -455,4 +463,21 @@
 "Edit tags" = "编辑标签";
 "last update:" = "上次更新:";
 "Immediately" = "立即";
-"Top menu items" = "Top menu items";
+"Top menu items" = "排行";
+
+"Rejected order" = "拒絕訂單";
+"Cancelled order" = "取消訂單";
+"Changed order" = "修改訂單";
+"Discounted order" = "訂單折扣";
+"Changed payment method" = "修改支付方式";
+"Credit" = "預付";
+"Delete credit" = "刪除預付";
+"Print summary" = "打印匯總";
+"Delete dishes" = "刪除菜品";
+"Top up" = "充值";
+"Wallet spent" = "充值消費";
+"change service charge" = "修改服務費";
+"Operation record" = "操作紀錄";
+"Gift voucher" = "禮品卡";
+
+"Reply from the merchant" = "商家回覆";

@@ -381,59 +381,63 @@ class MessageHearderCell: BaseTableViewCell {
 
         if model.operateType == "1" {
             //拒接订单
-            titLab.text = "Rejected order"
+            titLab.text = "Rejected order".local
         }
 
         if model.operateType == "2" {
             //取消订单
-            titLab.text = "Cancelled order"
+            titLab.text = "Cancelled order".local
         }
 
         if model.operateType == "3" {
             //修改订单
-            titLab.text = "Changed order"
+            titLab.text = "Changed order".local
         }
         
         if model.operateType == "4" {
             //打折订单
-            titLab.text = "Discounted order"
+            titLab.text = "Discounted order".local
         }
         
         
         if model.operateType == "5" {
             //修改支付方式
-            titLab.text = "Changed payment method"
+            titLab.text = "Changed payment method".local
         }
 
         if model.operateType == "6" {
             //预付
-            titLab.text = "Credit"
+            titLab.text = "Credit".local
         }
         
         if model.operateType == "7" {
             //删除预付
-            titLab.text = "Delete credit"
+            titLab.text = "Delete credit".local
         }
         
         if model.operateType == "8" {
             ///
-            titLab.text = "Print summary"
+            titLab.text = "Print summary".local
         }
         
         if model.operateType == "9" {
-            titLab.text = "Delete dishes"
+            titLab.text = "Delete dishes".local
         }
         
         if model.operateType == "10" {
-            titLab.text = "Top up"
+            titLab.text = "Top up".local
         }
         
         if model.operateType == "11" {
-            titLab.text = "Wallet spent"
+            titLab.text = "Wallet spent".local
         }
         
         if model.operateType == "12" {
-            titLab.text = "change service charge"
+            titLab.text = "change service charge".local
+        }
+        
+        if model.operateType == "13" {
+            titLab.text = "Gift voucher".local
         }
     }
     

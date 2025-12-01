@@ -182,14 +182,14 @@ class ComplaintsCell: BaseTableViewCell, UITableViewDelegate, UITableViewDataSou
         return cell
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
-            if !dataModel.isShow {
-                clickShowBlock?("")
-            }
-        }
-    }
-    
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        if indexPath.section == 0 {
+//            if !dataModel.isShow {
+//                clickShowBlock?("")
+//            }
+//        }
+//    }
+//    
     
     func setCellData(model: ComplaintsModel) {
         dataModel = model
