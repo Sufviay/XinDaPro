@@ -207,6 +207,7 @@
 		E386AABD2E0D6D8700A6D634 /* HolidayInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E386AABC2E0D6D8700A6D634 /* HolidayInfoCell.swift */; };
 		E386AABF2E0D872E00A6D634 /* EditHolidayAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E386AABE2E0D872E00A6D634 /* EditHolidayAlert.swift */; };
 		E386AAC12E0D8D1300A6D634 /* EditSelectDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E386AAC02E0D8D1300A6D634 /* EditSelectDateCell.swift */; };
+		E3902CF62EE41E4C00E6218E /* FirstPageOrderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3902CF52EE41E4C00E6218E /* FirstPageOrderController.swift */; };
 		E398A28E277B0187002A1D24 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E398A28D277B0187002A1D24 /* GoogleService-Info.plist */; };
 		E39A1A1028605A9700FF29A6 /* AddClassifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39A1A0F28605A9700FF29A6 /* AddClassifyView.swift */; };
 		E39B5EB927C0CE7900276432 /* InPutAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39B5EB827C0CE7900276432 /* InPutAlert.swift */; };
@@ -569,6 +570,7 @@
 		E386AABC2E0D6D8700A6D634 /* HolidayInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidayInfoCell.swift; sourceTree = "<group>"; };
 		E386AABE2E0D872E00A6D634 /* EditHolidayAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHolidayAlert.swift; sourceTree = "<group>"; };
 		E386AAC02E0D8D1300A6D634 /* EditSelectDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSelectDateCell.swift; sourceTree = "<group>"; };
+		E3902CF52EE41E4C00E6218E /* FirstPageOrderController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstPageOrderController.swift; sourceTree = "<group>"; };
 		E398A28D277B0187002A1D24 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E39A1A0F28605A9700FF29A6 /* AddClassifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClassifyView.swift; sourceTree = "<group>"; };
 		E39B5EB827C0CE7900276432 /* InPutAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InPutAlert.swift; sourceTree = "<group>"; };
@@ -815,6 +817,7 @@
 				E305E8A926DF125C00AAB580 /* CLICK_S-Bridging-Header.h */,
 				E37C188F29F655F000D7C39D /* 老板首页 */,
 				E36F81AB2E5C378E00DA9524 /* 其他平台首页数据 */,
+				E3902CF42EE41B1900E6218E /* 首页订单列表 */,
 				E326C42D2D27B90F00CBC07D /* 首页今日营业数据 */,
 				E35268942C61F328007A847F /* 首页店铺收支 */,
 				E37C189429F657CB00D7C39D /* 首页营业数据 */,
@@ -1816,6 +1819,14 @@
 			path = "假日设置";
 			sourceTree = "<group>";
 		};
+		E3902CF42EE41B1900E6218E /* 首页订单列表 */ = {
+			isa = PBXGroup;
+			children = (
+				E3902CF52EE41E4C00E6218E /* FirstPageOrderController.swift */,
+			);
+			path = "首页订单列表";
+			sourceTree = "<group>";
+		};
 		E39B67872E8284C10041328D /* 客户标签设置 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2153,6 +2164,7 @@
 				E3096E692E71150400B3917E /* StoreDetailSettingController.swift in Sources */,
 				E305E8E726DF133D00AAB580 /* LTAdvancedManager.swift in Sources */,
 				E386AABF2E0D872E00A6D634 /* EditHolidayAlert.swift in Sources */,
+				E3902CF62EE41E4C00E6218E /* FirstPageOrderController.swift in Sources */,
 				E3A407702CEF09F80055C05D /* BookingListContentCell.swift in Sources */,
 				E364A84A2AA0779A00190DC9 /* DetailUserInfoCell.swift in Sources */,
 				E316888C29F3CAFC00318307 /* AddStoreTimeController.swift in Sources */,
@@ -2643,7 +2655,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.74;
+				MARKETING_VERSION = 1.0.76;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app-Boss";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2677,7 +2689,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.74;
+				MARKETING_VERSION = 1.0.76;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app-Boss";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = boss_dis;

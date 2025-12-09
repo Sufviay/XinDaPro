@@ -35,6 +35,7 @@ class SelectTypeAlert: BaseAlertView, UIGestureRecognizerDelegate, UITableViewDe
         case customerTag
         case platformType
         case logType
+        case mealTime
     }
     
     var alertType: AlertType = .customerTag
@@ -143,6 +144,16 @@ class SelectTypeAlert: BaseAlertView, UIGestureRecognizerDelegate, UITableViewDe
 
         }
         
+        if alertType == .mealTime {
+            let model1 = TypeModel(id: "", name: "All".local)
+            let model2 = TypeModel(id: "1", name: "Breakfast".local + "\n(9:00 - 11:59)")
+            let model3 = TypeModel(id: "2", name: "Lunch".local + "\n(12:00 - 16:30)")
+            let model4 = TypeModel(id: "3", name: "Dinner".local + "\n(17:30 - 22:00)")
+            typeArr = [model1, model2, model3, model4]
+            table.reloadData()
+        }
+        
+        
     }
     
     override func appearAction() {
@@ -176,7 +187,12 @@ class SelectTypeAlert: BaseAlertView, UIGestureRecognizerDelegate, UITableViewDe
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TextCell") as! TextCell
-        cell.tlab.textAlignment = .left
+        if alertType == .mealTime {
+            cell.tlab.textAlignment = .center
+        } else {
+            cell.tlab.textAlignment = .left
+        }
+        
         let isSelect = indexPath.row == selectIdx ? true : false
         cell.setCellData(str: typeArr[indexPath.row].name, isSelect: isSelect)
         return cell

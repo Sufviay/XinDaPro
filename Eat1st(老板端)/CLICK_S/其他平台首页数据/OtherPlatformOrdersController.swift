@@ -112,12 +112,12 @@ class OtherPlatformOrdersController: UIViewController, UITableViewDelegate, UITa
         if !isLoading {
             HUD_MB.loading("", onView: view)
         }
-        HTTPTOOl.getAllOrderList(start: startDate, end: endDate, source: platformType, userID: "", payType: "", status: "", page: 1).subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.getAllOrderList(start: startDate, end: endDate, source: platformType, userID: "", payType: "", status: "", timePeriod: "", page: 1).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: view)
             page = 2
             
             var tArr: [OrderDetailModel] = []
-            for jsonData in json["data"].arrayValue {
+            for jsonData in json["data"]["list"].arrayValue {
                 let model = OrderDetailModel()
                 model.updateModel(json: jsonData)
                 tArr.append(model)
@@ -142,13 +142,13 @@ class OtherPlatformOrdersController: UIViewController, UITableViewDelegate, UITa
     
     
     private func loadDataMore_Net() {
-        HTTPTOOl.getAllOrderList(start: startDate, end: endDate, source: platformType, userID: "", payType: "", status: "", page: page).subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.getAllOrderList(start: startDate, end: endDate, source: platformType, userID: "", payType: "", status: "", timePeriod: "", page: page).subscribe(onNext: { [unowned self] (json) in
             
-            if json["data"].arrayValue.count == 0 {
+            if json["data"]["list"].arrayValue.count == 0 {
                 table.mj_footer?.endRefreshingWithNoMoreData()
             } else {
                 self.page += 1
-                for jsonData in json["data"].arrayValue {
+                for jsonData in json["data"]["list"].arrayValue {
                     let model = OrderDetailModel()
                     model.updateModel(json: jsonData)
                     dataArr.append(model)

@@ -1,44 +1,31 @@
 //
-//  OrderListController.swift
+//  FirstPageOrderController.swift
 //  CLICK_S
 //
-//  Created by 肖扬 on 2025/7/18.
+//  Created by 肖扬 on 2025/12/6.
 //
 
 import UIKit
 import RxSwift
 
 
-class OrderListController: HeadBaseViewController, UITableViewDataSource, UITableViewDelegate {
-    
+class FirstPageOrderController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var userID: String = ""
-    
     private var dataArr: [OrderDetailModel] = []
-    
+
     private let bag = DisposeBag()
-    
-    
     private var page: Int = 1
-    
+    //查询方式 1天，2周，3月
     private var dateType: String = "3"
-    
+
     //默認當前月
     private var startDate: String = Date().getString("yyyy-MM") + "-01"
     private var endDate: String = DateTool.getMonthLastDate(monthStr: Date().getString("yyyy-MM"))
-
     
     private var selectType = TypeModel(id: "", name: "All".local)
-//    private var selectOrderStatus = TypeModel(id: "", name: "All".local)
-//    
     
-    private let backView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.cornerWithRect(rect: CGRect(x: 0, y: 0, width: S_W, height: S_H - statusBarH - 80), byRoundingCorners: [.topLeft, .topRight], radii: 20)
-        return view
-    }()
-        
+
     private let typeBut: UIButton = {
         let but = UIButton()
         but.backgroundColor = BACKCOLOR_3
@@ -59,13 +46,14 @@ class OrderListController: HeadBaseViewController, UITableViewDataSource, UITabl
         let lab = UILabel()
         lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
         lab.text = "All".local
+        lab.adjustsFontSizeToFitWidth = true
         return lab
     }()
     
     
     private lazy var typeAlert: SelectTypeAlert = {
         let view = SelectTypeAlert()
-        view.alertType = .platformType
+        view.alertType = .mealTime
         view.selectBlock = { [unowned self] (par) in
             selectType.id = (par as! TypeModel).id
             selectType.name = (par as! TypeModel).name
@@ -123,20 +111,32 @@ class OrderListController: HeadBaseViewController, UITableViewDataSource, UITabl
         return view
     }()
 
-
-
     
-    
-    private lazy var noDataView: NoDataView = {
-        let view = NoDataView()
-        view.frame = self.table.bounds
+    private let totalView: UIView = {
+        let view = UIView()
+        view.backgroundColor = HCOLOR("#F5F8FF")
+        view.layer.cornerRadius = 7
         return view
+    }()
+    
+    private let totalLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(TXTCOLOR_1, TIT_5, .left)
+        lab.text = "Price:".local
+        return lab
+    }()
+    
+    
+    private let totalNum: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.adjustsFontSizeToFitWidth = true
+        lab.text = "0"
+        return lab
     }()
 
     
 
-    
-    
     private lazy var table: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .white
@@ -157,64 +157,89 @@ class OrderListController: HeadBaseViewController, UITableViewDataSource, UITabl
     }()
 
 
+    
+    private lazy var noDataView: NoDataView = {
+        let view = NoDataView()
+        view.frame = self.table.bounds
+        return view
+    }()
 
-    override func setViews() {
+    
+
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
         setUpUI()
         loadData_Net()
+        
     }
-    
-    override func setNavi() {
-        self.leftBut.setImage(LOIMG("sy_back"), for: .normal)
-        self.biaoTiLab.text = "Orders".local
-    }
-
     
     
     private func setUpUI() {
+        view.backgroundColor = .white
         
-        view.addSubview(backView)
-        backView.snp.makeConstraints {
-            $0.left.right.bottom.equalToSuperview()
-            $0.top.equalToSuperview().offset(statusBarH + 80)
-        }
-        
-        
-        backView.addSubview(filtrateView)
+        view.addSubview(filtrateView)
         filtrateView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(20)
             $0.left.equalToSuperview().offset(20)
             $0.right.equalToSuperview().offset(-20)
-            $0.height.equalTo(45)
-            $0.top.equalToSuperview().offset(25)
+            $0.height.equalTo(40)
         }
         
-        backView.addSubview(typeBut)
-        typeBut.snp.makeConstraints {
-            $0.top.equalTo(filtrateView.snp.bottom).offset(5)
-            $0.height.equalTo(45)
-            $0.right.left.equalTo(filtrateView)
+        view.addSubview(totalView)
+        totalView.snp.makeConstraints {
+            $0.right.equalToSuperview().offset(-20)
+            $0.height.equalTo(filtrateView)
+            $0.top.equalTo(filtrateView.snp.bottom).offset(10)
+            $0.width.equalTo(175)
+        }
+        
+        
+        totalView.addSubview(totalLab)
+        totalLab.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalToSuperview().offset(12)
+            $0.width.equalTo(("Price:".local.getTextWidth(TIT_5, 15) + 1))
+        }
+        
+        totalView.addSubview(totalNum)
+        totalNum.snp.makeConstraints {
+            $0.bottom.equalTo(totalLab.snp.bottom).offset(1)
+            $0.left.equalTo(totalLab.snp.right).offset(5)
+            $0.right.equalToSuperview().offset(-5)
         }
 
+        view.addSubview(typeBut)
+        typeBut.snp.makeConstraints {
+            $0.left.height.equalTo(filtrateView)
+            $0.right.equalTo(totalView.snp.left).offset(-10)
+            $0.top.equalTo(filtrateView.snp.bottom).offset(10)
+        }
+        
         
         typeBut.addSubview(xlImg1)
         xlImg1.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.right.equalToSuperview().offset(-7)
         }
-
         
         typeBut.addSubview(typeLab)
         typeLab.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview().offset(20)
-        }
+            $0.left.equalToSuperview().offset(15)
+            $0.right.equalToSuperview().offset(-15)
 
+        }
         
-        backView.addSubview(table)
+        view.addSubview(table)
         table.snp.makeConstraints {
             $0.left.right.equalToSuperview()
-            $0.bottom.equalToSuperview().offset(-bottomBarH)
-            $0.top.equalTo(typeBut.snp.bottom).offset(10)
+            $0.top.equalTo(typeBut.snp.bottom).offset(15)
+            //$0.bottom.equalTo(view.snp.bottom).offset(-25 - bottomBarH)
+            $0.height.equalTo(S_H - statusBarH - bottomBarH - 255)
         }
+        
+        typeBut.addTarget(self, action: #selector(clickClassifyAction), for: .touchUpInside)
         
         table.mj_header = CustomRefreshHeader() { [unowned self] in
             loadData_Net(true)
@@ -223,26 +248,14 @@ class OrderListController: HeadBaseViewController, UITableViewDataSource, UITabl
         table.mj_footer = CustomRefreshFooter() { [unowned self] in
             loadDataMore_Net()
         }
-        
-        leftBut.addTarget(self, action: #selector(clickBackAction), for: .touchUpInside)
-        typeBut.addTarget(self, action: #selector(clickTypeAction), for: .touchUpInside)
-        
+
+
+
     }
     
-    
-    @objc private func clickTypeAction() {
+    @objc private func clickClassifyAction() {
         typeAlert.appearAction()
     }
-    
-    
-    
-    
-    
-    @objc func clickBackAction() {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -268,15 +281,19 @@ class OrderListController: HeadBaseViewController, UITableViewDataSource, UITabl
     }
     
     
-    
     private func loadData_Net(_ isLoading: Bool = false) {
         
         if !isLoading {
             HUD_MB.loading("", onView: view)
         }
-        HTTPTOOl.getAllOrderList(start: startDate, end: endDate, source: selectType.id, userID: userID, payType: "", status: "", timePeriod: "", page: 1).subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.getAllOrderList(start: startDate, end: endDate, source: "", userID: userID, payType: "", status: "", timePeriod: selectType.id, page: 1).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: view)
             page = 2
+            
+            
+            var price: Double = 0
+            price = json["data"]["totalPrice"].doubleValue
+            totalNum.text = "£" + D_2_STR(price)
             
             var tArr: [OrderDetailModel] = []
             for jsonData in json["data"]["list"].arrayValue {
@@ -287,6 +304,7 @@ class OrderListController: HeadBaseViewController, UITableViewDataSource, UITabl
             
             dataArr = tArr
             if dataArr.count == 0 {
+                table.layoutIfNeeded()
                 table.addSubview(noDataView)
             } else {
                 noDataView.removeFromSuperview()
@@ -303,7 +321,7 @@ class OrderListController: HeadBaseViewController, UITableViewDataSource, UITabl
     
     
     private func loadDataMore_Net() {
-        HTTPTOOl.getAllOrderList(start: startDate, end: endDate, source: selectType.id, userID: userID, payType: "", status: "", timePeriod: "", page: page).subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.getAllOrderList(start: startDate, end: endDate, source: "", userID: userID, payType: "", status: "", timePeriod: selectType.id, page: page).subscribe(onNext: { [unowned self] (json) in
             
             if json["data"]["list"].arrayValue.count == 0 {
                 table.mj_footer?.endRefreshingWithNoMoreData()
@@ -324,8 +342,8 @@ class OrderListController: HeadBaseViewController, UITableViewDataSource, UITabl
         }).disposed(by: bag)
     }
 
-        
 
     
+
     
 }

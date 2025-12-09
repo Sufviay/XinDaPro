@@ -271,7 +271,7 @@ enum ApiManager {
     ///编辑节假日
     case editHoliday(model: HolidayModel)
     ///获取订单列表
-    case getAllOrderList(startDate: String, endDate: String, source: String, userID: String, payType: String, status: String, page: String)
+    case getAllOrderList(startDate: String, endDate: String, source: String, userID: String, payType: String, status: String, timePeriod: String, page: String)
     ///修改密碼
     case changePassword(new: String, old: String, reNew: String)
     ///获取其他平台的菜品销量
@@ -578,7 +578,7 @@ extension ApiManager: TargetType {
             return "api/boss/store/holiday/deleteHoliday"
         case .editHoliday(model: _):
             return "api/boss/store/holiday/editHoliday"
-        case .getAllOrderList(startDate: _, endDate: _, source: _, userID: _, payType: _, status: _, page: _):
+        case .getAllOrderList(startDate: _, endDate: _, source: _, userID: _, payType: _, status: _, timePeriod: _, page: _):
             return "api/boss/order/getAllOrderList"
         case .changePassword(new: _, old: _, reNew: _):
             return "api/boss/changePassword"
@@ -905,8 +905,8 @@ extension ApiManager: TargetType {
             dic = ["id": id]
         case .editHoliday(let model):
             dic = model.toJSON() ?? [:]
-        case .getAllOrderList(let start, let end, let source, let userID,  let payType, let status, let page):
-            dic = ["startDate": start, "endDate": end, "source": source, "userId": userID, "pageIndex": page, "payType": payType, "status": status]
+        case .getAllOrderList(let start, let end, let source, let userID,  let payType, let status, let timePeriod, let page):
+            dic = ["startDate": start, "endDate": end, "source": source, "userId": userID, "pageIndex": page, "payType": payType, "timePeriod": timePeriod, "status": status]
         case .changePassword(let new, let old, let reNew):
             dic = ["newPassword": new, "oldPassword": old, "verifyPassword": reNew]
         case .getOtherDishesSummary(let page, let searchType, let start, let end, let ptType):

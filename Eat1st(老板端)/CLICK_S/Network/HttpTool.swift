@@ -889,8 +889,8 @@ class HttpTool {
 
     
     //MARK: - 获取订单列表
-    func getAllOrderList(start: String, end: String, source: String, userID: String, payType: String, status: String, page: Int) -> Observable<JSON> {
-        let response = rxApiManager(api: .getAllOrderList(startDate: start, endDate: end, source: source, userID: userID, payType: payType, status: status, page: String(page)))
+    func getAllOrderList(start: String, end: String, source: String, userID: String, payType: String, status: String, timePeriod: String, page: Int) -> Observable<JSON> {
+        let response = rxApiManager(api: .getAllOrderList(startDate: start, endDate: end, source: source, userID: userID, payType: payType, status: status, timePeriod: timePeriod, page: String(page)))
         return Observable<JSON>.create(response)
     }
     

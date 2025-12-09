@@ -86,6 +86,9 @@ class FirstPageManager: NSObject {
             if id == 6 {
                 titStrArr.append("Deliveroo")
             }
+            if id == 7 {
+                titStrArr.append("Record")
+            }
 
         }
         

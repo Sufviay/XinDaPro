@@ -109,7 +109,7 @@ class ChangFirstPageShowController: HeadBaseViewController, UITableViewDelegate,
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PageSettingOptionCell") as! PageSettingOptionCell
         
-        cell.setCellData(titStr: titleArr[indexPath.row], isShow: titleShow[indexPath.row])
+        cell.setCellData(titStr: titleArr[indexPath.row], isShow: true)
         
         cell.clickBlock = { [unowned self] (par) in
 

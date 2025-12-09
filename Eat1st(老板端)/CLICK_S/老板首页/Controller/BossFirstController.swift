@@ -185,6 +185,9 @@ class BossFirstController: HeadBaseViewController {
                 let vc = OtherPlatformController()
                 vc.platformType = "1"
                 tempControllers.append(vc)
+            case "Record":
+                let vc = FirstPageOrderController()
+                tempControllers.append(vc)
             default:
                 break
             }

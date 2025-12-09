@@ -103,17 +103,17 @@ class PageSettingOptionCell: BaseTableViewCell {
     
     func setCellData(titStr: String, isShow: Bool) {
         titLab.text = titStr.local
-        if isShow {
-            showBut.setTitleColor(MAINCOLOR, for: .normal)
-            hideBut.setTitleColor(TXTCOLOR_1, for: .normal)
-            showBut.backgroundColor = HCOLOR("#E9EBFF")
-            hideBut.backgroundColor = HCOLOR("#F6F6F6")
-        } else {
-            showBut.setTitleColor(TXTCOLOR_1, for: .normal)
-            hideBut.setTitleColor(MAINCOLOR, for: .normal)
-            hideBut.backgroundColor = HCOLOR("#E9EBFF")
-            showBut.backgroundColor = HCOLOR("#F6F6F6")
-        }
+//        if isShow {
+//            showBut.setTitleColor(MAINCOLOR, for: .normal)
+//            hideBut.setTitleColor(TXTCOLOR_1, for: .normal)
+//            showBut.backgroundColor = HCOLOR("#E9EBFF")
+//            hideBut.backgroundColor = HCOLOR("#F6F6F6")
+//        } else {
+//            showBut.setTitleColor(TXTCOLOR_1, for: .normal)
+//            hideBut.setTitleColor(MAINCOLOR, for: .normal)
+//            hideBut.backgroundColor = HCOLOR("#E9EBFF")
+//            showBut.backgroundColor = HCOLOR("#F6F6F6")
+//        }
     }
     
 }
