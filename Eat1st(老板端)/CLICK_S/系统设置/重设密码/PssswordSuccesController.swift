@@ -20,14 +20,14 @@ class PssswordSuccesController: BaseViewController {
     
     private let okBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "OK".local, .white, TIT_3, MAINCOLOR)
+        but.setCommentStyle(.zero, "OK".local, .white, TIT_14, MAINCOLOR)
         but.layer.cornerRadius = 15
         return but
     }()
     
     private let tlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .center)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .center)
         lab.numberOfLines = 0
         lab.text = "Reset password successful,\nplease return to login.".local
         return lab

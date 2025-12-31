@@ -14,7 +14,7 @@ class WeekNameCell: BaseTableViewCell {
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Sunday"
         return lab
     }()
@@ -27,7 +27,7 @@ class WeekNameCell: BaseTableViewCell {
     
     private let closedLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .right)
         lab.text = "closed"
         return lab
     }()
@@ -84,14 +84,14 @@ class TimeSetInfoCell: BaseTableViewCell {
     
     private let nameLab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Name"
         return lab
     }()
     
     private let nameLab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), TXT_1, .left)
+        lab.setCommentStyle(HCOLOR("#666666"), TXT_14, .left)
         lab.text = ""
         return lab
     }()
@@ -122,7 +122,7 @@ class TimeSetInfoCell: BaseTableViewCell {
     
     private let tLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Opening time".local
         return lab
     }()
@@ -131,7 +131,7 @@ class TimeSetInfoCell: BaseTableViewCell {
     
     private let startLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .right)
         lab.text = "8:00"
         return lab
     }()
@@ -139,21 +139,21 @@ class TimeSetInfoCell: BaseTableViewCell {
     
     private let endLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .right)
         lab.text = "8:00"
         return lab
     }()
     
     private let deLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Delivery".local
         return lab
     }()
     
     private let coLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Collection".local
         return lab
     }()
@@ -320,14 +320,14 @@ class OpeningTimeListCell: BaseTableViewCell {
     
     private let nameLab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.lineBreakMode = .byTruncatingTail
         return lab
     }()
     
     private let nameLab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.lineBreakMode = .byTruncatingTail
         return lab
     }()
@@ -342,7 +342,7 @@ class OpeningTimeListCell: BaseTableViewCell {
     
     private let tLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Opening time".local
         return lab
     }()
@@ -351,7 +351,7 @@ class OpeningTimeListCell: BaseTableViewCell {
     
     private let startLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .right)
         lab.text = "8:00"
         return lab
     }()
@@ -359,7 +359,7 @@ class OpeningTimeListCell: BaseTableViewCell {
     
     private let endLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .right)
         lab.text = "8:00"
         return lab
     }()

@@ -17,7 +17,7 @@ class DishEditeTagCell: BaseTableViewCell, UICollectionViewDelegate, UICollectio
 
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Food tags".local
         return lab
     }()
@@ -114,7 +114,7 @@ class DishEditeTagCell: BaseTableViewCell, UICollectionViewDelegate, UICollectio
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let w = tagArr[indexPath.item].name1.getTextWidth(TIT_3, 25) + 40
+        let w = tagArr[indexPath.item].name1.getTextWidth(TIT_14, 25) + 40
         return CGSize(width: w, height: 25)
     }
     
@@ -141,7 +141,7 @@ class DishEditeTagsCell: UICollectionViewCell {
     
     let tagLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.white, TIT_3, .left)
+        lab.setCommentStyle(.white, TIT_14, .left)
         lab.text = "beef"
         return lab
     }()

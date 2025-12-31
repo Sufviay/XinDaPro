@@ -74,14 +74,14 @@ class EditStatusView: UIView, UIGestureRecognizerDelegate {
     
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_16, MAINCOLOR)
         but.layer.cornerRadius = 14
         return but
     }()
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_18, .left)
         lab.text = "Stauts"
         return lab
     }()
@@ -97,14 +97,14 @@ class EditStatusView: UIView, UIGestureRecognizerDelegate {
     
     private let tlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Status".local
         return lab
     }()
     
     private let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_14, .left)
         lab.text = "*"
         return lab
     }()
@@ -135,7 +135,7 @@ class EditStatusView: UIView, UIGestureRecognizerDelegate {
     
     private let yeslab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Enable".local
         return lab
     }()
@@ -143,7 +143,7 @@ class EditStatusView: UIView, UIGestureRecognizerDelegate {
     
     private let nolab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Disable".local
         return lab
     }()

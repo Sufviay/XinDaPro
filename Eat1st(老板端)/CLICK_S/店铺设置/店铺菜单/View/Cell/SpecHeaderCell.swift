@@ -12,7 +12,7 @@ class SpecHeaderCell: BaseTableViewCell {
 
     let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, TIT_4, .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_18, .left)
         lab.text = "#1 Specifiation"
         return lab
     }()
@@ -45,7 +45,7 @@ class SpecHeaderEditeCell: BaseTableViewCell {
     
     let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "#1 Specification"
         return lab
     }()
@@ -85,7 +85,7 @@ class OptionHeaderCell: BaseTableViewCell {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Options".local + ":"
         return lab
     }()
@@ -115,7 +115,7 @@ class OptionHeaderEditeCell: BaseTableViewCell {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1,TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1,TIT_16, .left)
         lab.text = "#1 Option"
         return lab
     }()

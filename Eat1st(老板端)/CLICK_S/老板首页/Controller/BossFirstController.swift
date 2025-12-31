@@ -43,7 +43,7 @@ class BossFirstController: HeadBaseViewController {
 //        //被选中时标题的字体颜色
         layout.titleSelectColor = TXTCOLOR_1
 //        //设置标题的字体大小
-        layout.titleFont = TIT_3
+        layout.titleFont = TIT_14
         //设置选中时放大的倍数
         layout.scale = 1
 //        //设置未被选中时的字体颜色
@@ -71,14 +71,14 @@ class BossFirstController: HeadBaseViewController {
     
     private let titlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.white, TIT_1, .center)
+        lab.setCommentStyle(.white, TIT_20, .center)
         lab.text = UserDefaults.standard.storeName ?? "Eat1st"
         return lab
     }()
     
     private let titlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.white, TIT_2, .center)
+        lab.setCommentStyle(.white, TIT_16, .center)
         lab.text = UserDefaults.standard.accountNum
         return lab
     }()
@@ -93,7 +93,7 @@ class BossFirstController: HeadBaseViewController {
 
     override func setViews() {
         
-        addNotificationCenter()
+        //addNotificationCenter()
         loadPageView()
         
         view.addSubview(titlab1)
@@ -141,8 +141,8 @@ class BossFirstController: HeadBaseViewController {
     deinit {
         print("\(self.classForCoder)销毁")
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("fistPageDataChange"), object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
-        UIDevice.current.endGeneratingDeviceOrientationNotifications()
+//        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+//        UIDevice.current.endGeneratingDeviceOrientationNotifications()
     }
 
     
@@ -235,54 +235,54 @@ extension BossFirstController {
     private func addNotificationCenter() {
         //监测消息的变化
         NotificationCenter.default.addObserver(self, selector: #selector(loadPageView), name: NSNotification.Name(rawValue: "fistPageDataChange"), object: nil)
-        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
-        NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: UIDevice.orientationDidChangeNotification, object: nil)
+//        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+//        NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
 
 
-    @objc private func orientationDidChange() {
-        
-        switch UIDevice.current.orientation {
-        case .unknown:
-            print("未知")
-        case .portrait:
-            print("竖屏")
-            updateFrame()
-        case .portraitUpsideDown:
-            print("颠倒竖屏")
-            updateFrame()
-        case .landscapeLeft:
-            print("左旋转 横屏")
-            updateFrame()
-        case .landscapeRight:
-            print("右旋转 横屏")
-            updateFrame()
-        case .faceUp:
-            print("屏幕朝上")
-        case .faceDown:
-            print("屏幕朝下")
-        default:
-            break
-        }
-        
-    }
-    
-    
-    private func updateFrame() {
-        
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            DispatchQueue.main.async {
-                print(R_W(338))
-                
-                let H =  UIScreen.main.bounds.height - bottomBarH - statusBarH - 80
-                
-                self.pageView.snp.remakeConstraints {
-                    $0.left.right.equalToSuperview()
-                    $0.top.equalToSuperview().offset(statusBarH + 80)
-                    $0.height.equalTo(H)
-                }
-                
-            }
-        }
-    }
+//    @objc private func orientationDidChange() {
+//        
+//        switch UIDevice.current.orientation {
+//        case .unknown:
+//            print("未知")
+//        case .portrait:
+//            print("竖屏")
+//            updateFrame()
+//        case .portraitUpsideDown:
+//            print("颠倒竖屏")
+//            updateFrame()
+//        case .landscapeLeft:
+//            print("左旋转 横屏")
+//            updateFrame()
+//        case .landscapeRight:
+//            print("右旋转 横屏")
+//            updateFrame()
+//        case .faceUp:
+//            print("屏幕朝上")
+//        case .faceDown:
+//            print("屏幕朝下")
+//        default:
+//            break
+//        }
+//        
+//    }
+//    
+//    
+//    private func updateFrame() {
+//        
+//        if UIDevice.current.userInterfaceIdiom == .pad {
+//            DispatchQueue.main.async {
+//                print(R_W(338))
+//                
+//                let H =  UIScreen.main.bounds.height - bottomBarH - statusBarH - 80
+//                
+//                self.pageView.snp.remakeConstraints {
+//                    $0.left.right.equalToSuperview()
+//                    $0.top.equalToSuperview().offset(statusBarH + 80)
+//                    $0.height.equalTo(H)
+//                }
+//                
+//            }
+//        }
+//    }
 }

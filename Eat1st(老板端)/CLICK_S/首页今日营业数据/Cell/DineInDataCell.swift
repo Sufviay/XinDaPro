@@ -39,7 +39,7 @@ class DineInDataCell: BaseTableViewCell, UICollectionViewDataSource, UICollectio
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Dine-in".local
         return lab
     }()

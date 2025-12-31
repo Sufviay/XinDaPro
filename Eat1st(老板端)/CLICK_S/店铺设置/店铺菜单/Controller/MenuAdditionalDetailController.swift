@@ -115,8 +115,8 @@ class MenuAdditionalDetailController: HeadBaseViewController, UITableViewDelegat
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
-            let h1 = dishModel.dishName1.getTextHeigh(TIT_2, S_W - 120)
-            let h2 = dishModel.dishName2.getTextHeigh(TXT_1, S_W - 120)
+            let h1 = dishModel.dishName1.getTextHeigh(TIT_16, S_W - 120)
+            let h2 = dishModel.dishName2.getTextHeigh(TXT_14, S_W - 120)
             return 25 + 15 + h1 + h2
         }
         if indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 3 || indexPath.row == 5 {
@@ -124,7 +124,7 @@ class MenuAdditionalDetailController: HeadBaseViewController, UITableViewDelegat
         }
         
         if indexPath.row == 4 {
-            let h = dishModel.classifyStr.getTextHeigh(TXT_1, S_W - 80)
+            let h = dishModel.classifyStr.getTextHeigh(TXT_14, S_W - 80)
             return h + 50
         }
         

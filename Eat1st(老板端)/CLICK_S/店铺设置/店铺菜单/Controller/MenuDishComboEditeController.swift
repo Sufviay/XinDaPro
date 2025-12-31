@@ -33,7 +33,7 @@ class MenuDishComboEditeController: HeadBaseViewController, UITableViewDelegate,
     
     private let cancelBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Cancel".local, MAINCOLOR, TIT_2, .clear)
+        but.setCommentStyle(.zero, "Cancel".local, MAINCOLOR, TIT_16, .clear)
         but.layer.cornerRadius = 14
         but.layer.borderColor = MAINCOLOR.cgColor
         but.layer.borderWidth = 2
@@ -42,7 +42,7 @@ class MenuDishComboEditeController: HeadBaseViewController, UITableViewDelegate,
 
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_16, MAINCOLOR)
         but.layer.cornerRadius = 14
         return but
     }()

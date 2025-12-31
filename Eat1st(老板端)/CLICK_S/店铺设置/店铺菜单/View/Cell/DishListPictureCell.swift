@@ -14,7 +14,7 @@ class DishListPictureCell: BaseTableViewCell, CommonToolProtocol, SDPhotoBrowser
     
     private let titleLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Dish picture".local
         return lab
     }()

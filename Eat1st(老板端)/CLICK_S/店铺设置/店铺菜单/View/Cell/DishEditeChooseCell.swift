@@ -15,13 +15,13 @@ class DishEditeChooseCell: BaseTableViewCell {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         return lab
     }()
     
     private let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_14, .left)
         lab.text = "*"
         return lab
     }()
@@ -53,13 +53,13 @@ class DishEditeChooseCell: BaseTableViewCell {
 
     private let tlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         return lab
     }()
     
     private let tlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         return lab
     }()
     
@@ -225,14 +225,14 @@ class DishEditeChooseCell_Three: BaseTableViewCell {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Sell type"
         return lab
     }()
     
     private let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_14, .left)
         lab.text = "*"
         return lab
     }()
@@ -278,21 +278,21 @@ class DishEditeChooseCell_Three: BaseTableViewCell {
 
     private let tlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Delivery"
         return lab
     }()
     
     private let tlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Dine-in"
         return lab
     }()
     
     private let tlab3: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "All"
         return lab
     }()
@@ -448,14 +448,14 @@ class DishEditeChooseCell_Three_Multiple: BaseTableViewCell {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, TIT_2, .left)
+        lab.setCommentStyle(.black, TIT_16, .left)
         lab.text = "Sell type"
         return lab
     }()
     
     private let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_14, .left)
         lab.text = "*"
         return lab
     }()
@@ -501,21 +501,21 @@ class DishEditeChooseCell_Three_Multiple: BaseTableViewCell {
 
     private let tlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Delivery"
         return lab
     }()
     
     private let tlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Dine-in"
         return lab
     }()
     
     private let tlab3: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "All"
         return lab
     }()

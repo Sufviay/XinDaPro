@@ -11,21 +11,21 @@ class DishDetailKuCunCell: BaseTableViewCell {
 
     private let titleLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Stock".local
         return lab
     }()
     
     private let msgLab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.text = "111"
         return lab
     }()
     
     private let msgLab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.text = "111"
         return lab
     }()

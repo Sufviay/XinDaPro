@@ -23,13 +23,13 @@ class MenuTagView: UIView {
                 self.line3.isHidden = true
                 self.line4.isHidden = true
                 self.but1.setTitleColor(TXTCOLOR_1, for: .normal)
-                self.but1.titleLabel?.font = TIT_3
+                self.but1.titleLabel?.font = TIT_14
                 self.but2.setTitleColor(TXTCOLOR_2, for: .normal)
-                self.but2.titleLabel?.font = TXT_1
+                self.but2.titleLabel?.font = TXT_14
                 self.but3.setTitleColor(TXTCOLOR_2, for: .normal)
-                self.but3.titleLabel?.font = TXT_1
+                self.but3.titleLabel?.font = TXT_14
                 self.but4.setTitleColor(TXTCOLOR_2, for: .normal)
-                self.but4.titleLabel?.font = TXT_1
+                self.but4.titleLabel?.font = TXT_14
 
             }
             
@@ -39,13 +39,13 @@ class MenuTagView: UIView {
                 self.line3.isHidden = true
                 self.line4.isHidden = true
                 self.but2.setTitleColor(TXTCOLOR_1, for: .normal)
-                self.but2.titleLabel?.font = TIT_3
+                self.but2.titleLabel?.font = TIT_14
                 self.but1.setTitleColor(TXTCOLOR_2, for: .normal)
-                self.but1.titleLabel?.font = TXT_1
+                self.but1.titleLabel?.font = TXT_14
                 self.but3.setTitleColor(TXTCOLOR_2, for: .normal)
-                self.but3.titleLabel?.font = TXT_1
+                self.but3.titleLabel?.font = TXT_14
                 self.but4.setTitleColor(TXTCOLOR_2, for: .normal)
-                self.but4.titleLabel?.font = TXT_1
+                self.but4.titleLabel?.font = TXT_14
             }
             
             if type == .gift {
@@ -54,13 +54,13 @@ class MenuTagView: UIView {
                 self.line3.isHidden = false
                 self.line4.isHidden = true
                 self.but3.setTitleColor(TXTCOLOR_1, for: .normal)
-                self.but3.titleLabel?.font = TIT_3
+                self.but3.titleLabel?.font = TIT_14
                 self.but1.setTitleColor(TXTCOLOR_2, for: .normal)
-                self.but1.titleLabel?.font = TXT_1
+                self.but1.titleLabel?.font = TXT_14
                 self.but2.setTitleColor(TXTCOLOR_2, for: .normal)
-                self.but2.titleLabel?.font = TXT_1
+                self.but2.titleLabel?.font = TXT_14
                 self.but4.setTitleColor(TXTCOLOR_2, for: .normal)
-                self.but4.titleLabel?.font = TXT_1
+                self.but4.titleLabel?.font = TXT_14
             }
             
             if type == .combo {
@@ -69,13 +69,13 @@ class MenuTagView: UIView {
                 self.line3.isHidden = true
                 self.line4.isHidden = false
                 self.but4.setTitleColor(TXTCOLOR_1, for: .normal)
-                self.but4.titleLabel?.font = TIT_3
+                self.but4.titleLabel?.font = TIT_14
                 self.but1.setTitleColor(TXTCOLOR_2, for: .normal)
-                self.but1.titleLabel?.font = TXT_1
+                self.but1.titleLabel?.font = TXT_14
                 self.but2.setTitleColor(TXTCOLOR_2, for: .normal)
-                self.but2.titleLabel?.font = TXT_1
+                self.but2.titleLabel?.font = TXT_14
                 self.but3.setTitleColor(TXTCOLOR_2, for: .normal)
-                self.but3.titleLabel?.font = TXT_1
+                self.but3.titleLabel?.font = TXT_14
             }
             
         }
@@ -83,26 +83,26 @@ class MenuTagView: UIView {
 
     private let but1: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Dishes".local, TXTCOLOR_1, TIT_3, .clear)
+        but.setCommentStyle(.zero, "Dishes".local, TXTCOLOR_1, TIT_14, .clear)
         return but
     }()
     
     private let but2: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Additional".local, HCOLOR("#6F7FAF"), TXT_1, .clear)
+        but.setCommentStyle(.zero, "Additional".local, HCOLOR("#6F7FAF"), TXT_14, .clear)
         return but
     }()
     
     private let but3: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Gifts".local, HCOLOR("#6F7FAF"), TXT_1, .clear)
+        but.setCommentStyle(.zero, "Gifts".local, HCOLOR("#6F7FAF"), TXT_14, .clear)
         return but
     }()
     
     
     private let but4: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Combo".local, HCOLOR("#6F7FAF"), TXT_1, .clear)
+        but.setCommentStyle(.zero, "Combo".local, HCOLOR("#6F7FAF"), TXT_14, .clear)
         return but
     }()
 

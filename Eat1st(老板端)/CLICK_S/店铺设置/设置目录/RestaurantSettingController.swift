@@ -124,7 +124,7 @@ class RestaurantSettingController: HeadBaseViewController, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        let h = desStrArr[indexPath.section].getTextHeigh(TXT_2, S_W - 140) + 50
+        let h = desStrArr[indexPath.section].getTextHeigh(TXT_12, S_W - 140) + 50
         
         return h
     }
@@ -215,13 +215,13 @@ class RestaurantSettingItemCell: BaseTableViewCell {
     
     private let nameLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         return lab
     }()
     
     private let desLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_12, .left)
         lab.numberOfLines = 0
         return lab
     }()

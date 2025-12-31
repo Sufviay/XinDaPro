@@ -21,7 +21,7 @@ class DishesClassifyHeader: UITableViewHeaderFooterView {
     
     let namelab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Chow Mein Dishes"
         lab.numberOfLines = 0
         return lab
@@ -29,7 +29,7 @@ class DishesClassifyHeader: UITableViewHeaderFooterView {
     
     let namelab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_12, .left)
         lab.text = "aaaaa"
         lab.numberOfLines = 0
         return lab

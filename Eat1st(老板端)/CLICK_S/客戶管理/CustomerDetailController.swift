@@ -41,7 +41,7 @@ class CustomerDetailController: HeadBaseViewController, UITableViewDelegate, UIT
 
     private let orderBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "User Order".local, .white, TIT_2, MAINCOLOR)
+        but.setCommentStyle(.zero, "User Order".local, .white, TIT_16, MAINCOLOR)
         but.layer.cornerRadius = 10
         return but
     }()
@@ -102,11 +102,11 @@ class CustomerDetailController: HeadBaseViewController, UITableViewDelegate, UIT
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if indexPath.row == 0 {
-            let h = customerData.nickName.getTextHeigh(TIT_4, S_W - 100) + 40
+            let h = customerData.nickName.getTextHeigh(TIT_18, S_W - 100) + 40
             return h
         }
         if indexPath.row == 9 {
-            let h = customerData.tagStr.getTextHeigh(TIT_4, S_W - 100) + 40
+            let h = customerData.tagStr.getTextHeigh(TIT_18, S_W - 100) + 40
             return h
         }
         return 65
@@ -196,7 +196,7 @@ class NameCell: BaseTableViewCell {
     
     let nameLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_18, .left)
         lab.numberOfLines = 0
         return lab
     }()

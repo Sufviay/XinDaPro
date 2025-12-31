@@ -92,6 +92,7 @@ class EmailRegisterController: BaseViewController, UITextFieldDelegate {
     private let line4: UIView = {
         let view = UIView()
         view.backgroundColor = HCOLOR("#EEEEEE")
+        view.isHidden = true
         return view
     }()
 
@@ -144,6 +145,7 @@ class EmailRegisterController: BaseViewController, UITextFieldDelegate {
         tf.setPlaceholder("Redeem code (optional)", color: HCOLOR("#BBBBBB"))
         tf.textColor = HCOLOR("#333333")
         tf.delegate = self
+        tf.isHidden = true
         return tf
     }()
     

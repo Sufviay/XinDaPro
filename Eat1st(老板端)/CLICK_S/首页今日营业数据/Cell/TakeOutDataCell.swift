@@ -49,7 +49,7 @@ class TakeOutDataCell: BaseTableViewCell, UICollectionViewDataSource, UICollecti
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Takeaway".local
         return lab
     }()
@@ -57,7 +57,7 @@ class TakeOutDataCell: BaseTableViewCell, UICollectionViewDataSource, UICollecti
     
 //    private let setMinPriceBut: UIButton = {
 //        let but = UIButton()
-//        but.setCommentStyle(.zero, "Min delivery price £".local + "0", .white, TIT_3, MAINCOLOR)
+//        but.setCommentStyle(.zero, "Min delivery price £".local + "0", .white, TIT_14, MAINCOLOR)
 //        but.layer.cornerRadius = 7
 //        return but
 //    }()

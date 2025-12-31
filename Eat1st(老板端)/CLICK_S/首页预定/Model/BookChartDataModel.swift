@@ -20,35 +20,79 @@ class BookChartDataModel: NSObject {
     var dinnerNum: Int = 0
     ///午餐人数 17:00 以前
     var lunchNum: Int = 0
+    ///早餐
+    var breakfastNum: Int = 0
     
     
     func updateModel(json: JSON) {
         
         dinnerNum = json["data"]["dinnerNum"].intValue
         lunchNum = json["data"]["lunchNum"].intValue
-        
-        
-        var bookInfoArr: [BookingContentModel] = []
-        
-        for jsonData in json["data"]["userReserveList"].arrayValue {
-            let model = BookingContentModel()
-            model.updateModel(json: jsonData)
-            bookInfoArr.append(model)
-        }
-        
-        
+        breakfastNum = json["data"]["breakfastNum"].intValue
         
         var tarr: [ChartBookTimeModel] = []
-        for jsonData in json["data"]["storeReserveList"].arrayValue {
+        
+        
+        //var bookInfoArr: [BookingContentModel] = []
+        
+        for jsonData in json["data"]["userReserveList"].arrayValue {
             
-            let model = ChartBookTimeModel()
-            model.reserveTime = jsonData["reserveTime"].stringValue
-            model.reserveId = jsonData["reserveId"].stringValue
+            let model = BookingContentModel()
+            model.updateModel(json: jsonData)
             
-            model.bookingArr = bookInfoArr.filter { $0.reserveId == model.reserveId}
             
-            tarr.append(model)
+            var isHave: Bool = false
+            for tmodel in tarr {
+                
+                if model.reserveTime == tmodel.reserveTime {
+                    //找到了就添加进去
+                    tmodel.bookingArr.append(model)
+                    isHave = true
+                    break
+                }
+            }
+            
+            if !isHave {
+                //没有预定时间，就创建一个新的预定时间, 并且添加进去
+                let timeModel = ChartBookTimeModel()
+                timeModel.reserveTime = model.reserveTime
+                timeModel.reserveId = model.reserveId
+                timeModel.bookingArr.append(model)
+                tarr.append(timeModel)
+
+            }
+            
+            
+            
+//            if (tarr.filter { $0.reserveId == model.reserveId }).count == 0 {
+//
+//                let timeModel = ChartBookTimeModel()
+//                timeModel.reserveTime = model.reserveTime
+//                timeModel.reserveId = model.reserveId
+//                timeModel.bookingArr.append(model)
+//                tarr.append(timeModel)
+//            } else {
+//                //包含
+//                
+//                
+//            }
+//            
+//            bookInfoArr.append(model)
         }
+        
+        
+        
+//        
+//        for jsonData in json["data"]["storeReserveList"].arrayValue {
+//            
+//            let model = ChartBookTimeModel()
+//            model.reserveTime = jsonData["reserveTime"].stringValue
+//            model.reserveId = jsonData["reserveId"].stringValue
+//            
+//            model.bookingArr = bookInfoArr.filter { $0.reserveId == model.reserveId}
+//            
+//            tarr.append(model)
+//        }
         
         timeArr = tarr
         

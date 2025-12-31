@@ -468,7 +468,7 @@ extension FirstController {
         
         if indexPath.section == 3 {
                         
-            return (UserDefaults.standard.address ?? "").getTextHeigh(SFONT(11), S_W - 175) + 33 + 15 + 10
+            return (UserDefaults.standard.address ?? "").getTextHeigh(SFONT(11), S_W - 110) + 33 + 15 + 10
         }
         if indexPath.section == 4 {
             
@@ -794,23 +794,23 @@ extension FirstController {
     //检查是否有优惠券
     private func checkHaveCoupon_Net() {
         
-        if UserDefaults.standard.isLogin {
-            HTTPTOOl.getMyCouponList().subscribe(onNext: { [unowned self] (json) in
-                if json["data"].arrayValue.count == 0 {
-                    self.haveCoupon = false
-                } else {
-                    self.haveCoupon = true
-                }
-                self.table.reloadData()
-                //self.table.reloadSections([0], with: .none)
-                    
-            }, onError: {[unowned self] _ in
-                self.haveCoupon = false
-            }).disposed(by: self.bag)
-
-        } else {
-            haveCoupon = false
-        }
+//        if UserDefaults.standard.isLogin {
+//            HTTPTOOl.getMyCouponList().subscribe(onNext: { [unowned self] (json) in
+//                if json["data"].arrayValue.count == 0 {
+//                    self.haveCoupon = false
+//                } else {
+//                    self.haveCoupon = true
+//                }
+//                self.table.reloadData()
+//                //self.table.reloadSections([0], with: .none)
+//                    
+//            }, onError: {[unowned self] _ in
+//                self.haveCoupon = false
+//            }).disposed(by: self.bag)
+//
+//        } else {
+//            haveCoupon = false
+//        }
     }
     
     //检查是否有未抽奖的订单

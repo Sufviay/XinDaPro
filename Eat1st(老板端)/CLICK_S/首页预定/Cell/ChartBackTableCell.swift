@@ -163,7 +163,7 @@ class ChatTableLabCell: BaseTableViewCell {
     
     let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_5, .center)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_12, .center)
         lab.lineBreakMode = .byTruncatingTail
         lab.numberOfLines = 2
         return lab

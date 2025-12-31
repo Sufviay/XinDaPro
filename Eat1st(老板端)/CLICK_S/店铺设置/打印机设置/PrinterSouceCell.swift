@@ -36,7 +36,7 @@ class PrinterSouceCell: BaseTableViewCell {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Print souce".local
         return lab
     }()
@@ -44,7 +44,7 @@ class PrinterSouceCell: BaseTableViewCell {
 
     private let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_14, .left)
         lab.text = "*"
         lab.isHidden = true
         return lab
@@ -92,21 +92,21 @@ class PrinterSouceCell: BaseTableViewCell {
     
     private let oneLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Deliveroo"
         return lab
     }()
     
     private let twoLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "UberEats"
         return lab
     }()
     
     private let threeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "JustEat"
         return lab
     }()

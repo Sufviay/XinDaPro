@@ -20,31 +20,31 @@ class OnOffTagView: UIView {
                 self.line1.isHidden = false
                 self.line2.isHidden = true
                 self.onBut.setTitleColor(TXTCOLOR_1, for: .normal)
-                self.onBut.titleLabel?.font = TIT_2
+                self.onBut.titleLabel?.font = TIT_16
                 self.offBut.setTitleColor(HCOLOR("#6F7FAF"), for: .normal)
-                self.offBut.titleLabel?.font = TXT_1
+                self.offBut.titleLabel?.font = TXT_14
             }
             
             if type == "off" {
                 self.line2.isHidden = false
                 self.line1.isHidden = true
                 self.offBut.setTitleColor(TXTCOLOR_1, for: .normal)
-                self.offBut.titleLabel?.font = TIT_2
+                self.offBut.titleLabel?.font = TIT_16
                 self.onBut.setTitleColor(HCOLOR("#6F7FAF"), for: .normal)
-                self.onBut.titleLabel?.font = TXT_1
+                self.onBut.titleLabel?.font = TXT_14
             }
         }
     }
 
     private let onBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "On menu now".local, TXTCOLOR_1, TIT_2, .clear)
+        but.setCommentStyle(.zero, "On menu now".local, TXTCOLOR_1, TIT_16, .clear)
         return but
     }()
     
     private let offBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Off menu".local, HCOLOR("#6F7FAF"), TXT_1, .clear)
+        but.setCommentStyle(.zero, "Off menu".local, HCOLOR("#6F7FAF"), TXT_14, .clear)
         return but
     }()
     

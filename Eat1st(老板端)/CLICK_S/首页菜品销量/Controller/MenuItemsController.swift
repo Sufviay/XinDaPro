@@ -20,6 +20,9 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
     
     //查询方式 1天，2周，3月
     private var dataType: String = "3"
+    
+    private var selectType = TypeModel(id: "", name: "All".local)
+
 
     ///查询日期
     private var dateStr: String = DateTool.getDateComponents(date: Date()).month! >= 10 ? "\(DateTool.getDateComponents(date: Date()).year!)-\(DateTool.getDateComponents(date: Date()).month!)" : "\(DateTool.getDateComponents(date: Date()).year!)-0\(DateTool.getDateComponents(date: Date()).month!)"
@@ -92,7 +95,7 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
     
     private let totalLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_5, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_12, .left)
         lab.text = "Total:".local
         return lab
     }()
@@ -100,7 +103,7 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
     
     private let totalNum: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.adjustsFontSizeToFitWidth = true
         lab.text = ""
         return lab
@@ -117,11 +120,50 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
 
     private let totalPrice: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.adjustsFontSizeToFitWidth = true
         lab.text = ""
         return lab
     }()
+
+    private let typeBut: UIButton = {
+        let but = UIButton()
+        but.backgroundColor = BACKCOLOR_3
+        but.clipsToBounds = true
+        but.layer.cornerRadius = 5
+        return but
+    }()
+
+    
+    private let xlImg1: UIImageView = {
+        let img = UIImageView()
+        img.image = LOIMG("xl_b")
+        return img
+    }()
+
+    
+    private let typeLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
+        lab.text = "All".local
+        lab.adjustsFontSizeToFitWidth = true
+        return lab
+    }()
+    
+    
+    private lazy var typeAlert: SelectTypeAlert = {
+        let view = SelectTypeAlert()
+        view.alertType = .mealTime
+        view.selectBlock = { [unowned self] (par) in
+            selectType.id = (par as! TypeModel).id
+            selectType.name = (par as! TypeModel).name
+            typeLab.text = selectType.name
+            loadData_Net()
+        }
+        
+        return view
+    }()
+    
 
     
     
@@ -189,9 +231,32 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
         filtrateView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(20)
             $0.left.equalToSuperview().offset(20)
-            $0.right.equalToSuperview().offset(-20)
+            $0.right.equalToSuperview().offset(-110)
             $0.height.equalTo(40)
         }
+        
+        view.addSubview(typeBut)
+        typeBut.snp.makeConstraints {
+            $0.top.height.equalTo(filtrateView)
+            $0.left.equalTo(filtrateView.snp.right).offset(10)
+            $0.right.equalToSuperview().offset(-20)
+        }
+        
+        
+        typeBut.addSubview(xlImg1)
+        xlImg1.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.right.equalToSuperview().offset(-5)
+        }
+        
+        typeBut.addSubview(typeLab)
+        typeLab.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalToSuperview().offset(10)
+            $0.right.equalToSuperview().offset(-15)
+
+        }
+
         
         view.addSubview(totalView2)
         totalView2.snp.makeConstraints {
@@ -221,7 +286,7 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
         totalLab.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.left.equalToSuperview().offset(12)
-            $0.width.equalTo(("Total:".local.getTextWidth(TIT_5, 15) + 1))
+            $0.width.equalTo(("Total:".local.getTextWidth(TIT_12, 15) + 1))
         }
         
         totalView1.addSubview(totalNum)
@@ -231,6 +296,8 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
             $0.right.equalToSuperview().offset(-5)
         }
         
+        
+
         
         view.addSubview(classifyBut)
         classifyBut.snp.makeConstraints {
@@ -263,7 +330,7 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
         }
         
         classifyBut.addTarget(self, action: #selector(clickClassifyAction), for: .touchUpInside)
-        
+        typeBut.addTarget(self, action: #selector(clickTypeAction), for: .touchUpInside)
         
         table.mj_header = CustomRefreshHeader() { [unowned self] in
             loadData_Net(true)
@@ -271,6 +338,10 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     
+    @objc private func clickTypeAction() {
+        typeAlert.appearAction()
+    }
+
     
     @objc private func clickClassifyAction() {
         classifyAlert.appearAction()
@@ -301,8 +372,8 @@ class MenuItemsController: UIViewController, UITableViewDelegate, UITableViewDat
         if indexPath.section == 0 {
             
             
-            let h1  = dishArr[indexPath.row].name1.getTextHeigh(TIT_3, S_W - 170)
-            let h2 = dishArr[indexPath.row].name1.getTextHeigh(TXT_2, S_W - 170)
+            let h1  = dishArr[indexPath.row].name1.getTextHeigh(TIT_14, S_W - 170)
+            let h2 = dishArr[indexPath.row].name1.getTextHeigh(TXT_12, S_W - 170)
 
             let returnH = h1 + h2 + 25
             
@@ -369,7 +440,7 @@ extension MenuItemsController {
             HUD_MB.loading("", onView: view)
         }
        
-        HTTPTOOl.getStaticClassifyDishesSales(id: selectClassifyID, type: dataType, start: dateStr, end: endDateStr).subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.getStaticClassifyDishesSales(id: selectClassifyID, type: dataType, timePeriod: selectType.id, start: dateStr, end: endDateStr).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: self.view)
             var tArr: [DishModel] = []
             for jsonData in json["data"]["dishesList"].arrayValue {
@@ -412,7 +483,7 @@ extension MenuItemsController {
     private func updateData_Net()  {
         
         HUD_MB.loading("", onView: view)
-        HTTPTOOl.getStaticClassifyDishesSales(id: selectClassifyID, type: dataType, start: dateStr, end: endDateStr).subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.getStaticClassifyDishesSales(id: selectClassifyID, type: dataType, timePeriod: selectType.id, start: dateStr, end: endDateStr).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: view)
             var tArr: [DishModel] = []
             for jsonData in json["data"]["dishesList"].arrayValue {

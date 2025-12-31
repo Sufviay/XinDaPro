@@ -22,6 +22,9 @@ class OtherPlatformDataController: UIViewController, UITableViewDelegate, UITabl
     
     //查询方式 1天，2周，3月
     var dataType: String = "3"
+    
+    //1早餐 2午餐 3晚餐 “”全部
+    var timePeriod: String = ""
 
     ///查询日期
     var dateStr: String = DateTool.getDateComponents(date: Date()).month! >= 10 ? "\(DateTool.getDateComponents(date: Date()).year!)-\(DateTool.getDateComponents(date: Date()).month!)" : "\(DateTool.getDateComponents(date: Date()).year!)-0\(DateTool.getDateComponents(date: Date()).month!)"
@@ -72,7 +75,7 @@ class OtherPlatformDataController: UIViewController, UITableViewDelegate, UITabl
     
     private let orderLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_5, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_12, .left)
         lab.text = "Orders:".local
         return lab
     }()
@@ -80,7 +83,7 @@ class OtherPlatformDataController: UIViewController, UITableViewDelegate, UITabl
     
     private let orderNum: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.adjustsFontSizeToFitWidth = true
         lab.text = ""
         return lab
@@ -88,7 +91,7 @@ class OtherPlatformDataController: UIViewController, UITableViewDelegate, UITabl
     
     private let rejectLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_5, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_12, .left)
         lab.text = "Reject Orders:".local
         return lab
     }()
@@ -96,7 +99,7 @@ class OtherPlatformDataController: UIViewController, UITableViewDelegate, UITabl
     
     private let rejectNum: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.adjustsFontSizeToFitWidth = true
         lab.text = ""
         return lab
@@ -204,7 +207,7 @@ class OtherPlatformDataController: UIViewController, UITableViewDelegate, UITabl
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let h = dishArr[indexPath.row].name.getTextHeigh(TIT_3, S_W - 120)
+        let h = dishArr[indexPath.row].name.getTextHeigh(TIT_14, S_W - 120)
         return h + 35
     }
     
@@ -231,7 +234,7 @@ class OtherPlatformDataController: UIViewController, UITableViewDelegate, UITabl
             HUD_MB.loading("", onView: view)
         }
        
-        HTTPTOOl.getOtherDishesSummary(page: 1, searchType: dataType, start: dateStr, end: endDateStr, ptType: platformType).subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.getOtherDishesSummary(page: 1, searchType: dataType, start: dateStr, end: endDateStr, ptType: platformType, timePeriod: timePeriod).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: view)
             page = 2
             var tArr: [OtherPlatformDishModel] = []
@@ -264,7 +267,7 @@ class OtherPlatformDataController: UIViewController, UITableViewDelegate, UITabl
     
     
     private func loadOrderData_Net() {
-        HTTPTOOl.getOtherOrderSummary(searchType: dataType, start: dateStr, end: endDateStr, ptType: platformType).subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.getOtherOrderSummary(searchType: dataType, start: dateStr, end: endDateStr, ptType: platformType, timePeriod: timePeriod).subscribe(onNext: { [unowned self] (json) in
             
             orderNum.text = json["data"]["orderNum"].stringValue
             rejectNum.text = json["data"]["rejectNum"].stringValue
@@ -279,7 +282,7 @@ class OtherPlatformDataController: UIViewController, UITableViewDelegate, UITabl
     
     
     private func loadDataMore_Net() {
-        HTTPTOOl.getOtherDishesSummary(page: page, searchType: dataType, start: dateStr, end: endDateStr, ptType: platformType).subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.getOtherDishesSummary(page: page, searchType: dataType, start: dateStr, end: endDateStr, ptType: platformType, timePeriod: timePeriod).subscribe(onNext: { [unowned self] (json) in
             
             if json["data"].arrayValue.count == 0 {
                 table.mj_footer?.endRefreshingWithNoMoreData()

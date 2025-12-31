@@ -97,14 +97,14 @@ class DateScheCollCell: UICollectionViewCell {
     
     private let tlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_3, TIT_5, .center)
+        lab.setCommentStyle(TXTCOLOR_3, TIT_12, .center)
         lab.text = "web"
         return lab
     }()
     
     private let tlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_3, TIT_5, .center)
+        lab.setCommentStyle(TXTCOLOR_3, TIT_12, .center)
         lab.text = "11-24"
         return lab
     }()

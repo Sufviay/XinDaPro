@@ -21,21 +21,21 @@ class DistanceChargeCell: BaseTableViewCell {
     
     private let tlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, TIT_3, .left)
+        lab.setCommentStyle(.black, TIT_14, .left)
         lab.text = "Distribution distance"
         return lab
     }()
     
     private let tlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), TXT_2, .left)
+        lab.setCommentStyle(HCOLOR("#666666"), TXT_12, .left)
         lab.text = "Less than or equal to".local
         return lab
     }()
     
     private let tlab3: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, TIT_3, .left)
+        lab.setCommentStyle(.black, TIT_14, .left)
         lab.text = "Delivery charge".local
         return lab
     }()
@@ -57,21 +57,21 @@ class DistanceChargeCell: BaseTableViewCell {
     
     private let mlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("333333"), TIT_3, .left)
+        lab.setCommentStyle(HCOLOR("333333"), TIT_14, .left)
         lab.text = "MILES"
         return lab
     }()
     
     private let plab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("333333"), TIT_3, .left)
+        lab.setCommentStyle(HCOLOR("333333"), TIT_14, .left)
         lab.text = "POUND"
         return lab
     }()
     
     private let mNumLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), TIT_4, .right)
+        lab.setCommentStyle(HCOLOR("#465DFD"), TIT_18, .right)
         lab.text = "4"
         lab.isUserInteractionEnabled = true
         return lab
@@ -80,7 +80,7 @@ class DistanceChargeCell: BaseTableViewCell {
     
     private let pNumLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), TIT_4, .right)
+        lab.setCommentStyle(HCOLOR("#465DFD"), TIT_18, .right)
         lab.text = "300.00"
         lab.isUserInteractionEnabled = true
         return lab

@@ -51,21 +51,21 @@ class ChangePasswordController: HeadBaseViewController {
     
     private let titlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Old Password".local
         return lab
     }()
     
     private let titlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "New Password".local
         return lab
     }()
 
     private let titlab3: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Re-enter Password".local
         return lab
     }()
@@ -117,7 +117,7 @@ class ChangePasswordController: HeadBaseViewController {
     
     private let oldTF: UITextField = {
         let tf = UITextField()
-        tf.font = TXT_1
+        tf.font = TXT_14
         tf.isSecureTextEntry = true
         tf.textColor = TXTCOLOR_1
         tf.setPlaceholder("Please enter the old password".local, color: TFHOLDCOLOR)
@@ -127,7 +127,7 @@ class ChangePasswordController: HeadBaseViewController {
     
     private let newTF: UITextField = {
         let tf = UITextField()
-        tf.font = TXT_1
+        tf.font = TXT_14
         tf.isSecureTextEntry = true
         tf.textColor = TXTCOLOR_1
         tf.setPlaceholder("Please enter a new password".local, color: TFHOLDCOLOR)
@@ -136,7 +136,7 @@ class ChangePasswordController: HeadBaseViewController {
 
     private let reTF: UITextField = {
         let tf = UITextField()
-        tf.font = TXT_1
+        tf.font = TXT_14
         tf.isSecureTextEntry = true
         tf.textColor = TXTCOLOR_1
         tf.setPlaceholder("Please enter a new password again".local, color: TFHOLDCOLOR)
@@ -146,7 +146,7 @@ class ChangePasswordController: HeadBaseViewController {
     
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_16, MAINCOLOR)
         but.layer.cornerRadius = 15
         return but
     }()

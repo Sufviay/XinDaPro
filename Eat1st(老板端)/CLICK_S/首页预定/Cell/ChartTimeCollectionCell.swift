@@ -166,7 +166,7 @@ class TimeBookingInfoCell: BaseTableViewCell {
     
     private let nameLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TXT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TXT_10, .left)
         lab.lineBreakMode = .byTruncatingTail
         return lab
     }()
@@ -181,7 +181,7 @@ class TimeBookingInfoCell: BaseTableViewCell {
     
     private let countLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TXT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TXT_10, .left)
         return lab
     }()
     

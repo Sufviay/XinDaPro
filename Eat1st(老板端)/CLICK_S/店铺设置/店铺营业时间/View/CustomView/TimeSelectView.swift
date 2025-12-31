@@ -30,13 +30,13 @@ class TimeSelectView: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
     
     private let cancelBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Cancel".local, TXTCOLOR_1, TXT_1, .clear)
+        but.setCommentStyle(.zero, "Cancel".local, TXTCOLOR_1, TXT_14, .clear)
         return but
     }()
     
     private let confirmBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Confirm".local, TXTCOLOR_1, TXT_1, .clear)
+        but.setCommentStyle(.zero, "Confirm".local, TXTCOLOR_1, TXT_14, .clear)
         return but
     }()
     
@@ -140,7 +140,7 @@ class TimeSelectView: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
         var pickerLabel = view as? UILabel
         if pickerLabel == nil {
             pickerLabel = UILabel()
-            pickerLabel?.font = TIT_2
+            pickerLabel?.font = TIT_16
             pickerLabel?.textColor = TXTCOLOR_1
             pickerLabel?.textAlignment = .center
         }

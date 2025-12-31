@@ -79,8 +79,8 @@ class UserModel: NSObject {
             numberStr = email
         }
         
-        let h1 = numberStr.getTextHeigh(TXT_1, (S_W * 3 / 8) - 25)
-        let h2 = tagStr.getTextHeigh(TXT_1, (S_W * 3 / 8) - 25)
+        let h1 = numberStr.getTextHeigh(TXT_14, (S_W * 3 / 8) - 25)
+        let h2 = tagStr.getTextHeigh(TXT_14, (S_W * 3 / 8) - 25)
         
         listCell_H = (h1 + h2 + 40 + 10) > 90 ? (h1 + h2 + 40 + 10) : 90
         

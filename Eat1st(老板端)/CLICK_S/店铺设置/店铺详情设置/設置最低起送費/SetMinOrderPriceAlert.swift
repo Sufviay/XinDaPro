@@ -35,14 +35,14 @@ class SetMinOrderPriceAlert: UIView, UIGestureRecognizerDelegate, UITextFieldDel
     
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_16, MAINCOLOR)
         but.layer.cornerRadius = 14
         return but
     }()
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_18, .left)
         lab.text = "Min delivery price".local
         return lab
     }()
@@ -57,14 +57,14 @@ class SetMinOrderPriceAlert: UIView, UIGestureRecognizerDelegate, UITextFieldDel
     
     private let tlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TXT_14, .left)
         lab.text = "Price".local
         return lab
     }()
 
     private let slab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_14, .left)
         lab.text = "*"
         return lab
     }()
@@ -78,14 +78,14 @@ class SetMinOrderPriceAlert: UIView, UIGestureRecognizerDelegate, UITextFieldDel
     
     private let mlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "£"
         return lab
     }()
 
     private lazy var pInPutTF: UITextField = {
         let tf = UITextField()
-        tf.font = TIT_3
+        tf.font = TIT_14
         tf.textColor = TXTCOLOR_1
         tf.delegate = self
         return tf

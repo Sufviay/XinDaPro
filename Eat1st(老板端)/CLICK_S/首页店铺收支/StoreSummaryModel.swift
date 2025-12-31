@@ -97,13 +97,23 @@ class StoreSummaryModel: HandyJSON {
     
     var numberLine: Int = 19
     
+    var userDeliveryNum: Int = 0
+    var userDeliveryPrice: Double = 0
+    var busiDeliveryNum: Int = 0
+    var busiDeliveryPrice: Double = 0
+    
+    var userCollectionNum: Int = 0
+    var userCollectionPrice: Double = 0
+    var busiCollectionNum: Int = 0
+    var busiCollectionPrice: Double = 0
     
     
     
-    var titStrArr: [String] = ["Type", "Sales", "Revenue", "Card", "Cash", "POS", "WX", "Wallet Spent(S)", "Top up(R)", "Cash On Hand", "Delivery", "Collection", "Dine-in", "Unpaid", "VAT", "Uber Eats", "Uber Eats Tips", "Deliveroo", "Deliveroo Tips"]
     
-    var numberArr: [String] = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
-    var priceArr: [String] = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+    var titStrArr: [String] = ["Type", "Sales", "Revenue", "Card", "Cash", "POS", "WX", "Wallet Spent(S)", "Top up(R)", "Cash On Hand", "Delivery", "From user", "From shop", "Collection","From user", "From shop", "Dine-in", "Unpaid", "VAT", "Uber Eats", "Uber Eats Tips", "Deliveroo", "Deliveroo Tips"]
+    
+    var numberArr: [String] = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+    var priceArr: [String] = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
     
     
     required init() {}
@@ -112,9 +122,9 @@ class StoreSummaryModel: HandyJSON {
     func dealModel()  {
         Cash_On_Hand = cashPrice + rechargePrice
         
-        numberArr = ["Total", String(salesNum), String(allNum), String(cardNum), String(cashNum), String(posNum), String(cashWNum), String(consumeNum), String(rechargeNum), "", String(deliveryNum), String(collectionNum), String(dineInNum), String(unpaidOrderNum), "", String(uberNum), "", String(deliverooNum), ""]
+        numberArr = ["Total", String(salesNum), String(allNum), String(cardNum), String(cashNum), String(posNum), String(cashWNum), String(consumeNum), String(rechargeNum), "", String(deliveryNum), String(userDeliveryNum), String(busiDeliveryNum), String(collectionNum), String(userCollectionNum), String(busiCollectionNum), String(dineInNum), String(unpaidOrderNum), "", String(uberNum), "", String(deliverooNum), ""]
         
-        priceArr = ["Amount", "£ " + D_2_STR(salesPrice), "£ " + D_2_STR(allPrice), "£ " + D_2_STR(cardPrice), "£ " + D_2_STR(cashPrice), "£ " + D_2_STR(posPrice), "£ " + D_2_STR(cashWPrice), "£ " + D_2_STR(consumePrice), "£ " + D_2_STR(rechargePrice), "£ " + D_2_STR(Cash_On_Hand), "£ " + D_2_STR(deliveryPrice), "£ " + D_2_STR(collectionPrice), "£ " + D_2_STR(dineInPrice), "£ " + D_2_STR(unpaidOrderPrice), "£ " + D_2_STR(allVatPrice), "£ " + D_2_STR(uberPrice), "£ " + D_2_STR(uberTipsPrice), "£ " + D_2_STR(deliverooPrice), "£ " + D_2_STR(deliverooTipsPrice)]
+        priceArr = ["Amount", "£ " + D_2_STR(salesPrice), "£ " + D_2_STR(allPrice), "£ " + D_2_STR(cardPrice), "£ " + D_2_STR(cashPrice), "£ " + D_2_STR(posPrice), "£ " + D_2_STR(cashWPrice), "£ " + D_2_STR(consumePrice), "£ " + D_2_STR(rechargePrice), "£ " + D_2_STR(Cash_On_Hand), "£ " + D_2_STR(deliveryPrice), "£ " + D_2_STR(userDeliveryPrice), "£ " + D_2_STR(busiDeliveryPrice), "£ " + D_2_STR(collectionPrice), "£ " + D_2_STR(userCollectionPrice), "£ " + D_2_STR(busiCollectionPrice), "£ " + D_2_STR(dineInPrice), "£ " + D_2_STR(unpaidOrderPrice), "£ " + D_2_STR(allVatPrice), "£ " + D_2_STR(uberPrice), "£ " + D_2_STR(uberTipsPrice), "£ " + D_2_STR(deliverooPrice), "£ " + D_2_STR(deliverooTipsPrice)]
         
         
         if vatNo == "" && unpaidOrderNum == 0 {

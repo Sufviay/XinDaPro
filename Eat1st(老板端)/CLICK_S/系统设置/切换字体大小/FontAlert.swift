@@ -29,14 +29,14 @@ class FontAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITab
     
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_16, MAINCOLOR)
         but.layer.cornerRadius = 14
         return but
     }()
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Font size".local
         return lab
     }()

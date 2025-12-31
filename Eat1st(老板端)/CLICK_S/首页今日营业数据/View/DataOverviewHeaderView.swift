@@ -16,7 +16,7 @@ class DataOverviewHeaderView: UIView {
 
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_18, .left)
         //lab.text = Date().getString("yyyy-MM-dd")
         return lab
     }()

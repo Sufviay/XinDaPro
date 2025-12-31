@@ -61,6 +61,7 @@ class FirstSearchTableCell: BaseTableViewCell {
         but.iconLab.text = "DINE IN"
         but.iconLab.font = BFONT(9)
         but.iconLab.textAlignment = .center
+        but.isHidden = true
         return but
     }()
     
@@ -84,7 +85,8 @@ class FirstSearchTableCell: BaseTableViewCell {
         contentView.addSubview(searchBut)
         searchBut.snp.makeConstraints {
             $0.left.equalToSuperview().offset(10)
-            $0.right.equalToSuperview().offset(-75)
+            //$0.right.equalToSuperview().offset(-75)
+            $0.right.equalToSuperview().offset(-10)
             $0.top.equalToSuperview().offset(15)
             $0.bottom.equalToSuperview().offset(-10)
         }

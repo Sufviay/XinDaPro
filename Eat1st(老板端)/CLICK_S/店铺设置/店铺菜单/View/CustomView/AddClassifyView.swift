@@ -48,14 +48,14 @@ class AddClassifyView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate 
     
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_16, MAINCOLOR)
         but.layer.cornerRadius = 14
         return but
     }()
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_18, .left)
         lab.text = "Add Category".local
         return lab
     }()
@@ -70,21 +70,21 @@ class AddClassifyView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate 
 
     private let lab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Simplified Chinese name".local
         return lab
     }()
     
     private let lab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Traditional Chinese name".local
         return lab
     }()
 
     private let lab3: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "English name".local
         return lab
     }()
@@ -113,7 +113,7 @@ class AddClassifyView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate 
 
     private let slab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_14, .left)
         lab.text = "*"
         return lab
     }()
@@ -121,14 +121,14 @@ class AddClassifyView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate 
     
     private let slab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_14, .left)
         lab.text = "*"
         return lab
     }()
 
     private let slab3: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_14, .left)
         lab.text = "*"
         return lab
     }()
@@ -137,7 +137,7 @@ class AddClassifyView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate 
     private lazy var jtInputTF: UITextField = {
         let tf = UITextField()
         tf.textColor = TXTCOLOR_1
-        tf.font = TIT_3
+        tf.font = TIT_14
         tf.delegate = self
         return tf
     }()
@@ -145,7 +145,7 @@ class AddClassifyView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate 
     private lazy var ftInputTF: UITextField = {
         let tf = UITextField()
         tf.textColor = TXTCOLOR_1
-        tf.font = TIT_3
+        tf.font = TIT_14
         tf.delegate = self
         return tf
     }()
@@ -153,7 +153,7 @@ class AddClassifyView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate 
     private lazy var enInputTF: UITextField = {
         let tf = UITextField()
         tf.textColor = TXTCOLOR_1
-        tf.font = TIT_3
+        tf.font = TIT_14
         tf.delegate = self
         return tf
     }()

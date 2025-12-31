@@ -20,7 +20,7 @@ class DetailStatusCell: BaseTableViewCell {
     
     private let sellTypeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Delivery"
         return lab
     }()
@@ -28,7 +28,7 @@ class DetailStatusCell: BaseTableViewCell {
     
     private let ptTypeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_5, TIT_2, .right)
+        lab.setCommentStyle(TXTCOLOR_5, TIT_16, .right)
         lab.text = "Deliveroo"
         return lab
     }()
@@ -37,7 +37,7 @@ class DetailStatusCell: BaseTableViewCell {
     
     private let dayNumLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_4, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_4, TIT_16, .left)
         lab.text = "#099"
         return lab
     }()
@@ -46,7 +46,7 @@ class DetailStatusCell: BaseTableViewCell {
 
     private var statusLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .right)
         lab.text = "Completed"
         return lab
     }()
@@ -55,14 +55,14 @@ class DetailStatusCell: BaseTableViewCell {
     
     private let tlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.text = "Order code:".local
         return lab
     }()
     
     private let tlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.text = "Order time:".local
         return lab
     }()
@@ -70,14 +70,14 @@ class DetailStatusCell: BaseTableViewCell {
     
     private let orderLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = ""
         return lab
     }()
     
     private let timeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = ""
         return lab
     }()

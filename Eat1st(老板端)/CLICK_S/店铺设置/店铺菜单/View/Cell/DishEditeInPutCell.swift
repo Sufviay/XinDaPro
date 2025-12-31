@@ -13,13 +13,13 @@ class DishEditeInPutCell: BaseTableViewCell, UITextFieldDelegate {
 
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         return lab
     }()
     
     private let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_14, .left)
         lab.text = "*"
         return lab
     }()
@@ -33,7 +33,7 @@ class DishEditeInPutCell: BaseTableViewCell, UITextFieldDelegate {
     
     private lazy var inputTF: UITextField = {
         let tf = UITextField()
-        tf.font = TXT_1
+        tf.font = TXT_14
         tf.textColor = TXTCOLOR_1
         tf.delegate = self
         return tf
@@ -96,14 +96,14 @@ class DishEditePriceInPutCell: BaseTableViewCell, UITextFieldDelegate {
     
     let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Pirce"
         return lab
     }()
     
     private let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_14, .left)
         lab.text = "*"
         return lab
     }()
@@ -117,7 +117,7 @@ class DishEditePriceInPutCell: BaseTableViewCell, UITextFieldDelegate {
     
     private let moneyIconLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "£"
         return lab
     }()
@@ -125,7 +125,7 @@ class DishEditePriceInPutCell: BaseTableViewCell, UITextFieldDelegate {
     
     private lazy var inputTF: UITextField = {
         let tf = UITextField()
-        tf.font = TIT_3
+        tf.font = TIT_14
         tf.textColor = TXTCOLOR_1
         tf.delegate = self
         return tf
@@ -213,7 +213,7 @@ class PriceDesCell: BaseTableViewCell {
     
     let msgLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, TXT_3, .left)
+        lab.setCommentStyle(MAINCOLOR, TXT_10, .left)
         lab.text = "The price is between 0 and 100.  When it is positive, the order price is increased;  when it is 0, it is free."
         lab.numberOfLines = 0
         return lab

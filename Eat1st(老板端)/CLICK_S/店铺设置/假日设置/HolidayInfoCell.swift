@@ -36,7 +36,7 @@ class HolidayInfoCell: BaseTableViewCell {
     ///节假日名字
     private let nameLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.lineBreakMode = .byTruncatingTail
         lab.text = "name"
         return lab
@@ -46,7 +46,7 @@ class HolidayInfoCell: BaseTableViewCell {
     ///日期
     private let dateLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.text = "04-05"
         lab.lineBreakMode = .byTruncatingTail
         return lab
@@ -56,7 +56,7 @@ class HolidayInfoCell: BaseTableViewCell {
     ///时间段
     private let timeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.text = "07:00 - 15:00"
         lab.lineBreakMode = .byTruncatingTail
         return lab
@@ -66,7 +66,7 @@ class HolidayInfoCell: BaseTableViewCell {
     ///状态
     private let statusLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#2AD389"), TIT_3, .left)
+        lab.setCommentStyle(HCOLOR("#2AD389"), TIT_14, .left)
         lab.text = "Enable"
         return lab
     }()
@@ -76,7 +76,7 @@ class HolidayInfoCell: BaseTableViewCell {
     private let remarkLab: UILabel = {
         let lab = UILabel()
         lab.numberOfLines = 0
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.text = "remark: ---"
         return lab
     }()

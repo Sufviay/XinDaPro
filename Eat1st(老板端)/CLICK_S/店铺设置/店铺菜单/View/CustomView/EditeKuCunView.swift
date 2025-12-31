@@ -41,14 +41,14 @@ class EditeKuCunView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, 
     
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_16, MAINCOLOR)
         but.layer.cornerRadius = 14
         return but
     }()
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_18, .left)
         lab.text = "Edit stock".local
         return lab
     }()
@@ -226,8 +226,8 @@ class EditeKuCunView: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, 
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
-            let h1 = dishName1.getTextHeigh(TIT_2, S_W - 120)
-            let h2 = dishName2.getTextHeigh(TXT_1, S_W - 120)
+            let h1 = dishName1.getTextHeigh(TIT_16, S_W - 120)
+            let h2 = dishName2.getTextHeigh(TXT_14, S_W - 120)
             return 25 + 15 + h1 + h2
  
         } else {

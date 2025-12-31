@@ -51,7 +51,7 @@ class MenuComboEditDishController: HeadBaseViewController, UITableViewDelegate, 
     
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_16, MAINCOLOR)
         but.clipsToBounds = true
         but.layer.cornerRadius = 14
         return but
@@ -74,7 +74,7 @@ class MenuComboEditDishController: HeadBaseViewController, UITableViewDelegate, 
     
     private let allBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Select all items".local, TXTCOLOR_1, TIT_3, .clear)
+        but.setCommentStyle(.zero, "Select all items".local, TXTCOLOR_1, TIT_14, .clear)
         return but
     }()
     
@@ -136,7 +136,7 @@ class MenuComboEditDishController: HeadBaseViewController, UITableViewDelegate, 
         allBut.snp.makeConstraints {
             $0.centerY.equalTo(allImgBut)
             $0.left.equalTo(allImgBut.snp.right).offset(0)
-            $0.size.equalTo(CGSize(width: 100, height: 30))
+            $0.size.equalTo(CGSize(width: 120, height: 30))
         }
         
         backView.addSubview(saveBut)

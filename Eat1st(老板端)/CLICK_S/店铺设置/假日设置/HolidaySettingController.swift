@@ -27,7 +27,7 @@ class HolidaySettingController: HeadBaseViewController, UITableViewDelegate, UIT
     private let addBut: UIButton = {
         let but = UIButton()
         but.setImage(LOIMG("dis_add"), for: .normal)
-        but.setCommentStyle(.zero, "Add".local, HCOLOR("465DFD"), TIT_2, HCOLOR("#8F92A1").withAlphaComponent(0.06))
+        but.setCommentStyle(.zero, "Add".local, HCOLOR("465DFD"), TIT_16, HCOLOR("#8F92A1").withAlphaComponent(0.06))
         but.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         but.layer.cornerRadius = 10
         return but

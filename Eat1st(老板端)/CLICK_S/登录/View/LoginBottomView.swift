@@ -14,27 +14,27 @@ class LoginBottomView: UIView {
     
     private let tlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_3, TXT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_3, TXT_12, .left)
         lab.text = "By continuing, you are indicating that you accept our ".local
         return lab
     }()
     
     private let tkBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Terms of Service".local, MAINCOLOR, TIT_5, .clear)
+        but.setCommentStyle(.zero, "Terms of Service".local, MAINCOLOR, TIT_12, .clear)
         return but
     }()
     
     private let tlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_3, TXT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_3, TXT_12, .left)
         lab.text = "and ".local
         return lab
     }()
     
     private let PrivacyBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Privacy Policy".local, MAINCOLOR, TIT_5, .clear)
+        but.setCommentStyle(.zero, "Privacy Policy".local, MAINCOLOR, TIT_12, .clear)
         return but
     }()
     

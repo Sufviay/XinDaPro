@@ -34,7 +34,7 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("333333"), TIT_4, .left)
+        lab.setCommentStyle(HCOLOR("333333"), TIT_18, .left)
         lab.text = "Detail".local
         return lab
     }()
@@ -51,7 +51,7 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
     
     private let nameLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_18, .left)
         lab.text = "Ms zhang"
         return lab
     }()
@@ -59,14 +59,14 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
     
     private let tlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TIT_14, .left)
         lab.text = "Date:".local
         return lab
     }()
     
     private let tlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TIT_14, .left)
         lab.text = "Party:".local
         return lab
     }()
@@ -81,14 +81,14 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
     
     private let tlab4: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TIT_14, .left)
         lab.text = "Contact way:".local
         return lab
     }()
     
     private let tlab5: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TIT_14, .left)
         lab.text = "Email:".local
         return lab
     }()
@@ -96,14 +96,14 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
     
     private let tlab6: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TIT_14, .left)
         lab.text = "Create time:".local
         return lab
     }()
     
     private let dateLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, TIT_3, .right)
+        lab.setCommentStyle(MAINCOLOR, TIT_14, .right)
         lab.text = "2022-06-08 08:00PM"
         return lab
     }()
@@ -111,7 +111,7 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
     
     private let partyLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, TIT_3, .right)
+        lab.setCommentStyle(MAINCOLOR, TIT_14, .right)
         lab.text = "10"
         return lab
     }()
@@ -127,7 +127,7 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
     
     private let phoneLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .right)
         lab.text = "01933 403500"
         return lab
     }()
@@ -136,7 +136,7 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
     
     private let emailLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .right)
         lab.text = "136000000000@163.com"
         return lab
     }()
@@ -144,7 +144,7 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
     
     private let createTimeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .right)
         lab.text = "2022-06-08"
         return lab
     }()
@@ -153,7 +153,7 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
     
     private let cancelBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Cancel".local, MAINCOLOR, TIT_3, .white)
+        but.setCommentStyle(.zero, "Cancel".local, MAINCOLOR, TIT_14, .white)
         but.layer.cornerRadius = 14
         but.layer.borderWidth = 2
         but.layer.borderColor = MAINCOLOR.cgColor
@@ -163,7 +163,7 @@ class BookingDeatilAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
     
     private let checkInBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Check in".local, .white, TIT_3, MAINCOLOR)
+        but.setCommentStyle(.zero, "Check in".local, .white, TIT_14, MAINCOLOR)
         but.layer.cornerRadius = 14
         return but
     }()

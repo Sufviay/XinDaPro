@@ -56,28 +56,28 @@ class DistanceEditeView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegat
     
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save".local, .white, TIT_3, HCOLOR("#465DFD"))
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_14, HCOLOR("#465DFD"))
         but.layer.cornerRadius = 14
         return but
     }()
     
     private let tlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, TIT_3, .left)
+        lab.setCommentStyle(.black, TIT_14, .left)
         lab.text = "Distribution distance"
         return lab
     }()
     
     private let tlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#666666"), TXT_2, .left)
+        lab.setCommentStyle(HCOLOR("#666666"), TXT_12, .left)
         lab.text = "Less than or equal to".local
         return lab
     }()
     
     private let tlab3: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.black, TIT_3, .left)
+        lab.setCommentStyle(.black, TIT_14, .left)
         lab.text = "Delivery charge".local
         return lab
     }()
@@ -113,14 +113,14 @@ class DistanceEditeView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegat
     
     private let mlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("333333"), TIT_3, .right)
+        lab.setCommentStyle(HCOLOR("333333"), TIT_14, .right)
         lab.text = "MILES"
         return lab
     }()
     
     private let plab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("333333"), TIT_3, .right)
+        lab.setCommentStyle(HCOLOR("333333"), TIT_14, .right)
         lab.text = "POUND"
         return lab
     }()
@@ -128,7 +128,7 @@ class DistanceEditeView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegat
 
     private lazy var mInPutTF: UITextField = {
         let tf = UITextField()
-        tf.font = TIT_3
+        tf.font = TIT_14
         tf.textColor = HCOLOR("333333")
         tf.delegate = self
         tf.tag = 100
@@ -138,7 +138,7 @@ class DistanceEditeView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegat
     
     private lazy var pInPutTF: UITextField = {
         let tf = UITextField()
-        tf.font = TIT_3
+        tf.font = TIT_14
         tf.textColor = HCOLOR("333333")
         tf.delegate = self
         tf.tag = 200

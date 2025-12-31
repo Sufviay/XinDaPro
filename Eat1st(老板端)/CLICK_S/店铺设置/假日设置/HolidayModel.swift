@@ -37,7 +37,7 @@ class HolidayModel: HandyJSON {
         if remark == "" {
             cell_H = 130
         } else {
-            cell_H = 130 + ("remark: \(remark)").getTextHeigh(TXT_1, S_W - 100) + 10
+            cell_H = 130 + ("remark: \(remark)").getTextHeigh(TXT_14, S_W - 100) + 10
         }
         
     }

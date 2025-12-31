@@ -14,13 +14,13 @@ class EditSelectDateCell: BaseTableViewCell {
     private let titlab: UILabel = {
         let lab = UILabel()
         lab.text = "Date".local
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         return lab
     }()
     
     private let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_14, .left)
         lab.text = "*"
         return lab
     }()
@@ -35,7 +35,7 @@ class EditSelectDateCell: BaseTableViewCell {
     
     private let dateLab : UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TXT_14, .left)
         return lab
     }()
     

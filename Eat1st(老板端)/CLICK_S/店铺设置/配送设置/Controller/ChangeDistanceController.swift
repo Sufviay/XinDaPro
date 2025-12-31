@@ -57,7 +57,7 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
     
     private let tlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Current type".local
         return lab
     }()
@@ -65,14 +65,14 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
     
     private let radiusBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Radius".local, HCOLOR("#ADADAD"), TIT_5, .clear)
+        but.setCommentStyle(.zero, "Radius".local, HCOLOR("#ADADAD"), TIT_12, .clear)
         but.layer.cornerRadius = 5
         return but
     }()
     
     private let postcodeBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Postcode".local, HCOLOR("#ADADAD"), TIT_5, .clear)
+        but.setCommentStyle(.zero, "Postcode".local, HCOLOR("#ADADAD"), TIT_12, .clear)
         but.layer.cornerRadius = 5
         return but
     }()
@@ -116,7 +116,7 @@ class ChangeDistanceController: HeadBaseViewController, UITableViewDelegate, UIT
     private let addBut: UIButton = {
         let but = UIButton()
         but.setImage(LOIMG("dis_add"), for: .normal)
-        but.setCommentStyle(.zero, "Add".local, MAINCOLOR, TIT_2, BACKCOLOR_3)
+        but.setCommentStyle(.zero, "Add".local, MAINCOLOR, TIT_16, BACKCOLOR_3)
         but.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         but.layer.cornerRadius = 10
         return but

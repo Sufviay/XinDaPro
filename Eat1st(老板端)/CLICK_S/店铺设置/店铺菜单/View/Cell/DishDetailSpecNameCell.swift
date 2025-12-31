@@ -11,7 +11,7 @@ class DishDetailSpecNameCell: BaseTableViewCell {
 
     private let nameLab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Sesame Prawn on Toast"
         lab.numberOfLines = 0
         return lab
@@ -19,7 +19,7 @@ class DishDetailSpecNameCell: BaseTableViewCell {
     
     private let nameLab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.text = "芝麻大蝦吐司"
         lab.numberOfLines = 0
         return lab
@@ -58,7 +58,7 @@ class DishDetailOptionNameCell: BaseTableViewCell {
 
     private let nameLab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Sesame Prawn on Toast"
         lab.numberOfLines = 0
         return lab
@@ -66,7 +66,7 @@ class DishDetailOptionNameCell: BaseTableViewCell {
     
     private let nameLab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.text = "芝麻大蝦吐司"
         lab.numberOfLines = 0
         return lab
@@ -104,14 +104,14 @@ class DishDetailOptionPriceCell: BaseTableViewCell {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Price".local
         return lab
     }()
     
     private let moneyLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#6B7DFD"), TIT_3, .left)
+        lab.setCommentStyle(HCOLOR("#6B7DFD"), TIT_14, .left)
         lab.text = "£ 26.63"
         return lab
     }()

@@ -126,7 +126,7 @@ class MenuGiftDetailController: HeadBaseViewController, UITableViewDelegate, UIT
         }
         
         if indexPath.row == 2 {
-            let h = dishModel.classifyStr.getTextHeigh(TXT_1, S_W - 80)
+            let h = dishModel.classifyStr.getTextHeigh(TXT_14, S_W - 80)
             return h + 50
         }
         

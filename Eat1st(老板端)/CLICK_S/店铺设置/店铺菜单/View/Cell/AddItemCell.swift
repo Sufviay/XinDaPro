@@ -25,7 +25,7 @@ class AddItemCell: BaseTableViewCell {
     
     let inLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, TIT_2, .center)
+        lab.setCommentStyle(MAINCOLOR, TIT_16, .center)
         lab.text = "Add"
         return lab
     }()

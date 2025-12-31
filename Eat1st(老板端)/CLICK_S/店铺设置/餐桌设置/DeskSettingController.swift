@@ -61,7 +61,7 @@ class DeskSettingController: HeadBaseViewController, UITableViewDelegate, UITabl
     private let addBut: UIButton = {
         let but = UIButton()
         but.setImage(LOIMG("dis_add"), for: .normal)
-        but.setCommentStyle(.zero, "Add".local, MAINCOLOR, TIT_2, BACKCOLOR_3)
+        but.setCommentStyle(.zero, "Add".local, MAINCOLOR, TIT_16, BACKCOLOR_3)
         but.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         but.layer.cornerRadius = 10
         return but
@@ -75,7 +75,7 @@ class DeskSettingController: HeadBaseViewController, UITableViewDelegate, UITabl
     
     private let cancelBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Cancel".local, MAINCOLOR, TIT_2, .clear)
+        but.setCommentStyle(.zero, "Cancel".local, MAINCOLOR, TIT_16, .clear)
         but.layer.cornerRadius = 14
         but.layer.borderColor = MAINCOLOR.cgColor
         but.layer.borderWidth = 2
@@ -85,7 +85,7 @@ class DeskSettingController: HeadBaseViewController, UITableViewDelegate, UITabl
 
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_16, MAINCOLOR)
         but.layer.cornerRadius = 14
         but.isHidden = true
         return but

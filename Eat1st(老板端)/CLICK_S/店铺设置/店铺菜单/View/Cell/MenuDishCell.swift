@@ -28,7 +28,7 @@ class MenuDishCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionVie
     
     private let nameLab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.numberOfLines = 0
         lab.text = "Sesame Prawn on Toast"
         return lab
@@ -37,7 +37,7 @@ class MenuDishCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionVie
     
     private let nameLab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.numberOfLines = 0
         lab.text = "芝麻大蝦吐司"
         return lab
@@ -53,7 +53,7 @@ class MenuDishCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionVie
     
     private let moneyLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, TXT_1, .left)
+        lab.setCommentStyle(MAINCOLOR, TXT_14, .left)
         lab.text = "£ 23.63"
         return lab
     }()
@@ -66,7 +66,7 @@ class MenuDishCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionVie
     
     private let kuCunLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_4, TXT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_4, TXT_12, .left)
         lab.text = "Stock: 9 "
         return lab
     }()
@@ -74,7 +74,7 @@ class MenuDishCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionVie
     
     private let disMoneyLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_12, .left)
         lab.text = "£4.8"
         return lab
     }()
@@ -100,7 +100,7 @@ class MenuDishCell: BaseTableViewCell, UICollectionViewDelegate, UICollectionVie
 
     private let statusLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_4, TIT_3, .right)
+        lab.setCommentStyle(TXTCOLOR_4, TIT_14, .right)
         lab.text = "Sold out indefinitely".local
         return lab
     }()

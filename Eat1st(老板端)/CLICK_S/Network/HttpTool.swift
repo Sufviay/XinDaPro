@@ -817,8 +817,8 @@ class HttpTool {
     
     
     //MARK: - 获取分类下菜品销量
-    func getStaticClassifyDishesSales(id: String, type: String, start: String, end: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .getStatisClassifyDishesList(id: id, type: type, start: start, end: end))
+    func getStaticClassifyDishesSales(id: String, type: String, timePeriod: String, start: String, end: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getStatisClassifyDishesList(id: id, type: type, timePeriod: timePeriod, start: start, end: end))
         return Observable<JSON>.create(response)
     }
     
@@ -901,15 +901,15 @@ class HttpTool {
     }
 
     //MARK: - 其他平台的菜品销量
-    func getOtherDishesSummary(page: Int, searchType: String, start: String, end: String, ptType: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .getOtherDishesSummary(page: page, searchType: searchType, start: start, end: end, ptType: ptType))
+    func getOtherDishesSummary(page: Int, searchType: String, start: String, end: String, ptType: String, timePeriod: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getOtherDishesSummary(page: page, searchType: searchType, start: start, end: end, ptType: ptType, timePeriod: timePeriod))
         return Observable<JSON>.create(response)
     }
     
     
     //MARK: - 其他平台的订单数量
-    func getOtherOrderSummary(searchType: String, start: String, end: String, ptType: String) -> Observable<JSON> {
-        let response = rxApiManager(api: .getOtherOrderSummary(searchType: searchType, start: start, end: end, ptType: ptType))
+    func getOtherOrderSummary(searchType: String, start: String, end: String, ptType: String, timePeriod: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .getOtherOrderSummary(searchType: searchType, start: start, end: end, ptType: ptType, timePeriod: timePeriod))
         return Observable<JSON>.create(response)
     }
 
@@ -1004,6 +1004,37 @@ class HttpTool {
         return Observable<JSON>.create(response)
     }
     
+    //MARK: - 獲取滿整列表
+    func getFullGiftList(name: String, price: String, status: String, page: Int) -> Observable<JSON> {
+        let response = rxApiManager(api: .getFullGiftList(name: name, price: price, status: status, page: String(page)))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 改變狀態
+    func changeFullGiftStatus(id: String, status: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .changeFullGiftStatus(id: id, status: status))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 刪除滿增
+    func deleteFullGift(id: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .deleteFullGift(id: id))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 添加滿增
+    func addFullGift(name: String, price: String, dishList: [Int64], status: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .addFullGift(name: name, price: price, dishList: dishList, status: status))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 編輯滿增
+    func editFullGift(id: String, name: String, price: String, dishList: [Int64], status: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .editFullGift(id: id, name: name, price: price, dishList: dishList, status: status))
+        return Observable<JSON>.create(response)
+    }
+    
+
     
     
     //MARK: - 上传菜品图片

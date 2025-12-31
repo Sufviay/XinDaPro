@@ -19,7 +19,7 @@ class Detail_OpeningTimeCell: BaseTableViewCell {
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Opening time".local
         return lab
     }()
@@ -29,7 +29,7 @@ class Detail_OpeningTimeCell: BaseTableViewCell {
     
     private let startLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .right)
         lab.text = "8:00"
         return lab
     }()
@@ -37,7 +37,7 @@ class Detail_OpeningTimeCell: BaseTableViewCell {
     
     private let endLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .right)
         lab.text = "8:00"
         return lab
     }()
@@ -105,7 +105,7 @@ class Detail_CoOrDeStausCell: BaseTableViewCell {
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         return lab
     }()
 
@@ -165,7 +165,7 @@ class Detail_CoOrDeTimeCell: BaseTableViewCell {
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         return lab
     }()
 
@@ -173,7 +173,7 @@ class Detail_CoOrDeTimeCell: BaseTableViewCell {
     
     private let maxLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .right)
         lab.text = "8:00"
         return lab
     }()
@@ -181,7 +181,7 @@ class Detail_CoOrDeTimeCell: BaseTableViewCell {
     
     private let minLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .right)
         lab.text = "8:00"
         return lab
     }()
@@ -259,14 +259,14 @@ class Detail_TimeStausCell: BaseTableViewCell {
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Status".local
         return lab
     }()
     
     private let statusLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .right)
         lab.text = ""
         return lab
     }()
@@ -313,7 +313,7 @@ class Detail_TimeWeekCell: BaseTableViewCell {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Status"
         return lab
     }()
@@ -393,7 +393,7 @@ class OpeningSelectDishCell: BaseTableViewCell {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Dishes".local
         return lab
     }()

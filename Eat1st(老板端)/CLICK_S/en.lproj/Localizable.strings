@@ -473,3 +473,12 @@
 "Breakfast" = "Breakfast";
 "Lunch" = "Lunch";
 "Dinner" = "Dinner";
+"Order full gift Management" = "Order full gift Management";
+"Coupon Management" = "Coupon Management";
+"Full gift name" = "Full gift name";
+"Dishes count" = "Dishes count";
+"Amount" = "Amount";
+"Full gift dishes" = "Full gift dishes";
+"Please enter the amount!" = "Please enter the amount.";
+"Please enter the Full gift name!" = "Please enter the Full gift name.";
+"Enabled. Cannot be deleted." = "Enabled. Cannot be deleted.";

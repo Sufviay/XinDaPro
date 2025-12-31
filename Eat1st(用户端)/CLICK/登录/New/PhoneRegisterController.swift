@@ -93,6 +93,7 @@ class PhoneRegisterController: BaseViewController, UITextFieldDelegate {
     private let line5: UIView = {
         let view = UIView()
         view.backgroundColor = HCOLOR("#EEEEEE")
+        view.isHidden = true
         return view
     }()
 
@@ -192,6 +193,7 @@ class PhoneRegisterController: BaseViewController, UITextFieldDelegate {
         tf.setPlaceholder("Redeem code (optional)", color: HCOLOR("#BBBBBB"))
         tf.textColor = HCOLOR("#333333")
         tf.delegate = self
+        tf.isHidden = true
         return tf
     }()
     

@@ -18,7 +18,7 @@ class DataInfoCell_People: UICollectionViewCell {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Customer".local
         lab.adjustsFontSizeToFitWidth = true
         return lab
@@ -75,7 +75,7 @@ class DataInfoCell_People: UICollectionViewCell {
     
 //    private let tlab: UILabel = {
 //        let lab = UILabel()
-//        lab.setCommentStyle(HCOLOR("#AAAAAA"), TXT_1, .left)
+//        lab.setCommentStyle(HCOLOR("#AAAAAA"), TXT_14, .left)
 //        lab.text = "较上周二"
 //        return lab
 //    }()
@@ -88,7 +88,7 @@ class DataInfoCell_People: UICollectionViewCell {
     
     private let tblab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#E9522F"), TXT_1, .left)
+        lab.setCommentStyle(HCOLOR("#E9522F"), TXT_14, .left)
         lab.adjustsFontSizeToFitWidth = true
         lab.text = "99999"
         return lab

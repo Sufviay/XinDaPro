@@ -10,5 +10,6 @@
 #import "FSCalendar.h"
 #import "TKImageView.h"
 #import "DeviceID.h"
+#import <Bugly/Bugly.h>
 
 

@@ -23,6 +23,7 @@ class MoreAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITab
         case customer
         case promotion
         case tag
+        case fullGift
     }
     
     
@@ -193,6 +194,17 @@ class MoreAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate, UITab
             celltitleArr = ["Detail".local, "Stop".local]
         case .tag:
             celltitleArr = ["Edit".local, "Delete".local]
+        case .fullGift:
+            var statusStr = ""
+            if statusType == "1" {
+                //启用
+                statusStr = "Disable".local
+            }
+            if statusType == "2" {
+                //禁用
+                statusStr = "Enable".local
+            }
+            celltitleArr = ["Edit".local, statusStr, "Delete".local]
         }
 
         
@@ -330,7 +342,7 @@ class MoreAlertItemCell: BaseTableViewCell  {
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_5, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_12, .left)
         lab.text = "Edit"
         return lab
     }()

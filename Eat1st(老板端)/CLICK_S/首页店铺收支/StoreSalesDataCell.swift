@@ -77,16 +77,20 @@ class StoreSalesDataCell: BaseTableViewCell, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 15 || indexPath.section == 14 || indexPath.section == 12 || indexPath.section == 11 {
+            return 30
+        }
+        
         return 50
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 13 {
+        if section == 17 {
             if dataModel.unpaidOrderNum == 0 {
                 return 0
             }
         }
-        if section == 14 {
+        if section == 18 {
             if dataModel.vatNo == "" {
                 return  0
             }
@@ -119,7 +123,7 @@ class SaleContentCell: BaseTableViewCell {
     
     private let l_lab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TIT_14, .left)
         lab.text = "Sales"
         lab.adjustsFontSizeToFitWidth = true
         return lab
@@ -127,7 +131,7 @@ class SaleContentCell: BaseTableViewCell {
     
     private let m_lab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_1, .center)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_20, .center)
         lab.text = "Total"
         lab.adjustsFontSizeToFitWidth = true
         return lab
@@ -135,7 +139,7 @@ class SaleContentCell: BaseTableViewCell {
     
     private let r_lab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_1, .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_20, .right)
         lab.adjustsFontSizeToFitWidth = true
         lab.text = "Amount"
         return lab
@@ -183,22 +187,30 @@ class SaleContentCell: BaseTableViewCell {
         
         if l_str == "Type" {
             l_lab.textColor = TXTCOLOR_1
-            l_lab.font = TIT_4
+            l_lab.font = TIT_18
             
-            m_lab.font = TIT_4
+            m_lab.font = TIT_18
             
-            r_lab.font = TIT_4
+            r_lab.font = TIT_18
+        } else if l_str == "From shop" || l_str == "From user" {
+            l_lab.textColor = TXTCOLOR_2
+            l_lab.font = TIT_14
+            
+            m_lab.font = TIT_14
+            
+            r_lab.font = TIT_14
+            
         } else {
             l_lab.textColor = TXTCOLOR_2
-            l_lab.font = TIT_2
+            l_lab.font = TIT_16
             
-            m_lab.font = TIT_2
+            m_lab.font = TIT_16
             
-            r_lab.font = TIT_2
+            r_lab.font = TIT_16
         }
         
         
-        if l_str == "Type" || l_str == "Revenue" || l_str == "Top up(R)" || l_str == "Cash On Hand" || l_str == "VAT" || l_str == "Dine-in" || l_str == "Unpaid" {
+        if l_str == "Type" || l_str == "Revenue" || l_str == "Top up(R)" || l_str == "Cash On Hand" || l_str == "VAT" || l_str == "Dine-in" || l_str == "Unpaid" || l_str == "From shop" {
             line.isHidden = false
         } else {
             line.isHidden = true

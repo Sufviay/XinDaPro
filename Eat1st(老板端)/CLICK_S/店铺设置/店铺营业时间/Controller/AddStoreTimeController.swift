@@ -132,7 +132,7 @@ class AddStoreTimeController: HeadBaseViewController, UITableViewDelegate, UITab
     
     private let cancelBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Cancel".local, MAINCOLOR, TIT_2, .clear)
+        but.setCommentStyle(.zero, "Cancel".local, MAINCOLOR, TIT_16, .clear)
         but.clipsToBounds = true
         but.layer.cornerRadius = 14
         but.layer.borderWidth = 2
@@ -142,7 +142,7 @@ class AddStoreTimeController: HeadBaseViewController, UITableViewDelegate, UITab
     
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_16, MAINCOLOR)
         but.clipsToBounds = true
         but.layer.cornerRadius = 14
         return but

@@ -12,7 +12,7 @@ class DishDetailMsgCell: BaseTableViewCell {
 
     private let titleLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Menu numbering"
         lab.adjustsFontSizeToFitWidth = true
         return lab
@@ -20,7 +20,7 @@ class DishDetailMsgCell: BaseTableViewCell {
     
     private let msgLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.text = "111"
         lab.numberOfLines = 0
         return lab
@@ -71,7 +71,7 @@ class DishDetailPriceCell: BaseTableViewCell {
 
     private let titleLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Price"
         return lab
     }()
@@ -79,7 +79,7 @@ class DishDetailPriceCell: BaseTableViewCell {
     private let disPriceLab: UILabel = {
         let lab = UILabel()
         //666666
-        lab.setCommentStyle(HCOLOR("#6B7DFD"), TIT_3, .left)
+        lab.setCommentStyle(HCOLOR("#6B7DFD"), TIT_14, .left)
         lab.text = "111"
         lab.numberOfLines = 0
         return lab
@@ -88,7 +88,7 @@ class DishDetailPriceCell: BaseTableViewCell {
     
     private let oldPriceLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_3, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_3, TXT_14, .left)
         lab.text = "111"
         lab.numberOfLines = 0
         return lab

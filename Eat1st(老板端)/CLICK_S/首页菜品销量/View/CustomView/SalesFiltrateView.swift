@@ -68,7 +68,7 @@ class SalesFiltrateView: UIView {
     
     private let typeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .center)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .center)
         lab.text = ""
         return lab
     }()
@@ -94,7 +94,7 @@ class SalesFiltrateView: UIView {
     
     private let timeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .center)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .center)
         lab.adjustsFontSizeToFitWidth = true
         lab.text = ""
         return lab

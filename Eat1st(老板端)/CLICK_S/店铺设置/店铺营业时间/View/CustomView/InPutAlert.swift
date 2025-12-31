@@ -25,19 +25,19 @@ class InPutAlert: BaseAlertView, UIGestureRecognizerDelegate, UITextFieldDelegat
     
     private let cancelBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Cancel".local, TXTCOLOR_1, TXT_1, .clear)
+        but.setCommentStyle(.zero, "Cancel".local, TXTCOLOR_1, TXT_14, .clear)
         return but
     }()
     
     private let confirmBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Confirm".local, TXTCOLOR_1, TXT_1, .clear)
+        but.setCommentStyle(.zero, "Confirm".local, TXTCOLOR_1, TXT_14, .clear)
         return but
     }()
     
     private let tlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .center)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .center)
         lab.text = "Set time".local
         return lab
     }()

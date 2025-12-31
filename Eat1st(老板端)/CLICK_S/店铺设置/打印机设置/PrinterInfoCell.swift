@@ -33,7 +33,7 @@ class PrinterInfoCell: BaseTableViewCell {
     
     private let nameLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.lineBreakMode = .byTruncatingTail
         lab.text = "name"
         return lab
@@ -42,7 +42,7 @@ class PrinterInfoCell: BaseTableViewCell {
     ///打印機類型
     private let printerTypeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.text = "Printer type: Thermal printer"
         lab.lineBreakMode = .byTruncatingTail
         return lab
@@ -51,7 +51,7 @@ class PrinterInfoCell: BaseTableViewCell {
     ///打印機iP
     private let ipLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.text = "IP:192.168.1.1"
         lab.lineBreakMode = .byTruncatingTail
         return lab
@@ -70,7 +70,7 @@ class PrinterInfoCell: BaseTableViewCell {
     ///打印語言
     private let printLanguageLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.text = "Print language: Chinese"
         lab.lineBreakMode = .byTruncatingTail
         return lab
@@ -81,7 +81,7 @@ class PrinterInfoCell: BaseTableViewCell {
     ///打印份兒數
     private let copiesLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.text = "Print copies: 1"
         lab.lineBreakMode = .byTruncatingTail
         return lab
@@ -91,7 +91,7 @@ class PrinterInfoCell: BaseTableViewCell {
     ///打印類型
     private let printTypeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.text = "Print separately: YES"
         //"Needle printer"
         lab.lineBreakMode = .byTruncatingTail
@@ -101,7 +101,7 @@ class PrinterInfoCell: BaseTableViewCell {
     //是否點心
     private let printDXLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.text = "Print dessert: YES"
         //"Needle printer"
         lab.lineBreakMode = .byTruncatingTail
@@ -111,7 +111,7 @@ class PrinterInfoCell: BaseTableViewCell {
     //是否點心
     private let printSouceLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.text = "Print souce: JustEat"
         //"Needle printer"
         lab.lineBreakMode = .byTruncatingTail
@@ -121,7 +121,7 @@ class PrinterInfoCell: BaseTableViewCell {
     ///打印機狀態
     private let statusLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#2AD389"), TIT_3, .left)
+        lab.setCommentStyle(HCOLOR("#2AD389"), TIT_14, .left)
         lab.text = "On"
         return lab
     }()

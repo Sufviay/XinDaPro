@@ -19,7 +19,7 @@ class CustomerInfoCell: BaseTableViewCell {
 
     private let nameLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.lineBreakMode = .byTruncatingTail
         lab.text = "Ms zhang"
         return lab
@@ -34,21 +34,21 @@ class CustomerInfoCell: BaseTableViewCell {
     
     private let tlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.text = "Phone Number".local + ":"
         return lab
     }()
 
     private let tlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.text = "Email".local + ":"
         return lab
     }()
     
     private let tlab3: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.text = "Latest Order Date".local + ":"
         return lab
     }()
@@ -56,7 +56,7 @@ class CustomerInfoCell: BaseTableViewCell {
     
     private let phoneLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.lineBreakMode = .byTruncatingTail
         lab.text = "13940159903"
         return lab
@@ -64,7 +64,7 @@ class CustomerInfoCell: BaseTableViewCell {
     
     private let emailLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.lineBreakMode = .byTruncatingTail
         lab.text = "939310308@qq.com"
         return lab
@@ -72,7 +72,7 @@ class CustomerInfoCell: BaseTableViewCell {
 
     private let dateLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.lineBreakMode = .byTruncatingTail
         lab.text = "2025-06-01"
         return lab
@@ -120,7 +120,7 @@ class CustomerInfoCell: BaseTableViewCell {
         tlab1.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
             $0.top.equalTo(nameLab.snp.bottom).offset(15)
-            let w = ("Phone Number".local + ":").getTextWidth(TXT_1, 15)
+            let w = ("Phone Number".local + ":").getTextWidth(TXT_14, 15)
             $0.width.equalTo(w + 5)
         }
         
@@ -128,7 +128,7 @@ class CustomerInfoCell: BaseTableViewCell {
         tlab2.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
             $0.top.equalTo(tlab1.snp.bottom).offset(10)
-            let w = ("Email".local + ":").getTextWidth(TXT_1, 15)
+            let w = ("Email".local + ":").getTextWidth(TXT_14, 15)
             $0.width.equalTo(w + 5)
         }
         
@@ -136,7 +136,7 @@ class CustomerInfoCell: BaseTableViewCell {
         tlab3.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
             $0.top.equalTo(tlab2.snp.bottom).offset(10)
-            let w = ("Latest Order Date".local + ":").getTextWidth(TXT_1, 15)
+            let w = ("Latest Order Date".local + ":").getTextWidth(TXT_14, 15)
             $0.width.equalTo(w + 5)
         }
         

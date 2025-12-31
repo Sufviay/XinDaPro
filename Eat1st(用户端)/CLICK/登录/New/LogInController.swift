@@ -828,6 +828,8 @@ extension LogInController {
             }       
         }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
+        }, onCompleted: { [unowned self] in
+            HUD_MB.dissmiss(onView: view)
         }).disposed(by: bag)
         
     }
@@ -855,7 +857,9 @@ extension LogInController {
             
         }, onError: { [unowned self] (error) in
             HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
-        }).disposed(by: bag)
+        }, onCompleted: { [unowned self] in
+            HUD_MB.dissmiss(onView: view)
+        } ).disposed(by: bag)
     }
     
     

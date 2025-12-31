@@ -165,7 +165,7 @@ extension StoreRevenueController {
 //        }
         
         if indexPath.section == 2 {
-            return 50 * CGFloat(dataModel.numberLine) + 60
+            return 50 * CGFloat(dataModel.numberLine) + 60 + 120
         }
         
 //        if indexPath.section = 4 {

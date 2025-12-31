@@ -19,7 +19,7 @@ class CustomerHeaderView: UIView {
     
     private let nameLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Name".local
         return lab
     }()
@@ -28,14 +28,14 @@ class CustomerHeaderView: UIView {
     
     private let orderLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Orders".local
         return lab
     }()
     
     private let dateLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .right)
         lab.text = "Last Date".local
         lab.adjustsFontSizeToFitWidth = true
         return lab

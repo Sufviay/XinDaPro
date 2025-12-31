@@ -246,8 +246,7 @@ enum ApiManager {
     ///获取分类统计列表
     case getStatisClassifyList
     ///获取分类统计下菜的排名
-    case getStatisClassifyDishesList(id: String, type: String, start: String, end: String)
-    
+    case getStatisClassifyDishesList(id: String, type: String, timePeriod: String, start: String, end: String)
     ///获取打印机关联菜品
     case getPrinterDishesList(printerID: String)
     ///设置打印机菜品
@@ -275,9 +274,9 @@ enum ApiManager {
     ///修改密碼
     case changePassword(new: String, old: String, reNew: String)
     ///获取其他平台的菜品销量
-    case getOtherDishesSummary(page: Int, searchType: String, start: String, end: String, ptType: String)
+    case getOtherDishesSummary(page: Int, searchType: String, start: String, end: String, ptType: String, timePeriod: String)
     ///获取其他平台订单数据
-    case getOtherOrderSummary(searchType: String, start: String, end: String, ptType: String)
+    case getOtherOrderSummary(searchType: String, start: String, end: String, ptType: String, timePeriod: String)
     ///获取店铺信息
     case getStoreInfo
     ///设置店铺起送金额
@@ -308,9 +307,16 @@ enum ApiManager {
     case deleteCustomerTag(id: String)
     ///用戶綁定標籤
     case userLinkTags(userID: String, tagList: [String])
-    
-
-        
+    ///獲取滿增列表 1启用，2禁用
+    case getFullGiftList(name: String, price: String, status: String, page: String)
+    ///改變滿增狀態
+    case changeFullGiftStatus(id: String, status: String)
+    ///刪除滿增
+    case deleteFullGift(id: String)
+    ///添加滿增
+    case addFullGift(name: String, price: String, dishList: [Int64], status: String)
+    ///編輯滿增
+    case editFullGift(id: String, name: String, price: String, dishList: [Int64], status: String)
 }
 
 extension ApiManager: TargetType {
@@ -554,7 +560,7 @@ extension ApiManager: TargetType {
             return "api/boss/report/getSales"
         case .getStatisClassifyList:
             return "api/boss/dishes/classify/statis/getClassifyList"
-        case .getStatisClassifyDishesList(id: _, type: _, start: _, end: _):
+        case .getStatisClassifyDishesList(id: _, type: _, timePeriod: _, start: _, end: _):
             return "api/boss/dishes/classify/statis/getDishesSalesList"
         case .setPrinterLinkDishes(printerID: _, dishesArr: _):
             return "api/boss/printer/dishes/doLink"
@@ -582,9 +588,9 @@ extension ApiManager: TargetType {
             return "api/boss/order/getAllOrderList"
         case .changePassword(new: _, old: _, reNew: _):
             return "api/boss/changePassword"
-        case .getOtherDishesSummary(page: _, searchType: _, start: _, end: _, ptType: _):
+        case .getOtherDishesSummary(page: _, searchType: _, start: _, end: _, ptType: _, timePeriod: _):
             return "api/boss/report/getOtherDishesSummary"
-        case .getOtherOrderSummary(searchType: _, start: _, end: _, ptType: _):
+        case .getOtherOrderSummary(searchType: _, start: _, end: _, ptType: _, timePeriod: _):
             return "api/boss/report/getOtherOrderSummary"
         case .getStoreInfo:
             return "api/boss/store/getStoreInfo"
@@ -616,6 +622,16 @@ extension ApiManager: TargetType {
             return "api/boss/user/tag/doDelete"
         case .userLinkTags(userID: _, tagList: _):
             return "api/boss/user/tag/doUserTag"
+        case .getFullGiftList(name: _, price: _, status: _, page: _):
+            return "api/boss/orderFullGift/getList"
+        case .changeFullGiftStatus(id: _, status: _):
+            return "api/boss/orderFullGift/doStatus"
+        case .deleteFullGift(id: _):
+            return "api/boss/orderFullGift/doDelete"
+        case .addFullGift(name: _, price: _, dishList: _, status: _):
+            return "api/boss/orderFullGift/doAdd"
+        case .editFullGift(id: _, name: _, price: _, dishList: _, status: _):
+            return "api/boss/orderFullGift/doUpdate"
             
         }
     }
@@ -881,8 +897,8 @@ extension ApiManager: TargetType {
             dic = ["deliveryType": deliveryType, "queryType": queryType]
         case .getStatisClassifyList:
             dic = [:]
-        case .getStatisClassifyDishesList(let id, let type, let start, let end):
-            dic = ["classifyId": id, "searchType": type, "day": start, "end": end]
+        case .getStatisClassifyDishesList(let id, let type, let timePeriod, let start, let end):
+            dic = ["classifyId": id, "searchType": type, "timePeriod": timePeriod, "day": start, "end": end]
         case .setPrinterLinkDishes(let printerID, let dishesArr):
             dic = ["printerId": printerID, "dishesList": dishesArr]
         case .getPrinterDishesList(let printerID):
@@ -909,10 +925,10 @@ extension ApiManager: TargetType {
             dic = ["startDate": start, "endDate": end, "source": source, "userId": userID, "pageIndex": page, "payType": payType, "timePeriod": timePeriod, "status": status]
         case .changePassword(let new, let old, let reNew):
             dic = ["newPassword": new, "oldPassword": old, "verifyPassword": reNew]
-        case .getOtherDishesSummary(let page, let searchType, let start, let end, let ptType):
-            dic = ["pageIndex": page, "searchSource": ptType, "searchType": searchType, "day": start, "end": end]
-        case .getOtherOrderSummary(let searchType, let start, let end, let ptType):
-            dic = ["searchSource": ptType, "searchType": searchType, "day": start, "end": end]
+        case .getOtherDishesSummary(let page, let searchType, let start, let end, let ptType, let timePeriod):
+            dic = ["pageIndex": page, "searchSource": ptType, "searchType": searchType, "day": start, "end": end, "timePeriod": timePeriod]
+        case .getOtherOrderSummary(let searchType, let start, let end, let ptType, let timePeriod):
+            dic = ["searchSource": ptType, "searchType": searchType, "day": start, "end": end, "timePeriod": timePeriod]
         case .getStoreInfo:
             dic = [:]
         case .setStoreMineOrderPrice(let price):
@@ -943,7 +959,18 @@ extension ApiManager: TargetType {
             dic = ["tagId": id]
         case .userLinkTags(let userID, let tagList):
             dic = ["userId": userID, "tagIdList": tagList]
+        case .getFullGiftList(let name, let price, let status, let page):
+            dic = ["pageIndex": page, "name": name, "price": price, "status": status]
+        case .changeFullGiftStatus(let id, let status):
+            dic = ["giftId": id, "status": status]
+        case .deleteFullGift(let id):
+            dic = ["giftId": id]
+        case .addFullGift(let name, let price, let dishList, let status):
+            dic = ["nameCn": name, "nameEn": name, "nameHk": name, "price": price, "dishesIdList": dishList, "status": status]
+        case .editFullGift(let id, let name, let price , let dishList, let status):
+            dic = ["nameCn": name, "nameEn": name, "nameHk": name, "price": price, "dishesIdList": dishList, "status": status, "giftId": id]
         }
+        
         
         
         print("参数：\(dic)")

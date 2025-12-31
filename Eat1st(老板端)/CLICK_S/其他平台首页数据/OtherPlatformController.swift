@@ -73,6 +73,50 @@ class OtherPlatformController: UIViewController {
         
         return view
     }()
+    
+    
+    private let typeBut: UIButton = {
+        let but = UIButton()
+        but.backgroundColor = BACKCOLOR_3
+        but.clipsToBounds = true
+        but.layer.cornerRadius = 5
+        return but
+    }()
+
+    
+    private let xlImg1: UIImageView = {
+        let img = UIImageView()
+        img.image = LOIMG("xl_b")
+        return img
+    }()
+
+    
+    private let typeLab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
+        lab.text = "All".local
+        lab.adjustsFontSizeToFitWidth = true
+        return lab
+    }()
+    
+    
+    private lazy var typeAlert: SelectTypeAlert = {
+        let view = SelectTypeAlert()
+        view.alertType = .mealTime
+        view.selectBlock = { [unowned self] (par) in
+            dishVC.timePeriod = (par as! TypeModel).id
+            orderVC.timePeriod = (par as! TypeModel).id
+            typeLab.text = (par as! TypeModel).name
+            
+            let notification = Notification(name: NSNotification.Name("TimeChange"), object: nil)
+            NotificationCenter.default.post(notification)
+
+        }
+        
+        return view
+    }()
+    
+
 
     
     //配置滑动视图
@@ -94,7 +138,7 @@ class OtherPlatformController: UIViewController {
 //        //被选中时标题的字体颜色
         layout.titleSelectColor = MAINCOLOR
 //        //设置标题的字体大小
-        layout.titleFont = TIT_3
+        layout.titleFont = TIT_14
         //设置选中时放大的倍数
         layout.scale = 1
 //        //设置未被选中时的字体颜色
@@ -121,9 +165,35 @@ class OtherPlatformController: UIViewController {
         filtrateView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(20)
             $0.left.equalToSuperview().offset(20)
-            $0.right.equalToSuperview().offset(-20)
+            $0.right.equalToSuperview().offset(-110)
             $0.height.equalTo(40)
         }
+        
+        view.addSubview(typeBut)
+        typeBut.snp.makeConstraints {
+            $0.top.height.equalTo(filtrateView)
+            $0.left.equalTo(filtrateView.snp.right).offset(10)
+            $0.right.equalToSuperview().offset(-20)
+        }
+        
+        
+        typeBut.addSubview(xlImg1)
+        xlImg1.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.right.equalToSuperview().offset(-5)
+        }
+        
+        typeBut.addSubview(typeLab)
+        typeLab.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalToSuperview().offset(10)
+            $0.right.equalToSuperview().offset(-15)
+
+        }
+
+        
+        typeBut.addTarget(self, action: #selector(clickClassifyAction), for: .touchUpInside)
+        
         
         
 //        let orderVC = OtherPlatformOrdersController()
@@ -141,6 +211,12 @@ class OtherPlatformController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
+    
+    
+    @objc private func clickClassifyAction() {
+        typeAlert.appearAction()
+    }
+
     
 
     /*

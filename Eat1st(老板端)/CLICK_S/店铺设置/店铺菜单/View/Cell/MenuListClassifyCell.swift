@@ -24,14 +24,14 @@ class MenuListClassifyCell: BaseTableViewCell {
     
     private let nameLab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.numberOfLines = 0
         return lab
     }()
     
     private let nameLab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.numberOfLines = 0
         return lab
     }()
@@ -39,7 +39,7 @@ class MenuListClassifyCell: BaseTableViewCell {
 
     private let countLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#6B7DFD"), TIT_6, .left)
+        lab.setCommentStyle(HCOLOR("#6B7DFD"), TIT_10, .left)
         lab.text = "23 items"
         return lab
     }()

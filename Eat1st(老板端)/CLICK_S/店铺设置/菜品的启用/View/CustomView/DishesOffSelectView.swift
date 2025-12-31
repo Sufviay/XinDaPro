@@ -35,7 +35,7 @@ class DishesOffSelectView: UIView, UIGestureRecognizerDelegate, UITableViewDeleg
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_18, .left)
         lab.text = "Option".local
         return lab
     }()
@@ -51,7 +51,7 @@ class DishesOffSelectView: UIView, UIGestureRecognizerDelegate, UITableViewDeleg
     
     private let confirmBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Confirm".local, .white, TIT_2, MAINCOLOR)
+        but.setCommentStyle(.zero, "Confirm".local, .white, TIT_16, MAINCOLOR)
         but.layer.cornerRadius = 15
         return but
     }()
@@ -258,7 +258,7 @@ class OffOptionCell: BaseTableViewCell {
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         return lab
     }()
     

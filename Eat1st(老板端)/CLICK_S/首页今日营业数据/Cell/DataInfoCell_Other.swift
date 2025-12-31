@@ -19,7 +19,7 @@ class DataInfoCell_Other: UICollectionViewCell {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "未结账收入"
         lab.adjustsFontSizeToFitWidth = true
         return lab
@@ -42,7 +42,7 @@ class DataInfoCell_Other: UICollectionViewCell {
     
 //    private let tlab: UILabel = {
 //        let lab = UILabel()
-//        lab.setCommentStyle(HCOLOR("#AAAAAA"), TXT_1, .left)
+//        lab.setCommentStyle(HCOLOR("#AAAAAA"), TXT_14, .left)
 //        lab.text = "上周二"
 //        lab.isHidden = true
 //        return lab
@@ -50,7 +50,7 @@ class DataInfoCell_Other: UICollectionViewCell {
     
     private let tblab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#E9522F"), TXT_1, .left)
+        lab.setCommentStyle(HCOLOR("#E9522F"), TXT_14, .left)
         lab.adjustsFontSizeToFitWidth = true
         lab.text = "99999"
         lab.isHidden = true

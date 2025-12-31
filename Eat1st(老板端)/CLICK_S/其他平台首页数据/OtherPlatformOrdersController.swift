@@ -20,6 +20,10 @@ class OtherPlatformOrdersController: UIViewController, UITableViewDelegate, UITa
     
     private var page: Int = 1
     
+    //1早餐 2午餐 3晚餐 “”全部
+    var timePeriod: String = ""
+
+    
 //    private var dateType: String = "3"
     
     //默認當前月
@@ -112,7 +116,7 @@ class OtherPlatformOrdersController: UIViewController, UITableViewDelegate, UITa
         if !isLoading {
             HUD_MB.loading("", onView: view)
         }
-        HTTPTOOl.getAllOrderList(start: startDate, end: endDate, source: platformType, userID: "", payType: "", status: "", timePeriod: "", page: 1).subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.getAllOrderList(start: startDate, end: endDate, source: platformType, userID: "", payType: "", status: "", timePeriod: timePeriod, page: 1).subscribe(onNext: { [unowned self] (json) in
             HUD_MB.dissmiss(onView: view)
             page = 2
             
@@ -142,7 +146,7 @@ class OtherPlatformOrdersController: UIViewController, UITableViewDelegate, UITa
     
     
     private func loadDataMore_Net() {
-        HTTPTOOl.getAllOrderList(start: startDate, end: endDate, source: platformType, userID: "", payType: "", status: "", timePeriod: "", page: page).subscribe(onNext: { [unowned self] (json) in
+        HTTPTOOl.getAllOrderList(start: startDate, end: endDate, source: platformType, userID: "", payType: "", status: "", timePeriod: timePeriod, page: page).subscribe(onNext: { [unowned self] (json) in
             
             if json["data"]["list"].arrayValue.count == 0 {
                 table.mj_footer?.endRefreshingWithNoMoreData()

@@ -258,7 +258,7 @@ class DishModel: NSObject {
 
         }
         
-        self.dish_H = self.name1.getTextHeigh(TXT_1, S_W - 170) + self.name2.getTextHeigh(TXT_2, S_W - 170) + 25
+        self.dish_H = self.name1.getTextHeigh(TXT_14, S_W - 170) + self.name2.getTextHeigh(TXT_12, S_W - 170) + 25
         self.cell_H = self.dish_H
     }
     

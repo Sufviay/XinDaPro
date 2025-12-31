@@ -19,6 +19,8 @@ target 'CLICK_S' do
   pod 'SDWebImage'
   
   pod 'Firebase/Messaging'
+  pod 'Bugly'
+
   
   
 #  #谷歌地图

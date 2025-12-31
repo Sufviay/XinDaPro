@@ -208,6 +208,11 @@
 		E386AABF2E0D872E00A6D634 /* EditHolidayAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E386AABE2E0D872E00A6D634 /* EditHolidayAlert.swift */; };
 		E386AAC12E0D8D1300A6D634 /* EditSelectDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E386AAC02E0D8D1300A6D634 /* EditSelectDateCell.swift */; };
 		E3902CF62EE41E4C00E6218E /* FirstPageOrderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3902CF52EE41E4C00E6218E /* FirstPageOrderController.swift */; };
+		E3902CFC2EF27A9800E6218E /* PromotionSettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3902CFB2EF27A9800E6218E /* PromotionSettingController.swift */; };
+		E3902D002EF27F1900E6218E /* FullGiftListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3902CFF2EF27F1900E6218E /* FullGiftListController.swift */; };
+		E3902D022EF27FA900E6218E /* FullGiftEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3902D012EF27FA900E6218E /* FullGiftEditController.swift */; };
+		E3902D042EF2856B00E6218E /* FullGiftInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3902D032EF2856B00E6218E /* FullGiftInfoCell.swift */; };
+		E3902D062EF2C70B00E6218E /* FullGiftModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3902D052EF2C70B00E6218E /* FullGiftModel.swift */; };
 		E398A28E277B0187002A1D24 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E398A28D277B0187002A1D24 /* GoogleService-Info.plist */; };
 		E39A1A1028605A9700FF29A6 /* AddClassifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39A1A0F28605A9700FF29A6 /* AddClassifyView.swift */; };
 		E39B5EB927C0CE7900276432 /* InPutAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39B5EB827C0CE7900276432 /* InPutAlert.swift */; };
@@ -571,6 +576,11 @@
 		E386AABE2E0D872E00A6D634 /* EditHolidayAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHolidayAlert.swift; sourceTree = "<group>"; };
 		E386AAC02E0D8D1300A6D634 /* EditSelectDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSelectDateCell.swift; sourceTree = "<group>"; };
 		E3902CF52EE41E4C00E6218E /* FirstPageOrderController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstPageOrderController.swift; sourceTree = "<group>"; };
+		E3902CFB2EF27A9800E6218E /* PromotionSettingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionSettingController.swift; sourceTree = "<group>"; };
+		E3902CFF2EF27F1900E6218E /* FullGiftListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullGiftListController.swift; sourceTree = "<group>"; };
+		E3902D012EF27FA900E6218E /* FullGiftEditController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullGiftEditController.swift; sourceTree = "<group>"; };
+		E3902D032EF2856B00E6218E /* FullGiftInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullGiftInfoCell.swift; sourceTree = "<group>"; };
+		E3902D052EF2C70B00E6218E /* FullGiftModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullGiftModel.swift; sourceTree = "<group>"; };
 		E398A28D277B0187002A1D24 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E39A1A0F28605A9700FF29A6 /* AddClassifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClassifyView.swift; sourceTree = "<group>"; };
 		E39B5EB827C0CE7900276432 /* InPutAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InPutAlert.swift; sourceTree = "<group>"; };
@@ -1085,22 +1095,9 @@
 		E3096E6F2E7ABD7300B3917E /* 促銷管理 */ = {
 			isa = PBXGroup;
 			children = (
-				E3096E722E7ABEAF00B3917E /* PromotionListController.swift */,
-				E39B677F2E7EA04A0041328D /* PromotionHistoryListController.swift */,
-				E3096E7E2E7C4C9400B3917E /* PromotionEditController.swift */,
-				E39B67812E7EAD140041328D /* PromotionDetailController.swift */,
-				E39B67832E7EE4D20041328D /* PromotionDetailDishCell.swift */,
-				E3096E802E7C599600B3917E /* EditBFBInPutCell.swift */,
-				E3096E7C2E7C0DDC00B3917E /* PromotionInfoCell.swift */,
-				E39B677B2E7E578A0041328D /* PromotionStatusCell.swift */,
-				E39B677D2E7E76760041328D /* PromotionMessageCell.swift */,
-				E39B67712E7CECB30041328D /* TitleAndButtonCell.swift */,
-				E39B67732E7CF2830041328D /* DishesAndDeleteCell.swift */,
-				E39B67752E7CF8590041328D /* StartAndEndDateCell.swift */,
-				E39B67962E8546310041328D /* SelectTagCell.swift */,
-				E39B67792E7D8FB30041328D /* SelectWeekAlert.swift */,
-				E39B67772E7D24760041328D /* CouponModel.swift */,
-				E39B679A2E8587600041328D /* SelectFiveButCell.swift */,
+				E3902CFB2EF27A9800E6218E /* PromotionSettingController.swift */,
+				E3902CFE2EF27EDC00E6218E /* 滿增管理 */,
+				E3902CFD2EF27EC700E6218E /* 優惠券管理 */,
 			);
 			path = "促銷管理";
 			sourceTree = "<group>";
@@ -1827,6 +1824,40 @@
 			path = "首页订单列表";
 			sourceTree = "<group>";
 		};
+		E3902CFD2EF27EC700E6218E /* 優惠券管理 */ = {
+			isa = PBXGroup;
+			children = (
+				E3096E722E7ABEAF00B3917E /* PromotionListController.swift */,
+				E39B677F2E7EA04A0041328D /* PromotionHistoryListController.swift */,
+				E3096E7E2E7C4C9400B3917E /* PromotionEditController.swift */,
+				E39B67812E7EAD140041328D /* PromotionDetailController.swift */,
+				E39B67832E7EE4D20041328D /* PromotionDetailDishCell.swift */,
+				E3096E802E7C599600B3917E /* EditBFBInPutCell.swift */,
+				E3096E7C2E7C0DDC00B3917E /* PromotionInfoCell.swift */,
+				E39B677B2E7E578A0041328D /* PromotionStatusCell.swift */,
+				E39B677D2E7E76760041328D /* PromotionMessageCell.swift */,
+				E39B67712E7CECB30041328D /* TitleAndButtonCell.swift */,
+				E39B67732E7CF2830041328D /* DishesAndDeleteCell.swift */,
+				E39B67752E7CF8590041328D /* StartAndEndDateCell.swift */,
+				E39B67962E8546310041328D /* SelectTagCell.swift */,
+				E39B67792E7D8FB30041328D /* SelectWeekAlert.swift */,
+				E39B67772E7D24760041328D /* CouponModel.swift */,
+				E39B679A2E8587600041328D /* SelectFiveButCell.swift */,
+			);
+			path = "優惠券管理";
+			sourceTree = "<group>";
+		};
+		E3902CFE2EF27EDC00E6218E /* 滿增管理 */ = {
+			isa = PBXGroup;
+			children = (
+				E3902CFF2EF27F1900E6218E /* FullGiftListController.swift */,
+				E3902D012EF27FA900E6218E /* FullGiftEditController.swift */,
+				E3902D032EF2856B00E6218E /* FullGiftInfoCell.swift */,
+				E3902D052EF2C70B00E6218E /* FullGiftModel.swift */,
+			);
+			path = "滿增管理";
+			sourceTree = "<group>";
+		};
 		E39B67872E8284C10041328D /* 客户标签设置 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2153,6 +2184,7 @@
 				E3F82A0828657F6D005E5FAB /* DishEditeImageCell.swift in Sources */,
 				E34E6E3D2A8F52DE00DBC2A5 /* ReviewsCell.swift in Sources */,
 				E3F82A0428655824005E5FAB /* DishEditeClassifyCell.swift in Sources */,
+				E3902D022EF27FA900E6218E /* FullGiftEditController.swift in Sources */,
 				E34E6E2D2A8DFF9C00DBC2A5 /* ComplaintsReplyCell.swift in Sources */,
 				E34FCBD92D5C75380067FCB6 /* EditVIPView.swift in Sources */,
 				E316888E29F3D1DE00318307 /* AddOpeningHoursModel.swift in Sources */,
@@ -2180,6 +2212,7 @@
 				E3F82A2D28741E7D005E5FAB /* VersionAlert.swift in Sources */,
 				E34FCBD12D5445860067FCB6 /* PrinterLinkController.swift in Sources */,
 				E36F81B42E5CA6D000DA9524 /* FontAlert.swift in Sources */,
+				E3902D062EF2C70B00E6218E /* FullGiftModel.swift in Sources */,
 				E39B67842E7EE4D20041328D /* PromotionDetailDishCell.swift in Sources */,
 				E364A85B2AA1847F00190DC9 /* TableModel.swift in Sources */,
 				E352689A2C630E9C007A847F /* StoreAmountChartCell.swift in Sources */,
@@ -2354,6 +2387,7 @@
 				E3B9B6792CF02AB900AEF22C /* BookingTimeModel.swift in Sources */,
 				E34E6E0D2A87609200DBC2A5 /* OrderDetailController.swift in Sources */,
 				E31582E82CEEC868009D532B /* StoreBookingController.swift in Sources */,
+				E3902D002EF27F1900E6218E /* FullGiftListController.swift in Sources */,
 				E3B1CFB52852E7E40044D69F /* DishesItemCell.swift in Sources */,
 				E305E8BA26DF133000AAB580 /* BaseTableViewCell.swift in Sources */,
 				E3096E712E7ABDD700B3917E /* CustomerListController.swift in Sources */,
@@ -2397,6 +2431,7 @@
 				E39A1A1028605A9700FF29A6 /* AddClassifyView.swift in Sources */,
 				E364A8502AA0818000190DC9 /* OrderDetailModel.swift in Sources */,
 				E3F829EA2864052F005E5FAB /* DishDetailMsgCell.swift in Sources */,
+				E3902CFC2EF27A9800E6218E /* PromotionSettingController.swift in Sources */,
 				E3F82A0A286597FB005E5FAB /* DishSelectTagsView.swift in Sources */,
 				E36F81AF2E5C984C00DA9524 /* OtherPlatformDishModel.swift in Sources */,
 				E36F81A62E5B674400DA9524 /* ChangFirstPageShowController.swift in Sources */,
@@ -2449,6 +2484,7 @@
 				E326C4522D36733D00CBC07D /* SelectFourButCell.swift in Sources */,
 				E39B67912E84E1310041328D /* CustomerHeaderView.swift in Sources */,
 				E34E6E212A8C688700DBC2A5 /* ComplaintsController.swift in Sources */,
+				E3902D042EF2856B00E6218E /* FullGiftInfoCell.swift in Sources */,
 				E3DE48BA27731CDD00F3DCCD /* SalesFiltrateView.swift in Sources */,
 				E31C2C742A2081C3007B6DC2 /* MenuDishComboEditeController.swift in Sources */,
 				E39B5EB927C0CE7900276432 /* InPutAlert.swift in Sources */,
@@ -2655,7 +2691,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.76;
+				MARKETING_VERSION = 1.0.80;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app-Boss";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2689,7 +2725,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.76;
+				MARKETING_VERSION = 1.0.80;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app-Boss";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = boss_dis;

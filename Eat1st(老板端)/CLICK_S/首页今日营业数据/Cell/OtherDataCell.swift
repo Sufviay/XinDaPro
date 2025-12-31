@@ -43,7 +43,7 @@ class OtherDataCell: BaseTableViewCell, UICollectionViewDataSource, UICollection
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Takeaway".local
         return lab
     }()

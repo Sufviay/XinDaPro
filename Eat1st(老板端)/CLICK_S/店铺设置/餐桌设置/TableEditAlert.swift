@@ -36,7 +36,7 @@ class TableEditAlert: UIView, UIGestureRecognizerDelegate {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_18, .left)
         lab.text = "Dine-in table management".local
         return lab
     }()
@@ -52,7 +52,7 @@ class TableEditAlert: UIView, UIGestureRecognizerDelegate {
     
     private let tLab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Table name".local
         return lab
     }()
@@ -75,14 +75,14 @@ class TableEditAlert: UIView, UIGestureRecognizerDelegate {
     private let nameTF: UITextField = {
         let tf = UITextField()
         tf.textColor = TXTCOLOR_1
-        tf.font = TXT_1
+        tf.font = TXT_14
         return tf
     }()
     
     
     private let tLab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Number of table seats".local
         return lab
     }()
@@ -99,7 +99,7 @@ class TableEditAlert: UIView, UIGestureRecognizerDelegate {
     private let numTF: UITextField = {
         let tf = UITextField()
         tf.textColor = TXTCOLOR_1
-        tf.font = TXT_1
+        tf.font = TXT_14
         tf.placeholder = ""
         tf.keyboardType = .numberPad
         return tf
@@ -108,7 +108,7 @@ class TableEditAlert: UIView, UIGestureRecognizerDelegate {
     
     private let confirmBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_16, MAINCOLOR)
         but.layer.cornerRadius = 15
         return but
     }()

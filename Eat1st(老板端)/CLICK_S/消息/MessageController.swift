@@ -65,7 +65,7 @@ class MessageController: HeadBaseViewController, UITableViewDelegate, UITableVie
     
     private let typeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "All".local
         return lab
     }()

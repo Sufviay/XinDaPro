@@ -49,7 +49,7 @@ class FirstSideToolView: UIView, UIGestureRecognizerDelegate, UITableViewDelegat
     
     let nameLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.white, TIT_3, .left)
+        lab.setCommentStyle(.white, TIT_14, .left)
         lab.lineBreakMode = .byTruncatingTail
         lab.text = "\(UserDefaults.standard.userName ?? "")"
         return lab
@@ -57,7 +57,7 @@ class FirstSideToolView: UIView, UIGestureRecognizerDelegate, UITableViewDelegat
 
     private let addressLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.white, TIT_5, .left)
+        lab.setCommentStyle(.white, TIT_12, .left)
         lab.lineBreakMode = .byTruncatingTail
         lab.text = UserDefaults.standard.accountNum
         //lab.numberOfLines = 2
@@ -295,7 +295,7 @@ extension FirstSideToolView {
         }
         if indexPath.section == 5 {
             //促銷管理
-            let proVC = PromotionListController()
+            let proVC = PromotionSettingController()
             PJCUtil.currentVC()?.navigationController?.pushViewController(proVC, animated: true)
         }
 
@@ -363,7 +363,7 @@ class SideOptionCell: BaseTableViewCell {
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), TIT_3, .left)
+        lab.setCommentStyle(HCOLOR("#465DFD"), TIT_14, .left)
         return lab
     }()
     
@@ -433,7 +433,7 @@ class logOutCell: BaseTableViewCell {
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), TIT_3, .left)
+        lab.setCommentStyle(HCOLOR("#465DFD"), TIT_14, .left)
         lab.text = "Logout".local
         return lab
     }()

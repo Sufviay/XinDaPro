@@ -167,7 +167,7 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
         but.clipsToBounds = true
         but.layer.cornerRadius = 10
         but.setImage(LOIMG("dis_add"), for: .normal)
-        but.setCommentStyle(.zero, "Add Dishes".local, MAINCOLOR, TIT_2, BACKCOLOR_3)
+        but.setCommentStyle(.zero, "Add Dishes".local, MAINCOLOR, TIT_16, BACKCOLOR_3)
         but.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         return but
     }()
@@ -294,8 +294,8 @@ class MenuDishListController: HeadBaseViewController, UITableViewDelegate, UITab
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let model = dishArr[indexPath.row]
         
-        let h1 = model.name1.getTextHeigh(TIT_3, S_W - 220)
-        let h2 = model.name2.getTextHeigh(TXT_1, S_W - 220)
+        let h1 = model.name1.getTextHeigh(TIT_14, S_W - 220)
+        let h2 = model.name2.getTextHeigh(TXT_14, S_W - 220)
         
         return 15 + h1 + h2 + 10 + 40
         

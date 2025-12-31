@@ -58,29 +58,49 @@ class BookingScheController: UIViewController, UITableViewDelegate, UITableViewD
     
     private let l_lab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "L:"
         return lab
     }()
     
     private let d_lab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "D:"
         return lab
     }()
     
     
+    private let b_lab: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
+        lab.text = "B:"
+        return lab
+    }()
+
+    
+    
     private let l_number: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
+        lab.adjustsFontSizeToFitWidth = true
         lab.text = "0"
         return lab
     }()
     
     private let d_number: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
+        lab.text = "0"
+        lab.adjustsFontSizeToFitWidth = true
+        return lab
+    }()
+
+    
+    private let b_number: UILabel = {
+        let lab = UILabel()
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
+        lab.adjustsFontSizeToFitWidth = true
         lab.text = "0"
         return lab
     }()
@@ -99,7 +119,7 @@ class BookingScheController: UIViewController, UITableViewDelegate, UITableViewD
     
     private let dateLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "2024-11-23"
         return lab
     }()
@@ -149,9 +169,10 @@ class BookingScheController: UIViewController, UITableViewDelegate, UITableViewD
     
     private let addBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Add".local, MAINCOLOR, TIT_3, BACKCOLOR_3)
+        but.setCommentStyle(.zero, "Add".local, MAINCOLOR, TIT_14, BACKCOLOR_3)
         but.layer.cornerRadius = 10
         but.setImage(LOIMG("dis_add"), for: .normal)
+        but.isHidden = true
         return but
     }()
 
@@ -186,31 +207,52 @@ class BookingScheController: UIViewController, UITableViewDelegate, UITableViewD
             $0.right.equalToSuperview().offset(-15)
             $0.height.equalTo(40)
             $0.top.equalToSuperview().offset(15)
-            $0.width.equalTo(135)
+            $0.width.equalTo(210)
         }
+        
+        totalView.addSubview(b_lab)
+        b_lab.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(10)
+            $0.width.equalTo(17)
+            $0.centerY.equalToSuperview()
+        }
+
         
         totalView.addSubview(l_lab)
         l_lab.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(10)
+            $0.left.equalToSuperview().offset(75)
+            $0.width.equalTo(b_lab)
             $0.centerY.equalToSuperview()
         }
         
         totalView.addSubview(d_lab)
         d_lab.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview().offset(70)
+            $0.width.equalTo(b_lab)
+            $0.left.equalToSuperview().offset(140)
         }
+        
+        totalView.addSubview(b_number)
+        b_number.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalTo(b_lab.snp.right).offset(3)
+            $0.right.equalTo(l_lab.snp.left).offset(-3)
+        }
+
         
         totalView.addSubview(l_number)
         l_number.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.left.equalTo(l_lab.snp.right).offset(3)
+            $0.right.equalToSuperview().offset(-3)
+            $0.right.equalTo(d_lab.snp.left).offset(-3)
         }
         
         totalView.addSubview(d_number)
         d_number.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.left.equalTo(d_lab.snp.right).offset(3)
+            $0.right.equalToSuperview().offset(-5)
         }
         
         
@@ -267,7 +309,8 @@ class BookingScheController: UIViewController, UITableViewDelegate, UITableViewD
         table.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.top.equalTo(timeHeaderView.snp.bottom)
-            $0.bottom.equalTo(addBut.snp.top).offset(-15)
+            //$0.bottom.equalTo(addBut.snp.top).offset(-15)
+            $0.bottom.equalTo(addBut.snp.top).offset(55)
         }
     
         
@@ -358,6 +401,7 @@ extension BookingScheController {
             dataModel.updateModel(json: json)
             l_number.text = String(dataModel.lunchNum)
             d_number.text = String(dataModel.dinnerNum)
+            b_number.text = String(dataModel.breakfastNum)
             timeHeaderView.setData(timeArr: dataModel.timeArr)
             table.reloadData()
             

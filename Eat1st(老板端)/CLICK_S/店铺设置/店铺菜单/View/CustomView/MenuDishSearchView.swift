@@ -20,7 +20,7 @@ class MenuDishSearchView: UIView {
     
     private let searchBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Search".local, MAINCOLOR, TXT_1, .clear)
+        but.setCommentStyle(.zero, "Search".local, MAINCOLOR, TXT_14, .clear)
         return but
     }()
     
@@ -34,7 +34,7 @@ class MenuDishSearchView: UIView {
         let tf = UITextField()
         tf.setPlaceholder("Search for dish".local, color: TFHOLDCOLOR)
         tf.textColor = TXTCOLOR_1
-        tf.font = TXT_1
+        tf.font = TXT_14
         return tf
     }()
     

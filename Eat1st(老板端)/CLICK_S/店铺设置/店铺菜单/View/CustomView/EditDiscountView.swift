@@ -89,14 +89,14 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
 
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_16, MAINCOLOR)
         but.layer.cornerRadius = 14
         return but
     }()
 
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_18, .left)
         lab.text = "Edit discount".local
         return lab
     }()
@@ -111,14 +111,14 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
 
     private let tlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Discount".local
         return lab
     }()
     
     private let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_14, .left)
         lab.text = "*"
         return lab
     }()
@@ -126,14 +126,14 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
     
     private let tlab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Start Date".local
         return lab
     }()
     
     private let sLab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_14, .left)
         lab.text = "*"
         return lab
     }()
@@ -141,14 +141,14 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
     
     private let tlab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "End Date".local
         return lab
     }()
     
     private let sLab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, TIT_2, .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_16, .left)
         lab.text = "*"
         return lab
     }()
@@ -180,7 +180,7 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
     
     private let yeslab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Enable".local
         return lab
     }()
@@ -188,7 +188,7 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
     
     private let nolab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Disable".local
         return lab
     }()
@@ -204,7 +204,7 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
     private lazy var inputTF: UITextField = {
         let tf = UITextField()
         tf.placeholder = "Fill in the discount price".local
-        tf.font = TIT_3
+        tf.font = TIT_14
         tf.textColor = TXTCOLOR_1
         tf.delegate = self
         return tf
@@ -221,7 +221,7 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
     private lazy var startInputTF: UITextField = {
         let tf = UITextField()
         tf.placeholder = "Choose start date".local
-        tf.font = TIT_3
+        tf.font = TIT_14
         tf.textColor = TXTCOLOR_1
         tf.isUserInteractionEnabled = false
         return tf
@@ -237,7 +237,7 @@ class EditDiscountView: UIView, UIGestureRecognizerDelegate, UITextFieldDelegate
     private lazy var endInputTF: UITextField = {
         let tf = UITextField()
         tf.placeholder = "Choose end date".local
-        tf.font = TIT_3
+        tf.font = TIT_14
         tf.textColor = TXTCOLOR_1
         tf.isUserInteractionEnabled = false
         return tf

@@ -292,17 +292,17 @@ let S_SFONT: (CGFloat) -> UIFont = { fontnum in
 
 
 ///20
-var TIT_1 = S_BFONT(20)
+var TIT_20 = S_BFONT(20)
 ///16
-var TIT_2 = S_BFONT(16)
+var TIT_16 = S_BFONT(16)
 ///14
-var TIT_3 = S_BFONT(14)
+var TIT_14 = S_BFONT(14)
 ///18
-var TIT_4 = S_BFONT(18)
+var TIT_18 = S_BFONT(18)
 ///12
-var TIT_5 = S_BFONT(12)
+var TIT_12 = S_BFONT(12)
 ///10
-var TIT_6 = S_BFONT(10)
+var TIT_10 = S_BFONT(10)
 
 
 ///25
@@ -314,11 +314,11 @@ var NUMFONT_3 = S_BFONT(15)
 
 
 ///14
-var TXT_1 = S_SFONT(14)
+var TXT_14 = S_SFONT(14)
 ///12
-var TXT_2 = S_SFONT(12)
+var TXT_12 = S_SFONT(12)
 ///10
-var TXT_3 = S_SFONT(10)
+var TXT_10 = S_SFONT(10)
 
 
 
@@ -362,8 +362,9 @@ let HTTPTOOl = HttpTool.shared
 
 
 let ISONLINE: Bool = true
-let VERID: String = "76"
+let VERID: String = "80"
 var BASEURL: String = ISONLINE ? "https://api.foodo2o.com/" : "https://api-test.foodo2o.com/"
 
 
 
+    

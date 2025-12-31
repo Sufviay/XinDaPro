@@ -31,7 +31,7 @@ class PrinterLinkController: HeadBaseViewController, UITableViewDelegate, UITabl
     
     private let editBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Edit".local, .white, TIT_2, MAINCOLOR)
+        but.setCommentStyle(.zero, "Edit".local, .white, TIT_16, MAINCOLOR)
         but.layer.cornerRadius = 10
         return but
     }()
@@ -132,8 +132,8 @@ class PrinterLinkController: HeadBaseViewController, UITableViewDelegate, UITabl
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         let model = dataArr[indexPath.row]
-        let h1 = model.name1.getTextHeigh(TIT_3, S_W - 40)
-        let h2 = model.name2.getTextHeigh(TXT_1, S_W - 40)
+        let h1 = model.name1.getTextHeigh(TIT_14, S_W - 40)
+        let h2 = model.name2.getTextHeigh(TXT_14, S_W - 40)
         return h1 + h2 + 35
     }
     

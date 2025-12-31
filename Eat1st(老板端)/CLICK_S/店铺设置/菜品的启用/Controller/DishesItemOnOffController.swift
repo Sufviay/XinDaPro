@@ -90,7 +90,7 @@ class DishesItemOnOffController: HeadBaseViewController, UITableViewDelegate, UI
     
     private let b_but: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Take off menu".local + " (0)", .white, TIT_3, HCOLOR("#465DFD"))
+        but.setCommentStyle(.zero, "Take off menu".local + " (0)", .white, TIT_14, HCOLOR("#465DFD"))
         but.layer.cornerRadius = 10
         return but
     }()
@@ -105,7 +105,7 @@ class DishesItemOnOffController: HeadBaseViewController, UITableViewDelegate, UI
     
     private let allBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Select all items".local, TXTCOLOR_1, TIT_3, .clear)
+        but.setCommentStyle(.zero, "Select all items".local, TXTCOLOR_1, TIT_14, .clear)
         but.isHidden = true
         return but
     }()

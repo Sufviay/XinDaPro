@@ -180,7 +180,7 @@ class SelectTypeAlert: BaseAlertView, UIGestureRecognizerDelegate, UITableViewDe
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        let h = typeArr[indexPath.row].name.getTextHeigh(TIT_3, 130)
+        let h = typeArr[indexPath.row].name.getTextHeigh(TIT_14, 130)
         let cell_h = (h + 25) > 50 ? (h + 25) : 50
         return cell_h
     }
@@ -249,7 +249,7 @@ class TextCell: BaseTableViewCell {
 
     let tlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .center)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .center)
         lab.numberOfLines = 0
         return lab
     }()

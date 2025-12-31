@@ -22,7 +22,7 @@ class CalendarAlert: BaseAlertView, UIGestureRecognizerDelegate, FSCalendarDeleg
     
     private let sureBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Confirm".local, .white, TIT_3, MAINCOLOR)
+        but.setCommentStyle(.zero, "Confirm".local, .white, TIT_14, MAINCOLOR)
         but.clipsToBounds = true
         but.layer.cornerRadius = 10
         return but
@@ -30,7 +30,7 @@ class CalendarAlert: BaseAlertView, UIGestureRecognizerDelegate, FSCalendarDeleg
     
     private let cancelBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Cancel".local, MAINCOLOR, TIT_3, .clear)
+        but.setCommentStyle(.zero, "Cancel".local, MAINCOLOR, TIT_14, .clear)
         but.clipsToBounds = true
         but.layer.cornerRadius = 10
         but.layer.borderColor = MAINCOLOR.cgColor
@@ -45,10 +45,10 @@ class CalendarAlert: BaseAlertView, UIGestureRecognizerDelegate, FSCalendarDeleg
         
         calendar.appearance.todayColor = HCOLOR("999999")
         //calendar.appearance.headerDateFormat = "yyyy年MM月"
-        calendar.appearance.headerTitleFont = TIT_4
+        calendar.appearance.headerTitleFont = TIT_18
         calendar.appearance.headerTitleColor = TXTCOLOR_1
         calendar.appearance.weekdayTextColor = MAINCOLOR
-        calendar.appearance.weekdayFont = TIT_3
+        calendar.appearance.weekdayFont = TIT_14
         calendar.appearance.headerMinimumDissolvedAlpha = 0
         calendar.appearance.selectionColor = MAINCOLOR
 

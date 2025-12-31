@@ -28,7 +28,7 @@ class StoreTimeSettingController: HeadBaseViewController, UITableViewDelegate, U
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_18, .left)
         lab.text = "Opening time".local
         return lab
     }()
@@ -44,7 +44,7 @@ class StoreTimeSettingController: HeadBaseViewController, UITableViewDelegate, U
     
     private let setBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "SET >".local, MAINCOLOR, TIT_5, .clear)
+        but.setCommentStyle(.zero, "SET >".local, MAINCOLOR, TIT_12, .clear)
         return but
     }()
 

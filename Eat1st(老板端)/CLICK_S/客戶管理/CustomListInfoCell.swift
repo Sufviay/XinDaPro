@@ -21,7 +21,7 @@ class CustomListInfoCell: BaseTableViewCell {
     
     private let nameLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Name"
         lab.numberOfLines = 1
         return lab
@@ -29,7 +29,7 @@ class CustomListInfoCell: BaseTableViewCell {
     
     private let numberLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.numberOfLines = 0
         lab.text = "+8536789678"
         return lab
@@ -37,7 +37,7 @@ class CustomListInfoCell: BaseTableViewCell {
     
     private let tagLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.numberOfLines = 0
         lab.text = "標籤1, 標籤2"
         return lab
@@ -52,7 +52,7 @@ class CustomListInfoCell: BaseTableViewCell {
     
     private let orderLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .center)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .center)
         lab.adjustsFontSizeToFitWidth = true
         lab.text = "10"
         return lab
@@ -60,7 +60,7 @@ class CustomListInfoCell: BaseTableViewCell {
     
     private let moneyLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .center)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .center)
         lab.adjustsFontSizeToFitWidth = true
         lab.text = "£ 5000.00"
         return lab
@@ -68,7 +68,7 @@ class CustomListInfoCell: BaseTableViewCell {
     
     private let dateLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .right)
         lab.numberOfLines = 2
         lab.text = "2025-09-25 10:10:10"
         lab.adjustsFontSizeToFitWidth = true

@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private let bag = DisposeBag()
     
-    private lazy var player = PJCUtil.playVoice(name: "voice_order_pay_succeed", type: "mp3")
+    //private lazy var player = PJCUtil.playVoice(name: "voice_order_pay_succeed", type: "mp3")
     
     //版本提示框
     private lazy var versonAlert: VersionAlert = {
@@ -34,6 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        Bugly.start(withAppId: "41edd2b68b")
         
         //设置版本号
         UserDefaults.standard.verID = VERID

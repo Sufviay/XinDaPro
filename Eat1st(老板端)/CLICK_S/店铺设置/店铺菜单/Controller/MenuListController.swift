@@ -112,7 +112,7 @@ class MenuListController: HeadBaseViewController, UITableViewDelegate, UITableVi
         but.clipsToBounds = true
         but.layer.cornerRadius = 10
         but.setImage(LOIMG("dis_add"), for: .normal)
-        but.setCommentStyle(.zero, "Add Category".local, HCOLOR("#465DFD"), TIT_2, BACKCOLOR_3)
+        but.setCommentStyle(.zero, "Add Category".local, HCOLOR("#465DFD"), TIT_16, BACKCOLOR_3)
         but.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         return but
     }()
@@ -246,8 +246,8 @@ class MenuListController: HeadBaseViewController, UITableViewDelegate, UITableVi
         if dataType == .combo {
             //套餐
             let model = comboDishes[indexPath.row]
-            let h1 = model.name1.getTextHeigh(TIT_3, S_W - 220)
-            let h2 = model.name2.getTextHeigh(TIT_1, S_W - 220)
+            let h1 = model.name1.getTextHeigh(TIT_14, S_W - 220)
+            let h2 = model.name2.getTextHeigh(TIT_20, S_W - 220)
             
             if model.tags.count == 0 {
                 return 15 + h1 + h2 + 10 + 40
@@ -256,8 +256,8 @@ class MenuListController: HeadBaseViewController, UITableViewDelegate, UITableVi
             }
             
         } else {
-            let h1 = dataArr[indexPath.row].name1.getTextHeigh(TIT_3, S_W - 90)
-            let h2 = dataArr[indexPath.row].name2.getTextHeigh(TXT_1, S_W - 90)
+            let h1 = dataArr[indexPath.row].name1.getTextHeigh(TIT_14, S_W - 90)
+            let h2 = dataArr[indexPath.row].name2.getTextHeigh(TXT_14, S_W - 90)
             return h1 + h2 + 50
         }
         

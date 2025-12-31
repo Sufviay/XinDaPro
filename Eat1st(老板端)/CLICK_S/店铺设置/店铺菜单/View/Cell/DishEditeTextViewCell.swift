@@ -13,13 +13,13 @@ class DishEditeTextViewCell: BaseTableViewCell, UITextViewDelegate {
 
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         return lab
     }()
     
     private let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_14, .left)
         lab.text = "*"
         return lab
     }()
@@ -33,7 +33,7 @@ class DishEditeTextViewCell: BaseTableViewCell, UITextViewDelegate {
     
     private lazy var inputTF: UITextView = {
         let tf = UITextView()
-        tf.font = TXT_1
+        tf.font = TXT_14
         tf.textColor = TXTCOLOR_1
         tf.delegate = self
         tf.backgroundColor = .clear

@@ -42,13 +42,13 @@ class TimeWeeksAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
     
     private let OKBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "OK".local, MAINCOLOR, TIT_3, .clear)
+        but.setCommentStyle(.zero, "OK".local, MAINCOLOR, TIT_14, .clear)
         return but
     }()
     
     private let cancelBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Cancel".local, TXTCOLOR_1, TIT_3, .clear)
+        but.setCommentStyle(.zero, "Cancel".local, TXTCOLOR_1, TIT_14, .clear)
         return but
     }()
     
@@ -65,20 +65,20 @@ class TimeWeeksAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
 
     private let yearLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.white, TIT_3, .center)
+        lab.setCommentStyle(.white, TIT_14, .center)
         lab.text = "Year".local
         return lab
     }()
     
     private let weekLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.white, TIT_3, .center)
+        lab.setCommentStyle(.white, TIT_14, .center)
         lab.text = "Week".local
         return lab
     }()
     private let dateLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.white, TIT_3, .center)
+        lab.setCommentStyle(.white, TIT_14, .center)
         lab.text = "Period".local
         return lab
     }()
@@ -86,7 +86,7 @@ class TimeWeeksAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
     
     private let timeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .center)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .center)
         lab.numberOfLines = 2
         lab.adjustsFontSizeToFitWidth = true
         lab.text = ""
@@ -266,7 +266,7 @@ class TimeWeeksAlert: BaseAlertView, UIGestureRecognizerDelegate, UIPickerViewDe
         var pickerLabel = view as? UILabel
         if pickerLabel == nil {
             pickerLabel = UILabel()
-            pickerLabel?.font = TIT_2
+            pickerLabel?.font = TIT_16
             pickerLabel?.textColor = TXTCOLOR_1
             pickerLabel?.textAlignment = .center
         }

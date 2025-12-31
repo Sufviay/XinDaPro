@@ -32,7 +32,7 @@ class StoreTimeBindingDishController: HeadBaseViewController, UITableViewDelegat
     
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_16, MAINCOLOR)
         but.clipsToBounds = true
         but.layer.cornerRadius = 14
         return but
@@ -55,7 +55,7 @@ class StoreTimeBindingDishController: HeadBaseViewController, UITableViewDelegat
     
     private let allBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Select all items".local, TXTCOLOR_1, TIT_3, .clear)
+        but.setCommentStyle(.zero, "Select all items".local, TXTCOLOR_1, TIT_14, .clear)
         return but
     }()
     

@@ -27,7 +27,7 @@ class HeadBaseViewController: UIViewController {
     
     let biaoTiLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(.white, TIT_1, .center)
+        lab.setCommentStyle(.white, TIT_20, .center)
         lab.adjustsFontSizeToFitWidth = true
         return lab
     }()

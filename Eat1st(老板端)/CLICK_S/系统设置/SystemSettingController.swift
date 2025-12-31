@@ -162,7 +162,7 @@ class SettingOptionCell: BaseTableViewCell {
     
     private let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         return lab
     }()
     
@@ -175,7 +175,7 @@ class SettingOptionCell: BaseTableViewCell {
     
     private let messageLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TXT_1, .right)
+        lab.setCommentStyle(TXTCOLOR_1, TXT_14, .right)
         lab.text = "30 days"
         return lab
     }()

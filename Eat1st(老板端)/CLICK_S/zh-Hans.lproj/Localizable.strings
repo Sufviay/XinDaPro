@@ -227,7 +227,7 @@
 
 "Account" = "帳戶";
 "Password" = "密碼";
-"Sign in" = "登陸";
+"Sign in" = "登錄";
 
 "Current type" = "當前的方式";
 "Radius" = "距離";
@@ -486,3 +486,12 @@
 "Breakfast" = "早餐";
 "Lunch" = "午餐";
 "Dinner" = "晚餐";
+"Coupon Management" = "優惠券管理";
+"Order full gift Management" = "訂單滿贈管理";
+"Full gift name" = "滿贈名字";
+"Dishes count" = "菜品數量";
+"Amount" = "金額";
+"Full gift dishes" = "滿贈菜品";
+"Please enter the amount!" = "請填寫金額";
+"Please enter the Full gift name!" = "請填寫滿贈名稱";
+"Enabled. Cannot be deleted." = "啟用中，無法刪除";

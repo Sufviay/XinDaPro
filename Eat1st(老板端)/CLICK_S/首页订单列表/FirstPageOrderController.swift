@@ -44,7 +44,7 @@ class FirstPageOrderController: UIViewController, UITableViewDelegate, UITableVi
     
     private let typeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "All".local
         lab.adjustsFontSizeToFitWidth = true
         return lab
@@ -121,7 +121,7 @@ class FirstPageOrderController: UIViewController, UITableViewDelegate, UITableVi
     
     private let totalLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_5, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_12, .left)
         lab.text = "Price:".local
         return lab
     }()
@@ -129,7 +129,7 @@ class FirstPageOrderController: UIViewController, UITableViewDelegate, UITableVi
     
     private let totalNum: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.adjustsFontSizeToFitWidth = true
         lab.text = "0"
         return lab
@@ -199,7 +199,7 @@ class FirstPageOrderController: UIViewController, UITableViewDelegate, UITableVi
         totalLab.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.left.equalToSuperview().offset(12)
-            $0.width.equalTo(("Price:".local.getTextWidth(TIT_5, 15) + 1))
+            $0.width.equalTo(("Price:".local.getTextWidth(TIT_12, 15) + 1))
         }
         
         totalView.addSubview(totalNum)

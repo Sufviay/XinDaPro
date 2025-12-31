@@ -138,27 +138,27 @@ class MenuDishComboDetailController: HeadBaseViewController, UITableViewDelegate
             }
             
             if indexPath.row == 3 {
-                let h = dishModel.desStr.getTextHeigh(TXT_1, S_W - 80)
+                let h = dishModel.desStr.getTextHeigh(TXT_14, S_W - 80)
                 return h + 50
             }
             
             
             if indexPath.row == 5 {
-                let h = dishModel.aliasStr.getTextHeigh(TXT_1, S_W - 80)
+                let h = dishModel.aliasStr.getTextHeigh(TXT_14, S_W - 80)
                 return h + 50
             }
             
             if indexPath.row == 15 {
-                let h = dishModel.classifyStr.getTextHeigh(TXT_1, S_W - 80)
+                let h = dishModel.classifyStr.getTextHeigh(TXT_14, S_W - 80)
                 return h + 50
             }
             if indexPath.row == 16 {
-                let h = dishModel.allergenStr.getTextHeigh(TXT_1, S_W - 80)
+                let h = dishModel.allergenStr.getTextHeigh(TXT_14, S_W - 80)
                 return h + 50
             }
             
             if indexPath.row == 18 {
-                let h = dishModel.tagsStr.getTextHeigh(TXT_1, S_W - 80)
+                let h = dishModel.tagsStr.getTextHeigh(TXT_14, S_W - 80)
                 return h + 50
             }
             

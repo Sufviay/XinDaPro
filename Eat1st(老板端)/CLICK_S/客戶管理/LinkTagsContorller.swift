@@ -52,7 +52,7 @@ class LinkTagsContorller: HeadBaseViewController, UITableViewDelegate, UITableVi
     
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, MAINCOLOR)
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_16, MAINCOLOR)
         but.layer.cornerRadius = 14
         return but
     }()
@@ -120,8 +120,8 @@ class LinkTagsContorller: HeadBaseViewController, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        let h1 = dataArr[indexPath.row].name1.getTextHeigh(TIT_3, S_W - 80)
-        let h2 = dataArr[indexPath.row].name2.getTextHeigh(TXT_1, S_W - 80)
+        let h1 = dataArr[indexPath.row].name1.getTextHeigh(TIT_14, S_W - 80)
+        let h2 = dataArr[indexPath.row].name2.getTextHeigh(TXT_14, S_W - 80)
         return h1 + h2 + 35
     }
 
@@ -225,14 +225,14 @@ class LinkTagsInfoCell: BaseTableViewCell {
     
     private let nameLab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.numberOfLines = 0
         return lab
     }()
     
     private let nameLab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.numberOfLines = 0
         return lab
     }()

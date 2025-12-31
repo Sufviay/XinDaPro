@@ -13,7 +13,7 @@ class SalesHeaderCell: BaseTableViewCell {
 
     let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_18, .left)
         lab.text = "Sales".local
         return lab
     }()
@@ -28,7 +28,7 @@ class SalesHeaderCell: BaseTableViewCell {
     
     private let todayBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Today".local, .white, TIT_3, MAINCOLOR)
+        but.setCommentStyle(.zero, "Today".local, .white, TIT_14, MAINCOLOR)
         but.layer.cornerRadius = 5
         return but
     }()

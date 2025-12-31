@@ -34,7 +34,7 @@ class EditHolidayAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate
     
     private let saveBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Save".local, .white, TIT_2, HCOLOR("#465DFD"))
+        but.setCommentStyle(.zero, "Save".local, .white, TIT_16, HCOLOR("#465DFD"))
         but.layer.cornerRadius = 14
         return but
     }()
@@ -42,7 +42,7 @@ class EditHolidayAlert: UIView, UIGestureRecognizerDelegate, UITableViewDelegate
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_4, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_18, .left)
         lab.text = "Holiday".local
         return lab
     }()

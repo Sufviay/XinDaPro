@@ -38,14 +38,14 @@ class DishKuCunEditeCell: BaseTableViewCell, UITextFieldDelegate {
     
     private let titlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Stock".local
         return lab
     }()
     
     private let sLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(MAINCOLOR, TIT_3, .left)
+        lab.setCommentStyle(MAINCOLOR, TIT_14, .left)
         lab.text = "*"
         return lab
     }()
@@ -65,7 +65,7 @@ class DishKuCunEditeCell: BaseTableViewCell, UITextFieldDelegate {
     
     private let unlimitedLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Disable".local
         return lab
     }()
@@ -86,7 +86,7 @@ class DishKuCunEditeCell: BaseTableViewCell, UITextFieldDelegate {
     
     private let limitedLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Enable".local
         return lab
     }()
@@ -103,7 +103,7 @@ class DishKuCunEditeCell: BaseTableViewCell, UITextFieldDelegate {
         let tf = UITextField()
         tf.placeholder = "Fill in the remaining quantity in stock".local
         tf.keyboardType = .numberPad
-        tf.font = TIT_3
+        tf.font = TIT_14
         tf.textColor = TXTCOLOR_1
         tf.delegate = self
         return tf

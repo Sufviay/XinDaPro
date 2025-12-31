@@ -19,7 +19,7 @@ class ComboNameCell: BaseTableViewCell {
     
     private let namelab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "Name"
         lab.numberOfLines = 0
         return lab
@@ -27,7 +27,7 @@ class ComboNameCell: BaseTableViewCell {
     
     private let namelab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.text = "Name"
         lab.numberOfLines = 0
         return lab
@@ -35,7 +35,7 @@ class ComboNameCell: BaseTableViewCell {
     
     private let numLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.text = "#1"
         return lab
     }()
@@ -97,7 +97,7 @@ class ComboDishNameCell: BaseTableViewCell {
     
     private let namelab1: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "Name"
         lab.numberOfLines = 0
         return lab
@@ -105,7 +105,7 @@ class ComboDishNameCell: BaseTableViewCell {
     
     private let namelab2: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TXT_14, .left)
         lab.text = "Name"
         lab.numberOfLines = 0
         return lab

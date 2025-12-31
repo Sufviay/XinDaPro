@@ -15,7 +15,7 @@ class BookingTimeView: UIView, UICollectionViewDelegate, UICollectionViewDataSou
     
     private let tlab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_3, TIT_5, .center)
+        lab.setCommentStyle(TXTCOLOR_3, TIT_12, .center)
         lab.text = "NUMBER"
         lab.backgroundColor = HCOLOR("#F1F8FF")
         return lab
@@ -122,7 +122,7 @@ class TimeHeadCollectCell: UICollectionViewCell {
     
     let titLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_5, .center)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_12, .center)
         return lab
     }()
     

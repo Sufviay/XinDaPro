@@ -132,8 +132,8 @@ class MenuDishDetailController: HeadBaseViewController, UITableViewDelegate, UIT
         
         if indexPath.section == 0 {
             if indexPath.row == 0 {
-                let h1 = dishModel.dishName1.getTextHeigh(TIT_2, S_W - 120)
-                let h2 = dishModel.dishName2.getTextHeigh(TXT_1, S_W - 120)
+                let h1 = dishModel.dishName1.getTextHeigh(TIT_16, S_W - 120)
+                let h2 = dishModel.dishName2.getTextHeigh(TXT_14, S_W - 120)
                 return 25 + 15 + h1 + h2
                 
             }
@@ -142,27 +142,27 @@ class MenuDishDetailController: HeadBaseViewController, UITableViewDelegate, UIT
             }
             
             if indexPath.row == 3 {
-                let h = dishModel.desStr.getTextHeigh(TXT_1, S_W - 80)
+                let h = dishModel.desStr.getTextHeigh(TXT_14, S_W - 80)
                 return h + 50
             }
             
             if indexPath.row == 5 {
-                let h = dishModel.aliasStr.getTextHeigh(TXT_1, S_W - 80)
+                let h = dishModel.aliasStr.getTextHeigh(TXT_14, S_W - 80)
                 return h + 50
             }
             
             
             if indexPath.row == 15 {
-                let h = dishModel.classifyStr.getTextHeigh(TXT_1, S_W - 80)
+                let h = dishModel.classifyStr.getTextHeigh(TXT_14, S_W - 80)
                 return h + 50
             }
             if indexPath.row == 16 {
-                let h = dishModel.allergenStr.getTextHeigh(TXT_1, S_W - 80)
+                let h = dishModel.allergenStr.getTextHeigh(TXT_14, S_W - 80)
                 return h + 50
             }
             
             if indexPath.row == 18 {
-                let h = dishModel.tagsStr.getTextHeigh(TXT_1, S_W - 80)
+                let h = dishModel.tagsStr.getTextHeigh(TXT_14, S_W - 80)
                 return h + 50
             }
             

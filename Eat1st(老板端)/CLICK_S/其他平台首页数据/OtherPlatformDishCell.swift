@@ -12,7 +12,7 @@ class OtherPlatformDishCell: BaseTableViewCell {
     
     private let nameLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_2, TIT_14, .left)
         lab.text = "Beef Chow Mein"
         lab.numberOfLines = 0
         return lab
@@ -21,7 +21,7 @@ class OtherPlatformDishCell: BaseTableViewCell {
 
     private let countLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_2, TIT_3, .right)
+        lab.setCommentStyle(TXTCOLOR_2, TIT_14, .right)
         lab.text = "100"
         return lab
     }()

@@ -35,7 +35,7 @@ class TableInfoCell: BaseTableViewCell {
     
     private let nameLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_2, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_16, .left)
         lab.numberOfLines = 0
         return lab
     }()
@@ -50,14 +50,14 @@ class TableInfoCell: BaseTableViewCell {
     
     private let numberLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#FEC501"), TIT_3, .left)
+        lab.setCommentStyle(HCOLOR("#FEC501"), TIT_14, .left)
         lab.numberOfLines = 0
         return lab
     }()
     
     private let statusLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#2AD389"), TIT_3, .left)
+        lab.setCommentStyle(HCOLOR("#2AD389"), TIT_14, .left)
         lab.text = "On"
         return lab
     }()

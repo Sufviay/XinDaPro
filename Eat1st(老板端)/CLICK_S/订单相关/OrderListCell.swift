@@ -29,7 +29,7 @@ class OrderListCell: BaseTableViewCell {
     
     private let xlhLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#FEC501"), TIT_2, .left)
+        lab.setCommentStyle(HCOLOR("#FEC501"), TIT_16, .left)
         lab.text = "#999"
         lab.adjustsFontSizeToFitWidth = true
         return lab
@@ -37,7 +37,7 @@ class OrderListCell: BaseTableViewCell {
     
     private let orderNumLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TXT_14, .left)
         lab.text = "#1550515678022548934"
         lab.adjustsFontSizeToFitWidth = true
         return lab
@@ -46,7 +46,7 @@ class OrderListCell: BaseTableViewCell {
     
     private let orderTypeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .right)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .right)
         lab.text = "Delivery"
         return lab
     }()
@@ -54,7 +54,7 @@ class OrderListCell: BaseTableViewCell {
     
     private let payTypeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#FEC501"), TIT_3, .right)
+        lab.setCommentStyle(HCOLOR("#FEC501"), TIT_14, .right)
         lab.text = "Card"
         return lab
     }()
@@ -62,14 +62,14 @@ class OrderListCell: BaseTableViewCell {
     
     private let moneyLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(HCOLOR("#465DFD"), TIT_3, .right)
+        lab.setCommentStyle(HCOLOR("#465DFD"), TIT_14, .right)
         lab.text = "£46.80"
         return lab
     }()
     
     private let sourceLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TXT_1, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TXT_14, .left)
         lab.text = "Deliveroo"
         return lab
     }()
@@ -77,14 +77,14 @@ class OrderListCell: BaseTableViewCell {
     
     private let stautsLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TIT_3, .left)
+        lab.setCommentStyle(TXTCOLOR_1, TIT_14, .left)
         lab.text = "已完成"
         return lab
     }()
     
     private let timeLab: UILabel = {
         let lab = UILabel()
-        lab.setCommentStyle(TXTCOLOR_1, TXT_2, .right)
+        lab.setCommentStyle(TXTCOLOR_1, TXT_12, .right)
         lab.text = "2024-04-05"
         return lab
     }()

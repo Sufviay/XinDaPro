@@ -27,7 +27,7 @@ class CustomerTagListController: HeadBaseViewController, UITableViewDelegate, UI
         but.clipsToBounds = true
         but.layer.cornerRadius = 10
         but.setImage(LOIMG("dis_add"), for: .normal)
-        but.setCommentStyle(.zero, "Add".local, MAINCOLOR, TIT_2, BACKCOLOR_3)
+        but.setCommentStyle(.zero, "Add".local, MAINCOLOR, TIT_16, BACKCOLOR_3)
         but.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         return but
     }()
