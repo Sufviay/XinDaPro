@@ -44,7 +44,6 @@
 		E305E8F626DF133D00AAB580 /* NoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E305E8DD26DF133D00AAB580 /* NoDataView.swift */; };
 		E305E8F726DF133D00AAB580 /* CartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E305E8DE26DF133D00AAB580 /* CartManager.swift */; };
 		E305E8FA26DF133D00AAB580 /* PJCUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = E305E8E126DF133D00AAB580 /* PJCUtil.swift */; };
-		E305E8FB26DF133D00AAB580 /* SearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E305E8E226DF133D00AAB580 /* SearchManager.swift */; };
 		E305E8FF26DF134900AAB580 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E305E8FD26DF134800AAB580 /* ApiManager.swift */; };
 		E305E90026DF134900AAB580 /* HttpTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = E305E8FE26DF134800AAB580 /* HttpTool.swift */; };
 		E305E90226DF146E00AAB580 /* MainNaviController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E305E90126DF146E00AAB580 /* MainNaviController.swift */; };
@@ -114,6 +113,21 @@
 		E3386CA92791558400CBD42C /* XYViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3386CA82791558400CBD42C /* XYViewController.swift */; };
 		E3386CAB2791739600CBD42C /* voice_order_pay_succeed.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E3386CAA2791739600CBD42C /* voice_order_pay_succeed.mp3 */; };
 		E3386CAD27917BA800CBD42C /* 收到红包.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E3386CAC27917BA800CBD42C /* 收到红包.mp3 */; };
+		E338ACED2F31D97D00031775 /* SalesSideToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E338ACEC2F31D97D00031775 /* SalesSideToolView.swift */; };
+		E338ACEF2F31DBE300031775 /* StoreIncomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E338ACEE2F31DBE300031775 /* StoreIncomeCell.swift */; };
+		E338ACF12F3361CD00031775 /* SalesFirstHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E338ACF02F3361CD00031775 /* SalesFirstHeaderView.swift */; };
+		E338ACF32F3372ED00031775 /* SalesIncomeListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E338ACF22F3372ED00031775 /* SalesIncomeListController.swift */; };
+		E338ACF52F34987900031775 /* SalesIncomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E338ACF42F34987900031775 /* SalesIncomeCell.swift */; };
+		E338ACF72F34C73A00031775 /* IncomeRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E338ACF62F34C73A00031775 /* IncomeRecordModel.swift */; };
+		E338ACF92F35E37400031775 /* SalesIncomeDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E338ACF82F35E37400031775 /* SalesIncomeDetailController.swift */; };
+		E338ACFB2F35E9D600031775 /* SalesIncomeDetailHeadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E338ACFA2F35E9D600031775 /* SalesIncomeDetailHeadCell.swift */; };
+		E338ACFD2F35E9FC00031775 /* SalesIncomePlatformCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E338ACFC2F35E9FC00031775 /* SalesIncomePlatformCell.swift */; };
+		E338ACFF2F3711CB00031775 /* SalesIncomSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E338ACFE2F3711CB00031775 /* SalesIncomSearchController.swift */; };
+		E338AD012F38B99900031775 /* SalesFirstSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E338AD002F38B99900031775 /* SalesFirstSelectView.swift */; };
+		E338AD032F38C05A00031775 /* SubPersonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E338AD022F38C05A00031775 /* SubPersonCell.swift */; };
+		E341C1132F2C9CD600F1CC1B /* LBBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E341C1122F2C9CD600F1CC1B /* LBBaseViewController.swift */; };
+		E341C1152F2C9F0E00F1CC1B /* XSBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E341C1142F2C9F0E00F1CC1B /* XSBaseViewController.swift */; };
+		E341C1172F2C9F9100F1CC1B /* SalesFirstController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E341C1162F2C9F9100F1CC1B /* SalesFirstController.swift */; };
 		E341C3792D62D3E600DCA094 /* BookingTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E341C3782D62D3E600DCA094 /* BookingTimeView.swift */; };
 		E34C881D293B40C200A24F4D /* StatisticalFeeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34C881C293B40C200A24F4D /* StatisticalFeeCell.swift */; };
 		E34C881F293DA1E900A24F4D /* StatisticalRefundHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34C881E293DA1E900A24F4D /* StatisticalRefundHeaderCell.swift */; };
@@ -287,7 +301,6 @@
 		E3DE48BC2774163D00F3DCCD /* DateTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DE48BB2774163D00F3DCCD /* DateTool.swift */; };
 		E3DE48BE27745ED600F3DCCD /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DE48BD27745ED600F3DCCD /* LocationManager.swift */; };
 		E3DE48C22779B40B00F3DCCD /* FiltrateSelectTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DE48C12779B40B00F3DCCD /* FiltrateSelectTagView.swift */; };
-		E3DF139A2843B8EF007FCC11 /* HeadBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DF13992843B8EF007FCC11 /* HeadBaseViewController.swift */; };
 		E3DF139C2843BDBF007FCC11 /* BossFirstController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DF139B2843BDBF007FCC11 /* BossFirstController.swift */; };
 		E3DF139E28445D19007FCC11 /* FirstTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DF139D28445D19007FCC11 /* FirstTagView.swift */; };
 		E3DF13A128448BA1007FCC11 /* LiveReportingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DF13A028448BA1007FCC11 /* LiveReportingController.swift */; };
@@ -296,6 +309,9 @@
 		E3DF13AB2844AB63007FCC11 /* StatisticalHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DF13AA2844AB63007FCC11 /* StatisticalHeaderCell.swift */; };
 		E3DF13AD2844ADB5007FCC11 /* DateHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DF13AC2844ADB5007FCC11 /* DateHeaderCell.swift */; };
 		E3DF13AF2844C0B8007FCC11 /* StatisticalDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DF13AE2844C0B8007FCC11 /* StatisticalDataCell.swift */; };
+		E3EBF5912F274D4A00112492 /* StoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3EBF5902F274D4A00112492 /* StoreModel.swift */; };
+		E3EBF5932F27532700112492 /* StoreListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3EBF5922F27532700112492 /* StoreListController.swift */; };
+		E3EBF5952F2759BA00112492 /* StoreInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3EBF5942F2759BA00112492 /* StoreInfoCell.swift */; };
 		E3F152892B3A640E00A8A199 /* StatisticalFeeNumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F152882B3A640E00A8A199 /* StatisticalFeeNumCell.swift */; };
 		E3F829DA286175A3005E5FAB /* MenuDishListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F829D9286175A3005E5FAB /* MenuDishListController.swift */; };
 		E3F829DC28617749005E5FAB /* MenuDishSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F829DB28617749005E5FAB /* MenuDishSearchView.swift */; };
@@ -408,7 +424,6 @@
 		E305E8DD26DF133D00AAB580 /* NoDataView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoDataView.swift; sourceTree = "<group>"; };
 		E305E8DE26DF133D00AAB580 /* CartManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartManager.swift; sourceTree = "<group>"; };
 		E305E8E126DF133D00AAB580 /* PJCUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PJCUtil.swift; sourceTree = "<group>"; };
-		E305E8E226DF133D00AAB580 /* SearchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchManager.swift; sourceTree = "<group>"; };
 		E305E8FD26DF134800AAB580 /* ApiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
 		E305E8FE26DF134800AAB580 /* HttpTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpTool.swift; sourceTree = "<group>"; };
 		E305E90126DF146E00AAB580 /* MainNaviController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNaviController.swift; sourceTree = "<group>"; };
@@ -482,6 +497,21 @@
 		E3386CA82791558400CBD42C /* XYViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYViewController.swift; sourceTree = "<group>"; };
 		E3386CAA2791739600CBD42C /* voice_order_pay_succeed.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voice_order_pay_succeed.mp3; sourceTree = "<group>"; };
 		E3386CAC27917BA800CBD42C /* 收到红包.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "收到红包.mp3"; sourceTree = "<group>"; };
+		E338ACEC2F31D97D00031775 /* SalesSideToolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesSideToolView.swift; sourceTree = "<group>"; };
+		E338ACEE2F31DBE300031775 /* StoreIncomeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreIncomeCell.swift; sourceTree = "<group>"; };
+		E338ACF02F3361CD00031775 /* SalesFirstHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesFirstHeaderView.swift; sourceTree = "<group>"; };
+		E338ACF22F3372ED00031775 /* SalesIncomeListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesIncomeListController.swift; sourceTree = "<group>"; };
+		E338ACF42F34987900031775 /* SalesIncomeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesIncomeCell.swift; sourceTree = "<group>"; };
+		E338ACF62F34C73A00031775 /* IncomeRecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeRecordModel.swift; sourceTree = "<group>"; };
+		E338ACF82F35E37400031775 /* SalesIncomeDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesIncomeDetailController.swift; sourceTree = "<group>"; };
+		E338ACFA2F35E9D600031775 /* SalesIncomeDetailHeadCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesIncomeDetailHeadCell.swift; sourceTree = "<group>"; };
+		E338ACFC2F35E9FC00031775 /* SalesIncomePlatformCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesIncomePlatformCell.swift; sourceTree = "<group>"; };
+		E338ACFE2F3711CB00031775 /* SalesIncomSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesIncomSearchController.swift; sourceTree = "<group>"; };
+		E338AD002F38B99900031775 /* SalesFirstSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesFirstSelectView.swift; sourceTree = "<group>"; };
+		E338AD022F38C05A00031775 /* SubPersonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubPersonCell.swift; sourceTree = "<group>"; };
+		E341C1122F2C9CD600F1CC1B /* LBBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LBBaseViewController.swift; sourceTree = "<group>"; };
+		E341C1142F2C9F0E00F1CC1B /* XSBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XSBaseViewController.swift; sourceTree = "<group>"; };
+		E341C1162F2C9F9100F1CC1B /* SalesFirstController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesFirstController.swift; sourceTree = "<group>"; };
 		E341C3782D62D3E600DCA094 /* BookingTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingTimeView.swift; sourceTree = "<group>"; };
 		E34C881C293B40C200A24F4D /* StatisticalFeeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticalFeeCell.swift; sourceTree = "<group>"; };
 		E34C881E293DA1E900A24F4D /* StatisticalRefundHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticalRefundHeaderCell.swift; sourceTree = "<group>"; };
@@ -655,7 +685,6 @@
 		E3DE48BB2774163D00F3DCCD /* DateTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTool.swift; sourceTree = "<group>"; };
 		E3DE48BD27745ED600F3DCCD /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		E3DE48C12779B40B00F3DCCD /* FiltrateSelectTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltrateSelectTagView.swift; sourceTree = "<group>"; };
-		E3DF13992843B8EF007FCC11 /* HeadBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadBaseViewController.swift; sourceTree = "<group>"; };
 		E3DF139B2843BDBF007FCC11 /* BossFirstController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BossFirstController.swift; sourceTree = "<group>"; };
 		E3DF139D28445D19007FCC11 /* FirstTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstTagView.swift; sourceTree = "<group>"; };
 		E3DF13A028448BA1007FCC11 /* LiveReportingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveReportingController.swift; sourceTree = "<group>"; };
@@ -664,6 +693,9 @@
 		E3DF13AA2844AB63007FCC11 /* StatisticalHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticalHeaderCell.swift; sourceTree = "<group>"; };
 		E3DF13AC2844ADB5007FCC11 /* DateHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHeaderCell.swift; sourceTree = "<group>"; };
 		E3DF13AE2844C0B8007FCC11 /* StatisticalDataCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticalDataCell.swift; sourceTree = "<group>"; };
+		E3EBF5902F274D4A00112492 /* StoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreModel.swift; sourceTree = "<group>"; };
+		E3EBF5922F27532700112492 /* StoreListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreListController.swift; sourceTree = "<group>"; };
+		E3EBF5942F2759BA00112492 /* StoreInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreInfoCell.swift; sourceTree = "<group>"; };
 		E3EF8BC1972CA92CC48E5685 /* Pods-CLICK_S.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CLICK_S.release.xcconfig"; path = "Target Support Files/Pods-CLICK_S/Pods-CLICK_S.release.xcconfig"; sourceTree = "<group>"; };
 		E3F152882B3A640E00A8A199 /* StatisticalFeeNumCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticalFeeNumCell.swift; sourceTree = "<group>"; };
 		E3F829D9286175A3005E5FAB /* MenuDishListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDishListController.swift; sourceTree = "<group>"; };
@@ -825,23 +857,8 @@
 				E398A28D277B0187002A1D24 /* GoogleService-Info.plist */,
 				E310507E26E864B900C223C1 /* CLICK_S.entitlements */,
 				E305E8A926DF125C00AAB580 /* CLICK_S-Bridging-Header.h */,
-				E37C188F29F655F000D7C39D /* 老板首页 */,
-				E36F81AB2E5C378E00DA9524 /* 其他平台首页数据 */,
-				E3902CF42EE41B1900E6218E /* 首页订单列表 */,
-				E326C42D2D27B90F00CBC07D /* 首页今日营业数据 */,
-				E35268942C61F328007A847F /* 首页店铺收支 */,
-				E37C189429F657CB00D7C39D /* 首页营业数据 */,
-				E37C189A29F65D9800D7C39D /* 首页菜品销量 */,
-				E31582E62CEEC80E009D532B /* 首页预定 */,
-				E3096E6E2E7ABD6500B3917E /* 客戶管理 */,
-				E3096E6F2E7ABD7300B3917E /* 促銷管理 */,
-				E3BB29432D6429F000C663B1 /* 公用 */,
-				E34E6E1D2A8C683B00DBC2A5 /* 评论 */,
-				E34E6E0B2A87607500DBC2A5 /* 订单相关 */,
-				E34E6E1C2A8C682E00DBC2A5 /* 投诉 */,
-				E34E6E062A84CF8400DBC2A5 /* 消息 */,
-				E37C18A129F6614C00D7C39D /* 店铺设置 */,
-				E3AEAEB52E4F2D64004D1170 /* 系统设置 */,
+				E341C10E2F2B2AD000F1CC1B /* 销售账号 */,
+				E341C10D2F2B2AB300F1CC1B /* 老板账号 */,
 				E305E90326DF14E700AAB580 /* 登录 */,
 				E305E8FC26DF134800AAB580 /* Network */,
 				E305E8BD26DF133D00AAB580 /* Tool */,
@@ -905,7 +922,8 @@
 			children = (
 				E305E8B326DF133000AAB580 /* GestureCollectionView.swift */,
 				E305E8B426DF133000AAB580 /* BaseViewController.swift */,
-				E3DF13992843B8EF007FCC11 /* HeadBaseViewController.swift */,
+				E341C1142F2C9F0E00F1CC1B /* XSBaseViewController.swift */,
+				E341C1122F2C9CD600F1CC1B /* LBBaseViewController.swift */,
 				E305E8B526DF133000AAB580 /* BaseTableViewCell.swift */,
 				E305E8B626DF133000AAB580 /* GestureTableView.swift */,
 				E305E8B726DF133000AAB580 /* BaseAlertView.swift */,
@@ -991,7 +1009,6 @@
 				E305E8DD26DF133D00AAB580 /* NoDataView.swift */,
 				E305E8DE26DF133D00AAB580 /* CartManager.swift */,
 				E305E8E126DF133D00AAB580 /* PJCUtil.swift */,
-				E305E8E226DF133D00AAB580 /* SearchManager.swift */,
 				E30B46B226F1DB3500FB9B2B /* SearchPlaceManager.swift */,
 				E3DE48BD27745ED600F3DCCD /* LocationManager.swift */,
 				E3DE48BB2774163D00F3DCCD /* DateTool.swift */,
@@ -1020,35 +1037,14 @@
 		E305E90326DF14E700AAB580 /* 登录 */ = {
 			isa = PBXGroup;
 			children = (
-				E305E90626DF14FD00AAB580 /* Model */,
-				E305E90526DF14F600AAB580 /* VC */,
-				E305E90426DF14EF00AAB580 /* View */,
-			);
-			path = "登录";
-			sourceTree = "<group>";
-		};
-		E305E90426DF14EF00AAB580 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				E305E90926DF158400AAB580 /* LoginBottomView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		E305E90526DF14F600AAB580 /* VC */ = {
-			isa = PBXGroup;
-			children = (
 				E305E90726DF154600AAB580 /* LogInController.swift */,
 				E3386CA82791558400CBD42C /* XYViewController.swift */,
+				E3EBF5922F27532700112492 /* StoreListController.swift */,
+				E305E90926DF158400AAB580 /* LoginBottomView.swift */,
+				E3EBF5902F274D4A00112492 /* StoreModel.swift */,
+				E3EBF5942F2759BA00112492 /* StoreInfoCell.swift */,
 			);
-			path = VC;
-			sourceTree = "<group>";
-		};
-		E305E90626DF14FD00AAB580 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
+			path = "登录";
 			sourceTree = "<group>";
 		};
 		E3096E672E71146300B3917E /* 店铺详情设置 */ = {
@@ -1186,6 +1182,58 @@
 				E3C8DFB82DA7B28B007DE27A /* PrinterSouceCell.swift */,
 			);
 			path = "打印机设置";
+			sourceTree = "<group>";
+		};
+		E341C10D2F2B2AB300F1CC1B /* 老板账号 */ = {
+			isa = PBXGroup;
+			children = (
+				E37C188F29F655F000D7C39D /* 老板首页 */,
+				E36F81AB2E5C378E00DA9524 /* 其他平台首页数据 */,
+				E3902CF42EE41B1900E6218E /* 首页订单列表 */,
+				E326C42D2D27B90F00CBC07D /* 首页今日营业数据 */,
+				E35268942C61F328007A847F /* 首页店铺收支 */,
+				E37C189429F657CB00D7C39D /* 首页营业数据 */,
+				E37C189A29F65D9800D7C39D /* 首页菜品销量 */,
+				E31582E62CEEC80E009D532B /* 首页预定 */,
+				E3096E6E2E7ABD6500B3917E /* 客戶管理 */,
+				E3096E6F2E7ABD7300B3917E /* 促銷管理 */,
+				E3BB29432D6429F000C663B1 /* 公用 */,
+				E34E6E1D2A8C683B00DBC2A5 /* 评论 */,
+				E34E6E0B2A87607500DBC2A5 /* 订单相关 */,
+				E34E6E1C2A8C682E00DBC2A5 /* 投诉 */,
+				E34E6E062A84CF8400DBC2A5 /* 消息 */,
+				E37C18A129F6614C00D7C39D /* 店铺设置 */,
+				E3AEAEB52E4F2D64004D1170 /* 系统设置 */,
+			);
+			path = "老板账号";
+			sourceTree = "<group>";
+		};
+		E341C10E2F2B2AD000F1CC1B /* 销售账号 */ = {
+			isa = PBXGroup;
+			children = (
+				E341C10F2F2B2C1D00F1CC1B /* 销售首頁 */,
+			);
+			path = "销售账号";
+			sourceTree = "<group>";
+		};
+		E341C10F2F2B2C1D00F1CC1B /* 销售首頁 */ = {
+			isa = PBXGroup;
+			children = (
+				E341C1162F2C9F9100F1CC1B /* SalesFirstController.swift */,
+				E338ACF22F3372ED00031775 /* SalesIncomeListController.swift */,
+				E338ACF82F35E37400031775 /* SalesIncomeDetailController.swift */,
+				E338ACFE2F3711CB00031775 /* SalesIncomSearchController.swift */,
+				E338ACF02F3361CD00031775 /* SalesFirstHeaderView.swift */,
+				E338AD002F38B99900031775 /* SalesFirstSelectView.swift */,
+				E338ACEE2F31DBE300031775 /* StoreIncomeCell.swift */,
+				E338AD022F38C05A00031775 /* SubPersonCell.swift */,
+				E338ACF42F34987900031775 /* SalesIncomeCell.swift */,
+				E338ACFA2F35E9D600031775 /* SalesIncomeDetailHeadCell.swift */,
+				E338ACFC2F35E9FC00031775 /* SalesIncomePlatformCell.swift */,
+				E338ACEC2F31D97D00031775 /* SalesSideToolView.swift */,
+				E338ACF62F34C73A00031775 /* IncomeRecordModel.swift */,
+			);
+			path = "销售首頁";
 			sourceTree = "<group>";
 		};
 		E34E6E062A84CF8400DBC2A5 /* 消息 */ = {
@@ -2213,12 +2261,14 @@
 				E34FCBD12D5445860067FCB6 /* PrinterLinkController.swift in Sources */,
 				E36F81B42E5CA6D000DA9524 /* FontAlert.swift in Sources */,
 				E3902D062EF2C70B00E6218E /* FullGiftModel.swift in Sources */,
+				E3EBF5912F274D4A00112492 /* StoreModel.swift in Sources */,
 				E39B67842E7EE4D20041328D /* PromotionDetailDishCell.swift in Sources */,
 				E364A85B2AA1847F00190DC9 /* TableModel.swift in Sources */,
 				E352689A2C630E9C007A847F /* StoreAmountChartCell.swift in Sources */,
 				E3F829E42861C445005E5FAB /* MenuDishDetailController.swift in Sources */,
 				E3096E7D2E7C0DDC00B3917E /* PromotionInfoCell.swift in Sources */,
 				E3F82A1428698DC5005E5FAB /* MenuAdditionalAddController.swift in Sources */,
+				E338AD032F38C05A00031775 /* SubPersonCell.swift in Sources */,
 				E30460B02CF0AED400DFC5BB /* TableSelectAlert.swift in Sources */,
 				E34E6E252A8DF0B800DBC2A5 /* ComPlaintsNameCell.swift in Sources */,
 				E3F82A18286AC7A2005E5FAB /* MenuGiftAddController.swift in Sources */,
@@ -2229,6 +2279,7 @@
 				E3F829FE286450FB005E5FAB /* DishDetailSpecInfoCell.swift in Sources */,
 				E3F829EC2864190D005E5FAB /* DishDetailPictureCell.swift in Sources */,
 				E3B1CFA128509ECF0044D69F /* RestaurantSettingController.swift in Sources */,
+				E341C1132F2C9CD600F1CC1B /* LBBaseViewController.swift in Sources */,
 				E39B67952E852FAF0041328D /* LinkTagsContorller.swift in Sources */,
 				E3F829F0286431E9005E5FAB /* DishDetailAddSpecCell.swift in Sources */,
 				E305E8B926DF133000AAB580 /* BaseViewController.swift in Sources */,
@@ -2239,6 +2290,7 @@
 				E305E8F426DF133D00AAB580 /* HUDManager_MB.swift in Sources */,
 				E3B9B67F2CF0743800AEF22C /* DateModel.swift in Sources */,
 				E3F829E828631BA2005E5FAB /* DishDetailModel.swift in Sources */,
+				E3EBF5932F27532700112492 /* StoreListController.swift in Sources */,
 				E3B9B67D2CF06FD100AEF22C /* DateSelectView.swift in Sources */,
 				E36570BE2A9CA3C70020BD35 /* ComplaintsRefundAlert.swift in Sources */,
 				E34E6E432A90937300DBC2A5 /* ReviewsModel.swift in Sources */,
@@ -2253,6 +2305,8 @@
 				E34FCBD52D55EAFF0067FCB6 /* CalendarAlert.swift in Sources */,
 				E305E8B826DF133000AAB580 /* GestureCollectionView.swift in Sources */,
 				E3B3B12C285D7CBF007CCED4 /* DishesSpecNameCell.swift in Sources */,
+				E338ACF32F3372ED00031775 /* SalesIncomeListController.swift in Sources */,
+				E3EBF5952F2759BA00112492 /* StoreInfoCell.swift in Sources */,
 				E32B488F2B2BE7F500B0F64C /* MessageCell.swift in Sources */,
 				E3F829F62864376D005E5FAB /* SpecHeaderCell.swift in Sources */,
 				E3F829E02861A699005E5FAB /* MenuDishMoreAlert.swift in Sources */,
@@ -2273,6 +2327,7 @@
 				E326C43E2D27D0E900CBC07D /* DataInfoCollectionCell.swift in Sources */,
 				E326C4432D2EA2A700CBC07D /* DataInfoCell_People.swift in Sources */,
 				E3AEAEB92E4F3B29004D1170 /* ChangePasswordController.swift in Sources */,
+				E341C1172F2C9F9100F1CC1B /* SalesFirstController.swift in Sources */,
 				E364A84E2AA07E9200190DC9 /* DetailMessageCell.swift in Sources */,
 				E34E6E2F2A8E020400DBC2A5 /* ComplaintsButtonCell.swift in Sources */,
 				E3C8DFBB2DB932A8007DE27A /* SalesHeaderCell.swift in Sources */,
@@ -2298,6 +2353,7 @@
 				E39B677C2E7E578A0041328D /* PromotionStatusCell.swift in Sources */,
 				E39B67802E7EA04A0041328D /* PromotionHistoryListController.swift in Sources */,
 				E305E8F726DF133D00AAB580 /* CartManager.swift in Sources */,
+				E338ACF72F34C73A00031775 /* IncomeRecordModel.swift in Sources */,
 				E36A956B284798610037E4E6 /* CalendarView.swift in Sources */,
 				E3F82A252873D952005E5FAB /* TKImageView.m in Sources */,
 				E3F82A0E2869562B005E5FAB /* MenuAdditionalDetailController.swift in Sources */,
@@ -2307,7 +2363,6 @@
 				E3F82A2B28741C23005E5FAB /* DeviceID.m in Sources */,
 				E316889429F569ED00318307 /* OpeningTimeDetailCell.swift in Sources */,
 				E305E90A26DF158400AAB580 /* LoginBottomView.swift in Sources */,
-				E3DF139A2843B8EF007FCC11 /* HeadBaseViewController.swift in Sources */,
 				E35268A02C637213007A847F /* StoreOutChartCell.swift in Sources */,
 				E36570C62A9EDC1C0020BD35 /* ComplaintsDishesAlert.swift in Sources */,
 				E337297828C193B000A06AB7 /* MonthSalesModel.swift in Sources */,
@@ -2315,22 +2370,26 @@
 				E3F82A12286987D4005E5FAB /* AdditionalDetailModel.swift in Sources */,
 				E305E8B126DF131C00AAB580 /* ProjectHeader.swift in Sources */,
 				E382F1AC2E2B790600DB21A2 /* PayTypeAlert.swift in Sources */,
+				E338ACFF2F3711CB00031775 /* SalesIncomSearchController.swift in Sources */,
 				E3F829E628631000005E5FAB /* DishDetailEditeCell.swift in Sources */,
 				E39B679B2E8587600041328D /* SelectFiveButCell.swift in Sources */,
 				E31C2C7A2A20A19D007B6DC2 /* MenuComboEditDishController.swift in Sources */,
 				E37926D02DCB79BE00004178 /* DataInfoCell_Other.swift in Sources */,
 				E3F82A16286AC3ED005E5FAB /* GiftDetailModel.swift in Sources */,
 				E316889029F3D71100318307 /* AddOpeningTimeCell.swift in Sources */,
+				E338ACF92F35E37400031775 /* SalesIncomeDetailController.swift in Sources */,
 				E39B677E2E7E76760041328D /* PromotionMessageCell.swift in Sources */,
 				E305E8EC26DF133D00AAB580 /* LTVCExtension.swift in Sources */,
 				E3F829FC28644C83005E5FAB /* DishDetailSpecNameCell.swift in Sources */,
 				E305E8E526DF133D00AAB580 /* LTCollectionFlowLayout.swift in Sources */,
+				E338ACF52F34987900031775 /* SalesIncomeCell.swift in Sources */,
 				E34C881D293B40C200A24F4D /* StatisticalFeeCell.swift in Sources */,
 				E39B67782E7D24760041328D /* CouponModel.swift in Sources */,
 				E39B67932E84EBB50041328D /* CustomListInfoCell.swift in Sources */,
 				E326C4312D27B9FA00CBC07D /* StoreDataOverviewController.swift in Sources */,
 				E36B20162C1BE4FD000839BE /* InputView.swift in Sources */,
 				E3A4076E2CEF001F0055C05D /* ListTagView.swift in Sources */,
+				E341C1152F2C9F0E00F1CC1B /* XSBaseViewController.swift in Sources */,
 				E305E8EF26DF133D00AAB580 /* Extension.swift in Sources */,
 				E37C18C52A1A426300D7C39D /* MenuDishComboDetailController.swift in Sources */,
 				E32D5EB62D23BF44000290A5 /* StoreSalesDataCell.swift in Sources */,
@@ -2344,6 +2403,7 @@
 				E305E8E626DF133D00AAB580 /* LTDispatchQueue.swift in Sources */,
 				E36F81B12E5C9EDD00DA9524 /* OtherPlatformDishCell.swift in Sources */,
 				E305E8F326DF133D00AAB580 /* Protocol.swift in Sources */,
+				E338ACED2F31D97D00031775 /* SalesSideToolView.swift in Sources */,
 				E3F82A0228655458005E5FAB /* DishEditeTextViewCell.swift in Sources */,
 				E3F82A10286958F9005E5FAB /* MenuGiftDetailController.swift in Sources */,
 				E3284BAF2A4A6FF9004BC2C5 /* DishEditeSellTypeCell.swift in Sources */,
@@ -2380,6 +2440,7 @@
 				E386AABB2E0D6BC500A6D634 /* HolidayModel.swift in Sources */,
 				E3B9B6752CEF274000AEF22C /* AddBookingModel.swift in Sources */,
 				E3B3B12A285D7CA6007CCED4 /* DishesSpecItemCell.swift in Sources */,
+				E338ACF12F3361CD00031775 /* SalesFirstHeaderView.swift in Sources */,
 				E382F1AA2E2A69EF00DB21A2 /* OrderListController.swift in Sources */,
 				E34E6E0A2A85DBDA00DBC2A5 /* MergeOrderController.swift in Sources */,
 				E3DF139C2843BDBF007FCC11 /* BossFirstController.swift in Sources */,
@@ -2396,6 +2457,7 @@
 				E3F82A1A286AE97A005E5FAB /* PaymentMethodController.swift in Sources */,
 				E36570C42A9DE90B0020BD35 /* OrderDishModel.swift in Sources */,
 				E31C2C762A2092FB007B6DC2 /* ComboNameCell.swift in Sources */,
+				E338ACFB2F35E9D600031775 /* SalesIncomeDetailHeadCell.swift in Sources */,
 				E326C4412D2D2B9C00CBC07D /* SalesDataModel.swift in Sources */,
 				E305E90226DF146E00AAB580 /* MainNaviController.swift in Sources */,
 				E352689C2C634FF7007A847F /* StoreAmountDataCell.swift in Sources */,
@@ -2414,6 +2476,7 @@
 				E34E6E272A8DF1EA00DBC2A5 /* ComplaintsReasonCell.swift in Sources */,
 				E34E6E292A8DF80D00DBC2A5 /* ComplaintsPictureCell.swift in Sources */,
 				E364A85F2AA1D1CE00190DC9 /* TableEditAlert.swift in Sources */,
+				E338ACEF2F31DBE300031775 /* StoreIncomeCell.swift in Sources */,
 				E34E6E332A8F02D600DBC2A5 /* ComplaintsDealCell.swift in Sources */,
 				E305E8E426DF133D00AAB580 /* LTSimpleManager.swift in Sources */,
 				E326C4562D38F68A00CBC07D /* StatisClassifyAlert.swift in Sources */,
@@ -2423,6 +2486,7 @@
 				E3B1CF99284E0A730044D69F /* MenuItemCell.swift in Sources */,
 				E3096E812E7C599600B3917E /* EditBFBInPutCell.swift in Sources */,
 				E366ADE5284740E000295039 /* StatisticalBottomCell.swift in Sources */,
+				E338AD012F38B99900031775 /* SalesFirstSelectView.swift in Sources */,
 				E39B67972E8546310041328D /* SelectTagCell.swift in Sources */,
 				E305E94526E1F0A500AAB580 /* StoreTimeSettingController.swift in Sources */,
 				E34E6E372A8F1C2900DBC2A5 /* ReviewsStarView.swift in Sources */,
@@ -2446,6 +2510,7 @@
 				E326D9FA2ADFBF440060C0BE /* PrinterInfoCell.swift in Sources */,
 				E3DF13AF2844C0B8007FCC11 /* StatisticalDataCell.swift in Sources */,
 				E36570BA2A9C811D0020BD35 /* ComplaintsReplyController.swift in Sources */,
+				E338ACFD2F35E9FC00031775 /* SalesIncomePlatformCell.swift in Sources */,
 				E3B3B126285C81EC007CCED4 /* DishesItemContentCell.swift in Sources */,
 				E305E87A26DF0EC700AAB580 /* AppDelegate.swift in Sources */,
 				E305E8F626DF133D00AAB580 /* NoDataView.swift in Sources */,
@@ -2478,7 +2543,6 @@
 				E326D9FC2ADFC4020060C0BE /* PrinterModel.swift in Sources */,
 				E316888829F3AFD800318307 /* StoreTimeListController.swift in Sources */,
 				E3B9B67B2CF0336000AEF22C /* BookingTimeCell.swift in Sources */,
-				E305E8FB26DF133D00AAB580 /* SearchManager.swift in Sources */,
 				E386AAC12E0D8D1300A6D634 /* EditSelectDateCell.swift in Sources */,
 				E3F82A0C28659822005E5FAB /* DishSelectClassifyView.swift in Sources */,
 				E326C4522D36733D00CBC07D /* SelectFourButCell.swift in Sources */,
@@ -2691,7 +2755,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.80;
+				MARKETING_VERSION = 1.0.81;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app-Boss";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -2725,7 +2789,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.80;
+				MARKETING_VERSION = 1.0.81;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app-Boss";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = boss_dis;

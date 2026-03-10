@@ -22,13 +22,7 @@ target 'CLICK_S' do
   pod 'Bugly'
 
   
-  
-#  #谷歌地图
-#  pod'GoogleMaps'
-#  pod'GooglePlaces'
-  
   pod 'FSCalendar'
-  
   pod 'Charts'
   
 

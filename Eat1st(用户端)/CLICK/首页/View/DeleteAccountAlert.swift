@@ -62,7 +62,7 @@ class DeleteAccountAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
     
     private let applyBut: UIButton = {
         let but = UIButton()
-        but.setCommentStyle(.zero, "Submit an application", .white, SFONT(14), MAINCOLOR)
+        but.setCommentStyle(.zero, "Delete the account", .white, SFONT(14), MAINCOLOR)
         but.layer.cornerRadius = 14
         return but
     }()
@@ -137,7 +137,7 @@ class DeleteAccountAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
     
     @objc private func clickApplyAction() {
         
-        self.showSystemAlert("WARNING", "We will review your application and your account will be frozen during the process.", "Confirm") {
+        showSystemChooseAlert("WARNING", "After the account is deleted, you will not be able to log in and the account information will be lost.", "Confirm", "Cancel") {
             //提交申请
             HUD_MB.loading("", onView: PJCUtil.getWindowView())
             HTTPTOOl.deleteAccountApply().subscribe(onNext: { (json) in
@@ -153,9 +153,7 @@ class DeleteAccountAlert: UIView, UIGestureRecognizerDelegate, SystemAlertProtoc
             }, onError: { (error) in
                 HUD_MB.showError(ErrorTool.errorMessage(error), onView: PJCUtil.getWindowView())
             }).disposed(by: self.bag)
-            
         }
-
     }
     
     

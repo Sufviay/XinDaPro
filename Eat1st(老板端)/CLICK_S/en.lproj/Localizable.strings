@@ -79,6 +79,7 @@
 "Dine-in table management" = "Dine-in table management";
 "System settings" = "System settings";
 "Logout" = "Logout";
+"Operation Record" = "Operation Record";
 
 "Change language" = "Change language";
 "Change password" = "Change password";
@@ -482,3 +483,11 @@
 "Please enter the amount!" = "Please enter the amount.";
 "Please enter the Full gift name!" = "Please enter the Full gift name.";
 "Enabled. Cannot be deleted." = "Enabled. Cannot be deleted.";
+"Please fill in your account number." = "Please fill in your account number.";
+"Please fill in your password." = "Please fill in your password.";
+"You do not have the permission for store." = "You do not have the permission for store.";
+"Choose Store" = "Choose Store";
+"You do not have the permission for the current store." = "You do not have the permission for the current store.";
+"My earnings" = "My earnings";
+"LOG OUT" = "LOG OUT";
+

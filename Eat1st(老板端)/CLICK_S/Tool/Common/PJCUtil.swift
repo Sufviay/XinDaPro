@@ -158,11 +158,10 @@ class PJCUtil: NSObject {
 
         UserDefaults.standard.isLogin = false
         UserDefaults.standard.removeObject(forKey: Keys.userName)
-        UserDefaults.standard.removeObject(forKey: Keys.token)
-        UserDefaults.standard.removeObject(forKey: Keys.userType)
         UserDefaults.standard.removeObject(forKey: Keys.userAuth)
         UserDefaults.standard.removeObject(forKey: Keys.storeName)
         UserDefaults.standard.removeObject(forKey: Keys.userRole)
+        UserDefaults.standard.removeObject(forKey: Keys.storeID)
 
         PJCUtil.currentVC()?.navigationController?.setViewControllers([LogInController()], animated: false)
         

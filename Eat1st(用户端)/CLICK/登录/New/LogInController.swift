@@ -869,6 +869,7 @@ extension LogInController {
         HTTPTOOl.getUserInfo().subscribe(onNext: { [unowned self] (json) in
             HUD_MB.showSuccess("Success", onView: view)
             UserDefaults.standard.userName = json["data"]["name"].stringValue
+            UserDefaults.standard.userID = json["data"]["userId"].stringValue
             if json["data"]["loginType"].stringValue == "2" {
                 //手机
                 UserDefaults.standard.removeObject(forKey: Keys.userEmail)

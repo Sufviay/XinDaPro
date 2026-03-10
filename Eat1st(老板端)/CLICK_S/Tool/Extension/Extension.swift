@@ -117,6 +117,19 @@ extension UIView {
         self.layer.mask = maskLayer
     }
     
+    
+    //设置阴影
+    func setCommonShadow() {
+        self.layer.shadowColor = HCOLOR("#252275").withAlphaComponent(0.3).cgColor
+        // 阴影偏移，默认(0, -3)
+        self.layer.shadowOffset = CGSize(width: 0, height: 5)
+        // 阴影透明度，默认0
+        self.layer.shadowOpacity = 1
+        // 阴影半径，默认3
+        self.layer.shadowRadius = 5
+    }
+    
+    
 }
 
 //MARK: - 关于String
@@ -367,6 +380,13 @@ extension String {
             return nil
         }
     }
+    
+    
+    //时间字符串转换格式
+    func changeDateStr() -> String {
+        let date = self.changeDate(formatter: "yyyy-MM-dd")
+        return date?.getString("dd/MM/yyyy") ?? ""
+    }
 
     
     
@@ -490,9 +510,8 @@ extension Date {
 
 public struct Keys {
     static let verID: String = "verID"
-    
     static let isLogin = "isLogin"
-    static let userType = "userType"
+
     static let token = "token"
     static let userID = "userID"
     static let userName = "name"
@@ -500,27 +519,31 @@ public struct Keys {
     static let userRole = "userRole"
     static let userAuth = "userAuth"
     static let accountNum = "accountNum"
-    
-    
-    static let tsToken = "tsToken"
-
-    static let searchHis = "history"
-
-    static let local_lat = "local_lat"
-    static let local_lng = "local_lng"
-    static let postCode = "postcode"
-    static let address = "address"
-    static let receiver = "receiver"
-    static let phone = "phone"
-    static let storeLat = "storeLat"
-    static let storeLng = "storeLng"
+    static let loginDate = "loginDate"
+    static let storeID = "storeID"
     
     
 
-    
+   
+    //    static let userType = "userType"
     //关于通知中心
     ///用于显示/隐藏筛选排序栏
-    static let sxpxStatus = "sxpxStatus"
+    //static let sxpxStatus = "sxpxStatus"
+    
+//    static let tsToken = "tsToken"
+//
+//    static let searchHis = "history"
+//
+//    static let local_lat = "local_lat"
+//    static let local_lng = "local_lng"
+//    static let postCode = "postcode"
+//    static let address = "address"
+//    static let receiver = "receiver"
+//    static let phone = "phone"
+//    static let storeLat = "storeLat"
+//    static let storeLng = "storeLng"
+
+    
     
 }
 
@@ -548,19 +571,19 @@ extension UserDefaults {
             return bool(forKey: Keys.isLogin)
         }
     }
-
-    ///用户类型 (1老板，2配送员，3后厨）
-    var userType: String? {
+    
+    var loginDate: String? {
         set {
-            set(newValue, forKey: Keys.userType)
+            set(newValue, forKey: Keys.loginDate)
         }
         get {
-            return string(forKey: Keys.userType)
+            return string(forKey: Keys.loginDate)
         }
+
     }
     
     
-    ///角色名 （1老板，2配送员，3店家)
+    ///账户类型 0销售 1老板
     var userRole: String? {
         set {
             set(newValue, forKey: Keys.userRole)
@@ -569,8 +592,7 @@ extension UserDefaults {
             return string(forKey: Keys.userRole)
         }
     }
-    
-    
+
     ///用户权限 （1无店铺设置权限，2有店铺设置权限)
     var userAuth: String? {
         set {
@@ -581,8 +603,6 @@ extension UserDefaults {
         }
     }
 
-    
-    
     ///帐号
     var accountNum: String? {
         set {
@@ -594,19 +614,6 @@ extension UserDefaults {
     }
 
     
-    
-    ///推送Token
-    var tsToken: String? {
-        set {
-            set(newValue, forKey: Keys.tsToken)
-        }
-        get {
-            return string(forKey: Keys.tsToken)
-        }
-    }
-    
-    
-
     ///token
     var token: String? {
         set {
@@ -614,16 +621,6 @@ extension UserDefaults {
         }
         get {
             return string(forKey: Keys.token)
-        }
-    }
-    
-    ///userID
-    var userID: String? {
-        set {
-            set(newValue, forKey: Keys.userID)
-        }
-        get {
-            return string(forKey: Keys.userID)
         }
     }
     
@@ -637,6 +634,66 @@ extension UserDefaults {
         }
     }
     
+    
+    ///店鋪ID
+    var storeID: String? {
+        set {
+            set(newValue, forKey: Keys.storeID)
+        }
+        get {
+            return string(forKey: Keys.storeID)
+        }
+    }
+
+
+    
+    
+    
+//
+//    ///用户类型 (1老板，2配送员，3后厨）
+//    var userType: String? {
+//        set {
+//            set(newValue, forKey: Keys.userType)
+//        }
+//        get {
+//            return string(forKey: Keys.userType)
+//        }
+//    }
+//    
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+//    
+//    ///推送Token
+//    var tsToken: String? {
+//        set {
+//            set(newValue, forKey: Keys.tsToken)
+//        }
+//        get {
+//            return string(forKey: Keys.tsToken)
+//        }
+//    }
+    
+    
+    
+//    ///userID
+//    var userID: String? {
+//        set {
+//            set(newValue, forKey: Keys.userID)
+//        }
+//        get {
+//            return string(forKey: Keys.userID)
+//        }
+//    }
+    
+    
     ///店铺名称
     var storeName: String? {
         set {
@@ -648,98 +705,98 @@ extension UserDefaults {
 
     }
 
+//    
+//    ///搜索历史数组
+//    var searchHisArr: [Any]? {
+//        set {
+//            set(newValue, forKey: Keys.searchHis)
+//        }
+//        get {
+//            return array(forKey: Keys.searchHis)
+//        }
+//    }
     
-    ///搜索历史数组
-    var searchHisArr: [Any]? {
-        set {
-            set(newValue, forKey: Keys.searchHis)
-        }
-        get {
-            return array(forKey: Keys.searchHis)
-        }
-    }
-    
-    ///纬度
-    var local_lat: String? {
-        set {
-            set(newValue, forKey: Keys.local_lat)
-        }
-        get {
-            return string(forKey: Keys.local_lat)
-        }
-    }
-    
-    ///经度
-    
-    var local_lng: String? {
-        set {
-            set(newValue, forKey: Keys.local_lng)
-        }
-        get {
-            return string(forKey: Keys.local_lng)
-        }
-    }
-    
-    ///地址
-    var address: String? {
-        set {
-            set(newValue, forKey: Keys.address)
-        }
-        get {
-            return string(forKey: Keys.address)
-        }
-    }
-    
-    ///邮编
-    var postCode: String? {
-        set {
-            set(newValue, forKey: Keys.postCode)
-        }
-        get {
-            return string(forKey: Keys.postCode)
-        }
-    }
-    
-    ///收货人
-    var receiver: String? {
-        set {
-            set(newValue, forKey: Keys.receiver)
-        }
-        get {
-            return string(forKey: Keys.receiver)
-        }
-    }
-    
-    ///电话
-    var phone: String? {
-        set {
-            set(newValue, forKey: Keys.phone)
-        }
-        get {
-            return string(forKey: Keys.phone)
-        }
-    }
-
-    ///店铺坐标
-    var storeLat: Double? {
-        set {
-            set(newValue, forKey: Keys.storeLat)
-        }
-        get {
-            return double(forKey: Keys.storeLat)
-        }
-    }
-    
-    
-    var storeLng: Double? {
-        set {
-            set(newValue, forKey: Keys.storeLng)
-        }
-        get {
-            return double(forKey: Keys.storeLng)
-        }
-    }
-    
+//    ///纬度
+//    var local_lat: String? {
+//        set {
+//            set(newValue, forKey: Keys.local_lat)
+//        }
+//        get {
+//            return string(forKey: Keys.local_lat)
+//        }
+//    }
+//    
+//    ///经度
+//    
+//    var local_lng: String? {
+//        set {
+//            set(newValue, forKey: Keys.local_lng)
+//        }
+//        get {
+//            return string(forKey: Keys.local_lng)
+//        }
+//    }
+//    
+//    ///地址
+//    var address: String? {
+//        set {
+//            set(newValue, forKey: Keys.address)
+//        }
+//        get {
+//            return string(forKey: Keys.address)
+//        }
+//    }
+//    
+//    ///邮编
+//    var postCode: String? {
+//        set {
+//            set(newValue, forKey: Keys.postCode)
+//        }
+//        get {
+//            return string(forKey: Keys.postCode)
+//        }
+//    }
+//    
+//    ///收货人
+//    var receiver: String? {
+//        set {
+//            set(newValue, forKey: Keys.receiver)
+//        }
+//        get {
+//            return string(forKey: Keys.receiver)
+//        }
+//    }
+//    
+//    ///电话
+//    var phone: String? {
+//        set {
+//            set(newValue, forKey: Keys.phone)
+//        }
+//        get {
+//            return string(forKey: Keys.phone)
+//        }
+//    }
+//
+//    ///店铺坐标
+//    var storeLat: Double? {
+//        set {
+//            set(newValue, forKey: Keys.storeLat)
+//        }
+//        get {
+//            return double(forKey: Keys.storeLat)
+//        }
+//    }
+//    
+//    
+//    var storeLng: Double? {
+//        set {
+//            set(newValue, forKey: Keys.storeLng)
+//        }
+//        get {
+//            return double(forKey: Keys.storeLng)
+//        }
+//    }
+//    
     
     
     

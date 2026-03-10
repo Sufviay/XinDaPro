@@ -16,7 +16,15 @@ class MainNaviController: UINavigationController {
         super.viewDidLoad()
         
         if UserDefaults.standard.isLogin {
-            self.setViewControllers([BossFirstController()], animated: false)
+            
+            if UserDefaults.standard.userRole == "0" {
+                //销售
+                setViewControllers([SalesFirstController()], animated: false)
+            } else {
+                //老板
+                setViewControllers([BossFirstController()], animated: false)
+            }
+            
         } else {
             self.setViewControllers([LogInController()], animated: false)
         }

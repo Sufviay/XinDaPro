@@ -13,310 +13,322 @@ import SwiftyJSON
 enum ApiManager {
     
     //MARK: ------------------ 登录 ---------------------
-    ///检查App版本
+    ///1检查App版本
     case checkAppVer
-    ///登录
+    ///2登录
     case loginAction(user: String, pw: String)
-    ///登出
+    ///3登出
     case logOutAction
-    ///获取首页数据 yyyy-MM-dd
+    ///4获取首页数据 yyyy-MM-dd
     case getLiveReportingData(date: String, end: String)
-    ///获取繁忙时间
+    ///5获取繁忙时间
     case getBusyTimeList
-    ///获取配送时间
+    ///6获取配送时间
     case getTheTimeRange
-    ///设置时间范围
+    ///7设置时间范围
     case setRangeTime(type: String, maxTime: String, minTime: String)
-    ///设置繁忙时间
+    ///8设置繁忙时间
     case setBusyTime(busyID: String)
-    ///获取店铺的营业状态
+    ///9获取店铺的营业状态
     case getStoreOnlineStatus
-    ///上传语言
+    ///10上传语言
     case uploadLanguage
-    ///获取菜品
+    ///11获取菜品
     case getDishesList
-    ///获取菜品的规格
+    ///12获取菜品的规格
     case getDishesOptionList(id: String)
-    ///设置菜品规格上下架
+    ///13设置菜品规格上下架
     case setSpecOnOffStatus(id: String)
-    ///设置菜品规格选项上下架
+    ///14设置菜品规格选项上下架
     case setOptionItemOnoffStatus(id: String)
-    ///获取菜品统计
+    ///15获取菜品统计
     case getDishesReportingData(type: String, day: String, endDay: String)
-    ///上传推送Token
+    ///16上传推送Token
     case updateCloubMessageToken(token: String)
-    ///店铺营业状态
+    ///17店铺营业状态
     case getStoreOpeningHours
-    ///设置营业时间
+    ///18设置营业时间
     case setStoreOpeningHours(starTime: String, endTime: String, type: String, timeID: String)
-    ///设置店铺每天的营业状态
+    ///19设置店铺每天的营业状态
     case setStoreOpenStatusByDay(timeID: String, coStatus: String, deStatus: String)
-    ///设置店铺总的营业状态
+    ///20设置店铺总的营业状态
     case setStoreOpenStatus(coStatus: String, deStatus: String)
-    //设置菜品上下架
+    ///21设置菜品上下架
     case setDishesOnOffStatus(dishes: [[String: String]], status: String)
-    ///获取店铺阶梯配送费列表和配送方式
+    ///22获取店铺阶梯配送费列表和配送方式
     case getDeliveryFeeListAndType
-    ///添加店铺阶梯配送费
+    ///23添加店铺阶梯配送费
     case addDeliveryFee(amount: String, distance: String, postCode: String, type: String)
-    ///编辑店铺的配送费
+    ///24编辑店铺的配送费
     case editeDeliveryFee(amount: String, distance: String, postCode: String, id: String)
-    ///设置配送方式
+    ///25设置配送方式
     case setDeliveryType(type: String)
-    
-    ///删除配送费
+    ///26删除配送费
     case deleteDeliveryFee(id: String)
-    ///获取菜品分类列表
+    ///27获取菜品分类列表
     case getMenuClassifyList
-    ///添加菜品分类
+    ///28添加菜品分类
     case addMenuClassify(name_E: String, name_C: String, name_H: String)
-    ///编辑菜品分类
+    ///29编辑菜品分类
     case editeMenuClassify(id: String, name_E: String, name_C: String, name_H: String)
-    ///删除菜品分类
+    ///30删除菜品分类
     case deleteMenuClassify(id: String)
-    ///获取菜品分类详情
+    ///31获取菜品分类详情
     case getMenuClassifyDetail(id: String)
-    ///获取附加分类列表
+    ///32获取附加分类列表
     case getAttachClassifyList
-    ///添加附加分类
+    ///33添加附加分类
     case addAttachClassify(name_E: String, name_C: String, name_H: String)
-    ///获取附加分类详情
+    ///34获取附加分类详情
     case getAttachClassifyDetail(id: String)
-    ///删除附加分类
+    ///35删除附加分类
     case deleteAttachClassify(id: String)
-    ///编辑附加分类
+    ///36编辑附加分类
     case editeAttachClassify(id: String, name_E: String, name_C: String, name_H: String)
-    
-    ///获取赠品分类列表
+    ///37获取赠品分类列表
     case getGiftClassifyList
-    ///添加赠品分类
+    ///38添加赠品分类
     case addGiftClassify(name_E: String, name_C: String, name_H: String)
-    ///获取赠品分类详情
+    ///39获取赠品分类详情
     case getGiftClassifyDetail(id: String)
-    ///删除附加分类
+    ///40删除附加分类
     case deleteGiftClassify(id: String)
-    ///编辑附加分类
+    ///41编辑附加分类
     case editeGiftClassify(id: String, name_E: String, name_C: String, name_H: String)
-    
-    ///获取分类下的菜品列表
+    ///42获取分类下的菜品列表
     case getClassifyDishesList(id: String)
-    ///获取附加分类下的菜品列表
+    ///43获取附加分类下的菜品列表
     case getClassifyAttachList(id: String)
-    ///获取赠品分类下的菜品列表
+    ///44获取赠品分类下的菜品列表
     case getClassifyGiftList(id: String)
-    ///获取菜品详情
+    ///45获取菜品详情
     case getDishesDetail(id: String)
-    ///获取菜品的标签
+    ///46获取菜品的标签
     case getDishTags
-    ///编辑菜品
+    ///47编辑菜品
     case editeDish(model: DishDetailModel)
-    ///添加菜品
+    ///48添加菜品
     case addDish(model: DishDetailModel)
-    ///删除菜品
+    ///49删除菜品
     case deleteDish(id: String)
-    ///获取菜品规格详情
+    ///50获取菜品规格详情
     case getDishSpecDetail(id: String)
-    ///编辑规格
+    ///51编辑规格
     case editeSpec(model: DishDetailSpecModel)
-    ///添加规格
+    ///52添加规格
     case addSpec(model: DishDetailSpecModel)
-    ///删除规格
+    ///53删除规格
     case deleteSpec(id: String)
-    ///编辑规格选项
+    ///54编辑规格选项
     case editeSpecOption(model: DishDetailOptionModel)
-    ///添加规格选项
+    ///55添加规格选项
     case addSpecOption(model: DishDetailOptionModel)
-    ///删除规格选项
+    ///56删除规格选项
     case deleteSpecOption(id: String)
-    ///获取附加菜品的详情
+    ///57获取附加菜品的详情
     case getAdditionalDetail(id: String)
-    ///编辑附加菜品
+    ///58编辑附加菜品
     case editeAdditional(model: AdditionalDetailModel)
-    ///添加附加菜品
+    ///59添加附加菜品
     case addAdditional(model: AdditionalDetailModel)
-    ///删除附加菜品
+    ///60删除附加菜品
     case deleteAdditional(id: String)
-
-    ///获取赠品的详情
+    ///61获取赠品的详情
     case getGiftDetail(id: String)
-    ///编辑赠品
+    ///62编辑赠品
     case editeGift(model: GiftDetailModel)
-    ///添加赠品
+    ///63添加赠品
     case addGift(model: GiftDetailModel)
-    ///删除赠品
+    ///64删除赠品
     case deleteGift(id: String)
-    ///获取店铺支付方式
+    ///65获取店铺支付方式
     case getPaymentMethod
-    ///设置店铺支付方式
+    ///66设置店铺支付方式
     case setPaymentMethod(card: String, cash: String)
-    ///设置菜品限购
+    ///67设置菜品限购
     case setDishLimitBuy(dishId: String, limitType: String, limitNum: String)
-    ///获取实时订单数量
+    ///68获取实时订单数量
     case getOrderNum
-    ///菜品的周销量
+    ///69菜品的周销量
     case getDishSales_Week(dishID: String, startDate: String, endDate: String, type: String)
-    ///菜品的月销量
+    ///70菜品的月销量
     case getDishSales_Month(dishID: String, date: String, type: String)
-    ///设置菜品优惠
+    ///71设置菜品优惠
     case setDishedDiscount(id: String, type: String, price: String, startTime: String, endTime: String)
-    ///添加时间段
+    ///72添加时间段
     case addOpeningHours(submitModel: AddTimeSubmitModel)
-    ///请求时间段关联菜品
+    ///73请求时间段关联菜品
     case getTimeBindingDishes(timeID: String)
-    ///保存时间段关联菜品
+    ///74保存时间段关联菜品
     case saveTimeBindingDishes(timeID: String, dishes: [[String: String]])
-    ///编辑时间段
+    ///75编辑时间段
     case editOpeningHours(submitModel: AddTimeSubmitModel)
-    ///删除时间段
+    ///76删除时间段
     case deleteOpeningHours(timeID: String)
-    ///店铺营业时间禁用 启用
+    ///77店铺营业时间禁用 启用
     case OpeningHoursCanUse(timeID: String)
-    ///增加或修改菜品的规格
+    ///78增加或修改菜品的规格
     case specDoAddOrUpdate(model: DishDetailModel)
-    ///增加或修改套餐信息
+    ///79增加或修改套餐信息
     case comboDoAddOrUpdate(model: DishDetailModel)
-    ///获取消息列表
+    ///80获取消息列表
     case getMsgList(page: String, typeList: [String])
-    ///获取合并订单的订单列表
+    ///81获取合并订单的订单列表
     case getMergeDetail(mergeID: String)
-    ///获取投诉列表
+    ///82获取投诉列表
     case getComplainsList(page: String)
-    ///获取评论列表
+    ///83获取评论列表
     case getReviewsList(page: String)
-    ///获取投诉详情
+    ///84获取投诉详情
     case getComplainsDetail(id: String)
-    ///处理投诉
+    ///85处理投诉
     case doComplains(plaintId: String, handleType: String, refundMode: String, amount: String, refundFlow: String, plaintDishesList: [[String: String]])
-    ///回复评论
+    ///86回复评论
     case doEvaluateReply(id: String, content: String)
-    ///获取餐桌列表
+    ///87获取餐桌列表
     case getDeskList(page: String)
-    ///餐桌的启用禁用
+    ///88餐桌的启用禁用
     case setDeskStatus(id: String)
-    ///删除餐桌
+    ///89删除餐桌
     case deleteDesk(id: String)
-    ///添加餐桌
+    ///90添加餐桌
     case addDesk(name: String, remark: String, num: String)
-    ///编辑餐桌
+    ///91编辑餐桌
     case editDesk(id: String, name: String, remark: String, num: String)
-    ///更新菜品价格
+    ///92更新菜品价格
     case updateDishesPrice(id: String, sellType: String, buffetType: String, dePrice: String, dinePrice: String)
-    ///打印机列表
+    ///93打印机列表
     case getPrinterList
-    ///新增打印机
+    ///94新增打印机
     case addPrinter(model: PrinterModel)
-    ///编辑打印机
+    ///95编辑打印机
     case editePrinter(model: PrinterModel)
-    ///启用禁用打印机
+    ///96启用禁用打印机
     case printerDoStatus(id: String)
-    ///删除打印机
+    ///97删除打印机
     case deletePrinter(id: String)
-    ///菜品添加买一赠一
+    ///98菜品添加买一赠一
     case doGiveOne(id: String)
-    ///设置菜品是否为点心套餐菜品
+    ///99设置菜品是否为点心套餐菜品
     case doBaleType(id: String)
-    ///获取店铺收入
+    ///100获取店铺收入
     case getStoreInCost(dateType: String, start: String, end: String)
-    ///获取店铺支出
+    ///101获取店铺支出
     case getStoreOutCost
-    ///设置是否为主打印机
+    ///102设置是否为主打印机
     case doMainPrinter(id: String)
-    ///获取用户已预定列表
+    ///103获取用户已预定列表
     case getUserBookingList(page: String, type: String)
-    ///添加预约
+    ///104添加预约
     case addBooking(model: AddBookingModel)
-    ///获取店铺预约时间
+    ///105获取店铺预约时间
     case getStoreBookingTime(date: String)
-    ///取消预约
+    ///106取消预约
     case doCancelBooking(id: String)
-    ///处理预约
+    ///107处理预约
     case doConfirmBooking(id: String, type: String, deskID: String)
-    ///表格页面的预约数据
+    ///108表格页面的预约数据
     case getBookingDataInCharts(date: String)
-    ///店铺是否可以预约 1否2是
+    ///109店铺是否可以预约 1否2是
     case getStoreBookingStatus
-    ///恢复取消或者拒绝的预定
+    ///110恢复取消或者拒绝的预定
     case doReconfirm(id: String)
-    ///用户预约进店
+    ///111用户预约进店
     case doBookingCheckin(id: String)
-    ///获取汇总打印信息
+    ///112获取汇总打印信息
     case getPrintSummary(dateType: String, start: String, end: String)
-    ///获取营业额统计
+    ///113获取营业额统计
     case getStoreSales(deliveryType: String, queryType: String)
-    ///获取分类统计列表
+    ///114获取分类统计列表
     case getStatisClassifyList
-    ///获取分类统计下菜的排名
+    ///115获取分类统计下菜的排名
     case getStatisClassifyDishesList(id: String, type: String, timePeriod: String, start: String, end: String)
-    ///获取打印机关联菜品
+    ///116获取打印机关联菜品
     case getPrinterDishesList(printerID: String)
-    ///设置打印机菜品
+    ///117设置打印机菜品
     case setPrinterLinkDishes(printerID: String, dishesArr: [Int64])
-    ///获取投诉处理方式
+    ///118获取投诉处理方式
     case getDealComplaintWay
-    ///获取订单详情
+    ///119获取订单详情
     case getOrderDetail(orderID: String)
-    ///启用禁用菜品附加
+    ///120启用禁用菜品附加
     case setAttachStatus(id: String)
-    ///设置菜品VIP
+    ///121设置菜品VIP
     case doDishVipPrice(id: String, typeStr: String, price: String, status: String)
-    ///查询Uber的销售信息
+    ///122查询Uber的销售信息
     case getUberSummary(dateType: String, start: String, end: String)
-    ///获取节假日列表
+    ///123获取节假日列表
     case getHolidayList
-    ///添加节假日
+    ///124添加节假日
     case addHoliday(model: HolidayModel)
-    ///删除节假日
+    ///125删除节假日
     case deleteHoliday(id: String)
-    ///编辑节假日
+    ///126编辑节假日
     case editHoliday(model: HolidayModel)
-    ///获取订单列表
+    ///127获取订单列表
     case getAllOrderList(startDate: String, endDate: String, source: String, userID: String, payType: String, status: String, timePeriod: String, page: String)
-    ///修改密碼
+    ///128修改密碼
     case changePassword(new: String, old: String, reNew: String)
-    ///获取其他平台的菜品销量
+    ///129获取其他平台的菜品销量
     case getOtherDishesSummary(page: Int, searchType: String, start: String, end: String, ptType: String, timePeriod: String)
-    ///获取其他平台订单数据
+    ///130获取其他平台订单数据
     case getOtherOrderSummary(searchType: String, start: String, end: String, ptType: String, timePeriod: String)
-    ///获取店铺信息
+    ///131获取店铺信息
     case getStoreInfo
-    ///设置店铺起送金额
+    ///132设置店铺起送金额
     case setStoreMineOrderPrice(price: String)
-    ///設置數據查詢範圍
+    ///133設置數據查詢範圍
     case doStoreSalesScope(id: String)
-    ///获取客户列表
+    ///134获取客户列表
     case getCustomerList(page: Int, start: String, end: String, sortAsc: String, sortBy: String)
-    ///優惠列表
+    ///135優惠列表
     case getCouponRuleList(isHistory: Bool, status: String, page: Int)
-    ///添加优惠券
+    ///136添加优惠券
     case addCoupon(model: CouponModel)
-    ///获取优惠券关联菜品
+    ///137获取优惠券关联菜品
     case getCouponCanSelectDishesList
-    ///編輯優惠狀態
+    ///138編輯優惠狀態
     case editCouponStatus(id: String, status: String)
-    ///獲取優惠詳情
+    ///139獲取優惠詳情
     case getCouponDetail(id: String)
-    ///餐桌排序
+    ///140餐桌排序
     case deskDoSort(sortList: [[String: String]])
-    ///获取用户标签列表
+    ///141获取用户标签列表
     case getCustomerTagList
-    ///新增用户标签
+    ///142新增用户标签
     case addCustomerTag(status: String, nameEn: String, nameCn: String, nameHk: String)
-    ///编辑用户标签
+    ///143编辑用户标签
     case editCustomerTag(id: String, status: String, nameEn: String, nameCn: String, nameHk: String)
-    ///删除用户标签
+    ///144删除用户标签
     case deleteCustomerTag(id: String)
-    ///用戶綁定標籤
+    ///145用戶綁定標籤
     case userLinkTags(userID: String, tagList: [String])
-    ///獲取滿增列表 1启用，2禁用
+    ///146獲取滿增列表 1启用，2禁用
     case getFullGiftList(name: String, price: String, status: String, page: String)
-    ///改變滿增狀態
+    ///147改變滿增狀態
     case changeFullGiftStatus(id: String, status: String)
-    ///刪除滿增
+    ///148刪除滿增
     case deleteFullGift(id: String)
-    ///添加滿增
+    ///149添加滿增
     case addFullGift(name: String, price: String, dishList: [Int64], status: String)
-    ///編輯滿增
+    ///150編輯滿增
     case editFullGift(id: String, name: String, price: String, dishList: [Int64], status: String)
+    ///151获取登录信息
+    case getLogInInfo
+    ///152获取销售端首页数据
+    case salesGetHomePageTotal
+    ///153獲取結算匯總列表 storeId不傳查所有
+    case salesGetCommissionList(storeID: String, storeName: String, page: Int)
+    ///154 获取结算详情列表
+    case salesGetCommissionRecordListByStore(storeId: String, page: Int)
+    ///155获取总结算列表
+    case salesGetCommissionRecordSumList(page: Int)
+    ///156获取结算汇总详情
+    case salesGetCommissionSumDetail(bTime: String, eTime: String)
+    ///157获取下级提成佣金
+    case salesGetSubCommissionList(page: Int)
+    
+    
 }
 
 extension ApiManager: TargetType {
@@ -632,7 +644,20 @@ extension ApiManager: TargetType {
             return "api/boss/orderFullGift/doAdd"
         case .editFullGift(id: _, name: _, price: _, dishList: _, status: _):
             return "api/boss/orderFullGift/doUpdate"
-            
+        case .getLogInInfo:
+            return "api/boss/loginInfo"
+        case .salesGetHomePageTotal:
+            return "api/sales/commission/getHomePageTotal"
+        case .salesGetCommissionList(storeID: _, storeName: _, page: _):
+            return "api/sales/commission/storeCommissionList"
+        case .salesGetCommissionRecordListByStore(storeId: _, page: _):
+            return "api/sales/commission/storeCommissionRecordList"
+        case .salesGetCommissionRecordSumList(page: _):
+            return "api/sales/commission/commissionSumList"
+        case .salesGetCommissionSumDetail(bTime: _, eTime: _):
+            return "api/sales/commission/commissionSumDetail"
+        case .salesGetSubCommissionList(page: _):
+            return "api/sales/commission/subCommissionList"
         }
     }
     
@@ -648,26 +673,35 @@ extension ApiManager: TargetType {
     var task: Task {
         
         var dic: [String: Any] = [:]
+        
         switch self {
             
         case .checkAppVer:
             dic = ["sysType": "2", "verId": UserDefaults.standard.verID!]
+            
         case .loginAction(let user, let pw):
             dic = ["password": pw, "account": user]
+            
         case .logOutAction:
             dic = [:]
         case .getLiveReportingData(let date,  let end):
-            dic = ["date": date, "end": end]
+            dic = ["date": date, "end": end, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getBusyTimeList:
-            dic = [:]
+            dic = ["storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getTheTimeRange:
-            dic = [:]
+            dic = ["storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .setRangeTime(let type, let maxTime, let minTime):
-            dic = ["deliveryType": type, "maxTime": maxTime, "minTime": minTime]
+            dic = ["deliveryType": type, "maxTime": maxTime, "minTime": minTime, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .setBusyTime(let busyID):
-            dic = ["busyId": busyID]
+            dic = ["busyId": busyID, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getStoreOnlineStatus:
-            dic = [:]
+            dic = ["storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .uploadLanguage:
             var style = ""
             if PJCUtil.getCurrentLanguage() == "en_GB" {
@@ -682,297 +716,467 @@ extension ApiManager: TargetType {
             dic = ["lang": style]
             
         case .getDishesReportingData(let type, let day, let endDay):
-            dic = ["day": day, "end": endDay, "searchType": type]
+            dic = ["day": day, "end": endDay, "searchType": type, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .updateCloubMessageToken(let token):
             dic = ["token": token]
             
         case .getStoreOpeningHours:
-            dic = [:]
+            dic = ["storeId": UserDefaults.standard.storeID ?? ""]
             
         case .setStoreOpeningHours(let starTime, let endTime, let type, let timeID):
-            dic = ["startTime": starTime, "endTime": endTime, "deliveryType": type, "openId": timeID]
+            dic = ["startTime": starTime, "endTime": endTime, "deliveryType": type, "openId": timeID, "storeId": UserDefaults.standard.storeID ?? ""]
             
         case .setStoreOpenStatusByDay(let timeID, let coStatus, let deStatus):
-            dic = ["openId": timeID, "collectionStatus": coStatus, "deliveryStatus": deStatus]
+            dic = ["openId": timeID, "collectionStatus": coStatus, "deliveryStatus": deStatus, "storeId": UserDefaults.standard.storeID ?? ""]
             
         case .setStoreOpenStatus(let coStatus, let deStatus):
-            dic = ["collectionStatus": coStatus, "deliveryStatus": deStatus]
+            dic = ["collectionStatus": coStatus, "deliveryStatus": deStatus, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getDishesList:
-            dic = [:]
+            dic = ["storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getDishesOptionList(let id):
-            dic = ["dishesId": id]
+            dic = ["dishesId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .setDishesOnOffStatus(let dishes, let status):
-            dic = ["dishesList" : dishes, "status": status]
+            dic = ["dishesList" : dishes, "status": status, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getDeliveryFeeListAndType:
-            dic = [:]
+            dic = ["storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .addDeliveryFee(let amount, let distance, let postCode, let type):
-            dic = ["amount": amount, "distance": distance, "postCode": postCode, "feeType": type]
+            dic = ["amount": amount, "distance": distance, "postCode": postCode, "feeType": type, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .editeDeliveryFee(let amount, let distance, let postCode, let id):
-            dic = ["amount": amount, "distance": distance, "postCode": postCode, "feeId": id]
+            dic = ["amount": amount, "distance": distance, "postCode": postCode, "feeId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .deleteDeliveryFee(let id):
-            dic = ["feeId": id]
+            dic = ["feeId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .setDeliveryType(let type):
-            dic = ["feeType": type]
+            dic = ["feeType": type, "storeId": UserDefaults.standard.storeID ?? ""]
             
         case .setSpecOnOffStatus(let id):
-            dic = ["specId": id]
+            dic = ["specId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .setOptionItemOnoffStatus(let id):
-            dic = ["optionId": id]
+            dic = ["optionId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getMenuClassifyList:
-            dic = [:]
+            dic = ["storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .addMenuClassify(let name_E, let name_C, let name_H):
-            dic = ["nameCn": name_C, "nameEn": name_E, "nameHk": name_H]
+            dic = ["nameCn": name_C, "nameEn": name_E, "nameHk": name_H, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .editeMenuClassify(let id, let name_E, let name_C, let name_H):
-            dic = ["classifyId": id, "nameCn": name_C, "nameEn": name_E, "nameHk": name_H]
+            dic = ["classifyId": id, "nameCn": name_C, "nameEn": name_E, "nameHk": name_H, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .deleteMenuClassify(let id):
-            dic = ["classifyId": id]
+            dic = ["classifyId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getMenuClassifyDetail(let id):
-            dic = ["classifyId": id]
+            dic = ["classifyId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getAttachClassifyList:
-            dic = [:]
+            dic = ["storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .addAttachClassify(let name_E, let name_C, let name_H):
-            dic = ["nameCn": name_C, "nameEn": name_E, "nameHk": name_H]
+            dic = ["nameCn": name_C, "nameEn": name_E, "nameHk": name_H, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getAttachClassifyDetail(let id):
-            dic = ["classifyId": id]
+            dic = ["classifyId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .editeAttachClassify(let id, let name_E, let name_C, let name_H):
-            dic = ["classifyId": id, "nameCn": name_C, "nameEn": name_E, "nameHk": name_H]
+            dic = ["classifyId": id, "nameCn": name_C, "nameEn": name_E, "nameHk": name_H, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .deleteAttachClassify(let id):
-            dic = ["classifyId": id]
+            dic = ["classifyId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getGiftClassifyList:
-            dic = [:]
+            dic = ["storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .addGiftClassify(let name_E, let name_C, let name_H):
-            dic = ["nameCn": name_C, "nameEn": name_E, "nameHk": name_H]
+            dic = ["nameCn": name_C, "nameEn": name_E, "nameHk": name_H, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getGiftClassifyDetail(let id):
-            dic = ["classifyId": id]
+            dic = ["classifyId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .editeGiftClassify(let id, let name_E, let name_C, let name_H):
-            dic = ["classifyId": id, "nameCn": name_C, "nameEn": name_E, "nameHk": name_H]
+            dic = ["classifyId": id, "nameCn": name_C, "nameEn": name_E, "nameHk": name_H, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .deleteGiftClassify(let id):
-            dic = ["classifyId": id]
+            dic = ["classifyId": id, "storeId": UserDefaults.standard.storeID ?? ""]
             
         case .getClassifyDishesList(let id):
-            dic = ["classifyId": id]
+            dic = ["classifyId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getClassifyAttachList(let id):
-            dic = ["classifyId": id]
+            dic = ["classifyId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getClassifyGiftList(let id):
-            dic = ["classifyId": id]
+            dic = ["classifyId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getDishesDetail(let id):
-            dic = ["dishesId": id]
+            dic = ["dishesId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getDishTags:
-            dic = [:]
+            dic = ["storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .addDish(let model):
             dic = model.toJSON() ?? [:]
+            dic["storeId"] = UserDefaults.standard.storeID ?? ""
             
         case .editeDish(let model):
             dic = model.toJSON() ?? [:]
+            dic["storeId"] = UserDefaults.standard.storeID ?? ""
+            
         case .deleteDish(let id):
-            dic = ["dishesId": id]
+            dic = ["dishesId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getDishSpecDetail(let id):
-            dic = ["specId": id]
+            dic = ["specId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .editeSpec(let model):
             dic = model.toJSON() ?? [:]
+            dic["storeId"] = UserDefaults.standard.storeID ?? ""
+            
         case .addSpec(let model):
             dic = model.toJSON() ?? [:]
+            dic["storeId"] = UserDefaults.standard.storeID ?? ""
+            
         case .deleteSpec(let id):
-            dic = ["specId": id]
+            dic = ["specId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .editeSpecOption(let model):
             dic = model.toJSON() ?? [:]
+            dic["storeId"] = UserDefaults.standard.storeID ?? ""
+            
         case .addSpecOption(let model):
             dic = model.toJSON() ?? [:]
+            dic["storeId"] = UserDefaults.standard.storeID ?? ""
+            
         case .deleteSpecOption(let id):
-            dic = ["optionId": id]
+            dic = ["optionId": id, "storeId": UserDefaults.standard.storeID ?? ""]
         case .getAdditionalDetail(let id):
-            dic = ["attachId": id]
+            dic = ["attachId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .editeAdditional(let model):
             dic = model.toJSON() ?? [:]
+            dic["storeId"] = UserDefaults.standard.storeID ?? ""
+            
         case .addAdditional(let model):
             dic = model.toJSON() ?? [:]
+            dic["storeId"] = UserDefaults.standard.storeID ?? ""
+            
         case .deleteAdditional(let id):
-            dic = ["attachId": id]
+            dic = ["attachId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getGiftDetail(let id):
-            dic = ["giftId": id]
+            dic = ["giftId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .editeGift(let model):
             dic = model.toJSON() ?? [:]
+            dic["storeId"] = UserDefaults.standard.storeID ?? ""
+            
         case .addGift(let model):
             dic = model.toJSON() ?? [:]
+            dic["storeId"] = UserDefaults.standard.storeID ?? ""
+            
         case .deleteGift(let id):
-            dic = ["giftId": id]
+            dic = ["giftId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getPaymentMethod:
-            dic = [:]
+            dic = ["storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .setPaymentMethod(let card, let cash):
-            dic = ["card": card, "cash": cash]
+            dic = ["card": card, "cash": cash, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .setDishLimitBuy(let dishId, let limitType, let limitNum):
-            dic = ["dishesId": dishId, "limitBuy": limitType, "limitNum": limitNum]
+            dic = ["dishesId": dishId, "limitBuy": limitType, "limitNum": limitNum, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getOrderNum:
-            dic = [:]
+            dic = ["storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getDishSales_Week(let dishID, let startDate, let endDate, let type):
-            dic = ["dishesId": dishID, "start": startDate, "end": endDate, "type": type]
+            dic = ["dishesId": dishID, "start": startDate, "end": endDate, "type": type, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getDishSales_Month(let dishID, let date, let type):
-            dic = ["dishesId": dishID, "date": date, "type": type]
+            dic = ["dishesId": dishID, "date": date, "type": type, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .setDishedDiscount(let id, let type, let price, let start, let end):
-            dic = ["dishesId": id, "discountType": type, "discountPrice": price, "endTime": end, "startTime": start]
+            dic = ["dishesId": id, "discountType": type, "discountPrice": price, "endTime": end, "startTime": start, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .addOpeningHours(let submitModel):
             dic = submitModel.toJSON() ?? [:]
+            dic["storeId"] = UserDefaults.standard.storeID ?? ""
+            
         case .getTimeBindingDishes(let timeID):
-            dic = ["storeTimeId": timeID]
+            dic = ["storeTimeId": timeID, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .saveTimeBindingDishes(let timeID, let dishes):
-            dic = ["storeTimeId": timeID, "dishesList": dishes]
+            dic = ["storeTimeId": timeID, "dishesList": dishes, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .editOpeningHours(let submitModel):
             dic = submitModel.toJSON() ?? [:]
+            dic["storeId"] = UserDefaults.standard.storeID ?? ""
+            
         case .deleteOpeningHours(let timeID):
-            dic = ["storeTimeId": timeID]
+            dic = ["storeTimeId": timeID, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .OpeningHoursCanUse(let timeID):
-            dic = ["storeTimeId": timeID]
+            dic = ["storeTimeId": timeID, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .specDoAddOrUpdate(let model):
             dic = model.toJSON() ?? [:]
+            dic["storeId"] = UserDefaults.standard.storeID ?? ""
+            
         case .comboDoAddOrUpdate(let model):
             dic = model.toJSON() ?? [:]
+            dic["storeId"] = UserDefaults.standard.storeID ?? ""
+            
         case .getMsgList(let page, let typeList):
-            dic = ["pageIndex": page, "operateTypeList": typeList]
+            dic = ["pageIndex": page, "operateTypeList": typeList, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getMergeDetail(let mergeID):
-            dic = ["mergeId": mergeID]
+            dic = ["mergeId": mergeID, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getReviewsList(let page):
-            dic = ["pageIndex": page]
+            dic = ["pageIndex": page, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getComplainsList(let page):
-            dic = ["pageIndex": page]
+            dic = ["pageIndex": page, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getComplainsDetail(let id):
-            dic = ["plaintId": id]
+            dic = ["plaintId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .doComplains(let plaintId, let handleType, let refundMode, let amount, let refundFlow, let plaintDishesList):
-            dic = ["plaintId": plaintId, "handleType": handleType, "refundMode": refundMode, "amount": amount, "refundFlow": refundFlow, "plaintDishesList": plaintDishesList]
+            dic = ["plaintId": plaintId, "handleType": handleType, "refundMode": refundMode, "amount": amount, "refundFlow": refundFlow, "plaintDishesList": plaintDishesList, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .doEvaluateReply(let id, let content):
-            dic = ["evaluateId": id, "replyContent": content]
+            dic = ["evaluateId": id, "replyContent": content, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getDeskList(let page):
-            dic = ["pageIndex": page]
+            dic = ["pageIndex": page, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .setDeskStatus(let id):
-            dic = ["deskId": id]
+            dic = ["deskId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .deleteDesk(let id):
-            dic = ["deskId": id]
+            dic = ["deskId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .editDesk(let id, let name, let remark, let num):
-            dic = ["deskId": id, "deskName": name, "remark": remark, "dinersNum": num]
+            dic = ["deskId": id, "deskName": name, "remark": remark, "dinersNum": num, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .addDesk(let name, let remark, let num):
-            dic = ["deskName": name, "remark": remark, "dinersNum": num]
+            dic = ["deskName": name, "remark": remark, "dinersNum": num, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .updateDishesPrice(let id, let sellType, let buffetType, let dePrice, let dinePrice):
-            dic = ["dishesId": id, "sellType": sellType, "buffetType": buffetType, "deliPrice": dePrice, "dinePrice": dinePrice]
+            dic = ["dishesId": id, "sellType": sellType, "buffetType": buffetType, "deliPrice": dePrice, "dinePrice": dinePrice, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getPrinterList:
-            dic = [:]
+            dic = ["storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .addPrinter(let model):
             dic = model.toJSON() ?? [:]
+            dic["storeId"] = UserDefaults.standard.storeID ?? ""
+            
         case .editePrinter(let model):
             dic = model.toJSON() ?? [:]
+            dic["storeId"] = UserDefaults.standard.storeID ?? ""
+            
         case .printerDoStatus(let id):
-            dic = ["printerId": id]
+            dic = ["printerId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .deletePrinter(let id):
-            dic = ["printerId": id]
+            dic = ["printerId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .doGiveOne(let id):
-            dic = ["dishesId": id]
+            dic = ["dishesId": id, "storeId": UserDefaults.standard.storeID ?? ""]
             
         case .doBaleType(let id):
-            dic = ["dishesId": id]
+            dic = ["dishesId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getStoreInCost(let dateType, let start, let end):
-            dic = ["type": dateType, "start": start, "end": end]
+            dic = ["type": dateType, "start": start, "end": end, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getStoreOutCost:
-            dic = [:]
+            dic = ["storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .doMainPrinter(let id):
-            dic = ["printerId": id]
+            dic = ["printerId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getUserBookingList(let page, let type):
-            dic = ["pageIndex": page, "reserveStatus": type]
+            dic = ["pageIndex": page, "reserveStatus": type, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .addBooking(let model):
             dic = model.toJSON() ?? [:]
+            dic["storeId"] = UserDefaults.standard.storeID ?? ""
+            
         case .getStoreBookingTime(let date):
-            dic = ["date": date]
+            dic = ["date": date, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .doCancelBooking(let id):
-            dic = ["userReserveId": id]
+            dic = ["userReserveId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .doConfirmBooking(let id, let type, let deskID):
-            dic = ["userReserveId": id, "reserveType": type, "deskId": deskID]
+            dic = ["userReserveId": id, "reserveType": type, "deskId": deskID, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getBookingDataInCharts(let date):
-            dic = ["date": date]
+            dic = ["date": date, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getStoreBookingStatus:
-            dic = [:]
+            dic = ["storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .doReconfirm(let id):
-            dic = ["userReserveId": id]
+            dic = ["userReserveId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .doBookingCheckin(let id):
-            dic = ["userReserveId": id]
+            dic = ["userReserveId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getPrintSummary(let dateType, let start, let end):
-            dic = ["type": dateType, "start": start, "end": end]
+            dic = ["type": dateType, "start": start, "end": end, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getStoreSales(let deliveryType, let queryType):
-            dic = ["deliveryType": deliveryType, "queryType": queryType]
+            dic = ["deliveryType": deliveryType, "queryType": queryType, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getStatisClassifyList:
-            dic = [:]
+            dic = ["storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getStatisClassifyDishesList(let id, let type, let timePeriod, let start, let end):
-            dic = ["classifyId": id, "searchType": type, "timePeriod": timePeriod, "day": start, "end": end]
+            dic = ["classifyId": id, "searchType": type, "timePeriod": timePeriod, "day": start, "end": end, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .setPrinterLinkDishes(let printerID, let dishesArr):
-            dic = ["printerId": printerID, "dishesList": dishesArr]
+            dic = ["printerId": printerID, "dishesList": dishesArr, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getPrinterDishesList(let printerID):
-            dic = ["printerId": printerID]
+            dic = ["printerId": printerID, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getDealComplaintWay:
-            dic = [:]
+            dic = ["storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getOrderDetail(let orderID):
-            dic = ["orderId": orderID]
+            dic = ["orderId": orderID, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .setAttachStatus(let id):
-            dic = ["attachId": id]
+            dic = ["attachId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .doDishVipPrice(let id, let typeStr, let price, let status):
-            dic = ["dishesId": id, "vipDeliveryStr": typeStr, "vipPrice": price, "vipType": status]
+            dic = ["dishesId": id, "vipDeliveryStr": typeStr, "vipPrice": price, "vipType": status, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getUberSummary(let dateType, let start, let end):
-            dic = ["queryType": dateType, "start": start, "end": end]
+            dic = ["queryType": dateType, "start": start, "end": end, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getHolidayList:
-            dic = [:]
+            dic = ["storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .addHoliday(let model):
             dic = model.toJSON() ?? [:]
+            dic["storeId"] = UserDefaults.standard.storeID ?? ""
+            
         case .deleteHoliday(let id):
-            dic = ["id": id]
+            dic = ["id": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .editHoliday(let model):
             dic = model.toJSON() ?? [:]
+            dic["storeId"] = UserDefaults.standard.storeID ?? ""
+            
         case .getAllOrderList(let start, let end, let source, let userID,  let payType, let status, let timePeriod, let page):
-            dic = ["startDate": start, "endDate": end, "source": source, "userId": userID, "pageIndex": page, "payType": payType, "timePeriod": timePeriod, "status": status]
+            dic = ["startDate": start, "endDate": end, "source": source, "userId": userID, "pageIndex": page, "payType": payType, "timePeriod": timePeriod, "status": status, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .changePassword(let new, let old, let reNew):
             dic = ["newPassword": new, "oldPassword": old, "verifyPassword": reNew]
+            
         case .getOtherDishesSummary(let page, let searchType, let start, let end, let ptType, let timePeriod):
-            dic = ["pageIndex": page, "searchSource": ptType, "searchType": searchType, "day": start, "end": end, "timePeriod": timePeriod]
+            dic = ["pageIndex": page, "searchSource": ptType, "searchType": searchType, "day": start, "end": end, "timePeriod": timePeriod, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getOtherOrderSummary(let searchType, let start, let end, let ptType, let timePeriod):
-            dic = ["searchSource": ptType, "searchType": searchType, "day": start, "end": end, "timePeriod": timePeriod]
+            dic = ["searchSource": ptType, "searchType": searchType, "day": start, "end": end, "timePeriod": timePeriod, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getStoreInfo:
-            dic = [:]
+            dic = ["storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .setStoreMineOrderPrice(let price):
-            dic = ["minOrderPrice": price]
+            dic = ["minOrderPrice": price, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .doStoreSalesScope(let id):
-            dic = ["id": id]
+            dic = ["id": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getCustomerList(let page, let start, let end, let sortAsc, let sortBy):
-            dic = ["pageIndex": page, "startDate": start, "endDate": end, "sortAsc": sortAsc, "sortBy": sortBy]
+            dic = ["pageIndex": page, "startDate": start, "endDate": end, "sortAsc": sortAsc, "sortBy": sortBy, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getCouponRuleList(let isHistory, let status, let page):
-            dic = ["history": isHistory, "status": status, "pageIndex": page]
+            dic = ["history": isHistory, "status": status, "pageIndex": page, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .addCoupon(let model):
             dic = model.toJSON() ?? [:]
+            dic["storeId"] = UserDefaults.standard.storeID ?? ""
+            
         case .getCouponCanSelectDishesList:
-            dic = [:]
+            dic = ["storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .editCouponStatus(let id, let status):
-            dic = ["id": id, "status": status]
+            dic = ["id": id, "status": status, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getCouponDetail(let id):
-            dic = ["id": id]
+            dic = ["id": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .deskDoSort(let sortList):
-            dic = ["deskSortList": sortList]
+            dic = ["deskSortList": sortList, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .addCustomerTag(let status, let nameEn, let nameCn, let nameHk):
-            dic = ["status": status, "nameCn": nameCn, "nameEn": nameEn, "nameHk": nameHk]
+            dic = ["status": status, "nameCn": nameCn, "nameEn": nameEn, "nameHk": nameHk, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getCustomerTagList:
-            dic = [:]
+            dic = ["storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .editCustomerTag(let id, let status, let nameEn, let nameCn, let nameHk):
-            dic = ["status": status, "nameCn": nameCn, "nameEn": nameEn, "nameHk": nameHk, "tagId": id]
+            dic = ["status": status, "nameCn": nameCn, "nameEn": nameEn, "nameHk": nameHk, "tagId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .deleteCustomerTag(let id):
-            dic = ["tagId": id]
+            dic = ["tagId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .userLinkTags(let userID, let tagList):
-            dic = ["userId": userID, "tagIdList": tagList]
+            dic = ["userId": userID, "tagIdList": tagList, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .getFullGiftList(let name, let price, let status, let page):
-            dic = ["pageIndex": page, "name": name, "price": price, "status": status]
+            dic = ["pageIndex": page, "name": name, "price": price, "status": status, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .changeFullGiftStatus(let id, let status):
-            dic = ["giftId": id, "status": status]
+            dic = ["giftId": id, "status": status, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .deleteFullGift(let id):
-            dic = ["giftId": id]
+            dic = ["giftId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .addFullGift(let name, let price, let dishList, let status):
-            dic = ["nameCn": name, "nameEn": name, "nameHk": name, "price": price, "dishesIdList": dishList, "status": status]
+            dic = ["nameCn": name, "nameEn": name, "nameHk": name, "price": price, "dishesIdList": dishList, "status": status, "storeId": UserDefaults.standard.storeID ?? ""]
+            
         case .editFullGift(let id, let name, let price , let dishList, let status):
-            dic = ["nameCn": name, "nameEn": name, "nameHk": name, "price": price, "dishesIdList": dishList, "status": status, "giftId": id]
+            dic = ["nameCn": name, "nameEn": name, "nameHk": name, "price": price, "dishesIdList": dishList, "status": status, "giftId": id, "storeId": UserDefaults.standard.storeID ?? ""]
+            
+        case .getLogInInfo:
+            dic = [:]
+            
+        case .salesGetHomePageTotal:
+            dic = [:]
+            
+        case .salesGetCommissionList(let storeID, let storeName, let page):
+            dic = ["storeId": storeID, "pageIndex": page, "storeName": storeName]
+            
+        case .salesGetCommissionRecordListByStore(let storeId, let page):
+            dic = ["storeId": storeId, "pageIndex": page]
+            
+        case .salesGetCommissionRecordSumList(let page):
+            dic = ["pageIndex": page]
+            
+        case .salesGetCommissionSumDetail(let bTime, let eTime):
+            dic = ["beginTime": bTime, "endTime": eTime]
+            
+        case .salesGetSubCommissionList(let page):
+            dic = ["pageIndex": page]
+            
         }
-        
-        
-        
+  
         print("参数：\(dic)")
         return .requestParameters(parameters: dic, encoding: JSONEncoding.default)
         

@@ -68,19 +68,31 @@ class HttpTool {
                         
                         if json["code"].stringValue == "1"  {
                             observer.onNext(json)
-                            observer.onCompleted()
-                        } else if (json["code"].stringValue == "-1" || json["code"].stringValue == "-3" || json["code"].stringValue == "-4" || json["code"].stringValue == "-5" || json["code"].stringValue == "-6") || json["code"].stringValue == "-2" {
+                        }
+                        else if (json["code"].stringValue == "-1" || json["code"].stringValue == "-3" || json["code"].stringValue == "-4" || json["code"].stringValue == "-5" || json["code"].stringValue == "-6") || json["code"].stringValue == "-2" {
                             observer.onNext(json)
-                            observer.onCompleted()
+                            //登录失效
                             HUD_MB.showWarnig("Login is invalid. Please log in again!", onView: PJCUtil.getWindowView())
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                 PJCUtil.logOut()
                             }
-                        } else {
+                        }
+                        else if (json["code"].stringValue == "-7") {
+                            //没有店铺权限
+                            observer.onNext(json)
+                            HUD_MB.showWarnig("You do not have the permission for the current store.".local, onView: PJCUtil.getWindowView())
+                            //弹出店铺选择
+                            let storeVC = StoreListController()
+                            storeVC.canBack = false
+                            PJCUtil.currentVC()?.navigationController?.setViewControllers([storeVC], animated: false)
+                            
+                        }
+                        else {
                             ERROR_Message = json["msg"].stringValue
                             observer.onError(NetworkError.unkonw)
                         }
-                    } else {
+                    }
+                    else {
                         observer.onError(NetworkError.serverError)
                     }
 
@@ -1034,7 +1046,47 @@ class HttpTool {
         return Observable<JSON>.create(response)
     }
     
-
+    //MARK: - 获取登录信息
+    func getLoginInfo() -> Observable<JSON> {
+        let response = rxApiManager(api: .getLogInInfo)
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 销售端首页数据
+    func salesGetHomePageData() -> Observable<JSON> {
+        let response = rxApiManager(api: .salesGetHomePageTotal)
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 獲取結算匯總列表
+    func salesGetCommissionList(storeId: String, storeName: String, page: Int) -> Observable<JSON> {
+        let response = rxApiManager(api: .salesGetCommissionList(storeID: storeId, storeName: storeName, page: page))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 获取结算详情列表
+    func salesGetCommissionRecordListByStore(storeId: String, page: Int) -> Observable<JSON> {
+        let response = rxApiManager(api: .salesGetCommissionRecordListByStore(storeId: storeId, page: page))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 获取结算汇总详情总列表
+    func salseGetCommissionRecordSumList(page: Int) -> Observable<JSON> {
+        let response = rxApiManager(api: .salesGetCommissionRecordSumList(page: page))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 获取结算汇总详情
+    func salseGetCommissionSumDetail(bTime: String, eTime: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .salesGetCommissionSumDetail(bTime: bTime, eTime: eTime))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 获取下级佣金
+    func salesGetSubCommissionList(page: Int) -> Observable<JSON> {
+        let response = rxApiManager(api: .salesGetSubCommissionList(page: page))
+        return Observable<JSON>.create(response)
+    }
     
     
     //MARK: - 上传菜品图片

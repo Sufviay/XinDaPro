@@ -96,7 +96,7 @@ class HttpTool: NSObject, SystemAlertProtocol, CommonToolProtocol {
                         } else if json["code"].stringValue == "6" {
                             //账户删除审核中
                             observer.onCompleted()
-                            self.showSystemChooseAlert("WARNING", "Your account deletion application is under review, so you cannot log in to the application. If you have any questions, please contact customer service", "Email", "Cancel") {
+                            self.showSystemChooseAlert("WARNING", "Your account has been deleted and cannot be logged in. If you have any questions, please contact the customer service.", "Email", "Cancel") {
                                 //发邮件
                                 self.sendEmail(title: "Delete the account", email: SERVICE_Email)
                             }

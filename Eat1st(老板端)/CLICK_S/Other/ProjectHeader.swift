@@ -156,16 +156,24 @@ let RANDOMCOLOR: () -> UIColor = {
     return UIColor.init(red: CGFloat(arc4random()%256)/255.0, green: CGFloat(arc4random()%256)/255.0, blue: CGFloat(arc4random()%256)/255.0, alpha: 1)
 }
 
-///渐变色
-let GRADIENTCOLOR: (UIColor, UIColor, CGSize) -> UIImage = { (b_color, e_color, size) in
+///渐变色 0从左到右 1从上到下
+let GRADIENTCOLOR: (UIColor, UIColor, CGSize, Int) -> UIImage = { (b_color, e_color, size, type) in
     let gradient = CAGradientLayer()
     let frameAndStatusBar = CGRect(x: 0, y: 0, width: size.width, height: size.height)
     gradient.frame = frameAndStatusBar
     gradient.colors = [b_color.cgColor,  e_color.cgColor]
     let gradientLocations:[NSNumber] = [0.0, 1.0]
     gradient.locations = gradientLocations
-    gradient.startPoint = CGPoint(x: 0, y: 0)
-    gradient.endPoint = CGPoint(x: 1, y: 0)
+    
+    if (type == 0) {
+        gradient.startPoint = CGPoint(x: 0, y: 0)
+        gradient.endPoint = CGPoint(x: 1, y: 0)
+    }
+    if (type == 1) {
+        gradient.startPoint = CGPoint(x: 0, y: 0)
+        gradient.endPoint = CGPoint(x: 0, y: 1)
+    }
+    
     UIGraphicsBeginImageContext(gradient.frame.size)
     gradient.render(in: UIGraphicsGetCurrentContext()!)
     let outputImage = UIGraphicsGetImageFromCurrentImageContext()
@@ -362,7 +370,7 @@ let HTTPTOOl = HttpTool.shared
 
 
 let ISONLINE: Bool = true
-let VERID: String = "80"
+let VERID: String = "81"
 var BASEURL: String = ISONLINE ? "https://api.foodo2o.com/" : "https://api-test.foodo2o.com/"
 
 

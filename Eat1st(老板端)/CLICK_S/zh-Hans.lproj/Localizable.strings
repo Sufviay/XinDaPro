@@ -75,6 +75,7 @@
 "Dine-in table management" = "堂食餐桌";
 "System settings" = "系統設置";
 "Logout" = "退出登錄";
+"Operation Record" = "操作紀錄";
 
 
 "Change language" = "切換語言";
@@ -495,3 +496,10 @@
 "Please enter the amount!" = "請填寫金額";
 "Please enter the Full gift name!" = "請填寫滿贈名稱";
 "Enabled. Cannot be deleted." = "啟用中，無法刪除";
+"Please fill in your account number." = "請填寫帳號";
+"Please fill in your password." = "請填寫密碼.";
+"You do not have the permission for store." = "沒有店鋪的權限";
+"Choose Store" = "選擇店鋪";
+"You do not have the permission for the current store." = "沒有當前店鋪的權限";
+"My earnings" = "我的收入";
+"LOG OUT" = "登出";

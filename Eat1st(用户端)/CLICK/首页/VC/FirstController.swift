@@ -631,12 +631,8 @@ extension FirstController {
         
         
         if indexPath.section == 4 {
-            //店铺菜单
-            if nearestArr[indexPath.row].storeUrl != "" {
-                //跳转浏览器
-                PJCUtil.goBrowser(url: nearestArr[indexPath.row].storeUrl)
-            } else {
-                
+            
+            if UserDefaults.standard.userID == TID {
                 //跳转店铺首页
                 let nextVC = StoreMainController()
                 nextVC.storeID = nearestArr[indexPath.row].storeID
@@ -644,8 +640,24 @@ extension FirstController {
                 //nextVC.saleTypeArr = json["data"].arrayValue.map { $0["saleType"].stringValue }
                 self.navigationController?.pushViewController(nextVC, animated: true)
 
+            } else {
                 
-                //getStoreStatus_Net(id: nearestArr[indexPath.row].storeID)
+                //店铺菜单
+                if nearestArr[indexPath.row].storeUrl != "" {
+                    //跳转浏览器
+                    PJCUtil.goBrowser(url: nearestArr[indexPath.row].storeUrl)
+                } else {
+                                        
+                    //跳转店铺首页
+                    let nextVC = StoreMainController()
+                    nextVC.storeID = nearestArr[indexPath.row].storeID
+                    //nextVC.isClickList = true
+                    //nextVC.saleTypeArr = json["data"].arrayValue.map { $0["saleType"].stringValue }
+                    self.navigationController?.pushViewController(nextVC, animated: true)
+
+                    
+                    //getStoreStatus_Net(id: nearestArr[indexPath.row].storeID)
+                }
             }
         }
     }
@@ -654,6 +666,7 @@ extension FirstController {
     
     
     //获取店铺当前的营业状态
+    //接口已经被删除了
 //    private func getStoreStatus_Net(id: String) {
 //        HUD_MB.loading("", onView: view)
 //        HTTPTOOl.getStoreStatus(id: id).subscribe(onNext: { [unowned self] (json) in
@@ -671,8 +684,8 @@ extension FirstController {
 //                    //进入店铺首页
 //                    let nextVC = StoreMainController()
 //                    nextVC.storeID = id
-//                    nextVC.isClickList = true
-//                    nextVC.saleTypeArr = json["data"].arrayValue.map { $0["saleType"].stringValue }
+////                    nextVC.isClickList = true
+////                    nextVC.saleTypeArr = json["data"].arrayValue.map { $0["saleType"].stringValue }
 //                    self.navigationController?.pushViewController(nextVC, animated: true)
 //                }
 //
@@ -690,7 +703,7 @@ extension FirstController {
 //            //HUD_MB.showError(ErrorTool.errorMessage(error), onView: view)
 //        }).disposed(by: bag)
 //    }
-//    
+    
     
     //获取首单优惠的店铺
     private func loadStoreListFirstDiscount_Net() {

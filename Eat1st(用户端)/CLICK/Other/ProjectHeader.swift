@@ -245,6 +245,8 @@ let HTTPTOOl = HttpTool.shared
 
 let ISONLINE: Bool = true
 
+let TID: String = ISONLINE ? "1788383577765888002" : "1788383577765888002"
+
 //2 为正式的测试
 let ENV: String = "1"
 

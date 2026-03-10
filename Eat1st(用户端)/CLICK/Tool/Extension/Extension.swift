@@ -647,33 +647,6 @@ extension UserDefaults {
     }
     
 
-    
-    ///用户信息
-    /**
-     id    number
-     user_name       名字
-     mobile          手机号
-     head_img        头像
-     user_level_id   单位
-     sex             性别
-     server_phone    客服电话
-     address         地址
-     pending_payment 待付款订单数量
-     to_be_delivered 待发货订单数量
-     to_be_received  待收货订单数量
-     completed       已完成订单数量
-     */
-    
-//    var userInfo: [String: Any]? {
-//        set {
-//            set(newValue, forKey: Keys.userInfo)
-//        }
-//        get {
-//            return dictionary(forKey: Keys.userInfo)
-//        }
-//    }
-
-    
     /// - 清空
     static func removeAll() {
         UserDefaults.standard.isLogin = false
@@ -683,6 +656,7 @@ extension UserDefaults {
         UserDefaults.standard.removeObject(forKey: Keys.userEmail)
         UserDefaults.standard.removeObject(forKey: Keys.userPhone)
         UserDefaults.standard.removeObject(forKey: Keys.giftId)
+        UserDefaults.standard.removeObject(forKey: Keys.userID)
     }
     
 }
