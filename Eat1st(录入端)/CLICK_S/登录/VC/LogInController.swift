@@ -16,9 +16,6 @@ class LogInController: BaseViewController {
     
     private var isShow: Bool = true
     
-    
-    
-    
     private let backImg: UIImageView = {
         let img = UIImageView()
         img.image = LOIMG("BG")

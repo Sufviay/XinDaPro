@@ -327,6 +327,18 @@ enum ApiManager {
     case salesGetCommissionSumDetail(bTime: String, eTime: String)
     ///157获取下级提成佣金
     case salesGetSubCommissionList(page: Int)
+    ///158获取店铺繁忙时间选项列表
+    case getStoreBusyTimeList
+    ///159设置店铺繁忙时间
+    case setStoreBusyTime(busyId: String)
+    ///160获取Deliveroo店铺状态
+    case getDeliverooStatus
+    ///161设置Deliveroo店铺状态
+    case setDeliverooStatus(model: platformStatusModel)
+    ///162获取Uber店铺状态
+    case getUberStatus
+    ///163設置Uber店鋪狀態
+    case setUberStatus(model: platformStatusModel)
     
     
 }
@@ -658,6 +670,18 @@ extension ApiManager: TargetType {
             return "api/sales/commission/commissionSumDetail"
         case .salesGetSubCommissionList(page: _):
             return "api/sales/commission/subCommissionList"
+        case .getStoreBusyTimeList:
+            return "api/boss/store/getStoreBusyTimeList"
+        case .setStoreBusyTime(busyId: _):
+            return "api/boss/store/doBusyTime"
+        case .getDeliverooStatus:
+            return "api/boss/deliveroo/site/getStatus"
+        case .getUberStatus:
+            return "api/boss/uber/store/getStoreDetails"
+        case .setUberStatus(model: _):
+            return "api/boss/uber/store/setStatus"
+        case .setDeliverooStatus(model: _):
+            return "api/boss/deliveroo/site/setStatus"
         }
     }
     
@@ -1174,6 +1198,49 @@ extension ApiManager: TargetType {
             
         case .salesGetSubCommissionList(let page):
             dic = ["pageIndex": page]
+            
+        case .getStoreBusyTimeList:
+            dic = ["storeId": UserDefaults.standard.storeID ?? ""]
+            
+        case .setStoreBusyTime(let busyId):
+            dic = ["storeId": UserDefaults.standard.storeID ?? "", "busyId": busyId]
+            
+        case .getDeliverooStatus:
+            dic = ["storeId": UserDefaults.standard.storeID ?? ""]
+            
+        case .getUberStatus:
+            dic = ["storeId": UserDefaults.standard.storeID ?? ""]
+            
+        case .setUberStatus(let model):
+            
+            var status: String = ""
+            var reason: String = ""
+            var off_un: Int = 0
+            
+            if model.onLine {
+                //要關閉
+                status = "OFFLINE"
+                reason = "Stop receiving new orders."
+                off_un = 30
+                dic = ["storeId": UserDefaults.standard.storeID ?? "", "id": model.id, "status": status, "is_offline_until": off_un, "reason": reason]
+            } else {
+                //要打開
+                status = "ONLINE"
+                reason = "Receive new orders from customers."
+                dic = ["storeId": UserDefaults.standard.storeID ?? "", "id": model.id, "status": status, "reason": reason]
+            }
+            
+        case .setDeliverooStatus(let model):
+            
+            var status: String = ""
+            if model.onLine {
+                //要關閉
+                status = "2"
+            } else {
+                //要打開
+                status = "1"
+            }
+            dic = ["storeId": UserDefaults.standard.storeID ?? "", "status": status, "site_ids": [model.id]]
             
         }
   

@@ -256,6 +256,10 @@
 		E3A4076C2CEED8DB0055C05D /* BookingScheController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A4076B2CEED8DB0055C05D /* BookingScheController.swift */; };
 		E3A4076E2CEF001F0055C05D /* ListTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A4076D2CEF001F0055C05D /* ListTagView.swift */; };
 		E3A407702CEF09F80055C05D /* BookingListContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A4076F2CEF09F80055C05D /* BookingListContentCell.swift */; };
+		E3ABC3CB2F68FD5E007D1502 /* StoreBussinessStatusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3ABC3CA2F68FD5E007D1502 /* StoreBussinessStatusController.swift */; };
+		E3ABC3CF2F6A701A007D1502 /* PlatformNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3ABC3CE2F6A701A007D1502 /* PlatformNameCell.swift */; };
+		E3ABC3D12F6A7FC4007D1502 /* BusyTimeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3ABC3D02F6A7FC4007D1502 /* BusyTimeModel.swift */; };
+		E3ABC3D32F6A87DC007D1502 /* BusyTimSelectAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3ABC3D22F6A87DC007D1502 /* BusyTimSelectAlert.swift */; };
 		E3AEAEB72E4F2EBB004D1170 /* SystemSettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AEAEB62E4F2EBB004D1170 /* SystemSettingController.swift */; };
 		E3AEAEB92E4F3B29004D1170 /* ChangePasswordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AEAEB82E4F3B29004D1170 /* ChangePasswordController.swift */; };
 		E3AEAEBB2E52D206004D1170 /* PssswordSuccesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AEAEBA2E52D206004D1170 /* PssswordSuccesController.swift */; };
@@ -640,6 +644,10 @@
 		E3A4076B2CEED8DB0055C05D /* BookingScheController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingScheController.swift; sourceTree = "<group>"; };
 		E3A4076D2CEF001F0055C05D /* ListTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTagView.swift; sourceTree = "<group>"; };
 		E3A4076F2CEF09F80055C05D /* BookingListContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingListContentCell.swift; sourceTree = "<group>"; };
+		E3ABC3CA2F68FD5E007D1502 /* StoreBussinessStatusController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreBussinessStatusController.swift; sourceTree = "<group>"; };
+		E3ABC3CE2F6A701A007D1502 /* PlatformNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformNameCell.swift; sourceTree = "<group>"; };
+		E3ABC3D02F6A7FC4007D1502 /* BusyTimeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusyTimeModel.swift; sourceTree = "<group>"; };
+		E3ABC3D22F6A87DC007D1502 /* BusyTimSelectAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusyTimSelectAlert.swift; sourceTree = "<group>"; };
 		E3AEAEB62E4F2EBB004D1170 /* SystemSettingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSettingController.swift; sourceTree = "<group>"; };
 		E3AEAEB82E4F3B29004D1170 /* ChangePasswordController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordController.swift; sourceTree = "<group>"; };
 		E3AEAEBA2E52D206004D1170 /* PssswordSuccesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PssswordSuccesController.swift; sourceTree = "<group>"; };
@@ -1560,6 +1568,7 @@
 		E37C18A129F6614C00D7C39D /* 店铺设置 */ = {
 			isa = PBXGroup;
 			children = (
+				E3ABC3C92F68FCEA007D1502 /* 店鋪營業狀態 */,
 				E37C18B929F671DB00D7C39D /* 菜品的启用 */,
 				E3096E672E71146300B3917E /* 店铺详情设置 */,
 				E364A8552AA1745D00190DC9 /* 餐桌设置 */,
@@ -1917,6 +1926,17 @@
 			path = "客户标签设置";
 			sourceTree = "<group>";
 		};
+		E3ABC3C92F68FCEA007D1502 /* 店鋪營業狀態 */ = {
+			isa = PBXGroup;
+			children = (
+				E3ABC3CA2F68FD5E007D1502 /* StoreBussinessStatusController.swift */,
+				E3ABC3CE2F6A701A007D1502 /* PlatformNameCell.swift */,
+				E3ABC3D02F6A7FC4007D1502 /* BusyTimeModel.swift */,
+				E3ABC3D22F6A87DC007D1502 /* BusyTimSelectAlert.swift */,
+			);
+			path = "店鋪營業狀態";
+			sourceTree = "<group>";
+		};
 		E3AEAEB52E4F2D64004D1170 /* 系统设置 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2238,6 +2258,7 @@
 				E316888E29F3D1DE00318307 /* AddOpeningHoursModel.swift in Sources */,
 				E366ADE32845EF8600295039 /* StatisticalChartsCell.swift in Sources */,
 				E3B3B130285DBD50007CCED4 /* MenuTagView.swift in Sources */,
+				E3ABC3D12F6A7FC4007D1502 /* BusyTimeModel.swift in Sources */,
 				E3B1CFBB28538CA70044D69F /* DishesNoDataView.swift in Sources */,
 				E36F81AD2E5C380200DA9524 /* OtherPlatformDataController.swift in Sources */,
 				E305E8F226DF133D00AAB580 /* SDBrowserImageView.m in Sources */,
@@ -2438,6 +2459,7 @@
 				E3509F15277C37D80012CF3E /* TimeDayAlert.swift in Sources */,
 				E326C42C2D23ED9A00CBC07D /* StoreSummaryModel.swift in Sources */,
 				E386AABB2E0D6BC500A6D634 /* HolidayModel.swift in Sources */,
+				E3ABC3D32F6A87DC007D1502 /* BusyTimSelectAlert.swift in Sources */,
 				E3B9B6752CEF274000AEF22C /* AddBookingModel.swift in Sources */,
 				E3B3B12A285D7CA6007CCED4 /* DishesSpecItemCell.swift in Sources */,
 				E338ACF12F3361CD00031775 /* SalesFirstHeaderView.swift in Sources */,
@@ -2468,6 +2490,7 @@
 				E3B9B6722CEF207800AEF22C /* AddBookingController.swift in Sources */,
 				E3F152892B3A640E00A8A199 /* StatisticalFeeNumCell.swift in Sources */,
 				E3AFB4B7285431EC005847AE /* ChangeDistanceController.swift in Sources */,
+				E3ABC3CB2F68FD5E007D1502 /* StoreBussinessStatusController.swift in Sources */,
 				E305E90026DF134900AAB580 /* HttpTool.swift in Sources */,
 				E34E6E412A8F60BD00DBC2A5 /* ComplaintsModel.swift in Sources */,
 				E39B678D2E82AEB70041328D /* CustomerTagModel.swift in Sources */,
@@ -2507,6 +2530,7 @@
 				E34E6E082A84CFB200DBC2A5 /* MessageController.swift in Sources */,
 				E305E8FF26DF134900AAB580 /* ApiManager.swift in Sources */,
 				E34FCBD72D57049A0067FCB6 /* EditStatusView.swift in Sources */,
+				E3ABC3CF2F6A701A007D1502 /* PlatformNameCell.swift in Sources */,
 				E326D9FA2ADFBF440060C0BE /* PrinterInfoCell.swift in Sources */,
 				E3DF13AF2844C0B8007FCC11 /* StatisticalDataCell.swift in Sources */,
 				E36570BA2A9C811D0020BD35 /* ComplaintsReplyController.swift in Sources */,
@@ -2745,6 +2769,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = CLICK_S/CLICK_S.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_TEAM = 2CRFF5W24M;
@@ -2755,9 +2780,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.81;
+				MARKETING_VERSION = 1.0.82;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app-Boss";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -2789,7 +2815,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.81;
+				MARKETING_VERSION = 1.0.82;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app-Boss";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = boss_dis;

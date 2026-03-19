@@ -10,8 +10,8 @@ import UIKit
 class RestaurantSettingController: LBBaseViewController, UITableViewDataSource, UITableViewDelegate {
     
     
-    private var imgStrArr: [String] = ["set_menu", "set_item", "set_area", "set_deFee", "set_time", "set_holiday", "set_set", "set_pay", "set_printer", "set_table"]
-    private var nameStrArr: [String] = ["Menu".local, "ltem availability".local, "Delivery area".local, "Delivery charges".local, "Opening hours".local, "Holiday".local, "Restaurant details settings".local, "Payment method".local, "Printer".local, "Dine-in table management".local]
+    private var imgStrArr: [String] = ["set_menu", "set_item", "set_area", "set_deFee", "set_time", "set_holiday", "set_set", "set_pay", "set_printer", "set_table", "set_busy"]
+    private var nameStrArr: [String] = ["Menu".local, "ltem availability".local, "Delivery area".local, "Delivery charges".local, "Opening hours".local, "Holiday".local, "Restaurant details settings".local, "Payment method".local, "Printer".local, "Dine-in table management".local, "Business status".local]
     private var desStrArr: [String] = ["View and edit your menu".local,
                                        "Take items off menu temporarily if they go out of stock".local,
                                        "Manage the area you delivery to".local,
@@ -21,7 +21,8 @@ class RestaurantSettingController: LBBaseViewController, UITableViewDataSource, 
                                        "Make changes to your restaurant details and fees".local,
                                        "Change user app payment method setting".local,
                                        "Printer setting".local,
-                                       "Manage your table".local]
+                                       "Manage your table".local,
+                                       "Set the operating status of your store".local]
     
 
     private let backView: UIView = {
@@ -199,9 +200,12 @@ class RestaurantSettingController: LBBaseViewController, UITableViewDataSource, 
             let nextVC = DeskSettingController()
             navigationController?.pushViewController(nextVC, animated: true)
         }
-        
+        if indexPath.section == 10 {
+            //店鋪營業狀態
+            let nextVC = StoreBussinessStatusController()
+            navigationController?.pushViewController(nextVC, animated: true)
+        }
     }
-
 }
 
 

@@ -1088,6 +1088,45 @@ class HttpTool {
         return Observable<JSON>.create(response)
     }
     
+    //MARK: - 获取店铺的繁忙时间
+    func getStoreBusyTimeList() -> Observable<JSON> {
+        let response = rxApiManager(api: .getStoreBusyTimeList)
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 设置店铺繁忙时间
+    func setStoreBusyTime(busyId: String) -> Observable<JSON> {
+        let response = rxApiManager(api: .setStoreBusyTime(busyId: busyId))
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 请求deliveroo状态
+    func getDeliverooStatus() -> Observable<JSON> {
+        let response = rxApiManager(api: .getDeliverooStatus)
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 設置deliveroo狀態
+    func setDeliverooStatus(model: platformStatusModel) -> Observable<JSON> {
+        let response = rxApiManager(api: .setDeliverooStatus(model: model))
+        return Observable<JSON>.create(response)
+    }
+    
+
+    
+    //MARK: - 请求Uber状态
+    func getUberStatus() -> Observable<JSON> {
+        let response = rxApiManager(api: .getUberStatus)
+        return Observable<JSON>.create(response)
+    }
+    
+    //MARK: - 設置Uber狀態
+    func setUberStatus(model: platformStatusModel) -> Observable<JSON> {
+        let response = rxApiManager(api: .setUberStatus(model: model))
+        return Observable<JSON>.create(response)
+    }
+    
+    
     
     //MARK: - 上传菜品图片
     func uploadDishImages(images: [UIImage], success:@escaping (_ result: JSON)->(), failure:@escaping (_ error: NetworkError)->()) {

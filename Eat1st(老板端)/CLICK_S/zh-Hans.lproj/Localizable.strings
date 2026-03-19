@@ -503,3 +503,10 @@
 "You do not have the permission for the current store." = "沒有當前店鋪的權限";
 "My earnings" = "我的收入";
 "LOG OUT" = "登出";
+
+"Set the operating status of your store" = "設置店鋪營業狀態";
+"Business status" = "營業狀態";
+"Business Status Settings" = "營業狀態設置";
+"Are you sure you want to close it?" = "確定要關閉嗎?";
+"Are you sure you want to open it?" = "確定要打開嗎?";
+
